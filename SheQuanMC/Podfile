@@ -1,0 +1,33 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '11.0'
+
+workspace 'SheQuanMC'
+inhibit_all_warnings!
+
+target 'SheQuanMC' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for SheQuanMC
+
+ pod 'SnapKit'
+
+end
+
+
+target 'App' do
+  use_frameworks!
+  project 'App/App'
+
+ pod 'SnapKit'
+
+
+end
+
+
+target 'Util' do
+  use_frameworks!
+  project 'Util/Util'
+ pod 'SnapKit'
+
+end
