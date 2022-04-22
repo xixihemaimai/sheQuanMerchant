@@ -1,16 +1,48 @@
 PODS:
+  - CocoaAsyncSocket (7.6.5)
+  - CocoaLumberjack (1.0.0)
+  - LDMessage (1.0.8):
+    - Protobuf
+  - LDStreaming (1.0.0):
+    - CocoaAsyncSocket
+    - CocoaLumberjack
+    - LDMessage
+    - Protobuf
+  - Protobuf (3.17.3)
   - SnapKit (5.6.0)
 
 DEPENDENCIES:
+  - CocoaAsyncSocket (from `CocoaAsyncSocket`)
+  - CocoaLumberjack (from `CocoaLumberjack`)
+  - LDMessage (from `LDMessage`)
+  - LDStreaming (from `LDStreaming`)
+  - Protobuf (from `protobuf`)
   - SnapKit
 
 SPEC REPOS:
   trunk:
     - SnapKit
 
+EXTERNAL SOURCES:
+  CocoaAsyncSocket:
+    :path: CocoaAsyncSocket
+  CocoaLumberjack:
+    :path: CocoaLumberjack
+  LDMessage:
+    :path: LDMessage
+  LDStreaming:
+    :path: LDStreaming
+  Protobuf:
+    :path: protobuf
+
 SPEC CHECKSUMS:
+  CocoaAsyncSocket: 825de82723b13dd32109514bb0d08df847cd62d5
+  CocoaLumberjack: 7b7c7880d51008397a69880d4c6ab915eba3c00c
+  LDMessage: 881215c915bcfc9d6d312bc6da30007c3783ff04
+  LDStreaming: c7a0400814c500b24a118ee5ccc7315f35cd4b24
+  Protobuf: 7cbdd73aef512aa7d76f491893885a88ac06a998
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
 
-PODFILE CHECKSUM: 7a12441351685052b0b5e83a9e83b522b973c5b9
+PODFILE CHECKSUM: 2f6aee46e85b8ececc59ee1fd5f3a03ada90658a
 
 COCOAPODS: 1.11.3

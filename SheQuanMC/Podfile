@@ -10,6 +10,11 @@ target 'SheQuanMC' do
 
   # Pods for SheQuanMC
 
+pod 'LDStreaming', :path => "LDStreaming"
+pod 'LDMessage', :path => "LDMessage"
+  pod 'CocoaAsyncSocket', :path => "CocoaAsyncSocket"
+    pod 'CocoaLumberjack', :path => "CocoaLumberjack"
+    pod 'Protobuf', :path => "protobuf"
  pod 'SnapKit'
 
 end
@@ -18,7 +23,12 @@ end
 target 'App' do
   use_frameworks!
   project 'App/App'
-
+pod 'LDStreaming', :path => "LDStreaming"
+pod 'LDStreaming', :path => "LDStreaming"
+pod 'LDMessage', :path => "LDMessage"
+  pod 'CocoaAsyncSocket', :path => "CocoaAsyncSocket"
+    pod 'CocoaLumberjack', :path => "CocoaLumberjack"
+    pod 'Protobuf', :path => "protobuf"
  pod 'SnapKit'
 
 
@@ -27,6 +37,12 @@ end
 
 target 'Util' do
   use_frameworks!
+pod 'LDStreaming', :path => "LDStreaming"
+pod 'LDStreaming', :path => "LDStreaming"
+pod 'LDMessage', :path => "LDMessage"
+  pod 'CocoaAsyncSocket', :path => "CocoaAsyncSocket"
+    pod 'CocoaLumberjack', :path => "CocoaLumberjack"
+    pod 'Protobuf', :path => "protobuf"
   project 'Util/Util'
  pod 'SnapKit'
 
