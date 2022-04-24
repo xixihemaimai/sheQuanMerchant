@@ -17,6 +17,10 @@ pod 'LDMessage', :path => "LDMessage"
     pod 'Protobuf', :path => "protobuf"
  pod 'SnapKit'
 
+pod 'DZNEmptyDataSet'
+pod 'JFPopup'
+pod 'HXPhotoPicker'
+pod 'MJRefresh', '~> 3.7.5'
 end
 
 
@@ -31,7 +35,10 @@ pod 'LDMessage', :path => "LDMessage"
     pod 'Protobuf', :path => "protobuf"
  pod 'SnapKit'
 
-
+pod 'DZNEmptyDataSet'
+pod 'JFPopup'
+pod 'HXPhotoPicker'
+pod 'MJRefresh', '~> 3.7.5'
 end
 
 
@@ -46,4 +53,8 @@ pod 'LDMessage', :path => "LDMessage"
   project 'Util/Util'
  pod 'SnapKit'
 
+pod 'DZNEmptyDataSet'
+pod 'JFPopup'
+pod 'HXPhotoPicker'
+pod 'MJRefresh', '~> 3.7.5'
 end

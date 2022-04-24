@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import App
 
 
 @main
@@ -14,18 +13,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     var window: UIWindow?
+    
+    var allowRotion:Bool = false
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
         window = UIWindow(frame: UIScreen.main.bounds)
         
-        window?.rootViewController = MainViewController()
+        //这边要对用户数据进行判断是否有用户数据过
         
+        window?.rootViewController = MainViewController()
         window?.makeKeyAndVisible()
         return true
     }
 
   
+    
+   
+    
 
 
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 import LDStreaming
-
+import LDMessage
 
 class ViewController: UIViewController {
 
@@ -15,8 +15,11 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        let reuqest = LDStreamingRequest()
-        LDClient.request(reuqest)
+        let req = LDStreamingRequest()
+        req.eventType = DLMEventType.pullOffLineInfo.rawValue
+//        let body = DLMPullOffLineInfoReq()
+        LDClient.request(req)
+        
         
     }
     

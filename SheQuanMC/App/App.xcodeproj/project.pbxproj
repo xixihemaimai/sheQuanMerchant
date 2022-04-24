@@ -7,16 +7,55 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		40A9A201281299BE006B1CBF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A9A200281299BE006B1CBF /* MainViewController.swift */; };
+		401E5DA02814FF17009127A5 /* ShopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5D9F2814FF17009127A5 /* ShopViewController.swift */; };
+		401E5DAA28150242009127A5 /* App.h in Headers */ = {isa = PBXBuildFile; fileRef = 401E5DA928150241009127A5 /* App.h */; };
+		401E5DAC281520D5009127A5 /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DAB281520D5009127A5 /* MyViewController.swift */; };
+		401E5DBE281526DD009127A5 /* commodityManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DBD281526DD009127A5 /* commodityManageViewController.swift */; };
+		401E5DC1281528C4009127A5 /* Edit+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DC0281528C4009127A5 /* Edit+UIButton.swift */; };
+		401E5DC6281528F3009127A5 /* Edit+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DC2281528F2009127A5 /* Edit+UIImage.swift */; };
+		401E5DC8281528F3009127A5 /* UIViewController+Extenstion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DC4281528F2009127A5 /* UIViewController+Extenstion.swift */; };
+		401E5DC9281528F3009127A5 /* Edit+UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DC5281528F3009127A5 /* Edit+UIImageView.swift */; };
+		401E5DCF28152E5F009127A5 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DCE28152E5F009127A5 /* UIView+Extension.swift */; };
+		401E5DD42815407A009127A5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DD32815407A009127A5 /* LoginViewController.swift */; };
+		409C29932814FC5D00005ECB /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 409C29912814FC5D00005ECB /* UITextView+Placeholder.m */; };
+		409C29942814FC5D00005ECB /* UITextView+Placeholder.h in Headers */ = {isa = PBXBuildFile; fileRef = 409C29922814FC5D00005ECB /* UITextView+Placeholder.h */; };
+		40A9A2122814D952006B1CBF /* Util.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A2112814D952006B1CBF /* Util.framework */; };
+		40A9A2132814D952006B1CBF /* Util.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A2112814D952006B1CBF /* Util.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7AD231528B3BBEAAE2E924AB /* Pods_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0920399F93ACA07BE969F0D4 /* Pods_App.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		40A9A2142814D952006B1CBF /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				40A9A2132814D952006B1CBF /* Util.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0920399F93ACA07BE969F0D4 /* Pods_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		161AC30C042211580EA93F50 /* Pods-App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App.debug.xcconfig"; path = "Target Support Files/Pods-App/Pods-App.debug.xcconfig"; sourceTree = "<group>"; };
 		32E8C670BAE2CFD60D0B1CC1 /* Pods-App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App.release.xcconfig"; path = "Target Support Files/Pods-App/Pods-App.release.xcconfig"; sourceTree = "<group>"; };
+		401E5D9F2814FF17009127A5 /* ShopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopViewController.swift; sourceTree = "<group>"; };
+		401E5DA928150241009127A5 /* App.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = App.h; sourceTree = "<group>"; };
+		401E5DAB281520D5009127A5 /* MyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyViewController.swift; sourceTree = "<group>"; };
+		401E5DBD281526DD009127A5 /* commodityManageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = commodityManageViewController.swift; sourceTree = "<group>"; };
+		401E5DC0281528C4009127A5 /* Edit+UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Edit+UIButton.swift"; sourceTree = "<group>"; };
+		401E5DC2281528F2009127A5 /* Edit+UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Edit+UIImage.swift"; sourceTree = "<group>"; };
+		401E5DC4281528F2009127A5 /* UIViewController+Extenstion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extenstion.swift"; sourceTree = "<group>"; };
+		401E5DC5281528F3009127A5 /* Edit+UIImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Edit+UIImageView.swift"; sourceTree = "<group>"; };
+		401E5DCE28152E5F009127A5 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		401E5DD32815407A009127A5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		409C29912814FC5D00005ECB /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
+		409C29922814FC5D00005ECB /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
 		40A9A1E22812996D006B1CBF /* App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		40A9A200281299BE006B1CBF /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		40A9A2112814D952006B1CBF /* Util.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Util.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -24,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40A9A2122814D952006B1CBF /* Util.framework in Frameworks */,
 				7AD231528B3BBEAAE2E924AB /* Pods_App.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -34,9 +74,47 @@
 		0764C0D38472638F6BF4BE19 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				40A9A2112814D952006B1CBF /* Util.framework */,
 				0920399F93ACA07BE969F0D4 /* Pods_App.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		401E5DBF281528A1009127A5 /* Extension(扩展) */ = {
+			isa = PBXGroup;
+			children = (
+				401E5DCE28152E5F009127A5 /* UIView+Extension.swift */,
+				401E5DC2281528F2009127A5 /* Edit+UIImage.swift */,
+				401E5DC5281528F3009127A5 /* Edit+UIImageView.swift */,
+				401E5DC4281528F2009127A5 /* UIViewController+Extenstion.swift */,
+				401E5DC0281528C4009127A5 /* Edit+UIButton.swift */,
+			);
+			path = "Extension(扩展)";
+			sourceTree = "<group>";
+		};
+		401E5DD22815405E009127A5 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				401E5DD32815407A009127A5 /* LoginViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		409C298F2814FC0D00005ECB /* Lib */ = {
+			isa = PBXGroup;
+			children = (
+				409C29902814FC1500005ECB /* category(分类) */,
+			);
+			path = Lib;
+			sourceTree = "<group>";
+		};
+		409C29902814FC1500005ECB /* category(分类) */ = {
+			isa = PBXGroup;
+			children = (
+				409C29922814FC5D00005ECB /* UITextView+Placeholder.h */,
+				409C29912814FC5D00005ECB /* UITextView+Placeholder.m */,
+			);
+			path = "category(分类)";
 			sourceTree = "<group>";
 		};
 		40A9A1D82812996D006B1CBF = {
@@ -60,9 +138,31 @@
 		40A9A1E42812996D006B1CBF /* App */ = {
 			isa = PBXGroup;
 			children = (
-				40A9A200281299BE006B1CBF /* MainViewController.swift */,
+				401E5DD22815405E009127A5 /* Login */,
+				401E5DBF281528A1009127A5 /* Extension(扩展) */,
+				401E5DA928150241009127A5 /* App.h */,
+				409C298F2814FC0D00005ECB /* Lib */,
+				40A9A21C2814F1B8006B1CBF /* My(我的) */,
+				40A9A21B2814F1AC006B1CBF /* Shop(店铺) */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		40A9A21B2814F1AC006B1CBF /* Shop(店铺) */ = {
+			isa = PBXGroup;
+			children = (
+				401E5D9F2814FF17009127A5 /* ShopViewController.swift */,
+				401E5DBD281526DD009127A5 /* commodityManageViewController.swift */,
+			);
+			path = "Shop(店铺)";
+			sourceTree = "<group>";
+		};
+		40A9A21C2814F1B8006B1CBF /* My(我的) */ = {
+			isa = PBXGroup;
+			children = (
+				401E5DAB281520D5009127A5 /* MyViewController.swift */,
+			);
+			path = "My(我的)";
 			sourceTree = "<group>";
 		};
 		7D942DB943BF26B30841ED37 /* Pods */ = {
@@ -82,6 +182,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				401E5DAA28150242009127A5 /* App.h in Headers */,
+				409C29942814FC5D00005ECB /* UITextView+Placeholder.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,6 +199,7 @@
 				40A9A1DE2812996D006B1CBF /* Sources */,
 				40A9A1DF2812996D006B1CBF /* Frameworks */,
 				40A9A1E02812996D006B1CBF /* Resources */,
+				40A9A2142814D952006B1CBF /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -180,7 +283,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				40A9A201281299BE006B1CBF /* MainViewController.swift in Sources */,
+				401E5DA02814FF17009127A5 /* ShopViewController.swift in Sources */,
+				401E5DC1281528C4009127A5 /* Edit+UIButton.swift in Sources */,
+				401E5DAC281520D5009127A5 /* MyViewController.swift in Sources */,
+				401E5DCF28152E5F009127A5 /* UIView+Extension.swift in Sources */,
+				401E5DC6281528F3009127A5 /* Edit+UIImage.swift in Sources */,
+				401E5DC9281528F3009127A5 /* Edit+UIImageView.swift in Sources */,
+				409C29932814FC5D00005ECB /* UITextView+Placeholder.m in Sources */,
+				401E5DBE281526DD009127A5 /* commodityManageViewController.swift in Sources */,
+				401E5DD42815407A009127A5 /* LoginViewController.swift in Sources */,
+				401E5DC8281528F3009127A5 /* UIViewController+Extenstion.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,6 +1,13 @@
 PODS:
   - CocoaAsyncSocket (7.6.5)
   - CocoaLumberjack (1.0.0)
+  - DZNEmptyDataSet (1.8.1)
+  - HXPhotoPicker (3.3.1):
+    - HXPhotoPicker/Default (= 3.3.1)
+  - HXPhotoPicker/Default (3.3.1)
+  - JFPopup (1.4.0):
+    - JRBaseKit (~> 0.9.0)
+  - JRBaseKit (0.9.0)
   - LDMessage (1.0.8):
     - Protobuf
   - LDStreaming (1.0.0):
@@ -8,19 +15,29 @@ PODS:
     - CocoaLumberjack
     - LDMessage
     - Protobuf
+  - MJRefresh (3.7.5)
   - Protobuf (3.17.3)
   - SnapKit (5.6.0)
 
 DEPENDENCIES:
   - CocoaAsyncSocket (from `CocoaAsyncSocket`)
   - CocoaLumberjack (from `CocoaLumberjack`)
+  - DZNEmptyDataSet
+  - HXPhotoPicker
+  - JFPopup
   - LDMessage (from `LDMessage`)
   - LDStreaming (from `LDStreaming`)
+  - MJRefresh (~> 3.7.5)
   - Protobuf (from `protobuf`)
   - SnapKit
 
 SPEC REPOS:
   trunk:
+    - DZNEmptyDataSet
+    - HXPhotoPicker
+    - JFPopup
+    - JRBaseKit
+    - MJRefresh
     - SnapKit
 
 EXTERNAL SOURCES:
@@ -38,11 +55,16 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   CocoaAsyncSocket: 825de82723b13dd32109514bb0d08df847cd62d5
   CocoaLumberjack: 7b7c7880d51008397a69880d4c6ab915eba3c00c
+  DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
+  HXPhotoPicker: f1274d0c931ad8564e0f23f33fe8b6110b639bd7
+  JFPopup: ec02a2c1574d90cb54d182aec9213034735da70e
+  JRBaseKit: f4a95149f6b68417348e63065d384f22501cf2ce
   LDMessage: 881215c915bcfc9d6d312bc6da30007c3783ff04
   LDStreaming: c7a0400814c500b24a118ee5ccc7315f35cd4b24
+  MJRefresh: fdf5e979eb406a0341468932d1dfc8b7f9fce961
   Protobuf: 7cbdd73aef512aa7d76f491893885a88ac06a998
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
 
-PODFILE CHECKSUM: 2f6aee46e85b8ececc59ee1fd5f3a03ada90658a
+PODFILE CHECKSUM: 7a619c932515c263afd7ec324f2078abd36b57a7
 
 COCOAPODS: 1.11.3

@@ -8,14 +8,31 @@
 
 /* Begin PBXBuildFile section */
 		2E58C56204C276AE7B44DF56 /* Pods_Util.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13A1E508E84E4D3200A95C6B /* Pods_Util.framework */; };
-		40A9A203281299EE006B1CBF /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A9A202281299EE006B1CBF /* Device.swift */; };
+		401E5DA528150222009127A5 /* BaseNaviViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DA328150221009127A5 /* BaseNaviViewController.swift */; };
+		401E5DA628150222009127A5 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DA428150222009127A5 /* BaseViewController.swift */; };
+		401E5DA82815022A009127A5 /* Edit+UIBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DA72815022A009127A5 /* Edit+UIBarButtonItem.swift */; };
+		401E5DB628152152009127A5 /* Edit+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DAF28152151009127A5 /* Edit+Color.swift */; };
+		401E5DB728152152009127A5 /* Edit+Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DB028152151009127A5 /* Edit+Time.swift */; };
+		401E5DB828152152009127A5 /* Edit+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DB128152152009127A5 /* Edit+String.swift */; };
+		401E5DD1281530EF009127A5 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DD0281530EF009127A5 /* Util.swift */; };
+		40A9A20E2814D6F1006B1CBF /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A9A20D2814D6F1006B1CBF /* Config.swift */; };
+		40A9A2102814D8D9006B1CBF /* Util.h in Headers */ = {isa = PBXBuildFile; fileRef = 40A9A20F2814D8D9006B1CBF /* Util.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		13A1E508E84E4D3200A95C6B /* Pods_Util.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Util.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F10E1ABEE9A9933AAB403BE /* Pods-Util.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Util.debug.xcconfig"; path = "Target Support Files/Pods-Util/Pods-Util.debug.xcconfig"; sourceTree = "<group>"; };
+		401E5DA328150221009127A5 /* BaseNaviViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNaviViewController.swift; sourceTree = "<group>"; };
+		401E5DA428150222009127A5 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		401E5DA72815022A009127A5 /* Edit+UIBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Edit+UIBarButtonItem.swift"; sourceTree = "<group>"; };
+		401E5DAF28152151009127A5 /* Edit+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Edit+Color.swift"; sourceTree = "<group>"; };
+		401E5DB028152151009127A5 /* Edit+Time.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Edit+Time.swift"; sourceTree = "<group>"; };
+		401E5DB128152152009127A5 /* Edit+String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Edit+String.swift"; sourceTree = "<group>"; };
+		401E5DCA28152D46009127A5 /* App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		401E5DD0281530EF009127A5 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		40A9A1F628129991006B1CBF /* Util.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Util.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		40A9A202281299EE006B1CBF /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		40A9A20D2814D6F1006B1CBF /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		40A9A20F2814D8D9006B1CBF /* Util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		6FC5C427E6808881F16255E4 /* Pods-Util.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Util.release.xcconfig"; path = "Target Support Files/Pods-Util/Pods-Util.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -31,6 +48,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		401E5DA128150212009127A5 /* Base(基础) */ = {
+			isa = PBXGroup;
+			children = (
+				401E5DA328150221009127A5 /* BaseNaviViewController.swift */,
+				401E5DA428150222009127A5 /* BaseViewController.swift */,
+			);
+			path = "Base(基础)";
+			sourceTree = "<group>";
+		};
+		401E5DA22815021A009127A5 /* Extension(扩展) */ = {
+			isa = PBXGroup;
+			children = (
+				401E5DAF28152151009127A5 /* Edit+Color.swift */,
+				401E5DB128152152009127A5 /* Edit+String.swift */,
+				401E5DB028152151009127A5 /* Edit+Time.swift */,
+				401E5DA72815022A009127A5 /* Edit+UIBarButtonItem.swift */,
+			);
+			path = "Extension(扩展)";
+			sourceTree = "<group>";
+		};
 		40A9A1EC28129991006B1CBF = {
 			isa = PBXGroup;
 			children = (
@@ -52,7 +89,11 @@
 		40A9A1F828129991006B1CBF /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				40A9A202281299EE006B1CBF /* Device.swift */,
+				401E5DA22815021A009127A5 /* Extension(扩展) */,
+				401E5DA128150212009127A5 /* Base(基础) */,
+				40A9A20D2814D6F1006B1CBF /* Config.swift */,
+				40A9A20F2814D8D9006B1CBF /* Util.h */,
+				401E5DD0281530EF009127A5 /* Util.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -70,6 +111,7 @@
 		F587982B71AB46872865F0E7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				401E5DCA28152D46009127A5 /* App.framework */,
 				13A1E508E84E4D3200A95C6B /* Pods_Util.framework */,
 			);
 			name = Frameworks;
@@ -82,6 +124,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40A9A2102814D8D9006B1CBF /* Util.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,7 +223,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				40A9A203281299EE006B1CBF /* Device.swift in Sources */,
+				401E5DB828152152009127A5 /* Edit+String.swift in Sources */,
+				401E5DA528150222009127A5 /* BaseNaviViewController.swift in Sources */,
+				401E5DA82815022A009127A5 /* Edit+UIBarButtonItem.swift in Sources */,
+				401E5DD1281530EF009127A5 /* Util.swift in Sources */,
+				401E5DB628152152009127A5 /* Edit+Color.swift in Sources */,
+				401E5DA628150222009127A5 /* BaseViewController.swift in Sources */,
+				40A9A20E2814D6F1006B1CBF /* Config.swift in Sources */,
+				401E5DB728152152009127A5 /* Edit+Time.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,10 +383,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.NDX.Util;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -366,9 +417,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.NDX.Util;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
