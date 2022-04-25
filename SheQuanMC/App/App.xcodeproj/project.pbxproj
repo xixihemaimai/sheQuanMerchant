@@ -17,6 +17,9 @@
 		401E5DC9281528F3009127A5 /* Edit+UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DC5281528F3009127A5 /* Edit+UIImageView.swift */; };
 		401E5DCF28152E5F009127A5 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DCE28152E5F009127A5 /* UIView+Extension.swift */; };
 		401E5DD42815407A009127A5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DD32815407A009127A5 /* LoginViewController.swift */; };
+		401E5DD628163A48009127A5 /* StartPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DD528163A47009127A5 /* StartPageViewController.swift */; };
+		4060BC2B28168DFD00968C42 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC2A28168DFD00968C42 /* MainViewController.swift */; };
+		4060BC302816AD5000968C42 /* CountDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC2F2816AD5000968C42 /* CountDown.swift */; };
 		409C29932814FC5D00005ECB /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 409C29912814FC5D00005ECB /* UITextView+Placeholder.m */; };
 		409C29942814FC5D00005ECB /* UITextView+Placeholder.h in Headers */ = {isa = PBXBuildFile; fileRef = 409C29922814FC5D00005ECB /* UITextView+Placeholder.h */; };
 		40A9A2122814D952006B1CBF /* Util.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A2112814D952006B1CBF /* Util.framework */; };
@@ -52,6 +55,9 @@
 		401E5DC5281528F3009127A5 /* Edit+UIImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Edit+UIImageView.swift"; sourceTree = "<group>"; };
 		401E5DCE28152E5F009127A5 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		401E5DD32815407A009127A5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		401E5DD528163A47009127A5 /* StartPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartPageViewController.swift; sourceTree = "<group>"; };
+		4060BC2A28168DFD00968C42 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		4060BC2F2816AD5000968C42 /* CountDown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDown.swift; sourceTree = "<group>"; };
 		409C29912814FC5D00005ECB /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
 		409C29922814FC5D00005ECB /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
 		40A9A1E22812996D006B1CBF /* App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,14 +101,32 @@
 		401E5DD22815405E009127A5 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				401E5DD528163A47009127A5 /* StartPageViewController.swift */,
 				401E5DD32815407A009127A5 /* LoginViewController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
 		};
+		4060BC2928168DF800968C42 /* Main(主界面) */ = {
+			isa = PBXGroup;
+			children = (
+				4060BC2A28168DFD00968C42 /* MainViewController.swift */,
+			);
+			path = "Main(主界面)";
+			sourceTree = "<group>";
+		};
+		4060BC2E2816AD2600968C42 /* FuntionView(功能View) */ = {
+			isa = PBXGroup;
+			children = (
+				4060BC2F2816AD5000968C42 /* CountDown.swift */,
+			);
+			path = "FuntionView(功能View)";
+			sourceTree = "<group>";
+		};
 		409C298F2814FC0D00005ECB /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				4060BC2E2816AD2600968C42 /* FuntionView(功能View) */,
 				409C29902814FC1500005ECB /* category(分类) */,
 			);
 			path = Lib;
@@ -138,6 +162,7 @@
 		40A9A1E42812996D006B1CBF /* App */ = {
 			isa = PBXGroup;
 			children = (
+				4060BC2928168DF800968C42 /* Main(主界面) */,
 				401E5DD22815405E009127A5 /* Login */,
 				401E5DBF281528A1009127A5 /* Extension(扩展) */,
 				401E5DA928150241009127A5 /* App.h */,
@@ -286,10 +311,13 @@
 				401E5DA02814FF17009127A5 /* ShopViewController.swift in Sources */,
 				401E5DC1281528C4009127A5 /* Edit+UIButton.swift in Sources */,
 				401E5DAC281520D5009127A5 /* MyViewController.swift in Sources */,
+				4060BC2B28168DFD00968C42 /* MainViewController.swift in Sources */,
 				401E5DCF28152E5F009127A5 /* UIView+Extension.swift in Sources */,
 				401E5DC6281528F3009127A5 /* Edit+UIImage.swift in Sources */,
 				401E5DC9281528F3009127A5 /* Edit+UIImageView.swift in Sources */,
+				401E5DD628163A48009127A5 /* StartPageViewController.swift in Sources */,
 				409C29932814FC5D00005ECB /* UITextView+Placeholder.m in Sources */,
+				4060BC302816AD5000968C42 /* CountDown.swift in Sources */,
 				401E5DBE281526DD009127A5 /* commodityManageViewController.swift in Sources */,
 				401E5DD42815407A009127A5 /* LoginViewController.swift in Sources */,
 				401E5DC8281528F3009127A5 /* UIViewController+Extenstion.swift in Sources */,

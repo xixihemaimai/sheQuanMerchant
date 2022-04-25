@@ -9,10 +9,10 @@ import UIKit
 import Util
 import SnapKit
 
-public class ShopViewController: BaseViewController {
+class ShopViewController: BaseViewController {
     
     
-   public override func viewDidLoad() {
+    override func viewDidLoad() {
       super.viewDidLoad()
   
        view.addSubview(tableview)
@@ -22,26 +22,28 @@ public class ShopViewController: BaseViewController {
        tableview.delegate = self
        tableview.dataSource = self
        tableview.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-       
+
            
     }
     
     
-    func headerRereshing(){
+    override func headerRereshing() {
         print("下拉")
+        
+        tableview.mj_header?.endRefreshing()
     }
     
-    func footerRereshing(){
-       print("上拉")
-   }
     
-    
-    
+    override func footerRereshing() {
+        print("上拉")
+        tableview.mj_footer?.endRefreshing()
+    }
     
 
     @objc func jump(btn:UIButton){
         let vc = commodityManageViewController()
         navigationController?.pushViewController(vc, animated: true)
+//        Coordinator.shared?.pushViewController(vc, animated: true)
     }
 
     
@@ -49,11 +51,11 @@ public class ShopViewController: BaseViewController {
 
 extension ShopViewController:UITableViewDelegate,UITableViewDataSource{
     
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
     }
     
-    public  func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         let text = "暂无数据"
         let attributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 18),NSAttributedString.Key.foregroundColor:UIColor.darkGray] as [NSAttributedString.Key : Any]
         return NSAttributedString(string: text, attributes: attributes)
@@ -61,16 +63,25 @@ extension ShopViewController:UITableViewDelegate,UITableViewDataSource{
     
     
     
-    public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return UITableView.automaticDimension
     }
     
     
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
+        cell.textLabel?.text = String(indexPath.row)
         return cell
     }
     
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = commodityManageViewController()
+//        navigationController?.pushViewController(vc, animated: true)
+        Coordinator.shared?.pushViewController(self, vc, animated: true)
+        
+//        Coordinator.shared?.pushViewController(vc, animated: true)
+    }
     
     
 }

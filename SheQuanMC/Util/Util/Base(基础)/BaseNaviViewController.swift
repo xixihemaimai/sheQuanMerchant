@@ -66,7 +66,7 @@ extension BaseNaviViewController:UINavigationControllerDelegate{
          if children.count > 0 {
              viewController.hidesBottomBarWhenPushed = true
              // 设置返回按键
-             viewController.navigationItem.leftBarButtonItem = UIBarButtonItem().backItemSetting(setImage: "", setBackgroundImage: "", target: self, action: #selector(backAction))
+             viewController.navigationItem.leftBarButtonItem = UIBarButtonItem().backItemSetting(setImage: "返回", setBackgroundImage: "", target: self, action: #selector(backAction))
          }
         super.pushViewController(viewController, animated: true)
     }
@@ -74,7 +74,8 @@ extension BaseNaviViewController:UINavigationControllerDelegate{
     
     //返回
     @objc open func backAction(){
-        self.navigationController?.popViewController(animated: true)
+//        self.popViewController(animated: true)
+        self.popViewController(animated: true)
     }
     
 }

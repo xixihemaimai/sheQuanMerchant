@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		409C29972814FCCD00005ECB /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409C29962814FCCD00005ECB /* MainViewController.swift */; };
 		40A9A1C528129906006B1CBF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A9A1C428129906006B1CBF /* AppDelegate.swift */; };
 		40A9A1C928129906006B1CBF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A9A1C828129906006B1CBF /* ViewController.swift */; };
 		40A9A1CC28129906006B1CBF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40A9A1CA28129906006B1CBF /* Main.storyboard */; };
@@ -36,7 +35,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		409C29962814FCCD00005ECB /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		40A9A1C128129906006B1CBF /* SheQuanMC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SheQuanMC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40A9A1C428129906006B1CBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		40A9A1C828129906006B1CBF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -75,14 +73,6 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		409C29952814FC6D00005ECB /* Main(主界面) */ = {
-			isa = PBXGroup;
-			children = (
-				409C29962814FCCD00005ECB /* MainViewController.swift */,
-			);
-			path = "Main(主界面)";
-			sourceTree = "<group>";
-		};
 		40A9A1B828129906006B1CBF = {
 			isa = PBXGroup;
 			children = (
@@ -104,7 +94,6 @@
 		40A9A1C328129906006B1CBF /* SheQuanMC */ = {
 			isa = PBXGroup;
 			children = (
-				409C29952814FC6D00005ECB /* Main(主界面) */,
 				40A9A2162814E875006B1CBF /* Lib */,
 				40A9A1C428129906006B1CBF /* AppDelegate.swift */,
 				40A9A1C828129906006B1CBF /* ViewController.swift */,
@@ -253,7 +242,6 @@
 			files = (
 				40A9A1C928129906006B1CBF /* ViewController.swift in Sources */,
 				40A9A1C528129906006B1CBF /* AppDelegate.swift in Sources */,
-				409C29972814FCCD00005ECB /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

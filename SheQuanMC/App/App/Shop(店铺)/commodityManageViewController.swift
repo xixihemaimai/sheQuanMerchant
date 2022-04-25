@@ -13,7 +13,7 @@ class commodityManageViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        view.backgroundColor = UIColor.green
+        view.backgroundColor = UIColor.green
 //        title = "测试"
         
     }

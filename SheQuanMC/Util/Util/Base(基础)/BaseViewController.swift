@@ -83,18 +83,18 @@ open class BaseViewController: UIViewController {
        navigationController?.navigationBar.barTintColor = UIColor.white
        //设置背景颜色
        view.backgroundColor = viewControllerBackGroundColor
-       
-       
     }
     
     
-     func headerRereshing(){
-        
+   open func headerRereshing(){
+        print("---")
     }
     
-     func footerRereshing(){
-        
+   open func footerRereshing(){
+      print("+++")
     }
+    
+    
     
 }
 
@@ -103,13 +103,13 @@ open class BaseViewController: UIViewController {
 extension BaseViewController:DZNEmptyDataSetSource,DZNEmptyDataSetDelegate{
     
     //显示图片
-    public func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
+    open func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
         return UIImage(named: "Group 2757")
     }
     
     
     //是否显示
-    public func emptyDataSetShouldDisplay(_ scrollView: UIScrollView!) -> Bool {
+    open func emptyDataSetShouldDisplay(_ scrollView: UIScrollView!) -> Bool {
         return true
     }
     
