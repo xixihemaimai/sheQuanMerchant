@@ -44,11 +44,18 @@ extension BaseNaviViewController:UINavigationControllerDelegate{
    
    open func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
        //这边对需要隐藏导航栏的控制器进行设置
-       if viewController == viewControllers[0]{
-           self.setNavigationBarHidden(true, animated: true)
+       var isShowNavigationBar:Bool = false
+       if viewController.isKind(of: StartPageViewController.self) || viewController.isKind(of: ShopViewController.self) || viewController.isKind(of: MyViewController.self){
+           isShowNavigationBar = true
        }else{
-           self.setNavigationBarHidden(false, animated: true)
+           isShowNavigationBar = false
        }
+//       if viewController == viewControllers[0]{
+//           self.setNavigationBarHidden(true, animated: true)
+//       }else{
+//           self.setNavigationBarHidden(false, animated: true)
+//       }
+       self.setNavigationBarHidden(isShowNavigationBar, animated: true)
     }
     
    open func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {

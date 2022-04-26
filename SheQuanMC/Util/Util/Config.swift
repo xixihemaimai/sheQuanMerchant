@@ -75,3 +75,15 @@ public let tabbarNormalColor:UIColor = UIColor.colorWithDyColorChangObject(light
 public let tabbarSelectColor:UIColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
 
 
+// MARK:- 自定义打印方法
+public func LXFLog<T>(_ message : T, file : String = #file, funcName : String = #function, lineNum : Int = #line) {
+    
+    #if DEBUG
+        
+        let fileName = (file as NSString).lastPathComponent
+        
+        print("\(fileName):(\(lineNum))-\(message)")
+        
+    #endif
+}
+

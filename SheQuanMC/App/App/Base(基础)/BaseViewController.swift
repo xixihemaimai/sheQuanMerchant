@@ -8,6 +8,7 @@
 import UIKit
 import MJRefresh
 import DZNEmptyDataSet
+import Util
 
 open class BaseViewController: UIViewController {
 

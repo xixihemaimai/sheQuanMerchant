@@ -9,6 +9,7 @@ import UIKit
 import Util
 import JFPopup
 
+
 class LoginViewController: BaseViewController {
 
    
@@ -351,11 +352,7 @@ class LoginViewController: BaseViewController {
         if codeLoginBtn.currentTitle == "验证码登录"{
             //密码登录
             //密码是否满足有数字和必须有字母的配合才能使用
-            
-            
-            
-            
-            
+               
         }else{
             //验证码登录
             
@@ -363,8 +360,5 @@ class LoginViewController: BaseViewController {
         }
         let window = UIApplication.shared.keyWindow
         window?.rootViewController = MainViewController()
-        
     }
-    
-    
 }

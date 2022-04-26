@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+
 public class Coordinator {
   
 //    private let navController: BaseNaviViewController
@@ -16,8 +17,8 @@ public class Coordinator {
 //        self.navController = navController
 //    }
     
+    
     public init(){
-        
     }
     
     
@@ -35,9 +36,10 @@ public class Coordinator {
 //
 //    }
 //
-//    public func present(_ vc: UIViewController, animated: Bool, completion: (() -> Void)?) {
+    public func present(_ vc: UIViewController,_ OtherVc: UIViewController, animated: Bool, completion: (() -> Void)?) {
 //        navController.present(vc, animated: animated, completion: completion)
-//    }
+        vc.navigationController?.present(OtherVc, animated: animated, completion: completion)
+    }
 //
 //    public func dismiss(_ animated: Bool, completion: (() -> Void)?) {
 //        navController.dismiss(animated: animated, completion: completion)

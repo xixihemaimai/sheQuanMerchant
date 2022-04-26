@@ -21,6 +21,8 @@ pod 'DZNEmptyDataSet'
 pod 'JFPopup'
 pod 'HXPhotoPicker'
 pod 'MJRefresh', '~> 3.7.5'
+pod 'IQKeyboardManager'
+pod 'Moya'
 end
 
 
@@ -39,6 +41,8 @@ pod 'DZNEmptyDataSet'
 pod 'JFPopup'
 pod 'HXPhotoPicker'
 pod 'MJRefresh', '~> 3.7.5'
+pod 'IQKeyboardManager'
+pod 'Moya'
 end
 
 
@@ -57,4 +61,6 @@ pod 'DZNEmptyDataSet'
 pod 'JFPopup'
 pod 'HXPhotoPicker'
 pod 'MJRefresh', '~> 3.7.5'
+pod 'IQKeyboardManager'
+pod 'Moya'
 end

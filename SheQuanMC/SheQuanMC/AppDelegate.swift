@@ -31,7 +31,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         Coordinator.shared = Coordinator()
         window?.makeKeyAndVisible()
-        
         return true
     }
     
