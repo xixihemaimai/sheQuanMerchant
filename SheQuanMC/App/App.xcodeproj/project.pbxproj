@@ -23,6 +23,13 @@
 		4060BC3428175ECD00968C42 /* BaseNaviViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC3228175ECD00968C42 /* BaseNaviViewController.swift */; };
 		4060BC3528175ECD00968C42 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC3328175ECD00968C42 /* BaseViewController.swift */; };
 		4060BC3728175ED300968C42 /* Edit+UIBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC3628175ED300968C42 /* Edit+UIBarButtonItem.swift */; };
+		4060BC3928177F1A00968C42 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC3828177F1A00968C42 /* RegisterViewController.swift */; };
+		4060BC3B281794B000968C42 /* ForgetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC3A281794B000968C42 /* ForgetPasswordViewController.swift */; };
+		4060BC3D2817986900968C42 /* NewPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC3C2817986800968C42 /* NewPasswordViewController.swift */; };
+		4060BC402817A54600968C42 /* StoreOccupancyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC3F2817A54600968C42 /* StoreOccupancyViewController.swift */; };
+		4060BC422817DE0200968C42 /* BusinessTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC412817DE0200968C42 /* BusinessTypeViewController.swift */; };
+		4060BC452817DF7100968C42 /* BusinessTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC442817DF7000968C42 /* BusinessTypeCell.swift */; };
+		4060BC472817E31F00968C42 /* BusinessTypeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC462817E31F00968C42 /* BusinessTypeHeaderView.swift */; };
 		409C29932814FC5D00005ECB /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 409C29912814FC5D00005ECB /* UITextView+Placeholder.m */; };
 		409C29942814FC5D00005ECB /* UITextView+Placeholder.h in Headers */ = {isa = PBXBuildFile; fileRef = 409C29922814FC5D00005ECB /* UITextView+Placeholder.h */; };
 		40A9A2122814D952006B1CBF /* Util.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A2112814D952006B1CBF /* Util.framework */; };
@@ -64,6 +71,13 @@
 		4060BC3228175ECD00968C42 /* BaseNaviViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNaviViewController.swift; sourceTree = "<group>"; };
 		4060BC3328175ECD00968C42 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		4060BC3628175ED300968C42 /* Edit+UIBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Edit+UIBarButtonItem.swift"; sourceTree = "<group>"; };
+		4060BC3828177F1A00968C42 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		4060BC3A281794B000968C42 /* ForgetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetPasswordViewController.swift; sourceTree = "<group>"; };
+		4060BC3C2817986800968C42 /* NewPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordViewController.swift; sourceTree = "<group>"; };
+		4060BC3F2817A54600968C42 /* StoreOccupancyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreOccupancyViewController.swift; sourceTree = "<group>"; };
+		4060BC412817DE0200968C42 /* BusinessTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessTypeViewController.swift; sourceTree = "<group>"; };
+		4060BC442817DF7000968C42 /* BusinessTypeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessTypeCell.swift; sourceTree = "<group>"; };
+		4060BC462817E31F00968C42 /* BusinessTypeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessTypeHeaderView.swift; sourceTree = "<group>"; };
 		409C29912814FC5D00005ECB /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
 		409C29922814FC5D00005ECB /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
 		40A9A1E22812996D006B1CBF /* App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -105,13 +119,16 @@
 			path = "Extension(扩展)";
 			sourceTree = "<group>";
 		};
-		401E5DD22815405E009127A5 /* Login */ = {
+		401E5DD22815405E009127A5 /* Login(注册和登录) */ = {
 			isa = PBXGroup;
 			children = (
 				401E5DD528163A47009127A5 /* StartPageViewController.swift */,
 				401E5DD32815407A009127A5 /* LoginViewController.swift */,
+				4060BC3828177F1A00968C42 /* RegisterViewController.swift */,
+				4060BC3A281794B000968C42 /* ForgetPasswordViewController.swift */,
+				4060BC3C2817986800968C42 /* NewPasswordViewController.swift */,
 			);
-			path = Login;
+			path = "Login(注册和登录)";
 			sourceTree = "<group>";
 		};
 		4060BC2928168DF800968C42 /* Main(主界面) */ = {
@@ -137,6 +154,25 @@
 				4060BC3328175ECD00968C42 /* BaseViewController.swift */,
 			);
 			path = "Base(基础)";
+			sourceTree = "<group>";
+		};
+		4060BC3E2817A51B00968C42 /* StoreOccupancy(店铺入住) */ = {
+			isa = PBXGroup;
+			children = (
+				4060BC432817DF5600968C42 /* View */,
+				4060BC3F2817A54600968C42 /* StoreOccupancyViewController.swift */,
+				4060BC412817DE0200968C42 /* BusinessTypeViewController.swift */,
+			);
+			path = "StoreOccupancy(店铺入住)";
+			sourceTree = "<group>";
+		};
+		4060BC432817DF5600968C42 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4060BC442817DF7000968C42 /* BusinessTypeCell.swift */,
+				4060BC462817E31F00968C42 /* BusinessTypeHeaderView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		409C298F2814FC0D00005ECB /* Lib */ = {
@@ -178,9 +214,10 @@
 		40A9A1E42812996D006B1CBF /* App */ = {
 			isa = PBXGroup;
 			children = (
+				4060BC3E2817A51B00968C42 /* StoreOccupancy(店铺入住) */,
 				4060BC3128175EC500968C42 /* Base(基础) */,
 				4060BC2928168DF800968C42 /* Main(主界面) */,
-				401E5DD22815405E009127A5 /* Login */,
+				401E5DD22815405E009127A5 /* Login(注册和登录) */,
 				401E5DBF281528A1009127A5 /* Extension(扩展) */,
 				401E5DA928150241009127A5 /* App.h */,
 				409C298F2814FC0D00005ECB /* Lib */,
@@ -328,8 +365,13 @@
 				401E5DA02814FF17009127A5 /* ShopViewController.swift in Sources */,
 				401E5DC1281528C4009127A5 /* Edit+UIButton.swift in Sources */,
 				401E5DAC281520D5009127A5 /* MyViewController.swift in Sources */,
+				4060BC452817DF7100968C42 /* BusinessTypeCell.swift in Sources */,
+				4060BC472817E31F00968C42 /* BusinessTypeHeaderView.swift in Sources */,
+				4060BC422817DE0200968C42 /* BusinessTypeViewController.swift in Sources */,
 				4060BC2B28168DFD00968C42 /* MainViewController.swift in Sources */,
+				4060BC3B281794B000968C42 /* ForgetPasswordViewController.swift in Sources */,
 				4060BC3728175ED300968C42 /* Edit+UIBarButtonItem.swift in Sources */,
+				4060BC3928177F1A00968C42 /* RegisterViewController.swift in Sources */,
 				401E5DCF28152E5F009127A5 /* UIView+Extension.swift in Sources */,
 				4060BC3528175ECD00968C42 /* BaseViewController.swift in Sources */,
 				401E5DC6281528F3009127A5 /* Edit+UIImage.swift in Sources */,
@@ -339,7 +381,9 @@
 				4060BC3428175ECD00968C42 /* BaseNaviViewController.swift in Sources */,
 				4060BC302816AD5000968C42 /* CountDown.swift in Sources */,
 				401E5DBE281526DD009127A5 /* commodityManageViewController.swift in Sources */,
+				4060BC3D2817986900968C42 /* NewPasswordViewController.swift in Sources */,
 				401E5DD42815407A009127A5 /* LoginViewController.swift in Sources */,
+				4060BC402817A54600968C42 /* StoreOccupancyViewController.swift in Sources */,
 				401E5DC8281528F3009127A5 /* UIViewController+Extenstion.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

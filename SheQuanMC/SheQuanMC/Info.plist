@@ -7,6 +7,10 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSAppleMediaLibraryUsageDescription</key>
+	<string>App需要您的同意,才能访问媒体资料库</string>
+	<key>Privacy - Location When In Use Usage Description </key>
+	<string>使用相机拍照时会获取位置信息</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

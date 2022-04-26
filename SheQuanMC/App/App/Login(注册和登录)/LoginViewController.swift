@@ -33,7 +33,7 @@ class LoginViewController: BaseViewController {
     //账号
     lazy var accountLabel:UILabel = {
        let accountLabel = UILabel()
-        accountLabel.text = "账号"
+        accountLabel.text = "+86v"
         accountLabel.textAlignment = .left
         accountLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .semibold)
         accountLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
@@ -44,14 +44,19 @@ class LoginViewController: BaseViewController {
     lazy var accountTextField:UITextField = {
        let accountTextField = UITextField()
         accountTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
-        accountTextField.placeholder = "请输入账号（手机号）"
+        accountTextField.placeholder = "请输入手机号"
+        accountTextField.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        accountTextField.keyboardType = .phonePad
+        accountTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入手机号", attributes: [
+            NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
+        accountTextField.addTarget(self, action: #selector(accountTextFieldInput), for: .editingChanged)
         return accountTextField
     }()
     
     //分割线
     lazy var accountDiviver:UIView = {
        let accountDiviver = UIView()
-        accountDiviver.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#CBCBCB ")
+        accountDiviver.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#CBCBCB")
         return accountDiviver
     }()
     
@@ -62,6 +67,7 @@ class LoginViewController: BaseViewController {
         passwordLabel.textAlignment = .left
         passwordLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .semibold)
         passwordLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        passwordLabel.isHidden = true
         return passwordLabel
     }()
     
@@ -70,16 +76,21 @@ class LoginViewController: BaseViewController {
     lazy var passwordTextField:UITextField = {
        let passwordTextField = UITextField()
         passwordTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
-        passwordTextField.placeholder = "请输入密码"
+        passwordTextField.placeholder = "请输入验证码"
+        passwordTextField.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        passwordTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入验证码", attributes: [
+            NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
         return passwordTextField
     }()
     
     //显示密码还是隐藏密码 或者是获取验证码
     lazy var showPasswordBtn:UIButton = {
        let showPasswordBtn = UIButton()
-        showPasswordBtn.setImage(UIImage(named: "隐藏"), for: .normal)
+//        showPasswordBtn.setImage(UIImage(named: "隐藏"), for: .normal)
+        showPasswordBtn.setTitle("获取验证码", for: .normal)
         showPasswordBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333"), for: .normal)
         showPasswordBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
+//        showPasswordBtn.isHidden = true
         //有图片和验证码文字
         return showPasswordBtn
     }()
@@ -87,7 +98,7 @@ class LoginViewController: BaseViewController {
     //密码分割线
     lazy var passwordDiviver:UIView = {
        let passwordDiviver = UIView()
-        passwordDiviver.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#CBCBCB ")
+        passwordDiviver.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#CBCBCB")
         return passwordDiviver
     }()
     
@@ -96,16 +107,16 @@ class LoginViewController: BaseViewController {
        let loginBtn = UIButton()
         loginBtn.setTitle("登录", for: .normal)
         loginBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#ffffff"), for: .normal)
-        loginBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E1E1E1")
+        loginBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         loginBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
-        loginBtn.isEnabled = false
+//        loginBtn.isEnabled = false
         return loginBtn
     }()
     
     //验证码登录
     lazy var codeLoginBtn:UIButton = {
        let codeLoginBtn = UIButton()
-        codeLoginBtn.setTitle("验证码登录", for: .normal)
+        codeLoginBtn.setTitle("密码登录", for: .normal)
         codeLoginBtn.contentHorizontalAlignment = .left
         codeLoginBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333"), for: .normal)
         codeLoginBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
@@ -119,16 +130,17 @@ class LoginViewController: BaseViewController {
         forgetPasswordLoginBtn.setTitle("忘记登录", for: .normal)
         forgetPasswordLoginBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333"), for: .normal)
         forgetPasswordLoginBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
+        forgetPasswordLoginBtn.isHidden = true
         return forgetPasswordLoginBtn
     }()
     
     
     
     //显示错误
-    lazy var showErrerLabel:UILabel = {
-       let showErrerLabel = UILabel()
-        return showErrerLabel
-    }()
+//    lazy var showErrerLabel:UILabel = {
+//       let showErrerLabel = UILabel()
+//        return showErrerLabel
+//    }()
     
     
     
@@ -142,7 +154,7 @@ class LoginViewController: BaseViewController {
         
         shopSheQuanImage.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(Height_NavBar + scale(6))
+            make.top.equalTo(scale(6))
             make.width.equalTo(scale(77))
             make.height.equalTo(scale(38))
         }
@@ -197,19 +209,29 @@ class LoginViewController: BaseViewController {
         }
         
         
+//        passwordTextField.snp.makeConstraints { make in
+//            make.left.equalTo(passwordLabel.snp.right).offset(scale(10))
+//            make.right.equalTo(-scale(30))
+//            make.top.equalTo(accountDiviver.snp.bottom).offset(scale(26))
+//            make.height.equalTo(scale(20))
+//        }
+        
         passwordTextField.snp.makeConstraints { make in
-            make.left.equalTo(passwordLabel.snp.right).offset(scale(10))
-            make.right.equalTo(-scale(30))
+            make.left.equalToSuperview().offset(scale(30))
             make.top.equalTo(accountDiviver.snp.bottom).offset(scale(26))
-            make.height.equalTo(scale(20))
         }
         
+//        showPasswordBtn.snp.makeConstraints { make in
+//            make.top.equalTo(accountDiviver.snp.bottom).offset(scale(26))
+//            make.right.equalTo(-scale(30))
+//            make.height.width.equalTo(scale(20))
+//        }
         
-        showPasswordBtn.snp.makeConstraints { make in
-            make.top.equalTo(accountDiviver.snp.bottom).offset(scale(26))
+        showPasswordBtn.snp.makeConstraints({ make in
+            make.width.equalTo(scale(100))
             make.right.equalTo(-scale(30))
-            make.height.width.equalTo(scale(20))
-        }
+            make.top.equalTo(accountDiviver.snp.bottom).offset(scale(26))
+        })
         
         showPasswordBtn.addTarget(self, action: #selector(hideAndSendCodeAction), for: .touchUpInside)
         
@@ -222,19 +244,18 @@ class LoginViewController: BaseViewController {
         }
         
         //显示错误信息
-        view.addSubview(showErrerLabel)
-        showErrerLabel.snp.makeConstraints { make in
-            make.left.equalTo(scale(30))
-            make.right.equalTo(-scale(30))
-            make.top.equalTo(passwordDiviver.snp.bottom).offset(scale(12))
-            make.height.equalTo(scale(20))
-        }
+//        view.addSubview(showErrerLabel)
+//        showErrerLabel.snp.makeConstraints { make in
+//            make.left.equalTo(scale(30))
+//            make.right.equalTo(-scale(30))
+//            make.top.equalTo(passwordDiviver.snp.bottom).offset(scale(12))
+//            make.height.equalTo(scale(20))
+//        }
         
         //登录
         view.addSubview(loginBtn)
-        
         loginBtn.snp.makeConstraints { make in
-            make.top.equalTo(showErrerLabel.snp.bottom).offset(scale(57))
+            make.top.equalTo(passwordDiviver.snp.bottom).offset(scale(77))
             make.left.equalTo(scale(30))
             make.right.equalTo(-scale(30))
             make.height.equalTo(scale(40))
@@ -295,6 +316,9 @@ class LoginViewController: BaseViewController {
             passwordTextField.placeholder = "请输入验证码"
             loginBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
             loginBtn.isEnabled = true
+            
+            accountTextField.keyboardType = .phonePad
+            
         }else{
             
             passwordTextField.snp.remakeConstraints { make in
@@ -311,6 +335,7 @@ class LoginViewController: BaseViewController {
                 make.top.equalTo(accountDiviver.snp.bottom).offset(scale(26))
             })
             
+            accountTextField.keyboardType = .default
             passwordTextField.placeholder = "请输入密码"
             passwordLabel.isHidden = false
             accountTextField.placeholder = "请输入账号(手机号)"
@@ -324,7 +349,8 @@ class LoginViewController: BaseViewController {
     
     //忘记密码
     @objc func forgetPasswordLoginBtnAction(btn:UIButton){
-        
+        let forgetPasswordVc = ForgetPasswordViewController()
+        Coordinator.shared?.pushViewController(self, forgetPasswordVc, animated: true)
     }
     
     
@@ -337,10 +363,20 @@ class LoginViewController: BaseViewController {
             }else{
                 //这边是正确获取验证码的步骤
                 CountDown.countDown(60, btn: btn)
+                
+                //网络请求并发送发送短信
+                
+                
             }
         }else{
            //显示和展示密码
             btn.isSelected = !btn.isSelected
+            //这边还需要对这个按键的图片进行设置
+            if btn.isSelected{
+                //这边看不到
+            }else{
+                showPasswordBtn.setImage(UIImage(named: "隐藏"), for: .normal)
+            }
             passwordTextField.isSecureTextEntry = btn.isSelected
         }
     }
@@ -349,16 +385,65 @@ class LoginViewController: BaseViewController {
     //登录APP
     @objc func loginAppAction(btn:UIButton){
         //这边要判读很多东西
-        if codeLoginBtn.currentTitle == "验证码登录"{
-            //密码登录
-            //密码是否满足有数字和必须有字母的配合才能使用
-               
-        }else{
-            //验证码登录
-            
-               
-        }
-        let window = UIApplication.shared.keyWindow
-        window?.rootViewController = MainViewController()
+//        if codeLoginBtn.currentTitle == "验证码登录"{
+//            //账号和密码登录
+//            //密码是否满足有数字和必须有字母的配合才能使用
+//            if(accountTextField.text?.count ?? 0) < 1{
+//                JFPopup.toast(hit: "账号错误")
+//                return
+//            }
+//
+//
+//            if !(passwordTextField.text?.isPassword ?? true){
+//                JFPopup.toast(hit: "密码错误，6-16位字母数字组合")
+//                return
+//            }
+//
+//
+//            //这边是网络请求
+//
+//
+//        }else{
+//            //验证码登录
+//            //手机号和验证码
+//            if !(accountTextField.text?.isValidMobile ?? true){
+//                JFPopup.toast(hit: "手机号错误")
+//                return
+//            }
+//            if (passwordTextField.text?.count ?? 0) < 1 {
+//                JFPopup.toast(hit: "验证码错误")
+//                return
+//            }
+//
+//            //这边是网络请求
+//
+//
+//        }
+        
+        
+//        let window = UIApplication.shared.keyWindow
+//        window?.rootViewController = MainViewController()
+        
+        
+        let storeOccupancyVC = StoreOccupancyViewController()
+        Coordinator.shared?.pushViewController(self, storeOccupancyVC, animated: true)
+        
     }
+    
+    
+    @objc func accountTextFieldInput(textField:UITextField){
+        if codeLoginBtn.currentTitle == "验证码登录"{
+            if (textField.text?.count ?? 0) > 0{
+                LXFLog(textField.text?.count ?? 0)
+                loginBtn.isEnabled = true
+                loginBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+            }else{
+                loginBtn.isEnabled = false
+                loginBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E1E1E1")
+            }
+        }
+    }
+    
+    
 }
+

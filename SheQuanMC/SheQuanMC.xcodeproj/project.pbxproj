@@ -392,6 +392,9 @@
 				DEVELOPMENT_TEAM = 3N45FRA2HJ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SheQuanMC/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = " 允许此权限才能使用相机功，这样才能录制视频，并且想要保存图片";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "App需要您的同意,才能访问麦克风";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "允许此权限才能使用系统相册";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -423,6 +426,9 @@
 				DEVELOPMENT_TEAM = 3N45FRA2HJ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SheQuanMC/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = " 允许此权限才能使用相机功，这样才能录制视频，并且想要保存图片";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "App需要您的同意,才能访问麦克风";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "允许此权限才能使用系统相册";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

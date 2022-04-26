@@ -41,8 +41,8 @@ open class StartPageViewController: BaseViewController {
     
     lazy var agreeBtn:UIButton = {
        let agreenBtn = UIButton()
-        agreenBtn.setImage(UIImage(named: ""), for: .normal)
-        agreenBtn.setImage(UIImage(named: ""), for: .selected)
+        agreenBtn.setBackgroundImage(UIImage(named: ""), for: .normal)
+        agreenBtn.setBackgroundImage(UIImage(named: "Group 2770"), for: .selected)
         return agreenBtn
     }()
     
@@ -173,22 +173,22 @@ open class StartPageViewController: BaseViewController {
     
     //注册
     @objc public func registerAction(zernBtn:UIButton){
-        if agreeBtn.isSelected {
-            let loginVc = LoginViewController()
-            Coordinator.shared?.pushViewController(self, loginVc, animated: true)
-        }else{
-            JFPopup.toast(hit: "请阅读并勾选下方协议")
-        }
+//        if agreeBtn.isSelected {
+            let registerVc = RegisterViewController()
+            Coordinator.shared?.pushViewController(self, registerVc, animated: true)
+//        }else{
+//            JFPopup.toast(hit: "请阅读并勾选下方协议")
+//        }
     }
     
     //登录
     @objc public func loginAction(loginBtn:UIButton){
-        if agreeBtn.isSelected{
+//        if agreeBtn.isSelected{
             let loginVc = LoginViewController()
             Coordinator.shared?.pushViewController(self, loginVc, animated: true)
-        }else{
-            JFPopup.toast(hit: "请阅读并勾选下方协议")
-        }
+//        }else{
+//            JFPopup.toast(hit: "请阅读并勾选下方协议")
+//        }
     }
     
     

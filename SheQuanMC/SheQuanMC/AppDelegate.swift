@@ -32,15 +32,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         Coordinator.shared = Coordinator()
         window?.makeKeyAndVisible()
-        
         keyBoardManager()
-        
         return true
     }
-    
-    
-    //设置iqkeyboardmanager
-    
+    //设置IQKeyBoardManager开启
     func keyBoardManager(){
         let keyBoard = IQKeyboardManager.shared()
         keyBoard.isEnabled = true
