@@ -1,0 +1,12 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'LDStreaming' do
+
+  pod 'LDStreaming',      :path => '.'
+  pod 'LDMessage',        :path => './Message'
+  pod 'CocoaAsyncSocket', :path => './Vendors/CocoaAsyncSocket'
+  pod 'Protobuf',         :path => './Vendors/protobuf'
+  pod 'CocoaLumberjack',  :path => './Vendors/CocoaLumberjack'
+
+end

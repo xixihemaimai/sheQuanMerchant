@@ -8,6 +8,7 @@
 import UIKit
 import App
 import Util
+import IQKeyboardManager
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -31,9 +32,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         Coordinator.shared = Coordinator()
         window?.makeKeyAndVisible()
+        
+        keyBoardManager()
+        
         return true
     }
     
+    
+    //设置iqkeyboardmanager
+    
+    func keyBoardManager(){
+        let keyBoard = IQKeyboardManager.shared()
+        keyBoard.isEnabled = true
+    }
     
     
     

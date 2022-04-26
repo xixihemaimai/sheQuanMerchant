@@ -1,0 +1,657 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2DEED2A3FA93FEB5275A06B5 /* libPods-LDStreaming.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7049F5A34F47C29B91196051 /* libPods-LDStreaming.a */; };
+		464E815826A00CBF0047C36F /* LDSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = 464E815726A00CBF0047C36F /* LDSetup.m */; };
+		46FB7D50269D42AA007EE99E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 46FB7D4F269D42AA007EE99E /* AppDelegate.m */; };
+		46FB7D53269D42AA007EE99E /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 46FB7D52269D42AA007EE99E /* SceneDelegate.m */; };
+		46FB7D56269D42AA007EE99E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46FB7D55269D42AA007EE99E /* ViewController.m */; };
+		46FB7D59269D42AA007EE99E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46FB7D57269D42AA007EE99E /* Main.storyboard */; };
+		46FB7D5B269D42AC007EE99E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46FB7D5A269D42AC007EE99E /* Assets.xcassets */; };
+		46FB7D5E269D42AC007EE99E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46FB7D5C269D42AC007EE99E /* LaunchScreen.storyboard */; };
+		46FB7D61269D42AC007EE99E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 46FB7D60269D42AC007EE99E /* main.m */; };
+		46FB7D6B269D42AD007EE99E /* LDStreamingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46FB7D6A269D42AD007EE99E /* LDStreamingTests.m */; };
+		46FB7D76269D42AD007EE99E /* LDStreamingUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46FB7D75269D42AD007EE99E /* LDStreamingUITests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		46FB7D67269D42AC007EE99E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 46FB7D43269D42AA007EE99E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 46FB7D4A269D42AA007EE99E;
+			remoteInfo = LDStreaming;
+		};
+		46FB7D72269D42AD007EE99E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 46FB7D43269D42AA007EE99E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 46FB7D4A269D42AA007EE99E;
+			remoteInfo = LDStreaming;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		464E815626A00CBF0047C36F /* LDSetup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDSetup.h; sourceTree = "<group>"; };
+		464E815726A00CBF0047C36F /* LDSetup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDSetup.m; sourceTree = "<group>"; };
+		464E817A26A6CDEB0047C36F /* sqlcipher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = sqlcipher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		464E817D26A6CDFA0047C36F /* sqlcipher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = sqlcipher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		46FB7D4B269D42AA007EE99E /* LDStreaming.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LDStreaming.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		46FB7D4E269D42AA007EE99E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		46FB7D4F269D42AA007EE99E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		46FB7D51269D42AA007EE99E /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
+		46FB7D52269D42AA007EE99E /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
+		46FB7D54269D42AA007EE99E /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		46FB7D55269D42AA007EE99E /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		46FB7D58269D42AA007EE99E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		46FB7D5A269D42AC007EE99E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		46FB7D5D269D42AC007EE99E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		46FB7D5F269D42AC007EE99E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		46FB7D60269D42AC007EE99E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		46FB7D66269D42AC007EE99E /* LDStreamingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LDStreamingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		46FB7D6A269D42AD007EE99E /* LDStreamingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDStreamingTests.m; sourceTree = "<group>"; };
+		46FB7D6C269D42AD007EE99E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		46FB7D71269D42AD007EE99E /* LDStreamingUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LDStreamingUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		46FB7D75269D42AD007EE99E /* LDStreamingUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDStreamingUITests.m; sourceTree = "<group>"; };
+		46FB7D77269D42AD007EE99E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7049F5A34F47C29B91196051 /* libPods-LDStreaming.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LDStreaming.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		896617834B31B5F1C41C5875 /* Pods-LDStreaming.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LDStreaming.release.xcconfig"; path = "Target Support Files/Pods-LDStreaming/Pods-LDStreaming.release.xcconfig"; sourceTree = "<group>"; };
+		B1EE27634BAD330784748DE2 /* Pods-LDStreaming.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LDStreaming.debug.xcconfig"; path = "Target Support Files/Pods-LDStreaming/Pods-LDStreaming.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		46FB7D48269D42AA007EE99E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2DEED2A3FA93FEB5275A06B5 /* libPods-LDStreaming.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		46FB7D63269D42AC007EE99E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		46FB7D6E269D42AD007EE99E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		46FB7D42269D42AA007EE99E = {
+			isa = PBXGroup;
+			children = (
+				46FB7D4D269D42AA007EE99E /* LDStreaming */,
+				46FB7D69269D42AD007EE99E /* LDStreamingTests */,
+				46FB7D74269D42AD007EE99E /* LDStreamingUITests */,
+				46FB7D4C269D42AA007EE99E /* Products */,
+				52FE24711AF9F0A2033075E6 /* Pods */,
+				AE03CAE9335E858E4272C5EB /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		46FB7D4C269D42AA007EE99E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				46FB7D4B269D42AA007EE99E /* LDStreaming.app */,
+				46FB7D66269D42AC007EE99E /* LDStreamingTests.xctest */,
+				46FB7D71269D42AD007EE99E /* LDStreamingUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		46FB7D4D269D42AA007EE99E /* LDStreaming */ = {
+			isa = PBXGroup;
+			children = (
+				46FB7D4E269D42AA007EE99E /* AppDelegate.h */,
+				46FB7D4F269D42AA007EE99E /* AppDelegate.m */,
+				46FB7D51269D42AA007EE99E /* SceneDelegate.h */,
+				46FB7D52269D42AA007EE99E /* SceneDelegate.m */,
+				46FB7D54269D42AA007EE99E /* ViewController.h */,
+				46FB7D55269D42AA007EE99E /* ViewController.m */,
+				46FB7D57269D42AA007EE99E /* Main.storyboard */,
+				46FB7D5A269D42AC007EE99E /* Assets.xcassets */,
+				46FB7D5C269D42AC007EE99E /* LaunchScreen.storyboard */,
+				46FB7D5F269D42AC007EE99E /* Info.plist */,
+				46FB7D60269D42AC007EE99E /* main.m */,
+				464E815626A00CBF0047C36F /* LDSetup.h */,
+				464E815726A00CBF0047C36F /* LDSetup.m */,
+			);
+			path = LDStreaming;
+			sourceTree = "<group>";
+		};
+		46FB7D69269D42AD007EE99E /* LDStreamingTests */ = {
+			isa = PBXGroup;
+			children = (
+				46FB7D6A269D42AD007EE99E /* LDStreamingTests.m */,
+				46FB7D6C269D42AD007EE99E /* Info.plist */,
+			);
+			path = LDStreamingTests;
+			sourceTree = "<group>";
+		};
+		46FB7D74269D42AD007EE99E /* LDStreamingUITests */ = {
+			isa = PBXGroup;
+			children = (
+				46FB7D75269D42AD007EE99E /* LDStreamingUITests.m */,
+				46FB7D77269D42AD007EE99E /* Info.plist */,
+			);
+			path = LDStreamingUITests;
+			sourceTree = "<group>";
+		};
+		52FE24711AF9F0A2033075E6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B1EE27634BAD330784748DE2 /* Pods-LDStreaming.debug.xcconfig */,
+				896617834B31B5F1C41C5875 /* Pods-LDStreaming.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		AE03CAE9335E858E4272C5EB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				464E817D26A6CDFA0047C36F /* sqlcipher.framework */,
+				464E817A26A6CDEB0047C36F /* sqlcipher.framework */,
+				7049F5A34F47C29B91196051 /* libPods-LDStreaming.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		46FB7D4A269D42AA007EE99E /* LDStreaming */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 46FB7D7A269D42AD007EE99E /* Build configuration list for PBXNativeTarget "LDStreaming" */;
+			buildPhases = (
+				8910701F9BA08D958436CD24 /* [CP] Check Pods Manifest.lock */,
+				46FB7D47269D42AA007EE99E /* Sources */,
+				46FB7D48269D42AA007EE99E /* Frameworks */,
+				46FB7D49269D42AA007EE99E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LDStreaming;
+			productName = LDStreaming;
+			productReference = 46FB7D4B269D42AA007EE99E /* LDStreaming.app */;
+			productType = "com.apple.product-type.application";
+		};
+		46FB7D65269D42AC007EE99E /* LDStreamingTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 46FB7D7D269D42AD007EE99E /* Build configuration list for PBXNativeTarget "LDStreamingTests" */;
+			buildPhases = (
+				46FB7D62269D42AC007EE99E /* Sources */,
+				46FB7D63269D42AC007EE99E /* Frameworks */,
+				46FB7D64269D42AC007EE99E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				46FB7D68269D42AC007EE99E /* PBXTargetDependency */,
+			);
+			name = LDStreamingTests;
+			productName = LDStreamingTests;
+			productReference = 46FB7D66269D42AC007EE99E /* LDStreamingTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		46FB7D70269D42AD007EE99E /* LDStreamingUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 46FB7D80269D42AD007EE99E /* Build configuration list for PBXNativeTarget "LDStreamingUITests" */;
+			buildPhases = (
+				46FB7D6D269D42AD007EE99E /* Sources */,
+				46FB7D6E269D42AD007EE99E /* Frameworks */,
+				46FB7D6F269D42AD007EE99E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				46FB7D73269D42AD007EE99E /* PBXTargetDependency */,
+			);
+			name = LDStreamingUITests;
+			productName = LDStreamingUITests;
+			productReference = 46FB7D71269D42AD007EE99E /* LDStreamingUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		46FB7D43269D42AA007EE99E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = LD;
+				LastUpgradeCheck = 1250;
+				ORGANIZATIONNAME = liaodian;
+				TargetAttributes = {
+					46FB7D4A269D42AA007EE99E = {
+						CreatedOnToolsVersion = 12.5;
+					};
+					46FB7D65269D42AC007EE99E = {
+						CreatedOnToolsVersion = 12.5;
+						TestTargetID = 46FB7D4A269D42AA007EE99E;
+					};
+					46FB7D70269D42AD007EE99E = {
+						CreatedOnToolsVersion = 12.5;
+						TestTargetID = 46FB7D4A269D42AA007EE99E;
+					};
+				};
+			};
+			buildConfigurationList = 46FB7D46269D42AA007EE99E /* Build configuration list for PBXProject "LDStreaming" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 46FB7D42269D42AA007EE99E;
+			productRefGroup = 46FB7D4C269D42AA007EE99E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				46FB7D4A269D42AA007EE99E /* LDStreaming */,
+				46FB7D65269D42AC007EE99E /* LDStreamingTests */,
+				46FB7D70269D42AD007EE99E /* LDStreamingUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		46FB7D49269D42AA007EE99E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				46FB7D5E269D42AC007EE99E /* LaunchScreen.storyboard in Resources */,
+				46FB7D5B269D42AC007EE99E /* Assets.xcassets in Resources */,
+				46FB7D59269D42AA007EE99E /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		46FB7D64269D42AC007EE99E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		46FB7D6F269D42AD007EE99E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		8910701F9BA08D958436CD24 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LDStreaming-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		46FB7D47269D42AA007EE99E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				46FB7D56269D42AA007EE99E /* ViewController.m in Sources */,
+				464E815826A00CBF0047C36F /* LDSetup.m in Sources */,
+				46FB7D50269D42AA007EE99E /* AppDelegate.m in Sources */,
+				46FB7D61269D42AC007EE99E /* main.m in Sources */,
+				46FB7D53269D42AA007EE99E /* SceneDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		46FB7D62269D42AC007EE99E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				46FB7D6B269D42AD007EE99E /* LDStreamingTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		46FB7D6D269D42AD007EE99E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				46FB7D76269D42AD007EE99E /* LDStreamingUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		46FB7D68269D42AC007EE99E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 46FB7D4A269D42AA007EE99E /* LDStreaming */;
+			targetProxy = 46FB7D67269D42AC007EE99E /* PBXContainerItemProxy */;
+		};
+		46FB7D73269D42AD007EE99E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 46FB7D4A269D42AA007EE99E /* LDStreaming */;
+			targetProxy = 46FB7D72269D42AD007EE99E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		46FB7D57269D42AA007EE99E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				46FB7D58269D42AA007EE99E /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		46FB7D5C269D42AC007EE99E /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				46FB7D5D269D42AC007EE99E /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		46FB7D78269D42AD007EE99E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		46FB7D79269D42AD007EE99E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		46FB7D7B269D42AD007EE99E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B1EE27634BAD330784748DE2 /* Pods-LDStreaming.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 774TK6H93F;
+				INFOPLIST_FILE = LDStreaming/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.milker.streaming.LDStreaming;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		46FB7D7C269D42AD007EE99E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 896617834B31B5F1C41C5875 /* Pods-LDStreaming.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 774TK6H93F;
+				INFOPLIST_FILE = LDStreaming/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.milker.streaming.LDStreaming;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		46FB7D7E269D42AD007EE99E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 774TK6H93F;
+				INFOPLIST_FILE = LDStreamingTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.milker.streaming.LDStreamingTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LDStreaming.app/LDStreaming";
+			};
+			name = Debug;
+		};
+		46FB7D7F269D42AD007EE99E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 774TK6H93F;
+				INFOPLIST_FILE = LDStreamingTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.milker.streaming.LDStreamingTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LDStreaming.app/LDStreaming";
+			};
+			name = Release;
+		};
+		46FB7D81269D42AD007EE99E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 774TK6H93F;
+				INFOPLIST_FILE = LDStreamingUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.milker.streaming.LDStreamingUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = LDStreaming;
+			};
+			name = Debug;
+		};
+		46FB7D82269D42AD007EE99E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 774TK6H93F;
+				INFOPLIST_FILE = LDStreamingUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.milker.streaming.LDStreamingUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = LDStreaming;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		46FB7D46269D42AA007EE99E /* Build configuration list for PBXProject "LDStreaming" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				46FB7D78269D42AD007EE99E /* Debug */,
+				46FB7D79269D42AD007EE99E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		46FB7D7A269D42AD007EE99E /* Build configuration list for PBXNativeTarget "LDStreaming" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				46FB7D7B269D42AD007EE99E /* Debug */,
+				46FB7D7C269D42AD007EE99E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		46FB7D7D269D42AD007EE99E /* Build configuration list for PBXNativeTarget "LDStreamingTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				46FB7D7E269D42AD007EE99E /* Debug */,
+				46FB7D7F269D42AD007EE99E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		46FB7D80269D42AD007EE99E /* Build configuration list for PBXNativeTarget "LDStreamingUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				46FB7D81269D42AD007EE99E /* Debug */,
+				46FB7D82269D42AD007EE99E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 46FB7D43269D42AA007EE99E /* Project object */;
+}

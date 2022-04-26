@@ -1,0 +1,5 @@
+framework module LDDatabase {
+  umbrella header "LDDatabase-umbrella.h"
+  export *
+  module * { export * }
+}
