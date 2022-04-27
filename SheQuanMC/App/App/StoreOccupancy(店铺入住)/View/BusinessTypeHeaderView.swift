@@ -21,7 +21,7 @@ class BusinessTypeHeaderView: UITableViewHeaderFooterView {
     //这边是是否选择
     lazy var choiceBtn:UIButton = {
        let choiceBtn = UIButton()
-        choiceBtn.setBackgroundImage(UIImage(named: ""), for: .normal)
+        choiceBtn.setBackgroundImage(UIImage(named: "Ellipse 38"), for: .normal)
         choiceBtn.setBackgroundImage(UIImage(named: "Group 2742"), for: .selected)
         return choiceBtn
     }()

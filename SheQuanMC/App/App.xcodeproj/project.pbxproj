@@ -30,6 +30,8 @@
 		4060BC422817DE0200968C42 /* BusinessTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC412817DE0200968C42 /* BusinessTypeViewController.swift */; };
 		4060BC452817DF7100968C42 /* BusinessTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC442817DF7000968C42 /* BusinessTypeCell.swift */; };
 		4060BC472817E31F00968C42 /* BusinessTypeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC462817E31F00968C42 /* BusinessTypeHeaderView.swift */; };
+		4060BC492818C87400968C42 /* EnterpriseCertificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC482818C87400968C42 /* EnterpriseCertificationViewController.swift */; };
+		4060BC4B28191C9D00968C42 /* EnterpriseAuditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC4A28191C9C00968C42 /* EnterpriseAuditViewController.swift */; };
 		409C29932814FC5D00005ECB /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 409C29912814FC5D00005ECB /* UITextView+Placeholder.m */; };
 		409C29942814FC5D00005ECB /* UITextView+Placeholder.h in Headers */ = {isa = PBXBuildFile; fileRef = 409C29922814FC5D00005ECB /* UITextView+Placeholder.h */; };
 		40A9A2122814D952006B1CBF /* Util.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A2112814D952006B1CBF /* Util.framework */; };
@@ -78,6 +80,8 @@
 		4060BC412817DE0200968C42 /* BusinessTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessTypeViewController.swift; sourceTree = "<group>"; };
 		4060BC442817DF7000968C42 /* BusinessTypeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessTypeCell.swift; sourceTree = "<group>"; };
 		4060BC462817E31F00968C42 /* BusinessTypeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessTypeHeaderView.swift; sourceTree = "<group>"; };
+		4060BC482818C87400968C42 /* EnterpriseCertificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterpriseCertificationViewController.swift; sourceTree = "<group>"; };
+		4060BC4A28191C9C00968C42 /* EnterpriseAuditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterpriseAuditViewController.swift; sourceTree = "<group>"; };
 		409C29912814FC5D00005ECB /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
 		409C29922814FC5D00005ECB /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
 		40A9A1E22812996D006B1CBF /* App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -162,6 +166,8 @@
 				4060BC432817DF5600968C42 /* View */,
 				4060BC3F2817A54600968C42 /* StoreOccupancyViewController.swift */,
 				4060BC412817DE0200968C42 /* BusinessTypeViewController.swift */,
+				4060BC482818C87400968C42 /* EnterpriseCertificationViewController.swift */,
+				4060BC4A28191C9C00968C42 /* EnterpriseAuditViewController.swift */,
 			);
 			path = "StoreOccupancy(店铺入住)";
 			sourceTree = "<group>";
@@ -364,6 +370,7 @@
 			files = (
 				401E5DA02814FF17009127A5 /* ShopViewController.swift in Sources */,
 				401E5DC1281528C4009127A5 /* Edit+UIButton.swift in Sources */,
+				4060BC492818C87400968C42 /* EnterpriseCertificationViewController.swift in Sources */,
 				401E5DAC281520D5009127A5 /* MyViewController.swift in Sources */,
 				4060BC452817DF7100968C42 /* BusinessTypeCell.swift in Sources */,
 				4060BC472817E31F00968C42 /* BusinessTypeHeaderView.swift in Sources */,
@@ -385,6 +392,7 @@
 				401E5DD42815407A009127A5 /* LoginViewController.swift in Sources */,
 				4060BC402817A54600968C42 /* StoreOccupancyViewController.swift in Sources */,
 				401E5DC8281528F3009127A5 /* UIViewController+Extenstion.swift in Sources */,
+				4060BC4B28191C9D00968C42 /* EnterpriseAuditViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

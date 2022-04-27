@@ -374,6 +374,7 @@ class LoginViewController: BaseViewController {
             //这边还需要对这个按键的图片进行设置
             if btn.isSelected{
                 //这边看不到
+                showPasswordBtn.setImage(UIImage(named: "Group 2785"), for: .normal)
             }else{
                 showPasswordBtn.setImage(UIImage(named: "隐藏"), for: .normal)
             }
@@ -421,12 +422,12 @@ class LoginViewController: BaseViewController {
 //        }
         
         
-//        let window = UIApplication.shared.keyWindow
-//        window?.rootViewController = MainViewController()
+        let window = UIApplication.shared.keyWindow
+        window?.rootViewController = MainViewController()
         
         
-        let storeOccupancyVC = StoreOccupancyViewController()
-        Coordinator.shared?.pushViewController(self, storeOccupancyVC, animated: true)
+//        let storeOccupancyVC = StoreOccupancyViewController()
+//        Coordinator.shared?.pushViewController(self, storeOccupancyVC, animated: true)
         
     }
     

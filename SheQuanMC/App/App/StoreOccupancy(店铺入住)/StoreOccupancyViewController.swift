@@ -223,7 +223,7 @@ class StoreOccupancyViewController: BaseViewController {
         manager.type = .photo
         self.popup.actionSheet {
             [
-                JFPopupAction(with: "从手机相册选择", subTitle: "照片", clickActionCallBack: { [weak self] in
+                JFPopupAction(with: "从手机相册选择", subTitle: nil, clickActionCallBack: { [weak self] in
                     self?.hx_presentSelectPhotoController(with: self?.manager, didDone: { allList, photoList, videoList, isOriginal, viewController, manager in
                         LXFLog(photoList?.count)
                         if let photoModel:HXPhotoModel = photoList?.first{
@@ -262,24 +262,27 @@ class StoreOccupancyViewController: BaseViewController {
     @objc func nextShopAction(nextBtn:UIButton){
         //店铺名字
         //shopTextField
-        if shopTextField.text?.containsEmoji() == true{
-            showErrerLabel.text = "店铺名称里面包含表情"
-            return
-        }
-        
-        if shopTextField.text?.isValidNickName == false{
-            showErrerLabel.text = "店铺名称不合规,请重新输入"
-            return
-        }
-        
-        //经营种类
-//        choiceManagementBtn.currentTitle
-        if choiceManagementBtn.currentTitle == "请选择经营种类"{
-            showErrerLabel.text = "请选择经营种类"
-            return
-        }
+//        if shopTextField.text?.containsEmoji() == true{
+//            showErrerLabel.text = "店铺名称里面包含表情"
+//            return
+//        }
+//
+//        if shopTextField.text?.isValidNickName == false{
+//            showErrerLabel.text = "店铺名称不合规,请重新输入"
+//            return
+//        }
+//
+//        //经营种类
+////        choiceManagementBtn.currentTitle
+//        if choiceManagementBtn.currentTitle == "请选择经营种类"{
+//            showErrerLabel.text = "请选择经营种类"
+//            return
+//        }
         
         //网络请求了
+        
+        let encVc = EnterpriseCertificationViewController()
+        Coordinator.shared?.pushViewController(self, encVc, animated: true)
         
     }
 

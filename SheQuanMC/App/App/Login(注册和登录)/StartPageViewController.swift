@@ -41,7 +41,7 @@ open class StartPageViewController: BaseViewController {
     
     lazy var agreeBtn:UIButton = {
        let agreenBtn = UIButton()
-        agreenBtn.setBackgroundImage(UIImage(named: ""), for: .normal)
+        agreenBtn.setBackgroundImage(UIImage(named: "Rectangle 2332"), for: .normal)
         agreenBtn.setBackgroundImage(UIImage(named: "Group 2770"), for: .selected)
         return agreenBtn
     }()

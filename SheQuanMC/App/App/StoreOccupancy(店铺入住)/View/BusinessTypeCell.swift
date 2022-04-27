@@ -35,18 +35,22 @@ class BusinessTypeCell: UITableViewCell {
         contentView.addSubview(productLabel)
         contentView.addSubview(diviver)
         
+        diviver.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(scale(42))
+            make.right.equalToSuperview()
+            make.top.equalToSuperview()
+            make.height.equalTo(scale(0.5))
+        }
+        
+        
+        
         productLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.left.equalToSuperview().offset(scale(42))
             make.right.equalToSuperview().offset(scale(10))
             make.height.equalTo(scale(20))
         }
-        diviver.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(scale(42))
-            make.right.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-scale(0.5))
-            make.height.equalTo(scale(0.5))
-        }
+        
     }
     
     required init?(coder: NSCoder) {

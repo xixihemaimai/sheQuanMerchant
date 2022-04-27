@@ -14,6 +14,14 @@ class BusinessTypeViewController: BaseViewController {
     lazy var searchBar:UISearchBar = {
        let searchBar = UISearchBar()
         searchBar.placeholder = "搜索"
+        searchBar.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
+//        searchBar.delegate = self
+        if #available(iOS 13.0, *) {
+            searchBar.searchTextField.font = UIFont.systemFont(ofSize: scale(12), weight: .regular)
+        }
+        searchBar.barStyle = .default
+        searchBar.searchBarStyle = .minimal
+        searchBar.barTintColor = UIColor.clear
         return searchBar
     }()
     
@@ -24,10 +32,9 @@ class BusinessTypeViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         title = "经营种类"
         createRightBarBtnItem(title: "确认", method: #selector(sureChoiceAction),titleColor: UIColor.colorWithDyColorChangObject(lightColor: "#333333"))
-        
         
         //这边要先添加一个搜索框
         view.addSubview(searchBar)
@@ -35,6 +42,15 @@ class BusinessTypeViewController: BaseViewController {
             make.left.right.top.equalToSuperview()
             make.height.equalTo(scale(48))
         }
+        searchBar.layer.cornerRadius = scale(4)
+        if #available(iOS 13.0, *) {
+            searchBar.searchTextField.addTarget(self, action: #selector(BeginEdit), for: .editingDidBegin)
+        }
+        if #available(iOS 13.0, *) {
+            searchBar.searchTextField.addTarget(self, action: #selector(EndEdit), for: .editingDidEnd)
+        }
+
+        searchBar.setPositionAdjustment(UIOffset(horizontal: SCW/2 - scale(80)/2, vertical: 0), for: .search)
         
         view.addSubview(self.tableview)
         self.tableview.snp.makeConstraints { make in
@@ -84,6 +100,16 @@ class BusinessTypeViewController: BaseViewController {
         }
     }
     
+    
+    @objc func BeginEdit(textfiled:UITextField){
+        searchBar.setPositionAdjustment(UIOffset(horizontal: 0, vertical: 0), for: .search)
+    }
+    @objc func EndEdit(textfield:UITextField){
+        searchBar.setPositionAdjustment(UIOffset(horizontal: SCW/2 - scale(80)/2, vertical: 0), for: .search)
+        LXFLog(textfield.text)
+        searchBar.resignFirstResponder()
+    }
+    
 }
 
 
@@ -94,7 +120,7 @@ extension BusinessTypeViewController:UITableViewDelegate,UITableViewDataSource{
         if isOpen{
             return 4
         }else{
-          return 0
+            return 0
         }
     }
     
@@ -106,6 +132,9 @@ extension BusinessTypeViewController:UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "BusinessTypeCell") as! BusinessTypeCell
+//        if indexPath.row == 0{
+//            cell.diviver.isHidden = true
+//        }
         return cell
     }
     
@@ -156,11 +185,14 @@ extension BusinessTypeViewController:UITableViewDelegate,UITableViewDataSource{
         
         
         
-        
 //        if let headerView = tableview.headerView(forSection: choiceBtn.tag) as? BusinessTypeHeaderView {
 //            headerView.choiceBtn.isSelected = true
             //这边保存
+        if choiceDict["tag"] == choiceBtn.tag{
+            choiceDict["tag"] = 1000000000000
+        }else{
             choiceDict["tag"] = choiceBtn.tag
+        }
 //            tableview.reloadSections(IndexSet(integer:choiceBtn.tag), with: .none)
         tableview.reloadData()
 //        }
@@ -174,3 +206,11 @@ extension BusinessTypeViewController:UITableViewDelegate,UITableViewDataSource{
     }
     
 }
+
+//extension BusinessTypeViewController:UISearchBarDelegate{
+//    //当searchBar结束编辑时调用
+//    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+//
+//    }
+//
+//}
