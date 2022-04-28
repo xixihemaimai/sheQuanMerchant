@@ -88,11 +88,13 @@ open class BaseViewController: UIViewController {
     
     
    open func headerRereshing(){
-        print("---")
+       tableview.mj_header?.endRefreshing()
+       collection.mj_header?.endRefreshing()
     }
     
    open func footerRereshing(){
-      print("+++")
+       tableview.mj_footer?.endRefreshing()
+       collection.mj_footer?.endRefreshing()
     }
     
     

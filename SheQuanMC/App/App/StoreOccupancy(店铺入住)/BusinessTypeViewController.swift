@@ -11,6 +11,11 @@ import Util
 class BusinessTypeViewController: BaseViewController {
 
     
+    
+    //这边要创建一个返回选择的类型
+    var returnChoiceType:((_ type:String)->Void)?
+
+    
     lazy var searchBar:UISearchBar = {
        let searchBar = UISearchBar()
         searchBar.placeholder = "搜索"
@@ -106,7 +111,6 @@ class BusinessTypeViewController: BaseViewController {
     }
     @objc func EndEdit(textfield:UITextField){
         searchBar.setPositionAdjustment(UIOffset(horizontal: SCW/2 - scale(80)/2, vertical: 0), for: .search)
-        LXFLog(textfield.text)
         searchBar.resignFirstResponder()
     }
     

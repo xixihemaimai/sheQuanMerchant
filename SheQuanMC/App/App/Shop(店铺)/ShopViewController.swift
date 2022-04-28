@@ -54,7 +54,7 @@ class ShopViewController: BaseViewController {
     lazy var shippedLabel:UILabel = {
        let shippedLabel = UILabel()
         shippedLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#1A1A1A")
-        shippedLabel.text = "288"
+        shippedLabel.text = "0"
         shippedLabel.textAlignment = .center
         shippedLabel.font = UIFont.systemFont(ofSize: scale(18), weight: .semibold)
         return shippedLabel
@@ -67,7 +67,7 @@ class ShopViewController: BaseViewController {
         paidLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#1A1A1A")
         paidLabel.textAlignment = .center
         paidLabel.font = UIFont.systemFont(ofSize: scale(18), weight: .semibold)
-        paidLabel.text = "12"
+        paidLabel.text = "0"
         return paidLabel
     }()
     
@@ -86,7 +86,7 @@ class ShopViewController: BaseViewController {
         paymentOrdersLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#000000")
         paymentOrdersLabel.textAlignment = .center
         paymentOrdersLabel.font = UIFont.systemFont(ofSize: scale(22), weight: .semibold)
-        paymentOrdersLabel.text = "25"
+        paymentOrdersLabel.text = "0"
         return paymentOrdersLabel
     }()
     
@@ -96,7 +96,7 @@ class ShopViewController: BaseViewController {
         paymentAmountLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#000000")
         paymentAmountLabel.textAlignment = .center
         paymentAmountLabel.font = UIFont.systemFont(ofSize: scale(22), weight: .semibold)
-        paymentAmountLabel.text = "25"
+        paymentAmountLabel.text = "0"
         return paymentAmountLabel
     }()
     
@@ -106,7 +106,7 @@ class ShopViewController: BaseViewController {
         refundOrdersLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#000000")
         refundOrdersLabel.textAlignment = .center
         refundOrdersLabel.font = UIFont.systemFont(ofSize: scale(22), weight: .semibold)
-        refundOrdersLabel.text = "25"
+        refundOrdersLabel.text = "0"
         return refundOrdersLabel
     }()
     
@@ -116,7 +116,7 @@ class ShopViewController: BaseViewController {
         refundAmountLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#F13232")
         refundAmountLabel.textAlignment = .center
         refundAmountLabel.font = UIFont.systemFont(ofSize: scale(22), weight: .semibold)
-        refundAmountLabel.text = "¥25"
+        refundAmountLabel.text = "¥0"
         return refundAmountLabel
     }()
     
@@ -171,17 +171,13 @@ class ShopViewController: BaseViewController {
            make.left.right.bottom.equalTo(view)
            make.top.equalTo(shopBtn.snp.bottom)
        }
-//       tableview.delegate = self
-//       tableview.dataSource = self
-//       tableview.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableview.backgroundColor = UIColor.clear
         tableview.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Height_NavBar + Height_TabBar, right: 0)
-        
+        tableview.mj_header?.beginRefreshing()
         setCustonTableHeaderView()
-//        setCustomTableViewFootView()
     }
     
-    
+    //自定义头部
     func setCustonTableHeaderView(){
         let headerView = UIView()
         headerView.backgroundColor = UIColor.clear
@@ -503,7 +499,8 @@ class ShopViewController: BaseViewController {
         applyView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
         headerView.addSubview(applyView)
         applyView.snp.makeConstraints { make in
-            make.left.right.equalToSuperview()
+            make.left.equalTo(scale(16))
+            make.right.equalTo(-scale(16))
             make.top.equalTo(todayAchievementView.snp.bottom).offset(13)
             make.height.equalTo(scale(220))
         }
@@ -547,7 +544,8 @@ class ShopViewController: BaseViewController {
                 make.top.equalTo(scale(8))
                 make.width.height.equalTo(scale(40))
             }
-            
+            btn.tag = i
+            btn.addTarget(self, action: #selector(joinInApplyAction), for: .touchUpInside)
             let nameLabel = UILabel()
             nameLabel.text = nameList[i]
             nameLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#000000")
@@ -563,29 +561,8 @@ class ShopViewController: BaseViewController {
     
     }
     
-    
-    
-//    //213尾部
-//    func setCustomTableViewFootView(){
-//        let footView = UIView()
-//        footView.backgroundColor = UIColor.clear
-//        tableview.tableFooterView = footView
-//        footView.snp.makeConstraints { make in
-//            make.top.left.equalToSuperview()
-//            make.height.equalTo(scale(233))
-//            make.width.equalTo(SCW)
-//        }
-//
-//
-//    }
-    
-    
-    
-    
-    
     override func headerRereshing() {
         print("下拉")
-        
         tableview.mj_header?.endRefreshing()
     }
     
@@ -599,6 +576,8 @@ class ShopViewController: BaseViewController {
     //进入店铺详情
     @objc func jumpShopDetailAction(shopBtn:UIButton){
         LXFLog("进入店铺详情")
+        let shopDetailVc = ShopDetailViewController()
+        Coordinator.shared?.pushViewController(self, shopDetailVc, animated: true)
     }
     
     
@@ -607,30 +586,17 @@ class ShopViewController: BaseViewController {
     }
     
     
+    //进入应用
+    @objc func joinInApplyAction(btn:UIButton){
+        if btn.tag == 0 {
+            let commodityMVc = CommodityManagementViewController()
+            Coordinator.shared?.pushViewController(self, commodityMVc, animated: true)
+        }
+    }
+    
     
     override func emptyDataSetShouldDisplay(_ scrollView: UIScrollView!) -> Bool {
         return false
     }
-    
-    
 }
 
-
-
-
-
-//extension ShopViewController:UITableViewDelegate,UITableViewDataSource{
-//
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 1
-//    }
-//
-//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return UITableView.automaticDimension
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-//        return cell
-//    }
-//}

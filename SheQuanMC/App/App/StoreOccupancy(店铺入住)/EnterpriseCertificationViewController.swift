@@ -589,7 +589,6 @@ class EnterpriseCertificationViewController: BaseViewController {
             [
                 JFPopupAction(with: "从手机相册选择", subTitle: nil, clickActionCallBack: { [weak self] in
                     self?.hx_presentSelectPhotoController(with: self?.manager, didDone: { allList, photoList, videoList, isOriginal, viewController, manager in
-                        LXFLog(photoList?.count)
                         if let photoModel:HXPhotoModel = photoList?.first{
                             //对图片进行
 //                            photoModel.thumbPhoto
@@ -607,7 +606,6 @@ class EnterpriseCertificationViewController: BaseViewController {
                 }),
                 JFPopupAction(with: "拍照", subTitle: nil, clickActionCallBack: {[weak self] in
                     self?.hx_presentCustomCameraViewController(with: self?.manager) { photoList, viewController in
-                        LXFLog(photoList)
                         if let photoModel:HXPhotoModel = photoList{
                             //对图片进行
 //                            self?.headerImageView.image = photoModel.thumbPhoto

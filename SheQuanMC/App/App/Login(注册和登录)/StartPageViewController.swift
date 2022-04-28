@@ -135,9 +135,7 @@ open class StartPageViewController: BaseViewController {
        
        agreeBtn.addTarget(self, action: #selector(agreeReadAction), for: .touchUpInside)
        
-       
-       print(agreeLabel.text!.rectWidth(font: UIFont.systemFont(ofSize: scale(12)), size: CGSize(width:CGFloat(MAXFLOAT), height: scale(17))))
-       
+    
        view.addSubview(agreeLabel)
        agreeLabel.snp.makeConstraints { make in
            make.left.equalTo(agreeBtn.snp.right).offset(scale(5))

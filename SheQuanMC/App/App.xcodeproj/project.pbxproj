@@ -10,7 +10,6 @@
 		401E5DA02814FF17009127A5 /* ShopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5D9F2814FF17009127A5 /* ShopViewController.swift */; };
 		401E5DAA28150242009127A5 /* App.h in Headers */ = {isa = PBXBuildFile; fileRef = 401E5DA928150241009127A5 /* App.h */; };
 		401E5DAC281520D5009127A5 /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DAB281520D5009127A5 /* MyViewController.swift */; };
-		401E5DBE281526DD009127A5 /* commodityManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DBD281526DD009127A5 /* commodityManageViewController.swift */; };
 		401E5DC1281528C4009127A5 /* Edit+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DC0281528C4009127A5 /* Edit+UIButton.swift */; };
 		401E5DC6281528F3009127A5 /* Edit+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DC2281528F2009127A5 /* Edit+UIImage.swift */; };
 		401E5DC8281528F3009127A5 /* UIViewController+Extenstion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DC4281528F2009127A5 /* UIViewController+Extenstion.swift */; };
@@ -32,6 +31,15 @@
 		4060BC472817E31F00968C42 /* BusinessTypeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC462817E31F00968C42 /* BusinessTypeHeaderView.swift */; };
 		4060BC492818C87400968C42 /* EnterpriseCertificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC482818C87400968C42 /* EnterpriseCertificationViewController.swift */; };
 		4060BC4B28191C9D00968C42 /* EnterpriseAuditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC4A28191C9C00968C42 /* EnterpriseAuditViewController.swift */; };
+		4060BC4D281A1ACE00968C42 /* ShopDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC4C281A1ACD00968C42 /* ShopDetailViewController.swift */; };
+		4060BC50281A1B6300968C42 /* ShopDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC4F281A1B6300968C42 /* ShopDetailCell.swift */; };
+		4060BC52281A2F6E00968C42 /* ShopDetailCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC51281A2F6E00968C42 /* ShopDetailCardCell.swift */; };
+		407D97FD281A3A11005A8CBC /* CommodityManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407D97FC281A3A10005A8CBC /* CommodityManagementViewController.swift */; };
+		407D97FF281A65EE005A8CBC /* CommodityStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407D97FE281A65EE005A8CBC /* CommodityStatusViewController.swift */; };
+		407D9802281A66C6005A8CBC /* commodityStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407D9801281A66C6005A8CBC /* commodityStatusCell.swift */; };
+		407D9804281A70DF005A8CBC /* commodityExamineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407D9803281A70DF005A8CBC /* commodityExamineCell.swift */; };
+		407D9806281A8352005A8CBC /* ReplenishInventoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407D9805281A8352005A8CBC /* ReplenishInventoryViewController.swift */; };
+		407D9808281A8457005A8CBC /* ReplenishInventoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407D9807281A8457005A8CBC /* ReplenishInventoryCell.swift */; };
 		409C29932814FC5D00005ECB /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 409C29912814FC5D00005ECB /* UITextView+Placeholder.m */; };
 		409C29942814FC5D00005ECB /* UITextView+Placeholder.h in Headers */ = {isa = PBXBuildFile; fileRef = 409C29922814FC5D00005ECB /* UITextView+Placeholder.h */; };
 		40A9A2122814D952006B1CBF /* Util.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A2112814D952006B1CBF /* Util.framework */; };
@@ -60,7 +68,6 @@
 		401E5D9F2814FF17009127A5 /* ShopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopViewController.swift; sourceTree = "<group>"; };
 		401E5DA928150241009127A5 /* App.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = App.h; sourceTree = "<group>"; };
 		401E5DAB281520D5009127A5 /* MyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyViewController.swift; sourceTree = "<group>"; };
-		401E5DBD281526DD009127A5 /* commodityManageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = commodityManageViewController.swift; sourceTree = "<group>"; };
 		401E5DC0281528C4009127A5 /* Edit+UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Edit+UIButton.swift"; sourceTree = "<group>"; };
 		401E5DC2281528F2009127A5 /* Edit+UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Edit+UIImage.swift"; sourceTree = "<group>"; };
 		401E5DC4281528F2009127A5 /* UIViewController+Extenstion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extenstion.swift"; sourceTree = "<group>"; };
@@ -82,6 +89,15 @@
 		4060BC462817E31F00968C42 /* BusinessTypeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessTypeHeaderView.swift; sourceTree = "<group>"; };
 		4060BC482818C87400968C42 /* EnterpriseCertificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterpriseCertificationViewController.swift; sourceTree = "<group>"; };
 		4060BC4A28191C9C00968C42 /* EnterpriseAuditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterpriseAuditViewController.swift; sourceTree = "<group>"; };
+		4060BC4C281A1ACD00968C42 /* ShopDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopDetailViewController.swift; sourceTree = "<group>"; };
+		4060BC4F281A1B6300968C42 /* ShopDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopDetailCell.swift; sourceTree = "<group>"; };
+		4060BC51281A2F6E00968C42 /* ShopDetailCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopDetailCardCell.swift; sourceTree = "<group>"; };
+		407D97FC281A3A10005A8CBC /* CommodityManagementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommodityManagementViewController.swift; sourceTree = "<group>"; };
+		407D97FE281A65EE005A8CBC /* CommodityStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommodityStatusViewController.swift; sourceTree = "<group>"; };
+		407D9801281A66C6005A8CBC /* commodityStatusCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = commodityStatusCell.swift; sourceTree = "<group>"; };
+		407D9803281A70DF005A8CBC /* commodityExamineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = commodityExamineCell.swift; sourceTree = "<group>"; };
+		407D9805281A8352005A8CBC /* ReplenishInventoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplenishInventoryViewController.swift; sourceTree = "<group>"; };
+		407D9807281A8457005A8CBC /* ReplenishInventoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplenishInventoryCell.swift; sourceTree = "<group>"; };
 		409C29912814FC5D00005ECB /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
 		409C29922814FC5D00005ECB /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
 		40A9A1E22812996D006B1CBF /* App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -181,6 +197,36 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		4060BC4E281A1B4300968C42 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				4060BC4F281A1B6300968C42 /* ShopDetailCell.swift */,
+				4060BC51281A2F6E00968C42 /* ShopDetailCardCell.swift */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		407D97FB281A3997005A8CBC /* CommodityManagement(商品管理) */ = {
+			isa = PBXGroup;
+			children = (
+				407D9800281A66A5005A8CBC /* view */,
+				407D97FC281A3A10005A8CBC /* CommodityManagementViewController.swift */,
+				407D97FE281A65EE005A8CBC /* CommodityStatusViewController.swift */,
+				407D9805281A8352005A8CBC /* ReplenishInventoryViewController.swift */,
+			);
+			path = "CommodityManagement(商品管理)";
+			sourceTree = "<group>";
+		};
+		407D9800281A66A5005A8CBC /* view */ = {
+			isa = PBXGroup;
+			children = (
+				407D9801281A66C6005A8CBC /* commodityStatusCell.swift */,
+				407D9803281A70DF005A8CBC /* commodityExamineCell.swift */,
+				407D9807281A8457005A8CBC /* ReplenishInventoryCell.swift */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
 		409C298F2814FC0D00005ECB /* Lib */ = {
 			isa = PBXGroup;
 			children = (
@@ -220,6 +266,7 @@
 		40A9A1E42812996D006B1CBF /* App */ = {
 			isa = PBXGroup;
 			children = (
+				407D97FB281A3997005A8CBC /* CommodityManagement(商品管理) */,
 				4060BC3E2817A51B00968C42 /* StoreOccupancy(店铺入住) */,
 				4060BC3128175EC500968C42 /* Base(基础) */,
 				4060BC2928168DF800968C42 /* Main(主界面) */,
@@ -236,8 +283,9 @@
 		40A9A21B2814F1AC006B1CBF /* Shop(店铺) */ = {
 			isa = PBXGroup;
 			children = (
+				4060BC4E281A1B4300968C42 /* view */,
 				401E5D9F2814FF17009127A5 /* ShopViewController.swift */,
-				401E5DBD281526DD009127A5 /* commodityManageViewController.swift */,
+				4060BC4C281A1ACD00968C42 /* ShopDetailViewController.swift */,
 			);
 			path = "Shop(店铺)";
 			sourceTree = "<group>";
@@ -368,9 +416,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4060BC50281A1B6300968C42 /* ShopDetailCell.swift in Sources */,
 				401E5DA02814FF17009127A5 /* ShopViewController.swift in Sources */,
 				401E5DC1281528C4009127A5 /* Edit+UIButton.swift in Sources */,
 				4060BC492818C87400968C42 /* EnterpriseCertificationViewController.swift in Sources */,
+				407D9804281A70DF005A8CBC /* commodityExamineCell.swift in Sources */,
 				401E5DAC281520D5009127A5 /* MyViewController.swift in Sources */,
 				4060BC452817DF7100968C42 /* BusinessTypeCell.swift in Sources */,
 				4060BC472817E31F00968C42 /* BusinessTypeHeaderView.swift in Sources */,
@@ -381,18 +431,24 @@
 				4060BC3928177F1A00968C42 /* RegisterViewController.swift in Sources */,
 				401E5DCF28152E5F009127A5 /* UIView+Extension.swift in Sources */,
 				4060BC3528175ECD00968C42 /* BaseViewController.swift in Sources */,
+				4060BC4D281A1ACE00968C42 /* ShopDetailViewController.swift in Sources */,
+				407D97FD281A3A11005A8CBC /* CommodityManagementViewController.swift in Sources */,
 				401E5DC6281528F3009127A5 /* Edit+UIImage.swift in Sources */,
 				401E5DC9281528F3009127A5 /* Edit+UIImageView.swift in Sources */,
+				4060BC52281A2F6E00968C42 /* ShopDetailCardCell.swift in Sources */,
+				407D9802281A66C6005A8CBC /* commodityStatusCell.swift in Sources */,
 				401E5DD628163A48009127A5 /* StartPageViewController.swift in Sources */,
 				409C29932814FC5D00005ECB /* UITextView+Placeholder.m in Sources */,
+				407D9808281A8457005A8CBC /* ReplenishInventoryCell.swift in Sources */,
 				4060BC3428175ECD00968C42 /* BaseNaviViewController.swift in Sources */,
+				407D9806281A8352005A8CBC /* ReplenishInventoryViewController.swift in Sources */,
 				4060BC302816AD5000968C42 /* CountDown.swift in Sources */,
-				401E5DBE281526DD009127A5 /* commodityManageViewController.swift in Sources */,
 				4060BC3D2817986900968C42 /* NewPasswordViewController.swift in Sources */,
 				401E5DD42815407A009127A5 /* LoginViewController.swift in Sources */,
 				4060BC402817A54600968C42 /* StoreOccupancyViewController.swift in Sources */,
 				401E5DC8281528F3009127A5 /* UIViewController+Extenstion.swift in Sources */,
 				4060BC4B28191C9D00968C42 /* EnterpriseAuditViewController.swift in Sources */,
+				407D97FF281A65EE005A8CBC /* CommodityStatusViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
