@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		401E5DA02814FF17009127A5 /* ShopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5D9F2814FF17009127A5 /* ShopViewController.swift */; };
-		401E5DAA28150242009127A5 /* App.h in Headers */ = {isa = PBXBuildFile; fileRef = 401E5DA928150241009127A5 /* App.h */; };
+		401E5DAA28150242009127A5 /* App.h in Headers */ = {isa = PBXBuildFile; fileRef = 401E5DA928150241009127A5 /* App.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		401E5DAC281520D5009127A5 /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DAB281520D5009127A5 /* MyViewController.swift */; };
 		401E5DC1281528C4009127A5 /* Edit+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DC0281528C4009127A5 /* Edit+UIButton.swift */; };
 		401E5DC6281528F3009127A5 /* Edit+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DC2281528F2009127A5 /* Edit+UIImage.swift */; };
@@ -41,9 +41,11 @@
 		407D9806281A8352005A8CBC /* ReplenishInventoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407D9805281A8352005A8CBC /* ReplenishInventoryViewController.swift */; };
 		407D9808281A8457005A8CBC /* ReplenishInventoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407D9807281A8457005A8CBC /* ReplenishInventoryCell.swift */; };
 		409C29932814FC5D00005ECB /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 409C29912814FC5D00005ECB /* UITextView+Placeholder.m */; };
-		409C29942814FC5D00005ECB /* UITextView+Placeholder.h in Headers */ = {isa = PBXBuildFile; fileRef = 409C29922814FC5D00005ECB /* UITextView+Placeholder.h */; };
+		409C29942814FC5D00005ECB /* UITextView+Placeholder.h in Headers */ = {isa = PBXBuildFile; fileRef = 409C29922814FC5D00005ECB /* UITextView+Placeholder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		40A9A2122814D952006B1CBF /* Util.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A2112814D952006B1CBF /* Util.framework */; };
 		40A9A2132814D952006B1CBF /* Util.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A2112814D952006B1CBF /* Util.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		40AFEBC8281A97F50062D271 /* CommoditySearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AFEBC7281A97F50062D271 /* CommoditySearchViewController.swift */; };
+		40AFEBCA281B6B1A0062D271 /* ReleaseGoodsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AFEBC9281B6B1A0062D271 /* ReleaseGoodsViewController.swift */; };
 		7AD231528B3BBEAAE2E924AB /* Pods_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0920399F93ACA07BE969F0D4 /* Pods_App.framework */; };
 /* End PBXBuildFile section */
 
@@ -102,6 +104,8 @@
 		409C29922814FC5D00005ECB /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
 		40A9A1E22812996D006B1CBF /* App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		40A9A2112814D952006B1CBF /* Util.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Util.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		40AFEBC7281A97F50062D271 /* CommoditySearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommoditySearchViewController.swift; sourceTree = "<group>"; };
+		40AFEBC9281B6B1A0062D271 /* ReleaseGoodsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReleaseGoodsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +217,8 @@
 				407D97FC281A3A10005A8CBC /* CommodityManagementViewController.swift */,
 				407D97FE281A65EE005A8CBC /* CommodityStatusViewController.swift */,
 				407D9805281A8352005A8CBC /* ReplenishInventoryViewController.swift */,
+				40AFEBC7281A97F50062D271 /* CommoditySearchViewController.swift */,
+				40AFEBC9281B6B1A0062D271 /* ReleaseGoodsViewController.swift */,
 			);
 			path = "CommodityManagement(商品管理)";
 			sourceTree = "<group>";
@@ -315,8 +321,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				401E5DAA28150242009127A5 /* App.h in Headers */,
 				409C29942814FC5D00005ECB /* UITextView+Placeholder.h in Headers */,
+				401E5DAA28150242009127A5 /* App.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,8 +438,10 @@
 				401E5DCF28152E5F009127A5 /* UIView+Extension.swift in Sources */,
 				4060BC3528175ECD00968C42 /* BaseViewController.swift in Sources */,
 				4060BC4D281A1ACE00968C42 /* ShopDetailViewController.swift in Sources */,
+				40AFEBC8281A97F50062D271 /* CommoditySearchViewController.swift in Sources */,
 				407D97FD281A3A11005A8CBC /* CommodityManagementViewController.swift in Sources */,
 				401E5DC6281528F3009127A5 /* Edit+UIImage.swift in Sources */,
+				40AFEBCA281B6B1A0062D271 /* ReleaseGoodsViewController.swift in Sources */,
 				401E5DC9281528F3009127A5 /* Edit+UIImageView.swift in Sources */,
 				4060BC52281A2F6E00968C42 /* ShopDetailCardCell.swift in Sources */,
 				407D9802281A66C6005A8CBC /* commodityStatusCell.swift in Sources */,
@@ -603,6 +611,7 @@
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -637,6 +646,7 @@
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

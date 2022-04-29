@@ -26,7 +26,7 @@ open class MainViewController: UITabBarController {
         tabBar.unselectedItemTintColor = tabbarNormalColor
        //这边是创建多个控制器
        //这边有多少个就执行多少次
-        let titleS:[[String:String]] = [["name": "店铺","normal":"Group 2757","select":"Group 2757"],["name":"我的","normal":"Group 2755","select":"Group 2755"]]
+        let titleS:[[String:String]] = [["name": "店铺","normal":"Group 2757-1","select":"Group 2757"],["name":"我的","normal":"Group 2755","select":"Group 2755-1"]]
        for i in 0..<titleS.count {
            let dict = titleS[i]
            let Vc = creatViewController(title: dict["name"]!, normalString:dict["normal"]!, selectString: dict["select"]!)

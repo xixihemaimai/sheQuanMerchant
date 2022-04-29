@@ -124,15 +124,24 @@ class CommodityManagementViewController: BaseViewController {
             make.top.equalTo(iPhoneX ? scale(14) : scale(2.5))
         }
         publishBtn.layer.cornerRadius = scale(4)
+        publishBtn.addTarget(self, action: #selector(publishAction), for: .touchUpInside)
         
     }
     
     
+    //发布
+    @objc func publishAction(publishBtn:UIButton){
+        let releaseGoodsVc = ReleaseGoodsViewController()
+        Coordinator.shared?.pushViewController(self, releaseGoodsVc, animated: true)
+    }
     
     
     
     @objc func BeginEdit(textfiled:UITextField){
-        searchBar.setPositionAdjustment(UIOffset(horizontal: 0, vertical: 0), for: .search)
+//        searchBar.setPositionAdjustment(UIOffset(horizontal: 0, vertical: 0), for: .search)
+        let commoditySearchVc = CommoditySearchViewController()
+        commoditySearchVc.title = preBtn?.currentTitle
+        Coordinator.shared?.pushViewController(self, commoditySearchVc, animated: true)
         searchBar.resignFirstResponder()
     }
 

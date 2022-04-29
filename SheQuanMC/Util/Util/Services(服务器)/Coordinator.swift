@@ -27,9 +27,9 @@ public class Coordinator {
         vc.navigationController?.pushViewController(OtherVc, animated: true)
     }
     
-//    public func popViewController(_ animated: Bool) {
-//        navController.popViewController(animated: animated)
-//    }
+    public func popViewController(_ vc:UIViewController, _ animated: Bool) {
+        vc.navigationController?.popViewController(animated: animated)
+    }
 //
 //    public func setViewControllers(_ vcs: [UIViewController], animated: Bool) {
 //        navController.setViewControllers(vcs, animated: animated)
