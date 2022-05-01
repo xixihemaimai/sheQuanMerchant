@@ -591,6 +591,9 @@ class ShopViewController: BaseViewController {
         if btn.tag == 0 {
             let commodityMVc = CommodityManagementViewController()
             Coordinator.shared?.pushViewController(self, commodityMVc, animated: true)
+        } else if btn.tag == 1{
+            let orderVc = OrderViewController()
+            Coordinator.shared?.pushViewController(self, orderVc, animated: true)
         }
     }
     

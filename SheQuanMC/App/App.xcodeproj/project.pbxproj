@@ -34,6 +34,24 @@
 		4060BC4D281A1ACE00968C42 /* ShopDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC4C281A1ACD00968C42 /* ShopDetailViewController.swift */; };
 		4060BC50281A1B6300968C42 /* ShopDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC4F281A1B6300968C42 /* ShopDetailCell.swift */; };
 		4060BC52281A2F6E00968C42 /* ShopDetailCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC51281A2F6E00968C42 /* ShopDetailCardCell.swift */; };
+		4075AEF0281CD621005EB854 /* ProductDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075AEEF281CD621005EB854 /* ProductDescriptionViewController.swift */; };
+		4075AEF8281CD871005EB854 /* XDRichTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4075AEF2281CD871005EB854 /* XDRichTextView.m */; };
+		4075AEF9281CD871005EB854 /* XDEditTextTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 4075AEF3281CD871005EB854 /* XDEditTextTool.m */; };
+		4075AEFA281CD871005EB854 /* XDRichTextModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 4075AEF4281CD871005EB854 /* XDRichTextModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4075AEFB281CD871005EB854 /* XDEditTextTool.h in Headers */ = {isa = PBXBuildFile; fileRef = 4075AEF5281CD871005EB854 /* XDEditTextTool.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4075AEFC281CD871005EB854 /* XDRichTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4075AEF6281CD871005EB854 /* XDRichTextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4075AEFD281CD871005EB854 /* XDRichTextModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4075AEF7281CD871005EB854 /* XDRichTextModel.m */; };
+		4075AF02281CD8E2005EB854 /* NSAttributedString+Rich.m in Sources */ = {isa = PBXBuildFile; fileRef = 4075AEFE281CD8E1005EB854 /* NSAttributedString+Rich.m */; };
+		4075AF03281CD8E2005EB854 /* NSString+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 4075AEFF281CD8E2005EB854 /* NSString+JSON.m */; };
+		4075AF04281CD8E2005EB854 /* NSAttributedString+Rich.h in Headers */ = {isa = PBXBuildFile; fileRef = 4075AF00281CD8E2005EB854 /* NSAttributedString+Rich.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4075AF05281CD8E2005EB854 /* NSString+JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 4075AF01281CD8E2005EB854 /* NSString+JSON.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4075AF08281CE7A5005EB854 /* UIColor+HEX.m in Sources */ = {isa = PBXBuildFile; fileRef = 4075AF06281CE7A3005EB854 /* UIColor+HEX.m */; };
+		4075AF09281CE7A5005EB854 /* UIColor+HEX.h in Headers */ = {isa = PBXBuildFile; fileRef = 4075AF07281CE7A5005EB854 /* UIColor+HEX.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4075AF0C281E1E08005EB854 /* OrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075AF0B281E1E08005EB854 /* OrderViewController.swift */; };
+		4075AF0E281E2673005EB854 /* OrderContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075AF0D281E2673005EB854 /* OrderContentViewController.swift */; };
+		4075AF10281E2696005EB854 /* AfterSalesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075AF0F281E2695005EB854 /* AfterSalesViewController.swift */; };
+		4075AF12281E3088005EB854 /* OrderStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075AF11281E3088005EB854 /* OrderStatusViewController.swift */; };
+		4075AF14281E3706005EB854 /* AfterSalesStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075AF13281E3706005EB854 /* AfterSalesStatusViewController.swift */; };
 		407D97FD281A3A11005A8CBC /* CommodityManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407D97FC281A3A10005A8CBC /* CommodityManagementViewController.swift */; };
 		407D97FF281A65EE005A8CBC /* CommodityStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407D97FE281A65EE005A8CBC /* CommodityStatusViewController.swift */; };
 		407D9802281A66C6005A8CBC /* commodityStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407D9801281A66C6005A8CBC /* commodityStatusCell.swift */; };
@@ -94,6 +112,24 @@
 		4060BC4C281A1ACD00968C42 /* ShopDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopDetailViewController.swift; sourceTree = "<group>"; };
 		4060BC4F281A1B6300968C42 /* ShopDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopDetailCell.swift; sourceTree = "<group>"; };
 		4060BC51281A2F6E00968C42 /* ShopDetailCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopDetailCardCell.swift; sourceTree = "<group>"; };
+		4075AEEF281CD621005EB854 /* ProductDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDescriptionViewController.swift; sourceTree = "<group>"; };
+		4075AEF2281CD871005EB854 /* XDRichTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XDRichTextView.m; sourceTree = "<group>"; };
+		4075AEF3281CD871005EB854 /* XDEditTextTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XDEditTextTool.m; sourceTree = "<group>"; };
+		4075AEF4281CD871005EB854 /* XDRichTextModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XDRichTextModel.h; sourceTree = "<group>"; };
+		4075AEF5281CD871005EB854 /* XDEditTextTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XDEditTextTool.h; sourceTree = "<group>"; };
+		4075AEF6281CD871005EB854 /* XDRichTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XDRichTextView.h; sourceTree = "<group>"; };
+		4075AEF7281CD871005EB854 /* XDRichTextModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XDRichTextModel.m; sourceTree = "<group>"; };
+		4075AEFE281CD8E1005EB854 /* NSAttributedString+Rich.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+Rich.m"; sourceTree = "<group>"; };
+		4075AEFF281CD8E2005EB854 /* NSString+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+JSON.m"; sourceTree = "<group>"; };
+		4075AF00281CD8E2005EB854 /* NSAttributedString+Rich.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Rich.h"; sourceTree = "<group>"; };
+		4075AF01281CD8E2005EB854 /* NSString+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+JSON.h"; sourceTree = "<group>"; };
+		4075AF06281CE7A3005EB854 /* UIColor+HEX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HEX.m"; sourceTree = "<group>"; };
+		4075AF07281CE7A5005EB854 /* UIColor+HEX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HEX.h"; sourceTree = "<group>"; };
+		4075AF0B281E1E08005EB854 /* OrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderViewController.swift; sourceTree = "<group>"; };
+		4075AF0D281E2673005EB854 /* OrderContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderContentViewController.swift; sourceTree = "<group>"; };
+		4075AF0F281E2695005EB854 /* AfterSalesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterSalesViewController.swift; sourceTree = "<group>"; };
+		4075AF11281E3088005EB854 /* OrderStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderStatusViewController.swift; sourceTree = "<group>"; };
+		4075AF13281E3706005EB854 /* AfterSalesStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterSalesStatusViewController.swift; sourceTree = "<group>"; };
 		407D97FC281A3A10005A8CBC /* CommodityManagementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommodityManagementViewController.swift; sourceTree = "<group>"; };
 		407D97FE281A65EE005A8CBC /* CommodityStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommodityStatusViewController.swift; sourceTree = "<group>"; };
 		407D9801281A66C6005A8CBC /* commodityStatusCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = commodityStatusCell.swift; sourceTree = "<group>"; };
@@ -210,6 +246,31 @@
 			path = view;
 			sourceTree = "<group>";
 		};
+		4075AEF1281CD871005EB854 /* rich */ = {
+			isa = PBXGroup;
+			children = (
+				4075AEF2281CD871005EB854 /* XDRichTextView.m */,
+				4075AEF3281CD871005EB854 /* XDEditTextTool.m */,
+				4075AEF4281CD871005EB854 /* XDRichTextModel.h */,
+				4075AEF5281CD871005EB854 /* XDEditTextTool.h */,
+				4075AEF6281CD871005EB854 /* XDRichTextView.h */,
+				4075AEF7281CD871005EB854 /* XDRichTextModel.m */,
+			);
+			path = rich;
+			sourceTree = "<group>";
+		};
+		4075AF0A281E1DE6005EB854 /* OrderManagement(订单) */ = {
+			isa = PBXGroup;
+			children = (
+				4075AF0B281E1E08005EB854 /* OrderViewController.swift */,
+				4075AF0D281E2673005EB854 /* OrderContentViewController.swift */,
+				4075AF0F281E2695005EB854 /* AfterSalesViewController.swift */,
+				4075AF11281E3088005EB854 /* OrderStatusViewController.swift */,
+				4075AF13281E3706005EB854 /* AfterSalesStatusViewController.swift */,
+			);
+			path = "OrderManagement(订单)";
+			sourceTree = "<group>";
+		};
 		407D97FB281A3997005A8CBC /* CommodityManagement(商品管理) */ = {
 			isa = PBXGroup;
 			children = (
@@ -219,6 +280,7 @@
 				407D9805281A8352005A8CBC /* ReplenishInventoryViewController.swift */,
 				40AFEBC7281A97F50062D271 /* CommoditySearchViewController.swift */,
 				40AFEBC9281B6B1A0062D271 /* ReleaseGoodsViewController.swift */,
+				4075AEEF281CD621005EB854 /* ProductDescriptionViewController.swift */,
 			);
 			path = "CommodityManagement(商品管理)";
 			sourceTree = "<group>";
@@ -236,6 +298,7 @@
 		409C298F2814FC0D00005ECB /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				4075AEF1281CD871005EB854 /* rich */,
 				4060BC2E2816AD2600968C42 /* FuntionView(功能View) */,
 				409C29902814FC1500005ECB /* category(分类) */,
 			);
@@ -245,6 +308,12 @@
 		409C29902814FC1500005ECB /* category(分类) */ = {
 			isa = PBXGroup;
 			children = (
+				4075AF07281CE7A5005EB854 /* UIColor+HEX.h */,
+				4075AF06281CE7A3005EB854 /* UIColor+HEX.m */,
+				4075AF00281CD8E2005EB854 /* NSAttributedString+Rich.h */,
+				4075AEFE281CD8E1005EB854 /* NSAttributedString+Rich.m */,
+				4075AF01281CD8E2005EB854 /* NSString+JSON.h */,
+				4075AEFF281CD8E2005EB854 /* NSString+JSON.m */,
 				409C29922814FC5D00005ECB /* UITextView+Placeholder.h */,
 				409C29912814FC5D00005ECB /* UITextView+Placeholder.m */,
 			);
@@ -272,6 +341,7 @@
 		40A9A1E42812996D006B1CBF /* App */ = {
 			isa = PBXGroup;
 			children = (
+				4075AF0A281E1DE6005EB854 /* OrderManagement(订单) */,
 				407D97FB281A3997005A8CBC /* CommodityManagement(商品管理) */,
 				4060BC3E2817A51B00968C42 /* StoreOccupancy(店铺入住) */,
 				4060BC3128175EC500968C42 /* Base(基础) */,
@@ -321,6 +391,12 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4075AF09281CE7A5005EB854 /* UIColor+HEX.h in Headers */,
+				4075AF05281CD8E2005EB854 /* NSString+JSON.h in Headers */,
+				4075AF04281CD8E2005EB854 /* NSAttributedString+Rich.h in Headers */,
+				4075AEFB281CD871005EB854 /* XDEditTextTool.h in Headers */,
+				4075AEFC281CD871005EB854 /* XDRichTextView.h in Headers */,
+				4075AEFA281CD871005EB854 /* XDRichTextModel.h in Headers */,
 				409C29942814FC5D00005ECB /* UITextView+Placeholder.h in Headers */,
 				401E5DAA28150242009127A5 /* App.h in Headers */,
 			);
@@ -423,7 +499,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				4060BC50281A1B6300968C42 /* ShopDetailCell.swift in Sources */,
+				4075AEF0281CD621005EB854 /* ProductDescriptionViewController.swift in Sources */,
+				4075AEF8281CD871005EB854 /* XDRichTextView.m in Sources */,
+				4075AF0C281E1E08005EB854 /* OrderViewController.swift in Sources */,
 				401E5DA02814FF17009127A5 /* ShopViewController.swift in Sources */,
+				4075AEF9281CD871005EB854 /* XDEditTextTool.m in Sources */,
+				4075AF02281CD8E2005EB854 /* NSAttributedString+Rich.m in Sources */,
 				401E5DC1281528C4009127A5 /* Edit+UIButton.swift in Sources */,
 				4060BC492818C87400968C42 /* EnterpriseCertificationViewController.swift in Sources */,
 				407D9804281A70DF005A8CBC /* commodityExamineCell.swift in Sources */,
@@ -438,16 +519,22 @@
 				401E5DCF28152E5F009127A5 /* UIView+Extension.swift in Sources */,
 				4060BC3528175ECD00968C42 /* BaseViewController.swift in Sources */,
 				4060BC4D281A1ACE00968C42 /* ShopDetailViewController.swift in Sources */,
+				4075AF14281E3706005EB854 /* AfterSalesStatusViewController.swift in Sources */,
+				4075AF03281CD8E2005EB854 /* NSString+JSON.m in Sources */,
 				40AFEBC8281A97F50062D271 /* CommoditySearchViewController.swift in Sources */,
 				407D97FD281A3A11005A8CBC /* CommodityManagementViewController.swift in Sources */,
+				4075AF10281E2696005EB854 /* AfterSalesViewController.swift in Sources */,
 				401E5DC6281528F3009127A5 /* Edit+UIImage.swift in Sources */,
 				40AFEBCA281B6B1A0062D271 /* ReleaseGoodsViewController.swift in Sources */,
 				401E5DC9281528F3009127A5 /* Edit+UIImageView.swift in Sources */,
 				4060BC52281A2F6E00968C42 /* ShopDetailCardCell.swift in Sources */,
+				4075AF12281E3088005EB854 /* OrderStatusViewController.swift in Sources */,
 				407D9802281A66C6005A8CBC /* commodityStatusCell.swift in Sources */,
 				401E5DD628163A48009127A5 /* StartPageViewController.swift in Sources */,
+				4075AF0E281E2673005EB854 /* OrderContentViewController.swift in Sources */,
 				409C29932814FC5D00005ECB /* UITextView+Placeholder.m in Sources */,
 				407D9808281A8457005A8CBC /* ReplenishInventoryCell.swift in Sources */,
+				4075AF08281CE7A5005EB854 /* UIColor+HEX.m in Sources */,
 				4060BC3428175ECD00968C42 /* BaseNaviViewController.swift in Sources */,
 				407D9806281A8352005A8CBC /* ReplenishInventoryViewController.swift in Sources */,
 				4060BC302816AD5000968C42 /* CountDown.swift in Sources */,
@@ -457,6 +544,7 @@
 				401E5DC8281528F3009127A5 /* UIViewController+Extenstion.swift in Sources */,
 				4060BC4B28191C9D00968C42 /* EnterpriseAuditViewController.swift in Sources */,
 				407D97FF281A65EE005A8CBC /* CommodityStatusViewController.swift in Sources */,
+				4075AEFD281CD871005EB854 /* XDRichTextModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

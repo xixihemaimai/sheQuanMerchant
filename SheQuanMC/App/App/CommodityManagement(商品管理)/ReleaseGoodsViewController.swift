@@ -839,8 +839,29 @@ class ReleaseGoodsViewController: BaseViewController {
     }
     
     
-    //选择商品类目
+    //商品类目 -- 0
+    //商品描述 -- 1
+    //商品参数 -- 2
+    //运费模板 -- 3
     @objc func choiceCategoryAction(goodsCategoryBtn:UIButton){
+        switch goodsCategoryBtn.tag {
+        case 0:
+            
+            break
+        case 1:
+            let proudctDesciptionVc = ProductDescriptionViewController()
+            Coordinator.shared?.pushViewController(self, proudctDesciptionVc, animated: true)
+        case 2:
+            
+            break
+            
+        default:
+            
+            break
+        }
+        
+        
+        
         
         
     }
@@ -883,7 +904,11 @@ class ReleaseGoodsViewController: BaseViewController {
                 .withoutAnimation(true),
                 .cancelAction([
                     .text("直接退出"),
-                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 "))
+                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 ")),
+                    .tapActionCallback({
+                        Coordinator.shared?.popViewController(self, true)
+                    })
+                    
                 ]),
                 .confirmAction([
                     .text("保存草稿"),
@@ -917,7 +942,7 @@ class ReleaseGoodsViewController: BaseViewController {
                                 guard let image = HXPhotoModel.thumbPhoto else {
                                     return
                                 }
-                                if (self?.photoContentList.count ?? 7) <= 6{
+                                if (self?.photoContentList.count ?? 7) <= 5{
                                     self?.photoContentList.append(image)
                                 }
                             })
@@ -932,7 +957,7 @@ class ReleaseGoodsViewController: BaseViewController {
                                 guard let image = photoModel.thumbPhoto else {
                                     return
                                 }
-                                if(self?.photoContentList.count ?? 7) <= 6{
+                                if(self?.photoContentList.count ?? 7) <= 5{
                                     self?.photoContentList.append(image)
                                 }
                             }

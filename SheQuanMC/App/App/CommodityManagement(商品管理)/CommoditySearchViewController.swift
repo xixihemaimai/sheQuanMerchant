@@ -189,6 +189,9 @@ class CommoditySearchViewController: BaseViewController {
     }
     //上架中--编辑，已售罄--编辑，未上架---编辑
     @objc func editAction(editBtn:UIButton){
+        let releaseGoodsVc = ReleaseGoodsViewController()
+        //这边要有model传递
+        Coordinator.shared?.pushViewController(self, releaseGoodsVc, animated: true)
     }
     
     //审核中的删除

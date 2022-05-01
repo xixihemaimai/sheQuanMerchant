@@ -107,8 +107,17 @@ extension BaseViewController:DZNEmptyDataSetSource,DZNEmptyDataSetDelegate{
     
     //显示图片
     open func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
-        return UIImage(named: "Group 2757")
+        return UIImage(named: "Group 2685-1")
     }
+    
+    open func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        let text = "暂无内容"
+        let attributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: scale(16), weight: .regular),NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor: "#999999")]
+        return NSAttributedString(string: text, attributes: attributes)
+    }
+    
+    
+    
     
     
     //是否显示
