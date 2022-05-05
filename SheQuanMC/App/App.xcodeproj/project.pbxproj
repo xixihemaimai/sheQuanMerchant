@@ -17,6 +17,18 @@
 		401E5DCF28152E5F009127A5 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DCE28152E5F009127A5 /* UIView+Extension.swift */; };
 		401E5DD42815407A009127A5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DD32815407A009127A5 /* LoginViewController.swift */; };
 		401E5DD628163A48009127A5 /* StartPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DD528163A47009127A5 /* StartPageViewController.swift */; };
+		403B87F92823536400FC4EA4 /* CommodityCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B87F82823536400FC4EA4 /* CommodityCategoryViewController.swift */; };
+		403B87FB282356C600FC4EA4 /* CommodityCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B87FA282356C600FC4EA4 /* CommodityCategoryCell.swift */; };
+		403B87FD28235E4300FC4EA4 /* CommodityParametersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B87FC28235E4300FC4EA4 /* CommodityParametersViewController.swift */; };
+		403B87FF28235F2900FC4EA4 /* CommodityParametersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B87FE28235F2900FC4EA4 /* CommodityParametersCell.swift */; };
+		403B880128236A8100FC4EA4 /* CommodityParameterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B880028236A8100FC4EA4 /* CommodityParameterView.swift */; };
+		403B88032823725400FC4EA4 /* CommoditySpecificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B88022823725400FC4EA4 /* CommoditySpecificationsViewController.swift */; };
+		403B88052823797300FC4EA4 /* CommoditySpecificationsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B88042823797300FC4EA4 /* CommoditySpecificationsHeaderView.swift */; };
+		403B8807282379C600FC4EA4 /* CommoditySpecificationsFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B8806282379C600FC4EA4 /* CommoditySpecificationsFooterView.swift */; };
+		403B88092823A8C600FC4EA4 /* AddSpecificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B88082823A8C500FC4EA4 /* AddSpecificationsView.swift */; };
+		403B880B2823AECB00FC4EA4 /* CommoditySpecificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B880A2823AECA00FC4EA4 /* CommoditySpecificationCell.swift */; };
+		403B880D2823B37700FC4EA4 /* CommodityPriceAndStockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B880C2823B37700FC4EA4 /* CommodityPriceAndStockCell.swift */; };
+		403B880F2823BAA700FC4EA4 /* SpecificationValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B880E2823BAA700FC4EA4 /* SpecificationValueView.swift */; };
 		4060BC2B28168DFD00968C42 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC2A28168DFD00968C42 /* MainViewController.swift */; };
 		4060BC302816AD5000968C42 /* CountDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC2F2816AD5000968C42 /* CountDown.swift */; };
 		4060BC3428175ECD00968C42 /* BaseNaviViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC3228175ECD00968C42 /* BaseNaviViewController.swift */; };
@@ -95,6 +107,18 @@
 		401E5DCE28152E5F009127A5 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		401E5DD32815407A009127A5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		401E5DD528163A47009127A5 /* StartPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartPageViewController.swift; sourceTree = "<group>"; };
+		403B87F82823536400FC4EA4 /* CommodityCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommodityCategoryViewController.swift; sourceTree = "<group>"; };
+		403B87FA282356C600FC4EA4 /* CommodityCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommodityCategoryCell.swift; sourceTree = "<group>"; };
+		403B87FC28235E4300FC4EA4 /* CommodityParametersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommodityParametersViewController.swift; sourceTree = "<group>"; };
+		403B87FE28235F2900FC4EA4 /* CommodityParametersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommodityParametersCell.swift; sourceTree = "<group>"; };
+		403B880028236A8100FC4EA4 /* CommodityParameterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommodityParameterView.swift; sourceTree = "<group>"; };
+		403B88022823725400FC4EA4 /* CommoditySpecificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommoditySpecificationsViewController.swift; sourceTree = "<group>"; };
+		403B88042823797300FC4EA4 /* CommoditySpecificationsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommoditySpecificationsHeaderView.swift; sourceTree = "<group>"; };
+		403B8806282379C600FC4EA4 /* CommoditySpecificationsFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommoditySpecificationsFooterView.swift; sourceTree = "<group>"; };
+		403B88082823A8C500FC4EA4 /* AddSpecificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSpecificationsView.swift; sourceTree = "<group>"; };
+		403B880A2823AECA00FC4EA4 /* CommoditySpecificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommoditySpecificationCell.swift; sourceTree = "<group>"; };
+		403B880C2823B37700FC4EA4 /* CommodityPriceAndStockCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommodityPriceAndStockCell.swift; sourceTree = "<group>"; };
+		403B880E2823BAA700FC4EA4 /* SpecificationValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificationValueView.swift; sourceTree = "<group>"; };
 		4060BC2A28168DFD00968C42 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		4060BC2F2816AD5000968C42 /* CountDown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDown.swift; sourceTree = "<group>"; };
 		4060BC3228175ECD00968C42 /* BaseNaviViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNaviViewController.swift; sourceTree = "<group>"; };
@@ -281,6 +305,9 @@
 				40AFEBC7281A97F50062D271 /* CommoditySearchViewController.swift */,
 				40AFEBC9281B6B1A0062D271 /* ReleaseGoodsViewController.swift */,
 				4075AEEF281CD621005EB854 /* ProductDescriptionViewController.swift */,
+				403B87F82823536400FC4EA4 /* CommodityCategoryViewController.swift */,
+				403B87FC28235E4300FC4EA4 /* CommodityParametersViewController.swift */,
+				403B88022823725400FC4EA4 /* CommoditySpecificationsViewController.swift */,
 			);
 			path = "CommodityManagement(商品管理)";
 			sourceTree = "<group>";
@@ -291,6 +318,15 @@
 				407D9801281A66C6005A8CBC /* commodityStatusCell.swift */,
 				407D9803281A70DF005A8CBC /* commodityExamineCell.swift */,
 				407D9807281A8457005A8CBC /* ReplenishInventoryCell.swift */,
+				403B87FA282356C600FC4EA4 /* CommodityCategoryCell.swift */,
+				403B87FE28235F2900FC4EA4 /* CommodityParametersCell.swift */,
+				403B880028236A8100FC4EA4 /* CommodityParameterView.swift */,
+				403B88042823797300FC4EA4 /* CommoditySpecificationsHeaderView.swift */,
+				403B8806282379C600FC4EA4 /* CommoditySpecificationsFooterView.swift */,
+				403B88082823A8C500FC4EA4 /* AddSpecificationsView.swift */,
+				403B880A2823AECA00FC4EA4 /* CommoditySpecificationCell.swift */,
+				403B880C2823B37700FC4EA4 /* CommodityPriceAndStockCell.swift */,
+				403B880E2823BAA700FC4EA4 /* SpecificationValueView.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -500,20 +536,28 @@
 			files = (
 				4060BC50281A1B6300968C42 /* ShopDetailCell.swift in Sources */,
 				4075AEF0281CD621005EB854 /* ProductDescriptionViewController.swift in Sources */,
+				403B87FF28235F2900FC4EA4 /* CommodityParametersCell.swift in Sources */,
 				4075AEF8281CD871005EB854 /* XDRichTextView.m in Sources */,
 				4075AF0C281E1E08005EB854 /* OrderViewController.swift in Sources */,
+				403B8807282379C600FC4EA4 /* CommoditySpecificationsFooterView.swift in Sources */,
 				401E5DA02814FF17009127A5 /* ShopViewController.swift in Sources */,
 				4075AEF9281CD871005EB854 /* XDEditTextTool.m in Sources */,
 				4075AF02281CD8E2005EB854 /* NSAttributedString+Rich.m in Sources */,
 				401E5DC1281528C4009127A5 /* Edit+UIButton.swift in Sources */,
+				403B88052823797300FC4EA4 /* CommoditySpecificationsHeaderView.swift in Sources */,
 				4060BC492818C87400968C42 /* EnterpriseCertificationViewController.swift in Sources */,
+				403B88032823725400FC4EA4 /* CommoditySpecificationsViewController.swift in Sources */,
 				407D9804281A70DF005A8CBC /* commodityExamineCell.swift in Sources */,
 				401E5DAC281520D5009127A5 /* MyViewController.swift in Sources */,
+				403B880128236A8100FC4EA4 /* CommodityParameterView.swift in Sources */,
 				4060BC452817DF7100968C42 /* BusinessTypeCell.swift in Sources */,
+				403B87FD28235E4300FC4EA4 /* CommodityParametersViewController.swift in Sources */,
 				4060BC472817E31F00968C42 /* BusinessTypeHeaderView.swift in Sources */,
 				4060BC422817DE0200968C42 /* BusinessTypeViewController.swift in Sources */,
 				4060BC2B28168DFD00968C42 /* MainViewController.swift in Sources */,
 				4060BC3B281794B000968C42 /* ForgetPasswordViewController.swift in Sources */,
+				403B880D2823B37700FC4EA4 /* CommodityPriceAndStockCell.swift in Sources */,
+				403B880B2823AECB00FC4EA4 /* CommoditySpecificationCell.swift in Sources */,
 				4060BC3728175ED300968C42 /* Edit+UIBarButtonItem.swift in Sources */,
 				4060BC3928177F1A00968C42 /* RegisterViewController.swift in Sources */,
 				401E5DCF28152E5F009127A5 /* UIView+Extension.swift in Sources */,
@@ -522,6 +566,7 @@
 				4075AF14281E3706005EB854 /* AfterSalesStatusViewController.swift in Sources */,
 				4075AF03281CD8E2005EB854 /* NSString+JSON.m in Sources */,
 				40AFEBC8281A97F50062D271 /* CommoditySearchViewController.swift in Sources */,
+				403B87FB282356C600FC4EA4 /* CommodityCategoryCell.swift in Sources */,
 				407D97FD281A3A11005A8CBC /* CommodityManagementViewController.swift in Sources */,
 				4075AF10281E2696005EB854 /* AfterSalesViewController.swift in Sources */,
 				401E5DC6281528F3009127A5 /* Edit+UIImage.swift in Sources */,
@@ -532,6 +577,8 @@
 				407D9802281A66C6005A8CBC /* commodityStatusCell.swift in Sources */,
 				401E5DD628163A48009127A5 /* StartPageViewController.swift in Sources */,
 				4075AF0E281E2673005EB854 /* OrderContentViewController.swift in Sources */,
+				403B880F2823BAA700FC4EA4 /* SpecificationValueView.swift in Sources */,
+				403B87F92823536400FC4EA4 /* CommodityCategoryViewController.swift in Sources */,
 				409C29932814FC5D00005ECB /* UITextView+Placeholder.m in Sources */,
 				407D9808281A8457005A8CBC /* ReplenishInventoryCell.swift in Sources */,
 				4075AF08281CE7A5005EB854 /* UIColor+HEX.m in Sources */,
@@ -544,6 +591,7 @@
 				401E5DC8281528F3009127A5 /* UIViewController+Extenstion.swift in Sources */,
 				4060BC4B28191C9D00968C42 /* EnterpriseAuditViewController.swift in Sources */,
 				407D97FF281A65EE005A8CBC /* CommodityStatusViewController.swift in Sources */,
+				403B88092823A8C600FC4EA4 /* AddSpecificationsView.swift in Sources */,
 				4075AEFD281CD871005EB854 /* XDRichTextModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

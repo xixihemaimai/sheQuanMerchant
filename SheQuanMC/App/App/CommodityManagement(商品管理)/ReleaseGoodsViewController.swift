@@ -140,6 +140,25 @@ class ReleaseGoodsViewController: BaseViewController {
         return stockTextfield
     }()
     
+    
+    
+    //商品规格
+    lazy var commoditySpLabel:UILabel = {
+        let commoditySpLabel = UILabel()
+        commoditySpLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#C2C2C2")
+        commoditySpLabel.text = "未设置"
+        commoditySpLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
+        return commoditySpLabel
+    }()
+                                                  
+                                                  
+    
+    
+    
+    
+    
+    
+    
     //库存扣减方式
     lazy var stockReduceLabel:UILabel = {
        let stockReduceLabel = UILabel()
@@ -213,6 +232,10 @@ class ReleaseGoodsViewController: BaseViewController {
     var goodsTitleSView:UIView!
     //主视图图片
     var mainSImage:UIImageView!
+    //商品规格
+    var commoditySBtn:UIButton!
+                                                  
+                                                
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -660,6 +683,67 @@ class ReleaseGoodsViewController: BaseViewController {
             make.height.equalTo(scale(22))
         }
         
+        
+        
+        
+        //这边有个商品规格--部分 按键
+            let commodityBtn = UIButton()
+            commodityBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
+            scrollView.addSubview(commodityBtn)
+            commodityBtn.snp.makeConstraints { make in
+                make.left.equalToSuperview()
+                make.top.equalTo(specificationsView.snp.bottom).offset(scale(1))
+                make.width.equalTo(SCW)
+                make.height.equalTo(scale(50))
+            }
+            commodityBtn.tag = 3
+            commodityBtn.addTarget(self, action: #selector(choiceCategoryAction), for: .touchUpInside)
+            commoditySBtn = commodityBtn
+            
+            commodityBtn.isHidden = true
+            
+            
+            let commoditySStarLabel = UILabel()
+            commoditySStarLabel.text = "*"
+            commoditySStarLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#E82626")
+            commoditySStarLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .medium)
+            commodityBtn.addSubview(commoditySStarLabel)
+            commoditySStarLabel.snp.makeConstraints { make in
+                make.left.equalTo(scale(16))
+                make.centerY.equalToSuperview()
+                make.width.equalTo(scale(8))
+                make.height.equalTo(scale(20))
+            }
+            
+            let commoditySLabel = UILabel()
+            commoditySLabel.text = "商品参数"
+            commoditySLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#787878")
+            commoditySLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .medium)
+            commodityBtn.addSubview(commoditySLabel)
+            commoditySLabel.snp.makeConstraints { make in
+                make.left.equalTo(goodsCategoryStarLabel.snp.right).offset(scale(1))
+                make.centerY.equalToSuperview()
+                make.width.equalTo(scale(75))
+                make.height.equalTo(scale(22))
+            }
+            
+            commodityBtn.addSubview(commoditySpLabel)
+            commoditySpLabel.snp.makeConstraints { make in
+                make.centerY.equalToSuperview()
+                make.left.equalTo(goodsCategoryLabel.snp.right).offset(scale(40))
+                make.right.equalTo(-scale(40))
+                make.height.equalTo(scale(22))
+            }
+            
+            let commoditySImage = UIImageView()
+            commoditySImage.image = UIImage(named: "Frame-goods")
+            commodityBtn.addSubview(commoditySImage)
+            commoditySImage.snp.makeConstraints { make in
+                make.centerY.equalToSuperview()
+                make.right.equalTo(-scale(16))
+                make.width.height.equalTo(scale(24))
+            }
+        
         //库存扣减方式
         let stockReduceView = UIView()
         stockReduceSView = stockReduceView
@@ -717,7 +801,7 @@ class ReleaseGoodsViewController: BaseViewController {
             make.width.equalTo(SCW)
             make.height.equalTo(scale(50))
         }
-        freightBtn.tag = 3
+        freightBtn.tag = 4
         freightBtn.addTarget(self, action: #selector(choiceCategoryAction), for: .touchUpInside)
         
         
@@ -835,26 +919,32 @@ class ReleaseGoodsViewController: BaseViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         LXFLog(saveBtn.bottom)
-        scrollView.contentSize = CGSize(width: 0, height: publishBtn.bottom + scale(127))
+        scrollView.contentSize = CGSize(width: 0, height: publishBtn.bottom + scale(180))
     }
     
     
     //商品类目 -- 0
     //商品描述 -- 1
     //商品参数 -- 2
-    //运费模板 -- 3
+    //商品规格 -- 3
+    //运费模板 -- 4
+    
     @objc func choiceCategoryAction(goodsCategoryBtn:UIButton){
         switch goodsCategoryBtn.tag {
         case 0:
-            
-            break
+            let commodityCategoryVc = CommodityCategoryViewController()
+            Coordinator.shared?.pushViewController(self, commodityCategoryVc, animated: true)
         case 1:
             let proudctDesciptionVc = ProductDescriptionViewController()
             Coordinator.shared?.pushViewController(self, proudctDesciptionVc, animated: true)
         case 2:
+            let commodityParametersVc = CommodityParametersViewController()
+            Coordinator.shared?.pushViewController(self, commodityParametersVc, animated: true)
+        case 3:
             
+            let commoditySepcificationsVc = CommoditySpecificationsViewController()
+            Coordinator.shared?.pushViewController(self, commoditySepcificationsVc, animated: true)
             break
-            
         default:
             
             break
@@ -870,6 +960,7 @@ class ReleaseGoodsViewController: BaseViewController {
     @objc func openAndCloseMoreSepcifications(specificationsSwitch:UISwitch){
         if specificationsSwitch.isOn == true{
             //开启
+            commoditySBtn.isHidden = true
             priceSView.isHidden = false
             stockSView.isHidden = false
             stockReduceSView.snp.remakeConstraints { make in
@@ -880,11 +971,22 @@ class ReleaseGoodsViewController: BaseViewController {
             }
         }else{
            //关闭
+            commoditySBtn.isHidden = false
             priceSView.isHidden = true
             stockSView.isHidden = true
-            stockReduceSView.snp.remakeConstraints { make in
+            
+            
+            commoditySBtn.snp.remakeConstraints{ make in
                 make.left.equalToSuperview()
                 make.top.equalTo(specificationsSView.snp.bottom).offset(scale(1))
+                make.width.equalTo(SCW)
+                make.height.equalTo(scale(50))
+            }
+            
+            
+            stockReduceSView.snp.remakeConstraints { make in
+                make.left.equalToSuperview()
+                make.top.equalTo(commoditySBtn.snp.bottom).offset(scale(1))
                 make.width.equalTo(SCW)
                 make.height.equalTo(scale(50))
             }

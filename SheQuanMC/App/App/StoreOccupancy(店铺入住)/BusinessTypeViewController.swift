@@ -100,6 +100,8 @@ class BusinessTypeViewController: BaseViewController {
             if let headerView = tableview.headerView(forSection: i) as? BusinessTypeHeaderView{
                 if headerView.choiceBtn.isSelected{
                     //选中的经营种类
+                    
+                    break
                 }
             }
         }

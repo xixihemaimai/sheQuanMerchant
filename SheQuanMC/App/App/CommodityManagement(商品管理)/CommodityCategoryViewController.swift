@@ -1,0 +1,148 @@
+//
+//  CommodityCategoryViewController.swift
+//  App
+//
+//  Created by mac on 2022/5/5.
+//
+
+import UIKit
+import Util
+
+class CommodityCategoryViewController: BaseViewController {
+    
+    lazy var searchBar:UISearchBar = {
+       let searchBar = UISearchBar()
+        searchBar.placeholder = "搜索"
+        searchBar.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
+        if #available(iOS 13.0, *) {
+            searchBar.searchTextField.font = UIFont.systemFont(ofSize: scale(12), weight: .regular)
+        }
+        searchBar.barStyle = .default
+        searchBar.searchBarStyle = .minimal
+        searchBar.barTintColor = UIColor.clear
+        return searchBar
+    }()
+    
+    
+    var categoryList:[Int] = [Int]()
+    
+    var choiceTag:[String:Int] = [String:Int]()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        title = "选择商品类目"
+        
+        createRightBarBtnItem(title: "确认", method: #selector(sureAction), titleColor: UIColor.colorWithDyColorChangObject(lightColor: "#333333"))
+        
+        
+        
+        //搜索框
+        view.addSubview(searchBar)
+        searchBar.snp.makeConstraints { make in
+            make.top.left.right.equalToSuperview()
+            make.height.equalTo(scale(48))
+        }
+        if #available(iOS 13.0, *) {
+            searchBar.searchTextField.addTarget(self, action: #selector(BeginEdit), for: .editingDidBegin)
+        }
+        if #available(iOS 13.0, *) {
+            searchBar.searchTextField.addTarget(self, action: #selector(EndEdit), for: .editingDidEnd)
+        }
+        
+        searchBar.setPositionAdjustment(UIOffset(horizontal: SCW/2 - scale(80)/2, vertical: 0), for: .search)
+        
+        
+        view.addSubview(tableview)
+        tableview.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.top.equalTo(searchBar.snp.bottom)
+            make.bottom.equalToSuperview()
+        }
+        tableview.delegate = self
+        tableview.dataSource = self
+        tableview.register(CommodityCategoryCell.self, forCellReuseIdentifier: "CommodityCategoryCell")
+        
+        
+        for i in 0..<5{
+            categoryList.append(i)
+        }
+        
+        
+        
+        
+        
+        
+    }
+    
+    
+    
+    
+    //确认
+    @objc func sureAction(btn:UIButton){
+        for i in 0..<categoryList.count {
+            if let cell = tableview.cellForRow(at: IndexPath(row: i, section: 0)) as? CommodityCategoryCell{
+                if cell.choiceBtn.isSelected{
+                     //选中的二级类目类型
+                    
+                    break
+                }
+            }
+        }
+    }
+    
+    //搜索开始
+    @objc func BeginEdit(textfiled:UITextField){
+        searchBar.setPositionAdjustment(UIOffset(horizontal: 0, vertical: 0), for: .search)
+    }
+    //搜索结束
+    @objc func EndEdit(textfield:UITextField){
+        searchBar.setPositionAdjustment(UIOffset(horizontal: SCW/2 - scale(80)/2, vertical: 0), for: .search)
+        searchBar.resignFirstResponder()
+    }
+    
+
+    
+    //选择第二级商品类目
+    @objc func choiceSecondCategoryAction(choiceBtn:UIButton){
+        //这边要对所有的类目进行青春
+        categoryList.forEach { index in
+           let cell = tableview.cellForRow(at: IndexPath(row: index, section: 0)) as! CommodityCategoryCell
+            cell.choiceBtn.isSelected = false
+        }
+//        choiceBtn.isSelected = !choiceBtn.isSelected
+        if choiceTag["tag"] == choiceBtn.tag{
+            choiceTag["tag"] = 1000000000000
+        }else{
+            choiceTag["tag"] = choiceBtn.tag
+        }
+        tableview.reloadData()
+    }
+    
+}
+
+
+
+extension CommodityCategoryViewController:UITableViewDelegate,UITableViewDataSource{
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return categoryList.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CommodityCategoryCell")
+        as! CommodityCategoryCell
+        cell.choiceBtn.tag = indexPath.row
+        cell.choiceBtn.addTarget(self, action: #selector(choiceSecondCategoryAction), for: .touchUpInside)
+        if indexPath.row == choiceTag["tag"]{
+            cell.choiceBtn.isSelected = true
+        }
+        return cell
+    }
+    
+}
