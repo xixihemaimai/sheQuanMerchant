@@ -21,6 +21,7 @@ class CommoditySpecificationsFooterView: UITableViewHeaderFooterView {
         return addSepcificationsBtn
     }()
     
+    
 
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)

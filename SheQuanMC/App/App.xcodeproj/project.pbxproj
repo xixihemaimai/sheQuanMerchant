@@ -70,6 +70,7 @@
 		407D9804281A70DF005A8CBC /* commodityExamineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407D9803281A70DF005A8CBC /* commodityExamineCell.swift */; };
 		407D9806281A8352005A8CBC /* ReplenishInventoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407D9805281A8352005A8CBC /* ReplenishInventoryViewController.swift */; };
 		407D9808281A8457005A8CBC /* ReplenishInventoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407D9807281A8457005A8CBC /* ReplenishInventoryCell.swift */; };
+		4083B25B2824C87200AFAD18 /* SettingPriceAndStockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4083B25A2824C87200AFAD18 /* SettingPriceAndStockView.swift */; };
 		409C29932814FC5D00005ECB /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 409C29912814FC5D00005ECB /* UITextView+Placeholder.m */; };
 		409C29942814FC5D00005ECB /* UITextView+Placeholder.h in Headers */ = {isa = PBXBuildFile; fileRef = 409C29922814FC5D00005ECB /* UITextView+Placeholder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		40A9A2122814D952006B1CBF /* Util.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A2112814D952006B1CBF /* Util.framework */; };
@@ -160,6 +161,7 @@
 		407D9803281A70DF005A8CBC /* commodityExamineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = commodityExamineCell.swift; sourceTree = "<group>"; };
 		407D9805281A8352005A8CBC /* ReplenishInventoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplenishInventoryViewController.swift; sourceTree = "<group>"; };
 		407D9807281A8457005A8CBC /* ReplenishInventoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplenishInventoryCell.swift; sourceTree = "<group>"; };
+		4083B25A2824C87200AFAD18 /* SettingPriceAndStockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingPriceAndStockView.swift; sourceTree = "<group>"; };
 		409C29912814FC5D00005ECB /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
 		409C29922814FC5D00005ECB /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
 		40A9A1E22812996D006B1CBF /* App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -327,6 +329,7 @@
 				403B880A2823AECA00FC4EA4 /* CommoditySpecificationCell.swift */,
 				403B880C2823B37700FC4EA4 /* CommodityPriceAndStockCell.swift */,
 				403B880E2823BAA700FC4EA4 /* SpecificationValueView.swift */,
+				4083B25A2824C87200AFAD18 /* SettingPriceAndStockView.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -538,6 +541,7 @@
 				4075AEF0281CD621005EB854 /* ProductDescriptionViewController.swift in Sources */,
 				403B87FF28235F2900FC4EA4 /* CommodityParametersCell.swift in Sources */,
 				4075AEF8281CD871005EB854 /* XDRichTextView.m in Sources */,
+				4083B25B2824C87200AFAD18 /* SettingPriceAndStockView.swift in Sources */,
 				4075AF0C281E1E08005EB854 /* OrderViewController.swift in Sources */,
 				403B8807282379C600FC4EA4 /* CommoditySpecificationsFooterView.swift in Sources */,
 				401E5DA02814FF17009127A5 /* ShopViewController.swift in Sources */,

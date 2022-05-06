@@ -8,8 +8,17 @@
 import UIKit
 import Util
 
+protocol CommoditySpecificationCellDelegate:NSObjectProtocol{
+    //清除那个cell，那个位置的index
+    func deleteSaveListTagAndIndex(tag:Int,index:Int)
+    //修改那个cell，那个位置的index 和value
+    func modityTextfieldTagAndIndexAndValue(tag:Int,index:Int,value:String)
+}
+
+
 class CommoditySpecificationCell: UITableViewCell {
     
+    weak var delegate:CommoditySpecificationCellDelegate?
     
     //规格名称
     lazy var specificationLabel:UILabel = {
@@ -54,13 +63,14 @@ class CommoditySpecificationCell: UITableViewCell {
     
     
     //这边是保存数组
-    var colorList:[Int]?{
+    var colorList:[String] = []{
         didSet{
-            guard let _colorList = colorList else{return}
-            LXFLog("-1=========================\(colorList?.count)")
-            specificationView.showValueList = _colorList
+            for view in specificationView.subviews {
+                view.removeFromSuperview()
+            }
+            specificationView.showValueList = colorList
             specificationView.snp.updateConstraints { make in
-                make.height.equalTo(CGFloat(_colorList.count) * scale(44) + CGFloat(_colorList.count) * scale(16) + scale(16))
+                make.height.equalTo(CGFloat(colorList.count) * scale(44) + CGFloat(colorList.count) * scale(16) + scale(16))
             }
         }
     }
@@ -100,6 +110,8 @@ class CommoditySpecificationCell: UITableViewCell {
             make.height.equalTo(0)
         }
         
+        specificationView.delegate = self
+        
         addBtn.snp.makeConstraints { make in
             make.left.equalTo(scale(16))
             make.width.equalTo(scale(83))
@@ -131,4 +143,22 @@ class CommoditySpecificationCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+}
+
+
+extension CommoditySpecificationCell:SpecificationValueViewDelegate{
+    
+    //删除需要的地方
+    func deleteShowValueIndex(_ index: Int) {
+        delegate?.deleteSaveListTagAndIndex(tag: tag, index: index)
+    }
+    
+    
+    
+    
+    func textfieldEditEndValueAndIndex(text: String, index: Int) {
+        delegate?.modityTextfieldTagAndIndexAndValue(tag: tag, index: index, value: text)
+    }
+    
+    
 }

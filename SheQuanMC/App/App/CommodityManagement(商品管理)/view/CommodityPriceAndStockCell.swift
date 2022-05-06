@@ -107,8 +107,8 @@ class CommodityPriceAndStockCell: UITableViewCell {
         specificationLabel.snp.makeConstraints { make in
             make.left.equalTo(scale(16))
             make.top.equalTo(scale(14))
-            make.height.equalTo(scale(22))
-            make.width.equalTo(scale(250))
+            make.height.equalTo(scale(20))
+            make.width.equalTo(scale(230))
         }
         
         commoditySImage.snp.makeConstraints { make in
