@@ -71,6 +71,12 @@
 		407D9806281A8352005A8CBC /* ReplenishInventoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407D9805281A8352005A8CBC /* ReplenishInventoryViewController.swift */; };
 		407D9808281A8457005A8CBC /* ReplenishInventoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407D9807281A8457005A8CBC /* ReplenishInventoryCell.swift */; };
 		4083B25B2824C87200AFAD18 /* SettingPriceAndStockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4083B25A2824C87200AFAD18 /* SettingPriceAndStockView.swift */; };
+		4083B25E2825FC2A00AFAD18 /* OrderStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4083B25D2825FC2A00AFAD18 /* OrderStatusCell.swift */; };
+		4083B260282615AA00AFAD18 /* CloseOrderReasonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4083B25F282615AA00AFAD18 /* CloseOrderReasonView.swift */; };
+		4083B2622826188100AFAD18 /* CloseOrderReasonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4083B2612826188100AFAD18 /* CloseOrderReasonCell.swift */; };
+		4083B2642826223400AFAD18 /* ModifyPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4083B2632826223400AFAD18 /* ModifyPriceView.swift */; };
+		408E422C2826686500C94119 /* OrderDetailStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E422B2826686500C94119 /* OrderDetailStatusCell.swift */; };
+		408E422E28266BE200C94119 /* OrderContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E422D28266BE200C94119 /* OrderContentCell.swift */; };
 		409C29932814FC5D00005ECB /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 409C29912814FC5D00005ECB /* UITextView+Placeholder.m */; };
 		409C29942814FC5D00005ECB /* UITextView+Placeholder.h in Headers */ = {isa = PBXBuildFile; fileRef = 409C29922814FC5D00005ECB /* UITextView+Placeholder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		40A9A2122814D952006B1CBF /* Util.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A2112814D952006B1CBF /* Util.framework */; };
@@ -162,6 +168,12 @@
 		407D9805281A8352005A8CBC /* ReplenishInventoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplenishInventoryViewController.swift; sourceTree = "<group>"; };
 		407D9807281A8457005A8CBC /* ReplenishInventoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplenishInventoryCell.swift; sourceTree = "<group>"; };
 		4083B25A2824C87200AFAD18 /* SettingPriceAndStockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingPriceAndStockView.swift; sourceTree = "<group>"; };
+		4083B25D2825FC2A00AFAD18 /* OrderStatusCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderStatusCell.swift; sourceTree = "<group>"; };
+		4083B25F282615AA00AFAD18 /* CloseOrderReasonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseOrderReasonView.swift; sourceTree = "<group>"; };
+		4083B2612826188100AFAD18 /* CloseOrderReasonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseOrderReasonCell.swift; sourceTree = "<group>"; };
+		4083B2632826223400AFAD18 /* ModifyPriceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyPriceView.swift; sourceTree = "<group>"; };
+		408E422B2826686500C94119 /* OrderDetailStatusCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailStatusCell.swift; sourceTree = "<group>"; };
+		408E422D28266BE200C94119 /* OrderContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderContentCell.swift; sourceTree = "<group>"; };
 		409C29912814FC5D00005ECB /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
 		409C29922814FC5D00005ECB /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
 		40A9A1E22812996D006B1CBF /* App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -288,6 +300,7 @@
 		4075AF0A281E1DE6005EB854 /* OrderManagement(订单) */ = {
 			isa = PBXGroup;
 			children = (
+				4083B25C2825FC1100AFAD18 /* view */,
 				4075AF0B281E1E08005EB854 /* OrderViewController.swift */,
 				4075AF0D281E2673005EB854 /* OrderContentViewController.swift */,
 				4075AF0F281E2695005EB854 /* AfterSalesViewController.swift */,
@@ -330,6 +343,19 @@
 				403B880C2823B37700FC4EA4 /* CommodityPriceAndStockCell.swift */,
 				403B880E2823BAA700FC4EA4 /* SpecificationValueView.swift */,
 				4083B25A2824C87200AFAD18 /* SettingPriceAndStockView.swift */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		4083B25C2825FC1100AFAD18 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				4083B25D2825FC2A00AFAD18 /* OrderStatusCell.swift */,
+				4083B25F282615AA00AFAD18 /* CloseOrderReasonView.swift */,
+				4083B2612826188100AFAD18 /* CloseOrderReasonCell.swift */,
+				4083B2632826223400AFAD18 /* ModifyPriceView.swift */,
+				408E422B2826686500C94119 /* OrderDetailStatusCell.swift */,
+				408E422D28266BE200C94119 /* OrderContentCell.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -539,10 +565,12 @@
 			files = (
 				4060BC50281A1B6300968C42 /* ShopDetailCell.swift in Sources */,
 				4075AEF0281CD621005EB854 /* ProductDescriptionViewController.swift in Sources */,
+				408E422E28266BE200C94119 /* OrderContentCell.swift in Sources */,
 				403B87FF28235F2900FC4EA4 /* CommodityParametersCell.swift in Sources */,
 				4075AEF8281CD871005EB854 /* XDRichTextView.m in Sources */,
 				4083B25B2824C87200AFAD18 /* SettingPriceAndStockView.swift in Sources */,
 				4075AF0C281E1E08005EB854 /* OrderViewController.swift in Sources */,
+				4083B25E2825FC2A00AFAD18 /* OrderStatusCell.swift in Sources */,
 				403B8807282379C600FC4EA4 /* CommoditySpecificationsFooterView.swift in Sources */,
 				401E5DA02814FF17009127A5 /* ShopViewController.swift in Sources */,
 				4075AEF9281CD871005EB854 /* XDEditTextTool.m in Sources */,
@@ -574,10 +602,13 @@
 				407D97FD281A3A11005A8CBC /* CommodityManagementViewController.swift in Sources */,
 				4075AF10281E2696005EB854 /* AfterSalesViewController.swift in Sources */,
 				401E5DC6281528F3009127A5 /* Edit+UIImage.swift in Sources */,
+				4083B2642826223400AFAD18 /* ModifyPriceView.swift in Sources */,
 				40AFEBCA281B6B1A0062D271 /* ReleaseGoodsViewController.swift in Sources */,
 				401E5DC9281528F3009127A5 /* Edit+UIImageView.swift in Sources */,
 				4060BC52281A2F6E00968C42 /* ShopDetailCardCell.swift in Sources */,
 				4075AF12281E3088005EB854 /* OrderStatusViewController.swift in Sources */,
+				4083B2622826188100AFAD18 /* CloseOrderReasonCell.swift in Sources */,
+				4083B260282615AA00AFAD18 /* CloseOrderReasonView.swift in Sources */,
 				407D9802281A66C6005A8CBC /* commodityStatusCell.swift in Sources */,
 				401E5DD628163A48009127A5 /* StartPageViewController.swift in Sources */,
 				4075AF0E281E2673005EB854 /* OrderContentViewController.swift in Sources */,
@@ -592,6 +623,7 @@
 				4060BC3D2817986900968C42 /* NewPasswordViewController.swift in Sources */,
 				401E5DD42815407A009127A5 /* LoginViewController.swift in Sources */,
 				4060BC402817A54600968C42 /* StoreOccupancyViewController.swift in Sources */,
+				408E422C2826686500C94119 /* OrderDetailStatusCell.swift in Sources */,
 				401E5DC8281528F3009127A5 /* UIViewController+Extenstion.swift in Sources */,
 				4060BC4B28191C9D00968C42 /* EnterpriseAuditViewController.swift in Sources */,
 				407D97FF281A65EE005A8CBC /* CommodityStatusViewController.swift in Sources */,

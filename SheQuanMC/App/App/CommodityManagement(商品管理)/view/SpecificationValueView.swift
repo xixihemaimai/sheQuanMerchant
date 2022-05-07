@@ -8,7 +8,7 @@
 import UIKit
 import Util
 
-
+import JFPopup
 
 
 protocol SpecificationValueViewDelegate:NSObjectProtocol{
@@ -67,7 +67,11 @@ class SpecificationValueView: UIView {
     //通过编辑里面的值
     @objc func specificationValueEditeing(textfield:UITextField){
         LXFLog(textfield.text)
-        delegate?.textfieldEditEndValueAndIndex(text: textfield.text ?? "", index: textfield.tag)
+        if !showValueList.contains(textfield.text ?? "") {
+            delegate?.textfieldEditEndValueAndIndex(text: textfield.text ?? "", index: textfield.tag)
+        }else{
+            textfield.text = ""
+            JFPopup.toast(hit: "不允许添加相同的规格值")
+        }
     }
-    
 }

@@ -39,7 +39,6 @@ class OrderContentViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor.green
         //创建头部的uiscrollview
         addTitleScrollview()
         //创建内容的UISrollview

@@ -17,6 +17,10 @@ class CommoditySpecificationsViewController: BaseViewController {
     
     //保存的是规格的数量
     var saveList:[[String]] = [[String]]()
+    
+    //交集和并集之后的数组
+    var unIonSetList:[String] = [String]()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -117,29 +121,47 @@ class CommoditySpecificationsViewController: BaseViewController {
     //添加规格值得value
     @objc func addSpecificationValueAction(addBtn:UIButton){
         var colorList = saveList[addBtn.tag]
-        colorList.insert("1", at: 0)
+//        colorList.insert("", at: 0)
+        colorList.append("")
         saveList[addBtn.tag] = colorList
         LXFLog(colorList.count)
-//      tableview.reloadSections(IndexSet(integer:addBtn.tag), with: .none)
+//        UnionSetArray()
         tableview.reloadData()
-        //这边是对属性值进行并集
-        /**
-         NSArray *array1 = @[@"1",@"2",@"3"];
-         NSArray *array2 = @[@"1",@"5",@"6"];
-         NSMutableSet *set1 = [NSMutableSet setWithArray:array1];
-         NSMutableSet *set2 = [NSMutableSet setWithArray:array2];
-         [set1 unionSet:set2];       //取并集后 set1中为1，2，3，5，6
-         [set1 intersectSet:set2];  //取交集后 set1中为1
-         */
-        
-        
-        
-        
     }
+    
+    
+    //添加并集之后的数组进行显示
+    func UnionSetArray(){
+        //第一个数组  A  B
+        //第二个数组  a  b
+        //另一个数组 A (a b)  b (a b)
+        //这边有俩个数组 获取第一个数组，把第二个数组添加到
+        let colorList = saveList[0]
+        unIonSetList.removeAll()
+        if saveList.count > 1{
+            let newColorList = saveList[1]
+            for text in colorList{
+                for newText in newColorList{
+                    unIonSetList.append(text + newText)
+                }
+            }
+            //去除相同的数据，只保留一个
+            var listArray = [String]()
+            for text in unIonSetList{
+                if !listArray.contains(text){
+                    listArray.append(text)
+                }
+            }
+            unIonSetList = listArray
+        }
+    }
+    
+    
     
     //删除
     @objc func deleteAction(deleteBtn:UIButton){
         saveList.remove(at: deleteBtn.tag)
+        unIonSetList.removeAll()
         tableview.reloadData()
     }
     
@@ -158,7 +180,7 @@ extension CommoditySpecificationsViewController:UITableViewDelegate,UITableViewD
         if section == 0{
             return saveList.count
         }else{
-            return 2
+            return unIonSetList.count
         }
     }
     
@@ -167,6 +189,7 @@ extension CommoditySpecificationsViewController:UITableViewDelegate,UITableViewD
         for colorList in saveList {
             if colorList.count > 0 {
                 isShowSection = true
+                break
             }else{
                 isShowSection = false
             }
@@ -202,7 +225,9 @@ extension CommoditySpecificationsViewController:UITableViewDelegate,UITableViewD
             cell.colorList = saveList[indexPath.row]
             return cell
         }else{
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: "CommodityPriceAndStockCell") as! CommodityPriceAndStockCell
+            cell.specificationLabel.text = unIonSetList[indexPath.row]
             if indexPath.row == 0{
                 cell.diviver.isHidden = true
                 cell.midView.isHidden = true
@@ -278,24 +303,25 @@ extension CommoditySpecificationsViewController:CommoditySpecificationCellDelega
         var colorList = saveList[tag]
         colorList.remove(at: index)
         saveList[tag] = colorList
-        tableview.reloadData()
-        
         //这边是对属性值进行交集
-        
+        UnionSetArray()
+        tableview.reloadData()
     }
     
     
     
     func modityTextfieldTagAndIndexAndValue(tag: Int, index: Int, value: String) {
         var colorList = saveList[tag]
-        colorList[index] = value
-        saveList[tag] = colorList
-        LXFLog(value)
-        tableview.reloadData()
-        
-        //这边要对属性值进行交集的改变
-        
-        
+        if !colorList.contains(value){
+            colorList[index] = value
+            saveList[tag] = colorList
+            LXFLog(value)
+            //这边要对属性值进行交集的改变
+            UnionSetArray()
+            tableview.reloadData()
+        }else{
+            JFPopup.toast(hit: "不允许添加相同的规格值")
+        }
     }
     
 }

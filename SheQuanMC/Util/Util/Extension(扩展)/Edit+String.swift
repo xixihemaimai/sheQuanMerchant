@@ -125,7 +125,7 @@ extension String{
     // MARK: 3.1、字符串 转 CGFloat
     /// 字符串 转 Float
     /// - Returns: CGFloat
-    func toCGFloat() -> CGFloat? {
+    public func toCGFloat() -> CGFloat? {
         if let doubleValue = Double(self) {
             return CGFloat(doubleValue)
         }
