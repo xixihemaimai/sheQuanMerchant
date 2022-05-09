@@ -77,6 +77,23 @@
 		4083B2642826223400AFAD18 /* ModifyPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4083B2632826223400AFAD18 /* ModifyPriceView.swift */; };
 		408E422C2826686500C94119 /* OrderDetailStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E422B2826686500C94119 /* OrderDetailStatusCell.swift */; };
 		408E422E28266BE200C94119 /* OrderContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E422D28266BE200C94119 /* OrderContentCell.swift */; };
+		408E423028289BD500C94119 /* OrderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E422F28289BD500C94119 /* OrderDetailViewController.swift */; };
+		408E42322828AA9300C94119 /* OrderToBePaidCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E42312828AA9200C94119 /* OrderToBePaidCell.swift */; };
+		408E42342828ADD100C94119 /* OrderDeliveryLogisticsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E42332828ADD100C94119 /* OrderDeliveryLogisticsCell.swift */; };
+		408E42362828B49C00C94119 /* BuyerAdressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E42352828B49B00C94119 /* BuyerAdressCell.swift */; };
+		408E42382828B8C000C94119 /* ModifyReturnAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E42372828B8C000C94119 /* ModifyReturnAddressViewController.swift */; };
+		408E423A2828BA0D00C94119 /* AddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E42392828BA0D00C94119 /* AddressCell.swift */; };
+		408E423C2828C23700C94119 /* LogisticsCompanyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E423B2828C23700C94119 /* LogisticsCompanyViewController.swift */; };
+		408E423E2828C35900C94119 /* LogisticsCompanyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E423D2828C35900C94119 /* LogisticsCompanyCell.swift */; };
+		408E42402828C4EA00C94119 /* LogisticsCompanyHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E423F2828C4EA00C94119 /* LogisticsCompanyHeaderView.swift */; };
+		408E42422828E8BE00C94119 /* CheckLogisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E42412828E8BE00C94119 /* CheckLogisticsViewController.swift */; };
+		408E42442828EA2E00C94119 /* CheckLogisticsNumberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E42432828EA2E00C94119 /* CheckLogisticsNumberCell.swift */; };
+		408E42462828ED3800C94119 /* CheckLogisticsProgressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E42452828ED3800C94119 /* CheckLogisticsProgressCell.swift */; };
+		408E42482828FDE800C94119 /* ModifyLogisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E42472828FDE800C94119 /* ModifyLogisticsViewController.swift */; };
+		408E424A2829003C00C94119 /* OrderModifyLogisticsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E42492829003C00C94119 /* OrderModifyLogisticsCell.swift */; };
+		408E424C282903B200C94119 /* ReturnGoodsAddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E424B282903B200C94119 /* ReturnGoodsAddressCell.swift */; };
+		408E424E2829050300C94119 /* LogisticsInformationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E424D2829050300C94119 /* LogisticsInformationCell.swift */; };
+		408E42502829101900C94119 /* ModifyAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E424F2829101900C94119 /* ModifyAddressViewController.swift */; };
 		409C29932814FC5D00005ECB /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 409C29912814FC5D00005ECB /* UITextView+Placeholder.m */; };
 		409C29942814FC5D00005ECB /* UITextView+Placeholder.h in Headers */ = {isa = PBXBuildFile; fileRef = 409C29922814FC5D00005ECB /* UITextView+Placeholder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		40A9A2122814D952006B1CBF /* Util.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A2112814D952006B1CBF /* Util.framework */; };
@@ -174,6 +191,23 @@
 		4083B2632826223400AFAD18 /* ModifyPriceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyPriceView.swift; sourceTree = "<group>"; };
 		408E422B2826686500C94119 /* OrderDetailStatusCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailStatusCell.swift; sourceTree = "<group>"; };
 		408E422D28266BE200C94119 /* OrderContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderContentCell.swift; sourceTree = "<group>"; };
+		408E422F28289BD500C94119 /* OrderDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailViewController.swift; sourceTree = "<group>"; };
+		408E42312828AA9200C94119 /* OrderToBePaidCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderToBePaidCell.swift; sourceTree = "<group>"; };
+		408E42332828ADD100C94119 /* OrderDeliveryLogisticsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDeliveryLogisticsCell.swift; sourceTree = "<group>"; };
+		408E42352828B49B00C94119 /* BuyerAdressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyerAdressCell.swift; sourceTree = "<group>"; };
+		408E42372828B8C000C94119 /* ModifyReturnAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyReturnAddressViewController.swift; sourceTree = "<group>"; };
+		408E42392828BA0D00C94119 /* AddressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressCell.swift; sourceTree = "<group>"; };
+		408E423B2828C23700C94119 /* LogisticsCompanyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogisticsCompanyViewController.swift; sourceTree = "<group>"; };
+		408E423D2828C35900C94119 /* LogisticsCompanyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogisticsCompanyCell.swift; sourceTree = "<group>"; };
+		408E423F2828C4EA00C94119 /* LogisticsCompanyHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogisticsCompanyHeaderView.swift; sourceTree = "<group>"; };
+		408E42412828E8BE00C94119 /* CheckLogisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckLogisticsViewController.swift; sourceTree = "<group>"; };
+		408E42432828EA2E00C94119 /* CheckLogisticsNumberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckLogisticsNumberCell.swift; sourceTree = "<group>"; };
+		408E42452828ED3800C94119 /* CheckLogisticsProgressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckLogisticsProgressCell.swift; sourceTree = "<group>"; };
+		408E42472828FDE800C94119 /* ModifyLogisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyLogisticsViewController.swift; sourceTree = "<group>"; };
+		408E42492829003C00C94119 /* OrderModifyLogisticsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderModifyLogisticsCell.swift; sourceTree = "<group>"; };
+		408E424B282903B200C94119 /* ReturnGoodsAddressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturnGoodsAddressCell.swift; sourceTree = "<group>"; };
+		408E424D2829050300C94119 /* LogisticsInformationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogisticsInformationCell.swift; sourceTree = "<group>"; };
+		408E424F2829101900C94119 /* ModifyAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyAddressViewController.swift; sourceTree = "<group>"; };
 		409C29912814FC5D00005ECB /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
 		409C29922814FC5D00005ECB /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
 		40A9A1E22812996D006B1CBF /* App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -305,7 +339,13 @@
 				4075AF0D281E2673005EB854 /* OrderContentViewController.swift */,
 				4075AF0F281E2695005EB854 /* AfterSalesViewController.swift */,
 				4075AF11281E3088005EB854 /* OrderStatusViewController.swift */,
+				408E422F28289BD500C94119 /* OrderDetailViewController.swift */,
 				4075AF13281E3706005EB854 /* AfterSalesStatusViewController.swift */,
+				408E42372828B8C000C94119 /* ModifyReturnAddressViewController.swift */,
+				408E423B2828C23700C94119 /* LogisticsCompanyViewController.swift */,
+				408E42412828E8BE00C94119 /* CheckLogisticsViewController.swift */,
+				408E42472828FDE800C94119 /* ModifyLogisticsViewController.swift */,
+				408E424F2829101900C94119 /* ModifyAddressViewController.swift */,
 			);
 			path = "OrderManagement(订单)";
 			sourceTree = "<group>";
@@ -356,6 +396,17 @@
 				4083B2632826223400AFAD18 /* ModifyPriceView.swift */,
 				408E422B2826686500C94119 /* OrderDetailStatusCell.swift */,
 				408E422D28266BE200C94119 /* OrderContentCell.swift */,
+				408E42312828AA9200C94119 /* OrderToBePaidCell.swift */,
+				408E42332828ADD100C94119 /* OrderDeliveryLogisticsCell.swift */,
+				408E42352828B49B00C94119 /* BuyerAdressCell.swift */,
+				408E42392828BA0D00C94119 /* AddressCell.swift */,
+				408E423D2828C35900C94119 /* LogisticsCompanyCell.swift */,
+				408E423F2828C4EA00C94119 /* LogisticsCompanyHeaderView.swift */,
+				408E42432828EA2E00C94119 /* CheckLogisticsNumberCell.swift */,
+				408E42452828ED3800C94119 /* CheckLogisticsProgressCell.swift */,
+				408E42492829003C00C94119 /* OrderModifyLogisticsCell.swift */,
+				408E424B282903B200C94119 /* ReturnGoodsAddressCell.swift */,
+				408E424D2829050300C94119 /* LogisticsInformationCell.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -565,13 +616,17 @@
 			files = (
 				4060BC50281A1B6300968C42 /* ShopDetailCell.swift in Sources */,
 				4075AEF0281CD621005EB854 /* ProductDescriptionViewController.swift in Sources */,
+				408E42382828B8C000C94119 /* ModifyReturnAddressViewController.swift in Sources */,
 				408E422E28266BE200C94119 /* OrderContentCell.swift in Sources */,
 				403B87FF28235F2900FC4EA4 /* CommodityParametersCell.swift in Sources */,
 				4075AEF8281CD871005EB854 /* XDRichTextView.m in Sources */,
+				408E423028289BD500C94119 /* OrderDetailViewController.swift in Sources */,
 				4083B25B2824C87200AFAD18 /* SettingPriceAndStockView.swift in Sources */,
 				4075AF0C281E1E08005EB854 /* OrderViewController.swift in Sources */,
 				4083B25E2825FC2A00AFAD18 /* OrderStatusCell.swift in Sources */,
+				408E423A2828BA0D00C94119 /* AddressCell.swift in Sources */,
 				403B8807282379C600FC4EA4 /* CommoditySpecificationsFooterView.swift in Sources */,
+				408E42442828EA2E00C94119 /* CheckLogisticsNumberCell.swift in Sources */,
 				401E5DA02814FF17009127A5 /* ShopViewController.swift in Sources */,
 				4075AEF9281CD871005EB854 /* XDEditTextTool.m in Sources */,
 				4075AF02281CD8E2005EB854 /* NSAttributedString+Rich.m in Sources */,
@@ -580,9 +635,11 @@
 				4060BC492818C87400968C42 /* EnterpriseCertificationViewController.swift in Sources */,
 				403B88032823725400FC4EA4 /* CommoditySpecificationsViewController.swift in Sources */,
 				407D9804281A70DF005A8CBC /* commodityExamineCell.swift in Sources */,
+				408E42322828AA9300C94119 /* OrderToBePaidCell.swift in Sources */,
 				401E5DAC281520D5009127A5 /* MyViewController.swift in Sources */,
 				403B880128236A8100FC4EA4 /* CommodityParameterView.swift in Sources */,
 				4060BC452817DF7100968C42 /* BusinessTypeCell.swift in Sources */,
+				408E42402828C4EA00C94119 /* LogisticsCompanyHeaderView.swift in Sources */,
 				403B87FD28235E4300FC4EA4 /* CommodityParametersViewController.swift in Sources */,
 				4060BC472817E31F00968C42 /* BusinessTypeHeaderView.swift in Sources */,
 				4060BC422817DE0200968C42 /* BusinessTypeViewController.swift in Sources */,
@@ -592,10 +649,13 @@
 				403B880B2823AECB00FC4EA4 /* CommoditySpecificationCell.swift in Sources */,
 				4060BC3728175ED300968C42 /* Edit+UIBarButtonItem.swift in Sources */,
 				4060BC3928177F1A00968C42 /* RegisterViewController.swift in Sources */,
+				408E42362828B49C00C94119 /* BuyerAdressCell.swift in Sources */,
 				401E5DCF28152E5F009127A5 /* UIView+Extension.swift in Sources */,
 				4060BC3528175ECD00968C42 /* BaseViewController.swift in Sources */,
 				4060BC4D281A1ACE00968C42 /* ShopDetailViewController.swift in Sources */,
 				4075AF14281E3706005EB854 /* AfterSalesStatusViewController.swift in Sources */,
+				408E42502829101900C94119 /* ModifyAddressViewController.swift in Sources */,
+				408E423C2828C23700C94119 /* LogisticsCompanyViewController.swift in Sources */,
 				4075AF03281CD8E2005EB854 /* NSString+JSON.m in Sources */,
 				40AFEBC8281A97F50062D271 /* CommoditySearchViewController.swift in Sources */,
 				403B87FB282356C600FC4EA4 /* CommodityCategoryCell.swift in Sources */,
@@ -609,12 +669,16 @@
 				4075AF12281E3088005EB854 /* OrderStatusViewController.swift in Sources */,
 				4083B2622826188100AFAD18 /* CloseOrderReasonCell.swift in Sources */,
 				4083B260282615AA00AFAD18 /* CloseOrderReasonView.swift in Sources */,
+				408E424C282903B200C94119 /* ReturnGoodsAddressCell.swift in Sources */,
+				408E42342828ADD100C94119 /* OrderDeliveryLogisticsCell.swift in Sources */,
 				407D9802281A66C6005A8CBC /* commodityStatusCell.swift in Sources */,
+				408E42422828E8BE00C94119 /* CheckLogisticsViewController.swift in Sources */,
 				401E5DD628163A48009127A5 /* StartPageViewController.swift in Sources */,
 				4075AF0E281E2673005EB854 /* OrderContentViewController.swift in Sources */,
 				403B880F2823BAA700FC4EA4 /* SpecificationValueView.swift in Sources */,
 				403B87F92823536400FC4EA4 /* CommodityCategoryViewController.swift in Sources */,
 				409C29932814FC5D00005ECB /* UITextView+Placeholder.m in Sources */,
+				408E42462828ED3800C94119 /* CheckLogisticsProgressCell.swift in Sources */,
 				407D9808281A8457005A8CBC /* ReplenishInventoryCell.swift in Sources */,
 				4075AF08281CE7A5005EB854 /* UIColor+HEX.m in Sources */,
 				4060BC3428175ECD00968C42 /* BaseNaviViewController.swift in Sources */,
@@ -623,11 +687,15 @@
 				4060BC3D2817986900968C42 /* NewPasswordViewController.swift in Sources */,
 				401E5DD42815407A009127A5 /* LoginViewController.swift in Sources */,
 				4060BC402817A54600968C42 /* StoreOccupancyViewController.swift in Sources */,
+				408E424E2829050300C94119 /* LogisticsInformationCell.swift in Sources */,
+				408E423E2828C35900C94119 /* LogisticsCompanyCell.swift in Sources */,
 				408E422C2826686500C94119 /* OrderDetailStatusCell.swift in Sources */,
 				401E5DC8281528F3009127A5 /* UIViewController+Extenstion.swift in Sources */,
 				4060BC4B28191C9D00968C42 /* EnterpriseAuditViewController.swift in Sources */,
 				407D97FF281A65EE005A8CBC /* CommodityStatusViewController.swift in Sources */,
 				403B88092823A8C600FC4EA4 /* AddSpecificationsView.swift in Sources */,
+				408E42482828FDE800C94119 /* ModifyLogisticsViewController.swift in Sources */,
+				408E424A2829003C00C94119 /* OrderModifyLogisticsCell.swift in Sources */,
 				4075AEFD281CD871005EB854 /* XDRichTextModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

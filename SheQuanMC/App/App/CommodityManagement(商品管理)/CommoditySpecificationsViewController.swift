@@ -122,11 +122,15 @@ class CommoditySpecificationsViewController: BaseViewController {
     @objc func addSpecificationValueAction(addBtn:UIButton){
         var colorList = saveList[addBtn.tag]
 //        colorList.insert("", at: 0)
-        colorList.append("")
-        saveList[addBtn.tag] = colorList
-        LXFLog(colorList.count)
-//        UnionSetArray()
-        tableview.reloadData()
+        if colorList.count < 20{
+            colorList.append("")
+            saveList[addBtn.tag] = colorList
+            LXFLog(colorList.count)
+    //        UnionSetArray()
+            tableview.reloadData()
+        }else{
+            JFPopup.toast(hit: "最多只能添加20条规格值")
+        }
     }
     
     

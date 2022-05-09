@@ -24,6 +24,8 @@ class OrderStatusViewController: BaseViewController {
 
     weak var delegate:OrderStatusViewControllerDelegate?
     
+    //用来保存订单首页的控制权
+    var orderViewVc:OrderViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,6 +84,29 @@ class OrderStatusViewController: BaseViewController {
             return modifyPriceView
         }
     }
+    
+    
+    
+    //查看物流
+    @objc func checkLogisticsAction(checkLogisticsBtn:UIButton){
+        let checkLogistVC = CheckLogisticsViewController()
+        Coordinator.shared?.pushViewController(orderViewVc ?? self, checkLogistVC, animated: true)
+    }
+    
+    //修改物流
+    @objc func modifyLogisticsAction(modifyLogisticsBtn:UIButton){
+        let modifyLogisticsVc  = ModifyLogisticsViewController()
+        modifyLogisticsVc.title = "修改物流"
+        Coordinator.shared?.pushViewController(orderViewVc ?? self, modifyLogisticsVc, animated: true)
+    }
+    
+    //去发货
+    @objc func toShipAction(toShipBtn:UIButton){
+        let modifyLogisticsVc  = ModifyLogisticsViewController()
+        modifyLogisticsVc.title = "订单发货"
+        Coordinator.shared?.pushViewController(orderViewVc ?? self, modifyLogisticsVc, animated: true)
+    }
+    
 }
 
 
@@ -120,6 +145,17 @@ extension OrderStatusViewController:UITableViewDelegate,UITableViewDataSource{
         cell.modifyPriceBtn.tag = indexPath.row
         cell.modifyPriceBtn.addTarget(self, action: #selector(modifyPriceAction), for: .touchUpInside)
         
+        //去发货
+        cell.toShipBtn.tag = indexPath.row
+        cell.toShipBtn.addTarget(self, action: #selector(toShipAction), for: .touchUpInside)
+        
+        //修改物流 查看物理
+        cell.checkLogisticsBtn.tag = indexPath.row
+        cell.checkLogisticsBtn.addTarget(self, action: #selector(checkLogisticsAction), for: .touchUpInside)
+        cell.modifyLogisticsBtn.tag = indexPath.row
+        cell.modifyLogisticsBtn.addTarget(self, action: #selector(modifyLogisticsAction), for: .touchUpInside)
+        
+        
         
         return cell
     }
@@ -129,5 +165,14 @@ extension OrderStatusViewController:UITableViewDelegate,UITableViewDataSource{
     }
     
 
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let orderDetailVc = OrderDetailViewController()
+        Coordinator.shared?.pushViewController(orderViewVc ?? self, orderDetailVc, animated: true)
+        
+    }
+    
+    
     
 }

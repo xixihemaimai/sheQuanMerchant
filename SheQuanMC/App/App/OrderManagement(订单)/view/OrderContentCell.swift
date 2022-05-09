@@ -10,6 +10,16 @@ import Util
 
 class OrderContentCell: UITableViewCell {
     
+    
+    //添加一个分割view
+    lazy var topView:UIView = {
+       let topView = UIView()
+        topView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#F8F8F8")
+        return topView
+    }()
+    
+    
+    
     //头像
     
     lazy var headerImage:UIImageView = {
@@ -195,19 +205,27 @@ class OrderContentCell: UITableViewCell {
         contentView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
         
         
+        contentView.addSubview(topView)
+        topView.snp.makeConstraints { make in
+            make.top.left.right.equalToSuperview()
+            make.height.equalTo(scale(8))
+        }
+        
+        
+        
         contentView.addSubview(headerImage)
         contentView.addSubview(nicknameLabel)
         
         
         headerImage.snp.makeConstraints { make in
             make.left.equalTo(scale(16))
-            make.top.equalTo(scale(12))
+            make.top.equalTo(topView.snp.bottom).offset(scale(12))
             make.width.height.equalTo(scale(20))
         }
         
         nicknameLabel.snp.makeConstraints { make in
             make.left.equalTo(headerImage.snp.right).offset(scale(4))
-            make.top.equalTo(scale(13))
+            make.top.equalTo(topView.snp.bottom).offset(scale(13))
             make.right.equalTo(-scale(16))
             make.height.equalTo(scale(17))
         }
@@ -377,7 +395,7 @@ class OrderContentCell: UITableViewCell {
             make.height.equalTo(scale(12))
             make.top.equalTo(bottomView.snp
                 .bottom).offset(scale(11))
-            make.bottom.equalTo(scale(16))
+            make.bottom.equalTo(-scale(16))
         }
         
         

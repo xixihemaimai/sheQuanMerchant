@@ -36,6 +36,11 @@ class OrderContentViewController: BaseViewController {
     
     var btnArray:[UIButton] = [UIButton]()
     
+    
+    //用来保存订单首页的控制权
+    var orderViewVc:OrderViewController?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -167,6 +172,7 @@ class OrderContentViewController: BaseViewController {
     func addChildViewController(){
         for i in 0..<btnArray.count {
             let vc = OrderStatusViewController()
+            vc.orderViewVc = orderViewVc
             let btn = btnArray[i]
             vc.view.tag = i
             self.addChild(vc)

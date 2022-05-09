@@ -50,6 +50,7 @@ class OrderViewController: BaseViewController {
     //订单的内容
     lazy var orderContentVc:OrderContentViewController = {
        let orderContentVc = OrderContentViewController()
+        orderContentVc.orderViewVc = self
         return orderContentVc
     }()
     
