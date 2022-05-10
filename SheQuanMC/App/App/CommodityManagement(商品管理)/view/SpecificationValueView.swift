@@ -39,7 +39,6 @@ class SpecificationValueView: UIView {
                  textfield.layer.borderWidth = scale(1)
                  textfield.tag = i
                  textfield.addTarget(self, action: #selector(specificationValueEditeing), for: .editingDidEnd)
-
                  let deleteBtn = UIButton()
                  deleteBtn.tag = i
                  deleteBtn.setBackgroundImage(UIImage(named: "Frame"), for: .normal)
@@ -60,7 +59,6 @@ class SpecificationValueView: UIView {
     @objc func deleteAction(deleteBtn:UIButton){
         LXFLog(deleteBtn.tag)
         delegate?.deleteShowValueIndex(deleteBtn.tag)
-        
     }
     
     

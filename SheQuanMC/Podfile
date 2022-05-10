@@ -23,6 +23,7 @@ pod 'HXPhotoPicker'
 pod 'MJRefresh', '~> 3.7.5'
 pod 'IQKeyboardManager'
 pod 'Moya'
+
 end
 
 
@@ -43,6 +44,7 @@ pod 'HXPhotoPicker'
 pod 'MJRefresh', '~> 3.7.5'
 pod 'IQKeyboardManager'
 pod 'Moya'
+
 end
 
 
@@ -63,4 +65,5 @@ pod 'HXPhotoPicker'
 pod 'MJRefresh', '~> 3.7.5'
 pod 'IQKeyboardManager'
 pod 'Moya'
+
 end

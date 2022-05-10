@@ -85,7 +85,7 @@ class BuyerAdressCell: UITableViewCell {
             make.left.equalTo(scale(16))
             make.right.equalTo(-scale(16))
             make.height.equalTo(scale(22))
-            make.top.equalTo(scale(14))
+            make.top.equalTo(topView.snp.bottom).offset(scale(14))
         }
         
         //分割线
@@ -133,7 +133,7 @@ class BuyerAdressCell: UITableViewCell {
         addressLabel.snp.makeConstraints { make in
             make.left.equalTo(scale(34))
             make.right.equalTo(-scale(16))
-            make.top.equalTo(diviver.snp.bottom).offset(scale(8))
+            make.top.equalTo(nickNameLabel.snp.bottom).offset(scale(8))
             make.height.equalTo(scale(16))
         }
         
@@ -143,6 +143,7 @@ class BuyerAdressCell: UITableViewCell {
         copyBtn.snp.makeConstraints { make in
             make.right.equalTo(-scale(16))
             make.bottom.equalTo(-scale(16))
+            make.top.equalTo(addressLabel.snp.bottom).offset(scale(22))
             make.width.equalTo(scale(60))
             make.height.equalTo(scale(26))
         }
@@ -156,6 +157,7 @@ class BuyerAdressCell: UITableViewCell {
         modifyBtn.snp.makeConstraints { make in
             make.right.equalTo(copyBtn.snp.left).offset(-scale(12))
             make.bottom.equalTo(-scale(16))
+            make.top.equalTo(addressLabel.snp.bottom).offset(scale(22))
             make.width.equalTo(scale(60))
             make.height.equalTo(scale(26))
         }

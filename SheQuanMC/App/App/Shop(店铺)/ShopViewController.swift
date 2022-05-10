@@ -281,7 +281,7 @@ class ShopViewController: BaseViewController {
             make.height.equalTo(scale(17))
         }
         
-        
+        paidBtn.addTarget(self, action: #selector(paidAction), for: .touchUpInside)
         
         
         let refundBtn = UIButton()
@@ -316,6 +316,8 @@ class ShopViewController: BaseViewController {
             make.height.equalTo(scale(17))
         }
         
+        
+        refundBtn.addTarget(self, action: #selector(refundAction), for: .touchUpInside)
    
         let todayAchievementView = UIView()
         todayAchievementView.backgroundColor = UIColor.clear
@@ -582,8 +584,27 @@ class ShopViewController: BaseViewController {
     
     
     @objc func shippedAction(shippedBtn:UIButton){
-        LXFLog("测试")
+        LXFLog("待发货订单")
+        let orderVc = OrderViewController()
+        orderVc.btnAction = 0
+        orderVc.selectIndex = 2
+        Coordinator.shared?.pushViewController(self, orderVc, animated: true)
     }
+    @objc func paidAction(paidBtn:UIButton){
+        LXFLog("待支付订单")
+        let orderVc = OrderViewController()
+        orderVc.selectIndex = 1
+        orderVc.btnAction = 0
+        Coordinator.shared?.pushViewController(self, orderVc, animated: true)
+    }
+    @objc func refundAction(refundBtn:UIButton){
+        LXFLog("售后")
+        let orderVc = OrderViewController()
+        orderVc.btnAction = 1
+        orderVc.selectIndex = 0
+        Coordinator.shared?.pushViewController(self, orderVc, animated: true)
+    }
+    
     
     
     //进入应用
@@ -593,6 +614,8 @@ class ShopViewController: BaseViewController {
             Coordinator.shared?.pushViewController(self, commodityMVc, animated: true)
         } else if btn.tag == 1{
             let orderVc = OrderViewController()
+            orderVc.selectIndex = 0
+            orderVc.btnAction = 0
             Coordinator.shared?.pushViewController(self, orderVc, animated: true)
         }
     }

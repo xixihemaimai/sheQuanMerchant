@@ -54,7 +54,7 @@ static NSInteger const kAttributesBtnTag = 100;
 
 - (void) createBarBtn {
     
-    //图片 1 加粗 1 颜色 1
+    //加粗 1 颜色 1 图片 1
     NSArray *images = @[@"图", @"字", @"颜色",@"撤", @"复", @"键盘"];
     for (NSInteger i = 0; i < images.count; i ++) {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -67,14 +67,13 @@ static NSInteger const kAttributesBtnTag = 100;
         [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [btn setTitle:images[i] forState:UIControlStateNormal];
         [btn addTarget:self action:@selector(barButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-        
     }
     
 }
 
 - (void)colorViewUIconfig{
     CGFloat btnWH = 40;
-    _colorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, btnWH * _dataArr.count/2 +15, 95)];
+    _colorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, btnWH * _dataArr.count/2 + 15, 95)];
     [self addSubview:_colorView];
     _colorView.backgroundColor = [UIColor blackColor];
     _colorView.layer.borderColor = [UIColor blackColor].CGColor;

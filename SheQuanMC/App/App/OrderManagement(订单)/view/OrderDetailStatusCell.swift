@@ -86,56 +86,90 @@ class OrderDetailStatusCell: UITableViewCell {
         
         
         //这边添加一个倒计时的方法
-        inputTimeAndEndTime("2022-05-09 18:00:00", "2022-05-10 18:00:00")
-//        timeLabel.text = "\(totalTime)" + "未付款则自动关闭订单"
+        inputTimeAndEndTime("2022-05-10 23:59:00", "2022-05-25 00:00:00")
         
     }
     
     
     
     
-    func inputTimeAndEndTime(_ input:String,_ endTime:String){
+    func inputTimeAndEndTime(_ startTime:String,_ endTime:String){
         
         // 输入时间
-        let dateString = input
+        let startTime = startTime
+        let endTime = endTime
         let formatter = DateFormatter()
-        let timeZone = NSTimeZone(name: "UTC")
-        formatter.timeZone = timeZone! as TimeZone
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        let timeDate = formatter.date(from: dateString)
+        
+        
+        let CTMZone = NSTimeZone.init(forSecondsFromGMT: 0)
+//        formatter.timeZone = timeZone! as TimeZone
+        formatter.timeZone = CTMZone as TimeZone
+        
+        
+//        let timeDate = formatter.date(from: dateString)
+        
+        
+        let startDate = formatter.date(from: startTime)
+        let endDate = formatter.date(from: endTime)
+
+//        let late1 = (startDate?.timeIntervalSince1970 ?? 0) * 1
+    
+//        let late2 = (endDate?.timeIntervalSince1970 ?? 0) * 1
+        
+//        let timeInterVal = late2 - late1
+        
         
         
         //结束的时间
-        let timeFormatter = DateFormatter()
-        timeFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//        let timeFormatter = DateFormatter()
+//        timeFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         //注意这里将时间以秒为单位 如一天：24*60*60
-        let time = 15*24*60*60 - 60*60
-        let futureDate = timeDate?.addingTimeInterval(TimeInterval(time))
+//        let time = 15*24*60*60 - 60*60
+//        timeDate.addTimeInterval(TimeInterval(time))
         
         
-        //接下来计算
+//        let time = 4*60*60 - 60*60
+//        LXFLog(time)
+//        let futureDate = startDate?.addingTimeInterval(TimeInterval(time))
+//
+//
+//        //接下来计算
         let calender = Calendar.current
         let unit:Set<Calendar.Component> = [.day,.hour,.minute,.second]
-        let commponent:DateComponents = calender.dateComponents(unit, from: timeDate!, to: futureDate!)
-        
+        let commponent:DateComponents = calender.dateComponents(unit, from: startDate!, to: endDate!)
+
         sencondStr = commponent.second
         minitStr = commponent.minute
         hourStr = commponent.hour
         dayStr = commponent.day
+
+        
+//
+//        sencondStr = Int(timeInterVal) % 60
+//
+//        minitStr = Int(timeInterVal) / 60 % 60
+//
+//        hourStr = Int(timeInterVal) / 3600 - 1
+//
+//        dayStr = Int(timeInterVal) % (24 * 3600)
+
+        
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
         RunLoop.main.add(timer!, forMode: .common)
     }
     
     @objc func timerAction(){
-        sencondStr = sencondStr! - 1
+        sencondStr! -= 1
         if sencondStr == -1{
            sencondStr = 59
-           minitStr = minitStr! - 1
+           minitStr! -= 1
             if minitStr == -1{
                 minitStr = 59
+                hourStr! -= 1
                 if hourStr == -1{
                     hourStr = 23
-                    dayStr = dayStr! - 1
+                    dayStr! -= 1
                 }
             }
         }
@@ -170,3 +204,4 @@ class OrderDetailStatusCell: UITableViewCell {
     }
 
 }
+

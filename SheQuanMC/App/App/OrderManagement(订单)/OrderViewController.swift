@@ -51,6 +51,7 @@ class OrderViewController: BaseViewController {
     lazy var orderContentVc:OrderContentViewController = {
        let orderContentVc = OrderContentViewController()
         orderContentVc.orderViewVc = self
+        orderContentVc.selectIndex = selectIndex
         return orderContentVc
     }()
     
@@ -60,6 +61,11 @@ class OrderViewController: BaseViewController {
         return afterSalesVc
     }()
     
+    
+    //选择是订单还是售后
+    var btnAction:Int = 0
+    //选择那个分类
+    var selectIndex = 0
     
     
     override func viewDidLoad() {
@@ -120,6 +126,15 @@ class OrderViewController: BaseViewController {
         
         //添加导航栏右边按键
         createRightBarBtnItem(icon: UIImage(named: "Frame-search")!, method: #selector(orderSearchAction))
+        
+        
+        //这边判断是执行那个按键
+        
+        if btnAction == 0{
+            showContentAction(btn: orderBtn)
+        }else{
+            showContentAction(btn: afterSalesBtn)
+        }
         
     }
     

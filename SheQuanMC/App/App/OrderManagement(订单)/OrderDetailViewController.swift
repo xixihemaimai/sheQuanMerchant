@@ -7,6 +7,7 @@
 
 import UIKit
 import Util
+import JFPopup
 
 class OrderDetailViewController: BaseViewController {
     
@@ -69,6 +70,9 @@ class OrderDetailViewController: BaseViewController {
     
     
     
+    var status:String?
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,9 +81,21 @@ class OrderDetailViewController: BaseViewController {
         view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
         
         title = "订单详情"
+        
+        
+        let topView = UIView()
+        topView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#f8f8f8")
+        view.addSubview(topView)
+
+        topView.snp.makeConstraints { make in
+            make.left.top.right.equalToSuperview()
+            make.height.equalTo(scale(1))
+        }
+        
         view.addSubview(tableview)
         tableview.snp.makeConstraints { make in
-            make.top.left.right.equalToSuperview()
+            make.left.right.equalToSuperview()
+            make.top.equalTo(topView.snp.bottom)
             make.bottom.equalTo(-scale(92))
         }
         tableview.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#F8F8F8")
@@ -87,13 +103,22 @@ class OrderDetailViewController: BaseViewController {
         
         tableview.delegate = self
         tableview.dataSource = self
+        
+        
+         
         tableview.register(OrderDetailStatusCell.self, forCellReuseIdentifier: "OrderDetailStatusCell")
         tableview.register(OrderContentCell.self, forCellReuseIdentifier: "OrderContentCell")
         tableview.register(OrderToBePaidCell.self, forCellReuseIdentifier: "OrderToBePaidCell")
         
+        // 待支付 OrderDetailStatusCell OrderContentCell OrderToBePaidCell 底下按键为 关闭订单 改价
+        //待发货 OrderDetailStatusCell BuyerAdressCell OrderContentCell    底下按键为 去发货
+        //已发货 OrderDetailStatusCell OrderDeliveryLogisticsCell OrderContentCell  底下按键为 修改物流 查看物流
+        //交易成功 OrderDetailStatusCell OrderDeliveryLogisticsCell OrderContentCell 底下为空
+        //交易失败 OrderDetailStatusCell OrderDeliveryLogisticsCell OrderContentCell 底下为空
         
         tableview.register(OrderDeliveryLogisticsCell.self, forCellReuseIdentifier: "OrderDeliveryLogisticsCell")
         
+        tableview.register(BuyerAdressCell.self, forCellReuseIdentifier: "BuyerAdressCell")
         
         //待支付
         view.addSubview(modifyPriceBtn)
@@ -108,6 +133,10 @@ class OrderDetailViewController: BaseViewController {
         modifyPriceBtn.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#C4C4C4").cgColor
         modifyPriceBtn.layer.borderWidth = scale(1)
         
+        
+        modifyPriceBtn.addTarget(self, action: #selector(modifyPriceAction), for: .touchUpInside)
+        
+        
         view.addSubview(closeOrderBtn)
         closeOrderBtn.snp.makeConstraints { make in
             make.bottom.equalTo(-scale(44))
@@ -116,6 +145,7 @@ class OrderDetailViewController: BaseViewController {
             make.right.equalTo(modifyPriceBtn.snp.left).offset(-scale(12))
         }
         
+        closeOrderBtn.addTarget(self, action: #selector(closeOrderAction), for: .touchUpInside)
         
         closeOrderBtn.layer.cornerRadius = scale(4)
         closeOrderBtn.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#C4C4C4").cgColor
@@ -136,6 +166,7 @@ class OrderDetailViewController: BaseViewController {
         toShipBtn.layer.borderWidth = scale(1)
         
         
+        toShipBtn.addTarget(self, action: #selector(toShipAction), for: .touchUpInside)
         
         //已发货
         view.addSubview(modifyLogisticsBtn)
@@ -150,7 +181,7 @@ class OrderDetailViewController: BaseViewController {
         checkLogisticsBtn.layer.cornerRadius = scale(4)
         checkLogisticsBtn.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#C4C4C4").cgColor
         checkLogisticsBtn.layer.borderWidth = scale(1)
-        
+        checkLogisticsBtn.addTarget(self, action: #selector(checkLogisticsAction), for: .touchUpInside)
         
         
         modifyLogisticsBtn.snp.makeConstraints { make in
@@ -164,6 +195,54 @@ class OrderDetailViewController: BaseViewController {
         modifyLogisticsBtn.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#C4C4C4").cgColor
         modifyLogisticsBtn.layer.borderWidth = scale(1)
         
+        modifyLogisticsBtn.addTarget(self, action: #selector(modifyLogisticsAction), for: .touchUpInside)
+                
+                
+                
+                    
+                if status == "待支付"{
+                    
+                    
+                    closeOrderBtn.isHidden = false
+                    modifyPriceBtn.isHidden = false
+                    toShipBtn.isHidden = true
+                    
+                    checkLogisticsBtn.isHidden = true
+                    modifyLogisticsBtn.isHidden = true
+                    
+                    
+                    
+                }else if status == "待发货"{
+                    
+                    closeOrderBtn.isHidden = true
+                    modifyPriceBtn.isHidden = true
+                    toShipBtn.isHidden = false
+                    
+                    checkLogisticsBtn.isHidden = true
+                    modifyLogisticsBtn.isHidden = true
+                    
+                    
+                    
+                }else if status == "已发货"{
+                    
+                    closeOrderBtn.isHidden = true
+                    modifyPriceBtn.isHidden = true
+                    toShipBtn.isHidden = true
+                    
+                    checkLogisticsBtn.isHidden = false
+                    modifyLogisticsBtn.isHidden = false
+                    
+                    
+                }else{
+                    closeOrderBtn.isHidden = true
+                    modifyPriceBtn.isHidden = true
+                    toShipBtn.isHidden = true
+                    
+                    checkLogisticsBtn.isHidden = true
+                    modifyLogisticsBtn.isHidden = true
+                    
+                    
+                }
         
         
     }
@@ -174,6 +253,66 @@ class OrderDetailViewController: BaseViewController {
         cell.timer = nil
     }
     
+    
+    //修改价格
+    @objc func modifyPriceAction(modifyPriceBtn:UIButton){
+        //这边也要自定义一个UIview
+        self.popup.bottomSheet {
+            let modifyPriceView = ModifyPriceView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(492)))
+            modifyPriceView.cancelBlock = {[weak self] in
+                self?.popup.dismissPopup()
+            }
+            return modifyPriceView
+        }
+    }
+    
+    //关闭订单
+    @objc func closeOrderAction(closeOrderBtn:UIButton){
+        // 这边要自定义一个UIview
+        self.popup.bottomSheet {
+            let closeOrderReasonView = CloseOrderReasonView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(489)))
+            closeOrderReasonView.cancelBlock = {[weak self] in
+                self?.popup.dismissPopup()
+            }
+            return closeOrderReasonView
+        }
+    }
+    
+    //去发货
+    @objc func toShipAction(toshipBtn:UIButton){
+        let modifyLogisticsVc  = ModifyLogisticsViewController()
+        modifyLogisticsVc.title = "订单发货"
+        Coordinator.shared?.pushViewController(self, modifyLogisticsVc, animated: true)
+    }
+    
+    
+    //修改物流
+    @objc func checkLogisticsAction(checkLogisticsBtn:UIButton){
+        let modifyLogisticsVc  = ModifyLogisticsViewController()
+        modifyLogisticsVc.title = "修改物流"
+        Coordinator.shared?.pushViewController(self, modifyLogisticsVc, animated: true)
+    }
+    
+    
+    //查看物流
+    @objc func modifyLogisticsAction(modifyLogisticsBtn:UIButton){
+        let checkLogistVC = CheckLogisticsViewController()
+        Coordinator.shared?.pushViewController(self, checkLogistVC, animated: true)
+    }
+    
+    
+    
+    //修改买家地址
+    @objc func modifyBuyerAddressAction(modifyBtn:UIButton){
+        let modifyAddressVc = ModifyReturnAddressViewController()
+        Coordinator.shared?.pushViewController(self, modifyAddressVc, animated: true)
+    }
+    
+    //进入物流
+    @objc func joinCheckLogisticsAction(joinSignBtn:UIButton){
+        let checkLogistVC = CheckLogisticsViewController()
+        Coordinator.shared?.pushViewController(self, checkLogistVC, animated: true)
+    }
 
 }
 
@@ -198,12 +337,35 @@ extension OrderDetailViewController:UITableViewDelegate,UITableViewDataSource{
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderDetailStatusCell") as! OrderDetailStatusCell
             return cell
         }
-        else if indexPath.row == 1{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "OrderContentCell") as! OrderContentCell
-            return cell
+        if status == "待支付"{
+            if indexPath.row == 1{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "OrderContentCell") as! OrderContentCell
+                return cell
+            }else{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "OrderToBePaidCell") as! OrderToBePaidCell
+                return cell
+            }
+            
+        }else if status == "待发货"{
+            if indexPath.row == 1{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "BuyerAdressCell") as! BuyerAdressCell
+                cell.modifyBtn.tag = indexPath.row
+                cell.modifyBtn.addTarget(self, action: #selector(modifyBuyerAddressAction), for: .touchUpInside)
+                return cell
+            }else{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "OrderContentCell") as! OrderContentCell
+                return cell
+            }
         }else{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "OrderToBePaidCell") as! OrderToBePaidCell
-            return cell
+            if indexPath.row == 1{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "OrderDeliveryLogisticsCell") as! OrderDeliveryLogisticsCell
+                cell.joinSignBtn.tag = indexPath.row
+                cell.joinSignBtn.addTarget(self, action: #selector(joinCheckLogisticsAction), for: .touchUpInside)
+                return cell
+            }else{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "OrderContentCell") as! OrderContentCell
+                return cell
+            }
         }
     }
 }

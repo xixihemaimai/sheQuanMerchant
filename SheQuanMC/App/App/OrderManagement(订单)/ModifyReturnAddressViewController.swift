@@ -16,10 +16,20 @@ class ModifyReturnAddressViewController: BaseViewController {
         view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
         
         title = "修改退货地址"
+        
+        let topView = UIView()
+        topView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#f8f8f8")
+        view.addSubview(topView)
+
+        topView.snp.makeConstraints { make in
+            make.left.top.right.equalToSuperview()
+            make.height.equalTo(scale(1))
+        }
          
         view.addSubview(tableview)
         tableview.snp.makeConstraints { make in
-            make.left.top.right.equalToSuperview()
+            make.left.right.equalToSuperview()
+            make.top.equalTo(topView.snp.bottom)
             make.bottom.equalTo(-scale(92))
         }
         tableview.delegate = self
@@ -83,12 +93,7 @@ extension ModifyReturnAddressViewController:UITableViewDelegate,UITableViewDataS
         let cell = tableView.dequeueReusableCell(withIdentifier: "AddressCell") as! AddressCell
         cell.modifyAddressBtn.tag = indexPath.row
         cell.modifyAddressBtn.addTarget(self, action: #selector(modifyAddressAction), for: .touchUpInside)
-        
-        
         //是否为默认地址
-        
-        
-        
         
         return cell
     }

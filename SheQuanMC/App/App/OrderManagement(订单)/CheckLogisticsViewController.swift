@@ -26,7 +26,7 @@ class CheckLogisticsViewController: BaseViewController {
         view.addSubview(tableview)
         tableview.snp.makeConstraints { make in
             make.left.right.bottom.equalToSuperview()
-            make.top.equalTo(scale(0.5))
+            make.top.equalTo(scale(1))
         }
         
     

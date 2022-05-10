@@ -35,10 +35,10 @@ class OrderContentViewController: BaseViewController {
     var perBtn:UIButton?
     
     var btnArray:[UIButton] = [UIButton]()
-    
-    
     //用来保存订单首页的控制权
     var orderViewVc:OrderViewController?
+    
+    var selectIndex = 0
     
     
     override func viewDidLoad() {
@@ -56,7 +56,7 @@ class OrderContentViewController: BaseViewController {
         addChildViewController()
         //创建UIScrollview的代理
         //执行第一个
-        let btn = btnArray[0]
+        let btn = btnArray[selectIndex]
         showTitleAction(btn: btn)
         
     }
@@ -153,7 +153,7 @@ class OrderContentViewController: BaseViewController {
     //添加下划线
     func adddUnlineView(){
         titleView = UIView()
-        let btn = btnArray[0]
+        let btn = btnArray[selectIndex]
         //这边要先获取按键的第一个center.x
 //        titleView.width = (btn.titleLabel?.bounds.size.width)!
         titleView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")

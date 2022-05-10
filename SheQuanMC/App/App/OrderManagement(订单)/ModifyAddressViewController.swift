@@ -41,15 +41,14 @@ class ModifyAddressViewController: BaseViewController {
         return choiceAddresssBtn
     }()
     
-    lazy var addressTextView:UITextView = {
-        let addressTextView = UITextView()
-        addressTextView.placeholder = "地址"
-        addressTextView.placeholderColor = UIColor.colorWithDyColorChangObject(lightColor: "#787878")
-        addressTextView.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
-        addressTextView.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
-        addressTextView.textAlignment = .left
-        addressTextView.isEditable = false
-       return addressTextView
+    lazy var addressLabel:UILabel = {
+        let addressLabel = UILabel()
+//        addressTextView.placeholder = "地址"
+//        addressTextView.placeholderColor = UIColor.colorWithDyColorChangObject(lightColor: "#787878")
+        addressLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
+        addressLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        addressLabel.textAlignment = .left
+       return addressLabel
     }()
     
     
@@ -163,10 +162,12 @@ class ModifyAddressViewController: BaseViewController {
             make.height.equalTo(scale(54))
         }
         
+        choiceAddresssBtn.addTarget(self, action: #selector(locationAction), for: .touchUpInside)
+        
         
         
         let creditCodeLabel = UILabel()
-        creditCodeLabel.text = "信用代码"
+        creditCodeLabel.text = "所在地区"
         creditCodeLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         creditCodeLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#787878")
         creditCodeLabel.textAlignment = .left
@@ -179,8 +180,8 @@ class ModifyAddressViewController: BaseViewController {
             make.width.equalTo(scale(70))
         }
         
-        choiceAddresssBtn.addSubview(addressTextView)
-        addressTextView.snp.makeConstraints { make in
+        choiceAddresssBtn.addSubview(addressLabel)
+        addressLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.left.equalTo(creditCodeLabel.snp.right).offset(scale(16))
             make.height.equalTo(scale(36))
@@ -270,5 +271,28 @@ class ModifyAddressViewController: BaseViewController {
         submitBtn.layer.cornerRadius = scale(4)
     }
 
+    
+    
+    //所在地区
+    @objc func locationAction(choiceAddresssBtn:UIButton){
+        LXFLog("---------------------")
+        let pickerView = BHJPickerView.init(self, .address)
+        pickerView.pickerViewShow()
+    }
+}
 
+extension ModifyAddressViewController:PickerDelegate{
+    
+    func selectedDate(_ pickerView: BHJPickerView, _ dateStr: Date) {
+        
+    }
+    
+    func selectedGender(_ pickerView: BHJPickerView, _ genderStr: String) {
+        
+    }
+    
+    func selectedAddress(_ pickerView: BHJPickerView, _ procince: AddressModel, _ city: AddressModel, _ area: AddressModel) {
+        let messge = procince.region_name! + city.region_name! + area.region_name!
+        addressLabel.text = messge
+    }
 }

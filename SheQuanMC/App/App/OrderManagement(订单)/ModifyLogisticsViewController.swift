@@ -16,11 +16,22 @@ class ModifyLogisticsViewController: BaseViewController {
         
         view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
         
+        
+        let topView = UIView()
+        topView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
+        view.addSubview(topView)
+        
+        topView.snp.makeConstraints { make in
+            make.left.right.top.equalToSuperview()
+            make.height.equalTo(scale(0.5))
+        }
+        
+        
         view.addSubview(tableview)
         tableview.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.bottom.equalTo(-scale(92))
-            make.top.equalTo(scale(0.5))
+            make.top.equalTo(topView.snp.bottom)
         }
         tableview.delegate = self
         tableview.dataSource = self

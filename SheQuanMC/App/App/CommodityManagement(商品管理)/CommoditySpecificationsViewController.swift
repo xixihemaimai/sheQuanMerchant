@@ -125,9 +125,14 @@ class CommoditySpecificationsViewController: BaseViewController {
         if colorList.count < 20{
             colorList.append("")
             saveList[addBtn.tag] = colorList
-            LXFLog(colorList.count)
-    //        UnionSetArray()
             tableview.reloadData()
+            let cell = tableview.cellForRow(at: IndexPath(row: addBtn.tag, section: 0)) as! CommoditySpecificationCell
+            for i in 0..<cell.specificationView.subviews.count{
+                let view = cell.specificationView.subviews[i]
+                if view.isKind(of: UITextField.self){
+                    view.becomeFirstResponder()
+                }
+            }
         }else{
             JFPopup.toast(hit: "最多只能添加20条规格值")
         }
@@ -301,8 +306,10 @@ extension CommoditySpecificationsViewController:UITableViewDelegate,UITableViewD
     
 }
 
-//删除规格值
+
 extension CommoditySpecificationsViewController:CommoditySpecificationCellDelegate{
+    
+    //删除规格值
     func deleteSaveListTagAndIndex(tag: Int, index: Int) {
         var colorList = saveList[tag]
         colorList.remove(at: index)
@@ -313,7 +320,7 @@ extension CommoditySpecificationsViewController:CommoditySpecificationCellDelega
     }
     
     
-    
+    //修改规格值
     func modityTextfieldTagAndIndexAndValue(tag: Int, index: Int, value: String) {
         var colorList = saveList[tag]
         if !colorList.contains(value){
@@ -327,5 +334,8 @@ extension CommoditySpecificationsViewController:CommoditySpecificationCellDelega
             JFPopup.toast(hit: "不允许添加相同的规格值")
         }
     }
+    
+    
+  
     
 }

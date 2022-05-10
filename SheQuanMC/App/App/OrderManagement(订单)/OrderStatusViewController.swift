@@ -169,6 +169,9 @@ extension OrderStatusViewController:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let orderDetailVc = OrderDetailViewController()
+        
+        let cell = tableView.cellForRow(at: indexPath) as! OrderStatusCell
+        orderDetailVc.status = cell.contentString
         Coordinator.shared?.pushViewController(orderViewVc ?? self, orderDetailVc, animated: true)
         
     }
