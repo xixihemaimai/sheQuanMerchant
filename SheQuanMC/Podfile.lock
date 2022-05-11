@@ -23,7 +23,13 @@ PODS:
   - Moya/Core (15.0.0):
     - Alamofire (~> 5.0)
   - Protobuf (3.17.3)
+  - Realm (10.25.2):
+    - Realm/Headers (= 10.25.2)
+  - Realm/Headers (10.25.2)
+  - RealmSwift (10.25.2):
+    - Realm (= 10.25.2)
   - SnapKit (5.6.0)
+  - SwiftyJSON (5.0.1)
 
 DEPENDENCIES:
   - CocoaAsyncSocket (from `CocoaAsyncSocket`)
@@ -37,7 +43,9 @@ DEPENDENCIES:
   - MJRefresh (~> 3.7.5)
   - Moya
   - Protobuf (from `protobuf`)
+  - RealmSwift
   - SnapKit
+  - SwiftyJSON
 
 SPEC REPOS:
   trunk:
@@ -49,7 +57,10 @@ SPEC REPOS:
     - JRBaseKit
     - MJRefresh
     - Moya
+    - Realm
+    - RealmSwift
     - SnapKit
+    - SwiftyJSON
 
 EXTERNAL SOURCES:
   CocoaAsyncSocket:
@@ -77,8 +88,11 @@ SPEC CHECKSUMS:
   MJRefresh: fdf5e979eb406a0341468932d1dfc8b7f9fce961
   Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
   Protobuf: 7cbdd73aef512aa7d76f491893885a88ac06a998
+  Realm: 978303663d0509166498f423d112e5ee97d4c91b
+  RealmSwift: a0c30c1efc49e928a0a6f8fb141bb2629616d79b
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
+  SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
 
-PODFILE CHECKSUM: cb494ad3e9f43ca5935b0d8bb09ed80875fa29b0
+PODFILE CHECKSUM: 1dc72ed1c0968df87a91b5a9b00ec45a9621326b
 
 COCOAPODS: 1.11.3

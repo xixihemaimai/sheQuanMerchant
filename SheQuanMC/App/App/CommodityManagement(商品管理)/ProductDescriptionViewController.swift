@@ -63,6 +63,8 @@ class ProductDescriptionViewController: BaseViewController {
         title = "商品描述"
         navigationItem.leftBarButtonItem?.customView?.isHidden = true
         
+        view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
+        
         navigationItem.leftBarButtonItem?.customView = UIButton(setImage: "返回", setBackgroundImage: "", target: self, action: #selector(backSaveProduct))
         //添加导航栏右边按键
         createRightBarBtnItem(title: "完成", method: #selector(completeAction), titleColor: UIColor.colorWithDyColorChangObject(lightColor: "#333333"))
@@ -98,10 +100,11 @@ class ProductDescriptionViewController: BaseViewController {
     func textViewConfig(){
         view.addSubview(_textView)
         _textView.snp.makeConstraints { make in
-            make.left.equalTo(scale(16))
-            make.right.equalTo(-scale(16))
-            make.top.equalTo(scale(14))
-            make.height.equalTo(SCH - Height_NavBar - Height_TabBar)
+            make.left.right.bottom.equalToSuperview()
+//            make.left.equalTo(scale(16))
+//            make.right.equalTo(-scale(16))
+            make.top.equalTo(scale(0.5))
+//            make.height.equalTo(SCH - Height_NavBar - Height_TabBar)
         }
 //        _textView.tintColor = UIColor.colorWithDyColorChangObject(lightColor: "#949494")
         let paragraphStyle = NSMutableParagraphStyle()
@@ -282,9 +285,10 @@ class ProductDescriptionViewController: BaseViewController {
         }
         
         _textView.snp.remakeConstraints { make in
-            make.left.equalTo(scale(16))
-            make.right.equalTo(-scale(16))
-            make.top.equalTo(scale(14))
+            make.left.right.equalToSuperview()
+//            make.right.equalTo(-scale(16))
+//            make.top.equalTo(scale(14))
+            make.top.equalTo(scale(0.5))
             make.bottom.equalTo(_textTool.snp.top)
         }
         
@@ -303,9 +307,10 @@ class ProductDescriptionViewController: BaseViewController {
         }
         
         _textView.snp.remakeConstraints { make in
-            make.left.equalTo(scale(16))
-            make.right.equalTo(-scale(16))
-            make.top.equalTo(scale(14))
+            make.left.right.equalToSuperview()
+//            make.right.equalTo(-scale(16))
+//            make.top.equalTo(scale(14))
+            make.top.equalTo(scale(0.5))
             make.bottom.equalTo(_textTool.snp.top)
         }
         

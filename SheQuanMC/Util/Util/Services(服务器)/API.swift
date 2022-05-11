@@ -10,7 +10,7 @@ import Moya
 import UIKit
 
 
-let moya = MoyaProvider<API>()
+//let moya = MoyaProvider<API>()
 
 
 enum API{

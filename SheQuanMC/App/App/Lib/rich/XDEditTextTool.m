@@ -41,9 +41,9 @@ static NSInteger const kAttributesBtnTag = 100;
 
 - (void)initData{
   
-    _dataArr = @[UIColorFromRGB(0x333333),UIColorFromRGB(0xE02121),UIColorFromRGB(0x2184E0),UIColorFromRGB(0x21E06D),UIColorFromRGB(0x8021E0),UIColorFromRGB(0xB19693),UIColorFromRGB(0xB28FCE),UIColorFromRGB(0x8695B2),UIColorFromRGB(0xFF9B9B),UIColorFromRGB(0xFF66A6),UIColorFromRGB(0xFFAA00),UIColorFromRGB(0xD93448)];
+//    _dataArr = @[UIColorFromRGB(0x333333),UIColorFromRGB(0xE02121),UIColorFromRGB(0x2184E0),UIColorFromRGB(0x21E06D),UIColorFromRGB(0x8021E0),UIColorFromRGB(0xB19693),UIColorFromRGB(0xB28FCE),UIColorFromRGB(0x8695B2),UIColorFromRGB(0xFF9B9B),UIColorFromRGB(0xFF66A6),UIColorFromRGB(0xFFAA00),UIColorFromRGB(0xD93448)];
     
-//    _dataArr = @[UIColorFromRGB(0x333333),UIColorFromRGB(0xE02121),UIColorFromRGB(0x2184E0),UIColorFromRGB(0x21E06D),UIColorFromRGB(0x8021E0)];
+    _dataArr = @[UIColorFromRGB(0x333333),UIColorFromRGB(0xE02121),UIColorFromRGB(0x2184E0),UIColorFromRGB(0x21E06D),UIColorFromRGB(0x8021E0)];
     
     _num = -1;
 }
@@ -55,7 +55,8 @@ static NSInteger const kAttributesBtnTag = 100;
 - (void) createBarBtn {
     
     //加粗 1 颜色 1 图片 1
-    NSArray *images = @[@"图", @"字", @"颜色",@"撤", @"复", @"键盘"];
+//    NSArray *images = @[@"图", @"字", @"颜色",@"撤", @"复", @"键盘"];
+    NSArray * images = @[@"加粗 1",@"颜色 1",@"图片 1"];
     for (NSInteger i = 0; i < images.count; i ++) {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         [self addSubview:btn];
@@ -63,9 +64,13 @@ static NSInteger const kAttributesBtnTag = 100;
         btn.frame = CGRectMake(kBarBtnW * i, 0, kBarBtnW, (43));
         btn.backgroundColor = [UIColor colorWithRed:0.93f green:0.93f blue:0.93f alpha:1.00f];
         btn.selected = NO;
-        btn.titleLabel.font = [UIFont systemFontOfSize:15];
-        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [btn setTitle:images[i] forState:UIControlStateNormal];
+//        btn.titleLabel.font = [UIFont systemFontOfSize:15];
+//        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//        [btn setTitle:images[i] forState:UIControlStateNormal];
+        
+        [btn setImage:[UIImage imageNamed:images[i]] forState:UIControlStateNormal];
+        [btn setBackgroundColor:UIColor.whiteColor];
+        
         [btn addTarget:self action:@selector(barButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     
@@ -73,19 +78,24 @@ static NSInteger const kAttributesBtnTag = 100;
 
 - (void)colorViewUIconfig{
     CGFloat btnWH = 40;
-    _colorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, btnWH * _dataArr.count/2 + 15, 95)];
+//    _colorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, btnWH * _dataArr.count/2 + 15, 95)];
+    _colorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, btnWH * _dataArr.count + 15, 50)];
     [self addSubview:_colorView];
     _colorView.backgroundColor = [UIColor blackColor];
     _colorView.layer.borderColor = [UIColor blackColor].CGColor;
     _colorView.layer.cornerRadius = 8;
     _colorView.hidden = YES;
-    _colorView.center = CGPointMake(kBarBtnW*8/2.0, -20);
+//    _colorView.center = CGPointMake(kBarBtnW*8/2.0, -20);
+    _colorView.center = CGPointMake(kBarBtnW*4/2.0 + 5, -30);
     CGFloat sub = (kBarBtnW*7/2.0 + btnWH*_dataArr.count/2.0)-(kAppFrameWidth -10);
     sub =1;
     if (sub > 0) {
-        _colorView.center = CGPointMake(kBarBtnW*5/2.0, -(40));
+//        _colorView.center = CGPointMake(kBarBtnW*5/2.0, -(40));
+        _colorView.center = CGPointMake(kBarBtnW*4/2.0 + 5, -(30));
+//        [self createAngelwithSuperView:_colorView
+//                            angelPoint:CGPointMake(_colorView.frame.size.width/2.0 , 105)];
         [self createAngelwithSuperView:_colorView
-                            angelPoint:CGPointMake(_colorView.frame.size.width/2.0 , 105)];
+                            angelPoint:CGPointMake(_colorView.frame.size.width/3.0 , 60)];
         
     }else{
         [self createAngelwithSuperView:_colorView
@@ -99,7 +109,7 @@ static NSInteger const kAttributesBtnTag = 100;
                 btn.tag = 200 + i;
                 NSInteger row = i / 6;
                 NSInteger col = i % 6;
-                btn.frame = CGRectMake(15 + btnWH * col, 15 +btnWH *row, 25, 25);
+                btn.frame = CGRectMake(15 + btnWH * col, 12.5 + btnWH *row, 25, 25);
                 btn.layer.cornerRadius = btn.bounds.size.width * 0.5;
                 btn.layer.borderColor = [UIColor whiteColor].CGColor;
                 btn.layer.borderWidth = 1;
@@ -117,7 +127,6 @@ static NSInteger const kAttributesBtnTag = 100;
 
 
 - (void)attributesUIconfig {
-    
     CGFloat btnWH = 40;
     NSArray *items = @[@"粗", @"斜", @"下", @"H1", @"H2", @"H3"];
     _attributesView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, btnWH * items.count, btnWH)];
@@ -125,14 +134,20 @@ static NSInteger const kAttributesBtnTag = 100;
     _attributesView.backgroundColor = [UIColor blackColor];
     _attributesView.layer.cornerRadius = 8;
     _attributesView.hidden = YES;
-    _attributesView.center = CGPointMake(kBarBtnW*7/2.0, -20);
+//    _attributesView.center = CGPointMake(kBarBtnW*7/2.0, -20);
     
-    CGFloat sub = (kBarBtnW*7/2.0 + btnWH*items.count/2.0)-(kAppFrameWidth -10);
+    _attributesView.center = CGPointMake(kBarBtnW*4/2.0, -20);
+    
+//    CGFloat sub = (kBarBtnW*7/2.0 + btnWH*items.count/2.0)-(kAppFrameWidth -10);
+    CGFloat sub = (kBarBtnW/2.0 + btnWH*items.count/2.0)-(kAppFrameWidth -10);
     sub =1;
     if (sub > 0) {
-        _attributesView.center = CGPointMake(kBarBtnW*3/2.0 + 30, -20);
+//        _attributesView.center = CGPointMake(kBarBtnW*3/2.0 + 30, -20);
+        _attributesView.center = CGPointMake(kBarBtnW*4/2.0, -20);
+//        [self createAngelwithSuperView:_attributesView
+//                            angelPoint:CGPointMake(_attributesView.frame.size.width/2.0 -30, 50)];
         [self createAngelwithSuperView:_attributesView
-                            angelPoint:CGPointMake(_attributesView.frame.size.width/2.0 -30, 50)];
+                            angelPoint:CGPointMake(_attributesView.frame.size.width/8.0, 50)];
         
     }else{
         [self createAngelwithSuperView:_attributesView
@@ -429,31 +444,69 @@ static NSInteger const kAttributesBtnTag = 100;
     switch (btn.tag) {
         case 1:
         {
-            [self addImageAction];
-        }
-            break;
-        case 2://字体样式不知
-        {
+            //加粗
+            
+
+            
+            
             btn.selected = !btn.selected;
             _attributesView.hidden = !btn.selected;
 
-            UIButton *btn2 = [self viewWithTag:3];
+            UIButton *btn2 = [self viewWithTag:2];
             if (btn2.selected == YES) {
                 btn2.selected = !btn.selected;
                 _colorView.hidden = !btn2.selected;
             }
-
+            
+            //[self addImageAction];
+            
         }
             break;
-        case 3://字体样式不知
+        case 2://字体样式不知
         {
+
+
+            
+            //颜色
             btn.selected = !btn.selected;
             _colorView.hidden = !btn.selected;
-            UIButton *btn2 = [self viewWithTag:2];
+            UIButton *btn2 = [self viewWithTag:1];
             if (btn2.selected == YES) {
                 btn2.selected = !btn.selected;
                 _attributesView.hidden = !btn2.selected;
             }
+            
+            
+            
+            //            btn.selected = !btn.selected;
+            //            _attributesView.hidden = !btn.selected;
+            //
+            //            UIButton *btn2 = [self viewWithTag:3];
+            //            if (btn2.selected == YES) {
+            //                btn2.selected = !btn.selected;
+            //                _colorView.hidden = !btn2.selected;
+            //            }
+            
+        }
+            break;
+        case 3://字体样式不知
+        {
+            
+            //添加图片
+            [self addImageAction];
+            
+            
+//            btn.selected = !btn.selected;
+//            _colorView.hidden = !btn.selected;
+//            UIButton *btn2 = [self viewWithTag:2];
+//            if (btn2.selected == YES) {
+//                btn2.selected = !btn.selected;
+//                _attributesView.hidden = !btn2.selected;
+//            }
+            
+           
+            
+            
         }
             break;
         case 4:
@@ -482,16 +535,23 @@ static NSInteger const kAttributesBtnTag = 100;
             break;
     }
     
-    if (btn.tag != 2 && btn.tag != 3) {
-        UIButton *btn1 = [self viewWithTag:2];
+//    if (btn.tag != 2 && btn.tag != 3) {
+//        UIButton *btn1 = [self viewWithTag:2];
+//        btn1.selected = NO;
+//        _attributesView.hidden = YES;
+//        UIButton *btn2 = [self viewWithTag:3];
+//        btn2.selected = NO;
+//        _colorView.hidden = YES;
+//    }
+    
+    if (btn.tag != 1 && btn.tag != 2) {
+        UIButton *btn1 = [self viewWithTag:1];
         btn1.selected = NO;
         _attributesView.hidden = YES;
-        UIButton *btn2 = [self viewWithTag:3];
+        UIButton *btn2 = [self viewWithTag:2];
         btn2.selected = NO;
         _colorView.hidden = YES;
     }
-    
-    
     
 }
 

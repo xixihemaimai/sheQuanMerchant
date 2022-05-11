@@ -27,6 +27,9 @@ class CommodityCategoryViewController: BaseViewController {
     var categoryList:[Int] = [Int]()
     
     var choiceTag:[String:Int] = [String:Int]()
+    
+    
+    var choiceGoodsTypeTitle:((_ title:String)->Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,11 +87,13 @@ class CommodityCategoryViewController: BaseViewController {
             if let cell = tableview.cellForRow(at: IndexPath(row: i, section: 0)) as? CommodityCategoryCell{
                 if cell.choiceBtn.isSelected{
                      //选中的二级类目类型
+                    self.choiceGoodsTypeTitle!("随便谢谢")
                     
                     break
                 }
             }
         }
+        Coordinator.shared?.popViewController(self, true)
     }
     
     //搜索开始

@@ -601,7 +601,7 @@ class ShopViewController: BaseViewController {
         LXFLog("售后")
         let orderVc = OrderViewController()
         orderVc.btnAction = 1
-        orderVc.selectIndex = 0
+        orderVc.selectIndex = 1
         Coordinator.shared?.pushViewController(self, orderVc, animated: true)
     }
     

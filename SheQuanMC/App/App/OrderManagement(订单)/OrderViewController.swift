@@ -58,6 +58,7 @@ class OrderViewController: BaseViewController {
     //售后的内容
     lazy var afterSalesVc:AfterSalesViewController = {
        let afterSalesVc = AfterSalesViewController()
+        afterSalesVc.selectIndex = selectIndex
         return afterSalesVc
     }()
     
@@ -140,8 +141,8 @@ class OrderViewController: BaseViewController {
     
     //搜索
     @objc func orderSearchAction(){
-        
-        
+        let orderSearchVc = OrderSearchViewController()
+        Coordinator.shared?.pushViewController(self, orderSearchVc, animated: true)
     }
     
     

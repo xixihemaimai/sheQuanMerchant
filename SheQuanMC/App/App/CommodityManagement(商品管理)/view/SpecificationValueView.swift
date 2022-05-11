@@ -33,16 +33,20 @@ class SpecificationValueView: UIView {
                  }
                  textfield.leftView = UIView(frame: CGRect(x: 0, y: 0, width: scale(8), height: scale(44)))
                  textfield.leftViewMode = .always
-                 textfield.text = showValueList[i]
+                 textfield.placeholder = "请输入"
+                 textfield.attributedPlaceholder = NSAttributedString.init(string:"请输入", attributes: [
+                    NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
                  textfield.layer.cornerRadius = scale(4)
                  textfield.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#D6D6D6").cgColor
                  textfield.layer.borderWidth = scale(1)
                  textfield.tag = i
+                 textfield.text = showValueList[i]
+//                 textfield.becomeFirstResponder()
                  textfield.addTarget(self, action: #selector(specificationValueEditeing), for: .editingDidEnd)
                  let deleteBtn = UIButton()
                  deleteBtn.tag = i
                  deleteBtn.setBackgroundImage(UIImage(named: "Frame"), for: .normal)
-                deleteBtn.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
+                 deleteBtn.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
                  addSubview(deleteBtn)
 
                  deleteBtn.snp.makeConstraints { make in
@@ -64,12 +68,21 @@ class SpecificationValueView: UIView {
     
     //通过编辑里面的值
     @objc func specificationValueEditeing(textfield:UITextField){
-        LXFLog(textfield.text)
-        if !showValueList.contains(textfield.text ?? "") {
+        var isIdentical = true
+        for text in showValueList{
+            if text == textfield.text{
+                if  text == "" && textfield.text == "" {
+                    continue
+                }else{
+                    JFPopup.toast(hit: "不允许添加俩个相同值得规格值")
+                    textfield.text = ""
+                    isIdentical = false
+                    break
+                }
+            }
+        }
+        if isIdentical{
             delegate?.textfieldEditEndValueAndIndex(text: textfield.text ?? "", index: textfield.tag)
-        }else{
-            textfield.text = ""
-            JFPopup.toast(hit: "不允许添加相同的规格值")
         }
     }
 }

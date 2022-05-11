@@ -24,6 +24,12 @@ class CommodityStatusViewController: BaseViewController {
         tableview.register(commodityStatusCell.self, forCellReuseIdentifier: "commodityStatusCell")
         tableview.register(commodityExamineCell.self, forCellReuseIdentifier: "commodityExamineCell")
         tableview.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
+        
+        
+        
+        
+        
+        
     }
     
     

@@ -115,7 +115,7 @@ class ReleaseGoodsViewController: BaseViewController {
     lazy var specificationsSwitch:UISwitch = {
        let specificationsSwitch = UISwitch()
         specificationsSwitch.onTintColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
-        specificationsSwitch.isOn = true
+        specificationsSwitch.isOn = false
         return specificationsSwitch
     }()
     
@@ -218,6 +218,17 @@ class ReleaseGoodsViewController: BaseViewController {
     }()
     
     
+    //商品编码
+    var goodsCardSView:UIView!
+    
+    
+    //商品参数部分
+    var goodsParameterSLabel:UILabel!
+    
+    var goodsParameterSBtn:UIButton!
+    
+    
+    var specificationsSLabel:UILabel!
     //多规格
     var specificationsSView:UIView!
     //价钱
@@ -455,6 +466,9 @@ class ReleaseGoodsViewController: BaseViewController {
             make.height.equalTo(scale(50))
         }
         
+        goodsCardSView = goodsCardView
+        
+        
         let goodsCardLabel = UILabel()
         goodsCardLabel.text = "商品编码"
         goodsCardLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#787878")
@@ -475,6 +489,12 @@ class ReleaseGoodsViewController: BaseViewController {
             make.height.equalTo(scale(22))
         }
         
+        
+        
+        
+        
+        //TODO:商品参数部分
+        
         //商品参数部分
         let goodsParameterLabel = UILabel()
         goodsParameterLabel.text = "    商品参数"
@@ -488,6 +508,10 @@ class ReleaseGoodsViewController: BaseViewController {
             make.top.equalTo(goodsCardView.snp.bottom)
             make.height.equalTo(scale(42))
         }
+        goodsParameterSLabel = goodsParameterLabel
+        
+        
+        goodsParameterSLabel.isHidden = true
         
         //商品参数
         let goodsParameterBtn = UIButton()
@@ -501,6 +525,12 @@ class ReleaseGoodsViewController: BaseViewController {
         }
         goodsParameterBtn.tag = 2
         goodsParameterBtn.addTarget(self, action: #selector(choiceCategoryAction), for: .touchUpInside)
+        
+        goodsParameterSBtn = goodsParameterBtn
+        
+        
+        goodsParameterSBtn.isHidden = true
+        
         
         let goodsParameterStarLabel = UILabel()
         goodsParameterStarLabel.text = "*"
@@ -543,6 +573,11 @@ class ReleaseGoodsViewController: BaseViewController {
             make.width.height.equalTo(scale(24))
         }
         
+        
+        
+        
+        
+        
         //规格部分
         let specificationsLabel = UILabel()
         specificationsLabel.text = "     规格和库存"
@@ -553,9 +588,12 @@ class ReleaseGoodsViewController: BaseViewController {
         specificationsLabel.snp.makeConstraints { make in
             make.left.equalToSuperview()
             make.width.equalTo(SCW)
-            make.top.equalTo(goodsParameterBtn.snp.bottom)
+            make.top.equalTo(goodsCardView.snp.bottom)
             make.height.equalTo(scale(42))
         }
+        
+        specificationsSLabel = specificationsLabel
+        
         
         
         //对规格
@@ -591,6 +629,11 @@ class ReleaseGoodsViewController: BaseViewController {
         }
         //forcontrolevents:uicontroleventvaluechanged
         specificationsSwitch.addTarget(self, action: #selector(openAndCloseMoreSepcifications), for: .valueChanged)
+        
+        
+        
+        //多规格
+        
         
         //价格
         let priceView = UIView()
@@ -716,7 +759,7 @@ class ReleaseGoodsViewController: BaseViewController {
             }
             
             let commoditySLabel = UILabel()
-            commoditySLabel.text = "商品参数"
+            commoditySLabel.text = "商品规格"
             commoditySLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#787878")
             commoditySLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .medium)
             commodityBtn.addSubview(commoditySLabel)
@@ -934,6 +977,25 @@ class ReleaseGoodsViewController: BaseViewController {
         case 0:
             let commodityCategoryVc = CommodityCategoryViewController()
             Coordinator.shared?.pushViewController(self, commodityCategoryVc, animated: true)
+            commodityCategoryVc.choiceGoodsTypeTitle = { title in
+                self.goodsContentLabel.text = title
+                self.goodsContentLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+                self.goodsParameterSLabel.isHidden = false
+                self.goodsParameterSBtn.isHidden = false
+                
+                
+                self.specificationsSLabel.snp.remakeConstraints { make in
+                    make.left.equalToSuperview()
+                    make.top.equalTo(self.goodsParameterSBtn.snp.bottom).offset(scale(1))
+                    make.width.equalTo(SCW)
+                    make.height.equalTo(scale(50))
+                }
+                
+                
+                
+                
+            }
+            
         case 1:
             let proudctDesciptionVc = ProductDescriptionViewController()
             Coordinator.shared?.pushViewController(self, proudctDesciptionVc, animated: true)
@@ -959,6 +1021,32 @@ class ReleaseGoodsViewController: BaseViewController {
     //开启或者关闭多规格
     @objc func openAndCloseMoreSepcifications(specificationsSwitch:UISwitch){
         if specificationsSwitch.isOn == true{
+            
+            //关闭
+             commoditySBtn.isHidden = false
+             priceSView.isHidden = true
+             stockSView.isHidden = true
+             
+             
+             commoditySBtn.snp.remakeConstraints{ make in
+                 make.left.equalToSuperview()
+                 make.top.equalTo(specificationsSView.snp.bottom).offset(scale(1))
+                 make.width.equalTo(SCW)
+                 make.height.equalTo(scale(50))
+             }
+             
+             
+             stockReduceSView.snp.remakeConstraints { make in
+                 make.left.equalToSuperview()
+                 make.top.equalTo(commoditySBtn.snp.bottom).offset(scale(1))
+                 make.width.equalTo(SCW)
+                 make.height.equalTo(scale(50))
+             }
+            
+            
+        }else{
+            
+            
             //开启
             commoditySBtn.isHidden = true
             priceSView.isHidden = false
@@ -969,27 +1057,7 @@ class ReleaseGoodsViewController: BaseViewController {
                 make.width.equalTo(SCW)
                 make.height.equalTo(scale(50))
             }
-        }else{
-           //关闭
-            commoditySBtn.isHidden = false
-            priceSView.isHidden = true
-            stockSView.isHidden = true
-            
-            
-            commoditySBtn.snp.remakeConstraints{ make in
-                make.left.equalToSuperview()
-                make.top.equalTo(specificationsSView.snp.bottom).offset(scale(1))
-                make.width.equalTo(SCW)
-                make.height.equalTo(scale(50))
-            }
-            
-            
-            stockReduceSView.snp.remakeConstraints { make in
-                make.left.equalToSuperview()
-                make.top.equalTo(commoditySBtn.snp.bottom).offset(scale(1))
-                make.width.equalTo(SCW)
-                make.height.equalTo(scale(50))
-            }
+          
         }
     }
     

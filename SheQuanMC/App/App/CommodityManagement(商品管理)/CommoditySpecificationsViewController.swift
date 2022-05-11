@@ -21,6 +21,20 @@ class CommoditySpecificationsViewController: BaseViewController {
     //交集和并集之后的数组
     var unIonSetList:[String] = [String]()
     
+    
+    
+    lazy var newTableView:UITableView = {
+        let newTabelView = UITableView(frame: .zero, style: .grouped)
+        newTabelView.separatorStyle = .none
+        if #available(iOS 11.0, *){
+            newTabelView.contentInsetAdjustmentBehavior = .never
+        }
+        if #available(iOS 15.0, *){
+            newTabelView.sectionHeaderTopPadding = 0
+        }
+        return newTabelView
+    }()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,24 +42,28 @@ class CommoditySpecificationsViewController: BaseViewController {
         saveList = [[String]]()
         
         title = "商品规格"
-        view.addSubview(tableview)
-        tableview.snp.makeConstraints { make in
+        view.addSubview(newTableView)
+        newTableView.snp.makeConstraints { make in
             make.left.top.right.bottom.equalToSuperview()
         }
-        tableview.delegate = self
-        tableview.dataSource = self
+        newTableView.delegate = self
+        newTableView.dataSource = self
         
-        tableview.register(CommoditySpecificationsHeaderView.self, forHeaderFooterViewReuseIdentifier: "CommoditySpecificationsHeaderView")
+        newTableView.shouldIgnoreScrollingAdjustment = true
+        newTableView.shouldRestoreScrollViewContentOffset = true
         
-        tableview.register(CommoditySpecificationsFooterView.self, forHeaderFooterViewReuseIdentifier: "CommoditySpecificationsFooterView")
+        newTableView.register(CommoditySpecificationsHeaderView.self, forHeaderFooterViewReuseIdentifier: "CommoditySpecificationsHeaderView")
+        
+        newTableView.register(CommoditySpecificationsFooterView.self, forHeaderFooterViewReuseIdentifier: "CommoditySpecificationsFooterView")
         
         
-        tableview.register(CommoditySpecificationCell.self, forCellReuseIdentifier: "CommoditySpecificationCell")
+        newTableView.register(CommoditySpecificationCell.self, forCellReuseIdentifier: "CommoditySpecificationCell")
         
         
-        tableview.register(CommodityPriceAndStockCell.self, forCellReuseIdentifier: "CommodityPriceAndStockCell")
+        newTableView.register(CommodityPriceAndStockCell.self, forCellReuseIdentifier: "CommodityPriceAndStockCell")
         
-        tableview.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: scale(92), right: 0)
+        
+        newTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: scale(92), right: 0)
         
         let bottomView = UIView()
         bottomView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
@@ -102,7 +120,7 @@ class CommoditySpecificationsViewController: BaseViewController {
                 }
                 addSpecificationsView.sendSureSpecificationList = {[weak self] list in
                     self?.saveList = list
-                    self?.tableview.reloadData()
+                    self?.newTableView.reloadData()
                     self?.popup.dismissPopup()
                 }
                 return addSpecificationsView
@@ -122,19 +140,65 @@ class CommoditySpecificationsViewController: BaseViewController {
     @objc func addSpecificationValueAction(addBtn:UIButton){
         var colorList = saveList[addBtn.tag]
 //        colorList.insert("", at: 0)
-        if colorList.count < 20{
-            colorList.append("")
-            saveList[addBtn.tag] = colorList
-            tableview.reloadData()
-            let cell = tableview.cellForRow(at: IndexPath(row: addBtn.tag, section: 0)) as! CommoditySpecificationCell
-            for i in 0..<cell.specificationView.subviews.count{
-                let view = cell.specificationView.subviews[i]
-                if view.isKind(of: UITextField.self){
-                    view.becomeFirstResponder()
+        var isAdd:Bool = true
+        for i in 0..<colorList.count {
+            let str = colorList[i]
+            if str == ""{
+                isAdd = false
+                break
+            }else{
+                isAdd = true
+            }
+        }
+        if isAdd{
+            if colorList.count < 20{
+                colorList.append("")
+                saveList[addBtn.tag] = colorList
+                newTableView.reloadData()
+                guard let cell = newTableView.cellForRow(at: IndexPath(row: addBtn.tag, section: 0)) as? CommoditySpecificationCell else{
+                    
+                    let cell = newTableView.dequeueReusableCell(withIdentifier: "CommoditySpecificationCell", for: IndexPath(item: addBtn.tag, section: 0)) as! CommoditySpecificationCell
+                    
+                    var list:[UITextField] = [UITextField]()
+                    for i in 0..<cell.specificationView.subviews.count{
+                        let view = cell.specificationView.subviews[i]
+                        if view.isKind(of: UITextField.self){
+                            let view1 = view as! UITextField
+                            list.append(view1)
+            //                    view1.tag = view1.tag + 1
+        //                        view1.becomeFirstResponder()
+        //                    }
+                        }
+                    }
+                    
+                   LXFLog("-----3332---------\(list.count)")
+                   let textfield = list.last
+                   textfield?.becomeFirstResponder()
+                   return
                 }
+//              Thread.sleep(forTimeInterval: 0.1)
+                LXFLog("-----334--------------\(cell)")
+                //延长1秒看下
+                var list:[UITextField] = [UITextField]()
+                for i in 0..<cell.specificationView.subviews.count{
+                    let view = cell.specificationView.subviews[i]
+                    if view.isKind(of: UITextField.self){
+                        let view1 = view as! UITextField
+                        list.append(view1)
+        //                    view1.tag = view1.tag + 1
+    //                        view1.becomeFirstResponder()
+    //                    }
+                    }
+                }
+                
+               LXFLog("-----3333---------\(list.count)")
+               let textfield = list.last
+               textfield?.becomeFirstResponder()
+            }else{
+                JFPopup.toast(hit: "最多只能添加20条规格值")
             }
         }else{
-            JFPopup.toast(hit: "最多只能添加20条规格值")
+            JFPopup.toast(hit: "上面添加的数据，没有添加规格值")
         }
     }
     
@@ -171,13 +235,16 @@ class CommoditySpecificationsViewController: BaseViewController {
     @objc func deleteAction(deleteBtn:UIButton){
         saveList.remove(at: deleteBtn.tag)
         unIonSetList.removeAll()
-        tableview.reloadData()
+        newTableView.reloadData()
     }
     
     
     override func emptyDataSetShouldDisplay(_ scrollView: UIScrollView!) -> Bool {
         return false
     }
+    
+    
+
     
     
 }
@@ -301,9 +368,6 @@ extension CommoditySpecificationsViewController:UITableViewDelegate,UITableViewD
             }
         }
     }
-    
-    
-    
 }
 
 
@@ -316,22 +380,22 @@ extension CommoditySpecificationsViewController:CommoditySpecificationCellDelega
         saveList[tag] = colorList
         //这边是对属性值进行交集
         UnionSetArray()
-        tableview.reloadData()
+        newTableView.reloadData()
     }
     
     
     //修改规格值
     func modityTextfieldTagAndIndexAndValue(tag: Int, index: Int, value: String) {
-        var colorList = saveList[tag]
-        if !colorList.contains(value){
+        if value != ""{
+            var colorList = saveList[tag]
+    //        if !colorList.contains(value){
             colorList[index] = value
             saveList[tag] = colorList
-            LXFLog(value)
-            //这边要对属性值进行交集的改变
             UnionSetArray()
-            tableview.reloadData()
-        }else{
-            JFPopup.toast(hit: "不允许添加相同的规格值")
+            newTableView.reloadData()
+    //        }else{
+    //            JFPopup.toast(hit: "不允许添加相同的规格值")
+    //        }
         }
     }
     

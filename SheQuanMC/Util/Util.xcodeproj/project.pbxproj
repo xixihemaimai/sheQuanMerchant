@@ -14,10 +14,11 @@
 		401E5DD1281530EF009127A5 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DD0281530EF009127A5 /* Util.swift */; };
 		401E5DD928163E92009127A5 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DD828163E92009127A5 /* Coordinator.swift */; };
 		4060BC2D2816ABE600968C42 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC2C2816ABE600968C42 /* UIView+Extension.swift */; };
-		4099C0EB281F6C07002889A7 /* NewWorkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4099C0EA281F6C07002889A7 /* NewWorkTool.swift */; };
+		408E4262282B580900C94119 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E4260282B580800C94119 /* NetworkManager.swift */; };
+		408E4263282B580900C94119 /* MoyaConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E4261282B580900C94119 /* MoyaConfig.swift */; };
 		4099C0ED281F6C10002889A7 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4099C0EC281F6C0F002889A7 /* API.swift */; };
 		40A9A20E2814D6F1006B1CBF /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A9A20D2814D6F1006B1CBF /* Config.swift */; };
-		40A9A2102814D8D9006B1CBF /* Util.h in Headers */ = {isa = PBXBuildFile; fileRef = 40A9A20F2814D8D9006B1CBF /* Util.h */; };
+		40A9A2102814D8D9006B1CBF /* Util.h in Headers */ = {isa = PBXBuildFile; fileRef = 40A9A20F2814D8D9006B1CBF /* Util.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,7 +31,8 @@
 		401E5DD0281530EF009127A5 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		401E5DD828163E92009127A5 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		4060BC2C2816ABE600968C42 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
-		4099C0EA281F6C07002889A7 /* NewWorkTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewWorkTool.swift; sourceTree = "<group>"; };
+		408E4260282B580800C94119 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		408E4261282B580900C94119 /* MoyaConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoyaConfig.swift; sourceTree = "<group>"; };
 		4099C0EC281F6C0F002889A7 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		40A9A1F628129991006B1CBF /* Util.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Util.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		40A9A20D2814D6F1006B1CBF /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
@@ -64,9 +66,10 @@
 		401E5DD728163E66009127A5 /* Services(服务器) */ = {
 			isa = PBXGroup;
 			children = (
+				408E4261282B580900C94119 /* MoyaConfig.swift */,
+				408E4260282B580800C94119 /* NetworkManager.swift */,
 				4099C0EC281F6C0F002889A7 /* API.swift */,
 				401E5DD828163E92009127A5 /* Coordinator.swift */,
-				4099C0EA281F6C07002889A7 /* NewWorkTool.swift */,
 			);
 			path = "Services(服务器)";
 			sourceTree = "<group>";
@@ -228,13 +231,14 @@
 			files = (
 				401E5DB828152152009127A5 /* Edit+String.swift in Sources */,
 				401E5DD1281530EF009127A5 /* Util.swift in Sources */,
+				408E4262282B580900C94119 /* NetworkManager.swift in Sources */,
 				401E5DB628152152009127A5 /* Edit+Color.swift in Sources */,
 				40A9A20E2814D6F1006B1CBF /* Config.swift in Sources */,
 				401E5DB728152152009127A5 /* Edit+Time.swift in Sources */,
 				4060BC2D2816ABE600968C42 /* UIView+Extension.swift in Sources */,
+				408E4263282B580900C94119 /* MoyaConfig.swift in Sources */,
 				401E5DD928163E92009127A5 /* Coordinator.swift in Sources */,
 				4099C0ED281F6C10002889A7 /* API.swift in Sources */,
-				4099C0EB281F6C07002889A7 /* NewWorkTool.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -23,7 +23,8 @@ pod 'HXPhotoPicker'
 pod 'MJRefresh', '~> 3.7.5'
 pod 'IQKeyboardManager'
 pod 'Moya'
-
+pod 'SwiftyJSON'
+pod 'RealmSwift'
 end
 
 
@@ -44,7 +45,8 @@ pod 'HXPhotoPicker'
 pod 'MJRefresh', '~> 3.7.5'
 pod 'IQKeyboardManager'
 pod 'Moya'
-
+pod 'SwiftyJSON'
+pod 'RealmSwift'
 end
 
 
@@ -65,5 +67,6 @@ pod 'HXPhotoPicker'
 pod 'MJRefresh', '~> 3.7.5'
 pod 'IQKeyboardManager'
 pod 'Moya'
-
+pod 'SwiftyJSON'
+pod 'RealmSwift'
 end
