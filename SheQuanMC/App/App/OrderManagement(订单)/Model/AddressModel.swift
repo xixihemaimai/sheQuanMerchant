@@ -17,6 +17,11 @@ class AddressModel: NSObject {
     var parent_id : String?
     var childs : [NSDictionary]?
     
+    
+    //自己添加的是否选中
+    var isChoice:Bool?
+    
+    
     override func setValue(_ value: Any?, forUndefinedKey key: String) {
 //        PLog(item: key)
     }

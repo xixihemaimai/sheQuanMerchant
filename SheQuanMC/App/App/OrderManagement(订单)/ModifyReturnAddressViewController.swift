@@ -7,6 +7,7 @@
 
 import UIKit
 import Util
+import JFPopup
 
 class ModifyReturnAddressViewController: BaseViewController {
 
@@ -74,6 +75,84 @@ class ModifyReturnAddressViewController: BaseViewController {
         Coordinator.shared?.pushViewController(self, addNewAddressVc, animated: true)
     }
     
+    
+    //是否为默认
+    @objc func isDefaultAction(isDefaultBtn:UIButton){
+        //清除其他默认的状态
+        
+        var title:String;
+        if isDefaultBtn.isSelected {
+            title = "确定要将此模板取消默认吗"
+        }else{
+            title = "确定要将此模板设置为默认吗"
+        }
+        
+        JFPopup.alert {
+            [
+                .title(title),
+                .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+//                .subTitle("注:取消商品将移至未上架"),
+//                .subTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 ")),
+                .withoutAnimation(true),
+                .cancelAction([
+                    .text("取消"),
+                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
+                    .tapActionCallback({
+                        
+                        
+                        
+                    })
+                    
+                ]),
+                .confirmAction([
+                    .text("确定"),
+                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+                    .tapActionCallback({
+//                        JFPopupView.popup.toast(hit: "点击了确定")
+                        for i in 0..<3{
+                            let cell = self.tableview.cellForRow(at: IndexPath(row: i, section: 0)) as! AddressCell
+                            if isDefaultBtn.tag == i{
+                            }else{
+                                cell.isDefaultBtn.isSelected = false
+                            }
+                        }
+                        isDefaultBtn.isSelected = !isDefaultBtn.isSelected
+                    })
+                ])
+            ]
+        }
+    }
+    
+    
+    @objc func deleteAction(deleteBtn:UIButton){
+        
+        JFPopup.alert {
+            [
+                .title("确定要删除此模板吗？"),
+                .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+//                .subTitle("注:取消商品将移至未上架"),
+//                .subTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 ")),
+                .withoutAnimation(true),
+                .cancelAction([
+                    .text("取消"),
+                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
+                    .tapActionCallback({
+                        Coordinator.shared?.popViewController(self, true)
+                    })
+                    
+                ]),
+                .confirmAction([
+                    .text("确定"),
+                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+                    .tapActionCallback({
+                        JFPopupView.popup.toast(hit: "点击了保存草稿")
+                    })
+                ])
+            ]
+        }
+        
+    }
+    
    
 }
 
@@ -92,6 +171,13 @@ extension ModifyReturnAddressViewController:UITableViewDelegate,UITableViewDataS
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AddressCell") as! AddressCell
         cell.modifyAddressBtn.tag = indexPath.row
+        
+        cell.isDefaultBtn.tag = indexPath.row
+        cell.deleteBtn.tag = indexPath.row
+        
+        cell.isDefaultBtn.addTarget(self, action: #selector(isDefaultAction), for: .touchUpInside)
+        cell.deleteBtn.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
+        
         cell.modifyAddressBtn.addTarget(self, action: #selector(modifyAddressAction), for: .touchUpInside)
         //是否为默认地址
         

@@ -1074,7 +1074,7 @@ class ReleaseGoodsViewController: BaseViewController {
                 .withoutAnimation(true),
                 .cancelAction([
                     .text("直接退出"),
-                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 ")),
+                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
                     .tapActionCallback({
                         Coordinator.shared?.popViewController(self, true)
                     })

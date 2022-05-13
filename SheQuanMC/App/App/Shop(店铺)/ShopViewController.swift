@@ -617,6 +617,12 @@ class ShopViewController: BaseViewController {
             orderVc.selectIndex = 0
             orderVc.btnAction = 0
             Coordinator.shared?.pushViewController(self, orderVc, animated: true)
+        }else if btn.tag == 4{
+            let frieghtTemplateVc = FreightTemplateViewController()
+            Coordinator.shared?.pushViewController(self, frieghtTemplateVc, animated: true)
+        }else if btn.tag == 5{
+            let modifyReturnVc = ModifyReturnAddressViewController()
+            Coordinator.shared?.pushViewController(self, modifyReturnVc, animated: true)
         }
     }
     

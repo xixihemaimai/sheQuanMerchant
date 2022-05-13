@@ -190,8 +190,8 @@ class AddressCell: UITableViewCell {
         
         isDefaultBtn.snp.makeConstraints { make in
             make.left.equalTo(scale(16))
-            make.top.equalTo(midView.snp.bottom).offset(scale(17))
-            make.width.height.equalTo(scale(12))
+            make.top.equalTo(midView.snp.bottom).offset(scale(14))
+            make.width.height.equalTo(scale(15))
         }
         
         defualtLabel.snp.makeConstraints { make in

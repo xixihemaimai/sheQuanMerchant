@@ -156,28 +156,23 @@ class CommoditySpecificationsViewController: BaseViewController {
                 saveList[addBtn.tag] = colorList
                 newTableView.reloadData()
                 guard let cell = newTableView.cellForRow(at: IndexPath(row: addBtn.tag, section: 0)) as? CommoditySpecificationCell else{
+                   
                     
                     let cell = newTableView.dequeueReusableCell(withIdentifier: "CommoditySpecificationCell", for: IndexPath(item: addBtn.tag, section: 0)) as! CommoditySpecificationCell
-                    
                     var list:[UITextField] = [UITextField]()
                     for i in 0..<cell.specificationView.subviews.count{
                         let view = cell.specificationView.subviews[i]
                         if view.isKind(of: UITextField.self){
                             let view1 = view as! UITextField
                             list.append(view1)
-            //                    view1.tag = view1.tag + 1
-        //                        view1.becomeFirstResponder()
-        //                    }
                         }
                     }
-                    
                    LXFLog("-----3332---------\(list.count)")
                    let textfield = list.last
                    textfield?.becomeFirstResponder()
                    return
                 }
 //              Thread.sleep(forTimeInterval: 0.1)
-                LXFLog("-----334--------------\(cell)")
                 //延长1秒看下
                 var list:[UITextField] = [UITextField]()
                 for i in 0..<cell.specificationView.subviews.count{
@@ -185,13 +180,8 @@ class CommoditySpecificationsViewController: BaseViewController {
                     if view.isKind(of: UITextField.self){
                         let view1 = view as! UITextField
                         list.append(view1)
-        //                    view1.tag = view1.tag + 1
-    //                        view1.becomeFirstResponder()
-    //                    }
                     }
                 }
-                
-               LXFLog("-----3333---------\(list.count)")
                let textfield = list.last
                textfield?.becomeFirstResponder()
             }else{

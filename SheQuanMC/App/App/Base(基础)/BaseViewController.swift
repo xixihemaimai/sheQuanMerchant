@@ -35,6 +35,8 @@ open class BaseViewController: UIViewController {
            self.headerRereshing()
        })
        
+       tableview.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: scale(92), right: 0)
+       
        
        let foot = MJRefreshAutoStateFooter(refreshingBlock: {[unowned self] in
            self.footerRereshing()

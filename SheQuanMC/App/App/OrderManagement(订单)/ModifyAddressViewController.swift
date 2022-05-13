@@ -7,9 +7,14 @@
 
 import UIKit
 import Util
+import JFPopup
 
 class ModifyAddressViewController: BaseViewController {
 
+    
+    var addressList:[AddressModel] = [AddressModel]()
+    
+    
     //原姓名
     lazy var nameTextView:UITextView = {
        let nameTextView = UITextView()
@@ -17,8 +22,19 @@ class ModifyAddressViewController: BaseViewController {
         nameTextView.placeholderColor = UIColor.colorWithDyColorChangObject(lightColor: "#787878")
         nameTextView.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         nameTextView.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        nameTextView.delegate = self
         nameTextView.textAlignment = .left
         return nameTextView
+    }()
+    
+    
+    //删除原姓名的按键
+    lazy var deleteNameBtn:UIButton = {
+       let deleteNameBtn = UIButton()
+        deleteNameBtn.setBackgroundImage(UIImage(named: "Frame"), for: .normal)
+        deleteNameBtn.isHidden = true
+        deleteNameBtn.addTarget(self, action: #selector(deleteNameAction), for: .touchUpInside)
+        return deleteNameBtn
     }()
     
     
@@ -60,9 +76,28 @@ class ModifyAddressViewController: BaseViewController {
         detailAddressTextView.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         detailAddressTextView.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         detailAddressTextView.textAlignment = .left
+        detailAddressTextView.delegate = self
          return detailAddressTextView
     }()
     
+    
+    lazy var deleteAddressBtn:UIButton = {
+       let deleteAddressBtn = UIButton()
+        deleteAddressBtn.setBackgroundImage(UIImage(named: "Frame"), for: .normal)
+        deleteAddressBtn.isHidden = true
+        deleteAddressBtn.addTarget(self, action: #selector(deleteAddressAction), for: .touchUpInside)
+        return deleteAddressBtn
+    }()
+    
+    
+    
+    lazy var isDefaultSwitch:UISwitch = {
+       let isDefaultSwitch = UISwitch()
+        isDefaultSwitch.isOn = true
+        isDefaultSwitch.onTintColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        isDefaultSwitch.addTarget(self, action: #selector(isDefaultSwitchAction), for: .touchUpInside)
+        return isDefaultSwitch
+    }()
     
     
     
@@ -83,7 +118,7 @@ class ModifyAddressViewController: BaseViewController {
         
         
         let originlNameLabel = UILabel()
-        originlNameLabel.text = "收件姓名"
+        originlNameLabel.text = "收件人"
         originlNameLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         originlNameLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#787878")
         originlNameLabel.textAlignment = .left
@@ -100,10 +135,19 @@ class ModifyAddressViewController: BaseViewController {
         view.addSubview(nameTextView)
         nameTextView.snp.makeConstraints { make in
             make.left.equalTo(originlNameLabel.snp.right).offset(scale(16))
-            make.right.equalTo(-scale(16))
+            make.right.equalTo(-scale(40))
             make.height.equalTo(scale(36))
             make.top.equalTo(topView.snp.bottom).offset(scale(9))
         }
+        
+        
+        view.addSubview(deleteNameBtn)
+        deleteNameBtn.snp.makeConstraints { make in
+            make.right.equalTo(-scale(16))
+            make.top.equalTo(topView.snp.bottom).offset(scale(15))
+            make.width.height.equalTo(scale(24))
+        }
+        
         
         
         let firstView = UIView()
@@ -235,10 +279,58 @@ class ModifyAddressViewController: BaseViewController {
         view.addSubview(detailAddressTextView)
         detailAddressTextView.snp.makeConstraints { make in
             make.left.equalTo(detailAddressLabel.snp.right).offset(scale(16))
-            make.right.equalTo(-scale(16))
+            make.right.equalTo(-scale(40))
             make.top.equalTo(thirdView.snp.bottom).offset(scale(9))
             make.height.equalTo(scale(70))
         }
+        
+        
+        
+        view.addSubview(deleteAddressBtn)
+        deleteAddressBtn.snp.makeConstraints { make in
+            make.right.equalTo(-scale(16))
+            make.top.equalTo(thirdView.snp.bottom).offset(scale(15))
+            make.width.height.equalTo(scale(24))
+        }
+        
+        
+        
+        let midView = UIView()
+        midView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#f8f8f8")
+        view.addSubview(midView)
+        
+        midView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.top.equalTo(detailAddressTextView.snp.bottom)
+            make.height.equalTo(scale(8))
+        }
+        
+        
+        let isdelutLabel = UILabel()
+        isdelutLabel.text = "设为默认地址"
+        isdelutLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#787878")
+        isdelutLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
+        isdelutLabel.textAlignment = .left
+        view.addSubview(isdelutLabel)
+        
+        isdelutLabel.snp.makeConstraints { make in
+            make.left.equalTo(scale(16))
+            make.top.equalTo(midView.snp.bottom).offset(scale(16))
+            make.height.equalTo(scale(22))
+            make.width.equalTo(scale(120))
+        }
+        
+        
+        
+        view.addSubview(isDefaultSwitch)
+        isDefaultSwitch.snp.makeConstraints { make in
+            make.right.equalTo(-scale(16))
+            make.width.equalTo(scale(51))
+            make.height.equalTo(scale(30))
+            make.top.equalTo(midView.snp.bottom).offset(scale(12))
+        }
+        
+        
         
         
         let bottomView = UIView()
@@ -246,9 +338,13 @@ class ModifyAddressViewController: BaseViewController {
         view.addSubview(bottomView)
         bottomView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
-            make.top.equalTo(detailAddressTextView.snp.bottom)
+            make.top.equalTo(isDefaultSwitch.snp.bottom).offset(scale(12))
             make.bottom.equalTo(-scale(92))
         }
+        
+        
+        
+        
         
         
         
@@ -272,27 +368,87 @@ class ModifyAddressViewController: BaseViewController {
     }
 
     
+    //删除收件人
+    @objc func deleteNameAction(deleteNameBtn:UIButton){
+        nameTextView.text = ""
+        deleteNameBtn.isHidden = true
+    }
+    
+    //删除详细地址
+    @objc func deleteAddressAction(deleteAddressBtn:UIButton){
+        detailAddressTextView.text = ""
+        deleteAddressBtn.isHidden = true
+    }
+    
+    //修改是否默认
+    @objc func isDefaultSwitchAction(isDefaultSwitch:UISwitch){
+        isDefaultSwitch.isOn = isDefaultSwitch.isOn
+    }
+    
+    
     
     //所在地区
     @objc func locationAction(choiceAddresssBtn:UIButton){
         LXFLog("---------------------")
-        let pickerView = BHJPickerView.init(self, .address)
-        pickerView.pickerViewShow()
+//        let pickerView = BHJPickerView.init(self, .address)
+//        pickerView.pickerViewShow()
+        self.popup.bottomSheet {
+            let regionView = RegionView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(442)), addressList: self.addressList)
+            
+            regionView.cancelBlock = {[weak self] in
+                self?.popup.dismissPopup()
+            }
+            
+            regionView.sureChoiceAddress = {[weak self] list in
+                self?.addressList = list
+                var addressText:String = ""
+                self?.addressList.forEach({ addressModel in
+                    addressText += (addressModel.region_name ?? "")
+                })
+                self?.addressLabel.text = addressText
+                self?.popup.dismissPopup()
+            }
+            return regionView
+        }
     }
 }
 
-extension ModifyAddressViewController:PickerDelegate{
+
+
+//extension ModifyAddressViewController:PickerDelegate{
+//
+//    func selectedDate(_ pickerView: BHJPickerView, _ dateStr: Date) {
+//
+//    }
+//
+//    func selectedGender(_ pickerView: BHJPickerView, _ genderStr: String) {
+//
+//    }
+//
+//    func selectedAddress(_ pickerView: BHJPickerView, _ procince: AddressModel, _ city: AddressModel, _ area: AddressModel) {
+//        let messge = procince.region_name! + city.region_name! + area.region_name!
+//        addressLabel.text = messge
+//    }
+//}
+
+
+extension ModifyAddressViewController:UITextViewDelegate{
     
-    func selectedDate(_ pickerView: BHJPickerView, _ dateStr: Date) {
-        
+    func textViewDidChange(_ textView: UITextView) {
+        if textView == nameTextView{
+            if textView.text.count > 0 {
+                deleteNameBtn.isHidden = false
+            }else{
+                deleteNameBtn.isHidden = true
+            }
+        }else{
+            if textView.text.count > 0 {
+                deleteAddressBtn.isHidden = false
+            }else{
+                deleteAddressBtn.isHidden = true
+            }
+        }
     }
     
-    func selectedGender(_ pickerView: BHJPickerView, _ genderStr: String) {
-        
-    }
     
-    func selectedAddress(_ pickerView: BHJPickerView, _ procince: AddressModel, _ city: AddressModel, _ area: AddressModel) {
-        let messge = procince.region_name! + city.region_name! + area.region_name!
-        addressLabel.text = messge
-    }
 }

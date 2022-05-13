@@ -45,6 +45,10 @@
 		4060BC4D281A1ACE00968C42 /* ShopDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC4C281A1ACD00968C42 /* ShopDetailViewController.swift */; };
 		4060BC50281A1B6300968C42 /* ShopDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC4F281A1B6300968C42 /* ShopDetailCell.swift */; };
 		4060BC52281A2F6E00968C42 /* ShopDetailCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC51281A2F6E00968C42 /* ShopDetailCardCell.swift */; };
+		4074C9EF282CE3D0009E9023 /* RegionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4074C9EE282CE3CF009E9023 /* RegionView.swift */; };
+		4074C9F1282D043C009E9023 /* RegionAddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4074C9F0282D043B009E9023 /* RegionAddressCell.swift */; };
+		4074C9F3282DF506009E9023 /* NoDeliveryRegionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4074C9F2282DF506009E9023 /* NoDeliveryRegionView.swift */; };
+		4074C9F5282DF764009E9023 /* NoDeliveryTableviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4074C9F4282DF764009E9023 /* NoDeliveryTableviewCell.swift */; };
 		4075AEF0281CD621005EB854 /* ProductDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075AEEF281CD621005EB854 /* ProductDescriptionViewController.swift */; };
 		4075AEF8281CD871005EB854 /* XDRichTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4075AEF2281CD871005EB854 /* XDRichTextView.m */; };
 		4075AEF9281CD871005EB854 /* XDEditTextTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 4075AEF3281CD871005EB854 /* XDEditTextTool.m */; };
@@ -69,6 +73,12 @@
 		407D9804281A70DF005A8CBC /* commodityExamineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407D9803281A70DF005A8CBC /* commodityExamineCell.swift */; };
 		407D9806281A8352005A8CBC /* ReplenishInventoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407D9805281A8352005A8CBC /* ReplenishInventoryViewController.swift */; };
 		407D9808281A8457005A8CBC /* ReplenishInventoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407D9807281A8457005A8CBC /* ReplenishInventoryCell.swift */; };
+		4080A4C7282C98B700D32002 /* FreightTemplateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4080A4C6282C98B700D32002 /* FreightTemplateViewController.swift */; };
+		4080A4CA282C995E00D32002 /* FreightTemplateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4080A4C9282C995E00D32002 /* FreightTemplateCell.swift */; };
+		4080A4CC282CA24500D32002 /* TemplateContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4080A4CB282CA24500D32002 /* TemplateContentViewController.swift */; };
+		4080A4CE282CB08000D32002 /* FreightAllocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4080A4CD282CB07F00D32002 /* FreightAllocationViewController.swift */; };
+		4080A4D0282CBC1D00D32002 /* NoDeliveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4080A4CF282CBC1D00D32002 /* NoDeliveryViewController.swift */; };
+		4080A4D2282CBD8300D32002 /* NoDeliveryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4080A4D1282CBD8200D32002 /* NoDeliveryCell.swift */; };
 		4083B25B2824C87200AFAD18 /* SettingPriceAndStockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4083B25A2824C87200AFAD18 /* SettingPriceAndStockView.swift */; };
 		4083B25E2825FC2A00AFAD18 /* OrderStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4083B25D2825FC2A00AFAD18 /* OrderStatusCell.swift */; };
 		4083B260282615AA00AFAD18 /* CloseOrderReasonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4083B25F282615AA00AFAD18 /* CloseOrderReasonView.swift */; };
@@ -163,6 +173,10 @@
 		4060BC4C281A1ACD00968C42 /* ShopDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopDetailViewController.swift; sourceTree = "<group>"; };
 		4060BC4F281A1B6300968C42 /* ShopDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopDetailCell.swift; sourceTree = "<group>"; };
 		4060BC51281A2F6E00968C42 /* ShopDetailCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopDetailCardCell.swift; sourceTree = "<group>"; };
+		4074C9EE282CE3CF009E9023 /* RegionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionView.swift; sourceTree = "<group>"; };
+		4074C9F0282D043B009E9023 /* RegionAddressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionAddressCell.swift; sourceTree = "<group>"; };
+		4074C9F2282DF506009E9023 /* NoDeliveryRegionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDeliveryRegionView.swift; sourceTree = "<group>"; };
+		4074C9F4282DF764009E9023 /* NoDeliveryTableviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDeliveryTableviewCell.swift; sourceTree = "<group>"; };
 		4075AEEF281CD621005EB854 /* ProductDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDescriptionViewController.swift; sourceTree = "<group>"; };
 		4075AEF2281CD871005EB854 /* XDRichTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XDRichTextView.m; sourceTree = "<group>"; };
 		4075AEF3281CD871005EB854 /* XDEditTextTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XDEditTextTool.m; sourceTree = "<group>"; };
@@ -187,6 +201,12 @@
 		407D9803281A70DF005A8CBC /* commodityExamineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = commodityExamineCell.swift; sourceTree = "<group>"; };
 		407D9805281A8352005A8CBC /* ReplenishInventoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplenishInventoryViewController.swift; sourceTree = "<group>"; };
 		407D9807281A8457005A8CBC /* ReplenishInventoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplenishInventoryCell.swift; sourceTree = "<group>"; };
+		4080A4C6282C98B700D32002 /* FreightTemplateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreightTemplateViewController.swift; sourceTree = "<group>"; };
+		4080A4C9282C995E00D32002 /* FreightTemplateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreightTemplateCell.swift; sourceTree = "<group>"; };
+		4080A4CB282CA24500D32002 /* TemplateContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateContentViewController.swift; sourceTree = "<group>"; };
+		4080A4CD282CB07F00D32002 /* FreightAllocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreightAllocationViewController.swift; sourceTree = "<group>"; };
+		4080A4CF282CBC1D00D32002 /* NoDeliveryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDeliveryViewController.swift; sourceTree = "<group>"; };
+		4080A4D1282CBD8200D32002 /* NoDeliveryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDeliveryCell.swift; sourceTree = "<group>"; };
 		4083B25A2824C87200AFAD18 /* SettingPriceAndStockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingPriceAndStockView.swift; sourceTree = "<group>"; };
 		4083B25D2825FC2A00AFAD18 /* OrderStatusCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderStatusCell.swift; sourceTree = "<group>"; };
 		4083B25F282615AA00AFAD18 /* CloseOrderReasonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseOrderReasonView.swift; sourceTree = "<group>"; };
@@ -398,6 +418,31 @@
 			path = view;
 			sourceTree = "<group>";
 		};
+		4080A4C5282C8D2800D32002 /* FreightTemplate(运费模板) */ = {
+			isa = PBXGroup;
+			children = (
+				4080A4C8282C993F00D32002 /* view */,
+				4080A4C6282C98B700D32002 /* FreightTemplateViewController.swift */,
+				4080A4CB282CA24500D32002 /* TemplateContentViewController.swift */,
+				4080A4CD282CB07F00D32002 /* FreightAllocationViewController.swift */,
+				4080A4CF282CBC1D00D32002 /* NoDeliveryViewController.swift */,
+			);
+			path = "FreightTemplate(运费模板)";
+			sourceTree = "<group>";
+		};
+		4080A4C8282C993F00D32002 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				4080A4C9282C995E00D32002 /* FreightTemplateCell.swift */,
+				4080A4D1282CBD8200D32002 /* NoDeliveryCell.swift */,
+				4074C9EE282CE3CF009E9023 /* RegionView.swift */,
+				4074C9F0282D043B009E9023 /* RegionAddressCell.swift */,
+				4074C9F2282DF506009E9023 /* NoDeliveryRegionView.swift */,
+				4074C9F4282DF764009E9023 /* NoDeliveryTableviewCell.swift */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
 		4083B25C2825FC1100AFAD18 /* view */ = {
 			isa = PBXGroup;
 			children = (
@@ -485,6 +530,7 @@
 		40A9A1E42812996D006B1CBF /* App */ = {
 			isa = PBXGroup;
 			children = (
+				4080A4C5282C8D2800D32002 /* FreightTemplate(运费模板) */,
 				4075AF0A281E1DE6005EB854 /* OrderManagement(订单) */,
 				407D97FB281A3997005A8CBC /* CommodityManagement(商品管理) */,
 				4060BC3E2817A51B00968C42 /* StoreOccupancy(店铺入住) */,
@@ -655,9 +701,12 @@
 				408E423A2828BA0D00C94119 /* AddressCell.swift in Sources */,
 				403B8807282379C600FC4EA4 /* CommoditySpecificationsFooterView.swift in Sources */,
 				408E4255282A16CC00C94119 /* NSDate+Date.swift in Sources */,
+				4074C9F3282DF506009E9023 /* NoDeliveryRegionView.swift in Sources */,
+				4074C9F1282D043C009E9023 /* RegionAddressCell.swift in Sources */,
 				408E42442828EA2E00C94119 /* CheckLogisticsNumberCell.swift in Sources */,
 				401E5DA02814FF17009127A5 /* ShopViewController.swift in Sources */,
 				4075AEF9281CD871005EB854 /* XDEditTextTool.m in Sources */,
+				4080A4D0282CBC1D00D32002 /* NoDeliveryViewController.swift in Sources */,
 				4075AF02281CD8E2005EB854 /* NSAttributedString+Rich.m in Sources */,
 				401E5DC1281528C4009127A5 /* Edit+UIButton.swift in Sources */,
 				403B88052823797300FC4EA4 /* CommoditySpecificationsHeaderView.swift in Sources */,
@@ -674,6 +723,7 @@
 				4060BC422817DE0200968C42 /* BusinessTypeViewController.swift in Sources */,
 				4060BC2B28168DFD00968C42 /* MainViewController.swift in Sources */,
 				4060BC3B281794B000968C42 /* ForgetPasswordViewController.swift in Sources */,
+				4080A4D2282CBD8300D32002 /* NoDeliveryCell.swift in Sources */,
 				403B880D2823B37700FC4EA4 /* CommodityPriceAndStockCell.swift in Sources */,
 				403B880B2823AECB00FC4EA4 /* CommoditySpecificationCell.swift in Sources */,
 				4060BC3728175ED300968C42 /* Edit+UIBarButtonItem.swift in Sources */,
@@ -693,20 +743,26 @@
 				4075AF10281E2696005EB854 /* AfterSalesViewController.swift in Sources */,
 				401E5DC6281528F3009127A5 /* Edit+UIImage.swift in Sources */,
 				4083B2642826223400AFAD18 /* ModifyPriceView.swift in Sources */,
+				4080A4CC282CA24500D32002 /* TemplateContentViewController.swift in Sources */,
 				40AFEBCA281B6B1A0062D271 /* ReleaseGoodsViewController.swift in Sources */,
 				401E5DC9281528F3009127A5 /* Edit+UIImageView.swift in Sources */,
 				4060BC52281A2F6E00968C42 /* ShopDetailCardCell.swift in Sources */,
 				4075AF12281E3088005EB854 /* OrderStatusViewController.swift in Sources */,
 				4083B2622826188100AFAD18 /* CloseOrderReasonCell.swift in Sources */,
+				4074C9F5282DF764009E9023 /* NoDeliveryTableviewCell.swift in Sources */,
 				4083B260282615AA00AFAD18 /* CloseOrderReasonView.swift in Sources */,
+				4080A4C7282C98B700D32002 /* FreightTemplateViewController.swift in Sources */,
 				408E424C282903B200C94119 /* ReturnGoodsAddressCell.swift in Sources */,
 				408E42342828ADD100C94119 /* OrderDeliveryLogisticsCell.swift in Sources */,
+				4080A4CE282CB08000D32002 /* FreightAllocationViewController.swift in Sources */,
+				4074C9EF282CE3D0009E9023 /* RegionView.swift in Sources */,
 				407D9802281A66C6005A8CBC /* commodityStatusCell.swift in Sources */,
 				408E42422828E8BE00C94119 /* CheckLogisticsViewController.swift in Sources */,
 				401E5DD628163A48009127A5 /* StartPageViewController.swift in Sources */,
 				4075AF0E281E2673005EB854 /* OrderContentViewController.swift in Sources */,
 				403B880F2823BAA700FC4EA4 /* SpecificationValueView.swift in Sources */,
 				403B87F92823536400FC4EA4 /* CommodityCategoryViewController.swift in Sources */,
+				4080A4CA282C995E00D32002 /* FreightTemplateCell.swift in Sources */,
 				409C29932814FC5D00005ECB /* UITextView+Placeholder.m in Sources */,
 				408E42462828ED3800C94119 /* CheckLogisticsProgressCell.swift in Sources */,
 				407D9808281A8457005A8CBC /* ReplenishInventoryCell.swift in Sources */,

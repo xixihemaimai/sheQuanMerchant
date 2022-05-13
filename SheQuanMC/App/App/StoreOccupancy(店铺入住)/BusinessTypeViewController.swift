@@ -188,9 +188,6 @@ extension BusinessTypeViewController:UITableViewDelegate,UITableViewDataSource{
                 headerView.choiceBtn.isSelected = false
             }
         }
-        
-        
-        
 //        if let headerView = tableview.headerView(forSection: choiceBtn.tag) as? BusinessTypeHeaderView {
 //            headerView.choiceBtn.isSelected = true
             //这边保存
