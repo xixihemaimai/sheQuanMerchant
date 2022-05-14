@@ -113,16 +113,16 @@ class CloseOrderReasonView: UIView {
     
     
     //选择关闭订单原因
-    @objc func choiceCloseReasoonAction(choiceBtn:UIButton){
-        for i in 0..<reasonList.count{
-            let cell = tableview.cellForRow(at: IndexPath(row: i, section: 0)) as! CloseOrderReasonCell
-            if choiceBtn.tag == i{
-            }else{
-                cell.choiceBtn.isSelected = false
-            }
-        }
-        choiceBtn.isSelected = !choiceBtn.isSelected
-    }
+//    @objc func choiceCloseReasoonAction(choiceBtn:UIButton){
+//        for i in 0..<reasonList.count{
+//            let cell = tableview.cellForRow(at: IndexPath(row: i, section: 0)) as! CloseOrderReasonCell
+//            if choiceBtn.tag == i{
+//            }else{
+//                cell.choiceBtn.isSelected = false
+//            }
+//        }
+//        choiceBtn.isSelected = !choiceBtn.isSelected
+//    }
 }
 
 extension CloseOrderReasonView:UITableViewDelegate,UITableViewDataSource{
@@ -136,7 +136,7 @@ extension CloseOrderReasonView:UITableViewDelegate,UITableViewDataSource{
         let cell = tableView.dequeueReusableCell(withIdentifier: "CloseOrderReasonCell") as! CloseOrderReasonCell
         cell.reasonLabel.text = reasonList[indexPath.row]
         cell.choiceBtn.tag = indexPath.row
-        cell.choiceBtn.addTarget(self, action: #selector(choiceCloseReasoonAction), for: .touchUpInside)
+//        cell.choiceBtn.addTarget(self, action: #selector(choiceCloseReasoonAction), for: .touchUpInside)
         return cell
     }
     
@@ -145,6 +145,19 @@ extension CloseOrderReasonView:UITableViewDelegate,UITableViewDataSource{
         return UITableView.automaticDimension
     }
     
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let cell1 = tableView.cellForRow(at: indexPath) as! CloseOrderReasonCell
+        for i in 0..<reasonList.count{
+            let cell = tableview.cellForRow(at: IndexPath(row: i, section: 0)) as! CloseOrderReasonCell
+            if indexPath.row == i{
+            }else{
+                cell.choiceBtn.isSelected = false
+            }
+        }
+        cell1.choiceBtn.isSelected = !cell1.choiceBtn.isSelected
+    }
     
     
 }

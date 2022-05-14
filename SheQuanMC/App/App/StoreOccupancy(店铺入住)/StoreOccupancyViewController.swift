@@ -55,6 +55,7 @@ class StoreOccupancyViewController: BaseViewController {
     lazy var shopTextField:UITextField = {
        let shopTextField = UITextField()
         shopTextField.placeholder = "请输入店铺名称,长度不超过20个字"
+        shopTextField.clearButtonMode = .whileEditing
         shopTextField.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         shopTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         shopTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入店铺名称,长度不超过20个字", attributes: [

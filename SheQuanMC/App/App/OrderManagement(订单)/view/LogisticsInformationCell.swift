@@ -75,6 +75,7 @@ class LogisticsInformationCell: UITableViewCell {
     lazy var expressTextField:UITextField = {
       let expressTextField = UITextField()
         expressTextField.placeholder = "请输入快递单号"
+        expressTextField.clearButtonMode = .whileEditing
         expressTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入快递单号", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
         return expressTextField

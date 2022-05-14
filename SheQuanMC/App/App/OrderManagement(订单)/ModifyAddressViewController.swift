@@ -18,7 +18,7 @@ class ModifyAddressViewController: BaseViewController {
     //原姓名
     lazy var nameTextView:UITextView = {
        let nameTextView = UITextView()
-        nameTextView.placeholder = "姓名"
+        nameTextView.placeholder = "请输入"
         nameTextView.placeholderColor = UIColor.colorWithDyColorChangObject(lightColor: "#787878")
         nameTextView.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         nameTextView.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
@@ -59,10 +59,11 @@ class ModifyAddressViewController: BaseViewController {
     
     lazy var addressLabel:UILabel = {
         let addressLabel = UILabel()
-//        addressTextView.placeholder = "地址"
+        addressLabel.text = "请选择"
+        addressLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#C2C2C2")
 //        addressTextView.placeholderColor = UIColor.colorWithDyColorChangObject(lightColor: "#787878")
         addressLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
-        addressLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+       
         addressLabel.textAlignment = .left
        return addressLabel
     }()
@@ -406,6 +407,7 @@ class ModifyAddressViewController: BaseViewController {
                     addressText += (addressModel.region_name ?? "")
                 })
                 self?.addressLabel.text = addressText
+                self?.addressLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
                 self?.popup.dismissPopup()
             }
             return regionView

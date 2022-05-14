@@ -52,6 +52,7 @@ class EnterpriseCertificationViewController: BaseViewController {
     lazy var epNameTextField:UITextField = {
          let epNameTextField = UITextField()
         epNameTextField.placeholder = "请输入企业名称"
+        epNameTextField.clearButtonMode = .whileEditing
         epNameTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入企业名称", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
         epNameTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
@@ -82,6 +83,7 @@ class EnterpriseCertificationViewController: BaseViewController {
     lazy var epdTextField:UITextField = {
          let epdTextField = UITextField()
         epdTextField.placeholder = "请输入企业地址"
+        epdTextField.clearButtonMode = .whileEditing
         epdTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入企业地址", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
         epdTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
@@ -109,6 +111,7 @@ class EnterpriseCertificationViewController: BaseViewController {
     lazy var creditTextField:UITextField = {
          let creditTextField = UITextField()
         creditTextField.placeholder = "请输入信用代码/注册号"
+        creditTextField.clearButtonMode = .whileEditing
         creditTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入信用代码/注册号", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
         creditTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
@@ -138,6 +141,7 @@ class EnterpriseCertificationViewController: BaseViewController {
     lazy var legalNameTextField:UITextField = {
          let legalNameTextField = UITextField()
         legalNameTextField.placeholder = "请输入法人姓名"
+        legalNameTextField.clearButtonMode = .whileEditing
         legalNameTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入法人姓名", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
         legalNameTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
@@ -166,6 +170,7 @@ class EnterpriseCertificationViewController: BaseViewController {
     lazy var idCardTextField:UITextField = {
          let idCardTextField = UITextField()
         idCardTextField.placeholder = "请输入法人身份证号"
+        idCardTextField.clearButtonMode = .whileEditing
         idCardTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入法人身份证号", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
         idCardTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)

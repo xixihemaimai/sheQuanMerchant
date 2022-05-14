@@ -188,51 +188,73 @@ class NoDeliveryRegionView: UIView {
             for i in 0..<self.dataArray.count {
                 let provinceM = self.dataArray[i] as AddressModel
                 if provinceM.region_name == (addressmodel.region_name)!{
-                    self.cityArray.removeAll()
-                    let cityDicArray = provinceM.childs!
-                    for j in 0..<cityDicArray.count {
-                       let cityDic = cityDicArray[j]
-                       let cityM = AddressModel.init()
-                       cityM.region_name = (cityDic["region_name"] as? String)
-                       cityM.region_id = (cityDic["region_id"] as! String)
-                       cityM.agency_id = (cityDic["agency_id"] as? String)
-                       cityM.parent_id = (cityDic["parent_id"] as! String)
-                       cityM.region_type = (cityDic["region_type"] as! String)
-                       cityM.childs = (cityDic["childs"] as! [NSDictionary])
-                       cityM.isChoice = (cityDic["isChoice"] as! Bool)
-                       self.cityArray.append(cityM)
+                    
+                    let addressmodel1 = titleArray[1] as AddressModel
+                    if addressmodel1.region_name == "全选" {
+                        self.cityArray.removeAll()
+                        let cityDicArray = provinceM.childs!
+                        for j in 0..<cityDicArray.count {
+                           let cityDic = cityDicArray[j]
+                           let cityM = AddressModel.init()
+                           cityM.region_name = (cityDic["region_name"] as? String)
+                           cityM.region_id = (cityDic["region_id"] as! String)
+                           cityM.agency_id = (cityDic["agency_id"] as? String)
+                           cityM.parent_id = (cityDic["parent_id"] as! String)
+                           cityM.region_type = (cityDic["region_type"] as! String)
+                           cityM.childs = (cityDic["childs"] as! [NSDictionary])
+                           cityM.isChoice = true
+                           self.cityArray.append(cityM)
+                        }
+                        let addressmodel2 = AddressModel()
+                        addressmodel2.isChoice = true
+                        addressmodel2.region_name = "全选"
+                        self.cityArray.insert(addressmodel2, at: 0)
+                    }else{
+                        
+                        //这边要根据titleArray之后的数据进行变化
+                        
+                        
+                        
+                        self.cityArray.removeAll()
+                        let cityDicArray = provinceM.childs!
+                        for j in 0..<cityDicArray.count {
+                           let cityDic = cityDicArray[j]
+                           let cityM = AddressModel.init()
+                           cityM.region_name = (cityDic["region_name"] as? String)
+                           cityM.region_id = (cityDic["region_id"] as! String)
+                           cityM.agency_id = (cityDic["agency_id"] as? String)
+                           cityM.parent_id = (cityDic["parent_id"] as! String)
+                           cityM.region_type = (cityDic["region_type"] as! String)
+                           cityM.childs = (cityDic["childs"] as! [NSDictionary])
+                           cityM.isChoice = false
+                           self.cityArray.append(cityM)
+                        }
+                        let addressmodel2 = AddressModel()
+                        addressmodel2.isChoice = false
+                        addressmodel2.region_name = "全选"
+                        self.cityArray.insert(addressmodel2, at: 0)
+                        
+                        for i in 0..<self.titleArray.count{
+                            let addressModel3 = self.titleArray[i]
+                            for j in 0..<self.cityArray.count{
+                                let addressmodel1 = self.cityArray[j]
+                                if addressmodel1.region_name == addressModel3.region_name{
+                                    self.cityArray[j] = addressModel3
+                                }
+                            }
+                        }
+                       
                     }
                 }
             }
-            
-            
-//            let addressmodel1 = titleArray[1] as AddressModel
-//            for i in 0..<self.cityArray.count {
-//                let cityModel = self.cityArray[i]
-//                if cityModel.region_name == (addressmodel1.region_name)!{
-//                    self.districtArray.removeAll()
-//                    let areaArray = cityModel.childs!
-//                    for j in 0..<areaArray.count {
-//                        let areaDic = areaArray[j]
-//                        let areaModel = AddressModel.init()
-//                        areaModel.region_name = (areaDic["region_name"] as? String)
-//                        areaModel.region_id = (areaDic["region_id"] as! String)
-//                        areaModel.agency_id = (areaDic["agency_id"] as? String)
-//                        areaModel.parent_id = (areaDic["parent_id"] as! String)
-//                        areaModel.region_type = (areaDic["region_type"] as! String)
-//                        self.districtArray.append(areaModel)
-//                    }
-//                }
-//            }
         }
-        
         addTitleView()
         addSubviewContentView()
-        let btn = titleBtnArray[titleArray.count - 1]
+        let count = (titleArray.count > 2 ? 1 : titleArray.count - 1)
+        let btn = titleBtnArray[count]
 //        titleBtnClick(titleBtn: btn)
         changBtnTitle(titleBtn: btn)
     }
-    
     
     
     
@@ -283,7 +305,6 @@ class NoDeliveryRegionView: UIView {
         })
     }
     
-    
     //选中的按键
     @objc func titleBtnClick(titleBtn:UIButton){
         preBtn?.titleLabel?.font = UIFont.systemFont(ofSize: scale(14), weight: .medium)
@@ -331,44 +352,6 @@ class NoDeliveryRegionView: UIView {
                 }
             }
         }
-//        else if titleBtn.tag == 1{
-//            if titleBtn.currentTitle != "请选择" {
-//                contentScrollView.subviews.forEach { view in
-//                    if view.isKind(of: UITableView.self){
-//                        let tableview = view as! NoDeliveryTableView
-//                        let addressmodel = titleArray[0] as AddressModel
-//                        titleArray.removeLast()
-//                        for i in 0..<self.dataArray.count {
-//                            let provinceM = self.dataArray[i] as AddressModel
-//                            if provinceM.region_name == (addressmodel.region_name)!{
-//                                self.cityArray.removeAll()
-//                                let cityDicArray = provinceM.childs!
-//                                for j in 0..<cityDicArray.count {
-//                                   let cityDic = cityDicArray[j]
-//                                   let cityM = AddressModel.init()
-//                                   cityM.region_name = (cityDic["region_name"] as? String)
-//                                   cityM.region_id = (cityDic["region_id"] as! String)
-//                                   cityM.agency_id = (cityDic["agency_id"] as? String)
-//                                   cityM.parent_id = (cityDic["parent_id"] as! String)
-//                                   cityM.region_type = (cityDic["region_type"] as! String)
-//                                   cityM.childs = (cityDic["childs"] as! [NSDictionary])
-//                                    cityM.isChoice = (cityDic["isChoice"] as! Bool)
-//                                   self.cityArray.append(cityM)
-//                                }
-//                            }
-//                        }
-//                        let addressmodel1 = titleArray[1] as AddressModel
-//                        addressmodel1.region_name = "请选择"
-//
-//                        tableview.titleStringArray = cityArray
-//                        tableview.reloadData()
-//                        self.addTitleView()
-//                        let btn = titleBtnArray[titleArray.count - 1]
-//                        changBtnTitle(titleBtn: btn)
-//                    }
-//                }
-//            }
-//        }
     }
     
     func changBtnTitle(titleBtn:UIButton){
@@ -392,7 +375,6 @@ class NoDeliveryRegionView: UIView {
     }
     
     func addSubviewContentView(){
-//        let tableview = RegionTableView(frame: .zero, style: .grouped)
         if titleArray.count == 1{
             tableview.titleStringArray = self.dataArray
         }else{
@@ -545,7 +527,7 @@ class NoDeliveryRegionView: UIView {
                 self.titleArray.insert(addressmodel2, at: 1)
                 
                 
-                
+                //返回剔除重复元素后的数组,其元素顺序不变,并保留一个
                 self.titleArray = self.titleArray.noRepetitionUseSet
                                 
                 
@@ -602,29 +584,24 @@ class NoDeliveryRegionView: UIView {
     
     //确定
     @objc func sureBtnClicked(){
-        
-        
         LXFLog("=========================\(self.titleArray)")
-        
-        
-//        var isChoiceComplete:Bool = true
+        var isChoiceComplete:Bool = true
         //这里要把需要的东西传递出去
-//        for view in titleView.subviews {
-//            if view.isKind(of: UIButton.self){
-//                let btn = view as! UIButton
-//                if btn.currentTitle == "请选择"{
-//                    isChoiceComplete = false
-//                    break
-//                }
-//            }
-//        }
-//        if isChoiceComplete == false{
-//            JFPopup.toast(hit: "请选择完整的地址")
-//            return
-//        }
-//
-//        //把数组传递出去
-//        sureChoiceAddress!(titleArray)
+        for view in titleView.subviews {
+            if view.isKind(of: UIButton.self){
+                let btn = view as! UIButton
+                if btn.currentTitle == "请选择"{
+                    isChoiceComplete = false
+                    break
+                }
+            }
+        }
+        if isChoiceComplete == false{
+            JFPopup.toast(hit: "请选择完整的地址")
+            return
+        }
+        //把数组传递出去
+        sureChoiceAddress!(titleArray)
     }
 }
 

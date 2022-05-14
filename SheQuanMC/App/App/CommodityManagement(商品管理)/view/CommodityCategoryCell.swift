@@ -13,6 +13,7 @@ class CommodityCategoryCell: UITableViewCell {
     //选择按键
     lazy var choiceBtn:UIButton = {
        let choiceBtn = UIButton()
+        choiceBtn.isUserInteractionEnabled = false
         choiceBtn.setBackgroundImage(UIImage(named: "Ellipse 38"), for: .normal)
         choiceBtn.setBackgroundImage(UIImage(named: "Group 2742"), for: .selected)
         return choiceBtn

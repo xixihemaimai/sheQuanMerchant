@@ -524,8 +524,9 @@ class CommodityParametersViewController: BaseViewController {
             make.left.equalTo(scale(16))
             make.right.equalTo(-scale(16))
             make.height.equalTo(scale(44))
-            make.top.equalTo(scale(14))
+            make.bottom.equalTo(-scale(34))
         }
+        
         sureBtn.layer.cornerRadius = scale(4)
         sureBtn.addTarget(self, action: #selector(sureAction), for: .touchUpInside)
         

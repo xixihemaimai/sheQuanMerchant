@@ -167,7 +167,47 @@ open class StartPageViewController: BaseViewController {
            make.height.equalTo(scale(17))
            make.width.equalTo(scale(50))
        }
+       
+       //这边要弹起用户协议和隐私协议
+       
+       if (!UserDefaults.standard.bool(forKey: "isFristLaunchScreen")){
+           showIsFristLaunchView()
+       }
     }
+    
+    func showIsFristLaunchView(){
+        self.popup.dialog {
+            let userPrivacyView = UserPrivacyView(frame: CGRect(x: 0, y: 0, width: SCW - scale(60), height: scale(516)), content: """
+                感谢您使用奢圈商户版！ 我们将通过《隐私政策》及《用户协议》来帮助您了解我们在手机使用、存储和共享您个人信息的情况及您享有的权力：
+                1.为向您提供基本服务，我们将收集、使用您的必要信息；
+                2.为了更好的向您提供完整的用户服务，我们会向您发起摄像头、相册等权限申请，只有经过您同意授权的前提下才会使用，您有权拒绝或取消授权；
+                3.未经您的同意，我们不会向第三方获取、共享或对外提供您的个人信息；
+                4.您可以查询、更正、删除您的个人信息，我们也提供账户注销的渠道；
+                """)
+            userPrivacyView.jumpType = {[weak self] type in
+                self?.popup.dismissPopup()
+                if type == 0 || type == 1{
+                    let loginVc = LoginViewController()
+                    Coordinator.shared?.pushViewController(self!,loginVc, animated: true)
+                }else if type == 3{
+                    //同意的步骤
+                    UserDefaults.standard.set(true, forKey: "isFristLaunchScreen")
+                    UserDefaults.standard.synchronize()
+                }else{
+                    //退出APP
+                    let window = UIApplication.shared.keyWindow
+                    UIView.animate(withDuration: 1.0) {
+                        window?.alpha = 0
+                        window?.frame = CGRect(x: 0, y: (window?.bounds.size.width)!, width: 0, height: 0)
+                    } completion: { finished in
+                        exit(0)
+                    }
+                }
+            }
+            return userPrivacyView
+        }
+    }
+    
     
     //注册
     @objc public func registerAction(zernBtn:UIButton){

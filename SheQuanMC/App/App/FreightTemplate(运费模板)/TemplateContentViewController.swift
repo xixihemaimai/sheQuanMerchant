@@ -15,6 +15,7 @@ class TemplateContentViewController: BaseViewController {
     lazy var templateNameTextFiled:UITextField = {
        let templateNameTextFiled = UITextField()
         templateNameTextFiled.placeholder = "请输入"
+        templateNameTextFiled.clearButtonMode = .whileEditing
         templateNameTextFiled.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         templateNameTextFiled.clearButtonMode = .whileEditing
         templateNameTextFiled.attributedPlaceholder = NSAttributedString.init(string:"请输入", attributes: [

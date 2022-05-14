@@ -152,16 +152,16 @@ class CommodityParameterView: UIView {
     
     
     //选择关闭订单原因
-    @objc func choiceCloseReasoonAction(choiceBtn:UIButton){
-        for i in 0..<reasonList.count{
-            let cell = tableview.cellForRow(at: IndexPath(row: i, section: 0)) as! CloseOrderReasonCell
-            if choiceBtn.tag == i{
-            }else{
-                cell.choiceBtn.isSelected = false
-            }
-        }
-        choiceBtn.isSelected = !choiceBtn.isSelected
-    }
+//    @objc func choiceCloseReasoonAction(choiceBtn:UIButton){
+//        for i in 0..<reasonList.count{
+//            let cell = tableview.cellForRow(at: IndexPath(row: i, section: 0)) as! CloseOrderReasonCell
+//            if choiceBtn.tag == i{
+//            }else{
+//                cell.choiceBtn.isSelected = false
+//            }
+//        }
+//        choiceBtn.isSelected = !choiceBtn.isSelected
+//    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -180,13 +180,35 @@ extension CommodityParameterView:UITableViewDelegate,UITableViewDataSource{
         let cell = tableView.dequeueReusableCell(withIdentifier: "CloseOrderReasonCell") as! CloseOrderReasonCell
         cell.reasonLabel.text = reasonList[indexPath.row]
         cell.choiceBtn.tag = indexPath.row
-        cell.choiceBtn.addTarget(self, action: #selector(choiceCloseReasoonAction), for: .touchUpInside)
+//        cell.choiceBtn.addTarget(self, action: #selector(choiceCloseReasoonAction), for: .touchUpInside)
         return cell
     }
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
+    }
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableview.deselectRow(at: indexPath, animated: true)
+        let cell1 = tableView.cellForRow(at: indexPath) as! CloseOrderReasonCell
+//        reasonList.forEach { index in
+//           let cell = tableview.cellForRow(at: IndexPath(row: index, section: 0)) as! CloseOrderReasonCell
+//            if index == indexPath.row{
+//
+//            }else{
+//                cell.choiceBtn.isSelected = false
+//            }
+//        }
+        for (index, _) in reasonList.enumerated(){
+            let cell = tableview.cellForRow(at: IndexPath(row: index, section: 0)) as! CloseOrderReasonCell
+            if index == indexPath.row{
+            }else{
+               cell.choiceBtn.isSelected = false
+            }
+        }
+        cell1.choiceBtn.isSelected = !cell1.choiceBtn.isSelected
     }
     
     

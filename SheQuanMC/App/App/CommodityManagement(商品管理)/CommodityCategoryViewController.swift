@@ -109,20 +109,20 @@ class CommodityCategoryViewController: BaseViewController {
 
     
     //选择第二级商品类目
-    @objc func choiceSecondCategoryAction(choiceBtn:UIButton){
-        //这边要对所有的类目进行青春
-        categoryList.forEach { index in
-           let cell = tableview.cellForRow(at: IndexPath(row: index, section: 0)) as! CommodityCategoryCell
-            cell.choiceBtn.isSelected = false
-        }
-//        choiceBtn.isSelected = !choiceBtn.isSelected
-        if choiceTag["tag"] == choiceBtn.tag{
-            choiceTag["tag"] = 1000000000000
-        }else{
-            choiceTag["tag"] = choiceBtn.tag
-        }
-        tableview.reloadData()
-    }
+//    @objc func choiceSecondCategoryAction(choiceBtn:UIButton){
+//        //这边要对所有的类目进行青春
+//        categoryList.forEach { index in
+//           let cell = tableview.cellForRow(at: IndexPath(row: index, section: 0)) as! CommodityCategoryCell
+//            cell.choiceBtn.isSelected = false
+//        }
+////        choiceBtn.isSelected = !choiceBtn.isSelected
+//        if choiceTag["tag"] == choiceBtn.tag{
+//            choiceTag["tag"] = 1000000000000
+//        }else{
+//            choiceTag["tag"] = choiceBtn.tag
+//        }
+//        tableview.reloadData()
+//    }
     
 }
 
@@ -143,11 +143,33 @@ extension CommodityCategoryViewController:UITableViewDelegate,UITableViewDataSou
         let cell = tableView.dequeueReusableCell(withIdentifier: "CommodityCategoryCell")
         as! CommodityCategoryCell
         cell.choiceBtn.tag = indexPath.row
-        cell.choiceBtn.addTarget(self, action: #selector(choiceSecondCategoryAction), for: .touchUpInside)
-        if indexPath.row == choiceTag["tag"]{
-            cell.choiceBtn.isSelected = true
-        }
+//        cell.choiceBtn.addTarget(self, action: #selector(choiceSecondCategoryAction), for: .touchUpInside)
+//        if indexPath.row == choiceTag["tag"]{
+//            cell.choiceBtn.isSelected = true
+//        }
         return cell
     }
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let cell1 = tableView.cellForRow(at: indexPath) as! CommodityCategoryCell
+        categoryList.forEach { index in
+           let cell = tableview.cellForRow(at: IndexPath(row: index, section: 0)) as! CommodityCategoryCell
+            if index == indexPath.row{
+                
+            }else{
+                cell.choiceBtn.isSelected = false
+            }
+        }
+        cell1.choiceBtn.isSelected = !cell1.choiceBtn.isSelected
+//        if choiceTag["tag"] == choiceBtn.tag{
+//            choiceTag["tag"] = 1000000000000
+//        }else{
+//            choiceTag["tag"] = choiceBtn.tag
+//        }    
+    }
+    
+    
     
 }

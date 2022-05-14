@@ -49,6 +49,7 @@
 		4074C9F1282D043C009E9023 /* RegionAddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4074C9F0282D043B009E9023 /* RegionAddressCell.swift */; };
 		4074C9F3282DF506009E9023 /* NoDeliveryRegionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4074C9F2282DF506009E9023 /* NoDeliveryRegionView.swift */; };
 		4074C9F5282DF764009E9023 /* NoDeliveryTableviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4074C9F4282DF764009E9023 /* NoDeliveryTableviewCell.swift */; };
+		4074C9F8282F37B4009E9023 /* UserPrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4074C9F7282F37B3009E9023 /* UserPrivacyView.swift */; };
 		4075AEF0281CD621005EB854 /* ProductDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075AEEF281CD621005EB854 /* ProductDescriptionViewController.swift */; };
 		4075AEF8281CD871005EB854 /* XDRichTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4075AEF2281CD871005EB854 /* XDRichTextView.m */; };
 		4075AEF9281CD871005EB854 /* XDEditTextTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 4075AEF3281CD871005EB854 /* XDEditTextTool.m */; };
@@ -177,6 +178,7 @@
 		4074C9F0282D043B009E9023 /* RegionAddressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionAddressCell.swift; sourceTree = "<group>"; };
 		4074C9F2282DF506009E9023 /* NoDeliveryRegionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDeliveryRegionView.swift; sourceTree = "<group>"; };
 		4074C9F4282DF764009E9023 /* NoDeliveryTableviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDeliveryTableviewCell.swift; sourceTree = "<group>"; };
+		4074C9F7282F37B3009E9023 /* UserPrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPrivacyView.swift; sourceTree = "<group>"; };
 		4075AEEF281CD621005EB854 /* ProductDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDescriptionViewController.swift; sourceTree = "<group>"; };
 		4075AEF2281CD871005EB854 /* XDRichTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XDRichTextView.m; sourceTree = "<group>"; };
 		4075AEF3281CD871005EB854 /* XDEditTextTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XDEditTextTool.m; sourceTree = "<group>"; };
@@ -283,6 +285,7 @@
 		401E5DD22815405E009127A5 /* Login(注册和登录) */ = {
 			isa = PBXGroup;
 			children = (
+				4074C9F6282F374A009E9023 /* view */,
 				401E5DD528163A47009127A5 /* StartPageViewController.swift */,
 				401E5DD32815407A009127A5 /* LoginViewController.swift */,
 				4060BC3828177F1A00968C42 /* RegisterViewController.swift */,
@@ -343,6 +346,14 @@
 			children = (
 				4060BC4F281A1B6300968C42 /* ShopDetailCell.swift */,
 				4060BC51281A2F6E00968C42 /* ShopDetailCardCell.swift */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		4074C9F6282F374A009E9023 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				4074C9F7282F37B3009E9023 /* UserPrivacyView.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -714,6 +725,7 @@
 				403B88032823725400FC4EA4 /* CommoditySpecificationsViewController.swift in Sources */,
 				407D9804281A70DF005A8CBC /* commodityExamineCell.swift in Sources */,
 				408E42322828AA9300C94119 /* OrderToBePaidCell.swift in Sources */,
+				4074C9F8282F37B4009E9023 /* UserPrivacyView.swift in Sources */,
 				401E5DAC281520D5009127A5 /* MyViewController.swift in Sources */,
 				403B880128236A8100FC4EA4 /* CommodityParameterView.swift in Sources */,
 				4060BC452817DF7100968C42 /* BusinessTypeCell.swift in Sources */,
