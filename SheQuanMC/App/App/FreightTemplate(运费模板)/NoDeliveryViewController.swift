@@ -104,7 +104,6 @@ class NoDeliveryViewController: BaseViewController {
                                 let addressmodel = array[j] as AddressModel
                                 for n in 0..<list.count{
                                 let addressmodel1 = list[n]
-                                LXFLog(addressmodel1.region_name)
                                 if addressmodel.region_name == addressmodel1.region_name{
                                    isAdd = false
                                    break
@@ -176,7 +175,8 @@ extension NoDeliveryViewController:UITableViewDelegate,UITableViewDataSource{
         let addressmodel = array[1] as AddressModel
         if addressmodel.region_name == "全选"{
             let addressmodel1 = array[0] as AddressModel
-            cell.regionLabel.text = addressmodel1.region_name
+//            cell.regionLabel.text = addressmodel1.region_name
+            cell.addressText = addressmodel.region_name!
         }else{
             //这边是省份和后续的东西
             var addressText:String = ""
@@ -184,7 +184,8 @@ extension NoDeliveryViewController:UITableViewDelegate,UITableViewDataSource{
                 let addressmodel = array[i] as AddressModel
                 addressText += (addressmodel.region_name)!
             }
-            cell.regionLabel.text = addressText
+//            cell.regionLabel.text = addressText
+            cell.addressText = addressText
         }
         
         cell.cancelBtn.tag = indexPath.row
@@ -209,6 +210,9 @@ extension NoDeliveryViewController:UITableViewDelegate,UITableViewDataSource{
                     var isAdd:Bool = true
                     for i in 0..<(self?.regionList.count ?? 0){
                         let array = self?.regionList[i]
+                        if i == indexPath.row{
+                          continue
+                        }
                         for j in 0..<(array?.count ?? 0){
                             let addressmodel = array![j] as AddressModel
                             for n in 0..<list.count{
@@ -221,7 +225,8 @@ extension NoDeliveryViewController:UITableViewDelegate,UITableViewDataSource{
                         }
                     }
                     if isAdd{
-                        self?.regionList.append(list)
+//                        self?.regionList.append(list)
+                        self?.regionList[indexPath.row] = list
                     }else{
                         JFPopup.toast(hit: "添加的地址有相同的地方")
                     }
@@ -230,11 +235,13 @@ extension NoDeliveryViewController:UITableViewDelegate,UITableViewDataSource{
                     var isAdd:Bool = true
                     for i in 0..<(self?.regionList.count ?? 0){
                         if let array = self?.regionList[i]{
+                            if i == indexPath.row{
+                              continue
+                            }
                             for j in 1..<array.count{
                                 let addressmodel = array[j] as AddressModel
                                 for n in 0..<list.count{
                                 let addressmodel1 = list[n]
-                                LXFLog(addressmodel1.region_name)
                                 if addressmodel.region_name == addressmodel1.region_name{
                                    isAdd = false
                                    break
@@ -244,7 +251,8 @@ extension NoDeliveryViewController:UITableViewDelegate,UITableViewDataSource{
                         }
                     }
                     if isAdd{
-                        self?.regionList.append(list)
+//                        self?.regionList.append(list)
+                        self?.regionList[indexPath.row] = list
                     }else{
                         JFPopup.toast(hit: "添加的地址有相同的地方")
                     }

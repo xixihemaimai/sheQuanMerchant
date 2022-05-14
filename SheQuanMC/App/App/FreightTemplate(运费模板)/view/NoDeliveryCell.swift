@@ -34,6 +34,34 @@ class NoDeliveryCell: UITableViewCell {
     
     
     
+    
+    
+    
+    var addressText:String = "" {
+        didSet{
+           
+            //这边获取高度
+            
+           var height = addressText.rectHeight(font: UIFont.systemFont(ofSize: scale(16), weight: .regular), size:CGSize(width:  SCW - scale(88), height: CGFloat(MAXFLOAT)))
+            if height > 30{
+                height += scale(10)
+            }
+            regionLabel.text = addressText
+            
+            regionLabel.snp.remakeConstraints { make in
+                make.left.equalTo(scale(16))
+                make.centerY.equalToSuperview()
+                make.height.equalTo(height)
+                make.right.equalTo(-scale(40))
+                make.bottom.equalTo(-scale(15))
+            }
+            
+        }
+    }
+    
+    
+    
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
