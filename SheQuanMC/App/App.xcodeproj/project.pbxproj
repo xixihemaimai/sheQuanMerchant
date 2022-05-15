@@ -50,6 +50,8 @@
 		4074C9F3282DF506009E9023 /* NoDeliveryRegionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4074C9F2282DF506009E9023 /* NoDeliveryRegionView.swift */; };
 		4074C9F5282DF764009E9023 /* NoDeliveryTableviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4074C9F4282DF764009E9023 /* NoDeliveryTableviewCell.swift */; };
 		4074C9F8282F37B4009E9023 /* UserPrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4074C9F7282F37B3009E9023 /* UserPrivacyView.swift */; };
+		4074C9FB2830BC10009E9023 /* MMLocationParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4074C9F92830BC0E009E9023 /* MMLocationParser.m */; };
+		4074C9FC2830BC10009E9023 /* MMLocationParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4074C9FA2830BC0F009E9023 /* MMLocationParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4075AEF0281CD621005EB854 /* ProductDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075AEEF281CD621005EB854 /* ProductDescriptionViewController.swift */; };
 		4075AEF8281CD871005EB854 /* XDRichTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4075AEF2281CD871005EB854 /* XDRichTextView.m */; };
 		4075AEF9281CD871005EB854 /* XDEditTextTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 4075AEF3281CD871005EB854 /* XDEditTextTool.m */; };
@@ -179,6 +181,8 @@
 		4074C9F2282DF506009E9023 /* NoDeliveryRegionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDeliveryRegionView.swift; sourceTree = "<group>"; };
 		4074C9F4282DF764009E9023 /* NoDeliveryTableviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDeliveryTableviewCell.swift; sourceTree = "<group>"; };
 		4074C9F7282F37B3009E9023 /* UserPrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPrivacyView.swift; sourceTree = "<group>"; };
+		4074C9F92830BC0E009E9023 /* MMLocationParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMLocationParser.m; sourceTree = "<group>"; };
+		4074C9FA2830BC0F009E9023 /* MMLocationParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMLocationParser.h; sourceTree = "<group>"; };
 		4075AEEF281CD621005EB854 /* ProductDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDescriptionViewController.swift; sourceTree = "<group>"; };
 		4075AEF2281CD871005EB854 /* XDRichTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XDRichTextView.m; sourceTree = "<group>"; };
 		4075AEF3281CD871005EB854 /* XDEditTextTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XDEditTextTool.m; sourceTree = "<group>"; };
@@ -508,6 +512,8 @@
 		409C29902814FC1500005ECB /* category(分类) */ = {
 			isa = PBXGroup;
 			children = (
+				4074C9FA2830BC0F009E9023 /* MMLocationParser.h */,
+				4074C9F92830BC0E009E9023 /* MMLocationParser.m */,
 				4075AF07281CE7A5005EB854 /* UIColor+HEX.h */,
 				4075AF06281CE7A3005EB854 /* UIColor+HEX.m */,
 				4075AF00281CD8E2005EB854 /* NSAttributedString+Rich.h */,
@@ -592,6 +598,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4074C9FC2830BC10009E9023 /* MMLocationParser.h in Headers */,
 				4075AF09281CE7A5005EB854 /* UIColor+HEX.h in Headers */,
 				4075AF05281CD8E2005EB854 /* NSString+JSON.h in Headers */,
 				4075AF04281CD8E2005EB854 /* NSAttributedString+Rich.h in Headers */,
@@ -723,6 +730,7 @@
 				403B88052823797300FC4EA4 /* CommoditySpecificationsHeaderView.swift in Sources */,
 				4060BC492818C87400968C42 /* EnterpriseCertificationViewController.swift in Sources */,
 				403B88032823725400FC4EA4 /* CommoditySpecificationsViewController.swift in Sources */,
+				4074C9FB2830BC10009E9023 /* MMLocationParser.m in Sources */,
 				407D9804281A70DF005A8CBC /* commodityExamineCell.swift in Sources */,
 				408E42322828AA9300C94119 /* OrderToBePaidCell.swift in Sources */,
 				4074C9F8282F37B4009E9023 /* UserPrivacyView.swift in Sources */,

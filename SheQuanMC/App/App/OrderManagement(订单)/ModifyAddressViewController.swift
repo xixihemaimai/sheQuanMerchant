@@ -340,7 +340,7 @@ class ModifyAddressViewController: BaseViewController {
         bottomView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.top.equalTo(isDefaultSwitch.snp.bottom).offset(scale(12))
-            make.bottom.equalTo(-scale(92))
+            make.bottom.equalTo(iPhoneX ? -scale(92) : -scale(58))
         }
         
         
@@ -362,7 +362,7 @@ class ModifyAddressViewController: BaseViewController {
             make.left.equalTo(scale(16))
             make.right.equalTo(-scale(16))
             make.height.equalTo(scale(44))
-            make.bottom.equalTo(-scale(44))
+            make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(10))
         }
         
         submitBtn.layer.cornerRadius = scale(4)
@@ -393,6 +393,24 @@ class ModifyAddressViewController: BaseViewController {
         LXFLog("---------------------")
 //        let pickerView = BHJPickerView.init(self, .address)
 //        pickerView.pickerViewShow()
+        
+        
+        let parser = MMLocationParser.init(loation: "海南省东方")
+        
+        LXFLog(parser.location)
+        LXFLog(parser.province)
+        LXFLog(parser.city)
+        LXFLog(parser.area)
+        LXFLog(parser.town)
+        LXFLog(parser.street)
+        LXFLog(parser.name)
+        LXFLog(parser.results)
+        
+        //parser.results
+        //有三个就是0位省 1为城市 2为区县
+        //有俩个就是0位省 1为城市
+        
+        
         self.popup.bottomSheet {
             let regionView = RegionView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(442)), addressList: self.addressList)
             

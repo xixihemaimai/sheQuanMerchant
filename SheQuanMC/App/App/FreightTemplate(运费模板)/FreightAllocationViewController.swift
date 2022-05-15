@@ -403,7 +403,7 @@ class FreightAllocationViewController: BaseViewController {
         view.addSubview(bottomView)
         bottomView.snp.makeConstraints { make in
             make.left.right.bottom.equalToSuperview()
-            make.height.equalTo(scale(92))
+            make.height.equalTo(iPhoneX ? scale(92) : scale(58))
         }
 
         
@@ -420,7 +420,7 @@ class FreightAllocationViewController: BaseViewController {
             make.left.equalTo(scale(16))
             make.right.equalTo(-scale(16))
             make.height.equalTo(scale(44))
-            make.bottom.equalTo(-scale(34))
+            make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(10))
         }
         
         saveBtn.layer.cornerRadius = scale(4)

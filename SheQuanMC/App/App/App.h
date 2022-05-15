@@ -23,3 +23,4 @@ FOUNDATION_EXPORT const unsigned char AppVersionString[];
 #import <App/NSAttributedString+Rich.h>
 #import <App/NSString+JSON.h>
 #import <App/UIColor+HEX.h>
+#import <App/MMLocationParser.h>

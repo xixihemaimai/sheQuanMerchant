@@ -96,7 +96,7 @@ class OrderDetailViewController: BaseViewController {
         tableview.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.top.equalTo(topView.snp.bottom)
-            make.bottom.equalTo(-scale(92))
+            make.bottom.equalTo(iPhoneX ? -scale(92) : -scale(58))
         }
         tableview.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#F8F8F8")
         
@@ -124,7 +124,7 @@ class OrderDetailViewController: BaseViewController {
         view.addSubview(modifyPriceBtn)
         modifyPriceBtn.snp.makeConstraints { make in
             make.right.equalTo(-scale(16))
-            make.bottom.equalTo(-scale(44))
+            make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(10))
             make.height.equalTo(scale(36))
             make.width.equalTo(scale(64))
         }
@@ -139,7 +139,7 @@ class OrderDetailViewController: BaseViewController {
         
         view.addSubview(closeOrderBtn)
         closeOrderBtn.snp.makeConstraints { make in
-            make.bottom.equalTo(-scale(44))
+            make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(10))
             make.height.equalTo(scale(36))
             make.width.equalTo(scale(80))
             make.right.equalTo(modifyPriceBtn.snp.left).offset(-scale(12))
@@ -155,7 +155,7 @@ class OrderDetailViewController: BaseViewController {
         //待发货
         view.addSubview(toShipBtn)
         toShipBtn.snp.makeConstraints { make in
-            make.bottom.equalTo(-scale(44))
+            make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(10))
             make.height.equalTo(scale(36))
             make.width.equalTo(scale(74))
             make.right.equalTo(-scale(12))
@@ -175,7 +175,7 @@ class OrderDetailViewController: BaseViewController {
             make.right.equalTo(-scale(16))
             make.height.equalTo(scale(36))
             make.width.equalTo(scale(88))
-            make.bottom.equalTo(-scale(44))
+            make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(10))
         }
         
         checkLogisticsBtn.layer.cornerRadius = scale(4)
@@ -185,7 +185,7 @@ class OrderDetailViewController: BaseViewController {
         
         
         modifyLogisticsBtn.snp.makeConstraints { make in
-            make.bottom.equalTo(-scale(44))
+            make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(10))
             make.height.equalTo(scale(36))
             make.width.equalTo(scale(88))
             make.right.equalTo(checkLogisticsBtn.snp.left).offset(-scale(12))
@@ -241,7 +241,11 @@ class OrderDetailViewController: BaseViewController {
                     checkLogisticsBtn.isHidden = true
                     modifyLogisticsBtn.isHidden = true
                     
-                    
+                    tableview.snp.remakeConstraints { make in
+                        make.left.right.equalToSuperview()
+                        make.top.equalTo(topView.snp.bottom)
+                        make.bottom.equalTo(scale(0))
+                    }
                 }
         
         

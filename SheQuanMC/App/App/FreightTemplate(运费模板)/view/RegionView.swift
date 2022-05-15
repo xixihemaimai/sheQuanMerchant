@@ -438,7 +438,9 @@ class RegionView: UIView {
                     if view.isKind(of: UITableView.self){
                         let tableview = view as! RegionTableView
                         let addressmodel = titleArray[0] as AddressModel
-                        titleArray.removeLast()
+                        if titleArray.count > 2{
+                            titleArray.removeLast()
+                        }
                         for i in 0..<self.dataArray.count {
                             let provinceM = self.dataArray[i] as AddressModel
                             if provinceM.region_name == (addressmodel.region_name)!{
@@ -457,12 +459,15 @@ class RegionView: UIView {
                                 }
                             }
                         }
-                        let addressmodel1 = titleArray[1] as AddressModel
-                        addressmodel1.region_name = "请选择"
                         
+                        
+                        let addressmodel1 = titleArray.last! as AddressModel
+                        addressmodel1.region_name = "请选择"
                         tableview.titleStringArray = cityArray
-                        tableview.reloadData()
+                        
+                        
                         self.addTitleView()
+                        tableview.reloadData()
                         let btn = titleBtnArray[titleArray.count - 1]
                         changBtnTitle(titleBtn: btn)
                     }
@@ -540,23 +545,14 @@ class RegionView: UIView {
                 }
                 tableview.titleStringArray = self.cityArray
             }else if self.titleArray.count == 2{
+                
                 let cityModel = self.cityArray[index]
-                
-                
 //                var addressmodel = self.titleArray[1] as AddressModel
                 self.titleArray[1] = cityModel
-//                addressmodel = cityModel
-                
-                let addressmodel1 = AddressModel()
-                addressmodel1.region_name = "请选择"
-                self.titleArray.append(addressmodel1)
-                
+//               addressmodel = cityModel
 //                self.titleArray[1] = cityModel.region_name ?? "请选择"
 //                self.titleArray.append("请选择")
-                
-                
-                
-                self.cityArray.removeAll()
+//                self.cityArray.removeAll()
                 let areaArray = cityModel.childs!
                 self.districtArray.removeAll()
                 for j in 0..<areaArray.count {
@@ -569,7 +565,14 @@ class RegionView: UIView {
                     areaModel.region_type = (areaDic["region_type"] as! String)
                     self.districtArray.append(areaModel)
                 }
-                tableview.titleStringArray = self.districtArray
+                
+                if self.districtArray.count > 0{
+                    let addressmodel1 = AddressModel()
+                    addressmodel1.region_name = "请选择"
+                    self.titleArray.append(addressmodel1)
+                    tableview.titleStringArray = self.districtArray
+                }
+                
             }else{
 //                self.titleArray[2] = selectedProvince
                 self.titleArray[2] = addressmodel

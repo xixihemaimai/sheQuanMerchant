@@ -28,7 +28,7 @@ class NoDeliveryViewController: BaseViewController {
         view.addSubview(tableview)
         tableview.snp.makeConstraints { make in
             make.left.right.top.equalToSuperview()
-            make.bottom.equalTo(-scale(92))
+            make.bottom.equalTo(iPhoneX ? -scale(92) : -scale(58))
         }
         tableview.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#f8f8f8")
         tableview.delegate = self
@@ -49,7 +49,7 @@ class NoDeliveryViewController: BaseViewController {
             make.left.equalTo(scale(16))
             make.right.equalTo(-scale(16))
             make.height.equalTo(scale(44))
-            make.bottom.equalTo(-scale(34))
+            make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(10))
         }
         
         addRegionBtn.layer.cornerRadius = scale(4)
@@ -175,8 +175,7 @@ extension NoDeliveryViewController:UITableViewDelegate,UITableViewDataSource{
         let addressmodel = array[1] as AddressModel
         if addressmodel.region_name == "全选"{
             let addressmodel1 = array[0] as AddressModel
-//            cell.regionLabel.text = addressmodel1.region_name
-            cell.addressText = addressmodel.region_name!
+            cell.addressText = addressmodel1.region_name!
         }else{
             //这边是省份和后续的东西
             var addressText:String = ""

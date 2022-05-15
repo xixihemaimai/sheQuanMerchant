@@ -70,7 +70,7 @@ class CommoditySpecificationsViewController: BaseViewController {
         view.addSubview(bottomView)
         bottomView.snp.makeConstraints { make in
             make.right.left.bottom.equalToSuperview()
-            make.height.equalTo(scale(92))
+            make.height.equalTo(iPhoneX ? scale(92) : scale(58))
         }
         
         let cancelBtn = UIButton()
@@ -80,9 +80,10 @@ class CommoditySpecificationsViewController: BaseViewController {
         bottomView.addSubview(cancelBtn)
         cancelBtn.snp.makeConstraints { make in
             make.left.equalTo(scale(16))
-            make.top.equalTo(scale(14))
+//            make.top.equalTo(scale(14))
             make.height.equalTo(scale(44))
             make.width.equalTo(scale(120))
+            make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(10))
         }
         
         cancelBtn.layer.cornerRadius = scale(4)
@@ -98,9 +99,10 @@ class CommoditySpecificationsViewController: BaseViewController {
         bottomView.addSubview(saveBtn)
         saveBtn.snp.makeConstraints { make in
             make.right.equalTo(-scale(16))
-            make.top.equalTo(scale(14))
+//            make.top.equalTo(scale(14))
             make.left.equalTo(cancelBtn.snp.right).offset(scale(16))
             make.height.equalTo(scale(44))
+            make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(0))
         }
         
         saveBtn.layer.cornerRadius = scale(4)

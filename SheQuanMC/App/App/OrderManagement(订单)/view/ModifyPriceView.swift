@@ -311,7 +311,7 @@ class ModifyPriceView: UIView {
             make.left.equalTo(scale(16))
             make.right.equalTo(-scale(16))
             make.height.equalTo(scale(44))
-            make.bottom.equalTo(-scale(34))
+            make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(10))
         }
         
         sureModifyBtn.layer.cornerRadius = scale(4)

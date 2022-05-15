@@ -63,7 +63,8 @@ class CloseOrderReasonView: UIView {
         
         addSubview(tableview)
         tableview.snp.makeConstraints { make in
-            make.left.right.bottom.equalToSuperview()
+            make.left.right.equalToSuperview()
+            make.bottom.equalTo(iPhoneX ? -scale(92) : -scale(58))
             make.top.equalTo(titleLabel.snp.bottom).offset(scale(15))
         }
         
@@ -89,7 +90,7 @@ class CloseOrderReasonView: UIView {
             make.left.equalTo(scale(16))
             make.right.equalTo(-scale(16))
             make.height.equalTo(scale(44))
-            make.bottom.equalTo(-scale(34))
+            make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(10))
         }
         
         sureBtn.layer.cornerRadius = scale(4)

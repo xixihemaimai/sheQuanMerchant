@@ -113,7 +113,8 @@ class CommodityManagementViewController: BaseViewController {
         view.addSubview(bottomView)
         bottomView.snp.makeConstraints { make in
             make.left.right.bottom.equalToSuperview()
-            make.height.equalTo(Height_TabBar)
+//            make.height.equalTo(Height_TabBar)
+            make.height.equalTo(iPhoneX ? scale(92) : scale(58))
         }
         
         bottomView.addSubview(publishBtn)
@@ -121,7 +122,8 @@ class CommodityManagementViewController: BaseViewController {
             make.left.equalTo(scale(16))
             make.right.equalTo(-scale(16))
             make.height.equalTo(scale(44))
-            make.top.equalTo(iPhoneX ? scale(14) : scale(2.5))
+//            make.top.equalTo(iPhoneX ? scale(14) : scale(2.5))
+            make.bottom.equalTo(iPhoneX ? -scale(14) : -scale(10))
         }
         publishBtn.layer.cornerRadius = scale(4)
         publishBtn.addTarget(self, action: #selector(publishAction), for: .touchUpInside)

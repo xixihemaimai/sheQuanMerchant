@@ -112,7 +112,7 @@ class CommodityParameterView: UIView {
         tableview.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.top.equalTo(searchBar.snp.bottom)
-            make.bottom.equalTo(-scale(92))
+            make.bottom.equalTo(iPhoneX ? -scale(92) : -scale(58))
         }
         tableview.delegate = self
         tableview.dataSource = self
@@ -127,7 +127,8 @@ class CommodityParameterView: UIView {
         sureBtn.snp.makeConstraints { make in
             make.left.equalTo(scale(16))
             make.right.equalTo(-scale(16))
-            make.top.equalTo(tableview.snp.bottom).offset(scale(14))
+//            make.top.equalTo(tableview.snp.bottom).offset(scale(14))
+            make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(10))
             make.height.equalTo(scale(44))
         }
         
