@@ -143,6 +143,9 @@ class LoginViewController: BaseViewController {
 //    }()
     
     
+    //验证码返回的verifyId的值
+    var verifyId:String = ""
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -356,17 +359,25 @@ class LoginViewController: BaseViewController {
     
     //隐藏和显示密码  发送验证码
     @objc func hideAndSendCodeAction(btn:UIButton){
+        
         if btn.currentTitle == "获取验证码"{
             //这边要做得事情要先判断手机号是否正确
             if !(accountTextField.text?.isValidMobile ?? true){
                 JFPopup.toast(hit: "手机号码错误")
             }else{
                 //这边是正确获取验证码的步骤
+                JFPopup.toast(hit: "发送验证码成功")
                 CountDown.countDown(60, btn: btn)
-                
                 //网络请求并发送发送短信
-                
-                
+                let parameters = ["captchaType":0,"mobile":accountTextField.text ?? ""] as [String : Any]
+                NetWorkResultRequest(LoginApi.phoneCode(parameters: parameters), needShowFailAlert: true) {result,data in
+                    
+                    LXFLog(data)
+                    
+                } failureCallback: { error in
+                    
+                    self.verifyId = ""
+                }
             }
         }else{
            //显示和展示密码
@@ -386,49 +397,53 @@ class LoginViewController: BaseViewController {
     //登录APP
     @objc func loginAppAction(btn:UIButton){
         //这边要判读很多东西
-//        if codeLoginBtn.currentTitle == "验证码登录"{
-//            //账号和密码登录
-//            //密码是否满足有数字和必须有字母的配合才能使用
-//            if(accountTextField.text?.count ?? 0) < 1{
-//                JFPopup.toast(hit: "账号错误")
-//                return
-//            }
-//
-//
-//            if !(passwordTextField.text?.isPassword ?? true){
-//                JFPopup.toast(hit: "密码错误，6-16位字母数字组合")
-//                return
-//            }
-//
-//
-//            //这边是网络请求
-//
-//
-//        }else{
-//            //验证码登录
-//            //手机号和验证码
-//            if !(accountTextField.text?.isValidMobile ?? true){
-//                JFPopup.toast(hit: "手机号错误")
-//                return
-//            }
-//            if (passwordTextField.text?.count ?? 0) < 1 {
-//                JFPopup.toast(hit: "验证码错误")
-//                return
-//            }
-//
-//            //这边是网络请求
-//
-//
-//        }
+        if codeLoginBtn.currentTitle == "验证码登录"{
+            //账号和密码登录
+            //密码是否满足有数字和必须有字母的配合才能使用
+            if(accountTextField.text?.count ?? 0) < 1{
+                JFPopup.toast(hit: "账号错误")
+                return
+            }
+            if !(passwordTextField.text?.isPassword ?? true){
+                JFPopup.toast(hit: "密码错误，6-16位字母数字组合")
+                return
+            }
+            //这边是网络请求
+            let parameters = ["mobile":accountTextField.text ?? "","loginPass":(passwordTextField.text ?? "").md5] as [String : Any]
+            NetWorkResultRequest(LoginApi.passwordLogin(parameters: parameters), needShowFailAlert: true) {result, data in
+                LXFLog(data)
+            } failureCallback: { error in
+                LXFLog("错误")
+            }
+            
+        }else{
+            //验证码登录
+            //手机号和验证码
+            if !(accountTextField.text?.isValidMobile ?? true){
+                JFPopup.toast(hit: "手机号错误")
+                return
+            }
+            if (passwordTextField.text?.count ?? 0) < 1 {
+                JFPopup.toast(hit: "验证码错误")
+                return
+            }
+
+            //这边是网络请求
+            let parameters = ["countryId":0,"mobile":accountTextField.text ?? "","verifyCode":passwordTextField.text ?? "","verifyId":verifyId] as [String : Any]
+            NetWorkResultRequest(LoginApi.phonelogin(parameters: parameters), needShowFailAlert: true) {resutl, data in
+            
+                LXFLog(data)
+//              let window = UIApplication.shared.keyWindow
+//              window?.rootViewController = MainViewController()
+            
+            } failureCallback: { error in
+            
+            }
+
         
-        
-        let window = UIApplication.shared.keyWindow
-        window?.rootViewController = MainViewController()
-        
-        
+      }
 //        let storeOccupancyVC = StoreOccupancyViewController()
 //        Coordinator.shared?.pushViewController(self, storeOccupancyVC, animated: true)
-        
     }
     
     

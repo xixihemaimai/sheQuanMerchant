@@ -8,12 +8,12 @@
 
 import Foundation
 /// 定义基础域名
-let Moya_baseURL = "http://news-at.zhihu.com/api/"
+public let sheQuanMCURL = "http://27.154.225.198:8996/sqshop/api/"
 
 /// 定义返回的JSON数据字段
-let RESULT_CODE = "flag"      //状态码
+public let RESULT_CODE = "flag"      //状态码
 
-let RESULT_MESSAGE = "message"  //错误消息提示
+public let RESULT_MESSAGE = "message"  //错误消息提示
 
 
 /*  错误情况的提示

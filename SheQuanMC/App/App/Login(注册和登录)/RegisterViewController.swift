@@ -141,6 +141,9 @@ class RegisterViewController: BaseViewController {
     }()
     
     
+    //验证码返回的verifyId的值
+    var verifyId:String = ""
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -278,9 +281,23 @@ class RegisterViewController: BaseViewController {
         if !(phoneTextField.text?.isValidMobile ?? true){
             JFPopup.toast(hit: "手机号码错误")
         }else{
+            JFPopup.toast(hit: "发送验证码成功")
             //这边是正确获取验证码的步骤
             CountDown.countDown(60, btn: reCodeBtn)
             //网络请求并发送发送短信
+            //网络请求并发送发送短信
+            let parameters = ["captchaType":0,"mobile":phoneTextField.text ?? ""] as [String : Any]
+            NetWorkResultRequest(LoginApi.phoneCode(parameters: parameters), needShowFailAlert: true) {result,data in
+                
+                LXFLog(data)
+                
+                
+            } failureCallback: { error in
+                
+                self.verifyId = ""
+            }
+            
+            
             
         }
     }
@@ -334,6 +351,30 @@ class RegisterViewController: BaseViewController {
         
         //网络请求有登录成功和该手机号已被注册
 //        JFPopup.toast(hit: "注册成功")
+        
+        /**
+         {
+           "countryId": 0,
+           "loginPass": "string",
+           "mobile": "string",
+           "verifyCode": "string",
+           "verifyId": "string"
+         }
+         */
+        let parameters = ["countryId":0,"mobile":phoneTextField.text ?? "","loginPass":(passwordTextField.text ?? "").md5,"verifyCode":codeTextField.text ?? "","verifyId":verifyId] as [String:Any]
+        NetWorkResultRequest(shopApi.regAccount(parameters: parameters), needShowFailAlert: true) {result,data in
+            
+            
+        } failureCallback: { error in
+            
+            
+        }
+
+        
+        
+        
+        
+        
         self.popup.alert {
             [.title("该手机号已被注册"),
              .cancelAction([

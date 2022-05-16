@@ -7,6 +7,8 @@
 
 import UIKit
 import Util
+import SwiftyJSON
+
 
 class BusinessTypeViewController: BaseViewController {
 
@@ -79,17 +81,57 @@ class BusinessTypeViewController: BaseViewController {
            false
         ]
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
     }
     
     //下拉
     override func headerRereshing() {
+        
+        
+        
         tableview.mj_header?.endRefreshing()
     }
     
     //上拉
     override func footerRereshing() {
+        
+        
+        
         tableview.mj_footer?.endRefreshing()
     }
+    
+    
+    func reload(categoryName:String){
+//        {
+//          "categoryName": "string"
+//        }
+        //模型BusinessTypeModel
+        let parameters = ["categoryName":categoryName]
+        NetWorkResultRequest(StoreAppleApi.getCategoryInfoList(parameters: parameters), needShowFailAlert: true) {result, data in
+            do{
+                let json = try JSON(data: data)
+                LXFLog("json--------\(json)")
+                let models = try JSONDecoder().decode([BussinessSecondTypeModel].self, from: data as Data)
+                LXFLog(models)
+                
+            }catch{}
+
+        } failureCallback: { error in
+            
+        }
+
+        
+    }
+    
+    
     
     
     

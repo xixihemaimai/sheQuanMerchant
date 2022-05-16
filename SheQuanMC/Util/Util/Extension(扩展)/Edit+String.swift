@@ -20,7 +20,7 @@ extension String{
     
     //let needStr = "1234"
 //    let md5Str = needStr.md5
-    var md5: String {
+  public var md5: String {
             let str = self.cString(using: String.Encoding.utf8)
             let strLen = CUnsignedInt(self.lengthOfBytes(using: String.Encoding.utf8))
             let digestLen = Int(CC_MD5_DIGEST_LENGTH)

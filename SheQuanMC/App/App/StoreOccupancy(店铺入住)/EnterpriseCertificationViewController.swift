@@ -691,6 +691,33 @@ class EnterpriseCertificationViewController: BaseViewController {
 //
         //图片上传
         
+        
+        
+        /**
+         {
+           "certNo": "string",
+           "creditCode": "string",
+           "entAddress": "string",
+           "entName": "string",
+           "frontPic": "string",
+           "legalName": "string",
+           "licencePic": "string",
+           "reversePic": "string"
+         }
+         */
+        
+        
+        //企业认证
+//        let parameters = []
+//        NetWorkResultRequest(StoreAppleApi.entCert(parameters: <#T##[String : Any]#>), needShowFailAlert: true) {result, data in
+//        } failureCallback: { error in
+//        }
+
+        
+        
+        
+        
+        
         let enterpriseAuditVc = EnterpriseAuditViewController()
         enterpriseAuditVc.audit = 2
         Coordinator.shared?.pushViewController(self, enterpriseAuditVc, animated: true)

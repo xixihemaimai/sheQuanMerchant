@@ -49,6 +49,13 @@ class ProductDescriptionViewController: BaseViewController {
     
     
     
+    //这个值市用来判断是否修改过
+    var isModify:Bool = false
+    
+    
+    
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         IQKeyboardManager.shared().isEnabled = false
@@ -241,31 +248,38 @@ class ProductDescriptionViewController: BaseViewController {
     
     @objc func backSaveProduct(backBtn:UIButton){
         _textView.resignFirstResponder()
-        JFPopup.alert {
-            [
-                .title("确定要放弃编辑商品详情吗？"),
-                .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
-//                .subTitle("注:取消商品将移至未上架"),
-//                .subTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 ")),
-                .withoutAnimation(true),
-                .cancelAction([
-                    .text("取消"),
-                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 ")),
-                    .tapActionCallback({
-                    })
-                    
-                ]),
-                .confirmAction([
-                    .text("确定"),
-                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
-                    .tapActionCallback({
-                        JFPopupView.popup.toast(hit: "点击了确定")
-                        Coordinator.shared?.popViewController(self, true)
-                        
-                    })
-                ])
-            ]
-        }
+            
+            if isModify{
+                JFPopup.alert {
+                    [
+                        .title("确定要放弃编辑商品详情吗？"),
+                        .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+        //                .subTitle("注:取消商品将移至未上架"),
+        //                .subTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 ")),
+                        .withoutAnimation(true),
+                        .cancelAction([
+                            .text("取消"),
+                            .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 ")),
+                            .tapActionCallback({
+                                
+                            })
+                            
+                        ]),
+                        .confirmAction([
+                            .text("确定"),
+                            .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+                            .tapActionCallback({
+                                JFPopupView.popup.toast(hit: "点击了确定")
+                                Coordinator.shared?.popViewController(self, true)
+                                
+                            })
+                        ])
+                    ]
+                }
+            }else{
+                Coordinator.shared?.popViewController(self, true)
+            }
+            
     }
     
     
@@ -320,9 +334,16 @@ class ProductDescriptionViewController: BaseViewController {
     //完成
     @objc func completeAction(){
         LXFLog("完成")
+        LXFLog("===================\(_textView.attributedText)")
+//        NSArray *arr1 =  [_textView.attributedText getArrayWithAttributed];
+        let arr1 = _textView.attributedText.getArrayWithAttributed()
+        LXFLog("----------------------\(arr1)")
+
+        
         /**
          if (_textView.attributedText.length) {
              NSArray *arr1 =  [_textView.attributedText getArrayWithAttributed];
+         
              NSString *image = @"";
              for (NSDictionary * dict in arr1) {
                  if (dict[@"image"]!=nil) {

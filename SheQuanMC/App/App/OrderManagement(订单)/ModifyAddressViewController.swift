@@ -395,7 +395,7 @@ class ModifyAddressViewController: BaseViewController {
 //        pickerView.pickerViewShow()
         
         
-        let parser = MMLocationParser.init(loation: "海南省东方")
+        let parser = MMLocationParser.init(loation: "福建省龙岩市厦门市漳州市")
         
         LXFLog(parser.location)
         LXFLog(parser.province)
@@ -409,6 +409,25 @@ class ModifyAddressViewController: BaseViewController {
         //parser.results
         //有三个就是0位省 1为城市 2为区县
         //有俩个就是0位省 1为城市
+        
+        if parser.results.count > 2{
+            //省  市  区
+            
+            
+            
+        }else{
+            //省  市
+            
+            
+            
+        }
+        
+        
+        
+        
+        
+        
+        
         
         
         self.popup.bottomSheet {

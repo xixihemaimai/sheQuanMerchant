@@ -81,6 +81,11 @@ class ForgetPasswordViewController: BaseViewController {
     }()
     
     
+    
+    //验证码返回的verifyId的值
+    var verifyId:String = ""
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
@@ -163,6 +168,17 @@ class ForgetPasswordViewController: BaseViewController {
             //这边是正确获取验证码的步骤
             CountDown.countDown(60, btn: reCodeBtn)
             //网络请求并发送发送短信
+            JFPopup.toast(hit: "发送验证码成功")
+          
+            let parameters = ["captchaType":0,"mobile":phoneTextField.text ?? ""] as [String : Any]
+            NetWorkResultRequest(LoginApi.phoneCode(parameters: parameters), needShowFailAlert: true) {result, data in
+                
+                LXFLog(data)
+                
+            } failureCallback: { error in
+                
+                self.verifyId = ""
+            }
             
         }
     }
@@ -181,6 +197,14 @@ class ForgetPasswordViewController: BaseViewController {
         //}
         let newPasswordVc = NewPasswordViewController()
         Coordinator.shared?.pushViewController(self, newPasswordVc, animated: true)
+        
+        
+//        {
+//          "countryId": 0,
+//          "mobile": "string",
+//          "verifyCode": "string",
+//          "verifyId": "string"
+//        }
         
     }
     

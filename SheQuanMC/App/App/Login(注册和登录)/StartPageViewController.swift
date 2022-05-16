@@ -211,22 +211,22 @@ open class StartPageViewController: BaseViewController {
     
     //注册
     @objc public func registerAction(zernBtn:UIButton){
-//        if agreeBtn.isSelected {
+        if agreeBtn.isSelected {
             let registerVc = RegisterViewController()
             Coordinator.shared?.pushViewController(self, registerVc, animated: true)
-//        }else{
-//            JFPopup.toast(hit: "请阅读并勾选下方协议")
-//        }
+        }else{
+            JFPopup.toast(hit: "请阅读并勾选下方协议")
+        }
     }
     
     //登录
     @objc public func loginAction(loginBtn:UIButton){
-//        if agreeBtn.isSelected{
+        if agreeBtn.isSelected{
             let loginVc = LoginViewController()
             Coordinator.shared?.pushViewController(self, loginVc, animated: true)
-//        }else{
-//            JFPopup.toast(hit: "请阅读并勾选下方协议")
-//        }
+        }else{
+            JFPopup.toast(hit: "请阅读并勾选下方协议")
+        }
     }
     
     

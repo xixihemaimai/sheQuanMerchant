@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         
         //这边要对用户数据进行判断是否有用户数据过
-        let isLogin = true
+        let isLogin = false
         if isLogin == false{
             let startPageVc = StartPageViewController()
             let navi = BaseNaviViewController(rootViewController: startPageVc)

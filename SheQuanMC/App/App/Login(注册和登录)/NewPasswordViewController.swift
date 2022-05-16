@@ -200,7 +200,11 @@ class NewPasswordViewController: BaseViewController {
         }
         
 //        JFPopup.toast(hit: "密码已重置")
-        
+//        {
+//          "confirmPass": "string",
+//          "password": "string",
+//          "verifyId": "string"
+//        }
                 
     }
 

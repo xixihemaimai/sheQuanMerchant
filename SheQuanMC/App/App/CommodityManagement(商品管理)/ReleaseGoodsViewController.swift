@@ -245,7 +245,12 @@ class ReleaseGoodsViewController: BaseViewController {
     var mainSImage:UIImageView!
     //商品规格
     var commoditySBtn:UIButton!
-                                                  
+                                  
+    
+    
+    
+    //这个值市用来判断是否修改过
+    var isModify:Bool = false
                                                 
     
     override func viewDidLoad() {
@@ -1065,33 +1070,34 @@ class ReleaseGoodsViewController: BaseViewController {
     
     //返回保存草稿
     @objc func saveDraft(saveBtn:UIButton){
-        JFPopup.alert {
-            [
-                .title("退出后不会保存此商品，你可以选择保存草稿"),
-                .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
-//                .subTitle("注:取消商品将移至未上架"),
-//                .subTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 ")),
-                .withoutAnimation(true),
-                .cancelAction([
-                    .text("直接退出"),
-                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
-                    .tapActionCallback({
-                        Coordinator.shared?.popViewController(self, true)
-                    })
-                    
-                ]),
-                .confirmAction([
-                    .text("保存草稿"),
-                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
-                    .tapActionCallback({
-                        JFPopupView.popup.toast(hit: "点击了保存草稿")
-                    })
-                ])
-            ]
+        if isModify {
+            JFPopup.alert {
+                [
+                    .title("退出后不会保存此商品，你可以选择保存草稿"),
+                    .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+    //                .subTitle("注:取消商品将移至未上架"),
+    //                .subTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 ")),
+                    .withoutAnimation(true),
+                    .cancelAction([
+                        .text("直接退出"),
+                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
+                        .tapActionCallback({
+                            Coordinator.shared?.popViewController(self, true)
+                        })
+                        
+                    ]),
+                    .confirmAction([
+                        .text("保存草稿"),
+                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+                        .tapActionCallback({
+                            JFPopupView.popup.toast(hit: "点击了保存草稿")
+                        })
+                    ])
+                ]
+            }
+        }else{
+            Coordinator.shared?.popViewController(self, true)
         }
-        
-        
-        
     }
     
     

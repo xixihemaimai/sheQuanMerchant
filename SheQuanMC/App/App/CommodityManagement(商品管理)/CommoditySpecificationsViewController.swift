@@ -102,7 +102,7 @@ class CommoditySpecificationsViewController: BaseViewController {
 //            make.top.equalTo(scale(14))
             make.left.equalTo(cancelBtn.snp.right).offset(scale(16))
             make.height.equalTo(scale(44))
-            make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(0))
+            make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(10))
         }
         
         saveBtn.layer.cornerRadius = scale(4)
