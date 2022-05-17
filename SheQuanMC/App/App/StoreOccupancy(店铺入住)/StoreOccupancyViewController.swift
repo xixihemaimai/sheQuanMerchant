@@ -10,7 +10,7 @@ import Util
 import JFPopup
 import HXPhotoPicker
 
-class StoreOccupancyViewController: BaseViewController {
+open class StoreOccupancyViewController: BaseViewController {
     
     
     //这边对图片管理进行懒加载
@@ -116,7 +116,7 @@ class StoreOccupancyViewController: BaseViewController {
         return nextBtn
     }()
 
-    override func viewDidLoad() {
+   public override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")

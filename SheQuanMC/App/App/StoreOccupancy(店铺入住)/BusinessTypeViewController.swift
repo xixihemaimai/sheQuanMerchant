@@ -8,6 +8,8 @@
 import UIKit
 import Util
 import SwiftyJSON
+import SwiftUI
+import HandyJSON
 
 
 class BusinessTypeViewController: BaseViewController {
@@ -36,6 +38,9 @@ class BusinessTypeViewController: BaseViewController {
     var openList:[Bool] = [Bool]()
     //用来保存是选中了经营种类
     var choiceDict:[String:Int] = [:]
+    
+    //用来保存有一级数组
+    var firstArray:[BusinessTypeModel] = [BusinessTypeModel]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,21 +77,19 @@ class BusinessTypeViewController: BaseViewController {
         
         
         //获取数据
-        
-        
-        openList = [
-           false,
-           false,
-           false,
-           false
-        ]
-        
+//        openList = [
+//           false,
+//           false,
+//           false,
+//           false
+//        ]
         
         
         
         
         
         
+        reload(categoryName: "")
         
         
         
@@ -115,20 +118,51 @@ class BusinessTypeViewController: BaseViewController {
 //        }
         //模型BusinessTypeModel
         let parameters = ["categoryName":categoryName]
-        NetWorkResultRequest(StoreAppleApi.getCategoryInfoList(parameters: parameters), needShowFailAlert: true) {result, data in
+        NetWorkResultRequest(StoreAppleApi.getCategoryInfoList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
             do{
+                self?.firstArray.removeAll()
                 let json = try JSON(data: data)
-                LXFLog("json--------\(json)")
-                let models = try JSONDecoder().decode([BussinessSecondTypeModel].self, from: data as Data)
-                LXFLog(models)
+                guard let models = JSONDeserializer<BusinessTypeModel>.deserializeModelArrayFrom(json: json["data"].description) else{
+                  return
+                }
                 
+                for i in 0..<models.count{
+                    guard let model = JSONDeserializer<BussinessSecondTypeModel>.deserializeModelArrayFrom(json: json["data"][i]["subCategorys"].description) else{
+                        return
+                    }
+                    let businessTypeModel = models[i]
+                    LXFLog("---------\(model)")
+                    businessTypeModel!.subCategorys! = model as! [BussinessSecondTypeModel]
+                    LXFLog(businessTypeModel?.subCategorys)
+                    self?.firstArray.append(businessTypeModel!)
+                    
+                }
+               
+                
+//                self?.firstArray = models as! [BusinessTypeModel]
+               
+//                let jsonString = String(data: data, encoding: .utf8)
+//                guard let models = try? JSONDecoder().decode(GenericResponse<[BusinessTypeModel]>.self, from: data) else{
+//                    return
+//                }
+                
+//                for i in 0..<(self?.firstArray.count ?? 0) {
+//                    let businessTypeModel = models[i]
+//                    guard let model = JSONDeserializer<BussinessSecondTypeModel>.deserializeModelArrayFrom(json: json["data"]["subCategorys"].description) else {
+//                        return
+//                    }
+//                    businessTypeModel?.subCategorys = model as! [BussinessSecondTypeModel]
+//                    LXFLog("-------================\(businessTypeModel?.subCategorys?.count)")
+//                }
+//
             }catch{}
-
+            self?.openList.removeAll()
+            for _ in 0..<(self?.firstArray.count ?? 0){
+                self?.openList.append(false)
+            }
+            self?.tableview.reloadData()
         } failureCallback: { error in
-            
         }
-
-        
     }
     
     
@@ -164,9 +198,14 @@ class BusinessTypeViewController: BaseViewController {
 extension BusinessTypeViewController:UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let isOpen = openList[section]
+        let isOpen = self.openList[section]
         if isOpen{
-            return 4
+             if let buinessTypemodel = self.firstArray[section] as? BusinessTypeModel{
+//            LXFLog("========\(buinessTypemodel.subCategorys?.count)")
+                return buinessTypemodel.subCategorys?.count ?? 0
+             }else{
+                return 0
+             }
         }else{
             return 0
         }
@@ -183,6 +222,11 @@ extension BusinessTypeViewController:UITableViewDelegate,UITableViewDataSource{
 //        if indexPath.row == 0{
 //            cell.diviver.isHidden = true
 //        }
+        if let buinessTypemodel = self.firstArray[indexPath.section] as? BusinessTypeModel{
+            if let buinessSecondTyoeModel = buinessTypemodel.subCategorys?[indexPath.row] as? BussinessSecondTypeModel{
+                cell.productLabel.text = buinessSecondTyoeModel.categoryName
+            }
+        }
         return cell
     }
     
@@ -205,11 +249,13 @@ extension BusinessTypeViewController:UITableViewDelegate,UITableViewDataSource{
         headerView.choiceBtn.tag = section
         headerView.showOpenBtn.addTarget(self, action: #selector(shopOpenBtnAction), for: .touchUpInside)
         headerView.choiceBtn.addTarget(self, action: #selector(choiceBussinessAction), for: .touchUpInside)
-        headerView.openTwoType(section: section, isOpen: isOpen)
+        let buinessTypemodel = firstArray[section]
+        headerView.openTwoType(section: section, isOpen: isOpen, businessName: buinessTypemodel.categoryName ?? "")
         
-        if section == choiceDict["tag"]{
-            headerView.choiceBtn.isSelected = true
-        }
+//        if section == choiceDict["tag"]{
+//            headerView.choiceBtn.isSelected = true
+//        }
+        
         return headerView
     }
     
@@ -218,28 +264,36 @@ extension BusinessTypeViewController:UITableViewDelegate,UITableViewDataSource{
     @objc func shopOpenBtnAction(showOpenBtn:UIButton){
         showOpenBtn.isSelected = !showOpenBtn.isSelected
         openList[showOpenBtn.tag] = showOpenBtn.isSelected
-        tableview.reloadSections(IndexSet(integer:showOpenBtn.tag), with: .none)
+        tableview.reloadSections(IndexSet(integer: showOpenBtn.tag), with: .none)
     }
     
     
     //选择经营种类
     @objc func choiceBussinessAction(choiceBtn:UIButton){
+        
+        
+        let headerView = tableview.headerView(forSection: choiceBtn.tag) as! BusinessTypeHeaderView
         //这边先所有的
         for i in 0..<openList.count {
             if let headerView = tableview.headerView(forSection: i) as? BusinessTypeHeaderView{
-                headerView.choiceBtn.isSelected = false
+                if choiceBtn.tag == i {
+                    
+                }else{
+                    headerView.choiceBtn.isSelected = false
+                }
             }
         }
+        headerView.choiceBtn.isSelected = !headerView.choiceBtn.isSelected
 //        if let headerView = tableview.headerView(forSection: choiceBtn.tag) as? BusinessTypeHeaderView {
 //            headerView.choiceBtn.isSelected = true
             //这边保存
-        if choiceDict["tag"] == choiceBtn.tag{
-            choiceDict["tag"] = 1000000000000
-        }else{
-            choiceDict["tag"] = choiceBtn.tag
-        }
+//        if choiceDict["tag"] == choiceBtn.tag{
+//            choiceDict["tag"] = 1000000000000
+//        }else{
+//            choiceDict["tag"] = choiceBtn.tag
+//        }
 //            tableview.reloadSections(IndexSet(integer:choiceBtn.tag), with: .none)
-        tableview.reloadData()
+//        tableview.reloadData()
 //        }
     }
     
@@ -251,6 +305,9 @@ extension BusinessTypeViewController:UITableViewDelegate,UITableViewDataSource{
     }
     
 }
+
+
+
 
 //extension BusinessTypeViewController:UISearchBarDelegate{
 //    //当searchBar结束编辑时调用

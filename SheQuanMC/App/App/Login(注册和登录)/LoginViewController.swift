@@ -8,6 +8,7 @@
 import UIKit
 import Util
 import JFPopup
+import SwiftyJSON
 
 
 class LoginViewController: BaseViewController {
@@ -369,13 +370,14 @@ class LoginViewController: BaseViewController {
                 JFPopup.toast(hit: "发送验证码成功")
                 CountDown.countDown(60, btn: btn)
                 //网络请求并发送发送短信
-                let parameters = ["captchaType":0,"mobile":accountTextField.text ?? ""] as [String : Any]
+                let parameters = ["captchaType":2,"mobile":accountTextField.text ?? ""] as [String : Any]
                 NetWorkResultRequest(LoginApi.phoneCode(parameters: parameters), needShowFailAlert: true) {result,data in
-                    
-                    LXFLog(data)
-                    
+                    do{
+                        LXFLog(data)
+                        let json = try JSON(data: data)
+                        self.verifyId = json["data"]["verifyId"].string ?? ""
+                    }catch{}
                 } failureCallback: { error in
-                    
                     self.verifyId = ""
                 }
             }
@@ -409,13 +411,32 @@ class LoginViewController: BaseViewController {
                 return
             }
             //这边是网络请求
-            let parameters = ["mobile":accountTextField.text ?? "","loginPass":(passwordTextField.text ?? "").md5] as [String : Any]
+            let parameters = ["mobile":accountTextField.text ?? "","loginPass":passwordTextField.text ?? ""] as [String : Any]
             NetWorkResultRequest(LoginApi.passwordLogin(parameters: parameters), needShowFailAlert: true) {result, data in
-                LXFLog(data)
+                do{
+                    LXFLog(data)
+                    let json = try JSON(data: data)
+                    LXFLog(json["data"]["shopAuth"].boolValue)
+                    
+                    StoreAuthAndTokenTool.saveTokenModel( StoreAuthTokenModel(accessToken: json["data"]["accessToken"].string!, shopAuth: json["data"]["shopAuth"].boolValue))
+                    
+                    //这里有个token值需要拿到
+                    if json["data"]["shopAuth"].boolValue{
+                        let window = UIApplication.shared.keyWindow
+                        window?.rootViewController = MainViewController()
+                    }else{
+                        
+                        
+                        let storeOccupancyVC = StoreOccupancyViewController()
+                        Coordinator.shared?.pushViewController(self, storeOccupancyVC, animated: true)
+                        
+                        
+                        
+                    }
+                }catch{}
             } failureCallback: { error in
                 LXFLog("错误")
             }
-            
         }else{
             //验证码登录
             //手机号和验证码
@@ -431,19 +452,22 @@ class LoginViewController: BaseViewController {
             //这边是网络请求
             let parameters = ["countryId":0,"mobile":accountTextField.text ?? "","verifyCode":passwordTextField.text ?? "","verifyId":verifyId] as [String : Any]
             NetWorkResultRequest(LoginApi.phonelogin(parameters: parameters), needShowFailAlert: true) {resutl, data in
-            
-                LXFLog(data)
-//              let window = UIApplication.shared.keyWindow
-//              window?.rootViewController = MainViewController()
-            
+                do{
+                    LXFLog(data)
+                    let json = try JSON(data: data)
+                    LXFLog(json["data"]["shopAuth"].boolValue)
+                    //这里有个token值需要拿到
+                    if json["data"]["shopAuth"].boolValue{
+                        let window = UIApplication.shared.keyWindow
+                        window?.rootViewController = MainViewController()
+                    }else{
+                        let storeOccupancyVC = StoreOccupancyViewController()
+                        Coordinator.shared?.pushViewController(self, storeOccupancyVC, animated: true)
+                    }
+                }catch{}
             } failureCallback: { error in
-            
             }
-
-        
       }
-//        let storeOccupancyVC = StoreOccupancyViewController()
-//        Coordinator.shared?.pushViewController(self, storeOccupancyVC, animated: true)
     }
     
     

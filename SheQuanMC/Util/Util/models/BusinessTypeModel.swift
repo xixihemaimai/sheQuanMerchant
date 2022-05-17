@@ -6,43 +6,50 @@
 //
 
 import Foundation
+import HandyJSON
 
 
-public struct BusinessTypeModel: Codable {
-    public let categoryId: Int?
-    public let categoryName: String?
-    public let subCategorys:[BussinessSecondTypeModel]?
+public class BusinessTypeModel: HandyJSON {
+    public var categoryId: Int?
+    public var categoryName: String?
+    public var subCategorys:[BussinessSecondTypeModel]?
     
-    enum CodingKeys:String,CodingKey {
-       case categoryId = "categoryId"
-        case categoryName = "categoryName"
-        case subCategorys = "subCategorys"
-    }
+//    enum CodingKeys:String,CodingKey {
+//       case categoryId = "categoryId"
+//        case categoryName = "categoryName"
+//        case subCategorys = "subCategorys"
+//    }
+//
+//
+//    public init(from decoder: Decoder) throws {
+//        let values = try decoder.container(keyedBy: CodingKeys.self)
+//        categoryId = try? values.decodeIfPresent(Int.self, forKey: .categoryId)
+//        categoryName = try? values.decodeIfPresent(String.self, forKey: .categoryName)
+//        subCategorys = try? values.decodeIfPresent([BusinessTypeModel].self, forKey: .subCategorys) as? [BussinessSecondTypeModel]
+//    }
     
-    
-    public init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        categoryId = try? values.decodeIfPresent(Int.self, forKey: .categoryId)
-        categoryName = try? values.decodeIfPresent(String.self, forKey: .categoryName)
-        subCategorys = try? values.decodeIfPresent([BusinessTypeModel].self, forKey: .subCategorys) as? [BussinessSecondTypeModel]
-    }
-    
+    public required init() {
+     }
 }
 
-public struct BussinessSecondTypeModel: Codable {
-   public let categoryId: Int?
-   public let categoryName: String?
+
+public class BussinessSecondTypeModel: HandyJSON {
     
-    enum Codingkeys:String,CodingKey {
-       case categoryId = "categoryId"
-        case categoryName = "categoryName"
+   public var categoryId: Int?
+   public var categoryName: String?
+    
+   public required init() {
     }
     
-    public init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        categoryId = try? values.decodeIfPresent(Int.self, forKey: .categoryId)
-        categoryName = try? values.decodeIfPresent(String.self, forKey: .categoryName)
-        
-    }
-    
+//    enum Codingkeys:String,CodingKey {
+//       case categoryId = "categoryId"
+//        case categoryName = "categoryName"
+//    }
+//
+//    public init(from decoder: Decoder) throws {
+//        let values = try decoder.container(keyedBy: CodingKeys.self)
+//        categoryId = try? values.decodeIfPresent(Int.self, forKey: .categoryId)
+//        categoryName = try? values.decodeIfPresent(String.self, forKey: .categoryName)
+//    }
+//
 }

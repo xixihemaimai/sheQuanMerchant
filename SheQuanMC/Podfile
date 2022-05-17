@@ -1,6 +1,6 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '11.0'
-
+source 'https://github.com/CocoaPods/Specs.git'
 workspace 'SheQuanMC'
 inhibit_all_warnings!
 
@@ -25,6 +25,7 @@ pod 'IQKeyboardManager'
 pod 'Moya'
 pod 'SwiftyJSON'
 pod 'RealmSwift'
+pod 'HandyJSON', '~> 5.0.2'
 end
 
 
@@ -47,6 +48,7 @@ pod 'IQKeyboardManager'
 pod 'Moya'
 pod 'SwiftyJSON'
 pod 'RealmSwift'
+pod 'HandyJSON', '~> 5.0.2'
 end
 
 
@@ -69,4 +71,5 @@ pod 'IQKeyboardManager'
 pod 'Moya'
 pod 'SwiftyJSON'
 pod 'RealmSwift'
+pod 'HandyJSON', '~> 5.0.2'
 end

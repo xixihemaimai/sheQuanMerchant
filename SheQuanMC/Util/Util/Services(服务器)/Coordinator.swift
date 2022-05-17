@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 
-
 public class Coordinator {
   
 //    private let navController: BaseNaviViewController
@@ -30,6 +29,13 @@ public class Coordinator {
     public func popViewController(_ vc:UIViewController, _ animated: Bool) {
         vc.navigationController?.popViewController(animated: animated)
     }
+    
+    
+    
+    public func popRootViewController(_ vc:UIViewController){
+        vc.navigationController?.popToRootViewController(animated: true)
+    }
+    
 //
 //    public func setViewControllers(_ vcs: [UIViewController], animated: Bool) {
 //        navController.setViewControllers(vcs, animated: animated)

@@ -22,14 +22,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         
         //这边要对用户数据进行判断是否有用户数据过
-        let isLogin = false
-        if isLogin == false{
+         
+        
+        if StoreAuthAndTokenTool.isLogin(){
+            //登录了
+            if StoreAuthAndTokenTool.isStoreAuth(){
+                //店铺认证过了
+                LXFLog("0--------------")
+                window?.rootViewController = MainViewController()
+            }else{
+                //店铺认证还没有过
+                LXFLog("1--------------")
+                let storeOccupancy = StoreOccupancyViewController()
+                let navi = BaseNaviViewController(rootViewController: storeOccupancy)
+                window?.rootViewController = navi
+            }
+        }else{
+            //还没有登录
+            LXFLog("2--------------")
             let startPageVc = StartPageViewController()
             let navi = BaseNaviViewController(rootViewController: startPageVc)
             window?.rootViewController = navi
-        }else{
-            window?.rootViewController = MainViewController()
         }
+        
+        
+        
+//        let isLogin = false
+//        if isLogin == false{
+//
+//        }else{
+//
+//        }
         Coordinator.shared = Coordinator()
         window?.makeKeyAndVisible()
         keyBoardManager()

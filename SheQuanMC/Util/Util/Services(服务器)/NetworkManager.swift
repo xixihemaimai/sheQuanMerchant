@@ -53,6 +53,46 @@ public let myEndpointClosure = { (target: TargetType) -> Endpoint in
 //    default:
 //        break
 //    }
+    
+    
+//    if let apiTarget = target as? MultiTarget,
+//       let target = apiTarget.target as? LoginApi {
+//        switch target{
+//        case .phonelogin(parameters: let parameters):
+//            LXFLog("8")
+//        case .phoneCode(parameters: let parameters):
+//            LXFLog("9")
+//        case .passwordLogin(parameters: let parameters):
+//            LXFLog("10")
+//        }
+//    }
+//
+//    if let apiTarget = target as? MultiTarget,
+//       let target = apiTarget.target as? shopApi {
+//        switch target{
+//        case .forgetPass(parameters: let parameters):
+//            LXFLog("1")
+//        case .changePass(parameters: let parameters):
+//            LXFLog("2")
+//        case .regAccount(parameters: let parameters):
+//            LXFLog("3")
+//        case .getShopInfo(parameters: let parameters):
+//            LXFLog("4")
+//        case .shopAuth(parameters: let parameters):
+//            LXFLog("5")
+//        }
+//    }
+//
+//    if let apiTarget = target as? MultiTarget,
+//       let target = apiTarget.target as? StoreAppleApi {
+//        switch target{
+//        case .entCert(parameters: let parameters):
+//            LXFLog("6")
+//        case .getCategoryInfoList(parameters: let parameters):
+//            LXFLog("7")
+//        }
+//    }
+    
     /*
      👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆👆
      如果需要在每个请求中都添加类似token参数的参数请取消注释上面代码
@@ -100,6 +140,8 @@ public let requestClosure = { (endpoint: Endpoint, done: MoyaProvider.RequestRes
             print("请求头内容\(header)")
         }
 
+        print(request)
+        
         done(.success(request))
     } catch {
         done(.failure(MoyaError.underlying(error, nil)))
@@ -142,6 +184,11 @@ public let networkPlugin = NetworkActivityPlugin.init { changeType, _ in
     case .began:
         print("开始请求网络")
 
+        
+        
+        
+        
+        
     case .ended:
         print("结束")
     }

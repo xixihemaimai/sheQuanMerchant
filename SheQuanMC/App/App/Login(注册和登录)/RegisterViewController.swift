@@ -8,6 +8,7 @@
 import UIKit
 import Util
 import JFPopup
+import SwiftyJSON
 
 class RegisterViewController: BaseViewController {
 
@@ -285,20 +286,17 @@ class RegisterViewController: BaseViewController {
             //这边是正确获取验证码的步骤
             CountDown.countDown(60, btn: reCodeBtn)
             //网络请求并发送发送短信
-            //网络请求并发送发送短信
-            let parameters = ["captchaType":0,"mobile":phoneTextField.text ?? ""] as [String : Any]
+            let parameters = ["captchaType":1,"mobile":phoneTextField.text ?? ""] as [String : Any]
             NetWorkResultRequest(LoginApi.phoneCode(parameters: parameters), needShowFailAlert: true) {result,data in
-                
-                LXFLog(data)
-                
-                
+                do{
+                    LXFLog(data)
+                    let json = try JSON(data: data)
+                    self.verifyId = json["data"]["verifyId"].string ?? ""
+                    LXFLog("----------\(self.verifyId)")
+                }catch{}
             } failureCallback: { error in
-                
                 self.verifyId = ""
             }
-            
-            
-            
         }
     }
     
@@ -306,14 +304,14 @@ class RegisterViewController: BaseViewController {
     @objc func textfieldContent(textfield:UITextField){
         if textfield === phoneTextField{
             //电话号码
-            LXFLog("===1=========\(phoneTextField.text)")
+//            LXFLog("===1=========\(phoneTextField.text)")
         }else if textfield === codeTextField{
             //验证码
-            LXFLog("===2=========\(codeTextField.text)")
+//            LXFLog("===2=========\(codeTextField.text)")
         }else{
             //密码
             //密码这边需要对隐藏的显示
-            LXFLog("===3=========\(passwordTextField.text)")
+//            LXFLog("===3=========\(passwordTextField.text)")
             if (passwordTextField.text?.count ?? 0) > 0{
                 showPasswordBtn.isHidden = false
             }else{
@@ -334,64 +332,61 @@ class RegisterViewController: BaseViewController {
         //showErrerLabel
         //密码错误 手机号 验证码
         
-//        if !(phoneTextField.text?.isValidMobile ?? true){
-//            showErrerLabel.text = "请输入正确的手机号"
-//            return
-//        }
-//
-//        if !(passwordTextField.text?.isPassword ?? true){
-//            showErrerLabel.text = "请设置登录密码，6-16位字母数字组合"
-//            return
-//        }
-//
-//        if (codeTextField.text?.count ?? 0) < 1{
-//            showErrerLabel.text = "验证码错误"
-//            return
-//        }
-        
-        //网络请求有登录成功和该手机号已被注册
-//        JFPopup.toast(hit: "注册成功")
-        
-        /**
-         {
-           "countryId": 0,
-           "loginPass": "string",
-           "mobile": "string",
-           "verifyCode": "string",
-           "verifyId": "string"
-         }
-         */
-        let parameters = ["countryId":0,"mobile":phoneTextField.text ?? "","loginPass":(passwordTextField.text ?? "").md5,"verifyCode":codeTextField.text ?? "","verifyId":verifyId] as [String:Any]
-        NetWorkResultRequest(shopApi.regAccount(parameters: parameters), needShowFailAlert: true) {result,data in
-            
-            
-        } failureCallback: { error in
-            
-            
+        if !(phoneTextField.text?.isValidMobile ?? true){
+            showErrerLabel.text = "请输入正确的手机号"
+            return
         }
 
+        if !(passwordTextField.text?.isPassword ?? true){
+            showErrerLabel.text = "请设置登录密码，6-16位字母数字组合"
+            return
+        }
+
+        if (codeTextField.text?.count ?? 0) < 1{
+            showErrerLabel.text = "验证码错误"
+            return
+        }
         
-        
-        
-        
-        
-        self.popup.alert {
-            [.title("该手机号已被注册"),
-             .cancelAction([
-                .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
-                .text("取消"),
-                .tapActionCallback({
-                })
-              ]),
-             .confirmAction([
-                .text("前往登录"),
-                .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
-                .tapActionCallback({
-                    let login = LoginViewController()
-                    Coordinator.shared?.pushViewController(self, login, animated: true)
-                })
-              ])
-            ]
+        //网络请求有登录成功和该手机号已被注册
+        let parameters = ["countryId":0,"mobile":phoneTextField.text ?? "","loginPass":passwordTextField.text ?? "","verifyCode":codeTextField.text ?? "","verifyId":verifyId] as [String:Any]
+        NetWorkResultRequest(shopApi.regAccount(parameters: parameters), needShowFailAlert: true) {result,data in
+            LXFLog(data)
+            //这边要判断是否有店铺认证有就变成店铺首页，没有的话就是店铺申请一些相关界面
+            do{
+                let json = try JSON(data: data)
+                //这里有个token值需要拿到
+                if json["data"]["shopAuth"].boolValue{
+                    let window = UIApplication.shared.keyWindow
+                    window?.rootViewController = MainViewController()
+                }else{
+                    let storeOccupancyVC = StoreOccupancyViewController()
+                    Coordinator.shared?.pushViewController(self, storeOccupancyVC, animated: true)
+                }
+            }catch{}
+            JFPopup.toast(hit: "注册成功")
+            
+        } failureCallback: { error in
+            LXFLog(error)
+            if error == "该手机号已被注册"{
+                self.popup.alert {
+                    [.title("该手机号已被注册"),
+                     .cancelAction([
+                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
+                        .text("取消"),
+                        .tapActionCallback({
+                        })
+                      ]),
+                     .confirmAction([
+                        .text("前往登录"),
+                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+                        .tapActionCallback({
+                            let login = LoginViewController()
+                            Coordinator.shared?.pushViewController(self, login, animated: true)
+                        })
+                      ])
+                    ]
+                }
+            }
         }
     }
 }

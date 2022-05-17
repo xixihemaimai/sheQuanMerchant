@@ -83,9 +83,10 @@ class BusinessTypeHeaderView: UITableViewHeaderFooterView {
     }
     
     
-    func openTwoType(section:Int,isOpen:Bool){
+    func openTwoType(section:Int,isOpen:Bool,businessName:String){
          openBtn.isSelected = isOpen
-        showOpenBtn.isSelected = isOpen
+         showOpenBtn.isSelected = isOpen
+         productLabel.text = businessName
     }
     
     

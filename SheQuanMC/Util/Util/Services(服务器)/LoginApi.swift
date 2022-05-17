@@ -40,7 +40,7 @@ extension LoginApi:TargetType{
         case .phoneCode:
             return "captcha/getCaptchaCode" //获取手机验证码
         case .passwordLogin:
-            return "login/mobileLogin"  //密码登录
+            return "login/passLogin"  //密码登录
         
  //        case .homeGoodList:
 //            return "homeGoodList"
@@ -72,11 +72,11 @@ extension LoginApi:TargetType{
         
         switch self{
         case .phonelogin(let parameters):
-            return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         case .phoneCode(let parameters):
-            return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         case .passwordLogin(let parameters):
-            return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         }
 //        var paramters:[String:Any] = [:]
 //        switch self{
@@ -93,7 +93,7 @@ extension LoginApi:TargetType{
     
     //公共请求头
     public var headers: [String : String]? {
-        return ["Content-Type":"application/json"]
+        return ["Accept": "*/*","Content-Type":"application/json"]
     }
     
     //解析格式

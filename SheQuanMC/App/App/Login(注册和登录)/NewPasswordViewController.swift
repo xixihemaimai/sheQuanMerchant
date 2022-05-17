@@ -92,7 +92,8 @@ class NewPasswordViewController: BaseViewController {
     }()
     
     
-    
+    //验证码返回的verifyId的值
+    var verifyId:String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -205,8 +206,11 @@ class NewPasswordViewController: BaseViewController {
 //          "password": "string",
 //          "verifyId": "string"
 //        }
-                
+        let parameters = ["password":newPasswordTextField.text ?? "","confirmPass":againPasswordTextField.text ?? "","verifyId":verifyId] as [String:Any]
+        NetWorkResultRequest(shopApi.changePass(parameters: parameters), needShowFailAlert: true) { result, data in
+            LXFLog(data)
+            Coordinator.shared?.popRootViewController(self)
+        } failureCallback: { error in
+        }
     }
-
-
 }

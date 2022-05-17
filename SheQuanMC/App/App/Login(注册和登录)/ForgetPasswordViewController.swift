@@ -8,6 +8,7 @@
 import UIKit
 import Util
 import JFPopup
+import SwiftyJSON
 
 class ForgetPasswordViewController: BaseViewController {
 
@@ -169,43 +170,41 @@ class ForgetPasswordViewController: BaseViewController {
             CountDown.countDown(60, btn: reCodeBtn)
             //网络请求并发送发送短信
             JFPopup.toast(hit: "发送验证码成功")
-          
-            let parameters = ["captchaType":0,"mobile":phoneTextField.text ?? ""] as [String : Any]
+            let parameters = ["captchaType":3,"mobile":phoneTextField.text ?? ""] as [String : Any]
             NetWorkResultRequest(LoginApi.phoneCode(parameters: parameters), needShowFailAlert: true) {result, data in
-                
-                LXFLog(data)
-                
+                do{
+                    LXFLog(data)
+                    let json = try JSON(data: data)
+                    self.verifyId = json["data"]["verifyId"].string ?? ""
+                    LXFLog("----------\(self.verifyId)")
+                }catch{}
+              
             } failureCallback: { error in
-                
                 self.verifyId = ""
             }
-            
         }
     }
     
     
     //下一步
     @objc func nextAction(btn:UIButton){
-        //if !(phoneTextField.text?.isValidMobile ?? true){
-        //   showErrerLabel.text = "请输入正确的手机号"
-        //   return
-        //}
+        if !(phoneTextField.text?.isValidMobile ?? true){
+            JFPopup.toast(hit: "请输入正确的手机号")
+           return
+        }
 
-        //if (codeTextField.text?.count ?? 0) < 1{
-        //    showErrerLabel.text = "验证码错误"
-        //    return
-        //}
-        let newPasswordVc = NewPasswordViewController()
-        Coordinator.shared?.pushViewController(self, newPasswordVc, animated: true)
-        
-        
-//        {
-//          "countryId": 0,
-//          "mobile": "string",
-//          "verifyCode": "string",
-//          "verifyId": "string"
-//        }
-        
+        if (codeTextField.text?.count ?? 0) < 1{
+            JFPopup.toast(hit: "验证码错误")
+            return
+        }
+        let parameters = ["countryId":0,"mobile":phoneTextField.text ?? "","verifyCode":codeTextField.text ?? "","verifyId":verifyId] as [String:Any]
+        NetWorkResultRequest(shopApi.forgetPass(parameters: parameters), needShowFailAlert: true) { result, data in
+            LXFLog(data)
+            let newPasswordVc = NewPasswordViewController()
+            newPasswordVc.verifyId = self.verifyId
+            Coordinator.shared?.pushViewController(self, newPasswordVc, animated: true)
+        } failureCallback: { error in
+        }
     }
     
 }
