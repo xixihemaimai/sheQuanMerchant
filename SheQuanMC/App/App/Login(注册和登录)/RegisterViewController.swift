@@ -354,20 +354,56 @@ class RegisterViewController: BaseViewController {
             //这边要判断是否有店铺认证有就变成店铺首页，没有的话就是店铺申请一些相关界面
             do{
                 let json = try JSON(data: data)
+                
+//                guard let model = try? JSONDecoder().decode(GenericResponse<StoreInfoModel>.self, from: data) else{
+//                    return
+//                }
+//                if let data = model.data {
+                
+                
+                guard let accessToken = json["data"]["accessToken"].string else {
+                    return
+                }
+                StoreService.shared.delete()
+                StoreService.shared.updateToken(accessToken)
+                
+                LXFLog(StoreService.shared.accessToken)
+                
                 //这里有个token值需要拿到
-                if json["data"]["shopAuth"].boolValue{
+                if json["data"]["auditStatus"].int32 == 2{
+                    
                     let window = UIApplication.shared.keyWindow
                     window?.rootViewController = MainViewController()
+                    
+                    
                 }else{
+                    
+                    
                     let storeOccupancyVC = StoreOccupancyViewController()
+                    storeOccupancyVC.audit = 0
                     Coordinator.shared?.pushViewController(self, storeOccupancyVC, animated: true)
+                    
                 }
+                
+                
+//                StoreAuthAndTokenTool.cleanTokenModel()
+//                StoreAuthAndTokenTool.saveTokenModel( StoreAuthTokenModel(accessToken: json["data"]["accessToken"].string!, shopAuth: json["data"]["shopAuth"].boolValue))
+//                //这里有个token值需要拿到
+//                if json["data"]["shopAuth"].boolValue{
+//                    let window = UIApplication.shared.keyWindow
+//                    window?.rootViewController = MainViewController()
+//                }else{
+//                    let storeOccupancyVC = StoreOccupancyViewController()
+//                    Coordinator.shared?.pushViewController(self, storeOccupancyVC, animated: true)
+//                }
+                
+                
             }catch{}
             JFPopup.toast(hit: "注册成功")
             
         } failureCallback: { error in
             LXFLog(error)
-            if error == "该手机号已被注册"{
+            if error == "该手机号已被注册."{
                 self.popup.alert {
                     [.title("该手机号已被注册"),
                      .cancelAction([

@@ -9,6 +9,8 @@ import UIKit
 import Util
 import JFPopup
 import HXPhotoPicker
+import SwiftyJSON
+import Kingfisher
 
 class EnterpriseCertificationViewController: BaseViewController {
 
@@ -57,6 +59,8 @@ class EnterpriseCertificationViewController: BaseViewController {
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
         epNameTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         epNameTextField.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        epNameTextField.tag = 0
+        epNameTextField.addTarget(self, action: #selector(entInfoAction), for: .editingDidEnd)
         return epNameTextField
     }()
     
@@ -88,6 +92,8 @@ class EnterpriseCertificationViewController: BaseViewController {
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
         epdTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         epdTextField.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        epdTextField.tag = 1
+        epdTextField.addTarget(self, action: #selector(entInfoAction), for: .editingDidEnd)
         return epdTextField
     }()
     
@@ -116,6 +122,8 @@ class EnterpriseCertificationViewController: BaseViewController {
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
         creditTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         creditTextField.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        creditTextField.tag = 2
+        creditTextField.addTarget(self, action: #selector(entInfoAction), for: .editingDidEnd)
         return creditTextField
     }()
     
@@ -146,6 +154,8 @@ class EnterpriseCertificationViewController: BaseViewController {
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
         legalNameTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         legalNameTextField.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        legalNameTextField.tag = 3
+        legalNameTextField.addTarget(self, action: #selector(entInfoAction), for: .editingDidEnd)
         return legalNameTextField
     }()
     
@@ -175,6 +185,8 @@ class EnterpriseCertificationViewController: BaseViewController {
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
         idCardTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         idCardTextField.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        idCardTextField.tag = 4
+        idCardTextField.addTarget(self, action: #selector(entInfoAction), for: .editingDidEnd)
         return idCardTextField
     }()
     
@@ -298,6 +310,10 @@ class EnterpriseCertificationViewController: BaseViewController {
         sureBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         return sureBtn
     }()
+    
+    
+    //0为没有的状态 审核中为1 审核失败为2
+    var audit:Int = 0
     
     
     override func viewDidLoad() {
@@ -568,7 +584,102 @@ class EnterpriseCertificationViewController: BaseViewController {
         
         sureBtn.layer.cornerRadius = scale(4)
         sureBtn.addTarget(self, action: #selector(sureEnterCerAction), for: .touchUpInside)
+        
+        
+        
+        
+        
+        
+        
+//        if audit > 0{
+            //获取本地数据
+            
+            //企业名称
+            epNameTextField.text = StoreService.shared.currentUser?.entName
+            //企业地址
+            epdTextField.text = StoreService.shared.currentUser?.entAddress
+            //信用代码
+            creditTextField.text = StoreService.shared.currentUser?.creditCode
+            //法人姓名
+            legalNameTextField.text = StoreService.shared.currentUser?.legalName
+            //身份证号
+            idCardTextField.text = StoreService.shared.currentUser?.certNo
+            
+        
+        if (StoreService.shared.currentUser?.frontPic.count ?? 0) > 0{
+            //身份证正面
+//            cardFrontBtn
+            cardFrontBtn.kf.setBackgroundImage(with: URL(string: StoreService.shared.currentUser?.frontPic ?? ""), for: .normal)
+            cardFrontDeleteBtn.isHidden = false
+        }else
+        {
+            cardFrontDeleteBtn.isHidden = true
+        }
+        if (StoreService.shared.currentUser?.reversePic.count ?? 0) > 0{
+            //身份证反面
+//            cardBackDeleteBtn
+            cardBackBtn.kf.setBackgroundImage(with: URL(string: StoreService.shared.currentUser?.reversePic ?? ""), for: .normal)
+            cardBackDeleteBtn.isHidden = false
+        }else{
+            cardBackDeleteBtn.isHidden = true
+        }
+        
+        if (StoreService.shared.currentUser?.licencePic.count ?? 0) > 0{
+            //营业执照
+//            bussInBtn
+            bussInBtn.kf.setBackgroundImage(with:  URL(string: StoreService.shared.currentUser?.licencePic ?? ""), for: .normal)
+            bussInDeleteBtn.isHidden = false
+        }else{
+            bussInDeleteBtn.isHidden = true
+        }
+            
+        
+            
+            
+//        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
     }
+    
+    
+    
+    //输入相关企业信息
+    @objc func entInfoAction(textfield:UITextField){
+        if textfield.tag == 0 {
+            guard let entName = textfield.text else {
+                return
+            }
+            StoreService.shared.updateEntName(entName)
+        }else if textfield.tag == 1{
+            guard let entAddress = textfield.text else {
+                return
+            }
+            StoreService.shared.updateEntAddress(entAddress)
+        }else if textfield.tag == 2{
+            guard let creditCode = textfield.text else {
+                return
+            }
+            StoreService.shared.updateCreditCode(creditCode)
+        }else if textfield.tag == 3{
+            guard let legalName = textfield.text else {
+                return
+            }
+            StoreService.shared.updateLegalName(legalName)
+        }else{
+            guard let certNo = textfield.text else {
+                return
+            }
+            StoreService.shared.updateCertNo(certNo)
+        }
+    }
+    
     
     
     //获取身份证的正面
@@ -597,14 +708,36 @@ class EnterpriseCertificationViewController: BaseViewController {
                         if let photoModel:HXPhotoModel = photoList?.first{
                             //对图片进行
 //                            photoModel.thumbPhoto
-                            sender.setBackgroundImage(photoModel.thumbPhoto, for: .normal)
-                            //这边要判断删除是否显示
-                            if sender.tag == 0{
-                                self?.cardFrontDeleteBtn.isHidden = false
-                            }else if sender.tag == 1{
-                                self?.cardBackDeleteBtn.isHidden = false
-                            }else{
-                                self?.bussInDeleteBtn.isHidden = false
+//                            sender.setBackgroundImage(photoModel.thumbPhoto, for: .normal)
+                            //网络请求的部分
+                            let Parameters = ["fileType":20]
+                            guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
+                            NetWorkResultRequest(StoreAppleApi.uploadFile(Parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
+                                do{
+                                    LXFLog(data)
+                                    let json = try JSON(data: data)
+                                    if sender.tag == 0{
+                                        //身份证正面
+                                        sender.kf.setBackgroundImage(with: URL(string:json["data"]["cloudUrl"].string ?? ""), for: .normal)
+                                        StoreService.shared.updateFrontPic(json["data"]["cloudUrl"].string ?? "")
+                                    }else if sender.tag == 1{
+                                        sender.kf.setBackgroundImage(with: URL(string:json["data"]["cloudUrl"].string ?? ""), for: .normal)
+                                        //身份证方面
+                                        StoreService.shared.updateReversePic(json["data"]["cloudUrl"].string ?? "")
+                                    }else{
+                                        sender.kf.setBackgroundImage(with: URL(string:json["data"]["cloudUrl"].string ?? ""), for: .normal)
+                                        StoreService.shared.updateLicencePic(json["data"]["cloudUrl"].string ?? "")
+                                    }
+                                    //这边要判断删除是否显示
+                                    if sender.tag == 0{
+                                        self?.cardFrontDeleteBtn.isHidden = false
+                                    }else if sender.tag == 1{
+                                        self?.cardBackDeleteBtn.isHidden = false
+                                    }else{
+                                        self?.bussInDeleteBtn.isHidden = false
+                                    }
+                                }catch{}
+                            } failureCallback: { error in
                             }
                         }
                     })
@@ -614,14 +747,34 @@ class EnterpriseCertificationViewController: BaseViewController {
                         if let photoModel:HXPhotoModel = photoList{
                             //对图片进行
 //                            self?.headerImageView.image = photoModel.thumbPhoto
-                            sender.setBackgroundImage(photoModel.thumbPhoto, for: .normal)
-                            //这边要判断删除是否显示
-                            if sender.tag == 0{
-                                self?.cardFrontDeleteBtn.isHidden = false
-                            }else if sender.tag == 1{
-                                self?.cardBackDeleteBtn.isHidden = false
-                            }else{
-                                self?.bussInDeleteBtn.isHidden = false
+                            let Parameters = ["fileType":20]
+                            guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
+                            NetWorkResultRequest(StoreAppleApi.uploadFile(Parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
+                                do{
+                                    LXFLog(data)
+                                    let json = try JSON(data: data)
+                                    if sender.tag == 0{
+                                        //身份证正面
+                                        sender.kf.setBackgroundImage(with: URL(string:json["data"]["cloudUrl"].string ?? ""), for: .normal)
+                                        StoreService.shared.updateFrontPic(json["data"]["cloudUrl"].string ?? "")
+                                    }else if sender.tag == 1{
+                                        sender.kf.setBackgroundImage(with: URL(string:json["data"]["cloudUrl"].string ?? ""), for: .normal)
+                                        //身份证方面
+                                        StoreService.shared.updateReversePic(json["data"]["cloudUrl"].string ?? "")
+                                    }else{
+                                        sender.kf.setBackgroundImage(with: URL(string:json["data"]["cloudUrl"].string ?? ""), for: .normal)
+                                        StoreService.shared.updateLicencePic(json["data"]["cloudUrl"].string ?? "")
+                                    }
+                                    //这边要判断删除是否显示
+                                    if sender.tag == 0{
+                                        self?.cardFrontDeleteBtn.isHidden = false
+                                    }else if sender.tag == 1{
+                                        self?.cardBackDeleteBtn.isHidden = false
+                                    }else{
+                                        self?.bussInDeleteBtn.isHidden = false
+                                    }
+                                }catch{}
+                            } failureCallback: { error in
                             }
                         }
                     } cancel: { viewController in
@@ -636,18 +789,21 @@ class EnterpriseCertificationViewController: BaseViewController {
     @objc func deleteCardFrontAction(cardFrontDeleteBtn:UIButton){
         cardFrontDeleteBtn.isHidden = true
         cardFrontBtn.setBackgroundImage(UIImage(named: "Group 2743"), for: .normal)
+        StoreService.shared.updateFrontPic("")
     }
     
     //删除身份证反面
     @objc func deleteCardBackAction(cardBackDeleteBtn:UIButton){
         cardBackDeleteBtn.isHidden = true
         cardBackBtn.setBackgroundImage(UIImage(named: "Group 2744"), for: .normal)
+        StoreService.shared.updateReversePic("")
     }
     
     //删除营业执照
     @objc func deleteBussInAction(bussInDeleteBtn:UIButton){
         bussInBtn.setBackgroundImage(UIImage(named: "Group 2745"), for: .normal)
         bussInDeleteBtn.isHidden = true
+        StoreService.shared.updateLicencePic("")
     }
     
     
@@ -655,39 +811,39 @@ class EnterpriseCertificationViewController: BaseViewController {
     @objc func sureEnterCerAction(sureBtn:UIButton){
         LXFLog("确定")
         //判断哪些没有写
-//        if (epNameTextField.text?.count ?? 0) < 1{
-//            JFPopup.toast(hit: "企业名称错误")
-//            return
-//        }
-//        if (epdTextField.text?.count ?? 0) < 1{
-//            JFPopup.toast(hit: "企业地址错误")
-//            return
-//        }
-//        if (creditTextField.text?.count ?? 0) < 1{
-//            JFPopup.toast(hit: "信用代码错误")
-//            return
-//        }
-//        if (legalNameTextField.text?.count ?? 0) < 1{
-//            JFPopup.toast(hit: "法人姓名错误")
-//            return
-//        }
-//        if !(idCardTextField.text?.isValidIDCardNumber ?? true){
-//            JFPopup.toast(hit: "身份证号错误")
-//            return
-//        }
-//
-//        if cardFrontBtn.currentImage == UIImage(named: "Group 2743"){
-//            JFPopup.toast(hit: "身份证正面图片错误")
-//            return
-//        }
-//        if cardBackBtn.currentImage == UIImage(named: "Group 2744"){
-//            JFPopup.toast(hit: "身份证反面图片错误")
-//            return
-//        }
-//        if bussInBtn.currentImage == UIImage(named: "Group 2745"){
-//            JFPopup.toast(hit: "营业执照图片错误")
-//            return
-//        }
+        if (epNameTextField.text?.count ?? 0) < 1{
+            JFPopup.toast(hit: "企业名称错误")
+            return
+        }
+        if (epdTextField.text?.count ?? 0) < 1{
+            JFPopup.toast(hit: "企业地址错误")
+            return
+        }
+        if (creditTextField.text?.count ?? 0) < 1{
+            JFPopup.toast(hit: "信用代码错误")
+            return
+        }
+        if (legalNameTextField.text?.count ?? 0) < 1{
+            JFPopup.toast(hit: "法人姓名错误")
+            return
+        }
+        if !(idCardTextField.text?.isValidIDCardNumber ?? true){
+            JFPopup.toast(hit: "身份证号错误")
+            return
+        }
+
+        if cardFrontBtn.currentImage == UIImage(named: "Group 2743"){
+            JFPopup.toast(hit: "身份证正面图片错误")
+            return
+        }
+        if cardBackBtn.currentImage == UIImage(named: "Group 2744"){
+            JFPopup.toast(hit: "身份证反面图片错误")
+            return
+        }
+        if bussInBtn.currentImage == UIImage(named: "Group 2745"){
+            JFPopup.toast(hit: "营业执照图片错误")
+            return
+        }
 //
         //图片上传
         
@@ -695,6 +851,34 @@ class EnterpriseCertificationViewController: BaseViewController {
         
         /**
          {
+         
+         
+         
+     企业认证
+
+     certNo    string
+     身份证号
+
+     creditCode    string
+     信用代码
+
+     entAddress    string
+     企业地址
+
+     entName    string
+     企业名称
+
+     frontPic    string
+     身份证正面
+
+     legalName    string
+     法人姓名
+
+     licencePic    string
+     营业执照
+
+     reversePic    string
+     身份证反面
            "certNo": "string",
            "creditCode": "string",
            "entAddress": "string",
@@ -708,20 +892,13 @@ class EnterpriseCertificationViewController: BaseViewController {
         
         
         //企业认证
-//        let parameters = []
-//        NetWorkResultRequest(StoreAppleApi.entCert(parameters: <#T##[String : Any]#>), needShowFailAlert: true) {result, data in
-//        } failureCallback: { error in
-//        }
-
-        
-        
-        
-        
-        
-        let enterpriseAuditVc = EnterpriseAuditViewController()
-        enterpriseAuditVc.audit = 2
-        Coordinator.shared?.pushViewController(self, enterpriseAuditVc, animated: true)
-
+        let parameters = ["entName":epNameTextField.text ?? "","entAddress":epdTextField.text ?? "","creditCode":creditTextField.text ?? "","legalName":legalNameTextField.text ?? "","certNo":idCardTextField.text ?? "","frontPic":"","reversePic":"","licencePic":""]
+        NetWorkResultRequest(StoreAppleApi.entCert(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+            let enterpriseAuditVc = EnterpriseAuditViewController()
+            enterpriseAuditVc.audit = self!.audit
+            Coordinator.shared?.pushViewController(self!, enterpriseAuditVc, animated: true)
+        } failureCallback: { error in
+        }
     }
     
     //解决uiscrollview不能滑动的问题

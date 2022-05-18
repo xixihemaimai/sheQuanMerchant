@@ -64,7 +64,12 @@ extension shopApi:TargetType{
     
     
     public var headers: [String : String]? {
-        return ["Accept": "*/*","Content-Type":"application/json"]
+        switch self {
+        case .getShopInfo:
+            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? ""]
+        default:
+            return ["Accept": "*/*","Content-Type":"application/json"]
+        }
     }
     
     

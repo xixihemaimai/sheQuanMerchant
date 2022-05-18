@@ -8,18 +8,12 @@
 import UIKit
 import Util
 import SwiftyJSON
-import SwiftUI
 import HandyJSON
+import JFPopup
 
 
 class BusinessTypeViewController: BaseViewController {
 
-    
-    
-    //这边要创建一个返回选择的类型
-    var returnChoiceType:((_ type:String)->Void)?
-
-    
     lazy var searchBar:UISearchBar = {
        let searchBar = UISearchBar()
         searchBar.placeholder = "搜索"
@@ -37,10 +31,13 @@ class BusinessTypeViewController: BaseViewController {
     //用来保存展开还是关闭的数组
     var openList:[Bool] = [Bool]()
     //用来保存是选中了经营种类
-    var choiceDict:[String:Int] = [:]
+//    var choiceDict:[String:Int] = [:]
     
     //用来保存有一级数组
     var firstArray:[BusinessTypeModel] = [BusinessTypeModel]()
+    //用来确认完成返回的内容
+    var sureSelectBusinessType:((_ businessTypeModel:BusinessTypeModel) -> Void)?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,30 +81,18 @@ class BusinessTypeViewController: BaseViewController {
 //           false
 //        ]
         
-        
-        
-        
-        
-        
-        reload(categoryName: "")
-        
-        
+        reload(categoryName: searchBar.text ?? "")
         
     }
     
     //下拉
     override func headerRereshing() {
-        
-        
-        
-        tableview.mj_header?.endRefreshing()
+        reload(categoryName: searchBar.text ?? "")
+//        tableview.mj_header?.endRefreshing()
     }
     
     //上拉
     override func footerRereshing() {
-        
-        
-        
         tableview.mj_footer?.endRefreshing()
     }
     
@@ -131,7 +116,7 @@ class BusinessTypeViewController: BaseViewController {
                         return
                     }
                     let businessTypeModel = models[i]
-                    LXFLog("---------\(model)")
+//                    LXFLog("---------\(model)")
                     businessTypeModel!.subCategorys! = model as! [BussinessSecondTypeModel]
                     LXFLog(businessTypeModel?.subCategorys)
                     self?.firstArray.append(businessTypeModel!)
@@ -161,6 +146,9 @@ class BusinessTypeViewController: BaseViewController {
                 self?.openList.append(false)
             }
             self?.tableview.reloadData()
+            
+            self?.tableview.mj_header?.endRefreshing()
+            
         } failureCallback: { error in
         }
     }
@@ -172,14 +160,27 @@ class BusinessTypeViewController: BaseViewController {
     
     //确认
     @objc func sureChoiceAction(){
+        var isSure:Bool = false
+        var selectIndex:Int = 0
         for i in 0..<openList.count {
             if let headerView = tableview.headerView(forSection: i) as? BusinessTypeHeaderView{
                 if headerView.choiceBtn.isSelected{
                     //选中的经营种类
-                    
+                    isSure = true
+                    selectIndex = i
                     break
                 }
             }
+        }
+        
+        
+        if isSure{
+            let businessTypeModel = self.firstArray[selectIndex]
+            sureSelectBusinessType!(businessTypeModel)
+            //返回
+            Coordinator.shared?.popViewController(self, true)
+        }else{
+            JFPopup.toast(hit: "请选择经营种类")
         }
     }
     
@@ -190,6 +191,7 @@ class BusinessTypeViewController: BaseViewController {
     @objc func EndEdit(textfield:UITextField){
         searchBar.setPositionAdjustment(UIOffset(horizontal: SCW/2 - scale(80)/2, vertical: 0), for: .search)
         searchBar.resignFirstResponder()
+        reload(categoryName: textfield.text ?? "")
     }
     
 }
@@ -200,8 +202,7 @@ extension BusinessTypeViewController:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let isOpen = self.openList[section]
         if isOpen{
-             if let buinessTypemodel = self.firstArray[section] as? BusinessTypeModel{
-//            LXFLog("========\(buinessTypemodel.subCategorys?.count)")
+            if let buinessTypemodel = self.firstArray[section] as? BusinessTypeModel{
                 return buinessTypemodel.subCategorys?.count ?? 0
              }else{
                 return 0
@@ -270,8 +271,6 @@ extension BusinessTypeViewController:UITableViewDelegate,UITableViewDataSource{
     
     //选择经营种类
     @objc func choiceBussinessAction(choiceBtn:UIButton){
-        
-        
         let headerView = tableview.headerView(forSection: choiceBtn.tag) as! BusinessTypeHeaderView
         //这边先所有的
         for i in 0..<openList.count {

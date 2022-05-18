@@ -10,7 +10,7 @@ import HandyJSON
 
 
 public class BusinessTypeModel: HandyJSON {
-    public var categoryId: Int?
+    public var categoryId: Int32?
     public var categoryName: String?
     public var subCategorys:[BussinessSecondTypeModel]?
     
@@ -35,7 +35,7 @@ public class BusinessTypeModel: HandyJSON {
 
 public class BussinessSecondTypeModel: HandyJSON {
     
-   public var categoryId: Int?
+   public var categoryId: Int32?
    public var categoryName: String?
     
    public required init() {

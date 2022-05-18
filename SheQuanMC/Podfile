@@ -26,6 +26,7 @@ pod 'Moya'
 pod 'SwiftyJSON'
 pod 'RealmSwift'
 pod 'HandyJSON', '~> 5.0.2'
+pod 'Kingfisher'
 end
 
 
@@ -49,6 +50,7 @@ pod 'Moya'
 pod 'SwiftyJSON'
 pod 'RealmSwift'
 pod 'HandyJSON', '~> 5.0.2'
+pod 'Kingfisher'
 end
 
 
@@ -72,4 +74,5 @@ pod 'Moya'
 pod 'SwiftyJSON'
 pod 'RealmSwift'
 pod 'HandyJSON', '~> 5.0.2'
+pod 'Kingfisher'
 end

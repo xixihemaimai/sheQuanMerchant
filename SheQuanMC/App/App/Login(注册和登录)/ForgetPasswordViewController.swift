@@ -176,7 +176,7 @@ class ForgetPasswordViewController: BaseViewController {
                     LXFLog(data)
                     let json = try JSON(data: data)
                     self.verifyId = json["data"]["verifyId"].string ?? ""
-                    LXFLog("----------\(self.verifyId)")
+//                    LXFLog("----------\(self.verifyId)")
                 }catch{}
               
             } failureCallback: { error in

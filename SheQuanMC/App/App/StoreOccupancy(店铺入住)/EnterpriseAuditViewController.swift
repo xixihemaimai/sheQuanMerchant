@@ -7,8 +7,9 @@
 
 import UIKit
 import Util
+import JFPopup
 
-class EnterpriseAuditViewController: BaseViewController {
+public class EnterpriseAuditViewController: BaseViewController {
 
     // 这边有俩种状态
     //审核中
@@ -29,8 +30,8 @@ class EnterpriseAuditViewController: BaseViewController {
     
     
     
-    //审核中为1 审核失败为2
-    var audit:Int = 1
+    //0为没有的状态 审核中为1 审核失败为2
+  public var audit:Int = 0
     
     //失败的原因
     lazy var failView:UIView = {
@@ -58,7 +59,7 @@ class EnterpriseAuditViewController: BaseViewController {
     }()
     
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
@@ -77,18 +78,21 @@ class EnterpriseAuditViewController: BaseViewController {
             make.height.equalTo(scale(28))
         }
         
-        if self.audit == 1{
+        if self.audit == 1 || self.audit == 0{
             auditImageView.image = UIImage(named: "Group 2685")
-            auditLabel.text = "审核中"
+            auditLabel.text = "审核中..."
+            if self.audit == 1{
+                self.navigationItem.leftBarButtonItem?.customView?.isHidden = true
+                self.navigationItem.leftBarButtonItem?.customView = UIButton(setImage: "返回", setBackgroundImage: "", target: self, action: #selector(exitLoginStatus))
+            }
         }else{
+            self.navigationItem.leftBarButtonItem?.customView?.isHidden = true
+            self.navigationItem.leftBarButtonItem?.customView = UIButton(setImage: "返回", setBackgroundImage: "", target: self, action: #selector(exitLoginStatus))
             auditImageView.image = UIImage(named: "Group 2685")
             auditLabel.text = "审核失败"
-            
-            failLabel.text = "失败原因，失败原因，失败原因"
-           
-            
+//            failLabel.text = "失败原因，失败原因，失败原因"
+            failLabel.text = StoreService.shared.currentUser?.rejectReason 
             view.addSubview(failView)
-            
             failView.snp.makeConstraints { make in
                 make.left.equalTo(scale(28))
                 make.right.equalTo(-scale(28))
@@ -133,9 +137,51 @@ class EnterpriseAuditViewController: BaseViewController {
     }
     
     
+    //退出登录状态
+    @objc func exitLoginStatus(){
+        LXFLog("============")
+        JFPopup.alert {
+            [
+                .title("确定要退出吗？"),
+                .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+//                .subTitle("注:取消商品将移至未上架"),
+//                .subTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 ")),
+                .withoutAnimation(true),
+                .cancelAction([
+                    .text("取消"),
+                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
+                    .tapActionCallback({
+//                        Coordinator.shared?.popViewController(self, true)
+                        
+                    })
+                    
+                ]),
+                .confirmAction([
+                    .text("确定"),
+                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+                    .tapActionCallback({
+                        //删除店铺信息
+                        StoreService.shared.delete()
+                //        Coordinator.shared?.popRootViewController(self)
+                        //重新变成登录登记
+                        let startPageVc = StartPageViewController()
+                        let windwin = UIApplication.shared.keyWindow
+                        windwin?.rootViewController = BaseNaviViewController(rootViewController: startPageVc)
+                    })
+                ])
+            ]
+        }
+        
+        
+        
+       
+    }
+    
+    
     //修改资料
     @objc func modifyDataAction(modifyDataBtn:UIButton){
         let storeOcVc = StoreOccupancyViewController()
+        storeOcVc.audit = 1
         Coordinator.shared?.pushViewController(self, storeOcVc, animated: true)
     }
     

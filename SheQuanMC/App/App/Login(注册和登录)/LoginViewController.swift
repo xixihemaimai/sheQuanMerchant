@@ -416,23 +416,60 @@ class LoginViewController: BaseViewController {
                 do{
                     LXFLog(data)
                     let json = try JSON(data: data)
-                    LXFLog(json["data"]["shopAuth"].boolValue)
+                   
+//                    StoreAuthAndTokenTool.cleanTokenModel()
+//                    StoreAuthAndTokenTool.saveTokenModel( StoreAuthTokenModel(accessToken: json["data"]["accessToken"].string!, shopAuth: json["data"]["shopAuth"].boolValue))
                     
-                    StoreAuthAndTokenTool.saveTokenModel( StoreAuthTokenModel(accessToken: json["data"]["accessToken"].string!, shopAuth: json["data"]["shopAuth"].boolValue))
+                    guard let model = try? JSONDecoder().decode(GenericResponse<StoreInfoModel>.self, from: data) else{
+                        return
+                    }
+                    if let data = model.data {
+//                        StoreService.shared.delete()
+                        StoreService.shared.updateShopInfo(data)
+                    }
                     
-                    //这里有个token值需要拿到
-                    if json["data"]["shopAuth"].boolValue{
+                    LXFLog(data)
+                    
+                    if json["data"]["auditStatus"].int32 == 2{
                         let window = UIApplication.shared.keyWindow
                         window?.rootViewController = MainViewController()
+                    }else if json["data"]["auditStatus"].int32 == 1{
+                        //审核中
+                        let enterPriseVc = EnterpriseAuditViewController()
+                        enterPriseVc.audit = 1
+                        Coordinator.shared?.pushViewController(self, enterPriseVc, animated: true)
+                        
+                        
+                    }else if json["data"]["auditStatus"].int32 == 3{
+                        //审核失败
+                        let enterPriseVc = EnterpriseAuditViewController()
+                        enterPriseVc.audit = 2
+                        Coordinator.shared?.pushViewController(self, enterPriseVc, animated: true)
+                        
+                        
                     }else{
                         
-                        
+//                        let enterPriseVc = EnterpriseAuditViewController()
+//                        enterPriseVc.audit = 2
+//                        Coordinator.shared?.pushViewController(self, enterPriseVc, animated: true)
                         let storeOccupancyVC = StoreOccupancyViewController()
+                        storeOccupancyVC.audit = 0
                         Coordinator.shared?.pushViewController(self, storeOccupancyVC, animated: true)
                         
-                        
-                        
                     }
+                    
+                    
+                    
+                    //这里有个token值需要拿到
+//                    if json["data"]["auditStatus"].int32 == 2{
+//                        let window = UIApplication.shared.keyWindow
+//                        window?.rootViewController = MainViewController()
+//                    }else{
+//                        let storeOccupancyVC = StoreOccupancyViewController()
+//                        Coordinator.shared?.pushViewController(self, storeOccupancyVC, animated: true)
+//                    }
+                    
+                    
                 }catch{}
             } failureCallback: { error in
                 LXFLog("错误")
@@ -455,15 +492,58 @@ class LoginViewController: BaseViewController {
                 do{
                     LXFLog(data)
                     let json = try JSON(data: data)
-                    LXFLog(json["data"]["shopAuth"].boolValue)
+                    
+                    
+                    guard let model = try? JSONDecoder().decode(GenericResponse<StoreInfoModel>.self, from: data) else{
+                        return
+                    }
+                    if let data = model.data {
+                        StoreService.shared.delete()
+                        StoreService.shared.updateShopInfo(data)
+                    }
+                    LXFLog(model)
+                    
                     //这里有个token值需要拿到
-                    if json["data"]["shopAuth"].boolValue{
+                    if json["data"]["auditStatus"].int32 == 2{
                         let window = UIApplication.shared.keyWindow
                         window?.rootViewController = MainViewController()
+                    }else if json["data"]["auditStatus"].int32 == 1{
+                        //审核中
+                        let enterPriseVc = EnterpriseAuditViewController()
+                        enterPriseVc.audit = 1
+                        Coordinator.shared?.pushViewController(self, enterPriseVc, animated: true)
+                        
+                        
+                    }else if json["data"]["auditStatus"].int32 == 3{
+                        //审核失败
+                        let enterPriseVc = EnterpriseAuditViewController()
+                        enterPriseVc.audit = 2
+                        Coordinator.shared?.pushViewController(self, enterPriseVc, animated: true)
+                        
+                        
                     }else{
+                        
+//                        let enterPriseVc = EnterpriseAuditViewController()
+//                        enterPriseVc.audit = 2
+//                        Coordinator.shared?.pushViewController(self, enterPriseVc, animated: true)
+                        
                         let storeOccupancyVC = StoreOccupancyViewController()
                         Coordinator.shared?.pushViewController(self, storeOccupancyVC, animated: true)
+                        
                     }
+                    
+                    
+//                    LXFLog(json["data"]["shopAuth"].boolValue)
+//                    StoreAuthAndTokenTool.cleanTokenModel()
+//                    StoreAuthAndTokenTool.saveTokenModel( StoreAuthTokenModel(accessToken: json["data"]["accessToken"].string!, shopAuth: json["data"]["shopAuth"].boolValue))
+//                    //这里有个token值需要拿到
+//                    if json["data"]["shopAuth"].boolValue{
+//                        let window = UIApplication.shared.keyWindow
+//                        window?.rootViewController = MainViewController()
+//                    }else{
+//                        let storeOccupancyVC = StoreOccupancyViewController()
+//                        Coordinator.shared?.pushViewController(self, storeOccupancyVC, animated: true)
+//                    }
                 }catch{}
             } failureCallback: { error in
             }

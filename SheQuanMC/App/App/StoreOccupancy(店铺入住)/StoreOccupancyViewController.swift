@@ -9,6 +9,9 @@ import UIKit
 import Util
 import JFPopup
 import HXPhotoPicker
+import SwiftyJSON
+import Kingfisher
+
 
 open class StoreOccupancyViewController: BaseViewController {
     
@@ -60,6 +63,7 @@ open class StoreOccupancyViewController: BaseViewController {
         shopTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         shopTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入店铺名称,长度不超过20个字", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
+        shopTextField.addTarget(self, action: #selector(shopNameChangeAction), for: .editingDidEnd)
         return shopTextField
     }()
     
@@ -115,13 +119,28 @@ open class StoreOccupancyViewController: BaseViewController {
         nextBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         return nextBtn
     }()
+    
+    
+    
+    //0为没有的状态 审核中为1 审核失败为2
+   public var audit:Int = 0
+    
+    //经营种类的ID
+    var categoryId:Int32?
+    
 
    public override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
+       
+       
         title = "店铺入住"
         //Group 2738
+       
+       self.navigationItem.leftBarButtonItem?.customView?.isHidden = true
+       self.navigationItem.leftBarButtonItem?.customView = UIButton(setImage: "返回", setBackgroundImage: "", target: self, action: #selector(exitLoginStatus))
+       
         
         //Frame-right
         view.addSubview(headerImageView)
@@ -130,12 +149,15 @@ open class StoreOccupancyViewController: BaseViewController {
             make.top.equalTo(scale(28))
             make.height.width.equalTo(scale(78))
         }
+       
+       
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(choicePitureAction))
         headerImageView.isUserInteractionEnabled = true
         headerImageView.addGestureRecognizer(tap)
         
-        
+        headerImageView.layer.cornerRadius = scale(78) * 0.5
+        headerImageView.layer.masksToBounds = true
 //        headerImageView.layer.cornerRadius = headerImageView.width * 0.5
         
         
@@ -214,7 +236,32 @@ open class StoreOccupancyViewController: BaseViewController {
         }
         nextBtn.layer.cornerRadius = scale(4)
         nextBtn.addTarget(self, action: #selector(nextShopAction), for: .touchUpInside)
-//
+       
+       
+       
+       
+//       if audit > 0{
+           //这边是从本地去拿数据去了
+//           头像图片
+           //店铺名称
+           //经营种类
+           //经营种类ID
+           headerImageView.kf.setImage(with:URL(string: StoreService.shared.currentUser?.shopAvatar ?? ""))
+           //店铺名称
+           shopTextField.text = StoreService.shared.currentUser?.shopName
+           //选择经营种类
+       
+       if (StoreService.shared.currentUser?.categoryName.count ?? 0) > 0{
+           choiceManagementBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333"), for: .normal)
+           choiceManagementBtn.setTitle(StoreService.shared.currentUser?.categoryName, for: .normal)
+       }else{
+           choiceManagementBtn.setTitle("请选择经营品类", for: .normal)
+           choiceManagementBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#878787"), for: .normal)
+       }
+          categoryId = StoreService.shared.categoryId
+           
+           
+//       }
     }
     
 
@@ -230,7 +277,24 @@ open class StoreOccupancyViewController: BaseViewController {
                         if let photoModel:HXPhotoModel = photoList?.first{
                             //对图片进行
 //                            photoModel.thumbPhoto
-                            self?.headerImageView.image = photoModel.thumbPhoto?.isRoundCorner(radius:  (self?.headerImageView.width ?? 0) * 0.5, byRoundingCorners: .allCorners, imageSize: self?.headerImageView.size)
+//                            self?.headerImageView.image = photoModel.thumbPhoto?.isRoundCorner(radius:  (self?.headerImageView.width ?? 0) * 0.5, byRoundingCorners: .allCorners, imageSize: self?.headerImageView.size)
+                            
+                            
+                            //网络请求的部分
+                            let Parameters = ["fileType":20]
+                            guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
+                            NetWorkResultRequest(StoreAppleApi.uploadFile(Parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
+                                do{
+                                    LXFLog(data)
+                                    let json = try JSON(data: data)
+                                    self?.headerImageView.kf.setImage(with:URL(string: json["data"]["cloudUrl"].string ?? ""))
+                                    StoreService.shared.updateShopAvatar(json["data"]["cloudUrl"].string ?? "")
+//                                    self?.headerImageView.layer.cornerRadius = scale(78) * 0.5
+                                    
+                                    
+                                }catch{}
+                            } failureCallback: { error in
+                            }
                         }
                         
                     })
@@ -241,7 +305,23 @@ open class StoreOccupancyViewController: BaseViewController {
                         if let photoModel:HXPhotoModel = photoList{
                             //对图片进行
 //                            self?.headerImageView.image = photoModel.thumbPhoto
-                            self?.headerImageView.image = photoModel.thumbPhoto?.isRoundCorner(radius:  (self?.headerImageView.width ?? 0) * 0.5, byRoundingCorners: .allCorners, imageSize: self?.headerImageView.size)
+//                            self?.headerImageView.image = photoModel.thumbPhoto?.isRoundCorner(radius:  (self?.headerImageView.width ?? 0) * 0.5, byRoundingCorners: .allCorners, imageSize: self?.headerImageView.size)
+                            
+                            //网络请求的部分
+                            let Parameters = ["fileType":20]
+                            guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
+                            NetWorkResultRequest(StoreAppleApi.uploadFile(Parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
+                                do{
+                                    LXFLog(data)
+                                    let json = try JSON(data: data)
+                                    self?.headerImageView.kf.setImage(with:URL(string: json["data"]["cloudUrl"].string ?? ""))
+                                    StoreService.shared.updateShopAvatar(json["data"]["cloudUrl"].string ?? "")
+                                    
+//                                    self?.headerImageView.layer.cornerRadius = scale(78) * 0.5
+                                    
+                                }catch{}
+                            } failureCallback: { error in
+                            }
                         }
                     } cancel: { viewController in
                     }
@@ -255,6 +335,27 @@ open class StoreOccupancyViewController: BaseViewController {
     @objc func choiceManagerAction(choiceManagementBtn:UIButton){
         let businessTypeVc = BusinessTypeViewController()
         Coordinator.shared?.pushViewController(self, businessTypeVc, animated: true)
+        //这边是返回选择是哪个经营种类
+        businessTypeVc.sureSelectBusinessType = {[weak self] businessTypeModel in
+            choiceManagementBtn.setTitle(businessTypeModel.categoryName, for: .normal)
+            //这边要获取这个模型
+//            self?.businessTypeModel = businessTypeModel
+            self?.categoryId = businessTypeModel.categoryId
+            choiceManagementBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333"), for: .normal)
+            
+            StoreService.shared.updateCategoryName(businessTypeModel.categoryName ?? "", businessTypeModel.categoryId ?? 0)
+            
+        }
+    }
+    
+    
+    
+    //输入店铺名字的结束的方法
+    @objc func shopNameChangeAction(textfield:UITextField){
+        LXFLog("修改或取店铺名字的地方")
+        //修改本地库的数据
+        guard let shopName = textfield.text else{return}
+        StoreService.shared.updateShopName(shopName)
     }
     
     
@@ -263,28 +364,87 @@ open class StoreOccupancyViewController: BaseViewController {
     @objc func nextShopAction(nextBtn:UIButton){
         //店铺名字
         //shopTextField
-//        if shopTextField.text?.containsEmoji() == true{
-//            showErrerLabel.text = "店铺名称里面包含表情"
-//            return
-//        }
-//
-//        if shopTextField.text?.isValidNickName == false{
-//            showErrerLabel.text = "店铺名称不合规,请重新输入"
-//            return
-//        }
-//
-//        //经营种类
-////        choiceManagementBtn.currentTitle
-//        if choiceManagementBtn.currentTitle == "请选择经营种类"{
-//            showErrerLabel.text = "请选择经营种类"
-//            return
-//        }
+        if shopTextField.text?.containsEmoji() == true{
+            showErrerLabel.text = "店铺名称里面包含表情"
+            return
+        }
+
+        if shopTextField.text?.isValidNickName == false{
+            showErrerLabel.text = "店铺名称不合规,请重新输入"
+            return
+        }
+
+        //经营种类
+//        choiceManagementBtn.currentTitle
+        if choiceManagementBtn.currentTitle == "请选择经营种类"{
+            showErrerLabel.text = "请选择经营种类"
+            return
+        }
         
         //网络请求了
-        
-        let encVc = EnterpriseCertificationViewController()
-        Coordinator.shared?.pushViewController(self, encVc, animated: true)
-        
-    }
+        /**
+         
+     店铺认证
 
+     categoryId    integer($int32)
+     经营品类Id
+
+     shopAvatar    string
+     店铺头像
+
+     shopName    string
+     店铺名称
+         */
+        let parameters = ["categoryId":categoryId ?? 0,"shopAvatar":(StoreService.shared.currentUser?.shopAvatar ?? "") as Any,"shopName":(shopTextField.text ?? "") as Any] as [String : Any]
+        NetWorkResultRequest(StoreAppleApi.shopAuth(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+            let encVc = EnterpriseCertificationViewController()
+            encVc.audit = self!.audit
+            Coordinator.shared?.pushViewController(self!, encVc, animated: true)
+        } failureCallback: { error in
+        }
+    }
+    
+    
+    
+    
+    //退出登录状态
+    @objc func exitLoginStatus(){
+        LXFLog("============")
+        JFPopup.alert {
+            [
+                .title("差一步就能开店了，确定要退出吗？"),
+                .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+//                .subTitle("注:取消商品将移至未上架"),
+//                .subTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 ")),
+                .withoutAnimation(true),
+                .cancelAction([
+                    .text("取消"),
+                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
+                    .tapActionCallback({
+//                        Coordinator.shared?.popViewController(self, true)
+                        
+                    })
+                    
+                ]),
+                .confirmAction([
+                    .text("确定"),
+                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+                    .tapActionCallback({
+                        //删除店铺信息
+                        StoreService.shared.delete()
+                //        Coordinator.shared?.popRootViewController(self)
+                        //重新变成登录登记
+                        let startPageVc = StartPageViewController()
+                        let windwin = UIApplication.shared.keyWindow
+                        windwin?.rootViewController = BaseNaviViewController(rootViewController: startPageVc)
+                    })
+                ])
+            ]
+        }
+        
+        
+        
+       
+    }
+    
 }

@@ -11,6 +11,7 @@ PODS:
   - JFPopup (1.4.3):
     - JRBaseKit (~> 1.0.0)
   - JRBaseKit (1.0.0)
+  - Kingfisher (6.3.1)
   - LDMessage (1.0.8):
     - Protobuf
   - LDStreaming (1.0.0):
@@ -40,6 +41,7 @@ DEPENDENCIES:
   - HXPhotoPicker
   - IQKeyboardManager
   - JFPopup
+  - Kingfisher
   - LDMessage (from `LDMessage`)
   - LDStreaming (from `LDStreaming`)
   - MJRefresh (~> 3.7.5)
@@ -58,6 +60,7 @@ SPEC REPOS:
     - IQKeyboardManager
     - JFPopup
     - JRBaseKit
+    - Kingfisher
     - MJRefresh
     - Moya
     - Realm
@@ -87,6 +90,7 @@ SPEC CHECKSUMS:
   IQKeyboardManager: 45a1fa55c1a5b02c61ac0fd7fd5b62bb4ad20d97
   JFPopup: 3b30e7db76294ba878ffb58ca9cb069a367a12d1
   JRBaseKit: ed75cfce9e340a3316bee0eaac0fa1c400714287
+  Kingfisher: 016c8b653a35add51dd34a3aba36b580041acc74
   LDMessage: 881215c915bcfc9d6d312bc6da30007c3783ff04
   LDStreaming: 6f024066e0d9187c4c13078931a1eacb6d489096
   MJRefresh: fdf5e979eb406a0341468932d1dfc8b7f9fce961
@@ -97,6 +101,6 @@ SPEC CHECKSUMS:
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
 
-PODFILE CHECKSUM: 5a0e69ec778514c47eb9dc44e0271d72e70f0eb2
+PODFILE CHECKSUM: a807b8dc73a7a70ed90ef36ae14e0973b6d66239
 
 COCOAPODS: 1.11.3
