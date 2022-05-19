@@ -26,7 +26,8 @@ class ForgetPasswordViewController: BaseViewController {
     //输入框
     lazy var phoneTextField:UITextField = {
        let phoneTextField = UITextField()
-        phoneTextField.keyboardType = .phonePad
+//        phoneTextField.keyboardType = .phonePad
+        phoneTextField.clearButtonMode = .whileEditing
         phoneTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         phoneTextField.placeholder = "请输入手机号"
         phoneTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入手机号", attributes: [
@@ -46,6 +47,7 @@ class ForgetPasswordViewController: BaseViewController {
     lazy var codeTextField:UITextField = {
        let codeTextField = UITextField()
         codeTextField.placeholder = "请输入验证码"
+        codeTextField.clearButtonMode = .whileEditing
         codeTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         codeTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入验证码", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
@@ -179,7 +181,7 @@ class ForgetPasswordViewController: BaseViewController {
 //                    LXFLog("----------\(self.verifyId)")
                 }catch{}
               
-            } failureCallback: { error in
+            } failureCallback: { error,code in
                 self.verifyId = ""
             }
         }
@@ -203,7 +205,7 @@ class ForgetPasswordViewController: BaseViewController {
             let newPasswordVc = NewPasswordViewController()
             newPasswordVc.verifyId = self.verifyId
             Coordinator.shared?.pushViewController(self, newPasswordVc, animated: true)
-        } failureCallback: { error in
+        } failureCallback: { error,code in
         }
     }
     

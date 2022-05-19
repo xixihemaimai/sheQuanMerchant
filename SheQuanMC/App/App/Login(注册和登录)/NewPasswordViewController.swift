@@ -27,6 +27,7 @@ class NewPasswordViewController: BaseViewController {
     lazy var newPasswordTextField:UITextField = {
        let newPasswordTextField = UITextField()
         newPasswordTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
+        newPasswordTextField.clearButtonMode = .whileEditing
         newPasswordTextField.placeholder = "请输入新密码"
         newPasswordTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入新密码", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
@@ -56,10 +57,11 @@ class NewPasswordViewController: BaseViewController {
     lazy var againPasswordTextField:UITextField = {
        let againPasswordTextField = UITextField()
         againPasswordTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
+        againPasswordTextField.clearButtonMode = .whileEditing
         againPasswordTextField.placeholder = "二次输入确认密码"
         againPasswordTextField.attributedPlaceholder = NSAttributedString.init(string:"二次输入确认密码", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
-        againPasswordTextField.isSecureTextEntry = true
+//        againPasswordTextField.isSecureTextEntry = true
         againPasswordTextField.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         return againPasswordTextField
     }()
@@ -207,10 +209,13 @@ class NewPasswordViewController: BaseViewController {
 //          "verifyId": "string"
 //        }
         let parameters = ["password":newPasswordTextField.text ?? "","confirmPass":againPasswordTextField.text ?? "","verifyId":verifyId] as [String:Any]
-        NetWorkResultRequest(shopApi.changePass(parameters: parameters), needShowFailAlert: true) { result, data in
+        NetWorkResultRequest(shopApi.changePass(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
             LXFLog(data)
-            Coordinator.shared?.popRootViewController(self)
-        } failureCallback: { error in
+            JFPopup.toast(hit: "修改密码成功", icon: .success)
+            let popVc = self?.navigationController?.viewControllers[1] as! LoginViewController
+            Coordinator.shared?.popViewController(popVc, true)
+        } failureCallback: { error,code in
+//            JFPopup.toast(hit: "修改密码失败", icon: .fail)
         }
     }
 }

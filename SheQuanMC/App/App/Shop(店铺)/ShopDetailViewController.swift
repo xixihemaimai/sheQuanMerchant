@@ -36,17 +36,17 @@ class ShopDetailViewController: BaseViewController {
             if i == 0{
                 var dict = [String:String]()
                 dict["titleNameLabel"] = "店铺名称"
-                dict["detailLabel"] = "NIKE旗舰店"
+                dict["detailLabel"] = StoreService.shared.currentUser?.shopName
                 rowList.append(dict)
             }else if i == 1{
                 for j in 0...1{
                     var dict = [String:String]()
                     if j == 0{
                         dict["titleNameLabel"] = "手机号"
-                        dict["detailLabel"] = "15266666666666"
+                        dict["detailLabel"] = StoreService.shared.currentUser?.mobile
                     }else{
                         dict["titleNameLabel"] = "开通时间"
-                        dict["detailLabel"] = "2022-1-18 16:22:18"
+                        dict["detailLabel"] = StoreService.shared.currentUser?.regTime
                     }
                     rowList.append(dict)
                 }
@@ -55,24 +55,25 @@ class ShopDetailViewController: BaseViewController {
                     var dict = [String:String]()
                     if j == 0{
                         dict["titleNameLabel"] = "企业名称"
-                        dict["detailLabel"] = "NIKE旗舰店有限公司"
+                        LXFLog(StoreService.shared.currentUser?.entName)
+                        dict["detailLabel"] = StoreService.shared.currentUser?.entName
                     }else if j == 1{
                         dict["titleNameLabel"] = "地址"
-                        dict["detailLabel"] = "福建省厦门市思明区XX大道XX路XX小区3栋6号楼"
+                        dict["detailLabel"] = StoreService.shared.currentUser?.entAddress
                     }else if j == 2{
                         dict["titleNameLabel"] = "法人姓名"
-                        dict["detailLabel"] = "农大侠"
+                        dict["detailLabel"] = StoreService.shared.currentUser?.legalName
                     }else{
                         dict["titleNameLabel"] = "信用代码"
-                        dict["detailLabel"] = "1234567890FM"
+                        dict["detailLabel"] = StoreService.shared.currentUser?.creditCode
                     }
                     rowList.append(dict)
                 }
             }else{
                 var dict = [String:String]()
-                dict["idCardFort"] = "Group 2743"
-                dict["idCardBack"] = "Group 2744"
-                dict["bussIn"] = "Group 2745"
+                dict["idCardFort"] = StoreService.shared.currentUser?.frontPic
+                dict["idCardBack"] = StoreService.shared.currentUser?.reversePic
+                dict["bussIn"] = StoreService.shared.currentUser?.licencePic
                 rowList.append(dict)
             }
             shopeDetailList.append(rowList)
@@ -106,9 +107,13 @@ extension ShopDetailViewController : UITableViewDelegate,UITableViewDataSource{
             let cell = tableView.dequeueReusableCell(withIdentifier: "ShopDetailCardCell") as! ShopDetailCardCell
             let list = shopeDetailList[indexPath.section]
             let dict = list[indexPath.row]
-            cell.cardFrotImageView.image = UIImage(named: dict["idCardFort"]!)
-            cell.cardBackImageView.image = UIImage(named: dict["idCardBack"]!)
-            cell.bussImageView.image = UIImage(named: dict["bussIn"]!)
+//            cell.cardFrotImageView.image = UIImage(named: dict["idCardFort"]!)
+//            cell.cardBackImageView.image = UIImage(named: dict["idCardBack"]!)
+//            cell.bussImageView.image = UIImage(named: dict["bussIn"]!)
+            
+            cell.cardFrotImageView.kf.setImage(with: URL(string: dict["idCardFort"] ?? ""))
+            cell.cardBackImageView.kf.setImage(with: URL(string: dict["idCardBack"] ?? ""))
+            cell.bussImageView.kf.setImage(with: URL(string: dict["bussIn"] ?? ""))
             return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "ShopDetailCell") as! ShopDetailCell

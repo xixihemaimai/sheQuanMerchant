@@ -581,16 +581,8 @@ class EnterpriseCertificationViewController: BaseViewController {
             make.top.equalTo(bussInView.snp.bottom).offset(scale(12))
             make.height.equalTo(scale(40))
         }
-        
         sureBtn.layer.cornerRadius = scale(4)
         sureBtn.addTarget(self, action: #selector(sureEnterCerAction), for: .touchUpInside)
-        
-        
-        
-        
-        
-        
-        
 //        if audit > 0{
             //获取本地数据
             
@@ -632,20 +624,7 @@ class EnterpriseCertificationViewController: BaseViewController {
         }else{
             bussInDeleteBtn.isHidden = true
         }
-            
-        
-            
-            
 //        }
-        
-        
-        
-        
-        
-        
-        
-        
-        
     }
     
     
@@ -711,6 +690,7 @@ class EnterpriseCertificationViewController: BaseViewController {
 //                            sender.setBackgroundImage(photoModel.thumbPhoto, for: .normal)
                             //网络请求的部分
                             let Parameters = ["fileType":20]
+                            JFPopupView.popup.loading(hit: "上传图片中....")
                             guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
                             NetWorkResultRequest(StoreAppleApi.uploadFile(Parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
                                 do{
@@ -737,7 +717,11 @@ class EnterpriseCertificationViewController: BaseViewController {
                                         self?.bussInDeleteBtn.isHidden = false
                                     }
                                 }catch{}
-                            } failureCallback: { error in
+                                
+                                JFPopupView.popup.hideLoading()
+                                
+                            } failureCallback: { error,code in
+                                JFPopupView.popup.hideLoading()
                             }
                         }
                     })
@@ -748,6 +732,7 @@ class EnterpriseCertificationViewController: BaseViewController {
                             //对图片进行
 //                            self?.headerImageView.image = photoModel.thumbPhoto
                             let Parameters = ["fileType":20]
+                            JFPopupView.popup.loading(hit: "上传图片中....")
                             guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
                             NetWorkResultRequest(StoreAppleApi.uploadFile(Parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
                                 do{
@@ -774,7 +759,9 @@ class EnterpriseCertificationViewController: BaseViewController {
                                         self?.bussInDeleteBtn.isHidden = false
                                     }
                                 }catch{}
-                            } failureCallback: { error in
+                                JFPopupView.popup.hideLoading()
+                            } failureCallback: { error,code in
+                                JFPopupView.popup.hideLoading()
                             }
                         }
                     } cancel: { viewController in
@@ -844,60 +831,14 @@ class EnterpriseCertificationViewController: BaseViewController {
             JFPopup.toast(hit: "营业执照图片错误")
             return
         }
-//
-        //图片上传
-        
-        
-        
-        /**
-         {
-         
-         
-         
-     企业认证
-
-     certNo    string
-     身份证号
-
-     creditCode    string
-     信用代码
-
-     entAddress    string
-     企业地址
-
-     entName    string
-     企业名称
-
-     frontPic    string
-     身份证正面
-
-     legalName    string
-     法人姓名
-
-     licencePic    string
-     营业执照
-
-     reversePic    string
-     身份证反面
-           "certNo": "string",
-           "creditCode": "string",
-           "entAddress": "string",
-           "entName": "string",
-           "frontPic": "string",
-           "legalName": "string",
-           "licencePic": "string",
-           "reversePic": "string"
-         }
-         */
-        
-        
         //企业认证
-        let parameters = ["entName":epNameTextField.text ?? "","entAddress":epdTextField.text ?? "","creditCode":creditTextField.text ?? "","legalName":legalNameTextField.text ?? "","certNo":idCardTextField.text ?? "","frontPic":"","reversePic":"","licencePic":""]
+        let parameters = ["entName":epNameTextField.text ?? "","entAddress":epdTextField.text ?? "","creditCode":creditTextField.text ?? "","legalName":legalNameTextField.text ?? "","certNo":idCardTextField.text ?? "","frontPic":StoreService.shared.currentUser?.frontPic,"reversePic":StoreService.shared.currentUser?.reversePic,"licencePic":StoreService.shared.currentUser?.licencePic] as [String:Any]
         NetWorkResultRequest(StoreAppleApi.entCert(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
             let enterpriseAuditVc = EnterpriseAuditViewController()
             enterpriseAuditVc.audit = self!.audit
             Coordinator.shared?.pushViewController(self!, enterpriseAuditVc, animated: true)
-        } failureCallback: { error in
+            JFPopup.toast(hit: "企业认证成功", icon: .success)
+        } failureCallback: { error,code in
         }
     }
     

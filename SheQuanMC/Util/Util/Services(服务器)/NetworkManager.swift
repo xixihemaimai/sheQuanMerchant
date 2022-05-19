@@ -12,6 +12,9 @@ import Foundation
 import Moya
 import SwiftyJSON
 import JFPopup
+import UIKit
+
+
 /// 超时时长
 public var requestTimeOut: Double = 30
 // 单个模型的成功回调 包括： 模型，网络请求的模型(code,message,data等，具体根据业务来定)
@@ -23,7 +26,8 @@ public typealias RequestModelsSuccessCallback = ((_ result:Any?,_ data:Data) -> 
 // 网络请求的回调 包括：网络请求的模型(code,message,data等，具体根据业务来定)
 public typealias RequestCallback = ((_ result:Any?,_ data:Data) -> Void)
 /// 网络错误的回调
-public typealias errorCallback = ((_ error:String) -> Void)
+public typealias errorCallback = ((_ error:String,_ code:Int) -> Void)
+
 
 /// dataKey一般是 "data"  这里用的知乎daily 的接口 为stories
 let responseDataKey = "data"
@@ -291,11 +295,18 @@ public func NetWorkResultRequest(_ target: TargetType, needShowFailAlert: Bool =
                 /// 这里的 -999的code码 需要根据具体业务来设置
                 respModel.code = jsonData[responseCodeKey].int ?? 200
                 respModel.message = jsonData[responseMessageKey].stringValue
-                if 200...299 ~= respModel.code {
+                if respModel.code == 200{
 //                    respModel.dataString = jsonData[responseDataKey].rawString() ?? ""
 //                    successCallback(respModel)
                     successCallback(response,response.data as Data)
-                } else {
+                }else if respModel.code == 201{
+                   //token失效
+                    
+//                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "loginOut"), object: nil, userInfo: nil)
+                    
+                    errorHandler(code: respModel.code , message: respModel.message , needShowFailAlert: needShowFailAlert, failure: failureCallback)
+                    return
+                }else {
                     errorHandler(code: respModel.code , message: respModel.message , needShowFailAlert: needShowFailAlert, failure: failureCallback)
                     return
                 }
@@ -363,7 +374,7 @@ public func errorHandler(code: Int, message: String, needShowFailAlert: Bool, fa
 //        print("弹出错误信息弹框\(message)")
         JFPopup.toast(hit: "\(message)", icon: .fail)
     }
-    failure?(message)
+    failure?(message,model.code)
 }
 
 public func judgeCondition(_ flag: String?) {
@@ -390,6 +401,12 @@ extension UIDevice {
     static var isNetworkConnect: Bool {
         let network = NetworkReachabilityManager()
         return network?.isReachable ?? true // 无返回就默认网络已连接
+    }
+    
+    //获取UUID
+    static func currentUUID()->String{
+        let currentDvice = self.current
+        return currentDvice.identifierForVendor?.uuidString ?? ""
     }
 }
 

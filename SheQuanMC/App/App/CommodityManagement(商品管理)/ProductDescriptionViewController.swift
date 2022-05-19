@@ -334,12 +334,10 @@ class ProductDescriptionViewController: BaseViewController {
     //完成
     @objc func completeAction(){
         LXFLog("完成")
-        LXFLog("===================\(_textView.attributedText)")
+//        LXFLog("===================\(_textView.attributedText)")
 //        NSArray *arr1 =  [_textView.attributedText getArrayWithAttributed];
         let arr1 = _textView.attributedText.getArrayWithAttributed()
         LXFLog("----------------------\(arr1)")
-
-        
         /**
          if (_textView.attributedText.length) {
              NSArray *arr1 =  [_textView.attributedText getArrayWithAttributed];
@@ -456,7 +454,9 @@ extension ProductDescriptionViewController:UITextViewDelegate,UITextFieldDelegat
         if len > 0{
             _textView.isDelete = false
             _textView.newRange = NSRange(location: _textView.selectedRange.location - len, length: len)
-            _textView.newstr = textView.text.sub(start: _textView.newRange.location, length: _textView.newRange.length)
+//            _textView.newstr = textView.text.sub(start: _textView.newRange.location, length: _textView.newRange.length)
+            _textView.newstr = (textView.text as NSString).substring(with: _textView.newRange)
+            
         }else{
             _textView.isDelete = true
         }

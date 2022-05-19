@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
         //这边要对用户数据进行判断是否有用户数据过
+//        window?.rootViewController = MainViewController()
         if StoreService.shared.isLogin(){
             let startPageVc = StartPageViewController()
             let navi = BaseNaviViewController(rootViewController: startPageVc)
@@ -34,21 +35,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     guard let model = try? JSONDecoder().decode(GenericResponse<StoreInfoModel>.self, from: data) else{
                         return
                     }
-                    
+
                     if let data = model.data {
                         StoreService.shared.updateShopInfo(data)
                     }
                     LXFLog(json)
-                    
-                    if json["data"]["auditStatus"].int32 == 2{
+
+                    if json["data"]["auditStatus"].int32Value == 2{
                         self.window?.rootViewController = MainViewController()
-                    }else if json["data"]["auditStatus"].int32 == 1{
+                    }else if json["data"]["auditStatus"].int32Value == 1{
                         //审核中
                         let enterPriseVc = EnterpriseAuditViewController()
                         enterPriseVc.audit = 1
 //                        self.window?.rootViewController = BaseNaviViewController(rootViewController: enterPriseVc)
                         Coordinator.shared?.pushViewController(startPageVc, enterPriseVc, animated: false)
-                    }else if json["data"]["auditStatus"].int32 == 3{
+                    }else if json["data"]["auditStatus"].int32Value == 3{
                         //审核失败
                         let enterPriseVc = EnterpriseAuditViewController()
                         enterPriseVc.audit = 2
@@ -62,45 +63,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         Coordinator.shared?.pushViewController(startPageVc, storeOccupancyVC, animated: true)
                     }
                 }catch{}
-            } failureCallback: { error in
+            } failureCallback: { error,code in
+                StoreService.shared.delete()
                 let startPageVc = StartPageViewController()
                 let navi = BaseNaviViewController(rootViewController: startPageVc)
                 self.window?.rootViewController = navi
             }
         }else{
             //还没有登录
+            StoreService.shared.delete()
             LXFLog("2--------------")
             let startPageVc = StartPageViewController()
             let navi = BaseNaviViewController(rootViewController: startPageVc)
             self.window?.rootViewController = navi
         }
-        
-        
-        
-//        if StoreAuthAndTokenTool.isLogin(){
-//            //登录了
-//            if StoreAuthAndTokenTool.isStoreAuth(){
-//                //店铺认证过了
-//                LXFLog("0--------------")
-//                window?.rootViewController = MainViewController()
-//            }else{
-//                //店铺认证还没有过
-//                LXFLog("1--------------")
-//                let storeOccupancy = StoreOccupancyViewController()
-//                let navi = BaseNaviViewController(rootViewController: storeOccupancy)
-//                window?.rootViewController = navi
-//            }
-//        }else{
-//            //还没有登录
-//            LXFLog("2--------------")
-//            let startPageVc = StartPageViewController()
-//            let navi = BaseNaviViewController(rootViewController: startPageVc)
-//            window?.rootViewController = navi
-//        }
-//
-        
-        
-
         Coordinator.shared = Coordinator()
         self.window?.makeKeyAndVisible()
         keyBoardManager()

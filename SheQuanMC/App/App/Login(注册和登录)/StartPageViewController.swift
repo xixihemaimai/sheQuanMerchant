@@ -111,7 +111,9 @@ open class StartPageViewController: BaseViewController {
         }
         
         zernOpen.addTarget(self, action: #selector(registerAction), for: .touchUpInside)
+        zernOpen.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#313336").cgColor
         zernOpen.layer.cornerRadius = scale(4)
+        zernOpen.layer.borderWidth = scale(1)
         
         
         loginBtn.snp.makeConstraints { make in
@@ -130,7 +132,7 @@ open class StartPageViewController: BaseViewController {
        agreeBtn.snp.makeConstraints { make in
            make.left.equalTo(scale(52))
            make.top.equalTo(loginBtn.snp.bottom).offset(scale(23))
-           make.width.height.equalTo(scale(10))
+           make.width.height.equalTo(scale(13))
        }
        
        agreeBtn.addTarget(self, action: #selector(agreeReadAction), for: .touchUpInside)
@@ -140,7 +142,7 @@ open class StartPageViewController: BaseViewController {
        agreeLabel.snp.makeConstraints { make in
            make.left.equalTo(agreeBtn.snp.right).offset(scale(5))
            make.top.equalTo(loginBtn.snp.bottom).offset(scale(20))
-           make.height.equalTo(scale(17))
+           make.height.equalTo(scale(20))
            make.width.equalTo(scale(80))
        }
        
@@ -148,7 +150,7 @@ open class StartPageViewController: BaseViewController {
        userAgreementBtn.snp.makeConstraints { make in
            make.left.equalTo(agreeLabel.snp.right)
            make.top.equalTo(loginBtn.snp.bottom).offset(scale(20))
-           make.height.equalTo(scale(17))
+           make.height.equalTo(scale(20))
            make.width.equalTo(scale(50))
        }
        
@@ -156,7 +158,7 @@ open class StartPageViewController: BaseViewController {
        andLabel.snp.makeConstraints { make in
            make.left.equalTo(userAgreementBtn.snp.right)
            make.top.equalTo(loginBtn.snp.bottom).offset(scale(20))
-           make.height.equalTo(scale(17))
+           make.height.equalTo(scale(20))
            make.width.equalTo(scale(15))
        }
        
@@ -164,7 +166,7 @@ open class StartPageViewController: BaseViewController {
        privacyPolicytBtn.snp.makeConstraints { make in
            make.left.equalTo(andLabel.snp.right)
            make.top.equalTo(loginBtn.snp.bottom).offset(scale(20))
-           make.height.equalTo(scale(17))
+           make.height.equalTo(scale(20))
            make.width.equalTo(scale(50))
        }
        

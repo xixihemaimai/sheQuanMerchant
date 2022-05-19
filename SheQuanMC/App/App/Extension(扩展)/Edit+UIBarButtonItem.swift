@@ -22,3 +22,14 @@ extension UIBarButtonItem{
         return backItem
     }
 }
+
+
+extension Int{
+    func loginOut(){
+        if self == 201{
+             let startVc = StartPageViewController()
+            let window = UIApplication.shared.keyWindow
+            window?.rootViewController = BaseNaviViewController(rootViewController: startVc)
+        }
+    }
+}

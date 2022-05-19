@@ -8,6 +8,8 @@
 import UIKit
 import Util
 import SnapKit
+import Kingfisher
+import SwiftyJSON
 
 class ShopViewController: BaseViewController {
     
@@ -150,14 +152,22 @@ class ShopViewController: BaseViewController {
             make.left.equalTo(scale(14))
             make.width.height.equalTo(scale(44))
         }
-        shopHeaderImageView.image = UIImage(named: "Rectangle 2363")
-        shopHeaderImageView.layer.cornerRadius = shopBackImageView.width * 0.5
-        shopNameLabel.text = "NIKE旗舰店"
+//        shopHeaderImageView.image = UIImage(named: "Rectangle 2363")
+//        shopHeaderImageView.kf.setImage(with: URL(string: StoreService.shared.currentUser?.shopAvatar ?? ""))
+        shopHeaderImageView.kf.setImage(with: URL(string: StoreService.shared.currentUser?.shopAvatar ?? ""), placeholder: UIImage(named: "Group 2784"), options: nil, completionHandler: nil)
+        shopHeaderImageView.layer.cornerRadius = scale(44) * 0.5
+        shopHeaderImageView.layer.masksToBounds = true
+//        shopNameLabel.text = "NIKE旗舰店"
+        
+        
+        shopNameLabel.text = StoreService.shared.currentUser?.shopName
+        let width = (StoreService.shared.currentUser?.shopName.rectWidth(font: UIFont.systemFont(ofSize: scale(18), weight: .semibold), size: CGSize(width: SCW - scale(86), height: scale(44))) ?? 0) + scale(10)
+        
         shopNameLabel.snp.makeConstraints { make in
             make.left.equalTo(shopHeaderImageView.snp.right).offset(scale(6))
             make.centerY.equalToSuperview()
             make.height.equalTo(scale(25))
-            make.width.equalTo(shopNameLabel.text!.singleLineSize(font: UIFont.systemFont(ofSize: scale(18), weight: .semibold)))
+            make.width.equalTo(width)
         }
         
         rightImage.snp.makeConstraints { make in
@@ -565,7 +575,8 @@ class ShopViewController: BaseViewController {
     
     override func headerRereshing() {
         print("下拉")
-        tableview.mj_header?.endRefreshing()
+//        tableview.mj_header?.endRefreshing()
+        loadOrderInfo()
     }
     
     
@@ -573,6 +584,38 @@ class ShopViewController: BaseViewController {
         print("上拉")
         tableview.mj_footer?.endRefreshing()
     }
+    
+    
+    
+    
+    func loadOrderInfo(){
+        
+        NetWorkResultRequest(OrderApi.getOrderSalesInfo, needShowFailAlert: true) {[weak self] result, data in
+            do{
+                let json = try JSON(data: data)
+                LXFLog(json)
+                self?.shippedLabel.text = String(json["data"]["pendingDeliver"].int32 ?? 0)
+                self?.paidLabel.text = String(json["data"]["pendingPayment"].int32 ?? 0)
+                self?.refundLabel.text = String(json["data"]["refundAfterSale"].int32 ?? 0)
+                self?.paymentOrdersLabel.text = String(json["data"]["orderNum"].int32 ?? 0)
+                self?.paymentAmountLabel.text = json["data"]["paymentAmount"].string
+                self?.refundOrdersLabel.text = String(json["data"]["refundOrderNum"].int32 ?? 0)
+                self?.refundAmountLabel.text = json["data"]["refundAmount"].string
+            }catch{}
+            self?.tableview.reloadData()
+            self?.tableview.mj_header?.endRefreshing()
+            
+        } failureCallback: {[weak self] error,code in
+            self?.tableview.mj_header?.endRefreshing()
+            code.loginOut()
+        }
+    }
+    
+    
+    
+    
+    
+    
     
     
     //进入店铺详情

@@ -12,6 +12,7 @@
 		40091A4228348E99009D60BD /* StoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40091A4128348E99009D60BD /* StoreModel.swift */; };
 		40091A4428349189009D60BD /* StoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40091A4328349189009D60BD /* StoreService.swift */; };
 		40091A462834948F009D60BD /* StoreInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40091A452834948F009D60BD /* StoreInfoModel.swift */; };
+		40091A482835D1E1009D60BD /* OrderApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40091A472835D1E1009D60BD /* OrderApi.swift */; };
 		401E5DB628152152009127A5 /* Edit+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DAF28152151009127A5 /* Edit+Color.swift */; };
 		401E5DB728152152009127A5 /* Edit+Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DB028152151009127A5 /* Edit+Time.swift */; };
 		401E5DB828152152009127A5 /* Edit+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DB128152152009127A5 /* Edit+String.swift */; };
@@ -35,6 +36,7 @@
 		40091A4128348E99009D60BD /* StoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreModel.swift; sourceTree = "<group>"; };
 		40091A4328349189009D60BD /* StoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreService.swift; sourceTree = "<group>"; };
 		40091A452834948F009D60BD /* StoreInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreInfoModel.swift; sourceTree = "<group>"; };
+		40091A472835D1E1009D60BD /* OrderApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderApi.swift; sourceTree = "<group>"; };
 		401E5DAF28152151009127A5 /* Edit+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Edit+Color.swift"; sourceTree = "<group>"; };
 		401E5DB028152151009127A5 /* Edit+Time.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Edit+Time.swift"; sourceTree = "<group>"; };
 		401E5DB128152152009127A5 /* Edit+String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Edit+String.swift"; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 				4074C9FD28322262009E9023 /* StoreAppleApi.swift */,
 				4074C9FF2832247F009E9023 /* ShopApi.swift */,
 				40091A4328349189009D60BD /* StoreService.swift */,
+				40091A472835D1E1009D60BD /* OrderApi.swift */,
 			);
 			path = "Services(服务器)";
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 				40091A40283392EC009D60BD /* GenericResponse.swift in Sources */,
 				40091A462834948F009D60BD /* StoreInfoModel.swift in Sources */,
 				4074C9FE28322262009E9023 /* StoreAppleApi.swift in Sources */,
+				40091A482835D1E1009D60BD /* OrderApi.swift in Sources */,
 				401E5DD928163E92009127A5 /* Coordinator.swift in Sources */,
 				4099C0ED281F6C10002889A7 /* LoginApi.swift in Sources */,
 			);

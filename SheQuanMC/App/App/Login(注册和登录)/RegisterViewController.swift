@@ -42,7 +42,8 @@ class RegisterViewController: BaseViewController {
     //输入框
     lazy var phoneTextField:UITextField = {
        let phoneTextField = UITextField()
-        phoneTextField.keyboardType = .phonePad
+//        phoneTextField.keyboardType = .phonePad
+        phoneTextField.clearButtonMode = .whileEditing
         phoneTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         phoneTextField.placeholder = "请输入手机号"
         phoneTextField.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
@@ -63,6 +64,7 @@ class RegisterViewController: BaseViewController {
     lazy var codeTextField:UITextField = {
        let codeTextField = UITextField()
         codeTextField.placeholder = "请输入验证码"
+        codeTextField.clearButtonMode = .whileEditing
         codeTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         codeTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入验证码", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
@@ -95,7 +97,8 @@ class RegisterViewController: BaseViewController {
         passwordTextField.placeholder = "请设置登录密码，6-16位字母数字组合"
         passwordTextField.attributedPlaceholder = NSAttributedString.init(string:"请设置登录密码，6-16位字母数字组合", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
-        passwordTextField.isSecureTextEntry = true
+//        passwordTextField.isSecureTextEntry = true
+        passwordTextField.clearButtonMode = .whileEditing
         passwordTextField.addTarget(self, action: #selector(textfieldContent), for: .editingChanged)
         passwordTextField.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         return passwordTextField
@@ -104,7 +107,8 @@ class RegisterViewController: BaseViewController {
     //显示密码还是隐藏密码 或者是获取验证码
     lazy var showPasswordBtn:UIButton = {
        let showPasswordBtn = UIButton()
-        showPasswordBtn.setImage(UIImage(named: "Frame"), for: .normal)
+        showPasswordBtn.setImage(UIImage(named: "Group 2785"), for: .selected)
+        showPasswordBtn.setImage(UIImage(named: "隐藏"), for: .normal)
         showPasswordBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333"), for: .normal)
         showPasswordBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         //有图片和验证码文字
@@ -242,7 +246,7 @@ class RegisterViewController: BaseViewController {
             make.width.height.equalTo(scale(16))
         }
         
-        showPasswordBtn.addTarget(self, action: #selector(clearPasswordContentAction), for: .touchUpInside)
+        showPasswordBtn.addTarget(self, action: #selector(showPasswordAction), for: .touchUpInside)
         
         passwordDiviver.snp.makeConstraints { make in
             make.left.equalTo(scale(30))
@@ -291,10 +295,10 @@ class RegisterViewController: BaseViewController {
                 do{
                     LXFLog(data)
                     let json = try JSON(data: data)
-                    self.verifyId = json["data"]["verifyId"].string ?? ""
-                    LXFLog("----------\(self.verifyId)")
+                    self.verifyId = json["data"]["verifyId"].stringValue
+//                    LXFLog("----------\(self.verifyId)")
                 }catch{}
-            } failureCallback: { error in
+            } failureCallback: { error,code in
                 self.verifyId = ""
             }
         }
@@ -321,9 +325,9 @@ class RegisterViewController: BaseViewController {
     }
     
     //清除密码输入的值
-    @objc func clearPasswordContentAction(btn:UIButton){
-        passwordTextField.text = ""
-        btn.isHidden = true
+    @objc func showPasswordAction(btn:UIButton){
+        btn.isSelected = !btn.isSelected
+        passwordTextField.isSecureTextEntry = btn.isSelected
     }
     
     //注册（开店）
@@ -346,7 +350,7 @@ class RegisterViewController: BaseViewController {
             showErrerLabel.text = "验证码错误"
             return
         }
-        
+        JFPopupView.popup.loading()
         //网络请求有登录成功和该手机号已被注册
         let parameters = ["countryId":0,"mobile":phoneTextField.text ?? "","loginPass":passwordTextField.text ?? "","verifyCode":codeTextField.text ?? "","verifyId":verifyId] as [String:Any]
         NetWorkResultRequest(shopApi.regAccount(parameters: parameters), needShowFailAlert: true) {result,data in
@@ -360,34 +364,31 @@ class RegisterViewController: BaseViewController {
 //                }
 //                if let data = model.data {
                 
+            
+                
                 
                 guard let accessToken = json["data"]["accessToken"].string else {
                     return
                 }
-                StoreService.shared.delete()
+//                StoreService.shared.delete()
                 StoreService.shared.updateToken(accessToken)
-                
+               
+                JFPopup.toast(hit: "注册成功")
                 LXFLog(StoreService.shared.accessToken)
                 
+                
                 //这里有个token值需要拿到
-                if json["data"]["auditStatus"].int32 == 2{
-                    
+                if json["data"]["shopAuth"].bool ?? false{
                     let window = UIApplication.shared.keyWindow
                     window?.rootViewController = MainViewController()
-                    
-                    
                 }else{
-                    
-                    
+
                     let storeOccupancyVC = StoreOccupancyViewController()
                     storeOccupancyVC.audit = 0
                     Coordinator.shared?.pushViewController(self, storeOccupancyVC, animated: true)
                     
                 }
                 
-                
-//                StoreAuthAndTokenTool.cleanTokenModel()
-//                StoreAuthAndTokenTool.saveTokenModel( StoreAuthTokenModel(accessToken: json["data"]["accessToken"].string!, shopAuth: json["data"]["shopAuth"].boolValue))
 //                //这里有个token值需要拿到
 //                if json["data"]["shopAuth"].boolValue{
 //                    let window = UIApplication.shared.keyWindow
@@ -399,10 +400,11 @@ class RegisterViewController: BaseViewController {
                 
                 
             }catch{}
-            JFPopup.toast(hit: "注册成功")
+            JFPopupView.popup.hideLoading()
             
-        } failureCallback: { error in
+        } failureCallback: { error,code in
             LXFLog(error)
+            JFPopupView.popup.hideLoading()
             if error == "该手机号已被注册."{
                 self.popup.alert {
                     [.title("该手机号已被注册"),

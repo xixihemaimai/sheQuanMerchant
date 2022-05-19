@@ -104,43 +104,29 @@ class BusinessTypeViewController: BaseViewController {
         //模型BusinessTypeModel
         let parameters = ["categoryName":categoryName]
         NetWorkResultRequest(StoreAppleApi.getCategoryInfoList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
-            do{
+//            do{
                 self?.firstArray.removeAll()
-                let json = try JSON(data: data)
-                guard let models = JSONDeserializer<BusinessTypeModel>.deserializeModelArrayFrom(json: json["data"].description) else{
-                  return
-                }
-                
-                for i in 0..<models.count{
-                    guard let model = JSONDeserializer<BussinessSecondTypeModel>.deserializeModelArrayFrom(json: json["data"][i]["subCategorys"].description) else{
-                        return
-                    }
-                    let businessTypeModel = models[i]
-//                    LXFLog("---------\(model)")
-                    businessTypeModel!.subCategorys! = model as! [BussinessSecondTypeModel]
-                    LXFLog(businessTypeModel?.subCategorys)
-                    self?.firstArray.append(businessTypeModel!)
-                    
-                }
-               
-                
-//                self?.firstArray = models as! [BusinessTypeModel]
-               
-//                let jsonString = String(data: data, encoding: .utf8)
-//                guard let models = try? JSONDecoder().decode(GenericResponse<[BusinessTypeModel]>.self, from: data) else{
-//                    return
+//                let json = try JSON(data: data)
+//                guard let models = JSONDeserializer<BusinessTypeModel>.deserializeModelArrayFrom(json: json["data"].description) else{
+//                  return
 //                }
-                
-//                for i in 0..<(self?.firstArray.count ?? 0) {
-//                    let businessTypeModel = models[i]
-//                    guard let model = JSONDeserializer<BussinessSecondTypeModel>.deserializeModelArrayFrom(json: json["data"]["subCategorys"].description) else {
+//                for i in 0..<models.count{
+//                    guard let model = JSONDeserializer<BussinessSecondTypeModel>.deserializeModelArrayFrom(json: json["data"][i]["subCategorys"].description) else{
 //                        return
 //                    }
-//                    businessTypeModel?.subCategorys = model as! [BussinessSecondTypeModel]
-//                    LXFLog("-------================\(businessTypeModel?.subCategorys?.count)")
+//                    let businessTypeModel = models[i]
+////                    LXFLog("---------\(model)")
+//                    businessTypeModel!.subCategorys! = model as! [BussinessSecondTypeModel]
+//                    LXFLog(businessTypeModel?.subCategorys)
+//                    self?.firstArray.append(businessTypeModel!)
 //                }
-//
-            }catch{}
+//                let jsonString = String(data: data, encoding: .utf8)
+                guard let models = try? JSONDecoder().decode(GenericResponse<[BusinessTypeModel]>.self, from: data) else{
+                    return
+                }
+                self?.firstArray = models.data!
+//                LXFLog(models)
+//            }catch{}
             self?.openList.removeAll()
             for _ in 0..<(self?.firstArray.count ?? 0){
                 self?.openList.append(false)
@@ -149,7 +135,8 @@ class BusinessTypeViewController: BaseViewController {
             
             self?.tableview.mj_header?.endRefreshing()
             
-        } failureCallback: { error in
+        } failureCallback: { error,code in
+            code.loginOut()
         }
     }
     

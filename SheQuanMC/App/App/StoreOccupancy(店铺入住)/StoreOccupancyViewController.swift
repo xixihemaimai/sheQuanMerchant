@@ -63,7 +63,8 @@ open class StoreOccupancyViewController: BaseViewController {
         shopTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         shopTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入店铺名称,长度不超过20个字", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
-        shopTextField.addTarget(self, action: #selector(shopNameChangeAction), for: .editingDidEnd)
+//        shopTextField.addTarget(self, action: #selector(shopNameChangeAction), for: .editingDidEnd)
+        shopTextField.addTarget(self, action: #selector(textFieldChange), for: .editingChanged)
         return shopTextField
     }()
     
@@ -246,11 +247,14 @@ open class StoreOccupancyViewController: BaseViewController {
            //店铺名称
            //经营种类
            //经营种类ID
+       if  (StoreService.shared.currentUser?.shopAvatar.count ?? 0) > 0{
            headerImageView.kf.setImage(with:URL(string: StoreService.shared.currentUser?.shopAvatar ?? ""))
-           //店铺名称
-           shopTextField.text = StoreService.shared.currentUser?.shopName
-           //选择经营种类
-       
+       }else{
+           headerImageView.image = UIImage(named: "Group 2738")
+       }
+       //店铺名称
+       shopTextField.text = StoreService.shared.currentUser?.shopName
+       //选择经营种类
        if (StoreService.shared.currentUser?.categoryName.count ?? 0) > 0{
            choiceManagementBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333"), for: .normal)
            choiceManagementBtn.setTitle(StoreService.shared.currentUser?.categoryName, for: .normal)
@@ -282,6 +286,7 @@ open class StoreOccupancyViewController: BaseViewController {
                             
                             //网络请求的部分
                             let Parameters = ["fileType":20]
+                            JFPopupView.popup.loading(hit: "上传图片中....")
                             guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
                             NetWorkResultRequest(StoreAppleApi.uploadFile(Parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
                                 do{
@@ -290,10 +295,10 @@ open class StoreOccupancyViewController: BaseViewController {
                                     self?.headerImageView.kf.setImage(with:URL(string: json["data"]["cloudUrl"].string ?? ""))
                                     StoreService.shared.updateShopAvatar(json["data"]["cloudUrl"].string ?? "")
 //                                    self?.headerImageView.layer.cornerRadius = scale(78) * 0.5
-                                    
-                                    
                                 }catch{}
-                            } failureCallback: { error in
+                                JFPopupView.popup.hideLoading()
+                            } failureCallback: { error,code in
+                                JFPopupView.popup.hideLoading()
                             }
                         }
                         
@@ -309,18 +314,21 @@ open class StoreOccupancyViewController: BaseViewController {
                             
                             //网络请求的部分
                             let Parameters = ["fileType":20]
+                            JFPopupView.popup.loading(hit: "上传图片中....")
                             guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
                             NetWorkResultRequest(StoreAppleApi.uploadFile(Parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
                                 do{
+                                    
                                     LXFLog(data)
                                     let json = try JSON(data: data)
                                     self?.headerImageView.kf.setImage(with:URL(string: json["data"]["cloudUrl"].string ?? ""))
                                     StoreService.shared.updateShopAvatar(json["data"]["cloudUrl"].string ?? "")
                                     
 //                                    self?.headerImageView.layer.cornerRadius = scale(78) * 0.5
-                                    
                                 }catch{}
-                            } failureCallback: { error in
+                                JFPopupView.popup.hideLoading()
+                            } failureCallback: { error,code in
+                                JFPopupView.popup.hideLoading()
                             }
                         }
                     } cancel: { viewController in
@@ -342,21 +350,32 @@ open class StoreOccupancyViewController: BaseViewController {
 //            self?.businessTypeModel = businessTypeModel
             self?.categoryId = businessTypeModel.categoryId
             choiceManagementBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333"), for: .normal)
-            
             StoreService.shared.updateCategoryName(businessTypeModel.categoryName ?? "", businessTypeModel.categoryId ?? 0)
-            
         }
     }
     
     
     
     //输入店铺名字的结束的方法
-    @objc func shopNameChangeAction(textfield:UITextField){
-        LXFLog("修改或取店铺名字的地方")
-        //修改本地库的数据
-        guard let shopName = textfield.text else{return}
-        StoreService.shared.updateShopName(shopName)
-    }
+//    @objc func shopNameChangeAction(textfield:UITextField){
+//        LXFLog("修改或取店铺名字的地方")
+//        //修改本地库的数据
+//        guard let shopName = textfield.text else{return}
+//
+//    }
+    
+    
+    @objc func textFieldChange(_ titleTF: UITextField) {
+        if titleTF.markedTextRange != nil {return}
+        guard var genString = titleTF.text else{return}
+        if genString.count > 20{
+           let startIdx = genString.startIndex
+           let endIdx = genString.index(genString.startIndex, offsetBy: 19)
+           genString = String(genString[startIdx...endIdx])
+        }
+        titleTF.text = genString
+        StoreService.shared.updateShopName(titleTF.text ?? "")
+   }
     
     
     
@@ -400,7 +419,8 @@ open class StoreOccupancyViewController: BaseViewController {
             let encVc = EnterpriseCertificationViewController()
             encVc.audit = self!.audit
             Coordinator.shared?.pushViewController(self!, encVc, animated: true)
-        } failureCallback: { error in
+            JFPopup.toast(hit: "店铺认证成功", icon: .success)
+        } failureCallback: { error,code in
         }
     }
     

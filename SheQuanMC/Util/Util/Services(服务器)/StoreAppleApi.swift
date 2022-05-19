@@ -63,7 +63,7 @@ extension StoreAppleApi:TargetType{
     public var headers: [String : String]? {
         
         switch self {
-        case .getCategoryInfoList,.shopAuth,.uploadFile:
+        case .getCategoryInfoList,.shopAuth,.uploadFile,.entCert:
             return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? ""]
         default:
             return ["Accept": "*/*","Content-Type":"application/json"]

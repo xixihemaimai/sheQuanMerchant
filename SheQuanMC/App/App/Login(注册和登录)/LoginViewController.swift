@@ -47,7 +47,8 @@ class LoginViewController: BaseViewController {
         accountTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         accountTextField.placeholder = "请输入手机号"
         accountTextField.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
-        accountTextField.keyboardType = .phonePad
+//        accountTextField.keyboardType = .phonePad
+        accountTextField.clearButtonMode = .whileEditing
         accountTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入手机号", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
         accountTextField.addTarget(self, action: #selector(accountTextFieldInput), for: .editingChanged)
@@ -78,9 +79,11 @@ class LoginViewController: BaseViewController {
        let passwordTextField = UITextField()
         passwordTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         passwordTextField.placeholder = "请输入验证码"
+        passwordTextField.clearButtonMode = .whileEditing
         passwordTextField.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         passwordTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入验证码", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
+        passwordTextField.addTarget(self, action: #selector(accountTextFieldInput), for: .editingChanged)
         return passwordTextField
     }()
     
@@ -223,6 +226,7 @@ class LoginViewController: BaseViewController {
         passwordTextField.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(scale(30))
             make.top.equalTo(accountDiviver.snp.bottom).offset(scale(26))
+            make.right.equalTo(-scale(130))
         }
         
 //        showPasswordBtn.snp.makeConstraints { make in
@@ -308,6 +312,7 @@ class LoginViewController: BaseViewController {
             passwordTextField.snp.remakeConstraints { make in
                 make.left.equalToSuperview().offset(scale(30))
                 make.top.equalTo(accountDiviver.snp.bottom).offset(scale(26))
+                make.right.equalTo(-scale(130))
             }
             passwordTextField.text = ""
             showPasswordBtn.setTitle("获取验证码", for: .normal)
@@ -328,6 +333,7 @@ class LoginViewController: BaseViewController {
             passwordTextField.snp.remakeConstraints { make in
                 make.left.equalTo(passwordLabel.snp.right).offset(scale(10))
                 make.top.equalTo(accountDiviver.snp.bottom).offset(scale(26))
+                make.right.equalTo(-scale(50))
             }
             accountTextField.text = ""
             passwordTextField.text = ""
@@ -377,7 +383,7 @@ class LoginViewController: BaseViewController {
                         let json = try JSON(data: data)
                         self.verifyId = json["data"]["verifyId"].string ?? ""
                     }catch{}
-                } failureCallback: { error in
+                } failureCallback: { error,code in
                     self.verifyId = ""
                 }
             }
@@ -410,13 +416,15 @@ class LoginViewController: BaseViewController {
                 JFPopup.toast(hit: "密码错误，6-16位字母数字组合")
                 return
             }
+            
+            JFPopupView.popup.loading()
             //这边是网络请求
             let parameters = ["mobile":accountTextField.text ?? "","loginPass":passwordTextField.text ?? ""] as [String : Any]
             NetWorkResultRequest(LoginApi.passwordLogin(parameters: parameters), needShowFailAlert: true) {result, data in
                 do{
                     LXFLog(data)
                     let json = try JSON(data: data)
-                   
+                    
 //                    StoreAuthAndTokenTool.cleanTokenModel()
 //                    StoreAuthAndTokenTool.saveTokenModel( StoreAuthTokenModel(accessToken: json["data"]["accessToken"].string!, shopAuth: json["data"]["shopAuth"].boolValue))
                     
@@ -445,21 +453,14 @@ class LoginViewController: BaseViewController {
                         let enterPriseVc = EnterpriseAuditViewController()
                         enterPriseVc.audit = 2
                         Coordinator.shared?.pushViewController(self, enterPriseVc, animated: true)
-                        
-                        
                     }else{
-                        
 //                        let enterPriseVc = EnterpriseAuditViewController()
 //                        enterPriseVc.audit = 2
 //                        Coordinator.shared?.pushViewController(self, enterPriseVc, animated: true)
                         let storeOccupancyVC = StoreOccupancyViewController()
                         storeOccupancyVC.audit = 0
                         Coordinator.shared?.pushViewController(self, storeOccupancyVC, animated: true)
-                        
                     }
-                    
-                    
-                    
                     //这里有个token值需要拿到
 //                    if json["data"]["auditStatus"].int32 == 2{
 //                        let window = UIApplication.shared.keyWindow
@@ -468,11 +469,12 @@ class LoginViewController: BaseViewController {
 //                        let storeOccupancyVC = StoreOccupancyViewController()
 //                        Coordinator.shared?.pushViewController(self, storeOccupancyVC, animated: true)
 //                    }
-                    
-                    
                 }catch{}
-            } failureCallback: { error in
-                LXFLog("错误")
+                JFPopupView.popup.hideLoading()
+            } failureCallback: { error,code in
+//                LXFLog("错误")
+                JFPopupView.popup.hideLoading()
+//                JFPopup.toast(hit: "登录失败", icon: .fail)
             }
         }else{
             //验证码登录
@@ -486,10 +488,12 @@ class LoginViewController: BaseViewController {
                 return
             }
 
+            JFPopupView.popup.loading()
             //这边是网络请求
             let parameters = ["countryId":0,"mobile":accountTextField.text ?? "","verifyCode":passwordTextField.text ?? "","verifyId":verifyId] as [String : Any]
             NetWorkResultRequest(LoginApi.phonelogin(parameters: parameters), needShowFailAlert: true) {resutl, data in
                 do{
+                    
                     LXFLog(data)
                     let json = try JSON(data: data)
                     
@@ -498,7 +502,7 @@ class LoginViewController: BaseViewController {
                         return
                     }
                     if let data = model.data {
-                        StoreService.shared.delete()
+//                        StoreService.shared.delete()
                         StoreService.shared.updateShopInfo(data)
                     }
                     LXFLog(model)
@@ -531,7 +535,7 @@ class LoginViewController: BaseViewController {
                         Coordinator.shared?.pushViewController(self, storeOccupancyVC, animated: true)
                         
                     }
-                    
+                    JFPopupView.popup.hideLoading()
                     
 //                    LXFLog(json["data"]["shopAuth"].boolValue)
 //                    StoreAuthAndTokenTool.cleanTokenModel()
@@ -545,7 +549,9 @@ class LoginViewController: BaseViewController {
 //                        Coordinator.shared?.pushViewController(self, storeOccupancyVC, animated: true)
 //                    }
                 }catch{}
-            } failureCallback: { error in
+            } failureCallback: { error,code in
+                JFPopupView.popup.hideLoading()
+//                JFPopup.toast(hit: "登录失败", icon: .fail)
             }
       }
     }
