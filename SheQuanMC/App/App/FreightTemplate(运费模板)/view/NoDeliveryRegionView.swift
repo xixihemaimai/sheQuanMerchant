@@ -270,7 +270,8 @@ class NoDeliveryRegionView: UIView {
         }
         let btnH = scale(44)
         titleBtnArray.removeAll()
-        let btnW = (SCW/2)/3
+//        let btnW = (SCW/2)/3
+        let btnW = scale(80)
         for i in 0..<(titleArray.count > 2 ? 2 : titleArray.count){
             let addressmodel = titleArray[i] as AddressModel
             let titleBtn = UIButton()

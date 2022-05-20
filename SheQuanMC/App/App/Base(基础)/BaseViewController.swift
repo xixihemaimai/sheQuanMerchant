@@ -78,15 +78,7 @@ open class BaseViewController: UIViewController {
       collection.mj_footer = foot
         return collection
     }()
-    
-    
-//    open override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-////        NotificationCenter.default.removeObserver(self)
-//        NotificationCenter.default.addObserver(self, selector: #selector(loginOut), name: NSNotification.Name.init("loginOut"), object: nil)
-//    }
-//
-    
+
     
    open override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,29 +97,6 @@ open class BaseViewController: UIViewController {
        tableview.mj_footer?.endRefreshing()
        collection.mj_footer?.endRefreshing()
     }
-    
-    
-//    open override func viewDidDisappear(_ animated: Bool) {
-//        super.viewDidDisappear(animated)
-//
-//        NotificationCenter.default.removeObserver(self)
-//    }
-    
-    
-//    deinit {
-//        NotificationCenter.default.removeObserver(self)
-//    }
-    
-    
-    //token失效的问题，先利用通知来解决
-//    @objc func loginOut(){
-//        LXFLog("======32==============23==========================23=23===============232")
-//        let window = UIApplication.shared.keyWindow
-//        StoreService.shared.delete()
-//        window?.rootViewController = BaseNaviViewController(rootViewController: StartPageViewController())
-//    }
-//
-//
 }
 
 
@@ -144,10 +113,6 @@ extension BaseViewController:DZNEmptyDataSetSource,DZNEmptyDataSetDelegate{
         let attributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: scale(16), weight: .regular),NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor: "#999999")]
         return NSAttributedString(string: text, attributes: attributes)
     }
-    
-    
-    
-    
     
     //是否显示
     open func emptyDataSetShouldDisplay(_ scrollView: UIScrollView!) -> Bool {

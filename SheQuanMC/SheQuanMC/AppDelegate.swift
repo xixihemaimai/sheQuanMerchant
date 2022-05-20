@@ -30,26 +30,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             //这边要判断重新获取店铺信息
             let parameters = [String:Any]()
             NetWorkResultRequest(shopApi.getShopInfo(parameters: parameters), needShowFailAlert: true) { result, data in
-                do{
-                    let json = try JSON(data: data)
+//                do{
+//                    let json = try JSON(data: data)
                     guard let model = try? JSONDecoder().decode(GenericResponse<StoreInfoModel>.self, from: data) else{
                         return
                     }
-
-                    if let data = model.data {
-                        StoreService.shared.updateShopInfo(data)
+//                    if let data = model.data {
+//                        StoreService.shared.updateShopInfo(data)
+//                    }
+                    guard let neWData = model.data else {
+                        return
                     }
-                    LXFLog(json)
-
-                    if json["data"]["auditStatus"].int32Value == 2{
+                    StoreService.shared.updateShopInfo(neWData)
+                    
+//                    LXFLog(neWData.auditStatus)
+                    if neWData.auditStatus == 2{
                         self.window?.rootViewController = MainViewController()
-                    }else if json["data"]["auditStatus"].int32Value == 1{
+                    }else if neWData.auditStatus == 1{
                         //审核中
                         let enterPriseVc = EnterpriseAuditViewController()
                         enterPriseVc.audit = 1
 //                        self.window?.rootViewController = BaseNaviViewController(rootViewController: enterPriseVc)
                         Coordinator.shared?.pushViewController(startPageVc, enterPriseVc, animated: false)
-                    }else if json["data"]["auditStatus"].int32Value == 3{
+                    }else if neWData.auditStatus == 3{
                         //审核失败
                         let enterPriseVc = EnterpriseAuditViewController()
                         enterPriseVc.audit = 2
@@ -62,7 +65,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                        self.window?.rootViewController = navi
                         Coordinator.shared?.pushViewController(startPageVc, storeOccupancyVC, animated: true)
                     }
-                }catch{}
+//                    LXFLog(json)
+//                    if json["data"]["auditStatus"].int32Value == 2{
+//                        self.window?.rootViewController = MainViewController()
+//                    }else if json["data"]["auditStatus"].int32Value == 1{
+//                        //审核中
+//                        let enterPriseVc = EnterpriseAuditViewController()
+//                        enterPriseVc.audit = 1
+////                        self.window?.rootViewController = BaseNaviViewController(rootViewController: enterPriseVc)
+//                        Coordinator.shared?.pushViewController(startPageVc, enterPriseVc, animated: false)
+//                    }else if json["data"]["auditStatus"].int32Value == 3{
+//                        //审核失败
+//                        let enterPriseVc = EnterpriseAuditViewController()
+//                        enterPriseVc.audit = 2
+////                        self.window?.rootViewController = BaseNaviViewController(rootViewController: enterPriseVc)
+//                        Coordinator.shared?.pushViewController(startPageVc, enterPriseVc, animated: false)
+//                    }else{
+//                        let storeOccupancyVC = StoreOccupancyViewController()
+//                        storeOccupancyVC.audit = 0
+////                        let navi = BaseNaviViewController(rootViewController: storeOccupancyVC)
+////                        self.window?.rootViewController = navi
+//                        Coordinator.shared?.pushViewController(startPageVc, storeOccupancyVC, animated: true)
+//                    }
+//                }catch{}
             } failureCallback: { error,code in
                 StoreService.shared.delete()
                 let startPageVc = StartPageViewController()
@@ -72,7 +97,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }else{
             //还没有登录
             StoreService.shared.delete()
-            LXFLog("2--------------")
             let startPageVc = StartPageViewController()
             let navi = BaseNaviViewController(rootViewController: startPageVc)
             self.window?.rootViewController = navi
@@ -98,8 +122,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return .portrait
         }
     }
-    
-    
     //设置状态栏
     
 }

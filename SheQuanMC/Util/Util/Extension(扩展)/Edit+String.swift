@@ -13,6 +13,19 @@ import UIKit
 extension String{
     
     
+    //获取APP的版本号
+    public static var appVersion:String{
+        let infoDic = Bundle.main.infoDictionary
+        return infoDic?["CFBundleShortVersionStrin"] as! String
+    }
+    
+    
+    public static var deviceUUID:String{
+        return UIDevice.current.identifierForVendor?.uuidString ?? ""
+    }
+    
+    
+    
     var uuid:String{
         return UUID().uuidString
     }

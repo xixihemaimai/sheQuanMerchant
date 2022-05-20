@@ -212,9 +212,11 @@ class NewPasswordViewController: BaseViewController {
         NetWorkResultRequest(shopApi.changePass(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
             LXFLog(data)
             JFPopup.toast(hit: "修改密码成功", icon: .success)
-            let popVc = self?.navigationController?.viewControllers[1] as! LoginViewController
-            Coordinator.shared?.popViewController(popVc, true)
+            StoreService.shared.delete()
+            guard let popVc = self?.navigationController?.viewControllers[1] as? LoginViewController else{return}
+            Coordinator.shared?.popToViewController(self!, popVc, true)
         } failureCallback: { error,code in
+            StoreService.shared.delete()
 //            JFPopup.toast(hit: "修改密码失败", icon: .fail)
         }
     }

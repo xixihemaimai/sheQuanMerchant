@@ -301,9 +301,6 @@ public func NetWorkResultRequest(_ target: TargetType, needShowFailAlert: Bool =
                     successCallback(response,response.data as Data)
                 }else if respModel.code == 201{
                    //token失效
-                    
-//                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "loginOut"), object: nil, userInfo: nil)
-                    
                     errorHandler(code: respModel.code , message: respModel.message , needShowFailAlert: needShowFailAlert, failure: failureCallback)
                     return
                 }else {

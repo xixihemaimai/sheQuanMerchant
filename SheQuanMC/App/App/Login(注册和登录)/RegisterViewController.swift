@@ -286,7 +286,7 @@ class RegisterViewController: BaseViewController {
         if !(phoneTextField.text?.isValidMobile ?? true){
             JFPopup.toast(hit: "手机号码错误")
         }else{
-            JFPopup.toast(hit: "发送验证码成功")
+//            JFPopup.toast(hit: "发送验证码成功")
             //这边是正确获取验证码的步骤
             CountDown.countDown(60, btn: reCodeBtn)
             //网络请求并发送发送短信
@@ -296,7 +296,7 @@ class RegisterViewController: BaseViewController {
                     LXFLog(data)
                     let json = try JSON(data: data)
                     self.verifyId = json["data"]["verifyId"].stringValue
-//                    LXFLog("----------\(self.verifyId)")
+                    //LXFLog("----------\(self.verifyId)")
                 }catch{}
             } failureCallback: { error,code in
                 self.verifyId = ""
@@ -353,52 +353,44 @@ class RegisterViewController: BaseViewController {
         JFPopupView.popup.loading()
         //网络请求有登录成功和该手机号已被注册
         let parameters = ["countryId":0,"mobile":phoneTextField.text ?? "","loginPass":passwordTextField.text ?? "","verifyCode":codeTextField.text ?? "","verifyId":verifyId] as [String:Any]
-        NetWorkResultRequest(shopApi.regAccount(parameters: parameters), needShowFailAlert: true) {result,data in
+        NetWorkResultRequest(shopApi.regAccount(parameters: parameters), needShowFailAlert: true) {[weak self] result,data in
             LXFLog(data)
             //这边要判断是否有店铺认证有就变成店铺首页，没有的话就是店铺申请一些相关界面
             do{
                 let json = try JSON(data: data)
-                
+                StoreService.shared.delete()
 //                guard let model = try? JSONDecoder().decode(GenericResponse<StoreInfoModel>.self, from: data) else{
 //                    return
 //                }
 //                if let data = model.data {
-                
-            
-                
-                
                 guard let accessToken = json["data"]["accessToken"].string else {
                     return
                 }
-//                StoreService.shared.delete()
+//
                 StoreService.shared.updateToken(accessToken)
                
                 JFPopup.toast(hit: "注册成功")
                 LXFLog(StoreService.shared.accessToken)
-                
-                
                 //这里有个token值需要拿到
                 if json["data"]["shopAuth"].bool ?? false{
                     let window = UIApplication.shared.keyWindow
                     window?.rootViewController = MainViewController()
                 }else{
-
                     let storeOccupancyVC = StoreOccupancyViewController()
                     storeOccupancyVC.audit = 0
-                    Coordinator.shared?.pushViewController(self, storeOccupancyVC, animated: true)
+                    Coordinator.shared?.pushViewController(self!, storeOccupancyVC, animated: true)
+                    
+                    let mutableArr = NSMutableArray(array: self?.navigationController?.viewControllers ?? [])
+                    for i in 0..<mutableArr.count {
+                        let vc = mutableArr[i] as! UIViewController
+                        if vc.isKind(of: RegisterViewController.self){
+                            mutableArr.removeObject(at: i)
+                            break
+                        }
+                    }
+                    self?.navigationController?.viewControllers = mutableArr as! [UIViewController]
                     
                 }
-                
-//                //这里有个token值需要拿到
-//                if json["data"]["shopAuth"].boolValue{
-//                    let window = UIApplication.shared.keyWindow
-//                    window?.rootViewController = MainViewController()
-//                }else{
-//                    let storeOccupancyVC = StoreOccupancyViewController()
-//                    Coordinator.shared?.pushViewController(self, storeOccupancyVC, animated: true)
-//                }
-                
-                
             }catch{}
             JFPopupView.popup.hideLoading()
             

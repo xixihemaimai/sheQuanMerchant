@@ -18,7 +18,7 @@ extension UIView {
      - parameter stretchImage:  模子图片
      - parameter stretchInsets: 模子图片的拉伸区域
      */
-    func clipShape(stretchImage: UIImage, stretchInsets: UIEdgeInsets) {
+    public func clipShape(stretchImage: UIImage, stretchInsets: UIEdgeInsets) {
         // 绘制 imageView 的 bubble layer
         let bubbleMaskImage = stretchImage.resizableImage(withCapInsets: stretchInsets, resizingMode: .stretch)
         
@@ -33,7 +33,7 @@ extension UIView {
         self.layer.masksToBounds = true
     }
     
-    func CGRectCenterRectForResizableImage(_ image: UIImage) -> CGRect {
+    public func CGRectCenterRectForResizableImage(_ image: UIImage) -> CGRect {
         return CGRect(
             x: image.capInsets.left / image.size.width,
             y: image.capInsets.top / image.size.height,
@@ -43,7 +43,7 @@ extension UIView {
     }
     
     /// 将View画成图
-    func trans2Image() -> UIImage? {
+    public func trans2Image() -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(self.size, false, 0)
         let ctx = UIGraphicsGetCurrentContext()
         self.layer.render(in: ctx!)
@@ -60,7 +60,7 @@ extension UIView {
      shadowRadius:设置阴影的倒角
      shadowOffset:设置阴影偏移量
      */
-    func shadowOffWithColor(shadowColor:UIColor,shadowOpacity:Float=1.0,shadowRadius:CGFloat,shadowOffset:CGSize){
+    public func shadowOffWithColor(shadowColor:UIColor,shadowOpacity:Float=1.0,shadowRadius:CGFloat,shadowOffset:CGSize){
         self.layer.shadowOffset = shadowOffset
         self.layer.shadowColor = shadowColor.cgColor
         self.layer.shadowOpacity = shadowOpacity
@@ -75,7 +75,7 @@ extension UIView {
        /// - Parameters:
        ///   - conrners: 具体哪个圆角
        ///   - radius: 圆角的大小
-       func addCorner(conrners: UIRectCorner , radius: CGFloat) {
+    public func addCorner(conrners: UIRectCorner , radius: CGFloat) {
            let maskPath = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: conrners, cornerRadii: CGSize(width: radius, height: radius))
            let maskLayer = CAShapeLayer()
            maskLayer.frame = self.bounds
@@ -90,7 +90,7 @@ extension UIView {
        ///   - shadowOffset: 阴影的偏移度：CGSizeMake(X[正的右偏移,负的左偏移], Y[正的下偏移,负的上偏移]);
        ///   - shadowOpacity: 阴影的透明度
        ///   - shadowRadius: 阴影半径，默认 3
-       func addShadow(shadowColor: UIColor, shadowOffset: CGSize, shadowOpacity: Float, shadowRadius: CGFloat = 3) {
+    public func addShadow(shadowColor: UIColor, shadowOffset: CGSize, shadowOpacity: Float, shadowRadius: CGFloat = 3) {
            // 设置阴影颜色
            layer.shadowColor = shadowColor.cgColor
            // 设置透明度
@@ -110,7 +110,7 @@ extension UIView {
        ///   - shadowOffset: 阴影的偏移度：CGSizeMake(X[正的右偏移,负的左偏移], Y[正的下偏移,负的上偏移]);
        ///   - shadowOpacity: 阴影的透明度
        ///   - shadowRadius: 阴影半径，默认 3
-       func addCornerAndShadow(superview: UIView, conrners: UIRectCorner , radius: CGFloat = 3, shadowColor: UIColor, shadowOffset: CGSize, shadowOpacity: Float, shadowRadius: CGFloat = 3) {
+    public func addCornerAndShadow(superview: UIView, conrners: UIRectCorner , radius: CGFloat = 3, shadowColor: UIColor, shadowOffset: CGSize, shadowOpacity: Float, shadowRadius: CGFloat = 3) {
        
            let maskPath = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: conrners, cornerRadii: CGSize(width: radius, height: radius))
            let maskLayer = CAShapeLayer()
@@ -140,7 +140,7 @@ extension UIView {
        /// - Parameters:
        ///   - width: 边框宽度
        ///   - color: 边框颜色
-       func addBorder(borderWidth: CGFloat, borderColor: UIColor) {
+    public func addBorder(borderWidth: CGFloat, borderColor: UIColor) {
            layer.borderWidth = borderWidth
            layer.borderColor = borderColor.cgColor
            layer.masksToBounds = true
@@ -149,7 +149,7 @@ extension UIView {
     
     // MARK: 获取当前view的viewcontroller
     /// 获取当前view的viewcontroller
-    var currentVC: UIViewController? {
+    public var currentVC: UIViewController? {
         var parentResponder: UIResponder? = self
         while parentResponder != nil {
             parentResponder = parentResponder!.next

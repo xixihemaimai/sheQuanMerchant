@@ -58,7 +58,10 @@ class BusinessTypeViewController: BaseViewController {
         if #available(iOS 13.0, *) {
             searchBar.searchTextField.addTarget(self, action: #selector(EndEdit), for: .editingDidEnd)
         }
-
+        if #available(iOS 13.0, *) {
+            searchBar.searchTextField.addTarget(self, action: #selector(editChange), for: .editingChanged)
+        }
+        
         searchBar.setPositionAdjustment(UIOffset(horizontal: SCW/2 - scale(80)/2, vertical: 0), for: .search)
         
         view.addSubview(self.tableview)
@@ -80,7 +83,6 @@ class BusinessTypeViewController: BaseViewController {
 //           false,
 //           false
 //        ]
-        
         reload(categoryName: searchBar.text ?? "")
         
     }
@@ -178,6 +180,9 @@ class BusinessTypeViewController: BaseViewController {
     @objc func EndEdit(textfield:UITextField){
         searchBar.setPositionAdjustment(UIOffset(horizontal: SCW/2 - scale(80)/2, vertical: 0), for: .search)
         searchBar.resignFirstResponder()
+    }
+    
+    @objc func editChange(textfield:UITextField){
         reload(categoryName: textfield.text ?? "")
     }
     

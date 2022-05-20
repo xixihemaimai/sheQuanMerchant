@@ -9,14 +9,36 @@
 
 import UIKit
 
-public extension Date {
+ extension Date {
+    
+    
+    
+    
+    //获取当前的时间戳 -- 10位
+     public var currentTimeStamp:String{
+        let timeInterval: TimeInterval = self.timeIntervalSince1970
+        let timeStamp = Int(timeInterval)
+        return "\(timeStamp)"
+    }
+    
+    
+    //获取当前的时间戳 -- 13位(毫秒)
+     public var currentMilliStamp:String{
+        let timeInterval: TimeInterval = self.timeIntervalSince1970
+        let millisecond = CLongLong(round(timeInterval*1000))
+        return "\(millisecond)"
+    }
+    
+    
+    
+    
+    
     // MARK: - 获取时间字符串
     /// 获取时间字符串
     ///
     /// - Parameter fromDate: 时间
     /// - Returns: 返回字符串
     public func dateStringWithDate(_ fromDate : Date) -> String{
-        
         let timeZone = TimeZone.init(identifier: "UTC")
         let formatter = DateFormatter()
         formatter.timeZone = timeZone
@@ -41,7 +63,7 @@ public extension Date {
     /// 是否是同一年
     ///
     /// - Returns: ture or false
-    func isThisYear() -> Bool {
+    public func isThisYear() -> Bool {
         let calendar = Calendar.current
         let currendarYear = calendar.component(.year, from: Date())
         let selfYear =  calendar.component(.year, from: self)

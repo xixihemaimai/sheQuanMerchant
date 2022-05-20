@@ -832,12 +832,23 @@ class EnterpriseCertificationViewController: BaseViewController {
             return
         }
         //企业认证
-        let parameters = ["entName":epNameTextField.text ?? "","entAddress":epdTextField.text ?? "","creditCode":creditTextField.text ?? "","legalName":legalNameTextField.text ?? "","certNo":idCardTextField.text ?? "","frontPic":StoreService.shared.currentUser?.frontPic,"reversePic":StoreService.shared.currentUser?.reversePic,"licencePic":StoreService.shared.currentUser?.licencePic] as [String:Any]
+        let parameters = ["entName":epNameTextField.text ?? "","entAddress":epdTextField.text ?? "","creditCode":creditTextField.text ?? "","legalName":legalNameTextField.text ?? "","certNo":idCardTextField.text ?? "","frontPic":StoreService.shared.currentUser?.frontPic as Any,"reversePic":StoreService.shared.currentUser?.reversePic as Any,"licencePic":StoreService.shared.currentUser?.licencePic as Any] as [String:Any]
         NetWorkResultRequest(StoreAppleApi.entCert(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
             let enterpriseAuditVc = EnterpriseAuditViewController()
             enterpriseAuditVc.audit = self!.audit
             Coordinator.shared?.pushViewController(self!, enterpriseAuditVc, animated: true)
             JFPopup.toast(hit: "企业认证成功", icon: .success)
+            
+            let mutableArr = NSMutableArray(array: self?.navigationController?.viewControllers ?? [])
+            for i in 0..<mutableArr.count {
+                let vc = mutableArr[i] as! UIViewController
+                if vc.isKind(of: EnterpriseCertificationViewController.self){
+                    mutableArr.removeObject(at: i)
+                    break
+                }
+            }
+            self?.navigationController?.viewControllers = mutableArr as! [UIViewController]
+            
         } failureCallback: { error,code in
         }
     }

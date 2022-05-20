@@ -70,7 +70,6 @@ public func scale(_ number:CGFloat)->CGFloat{
 public let viewControllerBackGroundColor:UIColor = UIColor.colorWithDyColorChangObject(lightColor: "#F8F8F8")
 //tabbaritem默认没有选中的颜色
 public let tabbarNormalColor:UIColor = UIColor.colorWithDyColorChangObject(lightColor: "#999999")
-
 //tabbaritem选中的颜色
 public let tabbarSelectColor:UIColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
 

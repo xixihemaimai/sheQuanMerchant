@@ -59,10 +59,24 @@ public class EnterpriseAuditViewController: BaseViewController {
     }()
     
     
+    //禁止某些页面滑动返回上一个页面
+//    public override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//        UIApplication.shared.isIdleTimerDisabled = true
+//        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false;
+//    }
+    
+    
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
+        
+        
+        self.navigationItem.leftBarButtonItem?.customView?.isHidden = true
+        self.navigationItem.leftBarButtonItem?.customView = UIButton(setImage: "返回", setBackgroundImage: "", target: self, action: #selector(exitLoginStatus))
+        
         
         view.addSubview(auditImageView)
         auditImageView.snp.makeConstraints { make in
@@ -81,17 +95,21 @@ public class EnterpriseAuditViewController: BaseViewController {
         if self.audit == 1 || self.audit == 0{
             auditImageView.image = UIImage(named: "Group 2685")
             auditLabel.text = "审核中..."
-            if self.audit == 1{
-                self.navigationItem.leftBarButtonItem?.customView?.isHidden = true
-                self.navigationItem.leftBarButtonItem?.customView = UIButton(setImage: "返回", setBackgroundImage: "", target: self, action: #selector(exitLoginStatus))
-            }
+//            if self.audit == 1{
+//                self.navigationItem.leftBarButtonItem?.customView?.isHidden = true
+//                self.navigationItem.leftBarButtonItem?.customView = UIButton(setImage: "返回", setBackgroundImage: "", target: self, action: #selector(exitLoginStatus))
+//            }
         }else{
-            self.navigationItem.leftBarButtonItem?.customView?.isHidden = true
-            self.navigationItem.leftBarButtonItem?.customView = UIButton(setImage: "返回", setBackgroundImage: "", target: self, action: #selector(exitLoginStatus))
+//            self.navigationItem.leftBarButtonItem?.customView?.isHidden = true
+//            self.navigationItem.leftBarButtonItem?.customView = UIButton(setImage: "返回", setBackgroundImage: "", target: self, action: #selector(exitLoginStatus))
             auditImageView.image = UIImage(named: "Group 2685")
             auditLabel.text = "审核失败"
 //            failLabel.text = "失败原因，失败原因，失败原因"
-            failLabel.text = StoreService.shared.currentUser?.rejectReason 
+            if (StoreService.shared.currentUser?.rejectReason.count ?? 0) > 0{
+                failLabel.text = StoreService.shared.currentUser?.rejectReason
+            }else{
+                failLabel.text = "失败原因"
+            }
             view.addSubview(failView)
             failView.snp.makeConstraints { make in
                 make.left.equalTo(scale(28))
@@ -152,9 +170,7 @@ public class EnterpriseAuditViewController: BaseViewController {
                     .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
                     .tapActionCallback({
 //                        Coordinator.shared?.popViewController(self, true)
-                        
                     })
-                    
                 ]),
                 .confirmAction([
                     .text("确定"),
@@ -171,18 +187,29 @@ public class EnterpriseAuditViewController: BaseViewController {
                 ])
             ]
         }
-        
-        
-        
-       
     }
-    
-    
+
     //修改资料
     @objc func modifyDataAction(modifyDataBtn:UIButton){
         let storeOcVc = StoreOccupancyViewController()
         storeOcVc.audit = 1
         Coordinator.shared?.pushViewController(self, storeOcVc, animated: true)
+        let mutableArr = NSMutableArray(array:navigationController?.viewControllers ?? [])
+        for i in 0..<mutableArr.count {
+            let vc = mutableArr[i] as! UIViewController
+            if vc.isKind(of: EnterpriseAuditViewController.self){
+                mutableArr.removeObject(at: i)
+                break
+            }
+        }
+        navigationController?.viewControllers = mutableArr as! [UIViewController]
     }
+    
+   //禁止某些页面滑动返回上一个页面
+//   public override func viewDidDisappear(_ animated: Bool) {
+//        super.viewDidDisappear(animated)
+//        UIApplication.shared.isIdleTimerDisabled = false
+//        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true;
+//    }
     
 }

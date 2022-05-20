@@ -129,11 +129,23 @@ open class StoreOccupancyViewController: BaseViewController {
     //经营种类的ID
     var categoryId:Int32?
     
+    
+    
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIApplication.shared.isIdleTimerDisabled = true
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false;
+    }
+    
 
    public override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
+       
+       
+     
+       
        
        
         title = "店铺入住"
@@ -382,49 +394,38 @@ open class StoreOccupancyViewController: BaseViewController {
     //下一步
     @objc func nextShopAction(nextBtn:UIButton){
         //店铺名字
-        //shopTextField
         if shopTextField.text?.containsEmoji() == true{
             showErrerLabel.text = "店铺名称里面包含表情"
             return
         }
-
         if shopTextField.text?.isValidNickName == false{
             showErrerLabel.text = "店铺名称不合规,请重新输入"
             return
         }
-
         //经营种类
-//        choiceManagementBtn.currentTitle
         if choiceManagementBtn.currentTitle == "请选择经营种类"{
             showErrerLabel.text = "请选择经营种类"
             return
         }
-        
-        //网络请求了
-        /**
-         
-     店铺认证
-
-     categoryId    integer($int32)
-     经营品类Id
-
-     shopAvatar    string
-     店铺头像
-
-     shopName    string
-     店铺名称
-         */
         let parameters = ["categoryId":categoryId ?? 0,"shopAvatar":(StoreService.shared.currentUser?.shopAvatar ?? "") as Any,"shopName":(shopTextField.text ?? "") as Any] as [String : Any]
         NetWorkResultRequest(StoreAppleApi.shopAuth(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
             let encVc = EnterpriseCertificationViewController()
             encVc.audit = self!.audit
             Coordinator.shared?.pushViewController(self!, encVc, animated: true)
             JFPopup.toast(hit: "店铺认证成功", icon: .success)
+            let mutableArr = NSMutableArray(array: self?.navigationController?.viewControllers ?? [])
+            for i in 0..<mutableArr.count {
+                let vc = mutableArr[i] as! UIViewController
+                if vc.isKind(of: StoreOccupancyViewController.self){
+                    mutableArr.removeObject(at: i)
+                    break
+                }
+            }
+            self?.navigationController?.viewControllers = mutableArr as! [UIViewController]
+            
         } failureCallback: { error,code in
         }
     }
-    
-    
     
     
     //退出登录状态
@@ -441,10 +442,7 @@ open class StoreOccupancyViewController: BaseViewController {
                     .text("取消"),
                     .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
                     .tapActionCallback({
-//                        Coordinator.shared?.popViewController(self, true)
-                        
                     })
-                    
                 ]),
                 .confirmAction([
                     .text("确定"),
@@ -452,7 +450,6 @@ open class StoreOccupancyViewController: BaseViewController {
                     .tapActionCallback({
                         //删除店铺信息
                         StoreService.shared.delete()
-                //        Coordinator.shared?.popRootViewController(self)
                         //重新变成登录登记
                         let startPageVc = StartPageViewController()
                         let windwin = UIApplication.shared.keyWindow
@@ -461,10 +458,12 @@ open class StoreOccupancyViewController: BaseViewController {
                 ])
             ]
         }
-        
-        
-        
-       
     }
     
+    //禁止某些页面滑动返回上一个页面
+    public override func viewDidDisappear(_ animated: Bool) {
+         super.viewDidDisappear(animated)
+         UIApplication.shared.isIdleTimerDisabled = false
+         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true;
+     }
 }

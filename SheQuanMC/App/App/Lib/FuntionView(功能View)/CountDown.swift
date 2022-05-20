@@ -27,7 +27,7 @@ class CountDown: NSObject {
                    let seconds = timeout
                    DispatchQueue.main.sync(execute: { () -> Void in
                        let str = String(describing: seconds)
-                       btn.setTitle(str + "秒", for: .normal)
+                       btn.setTitle(str + "S", for: .normal)
                        btn.isEnabled = false
 //                       btn.layer.backgroundColor = UIColor.gray.cgColor
                    })

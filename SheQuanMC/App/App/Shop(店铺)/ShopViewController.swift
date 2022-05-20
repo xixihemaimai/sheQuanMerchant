@@ -598,9 +598,9 @@ class ShopViewController: BaseViewController {
                 self?.paidLabel.text = String(json["data"]["pendingPayment"].int32 ?? 0)
                 self?.refundLabel.text = String(json["data"]["refundAfterSale"].int32 ?? 0)
                 self?.paymentOrdersLabel.text = String(json["data"]["orderNum"].int32 ?? 0)
-                self?.paymentAmountLabel.text = json["data"]["paymentAmount"].string
+                self?.paymentAmountLabel.text = (json["data"]["paymentAmount"].string ?? "0")
                 self?.refundOrdersLabel.text = String(json["data"]["refundOrderNum"].int32 ?? 0)
-                self?.refundAmountLabel.text = json["data"]["refundAmount"].string
+                self?.refundAmountLabel.text = "¥" + (json["data"]["refundAmount"].string ?? "0")
             }catch{}
             self?.tableview.reloadData()
             self?.tableview.mj_header?.endRefreshing()

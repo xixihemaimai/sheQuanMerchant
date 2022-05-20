@@ -17,7 +17,7 @@ extension UIImageView{
     /// 使用 CALayer 绘制圆形头像
         ///
     /// - parameter imageView: 要被绘制的 imageView
-    func circleFaviconFromCALayer(borderWidth:CGFloat,color:UIColor) -> Void {
+    public  func circleFaviconFromCALayer(borderWidth:CGFloat,color:UIColor) -> Void {
 //        let imageView = imageView
         self.layer.masksToBounds = true
         self.layer.cornerRadius = self.bounds.size.width * 0.5
@@ -33,7 +33,7 @@ extension UIImageView{
          * 注意：只有当imageView.image不为nil时，调用此方法才有效果
 
          */
-        func cornerRadius(radius:CGFloat){
+    public func cornerRadius(radius:CGFloat){
             //开始图形上下文
             UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, UIScreen.main.scale)
             //获取图形上下文

@@ -395,7 +395,19 @@ class ModifyAddressViewController: BaseViewController {
 //        pickerView.pickerViewShow()
         
         
-        let parser = MMLocationParser.init(loation: "福建省龙岩市厦门市漳州市")
+        var str = "福建省(龙岩市、厦门市、漳州市)"
+        str = str.replacingOccurrences(of: "(", with: "", options: .literal, range: nil)
+        str = str.replacingOccurrences(of: "、", with: "", options: .literal, range: nil)
+        str = str.replacingOccurrences(of: ")", with: "", options: .literal, range: nil)
+        LXFLog(str)
+        let parser = MMLocationParser.init(loation: str)
+
+        
+        
+        
+        
+        
+        
         
         LXFLog(parser.location)
         LXFLog(parser.province)

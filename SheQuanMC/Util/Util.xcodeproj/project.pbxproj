@@ -27,6 +27,7 @@
 		4099C0ED281F6C10002889A7 /* LoginApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4099C0EC281F6C0F002889A7 /* LoginApi.swift */; };
 		40A9A20E2814D6F1006B1CBF /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A9A20D2814D6F1006B1CBF /* Config.swift */; };
 		40A9A2102814D8D9006B1CBF /* Util.h in Headers */ = {isa = PBXBuildFile; fileRef = 40A9A20F2814D8D9006B1CBF /* Util.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		40CACB4C2837255A00BC3027 /* NSDate+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CACB4B2837255A00BC3027 /* NSDate+Date.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		40A9A1F628129991006B1CBF /* Util.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Util.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		40A9A20D2814D6F1006B1CBF /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		40A9A20F2814D8D9006B1CBF /* Util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
+		40CACB4B2837255A00BC3027 /* NSDate+Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Date.swift"; sourceTree = "<group>"; };
 		6FC5C427E6808881F16255E4 /* Pods-Util.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Util.release.xcconfig"; path = "Target Support Files/Pods-Util/Pods-Util.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -71,6 +73,7 @@
 		401E5DA22815021A009127A5 /* Extension(扩展) */ = {
 			isa = PBXGroup;
 			children = (
+				40CACB4B2837255A00BC3027 /* NSDate+Date.swift */,
 				4060BC2C2816ABE600968C42 /* UIView+Extension.swift */,
 				401E5DAF28152151009127A5 /* Edit+Color.swift */,
 				401E5DB128152152009127A5 /* Edit+String.swift */,
@@ -279,6 +282,7 @@
 				40091A482835D1E1009D60BD /* OrderApi.swift in Sources */,
 				401E5DD928163E92009127A5 /* Coordinator.swift in Sources */,
 				4099C0ED281F6C10002889A7 /* LoginApi.swift in Sources */,
+				40CACB4C2837255A00BC3027 /* NSDate+Date.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

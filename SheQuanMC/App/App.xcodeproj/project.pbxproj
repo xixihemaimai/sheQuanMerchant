@@ -14,7 +14,6 @@
 		401E5DC6281528F3009127A5 /* Edit+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DC2281528F2009127A5 /* Edit+UIImage.swift */; };
 		401E5DC8281528F3009127A5 /* UIViewController+Extenstion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DC4281528F2009127A5 /* UIViewController+Extenstion.swift */; };
 		401E5DC9281528F3009127A5 /* Edit+UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DC5281528F3009127A5 /* Edit+UIImageView.swift */; };
-		401E5DCF28152E5F009127A5 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DCE28152E5F009127A5 /* UIView+Extension.swift */; };
 		401E5DD42815407A009127A5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DD32815407A009127A5 /* LoginViewController.swift */; };
 		401E5DD628163A48009127A5 /* StartPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DD528163A47009127A5 /* StartPageViewController.swift */; };
 		403B87F92823536400FC4EA4 /* CommodityCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B87F82823536400FC4EA4 /* CommodityCategoryViewController.swift */; };
@@ -106,7 +105,6 @@
 		408E424C282903B200C94119 /* ReturnGoodsAddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E424B282903B200C94119 /* ReturnGoodsAddressCell.swift */; };
 		408E424E2829050300C94119 /* LogisticsInformationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E424D2829050300C94119 /* LogisticsInformationCell.swift */; };
 		408E42502829101900C94119 /* ModifyAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E424F2829101900C94119 /* ModifyAddressViewController.swift */; };
-		408E4255282A16CC00C94119 /* NSDate+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E4254282A16CC00C94119 /* NSDate+Date.swift */; };
 		408E4257282A16D800C94119 /* BHJPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E4256282A16D800C94119 /* BHJPickerView.swift */; };
 		408E425A282A16F400C94119 /* AddressModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E4259282A16F400C94119 /* AddressModel.swift */; };
 		408E425D282A271200C94119 /* city.json in Resources */ = {isa = PBXBuildFile; fileRef = 408E425C282A271100C94119 /* city.json */; };
@@ -145,7 +143,6 @@
 		401E5DC2281528F2009127A5 /* Edit+UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Edit+UIImage.swift"; sourceTree = "<group>"; };
 		401E5DC4281528F2009127A5 /* UIViewController+Extenstion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extenstion.swift"; sourceTree = "<group>"; };
 		401E5DC5281528F3009127A5 /* Edit+UIImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Edit+UIImageView.swift"; sourceTree = "<group>"; };
-		401E5DCE28152E5F009127A5 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		401E5DD32815407A009127A5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		401E5DD528163A47009127A5 /* StartPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartPageViewController.swift; sourceTree = "<group>"; };
 		403B87F82823536400FC4EA4 /* CommodityCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommodityCategoryViewController.swift; sourceTree = "<group>"; };
@@ -237,7 +234,6 @@
 		408E424B282903B200C94119 /* ReturnGoodsAddressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturnGoodsAddressCell.swift; sourceTree = "<group>"; };
 		408E424D2829050300C94119 /* LogisticsInformationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogisticsInformationCell.swift; sourceTree = "<group>"; };
 		408E424F2829101900C94119 /* ModifyAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyAddressViewController.swift; sourceTree = "<group>"; };
-		408E4254282A16CC00C94119 /* NSDate+Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Date.swift"; sourceTree = "<group>"; };
 		408E4256282A16D800C94119 /* BHJPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BHJPickerView.swift; sourceTree = "<group>"; };
 		408E4259282A16F400C94119 /* AddressModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressModel.swift; sourceTree = "<group>"; };
 		408E425C282A271100C94119 /* city.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = city.json; sourceTree = "<group>"; };
@@ -275,9 +271,7 @@
 		401E5DBF281528A1009127A5 /* Extension(扩展) */ = {
 			isa = PBXGroup;
 			children = (
-				408E4254282A16CC00C94119 /* NSDate+Date.swift */,
 				4060BC3628175ED300968C42 /* Edit+UIBarButtonItem.swift */,
-				401E5DCE28152E5F009127A5 /* UIView+Extension.swift */,
 				401E5DC2281528F2009127A5 /* Edit+UIImage.swift */,
 				401E5DC5281528F3009127A5 /* Edit+UIImageView.swift */,
 				401E5DC4281528F2009127A5 /* UIViewController+Extenstion.swift */,
@@ -718,7 +712,6 @@
 				4083B25E2825FC2A00AFAD18 /* OrderStatusCell.swift in Sources */,
 				408E423A2828BA0D00C94119 /* AddressCell.swift in Sources */,
 				403B8807282379C600FC4EA4 /* CommoditySpecificationsFooterView.swift in Sources */,
-				408E4255282A16CC00C94119 /* NSDate+Date.swift in Sources */,
 				4074C9F3282DF506009E9023 /* NoDeliveryRegionView.swift in Sources */,
 				4074C9F1282D043C009E9023 /* RegionAddressCell.swift in Sources */,
 				408E42442828EA2E00C94119 /* CheckLogisticsNumberCell.swift in Sources */,
@@ -749,7 +742,6 @@
 				4060BC3728175ED300968C42 /* Edit+UIBarButtonItem.swift in Sources */,
 				4060BC3928177F1A00968C42 /* RegisterViewController.swift in Sources */,
 				408E42362828B49C00C94119 /* BuyerAdressCell.swift in Sources */,
-				401E5DCF28152E5F009127A5 /* UIView+Extension.swift in Sources */,
 				4060BC3528175ECD00968C42 /* BaseViewController.swift in Sources */,
 				4060BC4D281A1ACE00968C42 /* ShopDetailViewController.swift in Sources */,
 				408E425F282B3BC100C94119 /* OrderSearchViewController.swift in Sources */,

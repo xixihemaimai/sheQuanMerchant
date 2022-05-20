@@ -31,6 +31,11 @@ public class Coordinator {
     }
     
     
+    public func popToViewController(_ vc:UIViewController,_ otherVc:UIViewController,_ animated:Bool){
+        vc.navigationController?.popToViewController(otherVc, animated: true)
+    }
+    
+    
     
     public func popRootViewController(_ vc:UIViewController){
         vc.navigationController?.popToRootViewController(animated: true)

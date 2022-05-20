@@ -10,7 +10,7 @@ import UIKit
 import Util
 
 extension UIBarButtonItem{
-    func backItemSetting(setImage:String,setBackgroundImage:String,target:Any, action: Selector) -> UIBarButtonItem{
+    public func backItemSetting(setImage:String,setBackgroundImage:String,target:Any, action: Selector) -> UIBarButtonItem{
         let backBtn = UIButton()
         backBtn.addTarget(target, action: action, for: .touchUpInside)
         backBtn.setImage(UIImage(named: setImage), for: .normal)

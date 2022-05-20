@@ -373,7 +373,7 @@ class LoginViewController: BaseViewController {
                 JFPopup.toast(hit: "手机号码错误")
             }else{
                 //这边是正确获取验证码的步骤
-                JFPopup.toast(hit: "发送验证码成功")
+//                JFPopup.toast(hit: "发送验证码成功")
                 CountDown.countDown(60, btn: btn)
                 //网络请求并发送发送短信
                 let parameters = ["captchaType":2,"mobile":accountTextField.text ?? ""] as [String : Any]
@@ -420,56 +420,72 @@ class LoginViewController: BaseViewController {
             JFPopupView.popup.loading()
             //这边是网络请求
             let parameters = ["mobile":accountTextField.text ?? "","loginPass":passwordTextField.text ?? ""] as [String : Any]
-            NetWorkResultRequest(LoginApi.passwordLogin(parameters: parameters), needShowFailAlert: true) {result, data in
-                do{
-                    LXFLog(data)
-                    let json = try JSON(data: data)
-                    
-//                    StoreAuthAndTokenTool.cleanTokenModel()
-//                    StoreAuthAndTokenTool.saveTokenModel( StoreAuthTokenModel(accessToken: json["data"]["accessToken"].string!, shopAuth: json["data"]["shopAuth"].boolValue))
-                    
+            NetWorkResultRequest(LoginApi.passwordLogin(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+//                do{
+//                    let json = try JSON(data: data)
+                    StoreService.shared.delete()
                     guard let model = try? JSONDecoder().decode(GenericResponse<StoreInfoModel>.self, from: data) else{
                         return
                     }
-                    if let data = model.data {
-//                        StoreService.shared.delete()
-                        StoreService.shared.updateShopInfo(data)
-                    }
-                    
-                    LXFLog(data)
-                    
-                    if json["data"]["auditStatus"].int32 == 2{
-                        let window = UIApplication.shared.keyWindow
-                        window?.rootViewController = MainViewController()
-                    }else if json["data"]["auditStatus"].int32 == 1{
-                        //审核中
-                        let enterPriseVc = EnterpriseAuditViewController()
-                        enterPriseVc.audit = 1
-                        Coordinator.shared?.pushViewController(self, enterPriseVc, animated: true)
-                        
-                        
-                    }else if json["data"]["auditStatus"].int32 == 3{
-                        //审核失败
-                        let enterPriseVc = EnterpriseAuditViewController()
-                        enterPriseVc.audit = 2
-                        Coordinator.shared?.pushViewController(self, enterPriseVc, animated: true)
-                    }else{
-//                        let enterPriseVc = EnterpriseAuditViewController()
-//                        enterPriseVc.audit = 2
-//                        Coordinator.shared?.pushViewController(self, enterPriseVc, animated: true)
-                        let storeOccupancyVC = StoreOccupancyViewController()
-                        storeOccupancyVC.audit = 0
-                        Coordinator.shared?.pushViewController(self, storeOccupancyVC, animated: true)
-                    }
-                    //这里有个token值需要拿到
+//                    if let data = model.data {
+////                        StoreService.shared.delete()
+//                        StoreService.shared.updateShopInfo(data)
+//                    }
 //                    if json["data"]["auditStatus"].int32 == 2{
 //                        let window = UIApplication.shared.keyWindow
 //                        window?.rootViewController = MainViewController()
+//                    }else if json["data"]["auditStatus"].int32 == 1{
+//                        //审核中
+//                        let enterPriseVc = EnterpriseAuditViewController()
+//                        enterPriseVc.audit = 1
+//                        Coordinator.shared?.pushViewController(self, enterPriseVc, animated: true)
+//                    }else if json["data"]["auditStatus"].int32 == 3{
+//                        //审核失败
+//                        let enterPriseVc = EnterpriseAuditViewController()
+//                        enterPriseVc.audit = 2
+//                        Coordinator.shared?.pushViewController(self, enterPriseVc, animated: true)
 //                    }else{
 //                        let storeOccupancyVC = StoreOccupancyViewController()
+//                        storeOccupancyVC.audit = 0
 //                        Coordinator.shared?.pushViewController(self, storeOccupancyVC, animated: true)
 //                    }
-                }catch{}
+                    
+                    guard let neWData = model.data else {
+                        return
+                    }
+                    StoreService.shared.updateShopInfo(neWData)
+                    if neWData.auditStatus == 2{
+                        let window = UIApplication.shared.keyWindow
+                        window?.rootViewController = MainViewController()
+                    }else if neWData.auditStatus == 1{
+                        //审核中
+                        let enterPriseVc = EnterpriseAuditViewController()
+                        enterPriseVc.audit = 1
+//                        self.window?.rootViewController = BaseNaviViewController(rootViewController: enterPriseVc)
+                        Coordinator.shared?.pushViewController(self!, enterPriseVc, animated: false)
+                        
+                        self?.removeNavigationController()
+                        
+                        
+                    }else if neWData.auditStatus == 3{
+                        //审核失败
+                        let enterPriseVc = EnterpriseAuditViewController()
+                        enterPriseVc.audit = 2
+//                        self.window?.rootViewController = BaseNaviViewController(rootViewController: enterPriseVc)
+                        Coordinator.shared?.pushViewController(self!, enterPriseVc, animated: false)
+                        
+                        self?.removeNavigationController()
+                        
+                    }else{
+                        let storeOccupancyVC = StoreOccupancyViewController()
+                        storeOccupancyVC.audit = 0
+//                        let navi = BaseNaviViewController(rootViewController: storeOccupancyVC)
+//                        self.window?.rootViewController = navi
+                        Coordinator.shared?.pushViewController(self!, storeOccupancyVC, animated: true)
+                        self?.removeNavigationController()
+                        
+                    }
+//                }catch{}
                 JFPopupView.popup.hideLoading()
             } failureCallback: { error,code in
 //                LXFLog("错误")
@@ -491,70 +507,98 @@ class LoginViewController: BaseViewController {
             JFPopupView.popup.loading()
             //这边是网络请求
             let parameters = ["countryId":0,"mobile":accountTextField.text ?? "","verifyCode":passwordTextField.text ?? "","verifyId":verifyId] as [String : Any]
-            NetWorkResultRequest(LoginApi.phonelogin(parameters: parameters), needShowFailAlert: true) {resutl, data in
-                do{
-                    
-                    LXFLog(data)
-                    let json = try JSON(data: data)
-                    
-                    
+            NetWorkResultRequest(LoginApi.phonelogin(parameters: parameters), needShowFailAlert: true) {[weak self] resutl, data in
+//                do{
+//                    let json = try JSON(data: data)
+                    StoreService.shared.delete()
                     guard let model = try? JSONDecoder().decode(GenericResponse<StoreInfoModel>.self, from: data) else{
                         return
                     }
-                    if let data = model.data {
-//                        StoreService.shared.delete()
-                        StoreService.shared.updateShopInfo(data)
-                    }
-                    LXFLog(model)
-                    
-                    //这里有个token值需要拿到
-                    if json["data"]["auditStatus"].int32 == 2{
-                        let window = UIApplication.shared.keyWindow
-                        window?.rootViewController = MainViewController()
-                    }else if json["data"]["auditStatus"].int32 == 1{
-                        //审核中
-                        let enterPriseVc = EnterpriseAuditViewController()
-                        enterPriseVc.audit = 1
-                        Coordinator.shared?.pushViewController(self, enterPriseVc, animated: true)
-                        
-                        
-                    }else if json["data"]["auditStatus"].int32 == 3{
-                        //审核失败
-                        let enterPriseVc = EnterpriseAuditViewController()
-                        enterPriseVc.audit = 2
-                        Coordinator.shared?.pushViewController(self, enterPriseVc, animated: true)
-                        
-                        
-                    }else{
-                        
+//                    if let data = model.data {
+////                        StoreService.shared.delete()
+//                        StoreService.shared.updateShopInfo(data)
+//                    }
+//                    //这里有个token值需要拿到
+//                    if json["data"]["auditStatus"].int32 == 2{
+//                        let window = UIApplication.shared.keyWindow
+//                        window?.rootViewController = MainViewController()
+//                    }else if json["data"]["auditStatus"].int32 == 1{
+//                        //审核中
+//                        let enterPriseVc = EnterpriseAuditViewController()
+//                        enterPriseVc.audit = 1
+//                        Coordinator.shared?.pushViewController(self, enterPriseVc, animated: true)
+//                    }else if json["data"]["auditStatus"].int32 == 3{
+//                        //审核失败
 //                        let enterPriseVc = EnterpriseAuditViewController()
 //                        enterPriseVc.audit = 2
 //                        Coordinator.shared?.pushViewController(self, enterPriseVc, animated: true)
-                        
-                        let storeOccupancyVC = StoreOccupancyViewController()
-                        Coordinator.shared?.pushViewController(self, storeOccupancyVC, animated: true)
-                        
-                    }
-                    JFPopupView.popup.hideLoading()
-                    
-//                    LXFLog(json["data"]["shopAuth"].boolValue)
-//                    StoreAuthAndTokenTool.cleanTokenModel()
-//                    StoreAuthAndTokenTool.saveTokenModel( StoreAuthTokenModel(accessToken: json["data"]["accessToken"].string!, shopAuth: json["data"]["shopAuth"].boolValue))
-//                    //这里有个token值需要拿到
-//                    if json["data"]["shopAuth"].boolValue{
-//                        let window = UIApplication.shared.keyWindow
-//                        window?.rootViewController = MainViewController()
 //                    }else{
 //                        let storeOccupancyVC = StoreOccupancyViewController()
+//                        storeOccupancyVC.audit = 0
 //                        Coordinator.shared?.pushViewController(self, storeOccupancyVC, animated: true)
 //                    }
-                }catch{}
+                    
+                    guard let neWData = model.data else {
+                        return
+                    }
+                    StoreService.shared.updateShopInfo(neWData)
+                    LXFLog(neWData.auditStatus)
+                    if neWData.auditStatus == 2{
+                        let window = UIApplication.shared.keyWindow
+                        window?.rootViewController = MainViewController()
+                    }else if neWData.auditStatus == 1{
+                        //审核中
+                        let enterPriseVc = EnterpriseAuditViewController()
+                        enterPriseVc.audit = 1
+//                        self.window?.rootViewController = BaseNaviViewController(rootViewController: enterPriseVc)
+                        Coordinator.shared?.pushViewController(self!, enterPriseVc, animated: false)
+                        
+                        self?.removeNavigationController()
+                        
+                        
+                    }else if neWData.auditStatus == 3{
+                        //审核失败
+                        let enterPriseVc = EnterpriseAuditViewController()
+                        enterPriseVc.audit = 2
+//                        self.window?.rootViewController = BaseNaviViewController(rootViewController: enterPriseVc)
+                        Coordinator.shared?.pushViewController(self!, enterPriseVc, animated: false)
+                        
+                        self?.removeNavigationController()
+                       
+                        
+                    }else{
+                        let storeOccupancyVC = StoreOccupancyViewController()
+                        storeOccupancyVC.audit = 0
+//                        let navi = BaseNaviViewController(rootViewController: storeOccupancyVC)
+//                        self.window?.rootViewController = navi
+                        Coordinator.shared?.pushViewController(self!, storeOccupancyVC, animated: true)
+                        
+                        self?.removeNavigationController()
+                        
+                    }
+//                }catch{}
+                JFPopupView.popup.hideLoading()
             } failureCallback: { error,code in
                 JFPopupView.popup.hideLoading()
 //                JFPopup.toast(hit: "登录失败", icon: .fail)
             }
       }
     }
+    
+    //删除当前的控制器
+    func removeNavigationController(){
+        let mutableArr = NSMutableArray(array:navigationController?.viewControllers ?? [])
+        for i in 0..<mutableArr.count {
+            let vc = mutableArr[i] as! UIViewController
+            if vc.isKind(of: LoginViewController.self){
+                mutableArr.removeObject(at: i)
+                break
+            }
+        }
+        navigationController?.viewControllers = mutableArr as! [UIViewController]
+    }
+    
+    
     
     
     @objc func accountTextFieldInput(textField:UITextField){

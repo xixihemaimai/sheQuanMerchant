@@ -181,7 +181,13 @@ extension NoDeliveryViewController:UITableViewDelegate,UITableViewDataSource{
             var addressText:String = ""
             for i in 0..<array.count{
                 let addressmodel = array[i] as AddressModel
-                addressText += (addressmodel.region_name)!
+                if i == 0{
+                    addressText +=  (addressmodel.region_name)! + "("
+                }else if i == array.count - 1{
+                    addressText += (addressmodel.region_name)! + ")"
+                }else{
+                    addressText += (addressmodel.region_name)! + "、"
+                }
             }
 //            cell.regionLabel.text = addressText
             cell.addressText = addressText

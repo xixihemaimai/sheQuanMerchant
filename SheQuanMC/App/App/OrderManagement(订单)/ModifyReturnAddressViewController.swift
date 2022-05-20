@@ -86,7 +86,6 @@ class ModifyReturnAddressViewController: BaseViewController {
         }else{
             title = "确定要将此模板设置为默认吗"
         }
-        
         JFPopup.alert {
             [
                 .title(title),
@@ -98,11 +97,7 @@ class ModifyReturnAddressViewController: BaseViewController {
                     .text("取消"),
                     .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
                     .tapActionCallback({
-                        
-                        
-                        
                     })
-                    
                 ]),
                 .confirmAction([
                     .text("确定"),
@@ -137,9 +132,7 @@ class ModifyReturnAddressViewController: BaseViewController {
                     .text("取消"),
                     .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
                     .tapActionCallback({
-                        Coordinator.shared?.popViewController(self, true)
                     })
-                    
                 ]),
                 .confirmAction([
                     .text("确定"),
