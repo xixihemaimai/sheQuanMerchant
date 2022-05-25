@@ -419,14 +419,16 @@ class LoginViewController: BaseViewController {
             
             JFPopupView.popup.loading()
             //这边是网络请求
-            let parameters = ["mobile":accountTextField.text ?? "","loginPass":passwordTextField.text ?? ""] as [String : Any]
+            let parameters = ["loginPass":passwordTextField.text ?? "","mobile":accountTextField.text ?? ""] as [String : String]
             NetWorkResultRequest(LoginApi.passwordLogin(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
 //                do{
 //                    let json = try JSON(data: data)
-                    StoreService.shared.delete()
+                    StoreService.shared.delete() //这个不知道需不需要删除
                     guard let model = try? JSONDecoder().decode(GenericResponse<StoreInfoModel>.self, from: data) else{
                         return
                     }
+                
+                LXFLog(model)
 //                    if let data = model.data {
 ////                        StoreService.shared.delete()
 //                        StoreService.shared.updateShopInfo(data)
@@ -483,8 +485,20 @@ class LoginViewController: BaseViewController {
 //                        self.window?.rootViewController = navi
                         Coordinator.shared?.pushViewController(self!, storeOccupancyVC, animated: true)
                         self?.removeNavigationController()
-                        
                     }
+                
+                //获取企业信息
+                NetWorkResultRequest(StoreAppleApi.getEntInfo, needShowFailAlert: true) { result, data in
+                    guard let model = try? JSONDecoder().decode(GenericResponse<StoreInfoModel>.self, from: data) else{
+                        return
+                    }
+                    guard let neWData = model.data else {
+                        return
+                    }
+                    StoreService.shared.updateShopInfo(neWData)
+//                    LXFLog(StoreService.shared.currentUser)
+                } failureCallback: { error, code in
+                }
 //                }catch{}
                 JFPopupView.popup.hideLoading()
             } failureCallback: { error,code in
@@ -510,10 +524,11 @@ class LoginViewController: BaseViewController {
             NetWorkResultRequest(LoginApi.phonelogin(parameters: parameters), needShowFailAlert: true) {[weak self] resutl, data in
 //                do{
 //                    let json = try JSON(data: data)
-                    StoreService.shared.delete()
+                    StoreService.shared.delete() //这个不知道需不需要删除
                     guard let model = try? JSONDecoder().decode(GenericResponse<StoreInfoModel>.self, from: data) else{
                         return
                     }
+                  LXFLog(model)
 //                    if let data = model.data {
 ////                        StoreService.shared.delete()
 //                        StoreService.shared.updateShopInfo(data)
@@ -552,9 +567,7 @@ class LoginViewController: BaseViewController {
                         enterPriseVc.audit = 1
 //                        self.window?.rootViewController = BaseNaviViewController(rootViewController: enterPriseVc)
                         Coordinator.shared?.pushViewController(self!, enterPriseVc, animated: false)
-                        
                         self?.removeNavigationController()
-                        
                         
                     }else if neWData.auditStatus == 3{
                         //审核失败
@@ -576,6 +589,20 @@ class LoginViewController: BaseViewController {
                         self?.removeNavigationController()
                         
                     }
+                
+                
+                //获取企业信息
+                NetWorkResultRequest(StoreAppleApi.getEntInfo, needShowFailAlert: true) { result, data in
+                    guard let model = try? JSONDecoder().decode(GenericResponse<StoreInfoModel>.self, from: data) else{
+                        return
+                    }
+                        
+                    guard let neWData = model.data else {
+                        return
+                    }
+                    StoreService.shared.updateShopInfo(neWData)
+                } failureCallback: { error, code in
+                }
 //                }catch{}
                 JFPopupView.popup.hideLoading()
             } failureCallback: { error,code in

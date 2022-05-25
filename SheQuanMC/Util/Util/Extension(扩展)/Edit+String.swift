@@ -15,9 +15,18 @@ extension String{
     
     //获取APP的版本号
     public static var appVersion:String{
-        let infoDic = Bundle.main.infoDictionary
-        return infoDic?["CFBundleShortVersionStrin"] as! String
+//        let infoDic = Bundle.main.infoDictionary
+//        (infoDic?["CFBundleShortVersionStrin"] as? String ?? "1.0.0")
+        let user = UserDefaults.standard
+        return user.object(forKey: "appVerId") as? String ?? "1.0.0"
     }
+    
+    
+    public static var apiVersion:String{
+        let user = UserDefaults.standard
+        return user.object(forKey: "apiVerId") as? String ?? "1.0.0"
+    }
+    
     
     
     public static var deviceUUID:String{
@@ -26,7 +35,15 @@ extension String{
     
     
     
-    var uuid:String{
+    //获取随机数
+    public static var nonce:String{
+        return String(arc4random())
+    }
+    
+    
+    
+    
+   public static var uuid:String{
         return UUID().uuidString
     }
     

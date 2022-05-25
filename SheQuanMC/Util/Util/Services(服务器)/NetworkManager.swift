@@ -13,6 +13,7 @@ import Moya
 import SwiftyJSON
 import JFPopup
 import UIKit
+import SwiftUI
 
 
 /// 超时时长
@@ -72,18 +73,22 @@ public let myEndpointClosure = { (target: TargetType) -> Endpoint in
 //    }
 //
 //    if let apiTarget = target as? MultiTarget,
-//       let target = apiTarget.target as? shopApi {
+//       let target = apiTarget.target as? StoreAppleApi {
 //        switch target{
-//        case .forgetPass(parameters: let parameters):
-//            LXFLog("1")
-//        case .changePass(parameters: let parameters):
-//            LXFLog("2")
-//        case .regAccount(parameters: let parameters):
-//            LXFLog("3")
-//        case .getShopInfo(parameters: let parameters):
-//            LXFLog("4")
 //        case .shopAuth(parameters: let parameters):
-//            LXFLog("5")
+//
+//            (parameters["shopAvatar"] as! NSString).replacingOccurrences(of: "\\", with: "", options: .literal, range: NSRange(location: 0, length: (parameters["shopAvatar"] as! NSString).length)) as String
+//            LXFLog("====3232========\(parameters)")
+//            task = .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+//
+//        case .getCategoryInfoList(parameters: let parameters):
+//            break
+//        case .getEntInfo:
+//            break
+//        case .uploadFile(parameters: let parameters, imageDate: let imageDate):
+//            break
+//        case .entCert(parameters: let parameters):
+//            break
 //        }
 //    }
 //
@@ -135,6 +140,48 @@ public let requestClosure = { (endpoint: Endpoint, done: MoyaProvider.RequestRes
         request.timeoutInterval = requestTimeOut
         // 打印请求参数
         if let requestData = request.httpBody {
+            /**
+             if endpoint.url == "http://27.154.225.198:8996/sqshop/api/shop/shopAuth"
+             */
+            if endpoint.url.contains("shop/shopAuth") || endpoint.url.contains("ent/entCert") {
+                //解决图片链接有转义字符的问题
+                var parames = (String(data: requestData, encoding: String.Encoding.utf8) ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+                parames = parames.replacingOccurrences(of: "{", with: "", options: .literal, range: nil)
+                parames = parames.replacingOccurrences(of: "}", with: "", options: .literal, range: nil)
+                let fullNameArr = parames.components(separatedBy: ",")
+                let sortedWords = fullNameArr.sorted()
+                var body:String = ""
+                for (index,value) in sortedWords.enumerated(){
+                    if index == 0{
+                       body = "{" + value
+                    }else{
+                        body = body + "," + value
+                    }
+                }
+                body = body + "}"
+//                request.httpBody = (String(data: requestData, encoding: String.Encoding.utf8) ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil).data(using: String.Encoding.utf8)
+                
+                request.httpBody = body.data(using: String.Encoding.utf8)
+            }else if endpoint.url.contains("login/mobileLogin") || endpoint.url.contains("login/passLogin") || endpoint.url.contains("captcha/getCaptchaCode") || endpoint.url.contains("category/getCategoryInfoList") || endpoint.url.contains("shop/forgetPass") || endpoint.url.contains("shop/changePass") || endpoint.url.contains("shop/regAccount"){
+                //手机号登录 密码登录 发送验证码 经营种类 忘记密码 修改密码 注册账号
+                var parames = (String(data: requestData, encoding: String.Encoding.utf8) ?? "").replacingOccurrences(of: "{", with: "", options: .literal, range: nil)
+                parames = parames.replacingOccurrences(of: "}", with: "", options: .literal, range: nil)
+                let fullNameArr = parames.components(separatedBy: ",")
+                let sortedWords = fullNameArr.sorted()
+                var body:String = ""
+                for (index,value) in sortedWords.enumerated(){
+                    if index == 0{
+                       body = "{" + value
+                    }else{
+                        body = body + "," + value
+                    }
+                }
+                body = body + "}"
+                LXFLog("-----------------------\(body)")
+                request.httpBody = body.data(using: String.Encoding.utf8)
+            }
+            
+            
             print("请求的url：\(request.url!)" + "\n" + "\(request.httpMethod ?? "")" + "发送参数" + "\(String(data: request.httpBody!, encoding: String.Encoding.utf8) ?? "")")
         } else {
             print("请求的url：\(request.url!)" + "\(String(describing: request.httpMethod))")
@@ -181,17 +228,39 @@ public let requestClosure = { (endpoint: Endpoint, done: MoyaProvider.RequestRes
 
 /// NetworkActivityPlugin插件用来监听网络请求，界面上做相应的展示
 /// 但这里我没怎么用这个。。。 loading的逻辑直接放在网络处理里面了
-public let networkPlugin = NetworkActivityPlugin.init { changeType, _ in
+public let networkPlugin = NetworkActivityPlugin.init { changeType, target in
     print("networkPlugin \(changeType)")
     // targetType 是当前请求的基本信息
+    
+    
+//    var task = target.task
+//    if let apiTarget = target as? MultiTarget,
+//       let target = apiTarget.target as? StoreAppleApi {
+//        switch target{
+//        case .shopAuth(parameters: let parameters):
+////            (parameters["shopAvatar"] as! NSString).replacingOccurrences(of: "\\", with: "", options: .literal, range: NSRange(location: 0, length: (parameters["shopAvatar"] as! NSString).length)) as String
+//
+//            let _ = (parameters["shopAvatar"] as? String ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+//            task = .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+////            LXFLog("====3232========\(task)")
+//        case .getCategoryInfoList(parameters: let parameters):
+//            break
+//        case .getEntInfo:
+//            break
+//        case .uploadFile(parameters: let parameters, imageDate: let imageDate):
+//            break
+//        case .entCert(parameters: let parameters):
+//            let _ = (parameters["frontPic"] as? String ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+//            let _ = (parameters["reversePic"] as? String ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+//            let _ = (parameters["licencePic"] as? String ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+//
+//            task = .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+////            LXFLog("====3232========\(task)")
+//        }
+//    }
     switch changeType {
     case .began:
         print("开始请求网络")
-
-        
-        
-        
-        
         
     case .ended:
         print("结束")
@@ -369,7 +438,10 @@ public func errorHandler(code: Int, message: String, needShowFailAlert: Bool, fa
     if needShowFailAlert {
         // 弹框
 //        print("弹出错误信息弹框\(message)")
-        JFPopup.toast(hit: "\(message)", icon: .fail)
+        if message == "未找到企业认证信息."{
+        }else{
+            JFPopup.toast(hit: "\(message)", icon: .fail)
+        }
     }
     failure?(message,model.code)
 }

@@ -208,7 +208,7 @@ class NewPasswordViewController: BaseViewController {
 //          "password": "string",
 //          "verifyId": "string"
 //        }
-        let parameters = ["password":newPasswordTextField.text ?? "","confirmPass":againPasswordTextField.text ?? "","verifyId":verifyId] as [String:Any]
+        let parameters = ["confirmPass":againPasswordTextField.text ?? "","password":newPasswordTextField.text ?? "","verifyId":verifyId] as [String:String]
         NetWorkResultRequest(shopApi.changePass(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
             LXFLog(data)
             JFPopup.toast(hit: "修改密码成功", icon: .success)

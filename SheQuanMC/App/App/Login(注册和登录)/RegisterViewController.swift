@@ -352,7 +352,7 @@ class RegisterViewController: BaseViewController {
         }
         JFPopupView.popup.loading()
         //网络请求有登录成功和该手机号已被注册
-        let parameters = ["countryId":0,"mobile":phoneTextField.text ?? "","loginPass":passwordTextField.text ?? "","verifyCode":codeTextField.text ?? "","verifyId":verifyId] as [String:Any]
+        let parameters = ["countryId":0,"loginPass":passwordTextField.text ?? "","mobile":phoneTextField.text ?? "","verifyCode":codeTextField.text ?? "","verifyId":verifyId] as [String:Any]
         NetWorkResultRequest(shopApi.regAccount(parameters: parameters), needShowFailAlert: true) {[weak self] result,data in
             LXFLog(data)
             //这边要判断是否有店铺认证有就变成店铺首页，没有的话就是店铺申请一些相关界面
@@ -366,9 +366,7 @@ class RegisterViewController: BaseViewController {
                 guard let accessToken = json["data"]["accessToken"].string else {
                     return
                 }
-//
                 StoreService.shared.updateToken(accessToken)
-               
                 JFPopup.toast(hit: "注册成功")
                 LXFLog(StoreService.shared.accessToken)
                 //这里有个token值需要拿到

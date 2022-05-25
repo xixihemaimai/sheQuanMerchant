@@ -10,7 +10,9 @@ import Moya
 
 
 public enum OrderApi{
-    case getOrderSalesInfo
+    case getOrderSalesInfo  //获取订单销售数据（首页)
+    case getProductInfo(parameters:[String:Any]) //获取商品信息
+    case SearchProduct(parameters:[String:Any])  //搜索商品
 }
 
 
@@ -24,6 +26,10 @@ extension OrderApi:TargetType{
         switch self {
         case .getOrderSalesInfo:
             return "order/getOrderSalesInfo"
+        case .getProductInfo:
+            return "product/getProductInfo"
+        case .SearchProduct:
+            return "product/search"
         }
     }
     
@@ -35,11 +41,31 @@ extension OrderApi:TargetType{
         switch self {
         case .getOrderSalesInfo:
             return .requestPlain
+        case .getProductInfo(let parameters):
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+        case .SearchProduct(let parameters):
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         }
     }
     
     public var headers: [String : String]? {
-       return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? ""]
+        
+        switch self {
+        case .getOrderSalesInfo:
+            let time = Date().currentMilliStamp
+            let nonce = String.nonce
+            let deviceId = String.deviceUUID
+            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValue(time,nonce,deviceId),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+        case .SearchProduct(let parameters),.getProductInfo(let parameters):
+            let time = Date().currentMilliStamp
+            let nonce = String.nonce
+            let deviceId = String.deviceUUID
+            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,getJSONStringFromData(obj: parameters)),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+        default:
+           return ["Accept": "*/*","Content-Type":"application/json"]
+        }
+        
+       
     }
     
     

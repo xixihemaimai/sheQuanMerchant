@@ -14,7 +14,6 @@ public let sheQuanMCURL = "http://27.154.225.198:8996/sqshop/api/"
 public let appId = "IOS"
 
 
-
 /// 定义返回的JSON数据字段
 //public let RESULT_CODE = "flag"      //状态码
 

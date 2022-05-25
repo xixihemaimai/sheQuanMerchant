@@ -14,9 +14,10 @@ import UIKit
 
 
 public enum LoginApi{
-    case phonelogin(parameters:[String:Any]) //手机号登录
-    case phoneCode(parameters:[String:Any]) //获取验证码
-    case passwordLogin(parameters:[String:Any]) //密码登录
+    case phonelogin(parameters:[String:Any]) //手机号登录 （1）
+    case phoneCode(parameters:[String:Any]) //获取验证码   （1）
+    case passwordLogin(parameters:[String:String]) //密码登录 (1)
+    case systemVersion  //系统相关接口(1)
    
 }
 
@@ -33,39 +34,25 @@ extension LoginApi:TargetType{
     
     public var path: String{
         switch self{
-//        case .login(let userName, let password):
-//            return "login" + userName + password
         case .phonelogin:
             return "login/mobileLogin" // 手机号登录
         case .phoneCode:
             return "captcha/getCaptchaCode" //获取手机验证码
         case .passwordLogin:
             return "login/passLogin"  //密码登录
-        
- //        case .homeGoodList:
-//            return "homeGoodList"
-//         case .goodDetail:
-//            return "goodDetail"
+        case .systemVersion:
+            return "system/getSysConfInfo"   //获取系统版本
         }
     }
     
     //网络请求的方法
     public var method: Moya.Method {
-        
         switch self{
         case .phonelogin,.phoneCode,.passwordLogin:
             return .post
+        case .systemVersion:
+            return .get
         }
-        
-        
-//        switch self{
-//        case .login(parameter: [String : String]):
-//            return .post
-//        default:
-//            break
-//        case .homeGoodList: return .post
-//        case .goodDetail: return .get
-//        }
     }
     //参数
     public var task: Task {
@@ -77,23 +64,35 @@ extension LoginApi:TargetType{
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         case .passwordLogin(let parameters):
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+        case .systemVersion:
+            return .requestPlain
         }
-//        var paramters:[String:Any] = [:]
-//        switch self{
-//        case .login(let userName, let password):
-//            paramters.updateValue(userName, forKey: "userName")
-//            paramters.updateValue(password, forKey: "password")
-//        case .homeGoodList(let paramter):
-//            paramters = paramter
-//        case .goodDetail(let paramter):
-//            paramters = paramter
-//        }
     }
     
     
     //公共请求头
     public var headers: [String : String]? {
-        return ["Accept": "*/*","Content-Type":"application/json"]
+        switch self {
+        case .systemVersion:
+            let time = Date().currentMilliStamp
+            let nonce = String.nonce
+            let deviceId = String.deviceUUID
+            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValue(time,nonce,deviceId),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+        case .passwordLogin(let parameters):
+            let time = Date().currentMilliStamp
+            let nonce = String.nonce
+            let deviceId = String.deviceUUID
+            let returnStr = dictSory(parameters)
+            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,returnStr),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+        case .phoneCode(let parameters),.phonelogin(let parameters):
+            let time = Date().currentMilliStamp
+            let nonce = String.nonce
+            let deviceId = String.deviceUUID
+//            let returnStr = dictSory(parameters)
+            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,getJSONStringFromData(obj: parameters)),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+        default:
+            return ["Accept": "*/*","Content-Type":"application/json"]
+        }
     }
     
     //解析格式

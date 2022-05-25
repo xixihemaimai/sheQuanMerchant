@@ -42,7 +42,8 @@ class OrderDeliveryLogisticsCell: UITableViewCell {
     //电话号码
     lazy var phoneNumberLabel:UILabel = {
         let phoneNumberLabel = UILabel()
-        phoneNumberLabel.text = "123****8910"
+        phoneNumberLabel.text = "12312338910"
+        phoneNumberLabel.text = phoneNumberLabel.text?.hidePhone()
         phoneNumberLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#808080")
         phoneNumberLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         phoneNumberLabel.textAlignment = .left

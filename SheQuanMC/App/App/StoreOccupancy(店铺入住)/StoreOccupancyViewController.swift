@@ -260,7 +260,10 @@ open class StoreOccupancyViewController: BaseViewController {
            //经营种类
            //经营种类ID
        if  (StoreService.shared.currentUser?.shopAvatar.count ?? 0) > 0{
-           headerImageView.kf.setImage(with:URL(string: StoreService.shared.currentUser?.shopAvatar ?? ""))
+//           headerImageView.kf.setImage(with:URL(string: StoreService.shared.currentUser?.shopAvatar ?? ""))
+           
+           headerImageView.kf.setImage(with: URL(string:StoreService.shared.currentUser?.shopAvatar ?? ""), placeholder: UIImage(named: "Group 2738"), options: nil, completionHandler: nil)
+           
        }else{
            headerImageView.image = UIImage(named: "Group 2738")
        }
@@ -297,15 +300,21 @@ open class StoreOccupancyViewController: BaseViewController {
                             
                             
                             //网络请求的部分
-                            let Parameters = ["fileType":20]
+                            let Parameters = ["fileType":"20"]
+//                            let Parameters = [String:Any]()
                             JFPopupView.popup.loading(hit: "上传图片中....")
                             guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
-                            NetWorkResultRequest(StoreAppleApi.uploadFile(Parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
+                            NetWorkResultRequest(StoreAppleApi.uploadFile(parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
                                 do{
                                     LXFLog(data)
                                     let json = try JSON(data: data)
-                                    self?.headerImageView.kf.setImage(with:URL(string: json["data"]["cloudUrl"].string ?? ""))
-                                    StoreService.shared.updateShopAvatar(json["data"]["cloudUrl"].string ?? "")
+                                    //去掉\
+                                    
+                                  let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+                                    LXFLog(str)
+                                    self?.headerImageView.kf.setImage(with: URL(string: str), placeholder: UIImage(named: "Group 2738"), options: nil, completionHandler: nil)
+//                                    StoreService.shared.updateShopAvatar(json["data"]["cloudUrl"].string ?? "")
+                                    StoreService.shared.updateShopAvatar(str)
 //                                    self?.headerImageView.layer.cornerRadius = scale(78) * 0.5
                                 }catch{}
                                 JFPopupView.popup.hideLoading()
@@ -313,7 +322,6 @@ open class StoreOccupancyViewController: BaseViewController {
                                 JFPopupView.popup.hideLoading()
                             }
                         }
-                        
                     })
                 }),
                 JFPopupAction(with: "拍照", subTitle: nil, clickActionCallBack: {[weak self] in
@@ -325,16 +333,22 @@ open class StoreOccupancyViewController: BaseViewController {
 //                            self?.headerImageView.image = photoModel.thumbPhoto?.isRoundCorner(radius:  (self?.headerImageView.width ?? 0) * 0.5, byRoundingCorners: .allCorners, imageSize: self?.headerImageView.size)
                             
                             //网络请求的部分
-                            let Parameters = ["fileType":20]
+                            let Parameters = ["fileType":"20"]
                             JFPopupView.popup.loading(hit: "上传图片中....")
                             guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
-                            NetWorkResultRequest(StoreAppleApi.uploadFile(Parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
+                            NetWorkResultRequest(StoreAppleApi.uploadFile(parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
                                 do{
                                     
                                     LXFLog(data)
                                     let json = try JSON(data: data)
-                                    self?.headerImageView.kf.setImage(with:URL(string: json["data"]["cloudUrl"].string ?? ""))
-                                    StoreService.shared.updateShopAvatar(json["data"]["cloudUrl"].string ?? "")
+//                                    self?.headerImageView.kf.setImage(with:URL(string: json["data"]["cloudUrl"].string ?? ""))
+                                    
+                                    let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+                                      LXFLog(str)
+                                    
+                                    self?.headerImageView.kf.setImage(with: URL(string: json["data"]["cloudUrl"].string ?? ""), placeholder: UIImage(named: "Group 2738"), options: nil, completionHandler: nil)
+//                                    StoreService.shared.updateShopAvatar(json["data"]["cloudUrl"].string ?? "Group 2738")
+                                    StoreService.shared.updateShopAvatar(str)
                                     
 //                                    self?.headerImageView.layer.cornerRadius = scale(78) * 0.5
                                 }catch{}
@@ -422,7 +436,6 @@ open class StoreOccupancyViewController: BaseViewController {
                 }
             }
             self?.navigationController?.viewControllers = mutableArr as! [UIViewController]
-            
         } failureCallback: { error,code in
         }
     }

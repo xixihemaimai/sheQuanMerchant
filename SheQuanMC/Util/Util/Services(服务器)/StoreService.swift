@@ -137,6 +137,7 @@ public class StoreService{
         }
         try! realm.write({
             storeModel.shopAvatar = shopAvatar
+            LXFLog(storeModel.shopAvatar)
         })
     }
     
@@ -348,6 +349,11 @@ public class StoreService{
             if let entAddress = model.entAddress,!entAddress.isEmpty{
                 storeModel.entAddress = entAddress
             }
+            
+            if let entName = model.entName,!entName.isEmpty{
+                storeModel.entName = entName
+            }
+            
             
             if let frontPic = model.frontPic,!frontPic.isEmpty{
                 storeModel.frontPic = frontPic

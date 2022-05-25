@@ -171,7 +171,7 @@ class ForgetPasswordViewController: BaseViewController {
             //这边是正确获取验证码的步骤
             CountDown.countDown(60, btn: reCodeBtn)
             //网络请求并发送发送短信
-            JFPopup.toast(hit: "发送验证码成功")
+//            JFPopup.toast(hit: "发送验证码成功")
             let parameters = ["captchaType":3,"mobile":phoneTextField.text ?? ""] as [String : Any]
             NetWorkResultRequest(LoginApi.phoneCode(parameters: parameters), needShowFailAlert: true) {result, data in
                 do{
@@ -199,9 +199,9 @@ class ForgetPasswordViewController: BaseViewController {
             JFPopup.toast(hit: "验证码错误")
             return
         }
-        let parameters = ["countryId":0,"mobile":phoneTextField.text ?? "","verifyCode":codeTextField.text ?? "","verifyId":verifyId] as [String:Any]
+        let parameters = ["countryId":"0","mobile":phoneTextField.text ?? "","verifyCode":codeTextField.text ?? "","verifyId":verifyId] as [String:String]
         NetWorkResultRequest(shopApi.forgetPass(parameters: parameters), needShowFailAlert: true) { result, data in
-            LXFLog(data)
+//            LXFLog(data)
             let newPasswordVc = NewPasswordViewController()
             newPasswordVc.verifyId = self.verifyId
             Coordinator.shared?.pushViewController(self, newPasswordVc, animated: true)

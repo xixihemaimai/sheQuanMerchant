@@ -15,11 +15,16 @@ class CommoditySearchViewController: BaseViewController {
     lazy var searchTextfield:UITextField = {
        let searchTextfield = UITextField()
         searchTextfield.placeholder = "搜索商品名称"
+        searchTextfield.clearButtonMode = .whileEditing
         searchTextfield.font = UIFont.systemFont(ofSize: scale(12), weight: .regular)
         searchTextfield.attributedPlaceholder = NSAttributedString.init(string:"搜索商品名称", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#B3B3B3")])
+        searchTextfield.addTarget(self, action: #selector(searchChangeAction), for: .editingChanged)
         return searchTextfield
     }()
+    
+    //数组
+    var searchProductList:[ProductInfoModel] = [ProductInfoModel]()
    
     
     
@@ -55,7 +60,7 @@ class CommoditySearchViewController: BaseViewController {
             make.height.equalTo(scale(17))
             make.right.equalToSuperview()
         }
-        searchTextfield.addTarget(self, action: #selector(searchEndAction), for: .editingDidEnd)
+//        searchTextfield.addTarget(self, action: #selector(searchEndAction), for: .editingDidEnd)
         
         //取消
         let cancelBtn = UIButton()
@@ -91,13 +96,12 @@ class CommoditySearchViewController: BaseViewController {
         tableview.dataSource = self
         tableview.register(commodityStatusCell.self, forCellReuseIdentifier: "commodityStatusCell")
         tableview.register(commodityExamineCell.self, forCellReuseIdentifier: "commodityExamineCell")
+        
+        loadSearchProduct(searchTextfield.text ?? "")
+        
 
     }
     
-    //搜索完成结束之后
-    @objc func searchEndAction(searchTextfield:UITextField){
-        
-    }
     
     //取消按键
     @objc func cancelAction(cancelBtn:UIButton){
@@ -108,13 +112,42 @@ class CommoditySearchViewController: BaseViewController {
     
     override func headerRereshing() {
         LXFLog("下拉")
-        tableview.mj_header?.endRefreshing()
+//        tableview.mj_header?.endRefreshing()
+        loadSearchProduct(searchTextfield.text ?? "")
     }
     
     override func footerRereshing() {
         LXFLog("上拉")
         tableview.mj_footer?.endRefreshing()
     }
+    
+    
+    
+    func loadSearchProduct(_ keyWords:String){
+        let parameters = ["keyWords":keyWords]
+        NetWorkResultRequest(OrderApi.SearchProduct(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+            
+            self?.searchProductList.removeAll()
+            guard let model = try? JSONDecoder().decode(GenericResponse<[ProductInfoModel]>.self, from: data) else{
+                return
+            }
+            guard let newData = model.data else{
+                return
+            }
+            self?.searchProductList = newData
+            self?.tableview.reloadData()
+            self?.tableview.mj_header?.endRefreshing()
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
+    }
+    
+    
+    @objc func searchChangeAction(searchTextfield:UITextField){
+        loadSearchProduct(searchTextfield.text ?? "")
+    }
+    
+    
     
     
     //已售罄---补库存和 未上架---删除
@@ -255,7 +288,7 @@ class CommoditySearchViewController: BaseViewController {
 extension CommoditySearchViewController:UITableViewDelegate,UITableViewDataSource{
     
    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+       return searchProductList.count
     }
     
   
@@ -286,8 +319,6 @@ extension CommoditySearchViewController:UITableViewDelegate,UITableViewDataSourc
             cell.stockBtn.addTarget(self, action: #selector(stockAction), for: .touchUpInside)
             cell.downBtn.addTarget(self, action: #selector(downAction), for: .touchUpInside)
             cell.editBtn.addTarget(self, action: #selector(editAction), for: .touchUpInside)
-            
-            
             return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "commodityExamineCell") as! commodityExamineCell

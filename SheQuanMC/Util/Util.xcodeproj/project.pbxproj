@@ -19,6 +19,7 @@
 		401E5DD1281530EF009127A5 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DD0281530EF009127A5 /* Util.swift */; };
 		401E5DD928163E92009127A5 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DD828163E92009127A5 /* Coordinator.swift */; };
 		4060BC2D2816ABE600968C42 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC2C2816ABE600968C42 /* UIView+Extension.swift */; };
+		406DDD70283B6AF9004CF4FE /* ProductInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406DDD6F283B6AF9004CF4FE /* ProductInfoModel.swift */; };
 		4074C9FE28322262009E9023 /* StoreAppleApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4074C9FD28322262009E9023 /* StoreAppleApi.swift */; };
 		4074CA002832247F009E9023 /* ShopApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4074C9FF2832247F009E9023 /* ShopApi.swift */; };
 		4074CA0328323234009E9023 /* BusinessTypeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4074CA0228323233009E9023 /* BusinessTypeModel.swift */; };
@@ -45,6 +46,7 @@
 		401E5DD0281530EF009127A5 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		401E5DD828163E92009127A5 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		4060BC2C2816ABE600968C42 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		406DDD6F283B6AF9004CF4FE /* ProductInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfoModel.swift; sourceTree = "<group>"; };
 		4074C9FD28322262009E9023 /* StoreAppleApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreAppleApi.swift; sourceTree = "<group>"; };
 		4074C9FF2832247F009E9023 /* ShopApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopApi.swift; sourceTree = "<group>"; };
 		4074CA0228323233009E9023 /* BusinessTypeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessTypeModel.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 		401E5DA22815021A009127A5 /* Extension(扩展) */ = {
 			isa = PBXGroup;
 			children = (
+				406DDD71283DBD28004CF4FE /* lib */,
 				40CACB4B2837255A00BC3027 /* NSDate+Date.swift */,
 				4060BC2C2816ABE600968C42 /* UIView+Extension.swift */,
 				401E5DAF28152151009127A5 /* Edit+Color.swift */,
@@ -97,6 +100,13 @@
 			path = "Services(服务器)";
 			sourceTree = "<group>";
 		};
+		406DDD71283DBD28004CF4FE /* lib */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
 		4074CA0128322CAB009E9023 /* models */ = {
 			isa = PBXGroup;
 			children = (
@@ -104,6 +114,7 @@
 				4074CA0228323233009E9023 /* BusinessTypeModel.swift */,
 				40091A4128348E99009D60BD /* StoreModel.swift */,
 				40091A452834948F009D60BD /* StoreInfoModel.swift */,
+				406DDD6F283B6AF9004CF4FE /* ProductInfoModel.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -279,6 +290,7 @@
 				40091A40283392EC009D60BD /* GenericResponse.swift in Sources */,
 				40091A462834948F009D60BD /* StoreInfoModel.swift in Sources */,
 				4074C9FE28322262009E9023 /* StoreAppleApi.swift in Sources */,
+				406DDD70283B6AF9004CF4FE /* ProductInfoModel.swift in Sources */,
 				40091A482835D1E1009D60BD /* OrderApi.swift in Sources */,
 				401E5DD928163E92009127A5 /* Coordinator.swift in Sources */,
 				4099C0ED281F6C10002889A7 /* LoginApi.swift in Sources */,

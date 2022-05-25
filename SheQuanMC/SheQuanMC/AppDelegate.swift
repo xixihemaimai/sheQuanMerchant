@@ -10,6 +10,8 @@ import App
 import Util
 import IQKeyboardManager
 import SwiftyJSON
+import JFPopup
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,6 +23,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
+        
+//        let view = JFPopupView()
+//        view.config.autoDismissDuration = JFTimerDuration.seconds(value: 1)
+//        view.config.isDismissible = false
+        
+         //这边获取系统版本
+        NetWorkResultRequest(LoginApi.systemVersion, needShowFailAlert: true) { result, data in
+            do{
+                let json = try JSON(data: data)
+                LXFLog(json)
+                
+                let user = UserDefaults.standard
+                //appVerId
+                user.removeObject(forKey: "appVerId")
+//                let appVerId:String = json["data"]["appVerId"].string ?? "1.0.0"
+                user.set(json["data"]["appVerId"].string ?? "1.0.0", forKey: "appVerId")
+                LXFLog(user.object(forKey: "appVerId"))
+                //apiVerId
+                user.removeObject(forKey: "apiVerId")
+//                let apiVerId:String = json["data"]["apiVerId"].string ?? "1.0.0"
+                user.setValue(json["data"]["apiVerId"].string ?? "1.0.0", forKey: "apiVerId")
+                //upgradeAppVerId
+                user.removeObject(forKey: "upgradeAppVerId")
+//                let upgradeAppVerId:String = json["data"]["upgradeAppVerId"].string ?? "1.0.0"
+                user.setValue(json["data"]["upgradeAppVerId"].string ?? "1.0.0", forKey: "upgradeAppVerId")
+                user.synchronize()
+                
+            }catch{}
+        } failureCallback: { error, code in
+        }
+        Thread.sleep(forTimeInterval: 0.4)
         //这边要对用户数据进行判断是否有用户数据过
 //        window?.rootViewController = MainViewController()
         if StoreService.shared.isLogin(){
@@ -28,21 +61,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let navi = BaseNaviViewController(rootViewController: startPageVc)
             self.window?.rootViewController = navi
             //这边要判断重新获取店铺信息
-            let parameters = [String:Any]()
-            NetWorkResultRequest(shopApi.getShopInfo(parameters: parameters), needShowFailAlert: true) { result, data in
-//                do{
+            NetWorkResultRequest(shopApi.getShopInfo, needShowFailAlert: true) { result, data in
+//                 do{
 //                    let json = try JSON(data: data)
+                    //需不需要删除数据库
+//                    StoreService.shared.delete()
                     guard let model = try? JSONDecoder().decode(GenericResponse<StoreInfoModel>.self, from: data) else{
                         return
                     }
-//                    if let data = model.data {
-//                        StoreService.shared.updateShopInfo(data)
-//                    }
+//                  if let data = model.data {
+//                     StoreService.shared.updateShopInfo(data)
+//                  }
                     guard let neWData = model.data else {
                         return
                     }
                     StoreService.shared.updateShopInfo(neWData)
-                    
 //                    LXFLog(neWData.auditStatus)
                     if neWData.auditStatus == 2{
                         self.window?.rootViewController = MainViewController()
@@ -56,14 +89,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         //审核失败
                         let enterPriseVc = EnterpriseAuditViewController()
                         enterPriseVc.audit = 2
-//                        self.window?.rootViewController = BaseNaviViewController(rootViewController: enterPriseVc)
+//                      self.window?.rootViewController = BaseNaviViewController(rootViewController: enterPriseVc)
                         Coordinator.shared?.pushViewController(startPageVc, enterPriseVc, animated: false)
                     }else{
                         let storeOccupancyVC = StoreOccupancyViewController()
                         storeOccupancyVC.audit = 0
-//                        let navi = BaseNaviViewController(rootViewController: storeOccupancyVC)
-//                        self.window?.rootViewController = navi
+//                      let navi = BaseNaviViewController(rootViewController: storeOccupancyVC)
+//                      self.window?.rootViewController = navi
                         Coordinator.shared?.pushViewController(startPageVc, storeOccupancyVC, animated: true)
+                    }
+                
+                    //获取企业信息
+                    NetWorkResultRequest(StoreAppleApi.getEntInfo, needShowFailAlert: true) { result, data in
+                      guard let model = try? JSONDecoder().decode(GenericResponse<StoreInfoModel>.self, from: data) else{
+                         return
+                      }
+                      guard let neWData = model.data else {
+                         return
+                      }
+                      StoreService.shared.updateShopInfo(neWData)
+                    } failureCallback: { error, code in
                     }
 //                    LXFLog(json)
 //                    if json["data"]["auditStatus"].int32Value == 2{

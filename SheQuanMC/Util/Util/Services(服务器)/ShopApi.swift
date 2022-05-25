@@ -11,10 +11,10 @@ import UIKit
 
 
 public enum shopApi{
-    case forgetPass(parameters:[String:Any]) //忘记密码
-    case changePass(parameters:[String:Any]) //修改密码
-    case regAccount(parameters:[String:Any]) //注册账号
-    case getShopInfo(parameters:[String:Any])//获取店铺信息
+    case forgetPass(parameters:[String:String]) //忘记密码
+    case changePass(parameters:[String:String]) //修改密码
+    case regAccount(parameters:[String:Any])    //注册账号
+    case getShopInfo                            //获取店铺信息(1)
 }
 
 
@@ -37,14 +37,12 @@ extension shopApi:TargetType{
           case .getShopInfo:
                return "shop/getShopInfo"  //获取店铺信息
         }
-   
     }
     
     public var method: Moya.Method {
         switch self {
         case .forgetPass,.changePass,.regAccount,.getShopInfo:
             return .post
-            
         }
     }
     
@@ -56,8 +54,8 @@ extension shopApi:TargetType{
                return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
            case .regAccount(let parameters):
                return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
-           case .getShopInfo(let parameters):
-               return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+           case .getShopInfo:
+               return .requestPlain
         }
     }
 
@@ -66,7 +64,32 @@ extension shopApi:TargetType{
     public var headers: [String : String]? {
         switch self {
         case .getShopInfo:
-            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? ""]
+            let time = Date().currentMilliStamp
+            let nonce = String.nonce
+            let deviceId = String.deviceUUID
+            return ["Accept": "*/*","Content-Type":"application/json","appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce": nonce,"timeStamp":time,"deviceId":deviceId,"accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValue(time,nonce,deviceId)]
+        case .forgetPass(let parameters),.changePass(let parameters):
+            let time = Date().currentMilliStamp
+            let nonce = String.nonce
+            let deviceId = String.deviceUUID
+            let returnStr = dictSory(parameters)
+            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,returnStr),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+        case .regAccount(let parameters):
+            let time = Date().currentMilliStamp
+            let nonce = String.nonce
+            let deviceId = String.deviceUUID
+//            let returnStr = dictSory(parameters)
+            return ["Accept":"*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,getJSONStringFromData(obj: parameters)),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+//        case .changePass(let parameters):
+//            let time = Date().currentMilliStamp
+//            let nonce = String.nonce
+//            let deviceId = String.deviceUUID
+//            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,getJSONStringFromData(obj: parameters)),"appId":"IOS","appVer":String.appVersion,"apiVer":"1.0.0","nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+//        case .regAccount(let parameters):
+//            let time = Date().currentMilliStamp
+//            let nonce = String.nonce
+//            let deviceId = String.deviceUUID
+//            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,getJSONStringFromData(obj: parameters)),"appId":"IOS","appVer":String.appVersion,"apiVer":"1.0.0","nonce":nonce,"timeStamp":time,"deviceId":deviceId]
         default:
             return ["Accept": "*/*","Content-Type":"application/json"]
         }
@@ -78,3 +101,10 @@ extension shopApi:TargetType{
     }
    
 }
+
+
+
+
+
+
+
