@@ -9,7 +9,7 @@ import UIKit
 import JFPopup
 import HXPhotoPicker
 import Util
-
+import SwiftUI
 
 class ReleaseGoodsViewController: BaseViewController {
     
@@ -31,7 +31,7 @@ class ReleaseGoodsViewController: BaseViewController {
     
     
     //相册里面图片数组
-    var photoContentList:[UIImage] = [UIImage]()
+//    var photoContentList:[UIImage] = [UIImage]()
     
 
     lazy var scrollView:UIScrollView = {
@@ -214,6 +214,7 @@ class ReleaseGoodsViewController: BaseViewController {
         publishBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#313336")
         publishBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         publishBtn.layer.cornerRadius = scale(4)
+        publishBtn.addTarget(self, action: #selector(publishAction), for: .touchUpInside)
         return publishBtn
     }()
     
@@ -245,12 +246,14 @@ class ReleaseGoodsViewController: BaseViewController {
     var mainSImage:UIImageView!
     //商品规格
     var commoditySBtn:UIButton!
-                                  
-    
-    
-    
+                             
     //这个值市用来判断是否修改过
     var isModify:Bool = false
+    
+    
+    //发布的模型
+    var commodityModel:CommodityModel?
+
                                                 
     
     override func viewDidLoad() {
@@ -264,6 +267,24 @@ class ReleaseGoodsViewController: BaseViewController {
         
         
         self.navigationItem.leftBarButtonItem?.customView = UIButton(setImage: "返回", setBackgroundImage: "", target: self, action: #selector(saveDraft))
+        
+        
+        
+        
+        
+//        guard let model = try? JSONDecoder().decode(CommodityModel.self, from: Data()) else{return}
+//        let model = CommodityModel.init(categoryId: 0, freeRefundIn7Days: false, freightInsure: false, freightTempId: 0, multiSpec: false, productCode: "", productDesc: "", productId: "", productName: "", productPics: [String](), skus: [Skus](), specs: [Specs](), spus: [Spus](), stockDeductType: 0)
+        
+//        commodityModel = CommodityModel.init(categoryId: 0, freeRefundIn7Days: false, freightInsure: false, freightTempId: 0, multiSpec: false, productCode: "", productDesc: "", productId: "", productName: "", stockDeductType: 0)
+        
+        commodityModel = CommodityModel(categoryId: 0, freeRefundIn7Days: false, freightInsure: false, freightTempId: 0, multiSpec: false, productCode: "", productDesc: "", productId: "", productName: "", productPics: [String](), skus: [Skus](), specs: [Specs](), spus: [Spus](), stockDeductType: 0)
+        
+        
+        
+//        commodityModel = model
+//        LXFLog("==========================\(commodityModel)")
+        
+        
         
         
         
@@ -987,20 +1008,13 @@ class ReleaseGoodsViewController: BaseViewController {
                 self.goodsContentLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
                 self.goodsParameterSLabel.isHidden = false
                 self.goodsParameterSBtn.isHidden = false
-                
-                
                 self.specificationsSLabel.snp.remakeConstraints { make in
                     make.left.equalToSuperview()
                     make.top.equalTo(self.goodsParameterSBtn.snp.bottom).offset(scale(1))
                     make.width.equalTo(SCW)
                     make.height.equalTo(scale(50))
                 }
-                
-                
-                
-                
             }
-            
         case 1:
             let proudctDesciptionVc = ProductDescriptionViewController()
             Coordinator.shared?.pushViewController(self, proudctDesciptionVc, animated: true)
@@ -1016,12 +1030,86 @@ class ReleaseGoodsViewController: BaseViewController {
             
             break
         }
+    }
+    
+    
+    
+    //发布
+    @objc func publishAction(publishBtn:UIButton){
         
+        /**
+         {
+           "categoryId": 0,
+           "freeRefundIn7Days": false,
+           "freightInsure": false,
+           "freightTempId": 0,
+           "multiSpec": false,
+           "productCode": "string",
+           "productDesc": "string",
+           "productId": "string",
+           "productName": "string",
+           "productPics": [
+             "string"
+           ],
+           "skus": [
+             {
+               "price": 0,
+               "restrictedQty": 0,
+               "skuCode": "string",
+               "skuId": "string",
+               "skuPics": [
+                 "string"
+               ],
+               "specs": [
+                 {
+                   "specAttrId": 0,
+                   "specId": "string",
+                   "specValue": "string"
+                 }
+               ],
+               "stock": 0
+             }
+           ],
+           "specs": [
+             {
+               "specAttrId": 0,
+               "specId": "string",
+               "specValue": "string"
+             }
+           ],
+           "spus": [
+             {
+               "spuAttrId": 0,
+               "spuAttrName": "string",
+               "spuId": "string",
+               "spuValue": "string"
+             }
+           ],
+           "stockDeductType": 0
+         }
+         */
+        
+        
+        
+       
+        
+        
+        
+        let parameters = ["categoryId":0,"freeRefundIn7Days":returnGoodsSwitch.isOn,"freightInsure":returnGoodsInsuranceSwitch.isOn,"freightTempId":0,"multiSpec":specificationsSwitch.isOn,"productCode":goodsCardTextField.text ?? "","productDesc":goodsDescribe.text as Any,"productId":"","productName":goodsTextView.text ?? "","productPics":commodityModel?.productPics as Any,"skus":commodityModel?.skus as Any,"specs":commodityModel?.specs as Any,"spus":commodityModel?.spus as Any,"stockDeductType":1] as [String:Any]
+        NetWorkResultRequest(OrderApi.productPublish(parameters: parameters), needShowFailAlert: true) { result, data in
+            
+            
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
+
         
         
         
         
     }
+    
+    
     
     //开启或者关闭多规格
     @objc func openAndCloseMoreSepcifications(specificationsSwitch:UISwitch){
@@ -1104,7 +1192,7 @@ class ReleaseGoodsViewController: BaseViewController {
     //添加图片---这边要处理addPitrueBtn的位置，和pitureView的大小
     @objc func addPitureAction(addPitrueBtn:UIButton){
         
-        if self.photoContentList.count > 6 {
+        if (commodityModel?.productPics?.count ?? 7) > 6 {
             JFPopup.toast(hit: "只能选择6张图片")
         }else{
             manager.type = .photo
@@ -1118,8 +1206,12 @@ class ReleaseGoodsViewController: BaseViewController {
                                 guard let image = HXPhotoModel.thumbPhoto else {
                                     return
                                 }
-                                if (self?.photoContentList.count ?? 7) <= 5{
-                                    self?.photoContentList.append(image)
+                                if (self?.commodityModel?.productPics?.count ?? 7) <= 5{
+                                    //图片转二进制-》二进制转字符串
+                                    //字符串存入productPics参数中
+                                    let imgData = HX_UIImagePNGRepresentation(image)
+                                    let imageStr = imgData?.base64EncodedString()
+                                    self?.commodityModel?.productPics?.append(imageStr!)
                                 }
                             })
                             self?.addAndRefreshPhotoImage()
@@ -1133,8 +1225,10 @@ class ReleaseGoodsViewController: BaseViewController {
                                 guard let image = photoModel.thumbPhoto else {
                                     return
                                 }
-                                if(self?.photoContentList.count ?? 7) <= 5{
-                                    self?.photoContentList.append(image)
+                                if(self?.commodityModel?.productPics?.count ?? 7) <= 5{
+                                    let imgData = HX_UIImagePNGRepresentation(image)
+                                    let imageStr = imgData?.base64EncodedString()
+                                    self?.commodityModel?.productPics?.append(imageStr!)
                                 }
                             }
                             self?.addAndRefreshPhotoImage()
@@ -1152,13 +1246,13 @@ class ReleaseGoodsViewController: BaseViewController {
             view.removeFromSuperview()
         }
         
-        if photoContentList.count > 0{
+        if (commodityModel?.productPics?.count ?? 0) > 0{
             mainSImage.isHidden = true
         }else{
             mainSImage.isHidden = false
         }
         let imageW = scale(82)
-        for i in 0..<photoContentList.count {
+        for i in 0..<(commodityModel?.productPics?.count ?? 0) {
            let imageView = UIImageView()
            if i == 0{
                let mainImage = UIImageView()
@@ -1174,8 +1268,15 @@ class ReleaseGoodsViewController: BaseViewController {
            imageView.tag = i
            let row = i / 3
            let colom = i % 3
-           imageView.image = photoContentList[i]
-//            imageView.backgroundColor = UIColor.blue
+//            photoContentList[i]
+           let imageStr = commodityModel?.productPics?[i]
+            if let data: NSData = NSData(base64Encoded: imageStr ?? "", options:NSData.Base64DecodingOptions.ignoreUnknownCharacters)
+           {
+               if let image: UIImage = UIImage(data: data as Data)
+                {
+                    imageView.image = image
+                }
+            }
             let x = CGFloat(colom) * (imageW + scale(25)) + scale(25)
             let y = CGFloat(row) * (imageW + scale(25)) + scale(25)
             pitureView.addSubview(imageView)
@@ -1202,7 +1303,7 @@ class ReleaseGoodsViewController: BaseViewController {
         }
         //这边要判断图片有多少张
         //最后是把selectImageBtn添加进去
-        if photoContentList.count >= 3 {
+        if commodityModel?.productPics?.count ?? 4 >= 3 {
             pitureView.snp.remakeConstraints { make in
                 make.left.equalToSuperview()
                 make.width.equalTo(SCW)
@@ -1210,21 +1311,21 @@ class ReleaseGoodsViewController: BaseViewController {
                 make.height.equalTo(scale(239))
             }
             pitureView.addSubview(addPitureBtn)
-            if photoContentList.count != 6{
+            if commodityModel?.productPics?.count != 6{
                 addPitureBtn.isHidden = false
             }else{
                 addPitureBtn.isHidden = true
             }
-            let count = photoContentList.count - 3
+            let count = (commodityModel?.productPics?.count)! - 3
             addPitureBtn.snp.remakeConstraints { make in
                 make.left.equalTo(CGFloat(count) * (imageW + scale(25)) + scale(25))
                 make.top.equalTo(2 * scale(25) + imageW)
                 make.width.height.equalTo(imageW)
             }
-            addPitureBtn.setTitle("商品图" + String(photoContentList.count) + "/6", for: .normal)
+            addPitureBtn.setTitle("商品图" + String(commodityModel?.productPics!.count ?? 0) + "/6", for: .normal)
         }else{
             pitureView.addSubview(addPitureBtn)
-            addPitureBtn.setTitle("商品图" + String(photoContentList.count) + "/6", for: .normal)
+            addPitureBtn.setTitle("商品图" + String(commodityModel?.productPics?.count ?? 0) + "/6", for: .normal)
             self.addPitureBtn.isHidden = false
 //            pitureView.height = imageW + scale(25)
             pitureView.snp.remakeConstraints { make in
@@ -1233,7 +1334,7 @@ class ReleaseGoodsViewController: BaseViewController {
                 make.top.equalTo(goodsTitleSView.snp.bottom)
                 make.height.equalTo(scale(132))
             }
-            let count = photoContentList.count
+            let count = commodityModel?.productPics?.count ?? 0
             addPitureBtn.snp.remakeConstraints { make in
                 make.top.equalTo(scale(25))
                 make.left.equalTo(CGFloat(count) * (imageW + scale(25)) + scale(25))
@@ -1244,7 +1345,7 @@ class ReleaseGoodsViewController: BaseViewController {
     
     //删除图片
     @objc func deleteGoodsAction(deleteBtn:UIButton){
-        photoContentList.remove(at: deleteBtn.tag)
+        commodityModel?.productPics?.remove(at: deleteBtn.tag)
         addAndRefreshPhotoImage()
     }
     //图片浏览器

@@ -128,7 +128,8 @@ static NSInteger const kAttributesBtnTag = 100;
 
 - (void)attributesUIconfig {
     CGFloat btnWH = 40;
-    NSArray *items = @[@"粗", @"斜", @"下", @"H1", @"H2", @"H3"];
+    //, @"斜", @"下", @"H1", @"H2", @"H3"
+    NSArray *items = @[@"粗"];
     _attributesView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, btnWH * items.count, btnWH)];
     [self addSubview:_attributesView];
     _attributesView.backgroundColor = [UIColor blackColor];
@@ -143,11 +144,11 @@ static NSInteger const kAttributesBtnTag = 100;
     sub =1;
     if (sub > 0) {
 //        _attributesView.center = CGPointMake(kBarBtnW*3/2.0 + 30, -20);
-        _attributesView.center = CGPointMake(kBarBtnW*4/2.0, -20);
+        _attributesView.center = CGPointMake(kBarBtnW*1/2.0, -20);
 //        [self createAngelwithSuperView:_attributesView
 //                            angelPoint:CGPointMake(_attributesView.frame.size.width/2.0 -30, 50)];
         [self createAngelwithSuperView:_attributesView
-                            angelPoint:CGPointMake(_attributesView.frame.size.width/8.0, 50)];
+                            angelPoint:CGPointMake(_attributesView.frame.size.width/2.0, 50)];
         
     }else{
         [self createAngelwithSuperView:_attributesView
@@ -446,12 +447,8 @@ static NSInteger const kAttributesBtnTag = 100;
         {
             //加粗
             
-
-            
-            
             btn.selected = !btn.selected;
             _attributesView.hidden = !btn.selected;
-
             UIButton *btn2 = [self viewWithTag:2];
             if (btn2.selected == YES) {
                 btn2.selected = !btn.selected;

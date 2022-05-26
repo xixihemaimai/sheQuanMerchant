@@ -24,7 +24,7 @@ class CommoditySearchViewController: BaseViewController {
     }()
     
     //数组
-    var searchProductList:[ProductInfoModel] = [ProductInfoModel]()
+//    var searchProductList:[ProductInfoModel] = [ProductInfoModel]()
    
     
     
@@ -97,7 +97,7 @@ class CommoditySearchViewController: BaseViewController {
         tableview.register(commodityStatusCell.self, forCellReuseIdentifier: "commodityStatusCell")
         tableview.register(commodityExamineCell.self, forCellReuseIdentifier: "commodityExamineCell")
         
-        loadSearchProduct(searchTextfield.text ?? "")
+        
         
 
     }
@@ -112,8 +112,8 @@ class CommoditySearchViewController: BaseViewController {
     
     override func headerRereshing() {
         LXFLog("下拉")
-//        tableview.mj_header?.endRefreshing()
-        loadSearchProduct(searchTextfield.text ?? "")
+        tableview.mj_header?.endRefreshing()
+//        loadSearchProduct(searchTextfield.text ?? "")
     }
     
     override func footerRereshing() {
@@ -123,28 +123,28 @@ class CommoditySearchViewController: BaseViewController {
     
     
     
-    func loadSearchProduct(_ keyWords:String){
-        let parameters = ["keyWords":keyWords]
-        NetWorkResultRequest(OrderApi.SearchProduct(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
-            
-            self?.searchProductList.removeAll()
-            guard let model = try? JSONDecoder().decode(GenericResponse<[ProductInfoModel]>.self, from: data) else{
-                return
-            }
-            guard let newData = model.data else{
-                return
-            }
-            self?.searchProductList = newData
-            self?.tableview.reloadData()
-            self?.tableview.mj_header?.endRefreshing()
-        } failureCallback: { error, code in
-            code.loginOut()
-        }
-    }
+//    func loadSearchProduct(_ keyWords:String){
+//        let parameters = ["keyWords":keyWords]
+//        NetWorkResultRequest(OrderApi.SearchProduct(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+//
+//            self?.searchProductList.removeAll()
+//            guard let model = try? JSONDecoder().decode(GenericResponse<[ProductInfoModel]>.self, from: data) else{
+//                return
+//            }
+//            guard let newData = model.data else{
+//                return
+//            }
+//            self?.searchProductList = newData
+//            self?.tableview.reloadData()
+//            self?.tableview.mj_header?.endRefreshing()
+//        } failureCallback: { error, code in
+//            code.loginOut()
+//        }
+//    }
     
     
     @objc func searchChangeAction(searchTextfield:UITextField){
-        loadSearchProduct(searchTextfield.text ?? "")
+        
     }
     
     
@@ -288,7 +288,7 @@ class CommoditySearchViewController: BaseViewController {
 extension CommoditySearchViewController:UITableViewDelegate,UITableViewDataSource{
     
    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       return searchProductList.count
+       return 10
     }
     
   

@@ -338,6 +338,10 @@ class ProductDescriptionViewController: BaseViewController {
 //        NSArray *arr1 =  [_textView.attributedText getArrayWithAttributed];
         let arr1 = _textView.attributedText.getArrayWithAttributed()
         LXFLog("----------------------\(arr1)")
+        
+        let string = _textView.attributedText.string
+        LXFLog("-----------------------\(string)")
+        
         /**
          if (_textView.attributedText.length) {
              NSArray *arr1 =  [_textView.attributedText getArrayWithAttributed];

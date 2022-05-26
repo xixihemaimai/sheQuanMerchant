@@ -131,22 +131,17 @@ open class StoreOccupancyViewController: BaseViewController {
     
     
     
-    public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        UIApplication.shared.isIdleTimerDisabled = true
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false;
-    }
+//    public override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//        UIApplication.shared.isIdleTimerDisabled = true
+//        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false;
+//    }
     
 
    public override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
-       
-       
-     
-       
-       
        
         title = "店铺入住"
         //Group 2738
@@ -474,9 +469,9 @@ open class StoreOccupancyViewController: BaseViewController {
     }
     
     //禁止某些页面滑动返回上一个页面
-    public override func viewDidDisappear(_ animated: Bool) {
-         super.viewDidDisappear(animated)
-         UIApplication.shared.isIdleTimerDisabled = false
-         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true;
-     }
+//    public override func viewDidDisappear(_ animated: Bool) {
+//         super.viewDidDisappear(animated)
+//         UIApplication.shared.isIdleTimerDisabled = false
+//         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true;
+//     }
 }

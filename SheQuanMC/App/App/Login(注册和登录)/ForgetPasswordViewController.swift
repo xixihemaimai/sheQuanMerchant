@@ -199,12 +199,18 @@ class ForgetPasswordViewController: BaseViewController {
             JFPopup.toast(hit: "验证码错误")
             return
         }
-        let parameters = ["countryId":"0","mobile":phoneTextField.text ?? "","verifyCode":codeTextField.text ?? "","verifyId":verifyId] as [String:String]
+        let parameters = ["countryId":0,"mobile":phoneTextField.text ?? "","verifyCode":codeTextField.text ?? "","verifyId":verifyId] as [String:Any]
         NetWorkResultRequest(shopApi.forgetPass(parameters: parameters), needShowFailAlert: true) { result, data in
 //            LXFLog(data)
             let newPasswordVc = NewPasswordViewController()
             newPasswordVc.verifyId = self.verifyId
             Coordinator.shared?.pushViewController(self, newPasswordVc, animated: true)
+            
+            
+            
+            
+            
+            
         } failureCallback: { error,code in
         }
     }

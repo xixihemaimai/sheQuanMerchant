@@ -11,8 +11,8 @@ import UIKit
 
 
 public enum shopApi{
-    case forgetPass(parameters:[String:String]) //忘记密码
-    case changePass(parameters:[String:String]) //修改密码
+    case forgetPass(parameters:[String:Any])    //忘记密码 （1）
+    case changePass(parameters:[String:String]) //修改密码 （1）
     case regAccount(parameters:[String:Any])    //注册账号
     case getShopInfo                            //获取店铺信息(1)
 }
@@ -68,18 +68,18 @@ extension shopApi:TargetType{
             let nonce = String.nonce
             let deviceId = String.deviceUUID
             return ["Accept": "*/*","Content-Type":"application/json","appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce": nonce,"timeStamp":time,"deviceId":deviceId,"accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValue(time,nonce,deviceId)]
-        case .forgetPass(let parameters),.changePass(let parameters):
+        case .changePass(let parameters):
             let time = Date().currentMilliStamp
             let nonce = String.nonce
             let deviceId = String.deviceUUID
             let returnStr = dictSory(parameters)
             return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,returnStr),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
-        case .regAccount(let parameters):
+        case .regAccount(let parameters),.forgetPass(let parameters):
             let time = Date().currentMilliStamp
             let nonce = String.nonce
             let deviceId = String.deviceUUID
 //            let returnStr = dictSory(parameters)
-            return ["Accept":"*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,getJSONStringFromData(obj: parameters)),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+            return ["Accept":"*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,getJSONStringFromData(obj: parameters,isEscape: false)),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
 //        case .changePass(let parameters):
 //            let time = Date().currentMilliStamp
 //            let nonce = String.nonce

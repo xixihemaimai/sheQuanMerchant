@@ -27,7 +27,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        let view = JFPopupView()
 //        view.config.autoDismissDuration = JFTimerDuration.seconds(value: 1)
 //        view.config.isDismissible = false
-        
          //这边获取系统版本
         NetWorkResultRequest(LoginApi.systemVersion, needShowFailAlert: true) { result, data in
             do{
@@ -55,7 +54,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         Thread.sleep(forTimeInterval: 0.4)
         //这边要对用户数据进行判断是否有用户数据过
-//        window?.rootViewController = MainViewController()
         if StoreService.shared.isLogin(){
             let startPageVc = StartPageViewController()
             let navi = BaseNaviViewController(rootViewController: startPageVc)
@@ -81,10 +79,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         self.window?.rootViewController = MainViewController()
                     }else if neWData.auditStatus == 1{
                         //审核中
-                        let enterPriseVc = EnterpriseAuditViewController()
-                        enterPriseVc.audit = 1
-//                        self.window?.rootViewController = BaseNaviViewController(rootViewController: enterPriseVc)
-                        Coordinator.shared?.pushViewController(startPageVc, enterPriseVc, animated: false)
+//                        let enterPriseVc = EnterpriseAuditViewController()
+//                        enterPriseVc.audit = 1
+//                        Coordinator.shared?.pushViewController(startPageVc, enterPriseVc, animated: false)
+                        
+                        
+                        self.window?.rootViewController = MainViewController()
+                        
+                        
+                        
                     }else if neWData.auditStatus == 3{
                         //审核失败
                         let enterPriseVc = EnterpriseAuditViewController()

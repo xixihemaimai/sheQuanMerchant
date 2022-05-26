@@ -7,6 +7,7 @@
 
 import UIKit
 import Util
+import Kingfisher
 
 class OrderStatusCell: UITableViewCell {
     
@@ -221,15 +222,28 @@ class OrderStatusCell: UITableViewCell {
     
     
     
-    var contentString:String?{
+    var productInfoModel:ProductInfoModel?{
         
         didSet{
-            guard let _contentString = contentString else { return }
+            guard let _productInfoModel = productInfoModel else { return }
+            
+            statusLabel.text = _productInfoModel.statusText
+            headerImage.kf.setImage(with: URL(string: _productInfoModel.shopAvatar ?? ""), placeholder: UIImage(named: "Group 2784"), options: nil, completionHandler: nil)
+            nicknameLabel.text = _productInfoModel.shopName
+            orderImage.kf.setImage(with: URL(string: _productInfoModel.productPic ?? ""), placeholder:UIImage(named: "") , options: nil, completionHandler: nil)
+            //productName
+            orderIntroductLabel.text = _productInfoModel.productName
+            
+            numberLabel.text = (_productInfoModel.productSpecs ?? "") + "x" + String(_productInfoModel.qty ?? 0)
+//            actualAmount
+            priceLabel.text = "¥" + (_productInfoModel.actualAmount ?? "")
+            truePriceLabel.text =  "¥" + (_productInfoModel.actualAmount ?? "")
             
             
-            if _contentString == "全部"{
-                
-            }else if _contentString == "待支付"{
+            
+            
+            if _productInfoModel.statusText == "待付款"{
+                //待支付
                 
                 midView.isHidden = true
                 returnGoodsLabel.isHidden = true
@@ -243,10 +257,10 @@ class OrderStatusCell: UITableViewCell {
                 
                 
 //                returnGoodsLabel.text = "退款退款中"
-                statusLabel.text = "待发货"
+               
                 
                 
-            }else if _contentString == "待发货"{
+            }else if  _productInfoModel.statusText == "待发货"{
                 
                 closeOrderBtn.isHidden = true
                 modifyPriceBtn.isHidden = true
@@ -256,10 +270,13 @@ class OrderStatusCell: UITableViewCell {
                 modifyLogisticsBtn.isHidden = true
                 
                 returnGoodsLabel.text = "仅退款"
-                statusLabel.text = "待发货"
                 
                 
-            }else if _contentString == "已发货"{
+                
+//                statusLabel.text = _productInfoModel.statusText
+                
+                
+            }else if _productInfoModel.statusText == "已发货"{
                 
                 closeOrderBtn.isHidden = true
                 modifyPriceBtn.isHidden = true
@@ -269,7 +286,7 @@ class OrderStatusCell: UITableViewCell {
                 modifyLogisticsBtn.isHidden = false
                 
                 returnGoodsLabel.text = "退款退款中"
-                statusLabel.text = "已发货"
+//                statusLabel.text = "已发货"
                 
             }else{
              

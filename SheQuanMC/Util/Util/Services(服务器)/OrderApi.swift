@@ -12,7 +12,10 @@ import Moya
 public enum OrderApi{
     case getOrderSalesInfo  //获取订单销售数据（首页)
     case getProductInfo(parameters:[String:Any]) //获取商品信息
-    case SearchProduct(parameters:[String:Any])  //搜索商品
+    case SearchProduct(parameters:[String:String])  //搜索商品
+    case productPublish(parameters:[String:Any])  //发布商品
+    
+    
 }
 
 
@@ -30,6 +33,9 @@ extension OrderApi:TargetType{
             return "product/getProductInfo"
         case .SearchProduct:
             return "product/search"
+            
+        case .productPublish:
+            return "product/publish"
         }
     }
     
@@ -45,6 +51,8 @@ extension OrderApi:TargetType{
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         case .SearchProduct(let parameters):
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+        case .productPublish(let parameters):
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         }
     }
     
@@ -56,11 +64,28 @@ extension OrderApi:TargetType{
             let nonce = String.nonce
             let deviceId = String.deviceUUID
             return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValue(time,nonce,deviceId),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
-        case .SearchProduct(let parameters),.getProductInfo(let parameters):
+        case .getProductInfo(let parameters):
             let time = Date().currentMilliStamp
             let nonce = String.nonce
             let deviceId = String.deviceUUID
-            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,getJSONStringFromData(obj: parameters)),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,getJSONStringFromData(obj: parameters,isEscape: false)),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+            
+        case .SearchProduct(let parameters):
+            let time = Date().currentMilliStamp
+            let nonce = String.nonce
+            let deviceId = String.deviceUUID
+            let parm = dictSory(parameters)
+            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,parm),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+        case .productPublish(let parameters):
+            
+            let time = Date().currentMilliStamp
+            let nonce = String.nonce
+            let deviceId = String.deviceUUID
+            let parm = getJSONStringFromData(obj: parameters, isEscape:true)
+            LXFLog("--------------------\(parm)")
+            
+            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,parm),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+            
         default:
            return ["Accept": "*/*","Content-Type":"application/json"]
         }

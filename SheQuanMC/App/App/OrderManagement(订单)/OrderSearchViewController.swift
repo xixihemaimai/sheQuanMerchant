@@ -22,6 +22,15 @@ class OrderSearchViewController: BaseViewController {
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#B3B3B3")])
         return searchTextfield
     }()
+    
+    
+    
+    
+    //数组
+    var searchProductList:[ProductInfoModel] = [ProductInfoModel]()
+    
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,13 +101,15 @@ class OrderSearchViewController: BaseViewController {
         tableview.delegate = self
         tableview.dataSource = self
         tableview.register(OrderStatusCell.self, forCellReuseIdentifier: "OrderStatusCell")
+        
+        loadSearchProduct(searchTextfield.text ?? "")
     }
     
     
     
     //搜索完成结束之后
     @objc func searchEndAction(searchTextfield:UITextField){
-        
+        loadSearchProduct(searchTextfield.text ?? "")
     }
     
     //取消按键
@@ -110,13 +121,40 @@ class OrderSearchViewController: BaseViewController {
     
     override func headerRereshing() {
         LXFLog("下拉")
-        tableview.mj_header?.endRefreshing()
+//        tableview.mj_header?.endRefreshing()
+        loadSearchProduct(searchTextfield.text ?? "")
     }
     
     override func footerRereshing() {
         LXFLog("上拉")
         tableview.mj_footer?.endRefreshing()
     }
+    
+    
+    
+    func loadSearchProduct(_ keyWords:String){
+        let parameters = ["keyWords":keyWords]
+        NetWorkResultRequest(OrderApi.SearchProduct(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+            
+            self?.searchProductList.removeAll()
+            guard let model = try? JSONDecoder().decode(GenericResponse<[ProductInfoModel]>.self, from: data) else{
+                return
+            }
+            guard let newData = model.data else{
+                return
+            }
+            self?.searchProductList = newData
+            self?.tableview.reloadData()
+            self?.tableview.mj_header?.endRefreshing()
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
+    }
+    
+    
+    
+    
+    
     
     
     //关闭订单按键
@@ -170,7 +208,7 @@ class OrderSearchViewController: BaseViewController {
 extension OrderSearchViewController:UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return searchProductList.count
     }
     
     
@@ -179,23 +217,28 @@ extension OrderSearchViewController:UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let productInfoModel = searchProductList[indexPath.row] as ProductInfoModel
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "OrderStatusCell") as! OrderStatusCell
-        if view.tag == 0{
-            let index = Int(arc4random_uniform(5))
-            let array = ["全部","待支付","待发货","已发货","交易成功","交易失败"]
-            let string = array[index]
-            cell.contentString = string
-        }else if view.tag == 1{
-            cell.contentString = "待支付"
-        }else if view.tag == 2{
-            cell.contentString = "待发货"
-        }else if view.tag == 3{
-            cell.contentString = "已发货"
-        }else if view.tag == 4{
-            cell.contentString = "交易成功"
-        }else{
-            cell.contentString = "交易失败"
-        }
+        
+        cell.productInfoModel = productInfoModel
+        
+//        if view.tag == 0{
+//            let index = Int(arc4random_uniform(5))
+//            let array = ["全部","待支付","待发货","已发货","交易成功","交易失败"]
+//            let string = array[index]
+//            cell.contentString = string
+//        }else if view.tag == 1{
+//            cell.contentString = "待支付"
+//        }else if view.tag == 2{
+//            cell.contentString = "待发货"
+//        }else if view.tag == 3{
+//            cell.contentString = "已发货"
+//        }else if view.tag == 4{
+//            cell.contentString = "交易成功"
+//        }else{
+//            cell.contentString = "交易失败"
+//        }
         
         //关闭订单按键
         cell.closeOrderBtn.tag = indexPath.row
@@ -221,8 +264,12 @@ extension OrderSearchViewController:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let orderDetailVc = OrderDetailViewController()
-        let cell = tableView.cellForRow(at: indexPath) as! OrderStatusCell
-        orderDetailVc.status = cell.contentString
+//        let cell = tableView.cellForRow(at: indexPath) as! OrderStatusCell
+        let productInfoModel = searchProductList[indexPath.row] as ProductInfoModel
+        
+        
+        orderDetailVc.status = productInfoModel.statusText
+        
         Coordinator.shared?.pushViewController(self, orderDetailVc, animated: true)
     }
     

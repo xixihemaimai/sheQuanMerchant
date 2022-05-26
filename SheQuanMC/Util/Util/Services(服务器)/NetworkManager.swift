@@ -143,42 +143,45 @@ public let requestClosure = { (endpoint: Endpoint, done: MoyaProvider.RequestRes
             /**
              if endpoint.url == "http://27.154.225.198:8996/sqshop/api/shop/shopAuth"
              */
-            if endpoint.url.contains("shop/shopAuth") || endpoint.url.contains("ent/entCert") {
+            if endpoint.url.contains("shop/shopAuth") || endpoint.url.contains("ent/entCert") || endpoint.url.contains("product/publish") {
                 //解决图片链接有转义字符的问题
-                var parames = (String(data: requestData, encoding: String.Encoding.utf8) ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
-                parames = parames.replacingOccurrences(of: "{", with: "", options: .literal, range: nil)
-                parames = parames.replacingOccurrences(of: "}", with: "", options: .literal, range: nil)
-                let fullNameArr = parames.components(separatedBy: ",")
-                let sortedWords = fullNameArr.sorted()
-                var body:String = ""
-                for (index,value) in sortedWords.enumerated(){
-                    if index == 0{
-                       body = "{" + value
-                    }else{
-                        body = body + "," + value
-                    }
-                }
-                body = body + "}"
-//                request.httpBody = (String(data: requestData, encoding: String.Encoding.utf8) ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil).data(using: String.Encoding.utf8)
+//                var parames = (String(data: requestData, encoding: String.Encoding.utf8) ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+//                parames = parames.replacingOccurrences(of: "{", with: "", options: .literal, range: nil)
+//                parames = parames.replacingOccurrences(of: "}", with: "", options: .literal, range: nil)
+//                let fullNameArr = parames.components(separatedBy: ",")
+//                let sortedWords = fullNameArr.sorted()
+//                var body:String = ""
+//                for (index,value) in sortedWords.enumerated(){
+//                    if index == 0{
+//                       body = "{" + value
+//                    }else{
+//                        body = body + "," + value
+//                    }
+//                }
+//                body = body + "}"
+////                request.httpBody = (String(data: requestData, encoding: String.Encoding.utf8) ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil).data(using: String.Encoding.utf8)
+//                request.httpBody = body.data(using: String.Encoding.utf8)
+                request.httpBody = getObjFromDataToData(obj: requestData, isEscape: true)
                 
-                request.httpBody = body.data(using: String.Encoding.utf8)
             }else if endpoint.url.contains("login/mobileLogin") || endpoint.url.contains("login/passLogin") || endpoint.url.contains("captcha/getCaptchaCode") || endpoint.url.contains("category/getCategoryInfoList") || endpoint.url.contains("shop/forgetPass") || endpoint.url.contains("shop/changePass") || endpoint.url.contains("shop/regAccount"){
                 //手机号登录 密码登录 发送验证码 经营种类 忘记密码 修改密码 注册账号
-                var parames = (String(data: requestData, encoding: String.Encoding.utf8) ?? "").replacingOccurrences(of: "{", with: "", options: .literal, range: nil)
-                parames = parames.replacingOccurrences(of: "}", with: "", options: .literal, range: nil)
-                let fullNameArr = parames.components(separatedBy: ",")
-                let sortedWords = fullNameArr.sorted()
-                var body:String = ""
-                for (index,value) in sortedWords.enumerated(){
-                    if index == 0{
-                       body = "{" + value
-                    }else{
-                        body = body + "," + value
-                    }
-                }
-                body = body + "}"
-                LXFLog("-----------------------\(body)")
-                request.httpBody = body.data(using: String.Encoding.utf8)
+//                var parames = (String(data: requestData, encoding: String.Encoding.utf8) ?? "").replacingOccurrences(of: "{", with: "", options: .literal, range: nil)
+//                parames = parames.replacingOccurrences(of: "}", with: "", options: .literal, range: nil)
+//                let fullNameArr = parames.components(separatedBy: ",")
+//                let sortedWords = fullNameArr.sorted()
+//                var body:String = ""
+//                for (index,value) in sortedWords.enumerated(){
+//                    if index == 0{
+//                       body = "{" + value
+//                    }else{
+//                        body = body + "," + value
+//                    }
+//                }
+//                body = body + "}"
+//                LXFLog("-----------------------\(body)")
+//                request.httpBody = body.data(using: String.Encoding.utf8)
+                request.httpBody = getObjFromDataToData(obj: requestData, isEscape: false)
+                
             }
             
             

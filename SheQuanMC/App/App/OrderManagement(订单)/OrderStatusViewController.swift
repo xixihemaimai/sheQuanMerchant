@@ -121,22 +121,22 @@ extension OrderStatusViewController:UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "OrderStatusCell") as! OrderStatusCell
-        if view.tag == 0{
-            let index = Int(arc4random_uniform(5))
-            let array = ["全部","待支付","待发货","已发货","交易成功","交易失败"]
-            let string = array[index]
-            cell.contentString = string
-        }else if view.tag == 1{
-            cell.contentString = "待支付"
-        }else if view.tag == 2{
-            cell.contentString = "待发货"
-        }else if view.tag == 3{
-            cell.contentString = "已发货"
-        }else if view.tag == 4{
-            cell.contentString = "交易成功"
-        }else{
-            cell.contentString = "交易失败"
-        }
+//        if view.tag == 0{
+//            let index = Int(arc4random_uniform(5))
+//            let array = ["全部","待支付","待发货","已发货","交易成功","交易失败"]
+//            let string = array[index]
+//            cell.contentString = string
+//        }else if view.tag == 1{
+//            cell.contentString = "待支付"
+//        }else if view.tag == 2{
+//            cell.contentString = "待发货"
+//        }else if view.tag == 3{
+//            cell.contentString = "已发货"
+//        }else if view.tag == 4{
+//            cell.contentString = "交易成功"
+//        }else{
+//            cell.contentString = "交易失败"
+//        }
         
         //关闭订单按键
         cell.closeOrderBtn.tag = indexPath.row
@@ -169,9 +169,7 @@ extension OrderStatusViewController:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let orderDetailVc = OrderDetailViewController()
-        
-        let cell = tableView.cellForRow(at: indexPath) as! OrderStatusCell
-        orderDetailVc.status = cell.contentString
+        orderDetailVc.status = ""
         Coordinator.shared?.pushViewController(orderViewVc ?? self, orderDetailVc, animated: true)
         
     }

@@ -211,7 +211,7 @@ class NewPasswordViewController: BaseViewController {
         let parameters = ["confirmPass":againPasswordTextField.text ?? "","password":newPasswordTextField.text ?? "","verifyId":verifyId] as [String:String]
         NetWorkResultRequest(shopApi.changePass(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
             LXFLog(data)
-            JFPopup.toast(hit: "修改密码成功", icon: .success)
+            JFPopup.toast(hit: "密码已重置", icon: .success)
             StoreService.shared.delete()
             guard let popVc = self?.navigationController?.viewControllers[1] as? LoginViewController else{return}
             Coordinator.shared?.popToViewController(self!, popVc, true)
