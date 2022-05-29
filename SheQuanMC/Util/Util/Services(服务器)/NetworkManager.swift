@@ -143,7 +143,7 @@ public let requestClosure = { (endpoint: Endpoint, done: MoyaProvider.RequestRes
             /**
              if endpoint.url == "http://27.154.225.198:8996/sqshop/api/shop/shopAuth"
              */
-            if endpoint.url.contains("shop/shopAuth") || endpoint.url.contains("ent/entCert") || endpoint.url.contains("product/publish") {
+            if endpoint.url.contains("shop/shopAuth") || endpoint.url.contains("ent/entCert") || endpoint.url.contains("product/publish"){
                 //解决图片链接有转义字符的问题
 //                var parames = (String(data: requestData, encoding: String.Encoding.utf8) ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
 //                parames = parames.replacingOccurrences(of: "{", with: "", options: .literal, range: nil)

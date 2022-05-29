@@ -86,6 +86,7 @@
 		4083B260282615AA00AFAD18 /* CloseOrderReasonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4083B25F282615AA00AFAD18 /* CloseOrderReasonView.swift */; };
 		4083B2622826188100AFAD18 /* CloseOrderReasonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4083B2612826188100AFAD18 /* CloseOrderReasonCell.swift */; };
 		4083B2642826223400AFAD18 /* ModifyPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4083B2632826223400AFAD18 /* ModifyPriceView.swift */; };
+		408AF0E828407BA600D12584 /* CommodityParameterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408AF0E728407BA600D12584 /* CommodityParameterCell.swift */; };
 		408E422C2826686500C94119 /* OrderDetailStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E422B2826686500C94119 /* OrderDetailStatusCell.swift */; };
 		408E422E28266BE200C94119 /* OrderContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E422D28266BE200C94119 /* OrderContentCell.swift */; };
 		408E423028289BD500C94119 /* OrderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E422F28289BD500C94119 /* OrderDetailViewController.swift */; };
@@ -215,6 +216,7 @@
 		4083B25F282615AA00AFAD18 /* CloseOrderReasonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseOrderReasonView.swift; sourceTree = "<group>"; };
 		4083B2612826188100AFAD18 /* CloseOrderReasonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseOrderReasonCell.swift; sourceTree = "<group>"; };
 		4083B2632826223400AFAD18 /* ModifyPriceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyPriceView.swift; sourceTree = "<group>"; };
+		408AF0E728407BA600D12584 /* CommodityParameterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommodityParameterCell.swift; sourceTree = "<group>"; };
 		408E422B2826686500C94119 /* OrderDetailStatusCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailStatusCell.swift; sourceTree = "<group>"; };
 		408E422D28266BE200C94119 /* OrderContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderContentCell.swift; sourceTree = "<group>"; };
 		408E422F28289BD500C94119 /* OrderDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailViewController.swift; sourceTree = "<group>"; };
@@ -423,6 +425,7 @@
 				403B880C2823B37700FC4EA4 /* CommodityPriceAndStockCell.swift */,
 				403B880E2823BAA700FC4EA4 /* SpecificationValueView.swift */,
 				4083B25A2824C87200AFAD18 /* SettingPriceAndStockView.swift */,
+				408AF0E728407BA600D12584 /* CommodityParameterCell.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -702,6 +705,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4060BC50281A1B6300968C42 /* ShopDetailCell.swift in Sources */,
+				408AF0E828407BA600D12584 /* CommodityParameterCell.swift in Sources */,
 				4075AEF0281CD621005EB854 /* ProductDescriptionViewController.swift in Sources */,
 				408E42382828B8C000C94119 /* ModifyReturnAddressViewController.swift in Sources */,
 				408E422E28266BE200C94119 /* OrderContentCell.swift in Sources */,

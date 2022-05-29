@@ -9,17 +9,43 @@ import UIKit
 import Util
 import JFPopup
 import HXPhotoPicker
+import SwiftUI
+import Kingfisher
 
 class CommoditySpecificationsViewController: BaseViewController {
     
+    /**
+     [
+     商品规格
+     ProductSpecInfo{
+     description:
+     商品规格
+     specAttrId    integer($int32)
+     规格属性Id
+     specId    string
+     规格Id
+     specValue    string
+     规格属性值
+     }]
+     */
     
     
     
-    //保存的是规格的数量
-    var saveList:[[String]] = [[String]]()
+    //这个用来判断是否添加俩个（不管后台传多少个，增删改查都没有关系）
+    var addCoutList:[String] = [String]()
+    
+    //保存的是规格的数量(Specs 模型)
+    var saveList:[String] = [String]()
+    
+    //保存规格值得数组
+    var saveValueList:[[Specs]] = [[Specs]]()
+ 
     
     //交集和并集之后的数组
-    var unIonSetList:[String] = [String]()
+    var unIonSetList:[Skus] = [Skus]()
+    
+    
+    var combinationArray:[[Skus]] = [[Skus]]()
     
     
     
@@ -39,7 +65,7 @@ class CommoditySpecificationsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        saveList = [[String]]()
+//        saveList = [String]()
         
         title = "商品规格"
         view.addSubview(newTableView)
@@ -89,6 +115,7 @@ class CommoditySpecificationsViewController: BaseViewController {
         cancelBtn.layer.cornerRadius = scale(4)
         cancelBtn.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#C4C4C4").cgColor
         cancelBtn.layer.borderWidth = scale(1)
+        cancelBtn.addTarget(self, action: #selector(cancelManagerAction), for: .touchUpInside)
         
         
         let saveBtn = UIButton()
@@ -107,31 +134,60 @@ class CommoditySpecificationsViewController: BaseViewController {
         
         saveBtn.layer.cornerRadius = scale(4)
         
+        saveBtn.addTarget(self, action: #selector(saveManagerAction), for: .touchUpInside)
+        
+    }
+    
+    
+    //取消
+    @objc func cancelManagerAction(cancelBtn:UIButton){
+        Coordinator.shared?.popViewController(self, true)
+    }
+    
+    //保存
+    @objc func saveManagerAction(saveBtn:UIButton){
+        
+        
+        //这边要对商品规格进行重组 saveValueList里面有俩个数组
+        let specsArray = arrayForConsolidationThe(array: saveValueList)
+        //还需要对价格和库存进行重组 unIonSetList
+//        let skusArray = arrayForConsolidationValueThe(array: unIonSetList)
+        
+        
+        LXFLog("-------------------\(specsArray)")
+        
+        LXFLog("==================\(unIonSetList)")
+        
     }
     
     
     //添加规格
     @objc func addSpecificationAction(addSepcificationsBtn:UIButton){
         
-        if saveList.count < 2{
+        if addCoutList.count < 2{
             self.popup.bottomSheet {
                 
-                let addSpecificationsView = AddSpecificationsView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(400)), addSpecificationList: saveList)
+                let addSpecificationsView = AddSpecificationsView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(400)), addSpecificationList: addCoutList)
                 addSpecificationsView.cancelBlock = {[weak self] in
                     self?.popup.dismissPopup()
                 }
                 addSpecificationsView.sendSureSpecificationList = {[weak self] list in
-                    self?.saveList = list
+                    for i in 0..<list.count {
+                        self?.saveList.append(list[i])
+                        self?.addCoutList.append(list[i])
+                        let colorList = [Specs]()
+                        self?.saveValueList.append(colorList)
+                    }
                     self?.newTableView.reloadData()
                     self?.popup.dismissPopup()
                 }
                 return addSpecificationsView
             }
             
-    //            let colorList = [String]()
-    ////            colorList.insert(String(1), at: 0)
-    //            saveList.append(colorList)
-    //            tableview.reloadData()
+    //       let colorList = [String]()
+    //       colorList.insert(String(1), at: 0)
+    //       saveList.append(colorList)
+    //       tableview.reloadData()
         }else{
             JFPopup.toast(hit: "只允许添加俩个规格")
         }
@@ -140,12 +196,12 @@ class CommoditySpecificationsViewController: BaseViewController {
     
     //添加规格值得value
     @objc func addSpecificationValueAction(addBtn:UIButton){
-        var colorList = saveList[addBtn.tag]
-//        colorList.insert("", at: 0)
+        let value = saveList[addBtn.tag]
+        var colorList = saveValueList[addBtn.tag]
         var isAdd:Bool = true
         for i in 0..<colorList.count {
-            let str = colorList[i]
-            if str == ""{
+            let specs = colorList[i]
+            if specs.specValue == ""{
                 isAdd = false
                 break
             }else{
@@ -154,24 +210,25 @@ class CommoditySpecificationsViewController: BaseViewController {
         }
         if isAdd{
             if colorList.count < 20{
-                colorList.append("")
-                saveList[addBtn.tag] = colorList
+//                colorList.append("")
+                let specs = Specs(specAttrId: 0, specId: value, specValue: "")
+                colorList.append(specs)
+                saveValueList[addBtn.tag] = colorList
                 newTableView.reloadData()
+                
                 guard let cell = newTableView.cellForRow(at: IndexPath(row: addBtn.tag, section: 0)) as? CommoditySpecificationCell else{
-                   
-                    
-                    let cell = newTableView.dequeueReusableCell(withIdentifier: "CommoditySpecificationCell", for: IndexPath(item: addBtn.tag, section: 0)) as! CommoditySpecificationCell
-                    var list:[UITextField] = [UITextField]()
-                    for i in 0..<cell.specificationView.subviews.count{
-                        let view = cell.specificationView.subviews[i]
-                        if view.isKind(of: UITextField.self){
-                            let view1 = view as! UITextField
-                            list.append(view1)
-                        }
-                    }
-                   LXFLog("-----3332---------\(list.count)")
-                   let textfield = list.last
-                   textfield?.becomeFirstResponder()
+//                    let cell = newTableView.dequeueReusableCell(withIdentifier: "CommoditySpecificationCell", for: IndexPath(item: addBtn.tag, section: 0)) as! CommoditySpecificationCell
+//                    var list:[UITextField] = [UITextField]()
+//                    for i in 0..<cell.specificationView.subviews.count{
+//                        let view = cell.specificationView.subviews[i]
+//                        if view.isKind(of: UITextField.self){
+//                            let view1 = view as! UITextField
+//                            list.append(view1)
+//                        }
+//                    }
+//                   LXFLog("-----3332---------\(list.count)")
+//                   let textfield = list.last
+//                   textfield?.becomeFirstResponder()
                    return
                 }
 //              Thread.sleep(forTimeInterval: 0.1)
@@ -196,37 +253,213 @@ class CommoditySpecificationsViewController: BaseViewController {
     
     
     //添加并集之后的数组进行显示
-    func UnionSetArray(){
-        //第一个数组  A  B
-        //第二个数组  a  b
-        //另一个数组 A (a b)  b (a b)
-        //这边有俩个数组 获取第一个数组，把第二个数组添加到
-        let colorList = saveList[0]
-        unIonSetList.removeAll()
-        if saveList.count > 1{
-            let newColorList = saveList[1]
-            for text in colorList{
-                for newText in newColorList{
-                    unIonSetList.append(text + newText)
+    func UnionSetArray(tag: Int, index: Int){
+        var temArray = unIonSetList
+         unIonSetList.removeAll()
+        //这边要判断是否第二个数组有值，没有值就显示第一个规格的值
+        var valueInt:Int = 0
+        for colorList in saveValueList {
+            if colorList.count > 0{
+                valueInt += 1
+            }
+        }
+        if valueInt > 1{
+            //let colorList = saveValueList[0]
+            //if saveValueList.count > 1{
+            //   let newColorList = saveValueList[1]
+            //   if newColorList.count > 0{
+            //      for specs in colorList{
+            //          for specs1 in newColorList{
+            //              let skus = Skus(price: 0, restrictedQty: 0, skuCode: "", skuId: "", skuPics: [String](), specs: [specs,specs1], stock: 0)
+            //              unIonSetList.append(skus)
+            //          }
+            //      }
+            //   }else{
+            //      for specs in colorList{
+            //          let skus = Skus(price: 0, restrictedQty: 0, skuCode: "", skuId: "", skuPics: [String](), specs: [specs], stock: 0)
+            //          unIonSetList.append(skus)
+            //      }
+            //   }
+            
+            getCombination(kid: 0, inputArray: saveValueList, addArray: [Skus]())
+            unIonSetList = arrayForConsolidationValueThe(array: combinationArray)
+            combinationArray.removeAll()
+            
+            for i in 0..<temArray.count {
+                var value = ""
+                let skus = temArray[i]
+//                unIonSetList.append(skus)
+                for i in 0..<(skus.specs?.count ?? 0){
+                    let specs = skus.specs?[i] as? Specs
+                    value += specs?.specValue ?? ""
+                }
+                for j in 0..<unIonSetList.count {
+                    var skus1 = unIonSetList[j]
+                    var value1 = ""
+                    for i in 0..<(skus1.specs?.count ?? 0){
+                        let specs1 = skus1.specs?[i] as? Specs
+                        value1 += specs1?.specValue ?? ""
+                    }
+                    if value == value1{
+                        skus1 = skus
+                        unIonSetList[j] = skus1
+                        break
+                    }
                 }
             }
-            //去除相同的数据，只保留一个
-            var listArray = [String]()
-            for text in unIonSetList{
-                if !listArray.contains(text){
-                    listArray.append(text)
+            
+            
+            LXFLog("======================\(unIonSetList.count)")
+//          let array = arrayUnionListIsTheSameArray(array: unIonSetList)
+//          unIonSetList = arrayUnionListChageArray(array: array)
+            //这边是俩个数组对比tempArray和unIonSetList
+            LXFLog("======================\(unIonSetList)")
+            
+            
+        }else{
+            
+            for i in 0..<saveValueList.count{
+                let colorList = saveValueList[i]
+                for specs in colorList{
+                    let skus = Skus(price: 0, restrictedQty: 0, skuCode: "", skuId: "", skuPics: [String](), specs: [specs], stock: 0)
+                    unIonSetList.append(skus)
                 }
             }
-            unIonSetList = listArray
+            for skus in temArray {
+//                let spec = skus.specs?.first
+                var value = ""
+                for i in 0..<(skus.specs?.count ?? 0){
+                    let specs = skus.specs?[i] as? Specs
+                    value += specs?.specValue ?? ""
+                }
+                for i in 0..<unIonSetList.count{
+                   var skus1 = unIonSetList[i]
+//                    let spec1 = skus1.specs?.first
+                    var value1 = ""
+                    for i in 0..<(skus1.specs?.count ?? 0){
+                        let specs1 = skus1.specs?[i] as? Specs
+                        value1 += specs1?.specValue ?? ""
+                    }
+                    if value == value1{
+                       skus1 = skus
+                        unIonSetList[i] = skus1
+                       break
+                    }
+                }
+            }
         }
     }
+    
+    
+    
+    func getCombination(kid: Int,
+                           inputArray: [[Specs]],
+                           addArray: [Skus]) {
+        
+           if kid < inputArray.count {
+               let dataArr = inputArray[kid]
+               if dataArr.count == 0 {
+                   return
+               }
+               for i in 0 ..< dataArr.count {
+                   var newArr = addArray
+                   let specs = dataArr[i]
+                   let skus = Skus(price: 0, restrictedQty: 0, skuCode: "", skuId: "", skuPics: [String](), specs: [specs], stock: 0)
+                   newArr.append(skus)
+                   getCombination(kid: kid + 1, inputArray: inputArray, addArray: newArr)
+               }
+           } else {
+               var dataArr = [Skus]()
+               for i in 0 ..< addArray.count {
+                   dataArr.append(addArray[i])
+               }
+               combinationArray.append(dataArr)
+               LXFLog("---------------\(combinationArray)")
+           }
+        LXFLog("----11-----------\(combinationArray.count)")
+    }
+    
+    
+    
+    
+//    func getCombination(kid: Int,
+//                           inputArray: [[String]],
+//                           addArray: [String]) {
+//
+//           if kid < inputArray.count {
+//               let dataArr = inputArray[kid]
+//               if dataArr.count == 0 {
+//                   return
+//               }
+//               for i in 0 ..< dataArr.count {
+//                   var newArr = addArray
+//                   newArr.append(dataArr[i])
+//                   getCombination(kid: kid + 1, inputArray: inputArray, addArray: newArr)
+//               }
+//           } else {
+//               var dataArr = [String]()
+//               for i in 0 ..< addArray.count {
+//                   dataArr.append(addArray[i])
+//               }
+//               combinationArray.append(dataArr)
+//               LXFLog("---------------\(combinationArray)")
+//           }
+//        LXFLog("---------------\(combinationArray.count)")
+//    }
+    
+    //删除规格专用的newtableview第二组的数据的变化
+//    func UnionSetArrayDelete(){
+//        var temArray = unIonSetList
+//        unIonSetList.removeAll()
+//        var valueInt:Int = 0
+//        for colorList in saveValueList {
+//            if colorList.count > 0{
+//               valueInt += 1
+//            }
+//        }
+//        if valueInt > 1{
+//                getCombination(kid: 0, inputArray: saveValueList, addArray: [Skus]())
+//                unIonSetList = arrayForConsolidationValueThe(array: combinationArray)
+//                combinationArray.removeAll()
+//        }else{
+//            for i in 0..<saveValueList.count{
+//                let colorList = saveValueList[i]
+//                for specs in colorList{
+////                    var array = [Skus]()
+//                    let skus = Skus(price: 0, restrictedQty: 0, skuCode: "", skuId: "", skuPics: [String](), specs: [specs], stock: 0)
+////                    array.append(skus)
+//                    unIonSetList.append(skus)
+//                }
+//            }
+//
+//            for skus in temArray {
+//                let spec = skus.specs?.first
+//                for i in 0..<unIonSetList.count{
+//                   var skus1 = unIonSetList[i]
+//                    let spec1 = skus1.specs?.first
+//                    if spec?.specValue == spec1?.specValue{
+//                       skus1 = skus
+//                        unIonSetList[i] = skus1
+//                       break
+//                    }
+//                }
+//            }
+//        }
+//    }
     
     
     
     //删除
     @objc func deleteAction(deleteBtn:UIButton){
         saveList.remove(at: deleteBtn.tag)
-        unIonSetList.removeAll()
+        addCoutList.remove(at: deleteBtn.tag)
+        saveValueList.remove(at: deleteBtn.tag)
+//        unIonSetList.removeAll()
+        
+        UnionSetArray(tag: deleteBtn.tag, index: 0)
+        
+        
+        
         newTableView.reloadData()
     }
     
@@ -235,11 +468,148 @@ class CommoditySpecificationsViewController: BaseViewController {
         return false
     }
     
-    
+    //这里要写一个方法对数组进行便利，对相同的规格进行添加到一个数组中
+    /**
+     NSMutableArray *array = [NSMutableArray arrayWithArray:array1];
+     NSMutableArray *dateMutablearray = [@[] mutableCopy];
+        for (int i = 0; i < array.count; i ++) {
+            NSString *string = array[i];
+            NSMutableArray *tempArray = [@[] mutableCopy];
+            [tempArray addObject:string];
+            for (int j = i+1; j < array.count; j ++) {
+                NSString *jstring = array[j];
+                if([string isEqualToString:jstring]){
+                    [tempArray addObject:jstring];
+                    [array removeObjectAtIndex:j];
+                    j -= 1;
+                }
+            }
+          [dateMutablearray addObject:tempArray];
+        }
+     */
+    //对数据进行整理->对相同的数组里面相同的进行整理
+    func arrayConvenienceIsTheSameArray(array:[Specs]) -> [[Specs]]{
+        var array1 = array
+        var tempArray = [[Specs]]()
+        for i in 0..<array1.count {
+           let specs = array1[i]
+            var temp = [Specs]()
+            temp.append(specs)
+            for var j in 1..<array.count{
+                let specs1 = array[j]
+                if specs.specId == specs1.specId{
+                    temp.append(specs1)
+                    array1.remove(at: j)
+                    j -= 1
+                }
+            }
+            tempArray.append(temp)
+        }
+        return tempArray
+    }
 
+    //这里要把俩个规格数组里面的规格值进行整合到一起的方法
+    func arrayForConsolidationThe(array:[[Specs]]) -> [Specs]{
+        var tempArray = [Specs]()
+        let array1 = array
+        for i in 0..<array1.count{
+           let temp = array1[i]
+            for j in 0..<temp.count{
+               let specs = temp[j]
+                tempArray.append(specs)
+            }
+        }
+        return tempArray
+    }
+    
+    
+    
+    
+    func arrayForConsolidationValueThe(array:[[Skus]]) -> [Skus]{
+        var tempArray = [Skus]()
+        let array1 = array
+        for i in 0..<array1.count{
+           var skus = Skus(price: 0, restrictedQty: 0, skuCode: "", skuId: "", skuPics: [String](), specs: [Specs](), stock: 0)
+           let temp = array1[i]
+            for j in 0..<temp.count{
+               let skus1 = temp[j]
+                for i in 0..<(skus1.specs?.count ?? 0)  {
+                    let spec = skus1.specs![i]
+                    skus.specs?.append(spec)
+                }
+                skus.price = skus1.price
+                skus.restrictedQty = skus1.restrictedQty
+                skus.skuCode = skus1.skuCode
+                skus.skuId = skus1.skuId
+                skus.skuPics = skus1.skuPics
+                skus.stock = skus1.stock
+            }
+            tempArray.append(skus)
+        }
+        return tempArray
+    }
+    
+    
+    
+//    func arrayUnionListIsTheSameArray(array:[Skus]) -> [[Skus]]{
+//        var array1 = array
+//        var tempArray = [[Skus]]()
+//        for i in 0..<array1.count {
+//           let skus = array1[i]
+//            var value = ""
+//            for i in 0..<(skus.specs?.count ?? 0){
+//                let specs = skus.specs?[i] as? Specs
+//                value += specs?.specValue ?? ""
+//            }
+//            var temp = [Skus]()
+//            temp.append(skus)
+//            for var j in 1..<array.count{
+//                let skus1 = array[j]
+//                var value1 = ""
+//                for i in 0..<(skus.specs?.count ?? 0){
+//                    let specs = skus.specs?[i] as? Specs
+//                    value1 += specs?.specValue ?? ""
+//                }
+//                if value == value1{
+//                    temp.append(skus1)
+//                    array1.remove(at: j)
+//                    j -= 1
+//                }
+//            }
+//            tempArray.append(temp)
+//        }
+//        return tempArray
+//    }
+//
+//
+//
+//    func arrayUnionListChageArray(array:[[Skus]]) -> [Skus]{
+//        var tempArray = [Skus]()
+//        let array1 = array
+//        for i in 0..<array1.count{
+//           var skus = Skus(price: 0, restrictedQty: 0, skuCode: "", skuId: "", skuPics: [String](), specs: [Specs](), stock: 0)
+//           let temp = array1[i]
+//           let skus1 = temp.first
+//           skus.specs = skus1?.specs
+//           skus.price = skus1?.price
+//           skus.restrictedQty = skus1?.restrictedQty
+//           skus.skuCode = skus1?.skuCode
+//           skus.skuId = skus1?.skuId
+//           skus.skuPics = skus1?.skuPics
+//           skus.stock = skus1?.stock
+//           tempArray.append(skus)
+//        }
+//        return tempArray
+//    }
+//
+    
+    
     
     
 }
+
+
+
 
 
 extension CommoditySpecificationsViewController:UITableViewDelegate,UITableViewDataSource{
@@ -269,11 +639,25 @@ extension CommoditySpecificationsViewController:UITableViewDelegate,UITableViewD
         if indexPath.section == 0{
             return UITableView.automaticDimension
         }else{
-            //这边的判断要改成是否设置了
-            if indexPath.row == 0{
-                return scale(60)
-            }else{
+            let skus = unIonSetList[indexPath.row]
+//            var temp = [Specs]()
+//            for skus in array{
+//                temp.append(skus.specs!.first!)
+//            }
+            var value:String = ""
+            var isSet:Bool = false
+            for i in 0..<(skus.specs?.count ?? 0){
+                let specs = skus.specs?[i] as? Specs
+//                value += sp.specValue ?? ""
+                value += specs?.specValue ?? ""
+            }
+            if ((skus.price ?? 0.0) > 0) && ((skus.stock ?? 0) > 0){
+                isSet = true
+            }
+            if isSet{
                 return scale(94)
+            }else{
+                return scale(60)
             }
         }
     }
@@ -290,18 +674,67 @@ extension CommoditySpecificationsViewController:UITableViewDelegate,UITableViewD
             cell.deleteBtn.tag = indexPath.row
             cell.addBtn.addTarget(self, action: #selector(addSpecificationValueAction), for: .touchUpInside)
             cell.deleteBtn.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
-            cell.colorList = saveList[indexPath.row]
+            cell.specificationLabel.text = saveList[indexPath.row]
+//            if saveValueList.count > 0{
+            cell.colorList = saveValueList[indexPath.row]
+//            }
             return cell
         }else{
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "CommodityPriceAndStockCell") as! CommodityPriceAndStockCell
-            cell.specificationLabel.text = unIonSetList[indexPath.row]
-            if indexPath.row == 0{
-                cell.diviver.isHidden = true
-                cell.midView.isHidden = true
-            }else{
+//            let array = unIonSetList[indexPath.row]
+//            var temp = [Specs]()
+//            for skus in array{
+//                temp.append(skus.specs!.first!)
+//            }
+//            var value:String = ""
+//            for i in 0..<temp.count{
+//                let specs = temp[i] as Specs
+//                value += specs.specValue ?? ""
+//            }
+//            var isSet:Bool = false
+//            for skus in array{
+//                if ((skus.price ?? 0.0) > 0) && ((skus.stock ?? 0) > 0){
+//                    isSet = true
+//                    break
+//                }
+//            }
+            
+            let skus = unIonSetList[indexPath.row]
+//            var temp = [Specs]()
+//            for skus in array{
+//                temp.append(skus.specs!.first!)
+//            }
+            var value:String = ""
+            var isSet:Bool = false
+            for i in 0..<(skus.specs?.count ?? 0){
+                let specs = skus.specs?[i] as? Specs
+//                value += sp.specValue ?? ""
+                value += specs?.specValue ?? ""
+            }
+            if ((skus.price ?? 0.0) > 0) && ((skus.stock ?? 0) > 0){
+                isSet = true
+            }
+            
+            cell.specificationLabel.text = value
+            if isSet{
                 cell.diviver.isHidden = false
                 cell.midView.isHidden = false
+//                let skus = array.first
+                let doubleValue = Double(truncating: skus.price as? NSNumber ?? 0.0)
+                let price = String(format: "%0.3f", doubleValue)
+                let int32Value = Int32(truncating: skus.stock as? NSNumber ?? 0)
+                let stock = String(format: "%d", int32Value)
+                cell.priceLabel.text = "价格:¥" + price
+                cell.stockLabel.text = "库存:" + stock
+                //颜色
+                cell.isSettingLabel.text = "已设置"
+                cell.isSettingLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+            }else{
+                cell.diviver.isHidden = true
+                cell.midView.isHidden = true
+                cell.isSettingLabel.text = "未设置"
+                cell.isSettingLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#F13232")
             }
             return cell
         }
@@ -349,12 +782,22 @@ extension CommoditySpecificationsViewController:UITableViewDelegate,UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 1{
-            
+            var skus = unIonSetList[indexPath.row]
             self.popup.bottomSheet {
-                let settingPriceAndStockView = SettingPriceAndStockView(frame: CGRect(x: 0, y: 0, width: SCW, height: SCH - Height_NavBar))
+//                let settingPriceAndStockView = SettingPriceAndStockView(frame: CGRect(x: 0, y: 0, width: SCW, height: SCH - Height_NavBar),Skus)
+                let settingPriceAndStockView = SettingPriceAndStockView(frame: CGRect(x: 0, y: 0, width: SCW, height: SCH - Height_NavBar), skus: skus)
                 settingPriceAndStockView.viewController = self
                 settingPriceAndStockView.cancelBlock = {[weak self] in
                     self?.popup.dismissPopup()
+//                    self?.newTableView.reloadData()
+                }
+                
+                //这里要传回添加完成之后的值
+                settingPriceAndStockView.settingBlock = {[weak self] list in
+                    skus = list
+                    self?.unIonSetList[indexPath.row] = skus
+                    self?.popup.dismissPopup()
+                    self?.newTableView.reloadData()
                 }
                 return settingPriceAndStockView
             }
@@ -367,11 +810,14 @@ extension CommoditySpecificationsViewController:CommoditySpecificationCellDelega
     
     //删除规格值
     func deleteSaveListTagAndIndex(tag: Int, index: Int) {
-        var colorList = saveList[tag]
+        var colorList = saveValueList[tag]
         colorList.remove(at: index)
-        saveList[tag] = colorList
-        //这边是对属性值进行交集
-        UnionSetArray()
+        saveValueList[tag] = colorList
+        
+        
+        UnionSetArray(tag: tag, index: index)
+        
+        
         newTableView.reloadData()
     }
     
@@ -379,15 +825,16 @@ extension CommoditySpecificationsViewController:CommoditySpecificationCellDelega
     //修改规格值
     func modityTextfieldTagAndIndexAndValue(tag: Int, index: Int, value: String) {
         if value != ""{
-            var colorList = saveList[tag]
-    //        if !colorList.contains(value){
-            colorList[index] = value
-            saveList[tag] = colorList
-            UnionSetArray()
+            var colorList = saveValueList[tag]
+            var specs = colorList[index]
+            specs.specValue = value
+            colorList[index] = specs
+            saveValueList[tag] = colorList
+            
+            UnionSetArray(tag: tag, index: index)
+            
             newTableView.reloadData()
-    //        }else{
-    //            JFPopup.toast(hit: "不允许添加相同的规格值")
-    //        }
+    
         }
     }
     

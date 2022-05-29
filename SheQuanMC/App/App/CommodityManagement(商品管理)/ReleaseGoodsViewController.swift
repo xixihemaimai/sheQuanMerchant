@@ -10,6 +10,8 @@ import JFPopup
 import HXPhotoPicker
 import Util
 import SwiftUI
+import SwiftyJSON
+import Kingfisher
 
 class ReleaseGoodsViewController: BaseViewController {
     
@@ -253,13 +255,20 @@ class ReleaseGoodsViewController: BaseViewController {
     
     //发布的模型
     var commodityModel:CommodityModel?
+    
+    
+    
+    //先保存下
+//    var inputString:String?
+    var type:Int = 0
 
                                                 
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "发布商品"
+        
+       
         
         
         //对返回的按键进行处理
@@ -277,7 +286,19 @@ class ReleaseGoodsViewController: BaseViewController {
         
 //        commodityModel = CommodityModel.init(categoryId: 0, freeRefundIn7Days: false, freightInsure: false, freightTempId: 0, multiSpec: false, productCode: "", productDesc: "", productId: "", productName: "", stockDeductType: 0)
         
-        commodityModel = CommodityModel(categoryId: 0, freeRefundIn7Days: false, freightInsure: false, freightTempId: 0, multiSpec: false, productCode: "", productDesc: "", productId: "", productName: "", productPics: [String](), skus: [Skus](), specs: [Specs](), spus: [Spus](), stockDeductType: 0)
+        
+        if type == 0{
+            title = "发布商品"
+            commodityModel = CommodityModel(categoryId: 0, freeRefundIn7Days: false, freightInsure: false, freightTempId: 0, multiSpec: false, productCode: "", productDesc: "", productId: "", productName: "", productPics: [String](), skus: [Skus](), specs: [Specs](), spus: [Spus](), stockDeductType: 0)
+        }else{
+            title = "编辑商品"
+            
+            
+            //从上一个页面待过里啊的commodityModel
+            
+        }
+        
+      
         
         
         
@@ -1014,10 +1035,28 @@ class ReleaseGoodsViewController: BaseViewController {
                     make.width.equalTo(SCW)
                     make.height.equalTo(scale(50))
                 }
+                self.isModify = true
+                
+                
+                //这边要把所有的商品的信息都需要删除
+                
+                
+                
+                
+                
+                
             }
         case 1:
             let proudctDesciptionVc = ProductDescriptionViewController()
+            proudctDesciptionVc.type = self.type
+            proudctDesciptionVc.inputString = self.commodityModel?.productDesc
             Coordinator.shared?.pushViewController(self, proudctDesciptionVc, animated: true)
+            proudctDesciptionVc.inputAttributedString = { string in
+                self.type = 1
+                self.commodityModel?.productDesc = string
+                self.isModify = true
+            }
+            
         case 2:
             let commodityParametersVc = CommodityParametersViewController()
             Coordinator.shared?.pushViewController(self, commodityParametersVc, animated: true)
@@ -1109,6 +1148,50 @@ class ReleaseGoodsViewController: BaseViewController {
         
     }
     
+    //willMoveToParentViewController
+    //监听右滑返回
+    override func willMove(toParent parent: UIViewController?) {
+        
+        super.willMove(toParent: parent)
+        if isModify{
+//            navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+            LXFLog("-------------------------------------------")
+            JFPopup.alert {
+                [
+                    .title("退出后不会保存此商品，你可以选择保存草稿"),
+                    .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+                    .withoutAnimation(true),
+                    .cancelAction([
+                        .text("直接退出"),
+                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
+                        .tapActionCallback({
+                            Coordinator.shared?.popViewController(self, true)
+                        })
+                    ]),
+                    .confirmAction([
+                        .text("保存草稿"),
+                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+                        .tapActionCallback({
+                            Coordinator.shared?.popViewController(self, true)
+                        })
+                    ])
+                ]
+            }
+        }else{
+//            navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        }
+    }
+    
+    
+    
+//    override func viewDidDisappear(_ animated: Bool) {
+//        super.viewDidDisappear(animated)
+//        if navigationController == nil{
+//            if isModify{
+//                LXFLog("-------------------------------------------")
+//            }
+//        }
+//    }
     
     
     //开启或者关闭多规格
@@ -1163,8 +1246,6 @@ class ReleaseGoodsViewController: BaseViewController {
                 [
                     .title("退出后不会保存此商品，你可以选择保存草稿"),
                     .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
-    //                .subTitle("注:取消商品将移至未上架"),
-    //                .subTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 ")),
                     .withoutAnimation(true),
                     .cancelAction([
                         .text("直接退出"),
@@ -1178,7 +1259,7 @@ class ReleaseGoodsViewController: BaseViewController {
                         .text("保存草稿"),
                         .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
                         .tapActionCallback({
-                            JFPopupView.popup.toast(hit: "点击了保存草稿")
+                            Coordinator.shared?.popViewController(self, true)
                         })
                     ])
                 ]
@@ -1201,37 +1282,75 @@ class ReleaseGoodsViewController: BaseViewController {
                 [
                     JFPopupAction(with: "从手机相册选择", subTitle: nil, clickActionCallBack: { [weak self] in
                         self?.hx_presentSelectPhotoController(with: self?.manager, didDone: { allList, photoList, videoList, isOriginal, viewController, manager in
+                            var imageDataArray = [Data]()
                             photoList?.forEach({ HXPhotoModel in
                                 //对图片进行
                                 guard let image = HXPhotoModel.thumbPhoto else {
                                     return
                                 }
-                                if (self?.commodityModel?.productPics?.count ?? 7) <= 5{
-                                    //图片转二进制-》二进制转字符串
-                                    //字符串存入productPics参数中
-                                    let imgData = HX_UIImagePNGRepresentation(image)
-                                    let imageStr = imgData?.base64EncodedString()
-                                    self?.commodityModel?.productPics?.append(imageStr!)
+                                if (self?.commodityModel?.productPics?.count ?? 7) <= 6{
+                                    guard let imageData = image.jpegData(compressionQuality: 1.0) else { return }//把图片转换成data
+                                    imageDataArray.append(imageData)
                                 }
                             })
-                            self?.addAndRefreshPhotoImage()
+                            let Parameters = ["fileType":"20"]
+                            JFPopupView.popup.loading(hit: "上传图片中....")
+                            NetWorkResultRequest(StoreAppleApi.batchUpload(parameters: Parameters, dataAry: imageDataArray), needShowFailAlert: true) { result, data in
+                                do{
+                                    let json = try JSON(data: data)
+                                    LXFLog(json)
+                                    let array = json["data"]
+                                    for i in 0..<array.count{
+                                        let cloudUrl = array[i]["cloudUrl"]
+                                        let data = try JSONEncoder().encode(cloudUrl)
+                                        var url = String(data: data, encoding:String.Encoding.utf8)!.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+                                        url = url.replacingOccurrences(of: "\"", with: "", options: .literal, range: nil)
+                                        LXFLog(url)
+                                        self?.commodityModel?.productPics?.append(url)
+                                    }
+                                }catch{}
+                                self?.addAndRefreshPhotoImage()
+                                JFPopupView.popup.hideLoading()
+                            } failureCallback: { error,code in
+                                JFPopupView.popup.hideLoading()
+                            }
+                            
                         })
                     }),
                     JFPopupAction(with: "拍照", subTitle: nil, clickActionCallBack: {[weak self] in
                         self?.hx_presentCustomCameraViewController(with: self?.manager) { photoList, viewController in
-                            LXFLog(photoList)
+                            var imageDataArray = [Data]()
                             if let photoModel:HXPhotoModel = photoList{
                                 //对图片进行
                                 guard let image = photoModel.thumbPhoto else {
                                     return
                                 }
-                                if(self?.commodityModel?.productPics?.count ?? 7) <= 5{
-                                    let imgData = HX_UIImagePNGRepresentation(image)
-                                    let imageStr = imgData?.base64EncodedString()
-                                    self?.commodityModel?.productPics?.append(imageStr!)
+                                if(self?.commodityModel?.productPics?.count ?? 7) <= 6{
+                                    guard let imageData = image.jpegData(compressionQuality: 1.0) else { return }//把图片转换成data
+                                    imageDataArray.append(imageData)
                                 }
                             }
-                            self?.addAndRefreshPhotoImage()
+                            let Parameters = ["fileType":"20"]
+                            JFPopupView.popup.loading(hit: "上传图片中....")
+                            NetWorkResultRequest(StoreAppleApi.batchUpload(parameters: Parameters, dataAry: imageDataArray), needShowFailAlert: true) { result, data in
+                                do{
+                                    let json = try JSON(data: data)
+                                    let array = json["data"]
+                                    for i in 0..<array.count{
+                                        let cloudUrl = array[i]["cloudUrl"]
+                                        let data = try JSONEncoder().encode(cloudUrl)
+                                        var url = String(data: data, encoding:String.Encoding.utf8)!.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+                                        url = url.replacingOccurrences(of: "\"", with: "", options: .literal, range: nil)
+                                        LXFLog(url)
+                                        self?.commodityModel?.productPics?.append(url)
+                                    }
+                                }catch{}
+                                self?.addAndRefreshPhotoImage()
+                                JFPopupView.popup.hideLoading()
+                            } failureCallback: { error,code in
+                                JFPopupView.popup.hideLoading()
+                            }
+                            
                         } cancel: { viewController in
                         }
                     })
@@ -1268,16 +1387,9 @@ class ReleaseGoodsViewController: BaseViewController {
            imageView.tag = i
            let row = i / 3
            let colom = i % 3
-//            photoContentList[i]
            let imageStr = commodityModel?.productPics?[i]
-            if let data: NSData = NSData(base64Encoded: imageStr ?? "", options:NSData.Base64DecodingOptions.ignoreUnknownCharacters)
-           {
-               if let image: UIImage = UIImage(data: data as Data)
-                {
-                    imageView.image = image
-                }
-            }
-            let x = CGFloat(colom) * (imageW + scale(25)) + scale(25)
+           imageView.kf.setImage(with: URL(string: (imageStr ?? "")), placeholder: UIImage(named: "Group 2786"), options: nil, completionHandler: nil)
+           let x = CGFloat(colom) * (imageW + scale(25)) + scale(25)
             let y = CGFloat(row) * (imageW + scale(25)) + scale(25)
             pitureView.addSubview(imageView)
             imageView.snp.remakeConstraints { make in

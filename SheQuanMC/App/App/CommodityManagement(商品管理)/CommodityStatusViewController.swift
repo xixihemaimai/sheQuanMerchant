@@ -242,4 +242,15 @@ extension CommodityStatusViewController:UITableViewDelegate,UITableViewDataSourc
     
     
     
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let releaseGoodsVc = ReleaseGoodsViewController()
+        releaseGoodsVc.type = 1
+        Coordinator.shared?.pushViewController(self, releaseGoodsVc, animated: true)
+
+        
+    }
+    
+    
 }

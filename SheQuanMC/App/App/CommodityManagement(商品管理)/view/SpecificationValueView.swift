@@ -20,7 +20,7 @@ class SpecificationValueView: UIView {
     
     weak var delegate:SpecificationValueViewDelegate?
    
-    var showValueList:[String] = []{
+    var showValueList:[Specs] = []{
         didSet{
             for i in 0..<showValueList.count{
                 let textfield = UITextField()
@@ -40,7 +40,10 @@ class SpecificationValueView: UIView {
                  textfield.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#D6D6D6").cgColor
                  textfield.layer.borderWidth = scale(1)
                  textfield.tag = i
-                 textfield.text = showValueList[i]
+//                 textfield.text = showValueList[i]
+                
+                let specs = showValueList[i]
+                textfield.text = specs.specValue
 //                 textfield.becomeFirstResponder()
                  textfield.addTarget(self, action: #selector(specificationValueEditeing), for: .editingDidEnd)
                  let deleteBtn = UIButton()
@@ -69,9 +72,9 @@ class SpecificationValueView: UIView {
     //通过编辑里面的值
     @objc func specificationValueEditeing(textfield:UITextField){
         var isIdentical = true
-        for text in showValueList{
-            if text == textfield.text{
-                if  text == "" && textfield.text == "" {
+        for specs in showValueList{
+            if specs.specValue == textfield.text{
+                if  specs.specValue == "" && textfield.text == "" {
                     continue
                 }else{
                     JFPopup.toast(hit: "不允许添加俩个相同值得规格值")
@@ -85,4 +88,5 @@ class SpecificationValueView: UIView {
             delegate?.textfieldEditEndValueAndIndex(text: textfield.text ?? "", index: textfield.tag)
         }
     }
+    
 }

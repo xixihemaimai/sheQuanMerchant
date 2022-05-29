@@ -9,11 +9,17 @@ import UIKit
 import Util
 import JFPopup
 import HXPhotoPicker
+import SwiftyJSON
+import Kingfisher
 
 class SettingPriceAndStockView: UIView {
 
     //这边要进行修改这类的动作
     var cancelBlock:(()->Void)?
+    
+    //这边是设置了值得返回的block
+    var settingBlock:((_ Skus:Skus)->Void)?
+    
     
     lazy var manager:HXPhotoManager = {
        let manager = HXPhotoManager()
@@ -32,12 +38,16 @@ class SettingPriceAndStockView: UIView {
     }()
     
     
-    
+    //模型类型
+    var skus:Skus?
+    //预览图
+    var preview:String = ""
     
     //价钱
     lazy var priceTextfield:UITextField = {
        let priceTextfield = UITextField()
-        priceTextfield.keyboardType = .numberPad
+        priceTextfield.keyboardType = .decimalPad
+        priceTextfield.clearButtonMode = .whileEditing
         priceTextfield.text = "¥"
         priceTextfield.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         priceTextfield.textAlignment = .left
@@ -50,6 +60,8 @@ class SettingPriceAndStockView: UIView {
        let stockTextfield = UITextField()
         stockTextfield.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         stockTextfield.textAlignment = .left
+        stockTextfield.clearButtonMode = .whileEditing
+        stockTextfield.keyboardType = .numberPad
         stockTextfield.placeholder = "请输入库存数量"
         stockTextfield.attributedPlaceholder = NSAttributedString.init(string:"请输入库存数量", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#999999")])
@@ -60,8 +72,9 @@ class SettingPriceAndStockView: UIView {
     var viewController:UIViewController?
     
     
-    override init(frame: CGRect) {
+    init(frame: CGRect,skus:Skus) {
         super.init(frame: frame)
+        self.skus = skus
         
         backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
      
@@ -99,7 +112,45 @@ class SettingPriceAndStockView: UIView {
         
         //规格
         let specificationNameLabel = UILabel()
-        specificationNameLabel.text = "蓝色"
+//        let array = unIonSetList[indexPath.row]
+//        var temp = [Specs]()
+//        for skus in arraySkus{
+//            temp.append(skus.specs!.first!)
+//        }
+//        var value:String = ""
+//        for i in 0..<temp.count{
+//            let specs = temp[i] as Specs
+//            value += specs.specValue ?? ""
+//        }
+        
+        
+        
+        
+        
+//        let skus = unIonSetList[indexPath.row]
+//            var temp = [Specs]()
+//            for skus in array{
+//                temp.append(skus.specs!.first!)
+//            }
+        var value:String = ""
+        for i in 0..<(skus.specs?.count ?? 0){
+            let specs = skus.specs?[i] as? Specs
+//                value += sp.specValue ?? ""
+            value += specs?.specValue ?? ""
+        }
+//        if ((skus.price ?? 0.0) > 0) && ((skus.stock ?? 0) > 0){
+//            isSet = true
+//        }
+        
+        
+        
+        
+        
+//        for i in 0..<(skus.specs?.count ?? 0){
+//            let specs = skus.specs?[i] as? Specs
+//            value += "" + (specs?.specValue ?? "")
+//        }
+        specificationNameLabel.text = value
         specificationNameLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         specificationNameLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         specificationNameLabel.textAlignment = .left
@@ -110,9 +161,6 @@ class SettingPriceAndStockView: UIView {
             make.centerY.equalToSuperview()
             make.height.equalTo(scale(22))
         }
-        
-        
-        
         //价钱
         let priceLabel = UILabel()
         priceLabel.text = "价钱"
@@ -135,6 +183,10 @@ class SettingPriceAndStockView: UIView {
             make.top.equalTo(speciNameView.snp.bottom).offset(scale(13))
             make.right.equalTo(-scale(16))
         }
+        
+        let doubleValue = Double(truncating: skus.price as? NSNumber ?? 0.0)
+        priceTextfield.text = String(format: "%0.3f", doubleValue)
+       
         
         let diviver = UIView()
         diviver.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
@@ -169,6 +221,11 @@ class SettingPriceAndStockView: UIView {
             make.top.equalTo(diviver.snp.bottom).offset(scale(13))
             make.right.equalTo(-scale(16))
         }
+        
+//        let doubleValue = Double(truncating: skus.price as? NSNumber ?? 0.0)
+        let int32Value = Int32(truncating: skus.stock as? NSNumber ?? 0)
+        stockTextfield.text = String(format: "%d", int32Value)
+        
         
         let midView = UIView()
         midView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
@@ -216,7 +273,7 @@ class SettingPriceAndStockView: UIView {
         choicePitrueBtn.setTitle("上传图片", for: .normal)
         choicePitrueBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#BDBDBD"), for: .normal)
         choicePitrueBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(13), weight: .regular)
-        choicePitrueBtn.setBackgroundImage(UIImage(named: "Group 2650"), for: .normal)
+//        choicePitrueBtn.setBackgroundImage(UIImage(named: "Group 2650"), for: .normal)
         choicePitrueBtn.setImagePostion(type: .imageTop, Space: scale(57))
         addSubview(choicePitrueBtn)
         choicePitrueBtn.snp.makeConstraints { make in
@@ -226,6 +283,12 @@ class SettingPriceAndStockView: UIView {
         }
         choicePitrueBtn.addTarget(self, action: #selector(uploadPitureAction), for: .touchUpInside)
         
+        if let skupics = skus.skuPics?.last {
+            choicePitrueBtn.kf.setBackgroundImage(with: URL(string: skupics), for: .normal, placeholder: UIImage(named: "Group 2650"), options: nil, progressBlock: nil, completionHandler: nil)
+        }else{
+            choicePitrueBtn.setBackgroundImage(UIImage(named: "Group 2650"), for: .normal)
+        }
+
         
         let sureBtn = UIButton()
         sureBtn.setTitle("确定", for: .normal)
@@ -248,38 +311,113 @@ class SettingPriceAndStockView: UIView {
     
     //上传图片
     @objc func uploadPitureAction(choicePitrueBtn:UIButton){
+//        manager.type = .photo
+//        manager.clearSelectedList()
+//        self.popup.actionSheet {
+//                [
+//                    JFPopupAction(with: "从手机相册选择", subTitle: nil, clickActionCallBack: { [weak self] in
+//                        self?.currentVC?.hx_presentSelectPhotoController(with: self?.manager, didDone: { allList, photoList, videoList, isOriginal, viewController, manager in
+//                            photoList?.forEach({ HXPhotoModel in
+//                                //对图片进行
+//                                guard let image = HXPhotoModel.thumbPhoto else {
+//                                    return
+//                                }
+//
+//
+//                                // 上传图片
+//                                choicePitrueBtn.setBackgroundImage(image, for: .normal)
+//
+//
+//
+//                                choicePitrueBtn.setTitle("", for: .normal)
+//                            })
+//                        })
+//
+//                    }),
+//                    JFPopupAction(with: "拍照", subTitle: nil, clickActionCallBack: {[weak self] in
+//                        self?.currentVC?.hx_presentCustomCameraViewController(with: self?.manager) { photoList, viewController in
+//                            LXFLog(photoList)
+//                            if let photoModel:HXPhotoModel = photoList{
+//                                //对图片进行
+//                                guard let image = photoModel.thumbPhoto else {
+//                                    return
+//                                }
+//
+//                                // 上传图片
+//                                choicePitrueBtn.setBackgroundImage(image, for: .normal)
+//
+//
+//
+//
+//                                choicePitrueBtn.setTitle("", for: .normal)
+//                            }
+//                        } cancel: { viewController in
+//                        }
+//                    })
+//                ]
+//            }
+        
         manager.type = .photo
-        manager.clearSelectedList()
         self.popup.actionSheet {
-                [
-
-                    JFPopupAction(with: "从手机相册选择", subTitle: nil, clickActionCallBack: { [weak self] in
-                        self?.currentVC?.hx_presentSelectPhotoController(with: self?.manager, didDone: { allList, photoList, videoList, isOriginal, viewController, manager in
-                            photoList?.forEach({ HXPhotoModel in
-                                //对图片进行
-                                guard let image = HXPhotoModel.thumbPhoto else {
-                                    return
-                                }
-                                choicePitrueBtn.setBackgroundImage(image, for: .normal)
-                            })
-                        })
-
-                    }),
-                    JFPopupAction(with: "拍照", subTitle: nil, clickActionCallBack: {[weak self] in
-                        self?.currentVC?.hx_presentCustomCameraViewController(with: self?.manager) { photoList, viewController in
-                            LXFLog(photoList)
-                            if let photoModel:HXPhotoModel = photoList{
-                                //对图片进行
-                                guard let image = photoModel.thumbPhoto else {
-                                    return
-                                }
-                                choicePitrueBtn.setBackgroundImage(image, for: .normal)
+            [
+                JFPopupAction(with: "从手机相册选择", subTitle: nil, clickActionCallBack: { [weak self] in
+                    self?.currentVC?.hx_presentSelectPhotoController(with: self?.manager, didDone: { allList, photoList, videoList, isOriginal, viewController, manager in
+                        LXFLog(photoList?.count)
+                        if let photoModel:HXPhotoModel = photoList?.first{
+                            //对图片进
+                            //网络请求的部分
+                            let Parameters = ["fileType":"20"]
+//                            let Parameters = [String:Any]()
+                            JFPopupView.popup.loading(hit: "上传图片中....")
+                            guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
+                            NetWorkResultRequest(StoreAppleApi.uploadFile(parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
+                                do{
+                                    LXFLog(data)
+                                    let json = try JSON(data: data)
+                                    //去掉\
+                                  let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+                                    LXFLog(str)
+                                    choicePitrueBtn.kf.setBackgroundImage(with: URL(string: str), for: .normal, placeholder: UIImage(named: "Group 2650"), options: nil, progressBlock: nil, completionHandler: nil)
+                                    choicePitrueBtn.setTitle("", for: .normal)
+                                    self?.preview = str
+                                    
+                                }catch{}
+                                JFPopupView.popup.hideLoading()
+                            } failureCallback: { error,code in
+                                JFPopupView.popup.hideLoading()
                             }
-                        } cancel: { viewController in
                         }
                     })
-                ]
-            }
+                }),
+                JFPopupAction(with: "拍照", subTitle: nil, clickActionCallBack: {[weak self] in
+                    self?.currentVC?.hx_presentCustomCameraViewController(with: self?.manager) { photoList, viewController in
+                        LXFLog(photoList)
+                        if let photoModel:HXPhotoModel = photoList{
+                            //网络请求的部分
+                            let Parameters = ["fileType":"20"]
+                            JFPopupView.popup.loading(hit: "上传图片中....")
+                            guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
+                            NetWorkResultRequest(StoreAppleApi.uploadFile(parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
+                                do{
+                                    
+                                    LXFLog(data)
+                                    let json = try JSON(data: data)
+                                    let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+                                      LXFLog(str)
+                                    choicePitrueBtn.kf.setBackgroundImage(with: URL(string: str), for: .normal, placeholder: UIImage(named: "Group 2650"), options: nil, progressBlock: nil, completionHandler: nil)
+                                    choicePitrueBtn.setTitle("", for: .normal)
+                                    self?.preview = str
+                                }catch{}
+                                JFPopupView.popup.hideLoading()
+                            } failureCallback: { error,code in
+                                JFPopupView.popup.hideLoading()
+                            }
+                        }
+                    } cancel: { viewController in
+                    }
+                })
+            ]
+        }
     }
     
     
@@ -292,6 +430,30 @@ class SettingPriceAndStockView: UIView {
     //确定
     @objc func sureAction(sureBtn:UIButton){
         
+        //
+        if (priceTextfield.text?.count ?? 0) < 1{
+            JFPopup.toast(hit: "请填写价钱")
+            return
+        }
+        
+        if (stockTextfield.text?.count ?? 0) < 1{
+            JFPopup.toast(hit: "请填写库存")
+            return
+        }
+        
+//        for i in 0..<(arraySkus?.count ?? 0) {
+//            var skus = arraySkus![i]
+            //价钱
+            skus?.price = Decimal(string: priceTextfield.text!)
+            //库存
+            skus?.stock = Int32(stockTextfield.text!)
+            //预览图
+            skus?.skuPics?.append(preview)
+//            arraySkus![i] = skus
+//        }
+//        settingBlock!()
+        settingBlock!(skus!)
+        //这边还需要返回进行刷新
     }
     
     required init?(coder: NSCoder) {

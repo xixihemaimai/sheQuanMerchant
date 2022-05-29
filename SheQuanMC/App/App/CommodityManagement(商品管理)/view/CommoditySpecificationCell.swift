@@ -63,7 +63,7 @@ class CommoditySpecificationCell: UITableViewCell {
     
     
     //这边是保存数组
-    var colorList:[String] = []{
+    var colorList:[Specs] = []{
         didSet{
             for view in specificationView.subviews {
                 view.removeFromSuperview()

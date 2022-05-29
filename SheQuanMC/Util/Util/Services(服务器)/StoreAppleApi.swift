@@ -16,12 +16,10 @@ import SwiftUI
 public enum StoreAppleApi{
     case getCategoryInfoList(parameters:[String:String])    //获取经营种类列表(1)
     case getEntInfo                                         //获取企业认证信息（1）
-    case uploadFile(parameters:[String:Any],imageDate:Data) //文件上传加签demo(1)
-    
-    case shopAuth(parameters:[String:Any])               //店铺认证 （1）
+    case uploadFile(parameters:[String:Any],imageDate:Data) //文件（图片）上传(1)
+    case batchUpload(parameters:[String:Any],dataAry:[Data])//批量上传
+    case shopAuth(parameters:[String:Any])                  //店铺认证 （1）
     case entCert(parameters:[String:String])                //企业认证 （1）
-    
-    
 }
 
 
@@ -42,13 +40,15 @@ extension StoreAppleApi:TargetType{
             return "upload/uploadFile"
         case .getEntInfo:
             return "ent/getEntInfo"
+        case .batchUpload:
+            return "upload/batchUpload"
         }
         
     }
     
     public var method: Moya.Method {
         switch self {
-        case .entCert,.getCategoryInfoList,.shopAuth,.uploadFile,.getEntInfo:
+        case .entCert,.getCategoryInfoList,.shopAuth,.uploadFile,.getEntInfo,.batchUpload:
                return .post
         }
     }
@@ -68,13 +68,29 @@ extension StoreAppleApi:TargetType{
             return .uploadCompositeMultipart([formData], urlParameters: parameters)
         case .getEntInfo:
             return .requestPlain
+        case .batchUpload(let parameters,let dataAry):
+             let formDataAry:NSMutableArray = NSMutableArray()
+               for (index,imageData) in dataAry.enumerated() {
+                   //图片转成Data
+//                  let data:Data = UIImageJPEGRepresentation(image as! UIImage, 1.0)!
+                  //根据当前时间设置图片上传时候的名字
+                  let date:Date = Date()
+                  let formatter = DateFormatter()
+                  formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                  var dateStr:String = formatter.string(from: date as Date)
+                  //别忘记这里给名字加上图片的后缀哦
+                  dateStr = dateStr.appendingFormat("-%i.png", index)
+                  let formData = MultipartFormData(provider: .data(imageData), name: "file", fileName: dateStr, mimeType: "image/png")
+                  formDataAry.add(formData)
+             }
+            return .uploadCompositeMultipart(formDataAry as! [MultipartFormData], urlParameters: parameters)
         }
     }
     
     public var headers: [String : String]? {
         
         switch self {
-        case .getEntInfo,.uploadFile:
+        case .getEntInfo,.uploadFile,.batchUpload:
             let time = Date().currentMilliStamp
             let nonce = String.nonce
             let deviceId = String.deviceUUID

@@ -15,7 +15,7 @@ class AddSpecificationsView: UIView {
     //这边要进行修改这类的动作
     var cancelBlock:(()->Void)?
     //确定之后传递过来的数组
-    var sendSureSpecificationList:((_ list:[[String]])->Void)?
+    var sendSureSpecificationList:((_ list:[String])->Void)?
 
     
     //规格一
@@ -54,12 +54,12 @@ class AddSpecificationsView: UIView {
     var bottomSView:UIView!
     var deleteSBtn:UIButton!
     
-    var addSpecificationList:[[String]] = [[String]]()
+    var addSpecificationList:[String] = [String]()
     
     
     
     
-    init(frame:CGRect,addSpecificationList:[[String]]) {
+    init(frame:CGRect,addSpecificationList:[String]) {
         super.init(frame: frame)
         self.addSpecificationList = addSpecificationList
         
@@ -229,6 +229,7 @@ class AddSpecificationsView: UIView {
             bottomSView.isHidden = true
             addSpeciNameBtn.isHidden = false
         }
+        self.addSpecificationList.removeAll()
     }
     
     
@@ -399,15 +400,15 @@ class AddSpecificationsView: UIView {
         //传递过来
         
         if (speciFirstTextfield.text?.count ?? 0) > 0{
-            let list = [String]()
+            
 //            list.append(speciFirstTextfield.text!)
-            addSpecificationList.append(list)
+            addSpecificationList.append(speciFirstTextfield.text ?? "")
         }
         
         if (speciSecondTextfield.text?.count ?? 0) > 0{
-            let list = [String]()
+//            let list = [String]()
 //            list.append(speciSecondTextfield.text!)
-            addSpecificationList.append(list)
+            addSpecificationList.append(speciSecondTextfield.text ?? "")
         }
 
         if addSpecificationList.count > 0{

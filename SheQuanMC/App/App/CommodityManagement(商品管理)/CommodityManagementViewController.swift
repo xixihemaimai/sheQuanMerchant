@@ -134,6 +134,7 @@ class CommodityManagementViewController: BaseViewController {
     //发布
     @objc func publishAction(publishBtn:UIButton){
         let releaseGoodsVc = ReleaseGoodsViewController()
+        releaseGoodsVc.type = 0
         Coordinator.shared?.pushViewController(self, releaseGoodsVc, animated: true)
     }
     

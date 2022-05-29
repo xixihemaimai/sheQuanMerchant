@@ -16,6 +16,7 @@ public struct CommodityModel: Codable {
     public var freightTempId:Int32?
     public var multiSpec: Bool?
     public var productCode: String?
+    //商品描述
     public var productDesc: String?
     public var productId: String?
     public var productName: String?
@@ -94,7 +95,7 @@ public struct Skus: Codable {
     public var skuId: String?
     //图片
     public var skuPics:[String]?
-    public var specs:[SkusSpecs]?
+    public var specs:[Specs]?
     public var stock:Int32?
     
     
@@ -115,13 +116,13 @@ public struct Skus: Codable {
         skuCode = try? values.decodeIfPresent(String.self, forKey: .skuCode)
         skuId = try? values.decodeIfPresent(String.self, forKey: .skuId)
         skuPics = try? values.decodeIfPresent([String].self, forKey: .skuPics)
-        specs = try? values.decodeIfPresent([SkusSpecs].self, forKey: .specs)
+        specs = try? values.decodeIfPresent([Specs].self, forKey: .specs)
         stock = try? values.decodeIfPresent(Int32.self, forKey: .stock)
     }
     
     
     
-    public init(price:Decimal? = 0,restrictedQty:Int32? = 0,skuCode:String? = "",skuId:String? = "",skuPics:[String]? = [String](),specs:[SkusSpecs]? = [SkusSpecs](),stock:Int32? = 0){
+    public init(price:Decimal? = 0,restrictedQty:Int32? = 0,skuCode:String? = "",skuId:String? = "",skuPics:[String]? = [String](),specs:[Specs]? = [Specs](),stock:Int32? = 0){
         self.price = price
         self.restrictedQty = restrictedQty
         self.skuCode = skuCode
@@ -199,27 +200,27 @@ public struct Spus: Codable {
 
 
 //价格规格商品规格
-public struct SkusSpecs: Codable {
-    public var specAttrId: Int32?
-    public var specId: String?
-    public var specValue: String?
-    
-    enum CodingKeys: String, CodingKey {
-        case specAttrId = "specAttrId"
-        case specId = "specId"
-        case specValue = "specValue"
-    }
-
-    public init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        specAttrId = try? values.decodeIfPresent(Int32.self, forKey: .specAttrId)
-        specId = try? values.decodeIfPresent(String.self, forKey: .specId)
-        specValue = try? values.decodeIfPresent(String.self, forKey: .specValue)
-    }
-    
-    public init(specAttrId:Int32? = 0,specId:String? = "",specValue:String? = ""){
-        self.specAttrId = specAttrId
-        self.specId = specId
-        self.specValue = specValue
-    }
-}
+//public struct SkusSpecs: Codable {
+//    public var specAttrId: Int32?
+//    public var specId: String?
+//    public var specValue: String?
+//
+//    enum CodingKeys: String, CodingKey {
+//        case specAttrId = "specAttrId"
+//        case specId = "specId"
+//        case specValue = "specValue"
+//    }
+//
+//    public init(from decoder: Decoder) throws {
+//        let values = try decoder.container(keyedBy: CodingKeys.self)
+//        specAttrId = try? values.decodeIfPresent(Int32.self, forKey: .specAttrId)
+//        specId = try? values.decodeIfPresent(String.self, forKey: .specId)
+//        specValue = try? values.decodeIfPresent(String.self, forKey: .specValue)
+//    }
+//
+//    public init(specAttrId:Int32? = 0,specId:String? = "",specValue:String? = ""){
+//        self.specAttrId = specAttrId
+//        self.specId = specId
+//        self.specValue = specValue
+//    }
+//}

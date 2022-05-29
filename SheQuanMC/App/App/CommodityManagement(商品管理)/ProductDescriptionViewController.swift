@@ -10,8 +10,13 @@ import Util
 import HXPhotoPicker
 import JFPopup
 import IQKeyboardManager
+import SwiftUI
 
 class ProductDescriptionViewController: BaseViewController {
+    
+    
+    //这边block返回填入的字符串
+    var inputAttributedString:((_ string:String) ->Void)?
 
     //图片管理器
     lazy var manager:HXPhotoManager = {
@@ -63,6 +68,11 @@ class ProductDescriptionViewController: BaseViewController {
     }
    
     
+    //0为新发布，1位编辑
+    var type:Int = 0
+    
+    var inputString:String?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,12 +89,50 @@ class ProductDescriptionViewController: BaseViewController {
         setUI()
         
         //这里利用模型来判断是编辑过得数据还是没有新要发布的
-        
-        
-        
-     
-        _textView.becomeFirstResponder()
-        
+        if type == 1{
+            if let array = getArrayOrDicFromJSONString(jsonString: inputString ?? "") as? [[String:Any]]{
+                let mutableAttributedStr = NSMutableAttributedString()
+                for dict in array {
+                    if dict["image"] != nil{
+                        //图片
+                        let decodedImageData = Data(base64Encoded: (dict["image"] as! String), options: .ignoreUnknownCharacters)!
+                        let image = UIImage(data: decodedImageData)!
+                        let imgSize = image.size
+                        var newImgW = imgSize.width
+                        var newImgH = imgSize.height
+                        let textW = SCW - CGFloat(30)
+                        if newImgW > textW{
+                            let ratio = textW / newImgW
+                            newImgW = textW
+                            newImgH *= ratio
+                        }
+                        
+                        let attachment = NSTextAttachment(data: nil, ofType: nil)
+                        attachment.image = image
+                        attachment.bounds = CGRect(x: 0, y: 0, width: newImgW, height: newImgH)
+                        mutableAttributedStr.insert(NSAttributedString(attachment: attachment), at: mutableAttributedStr.length)
+                    }
+                    
+                    let plainStr = dict["title"]
+                    let attrubuteStr = NSMutableAttributedString(string: plainStr as! String)
+                    //设置初始值
+                    let paragraphStyle = NSMutableParagraphStyle()
+                    paragraphStyle.lineSpacing = CGFloat(dict["lineSpace"] as! CGFloat)
+                    var color = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+                    if let colorStr = dict["color"] as? String{
+                        color = UIColor.colorWithDyColorChangObject(lightColor: colorStr)
+                    }
+                    let attributes = [NSAttributedString.Key.paragraphStyle:paragraphStyle,NSAttributedString.Key.foregroundColor:color,NSAttributedString.Key.strokeWidth:(dict["bold"] as! Bool) ? -3 : 0,NSAttributedString.Key.obliqueness:(dict["obliq"] as! Bool) ? 0.3 : 0,NSAttributedString.Key.underlineStyle:(dict["underline"] as! Bool) ? 1 : 0,NSAttributedString.Key.underlineColor:color,NSAttributedString.Key.font:UIFont.systemFont(ofSize: (dict["font"] as! CGFloat))] as [NSAttributedString.Key : Any]
+                    attrubuteStr.addAttributes(attributes, range: NSRange(location: 0, length: attrubuteStr.length))
+                    mutableAttributedStr.append(attrubuteStr)
+                    _textView.attributedText = mutableAttributedStr
+                    _textView.setInitLocation()
+                    _textView.selectedRange = NSRange(location: _textView.attributedText.length, length: 0)
+                }
+            }
+        }else{
+            _textView.becomeFirstResponder()
+        }
     }
     
     
@@ -202,7 +250,6 @@ class ProductDescriptionViewController: BaseViewController {
                             }
                             self?.addImageOriginallImage(image:image)
                         })
-                        
                     })
                 }),
                 JFPopupAction(with: "拍照", subTitle: nil, clickActionCallBack: {[weak self] in
@@ -334,14 +381,10 @@ class ProductDescriptionViewController: BaseViewController {
     //完成
     @objc func completeAction(){
         LXFLog("完成")
-//        LXFLog("===================\(_textView.attributedText)")
-//        NSArray *arr1 =  [_textView.attributedText getArrayWithAttributed];
         let arr1 = _textView.attributedText.getArrayWithAttributed()
-        LXFLog("----------------------\(arr1)")
-        
-        let string = _textView.attributedText.string
-        LXFLog("-----------------------\(string)")
-        
+        let jsonString = getArrayFromData(obj: arr1 as Any)
+        inputAttributedString!(jsonString)
+        Coordinator.shared?.popViewController(self, true)
         /**
          if (_textView.attributedText.length) {
              NSArray *arr1 =  [_textView.attributedText getArrayWithAttributed];
@@ -430,6 +473,31 @@ class ProductDescriptionViewController: BaseViewController {
          [self.navigationController popViewControllerAnimated:YES];
          */
     }
+    
+    
+    func getArrayFromData(obj:Any) -> String {
+        if (!JSONSerialization.isValidJSONObject(obj)) {
+            print("无法解析出JSONString")
+            return ""
+        }
+        if let data : NSData = try? JSONSerialization.data(withJSONObject: obj, options: []) as NSData? {
+            if let JSONString = NSString(data:data as Data,encoding: String.Encoding.utf8.rawValue) {
+                return JSONString as String
+            }
+        }
+        return ""
+    }
+    
+    func getArrayOrDicFromJSONString(jsonString:String) -> Any {
+        let jsonData:Data = jsonString.data(using: .utf8)!
+        //可能是字典也可能是数组，再转换类型就好了
+        if let info = try? JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers) {
+            return info
+        }
+        return ""
+    }
+    
+    
     
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
