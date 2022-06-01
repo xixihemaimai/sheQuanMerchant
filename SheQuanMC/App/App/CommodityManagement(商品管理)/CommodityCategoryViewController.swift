@@ -24,22 +24,18 @@ class CommodityCategoryViewController: BaseViewController {
     }()
     
     
-    var categoryList:[Int] = [Int]()
+    var categoryList:[BussinessSecondTypeModel] = [BussinessSecondTypeModel]()
     
-    var choiceTag:[String:Int] = [String:Int]()
+//    var choiceTag:[String:Int] = [String:Int]()
     
     
-    var choiceGoodsTypeTitle:((_ title:String)->Void)?
+    var choiceGoodsTypeTitle:((_ model:BussinessSecondTypeModel)->Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = "选择商品类目"
-        
         createRightBarBtnItem(title: "确认", method: #selector(sureAction), titleColor: UIColor.colorWithDyColorChangObject(lightColor: "#333333"))
-        
-        
-        
         //搜索框
         view.addSubview(searchBar)
         searchBar.snp.makeConstraints { make in
@@ -54,8 +50,6 @@ class CommodityCategoryViewController: BaseViewController {
         }
         
         searchBar.setPositionAdjustment(UIOffset(horizontal: SCW/2 - scale(80)/2, vertical: 0), for: .search)
-        
-        
         view.addSubview(tableview)
         tableview.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
@@ -66,17 +60,28 @@ class CommodityCategoryViewController: BaseViewController {
         tableview.dataSource = self
         tableview.register(CommodityCategoryCell.self, forCellReuseIdentifier: "CommodityCategoryCell")
         
-        
-        for i in 0..<5{
-            categoryList.append(i)
-        }
-        
-        
-        
-        
-        
+ 
+        getProductCategoryList()
         
     }
+    
+    
+    
+    func getProductCategoryList(){
+        let parameters = ["categoryId":StoreService.shared.categoryId,"categoryName":(searchBar.text ?? "")] as [String:Any]
+        NetWorkResultRequest(OrderApi.getProductCategoryList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+            self?.categoryList.removeAll()
+            guard let models = try? JSONDecoder().decode(GenericResponse<[BussinessSecondTypeModel]>.self, from: data) else{
+                return
+            }
+            self?.categoryList = models.data!
+            self?.tableview.reloadData()
+            self?.tableview.mj_header?.endRefreshing()
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
+    }
+    
     
     
     
@@ -87,8 +92,9 @@ class CommodityCategoryViewController: BaseViewController {
             if let cell = tableview.cellForRow(at: IndexPath(row: i, section: 0)) as? CommodityCategoryCell{
                 if cell.choiceBtn.isSelected{
                      //选中的二级类目类型
-                    self.choiceGoodsTypeTitle!("随便谢谢")
-                    
+//                    self.choiceGoodsTypeTitle!("随便谢谢")
+                    let model = self.categoryList[i]
+                    self.choiceGoodsTypeTitle!(model)
                     break
                 }
             }
@@ -142,6 +148,7 @@ extension CommodityCategoryViewController:UITableViewDelegate,UITableViewDataSou
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CommodityCategoryCell")
         as! CommodityCategoryCell
+        cell.model = categoryList[indexPath.row]
         cell.choiceBtn.tag = indexPath.row
 //        cell.choiceBtn.addTarget(self, action: #selector(choiceSecondCategoryAction), for: .touchUpInside)
 //        if indexPath.row == choiceTag["tag"]{
@@ -154,20 +161,22 @@ extension CommodityCategoryViewController:UITableViewDelegate,UITableViewDataSou
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let cell1 = tableView.cellForRow(at: indexPath) as! CommodityCategoryCell
-        categoryList.forEach { index in
-           let cell = tableview.cellForRow(at: IndexPath(row: index, section: 0)) as! CommodityCategoryCell
-            if index == indexPath.row{
-                
+        for i in 0..<categoryList.count {
+            let cell = tableview.cellForRow(at: IndexPath(row: i, section: 0)) as! CommodityCategoryCell
+            if i == indexPath.row{
             }else{
                 cell.choiceBtn.isSelected = false
             }
         }
+//        categoryList.forEach { index in
+//           let cell = tableview.cellForRow(at: IndexPath(row: index, section: 0)) as! CommodityCategoryCell
+//            if index == indexPath.row{
+//
+//            }else{
+//                cell.choiceBtn.isSelected = false
+//            }
+//        }
         cell1.choiceBtn.isSelected = !cell1.choiceBtn.isSelected
-//        if choiceTag["tag"] == choiceBtn.tag{
-//            choiceTag["tag"] = 1000000000000
-//        }else{
-//            choiceTag["tag"] = choiceBtn.tag
-//        }    
     }
     
     

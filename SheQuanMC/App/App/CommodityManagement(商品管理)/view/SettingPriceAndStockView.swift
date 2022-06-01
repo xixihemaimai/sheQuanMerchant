@@ -10,7 +10,7 @@ import Util
 import JFPopup
 import HXPhotoPicker
 import SwiftyJSON
-import Kingfisher
+import SDWebImage
 
 class SettingPriceAndStockView: UIView {
 
@@ -185,7 +185,11 @@ class SettingPriceAndStockView: UIView {
         }
         
         let doubleValue = Double(truncating: skus.price as? NSNumber ?? 0.0)
-        priceTextfield.text = String(format: "%0.3f", doubleValue)
+        if doubleValue < 0.01{
+            priceTextfield.text = ""
+        }else{
+            priceTextfield.text = String(format: "%0.3f", doubleValue)
+        }
        
         
         let diviver = UIView()
@@ -224,7 +228,11 @@ class SettingPriceAndStockView: UIView {
         
 //        let doubleValue = Double(truncating: skus.price as? NSNumber ?? 0.0)
         let int32Value = Int32(truncating: skus.stock as? NSNumber ?? 0)
-        stockTextfield.text = String(format: "%d", int32Value)
+        if int32Value <= 0{
+            stockTextfield.text = ""
+        }else{
+            stockTextfield.text = String(format: "%d", int32Value)
+        }
         
         
         let midView = UIView()
@@ -284,7 +292,8 @@ class SettingPriceAndStockView: UIView {
         choicePitrueBtn.addTarget(self, action: #selector(uploadPitureAction), for: .touchUpInside)
         
         if let skupics = skus.skuPics?.last {
-            choicePitrueBtn.kf.setBackgroundImage(with: URL(string: skupics), for: .normal, placeholder: UIImage(named: "Group 2650"), options: nil, progressBlock: nil, completionHandler: nil)
+//            choicePitrueBtn.kf.setBackgroundImage(with: URL(string: skupics), for: .normal, placeholder: UIImage(named: "Group 2650"), options: nil, progressBlock: nil, completionHandler: nil)
+            choicePitrueBtn.sd_setBackgroundImage(with: URL(string: skupics), for: .normal, placeholderImage: UIImage(named: "Group 2650"))
         }else{
             choicePitrueBtn.setBackgroundImage(UIImage(named: "Group 2650"), for: .normal)
         }
@@ -366,7 +375,7 @@ class SettingPriceAndStockView: UIView {
                         if let photoModel:HXPhotoModel = photoList?.first{
                             //对图片进
                             //网络请求的部分
-                            let Parameters = ["fileType":"20"]
+                            let Parameters = ["fileType":20]
 //                            let Parameters = [String:Any]()
                             JFPopupView.popup.loading(hit: "上传图片中....")
                             guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
@@ -377,7 +386,8 @@ class SettingPriceAndStockView: UIView {
                                     //去掉\
                                   let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
                                     LXFLog(str)
-                                    choicePitrueBtn.kf.setBackgroundImage(with: URL(string: str), for: .normal, placeholder: UIImage(named: "Group 2650"), options: nil, progressBlock: nil, completionHandler: nil)
+//                                    choicePitrueBtn.kf.setBackgroundImage(with: URL(string: str), for: .normal, placeholder: UIImage(named: "Group 2650"), options: nil, progressBlock: nil, completionHandler: nil)
+                                    choicePitrueBtn.sd_setBackgroundImage(with: URL(string: str), for: .normal, placeholderImage: UIImage(named: "Group 2650"))
                                     choicePitrueBtn.setTitle("", for: .normal)
                                     self?.preview = str
                                     
@@ -394,7 +404,7 @@ class SettingPriceAndStockView: UIView {
                         LXFLog(photoList)
                         if let photoModel:HXPhotoModel = photoList{
                             //网络请求的部分
-                            let Parameters = ["fileType":"20"]
+                            let Parameters = ["fileType":20]
                             JFPopupView.popup.loading(hit: "上传图片中....")
                             guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
                             NetWorkResultRequest(StoreAppleApi.uploadFile(parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
@@ -404,7 +414,8 @@ class SettingPriceAndStockView: UIView {
                                     let json = try JSON(data: data)
                                     let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
                                       LXFLog(str)
-                                    choicePitrueBtn.kf.setBackgroundImage(with: URL(string: str), for: .normal, placeholder: UIImage(named: "Group 2650"), options: nil, progressBlock: nil, completionHandler: nil)
+//                                    choicePitrueBtn.kf.setBackgroundImage(with: URL(string: str), for: .normal, placeholder: UIImage(named: "Group 2650"), options: nil, progressBlock: nil, completionHandler: nil)
+                                    choicePitrueBtn.sd_setBackgroundImage(with: URL(string: str), for: .normal, placeholderImage: UIImage(named: "Group 2650"))
                                     choicePitrueBtn.setTitle("", for: .normal)
                                     self?.preview = str
                                 }catch{}

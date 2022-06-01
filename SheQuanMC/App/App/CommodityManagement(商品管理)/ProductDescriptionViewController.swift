@@ -11,6 +11,7 @@ import HXPhotoPicker
 import JFPopup
 import IQKeyboardManager
 import SwiftUI
+import SwiftyJSON
 
 class ProductDescriptionViewController: BaseViewController {
     
@@ -95,8 +96,11 @@ class ProductDescriptionViewController: BaseViewController {
                 for dict in array {
                     if dict["image"] != nil{
                         //图片
-                        let decodedImageData = Data(base64Encoded: (dict["image"] as! String), options: .ignoreUnknownCharacters)!
-                        let image = UIImage(data: decodedImageData)!
+//                        let decodedImageData = Data(base64Encoded: (dict["image"] as! String), options: .ignoreUnknownCharacters)!
+//                        let image = UIImage(data: decodedImageData)!
+                        let url = URL(string: dict["image"] as! String)!
+                        let data = try? Data(contentsOf: url)
+                        let image = UIImage(data:data!)!
                         let imgSize = image.size
                         var newImgW = imgSize.width
                         var newImgH = imgSize.height
@@ -108,6 +112,9 @@ class ProductDescriptionViewController: BaseViewController {
                         }
                         
                         let attachment = NSTextAttachment(data: nil, ofType: nil)
+                        
+                        
+                        
                         attachment.image = image
                         attachment.bounds = CGRect(x: 0, y: 0, width: newImgW, height: newImgH)
                         mutableAttributedStr.insert(NSAttributedString(attachment: attachment), at: mutableAttributedStr.length)
@@ -381,10 +388,60 @@ class ProductDescriptionViewController: BaseViewController {
     //完成
     @objc func completeAction(){
         LXFLog("完成")
-        let arr1 = _textView.attributedText.getArrayWithAttributed()
-        let jsonString = getArrayFromData(obj: arr1 as Any)
-        inputAttributedString!(jsonString)
-        Coordinator.shared?.popViewController(self, true)
+        if _textView.attributedText.length > 0{
+            var imageArray = [String]()
+            let arr1 = _textView.attributedText.getArrayWithAttributed()
+            var imageList = [Data]()
+            for i in 0..<(arr1?.count ?? 0) {
+                let dict = arr1?[i] as! [String:Any]
+                if (dict["image"] != nil){
+                    let decodedImageData = Data(base64Encoded: (dict["image"] as! String), options: .ignoreUnknownCharacters)!
+                    imageList.append(decodedImageData)
+                }
+            }
+            if imageList.count > 0{
+                let Parameters = ["fileType":20]
+                NetWorkResultRequest(StoreAppleApi.batchUpload(parameters: Parameters, dataAry: imageList), needShowFailAlert: true) { result, data in
+                    do{
+                        let json = try JSON(data: data)
+                        LXFLog(json)
+                        let array = json["data"]
+                        for i in 0..<array.count{
+                            let cloudUrl = array[i]["cloudUrl"]
+                            let data = try JSONEncoder().encode(cloudUrl)
+                            var url = String(data: data, encoding:String.Encoding.utf8)!.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+                            url = url.replacingOccurrences(of: "\"", with: "", options: .literal, range: nil)
+                            LXFLog(url)
+                            imageArray.append(url)
+                        }
+                    }catch{}
+                    for urlStr in imageArray {
+                        for i in 0..<(arr1?.count ?? 0) {
+                            var dict = arr1?[i] as! [String:Any]
+                            if (dict["image"] != nil && !(dict["image"] as! String).hasPrefix("http")){
+                                dict["image"] = urlStr
+    //                            LXFLog("--32============================\(String(describing: dict["image"]))")
+                                arr1?[i] = dict
+                                break
+                            }
+                        }
+                    }
+                    let jsonString = self.getArrayFromData(obj: arr1 as Any)
+    //                LXFLog("+=================================\(jsonString)")
+                    self.inputAttributedString!(jsonString)
+                    Coordinator.shared?.popViewController(self, true)
+                } failureCallback: { error, code in
+                    code.loginOut()
+                }
+            }else{
+                let jsonString = self.getArrayFromData(obj: arr1 as Any)
+                self.inputAttributedString!(jsonString)
+                Coordinator.shared?.popViewController(self, true)
+            }
+        }else{
+            Coordinator.shared?.popViewController(self, true)
+        }
+        
         /**
          if (_textView.attributedText.length) {
              NSArray *arr1 =  [_textView.attributedText getArrayWithAttributed];
@@ -392,7 +449,7 @@ class ProductDescriptionViewController: BaseViewController {
              NSString *image = @"";
              for (NSDictionary * dict in arr1) {
                  if (dict[@"image"]!=nil) {
-                     //默认图片
+                     默认图片
                      image = dict[@"image"];
                      break;
                  }
@@ -488,14 +545,14 @@ class ProductDescriptionViewController: BaseViewController {
         return ""
     }
     
-    func getArrayOrDicFromJSONString(jsonString:String) -> Any {
-        let jsonData:Data = jsonString.data(using: .utf8)!
-        //可能是字典也可能是数组，再转换类型就好了
-        if let info = try? JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers) {
-            return info
-        }
-        return ""
-    }
+//    func getArrayOrDicFromJSONString(jsonString:String) -> Any {
+//        let jsonData:Data = jsonString.data(using: .utf8)!
+//        //可能是字典也可能是数组，再转换类型就好了
+//        if let info = try? JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers) {
+//            return info
+//        }
+//        return ""
+//    }
     
     
     

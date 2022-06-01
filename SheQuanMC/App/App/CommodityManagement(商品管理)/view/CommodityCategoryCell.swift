@@ -37,6 +37,16 @@ class CommodityCategoryCell: UITableViewCell {
     }()
     
     
+    
+    var model:BussinessSecondTypeModel?{
+        didSet{
+            guard let _model = model else { return }
+            categoryLabel.text = model?.categoryName
+        }
+    }
+    
+    
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         

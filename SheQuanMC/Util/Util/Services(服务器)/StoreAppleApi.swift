@@ -16,8 +16,8 @@ import SwiftUI
 public enum StoreAppleApi{
     case getCategoryInfoList(parameters:[String:String])    //获取经营种类列表(1)
     case getEntInfo                                         //获取企业认证信息（1）
-    case uploadFile(parameters:[String:Any],imageDate:Data) //文件（图片）上传(1)
-    case batchUpload(parameters:[String:Any],dataAry:[Data])//批量上传
+    case uploadFile(parameters:[String:Int],imageDate:Data) //文件（图片）上传(1)
+    case batchUpload(parameters:[String:Int],dataAry:[Data])//批量上传
     case shopAuth(parameters:[String:Any])                  //店铺认证 （1）
     case entCert(parameters:[String:String])                //企业认证 （1）
 }
@@ -90,16 +90,18 @@ extension StoreAppleApi:TargetType{
     public var headers: [String : String]? {
         
         switch self {
-        case .getEntInfo,.uploadFile,.batchUpload:
+            //,.uploadFile,.batchUpload
+        case .getEntInfo:
             let time = Date().currentMilliStamp
             let nonce = String.nonce
             let deviceId = String.deviceUUID
             return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValue(time,nonce,deviceId),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
-//        case .getCategoryInfoList(let parameters):
-//            let time = Date().currentMilliStamp
-//            let nonce = String.nonce
-//            let deviceId = String.deviceUUID
-//            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,getJSONStringFromData(obj: parameters)),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+        case .uploadFile,.batchUpload:
+            let time = Date().currentMilliStamp
+            let nonce = String.nonce
+            let deviceId = String.deviceUUID
+            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValue(time,nonce,deviceId),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId,"fileType":"20"]
+            
         case .entCert(let parameters),.getCategoryInfoList(let parameters):
             let time = Date().currentMilliStamp
             let nonce = String.nonce

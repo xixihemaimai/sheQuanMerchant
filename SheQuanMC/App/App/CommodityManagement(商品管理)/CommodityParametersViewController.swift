@@ -69,7 +69,7 @@ class CommodityParametersViewController: BaseViewController {
         return brandNameLabel
     }()
 
-    
+    var paraList:[Spus] = [Spus]()
     
     
     
@@ -554,12 +554,32 @@ class CommodityParametersViewController: BaseViewController {
         sureBtn.layer.cornerRadius = scale(4)
         sureBtn.addTarget(self, action: #selector(sureAction), for: .touchUpInside)
 
+        
+        loadOrderSpuInfoList()
+        
+        
     }
     
     //确认的按键
     @objc func sureAction(sureBtn:UIButton){
         LXFLog("确认")
     }
+    
+    
+    func loadOrderSpuInfoList(){
+        let parameters = ["categoryId":0,"productId":0]
+        NetWorkResultRequest(OrderApi.getProductSpuList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+            guard let model = try? JSONDecoder().decode(GenericResponse<[Spus]>.self, from: data) else{
+                return
+            }
+            self.paraList.removeAll()
+            self?.paraList = model.data
+            self?.tableview.reloadData()
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
+    }
+    
     
     //上传图片
     @objc func isUploadPitureAction(certifiedBtn:UIButton){
@@ -580,7 +600,7 @@ class CommodityParametersViewController: BaseViewController {
                                 imageDataArray.append(imageData)
 //                            }
                         })
-                        let Parameters = ["fileType":"20"]
+                        let Parameters = ["fileType":20]
                         JFPopupView.popup.loading(hit: "上传图片中....")
                         NetWorkResultRequest(StoreAppleApi.batchUpload(parameters: Parameters, dataAry: imageDataArray), needShowFailAlert: true) { result, data in
                             do{
@@ -616,7 +636,7 @@ class CommodityParametersViewController: BaseViewController {
                                 imageDataArray.append(imageData)
 //                            }
                         }
-                        let Parameters = ["fileType":"20"]
+                        let Parameters = ["fileType":20]
                         JFPopupView.popup.loading(hit: "上传图片中....")
                         NetWorkResultRequest(StoreAppleApi.batchUpload(parameters: Parameters, dataAry: imageDataArray), needShowFailAlert: true) { result, data in
                             do{
@@ -746,12 +766,13 @@ extension CommodityParametersViewController:UITableViewDelegate,UITableViewDataS
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return paraList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CommodityParameterCell") as! CommodityParameterCell
-        cell.parameterLabel.text = "参数" + String(indexPath.row)
+//        cell.parameterLabel.text = "参数" + String(indexPath.row)
+        cell.model = paraList[indexPath.row]
         return cell
     }
     

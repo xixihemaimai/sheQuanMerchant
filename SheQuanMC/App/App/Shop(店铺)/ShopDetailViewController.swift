@@ -7,6 +7,7 @@
 
 import UIKit
 import Util
+import SDWebImage
 
 class ShopDetailViewController: BaseViewController {
 
@@ -111,9 +112,16 @@ extension ShopDetailViewController : UITableViewDelegate,UITableViewDataSource{
 //            cell.cardBackImageView.image = UIImage(named: dict["idCardBack"]!)
 //            cell.bussImageView.image = UIImage(named: dict["bussIn"]!)
             
-            cell.cardFrotImageView.kf.setImage(with: URL(string: dict["idCardFort"] ?? ""))
-            cell.cardBackImageView.kf.setImage(with: URL(string: dict["idCardBack"] ?? ""))
-            cell.bussImageView.kf.setImage(with: URL(string: dict["bussIn"] ?? ""))
+//            cell.cardFrotImageView.kf.setImage(with: URL(string: dict["idCardFort"] ?? ""))
+            
+            cell.cardFrotImageView.sd_setImage(with: URL(string: dict["idCardFort"] ?? ""))
+            cell.cardBackImageView.sd_setImage(with: URL(string: dict["idCardBack"] ?? ""))
+//            cell.cardBackImageView.kf.setImage(with: URL(string: dict["idCardBack"] ?? ""))
+//            cell.bussImageView.kf.setImage(with: URL(string: dict["bussIn"] ?? ""))
+            cell.bussImageView.sd_setImage(with: URL(string: dict["bussIn"] ?? ""))
+            
+            
+            
             return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "ShopDetailCell") as! ShopDetailCell

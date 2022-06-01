@@ -30,7 +30,15 @@ class CommodityParameterCell: UITableViewCell {
     }()
     
     
-    
+    var model:Spus?{
+        didSet{
+            guard let _model = model else { return }
+            
+            parameterLabel.text = _model.spuAttrName
+            
+        }
+        
+    }
     
     
     

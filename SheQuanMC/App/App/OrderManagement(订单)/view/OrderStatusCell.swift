@@ -7,7 +7,8 @@
 
 import UIKit
 import Util
-import Kingfisher
+//import Kingfisher
+import SDWebImage
 
 class OrderStatusCell: UITableViewCell {
     
@@ -228,9 +229,15 @@ class OrderStatusCell: UITableViewCell {
             guard let _productInfoModel = productInfoModel else { return }
             
             statusLabel.text = _productInfoModel.statusText
-            headerImage.kf.setImage(with: URL(string: _productInfoModel.shopAvatar ?? ""), placeholder: UIImage(named: "Group 2784"), options: nil, completionHandler: nil)
+//            headerImage.kf.setImage(with: URL(string: _productInfoModel.shopAvatar ?? ""), placeholder: UIImage(named: "Group 2784"), options: nil, completionHandler: nil)
+            
+            headerImage.sd_setImage(with: URL(string: _productInfoModel.shopAvatar ?? ""), placeholderImage: UIImage(named: "Group 2784"))
+            
             nicknameLabel.text = _productInfoModel.shopName
-            orderImage.kf.setImage(with: URL(string: _productInfoModel.productPic ?? ""), placeholder:UIImage(named: "") , options: nil, completionHandler: nil)
+//            orderImage.kf.setImage(with: URL(string: _productInfoModel.productPic ?? ""), placeholder:UIImage(named: "") , options: nil, completionHandler: nil)
+            
+            orderImage.sd_setImage(with: URL(string: _productInfoModel.productPic ?? ""), placeholderImage: UIImage(named: ""))
+            
             //productName
             orderIntroductLabel.text = _productInfoModel.productName
             

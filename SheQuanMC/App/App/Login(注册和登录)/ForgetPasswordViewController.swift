@@ -26,13 +26,14 @@ class ForgetPasswordViewController: BaseViewController {
     //输入框
     lazy var phoneTextField:UITextField = {
        let phoneTextField = UITextField()
-//        phoneTextField.keyboardType = .phonePad
+        phoneTextField.keyboardType = .phonePad
         phoneTextField.clearButtonMode = .whileEditing
         phoneTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         phoneTextField.placeholder = "请输入手机号"
         phoneTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入手机号", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
         phoneTextField.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        phoneTextField.delegate = self
         return phoneTextField
     }()
     
@@ -47,11 +48,13 @@ class ForgetPasswordViewController: BaseViewController {
     lazy var codeTextField:UITextField = {
        let codeTextField = UITextField()
         codeTextField.placeholder = "请输入验证码"
+        codeTextField.keyboardType = .numberPad
         codeTextField.clearButtonMode = .whileEditing
         codeTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         codeTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入验证码", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
         codeTextField.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        codeTextField.delegate = self
         return codeTextField
     }()
     
@@ -213,6 +216,24 @@ class ForgetPasswordViewController: BaseViewController {
             
         } failureCallback: { error,code in
         }
+    }
+    
+}
+
+
+extension ForgetPasswordViewController:UITextFieldDelegate{
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+            var maxNum = 11
+        if textField ==  phoneTextField{
+            maxNum = 11
+        }else if textField == codeTextField{
+            maxNum = 6
+        }
+//        限制个数
+        let currentText = textField.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        return updatedText.count <= maxNum
     }
     
 }

@@ -42,7 +42,7 @@ class RegisterViewController: BaseViewController {
     //输入框
     lazy var phoneTextField:UITextField = {
        let phoneTextField = UITextField()
-//        phoneTextField.keyboardType = .phonePad
+        phoneTextField.keyboardType = .phonePad
         phoneTextField.clearButtonMode = .whileEditing
         phoneTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         phoneTextField.placeholder = "请输入手机号"
@@ -50,6 +50,7 @@ class RegisterViewController: BaseViewController {
         phoneTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入手机号", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
         phoneTextField.addTarget(self, action: #selector(textfieldContent), for: .editingChanged)
+        phoneTextField.delegate = self
         return phoneTextField
     }()
     
@@ -64,12 +65,14 @@ class RegisterViewController: BaseViewController {
     lazy var codeTextField:UITextField = {
        let codeTextField = UITextField()
         codeTextField.placeholder = "请输入验证码"
+        codeTextField.keyboardType = .numberPad
         codeTextField.clearButtonMode = .whileEditing
         codeTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         codeTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入验证码", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
         codeTextField.addTarget(self, action: #selector(textfieldContent), for: .editingChanged)
         codeTextField.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        codeTextField.delegate = self
         return codeTextField
     }()
     
@@ -94,13 +97,14 @@ class RegisterViewController: BaseViewController {
     lazy var passwordTextField:UITextField = {
        let passwordTextField = UITextField()
         passwordTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
-        passwordTextField.placeholder = "请设置登录密码，6-16位字母数字组合"
-        passwordTextField.attributedPlaceholder = NSAttributedString.init(string:"请设置登录密码，6-16位字母数字组合", attributes: [
+        passwordTextField.placeholder = "请设置登录密码，8-16位字母数字组合"
+        passwordTextField.attributedPlaceholder = NSAttributedString.init(string:"请设置登录密码，8-16位字母数字组合", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
 //        passwordTextField.isSecureTextEntry = true
         passwordTextField.clearButtonMode = .whileEditing
         passwordTextField.addTarget(self, action: #selector(textfieldContent), for: .editingChanged)
         passwordTextField.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        passwordTextField.delegate = self
         return passwordTextField
     }()
     
@@ -130,6 +134,7 @@ class RegisterViewController: BaseViewController {
         showErrerLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#F33A2F")
         showErrerLabel.font = UIFont.systemFont(ofSize: scale(12), weight: .regular)
         showErrerLabel.textAlignment = .left
+        showErrerLabel.isHidden = true
         return showErrerLabel
     }()
     
@@ -236,7 +241,8 @@ class RegisterViewController: BaseViewController {
         passwordTextField.snp.makeConstraints { make in
             make.left.equalTo(scale(30))
             make.top.equalTo(codeDiviver.snp.bottom).offset(scale(34))
-            make.width.equalTo(scale(scale(300)))
+//            make.width.equalTo(scale(scale(300)))
+            make.right.equalTo(-scale(100))
             make.height.equalTo(scale(20))
         }
         
@@ -307,12 +313,15 @@ class RegisterViewController: BaseViewController {
     //监听手机号，验证码，密码
     @objc func textfieldContent(textfield:UITextField){
         if textfield === phoneTextField{
+            showErrerLabel.isHidden = true
             //电话号码
 //            LXFLog("===1=========\(phoneTextField.text)")
         }else if textfield === codeTextField{
+            showErrerLabel.isHidden = true
             //验证码
 //            LXFLog("===2=========\(codeTextField.text)")
         }else{
+            showErrerLabel.isHidden = true
             //密码
             //密码这边需要对隐藏的显示
 //            LXFLog("===3=========\(passwordTextField.text)")
@@ -337,16 +346,19 @@ class RegisterViewController: BaseViewController {
         //密码错误 手机号 验证码
         
         if !(phoneTextField.text?.isValidMobile ?? true){
+            showErrerLabel.isHidden = false
             showErrerLabel.text = "请输入正确的手机号"
             return
         }
 
         if !(passwordTextField.text?.isPassword ?? true){
-            showErrerLabel.text = "请设置登录密码，6-16位字母数字组合"
+            showErrerLabel.isHidden = false
+            showErrerLabel.text = "请设置登录密码，8-16位字母数字组合"
             return
         }
 
         if (codeTextField.text?.count ?? 0) < 1{
+            showErrerLabel.isHidden = false
             showErrerLabel.text = "验证码错误"
             return
         }
@@ -354,9 +366,10 @@ class RegisterViewController: BaseViewController {
         //网络请求有登录成功和该手机号已被注册
         let parameters = ["countryId":0,"loginPass":passwordTextField.text ?? "","mobile":phoneTextField.text ?? "","verifyCode":codeTextField.text ?? "","verifyId":verifyId] as [String:Any]
         NetWorkResultRequest(shopApi.regAccount(parameters: parameters), needShowFailAlert: true) {[weak self] result,data in
-            LXFLog(data)
+//            LXFLog(data)
             //这边要判断是否有店铺认证有就变成店铺首页，没有的话就是店铺申请一些相关界面
             do{
+                self?.showErrerLabel.isHidden = true
                 let json = try JSON(data: data)
                 StoreService.shared.delete()
 //                guard let model = try? JSONDecoder().decode(GenericResponse<StoreInfoModel>.self, from: data) else{
@@ -416,5 +429,24 @@ class RegisterViewController: BaseViewController {
                 }
             }
         }
+    }
+}
+
+
+extension RegisterViewController:UITextFieldDelegate{
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+            var maxNum = 11
+        if textField == phoneTextField {
+                maxNum = 11
+        }else if textField == passwordTextField{
+                maxNum = 16
+        }else if textField == codeTextField{
+                maxNum = 6
+        }
+//        限制个数
+        let currentText = textField.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        return updatedText.count <= maxNum
     }
 }

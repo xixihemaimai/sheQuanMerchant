@@ -10,7 +10,6 @@ import Util
 import JFPopup
 import HXPhotoPicker
 import SwiftUI
-import Kingfisher
 
 class CommoditySpecificationsViewController: BaseViewController {
     
@@ -28,6 +27,11 @@ class CommoditySpecificationsViewController: BaseViewController {
      规格属性值
      }]
      */
+    
+    
+    //商品规格和价格和库存
+    var commoditySpecifications:((_ SpecList:[Specs],_ PriceInVentory:[Skus]) ->Void)?
+    
     
     
     
@@ -158,6 +162,25 @@ class CommoditySpecificationsViewController: BaseViewController {
         
         LXFLog("==================\(unIonSetList)")
         
+        
+        //这边要进行判断没有填写完整的提醒，成功填写完整还需要返回上一个界面，把所需的数据传递过去
+        
+        
+        var isComplete:Bool = true
+        for skus in unIonSetList {
+            if ((skus.price ?? 0.0) < 0) && ((skus.stock ?? 0) < 0){
+                isComplete = false
+                break
+            }
+        }
+        if isComplete{
+            //这版要把填写的数据传递回去上一个界面
+            commoditySpecifications!(specsArray,unIonSetList)
+            Coordinator.shared?.popViewController(self, true)
+            
+        }else{
+            JFPopup.toast(hit: "请填写完整价钱和库存等数据")
+        }
     }
     
     
@@ -254,7 +277,7 @@ class CommoditySpecificationsViewController: BaseViewController {
     
     //添加并集之后的数组进行显示
     func UnionSetArray(tag: Int, index: Int){
-        var temArray = unIonSetList
+        let temArray = unIonSetList
          unIonSetList.removeAll()
         //这边要判断是否第二个数组有值，没有值就显示第一个规格的值
         var valueInt:Int = 0
@@ -321,7 +344,7 @@ class CommoditySpecificationsViewController: BaseViewController {
             for i in 0..<saveValueList.count{
                 let colorList = saveValueList[i]
                 for specs in colorList{
-                    let skus = Skus(price: 0, restrictedQty: 0, skuCode: "", skuId: "", skuPics: [String](), specs: [specs], stock: 0)
+                    let skus = Skus(mixPurchase: 0, price: 0, restrictedQty: 0, skuCode: "", skuId: "", skuPics: [String](), specs: [specs], stock: 0)
                     unIonSetList.append(skus)
                 }
             }
@@ -364,7 +387,7 @@ class CommoditySpecificationsViewController: BaseViewController {
                for i in 0 ..< dataArr.count {
                    var newArr = addArray
                    let specs = dataArr[i]
-                   let skus = Skus(price: 0, restrictedQty: 0, skuCode: "", skuId: "", skuPics: [String](), specs: [specs], stock: 0)
+                   let skus = Skus(mixPurchase: 0, price: 0, restrictedQty: 0, skuCode: "", skuId: "", skuPics: [String](), specs: [specs], stock: 0)
                    newArr.append(skus)
                    getCombination(kid: kid + 1, inputArray: inputArray, addArray: newArr)
                }
@@ -529,7 +552,7 @@ class CommoditySpecificationsViewController: BaseViewController {
         var tempArray = [Skus]()
         let array1 = array
         for i in 0..<array1.count{
-           var skus = Skus(price: 0, restrictedQty: 0, skuCode: "", skuId: "", skuPics: [String](), specs: [Specs](), stock: 0)
+            var skus = Skus(mixPurchase: 0, price: 0, restrictedQty: 0, skuCode: "", skuId: "", skuPics: [String](), specs: [Specs](), stock: 0)
            let temp = array1[i]
             for j in 0..<temp.count{
                let skus1 = temp[j]

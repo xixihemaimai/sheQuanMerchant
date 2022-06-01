@@ -143,7 +143,7 @@ public let requestClosure = { (endpoint: Endpoint, done: MoyaProvider.RequestRes
             /**
              if endpoint.url == "http://27.154.225.198:8996/sqshop/api/shop/shopAuth"
              */
-            if endpoint.url.contains("shop/shopAuth") || endpoint.url.contains("ent/entCert") || endpoint.url.contains("product/publish"){
+            if endpoint.url.contains("shop/shopAuth") || endpoint.url.contains("ent/entCert"){
                 //解决图片链接有转义字符的问题
 //                var parames = (String(data: requestData, encoding: String.Encoding.utf8) ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
 //                parames = parames.replacingOccurrences(of: "{", with: "", options: .literal, range: nil)
@@ -181,10 +181,9 @@ public let requestClosure = { (endpoint: Endpoint, done: MoyaProvider.RequestRes
 //                LXFLog("-----------------------\(body)")
 //                request.httpBody = body.data(using: String.Encoding.utf8)
                 request.httpBody = getObjFromDataToData(obj: requestData, isEscape: false)
-                
+            }else if endpoint.url.contains("product/publish"){
+                request.httpBody = getJSONStringFromPushblishData(obj: requestData, isEscape: true)
             }
-            
-            
             print("请求的url：\(request.url!)" + "\n" + "\(request.httpMethod ?? "")" + "发送参数" + "\(String(data: request.httpBody!, encoding: String.Encoding.utf8) ?? "")")
         } else {
             print("请求的url：\(request.url!)" + "\(String(describing: request.httpMethod))")
@@ -441,7 +440,7 @@ public func errorHandler(code: Int, message: String, needShowFailAlert: Bool, fa
     if needShowFailAlert {
         // 弹框
 //        print("弹出错误信息弹框\(message)")
-        if message == "未找到企业认证信息."{
+        if message == "未找到企业认证信息." || message == "该手机号不存在."{
         }else{
             JFPopup.toast(hit: "\(message)", icon: .fail)
         }

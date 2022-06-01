@@ -8,7 +8,7 @@
 import UIKit
 import Util
 import SnapKit
-import Kingfisher
+import SDWebImage
 import SwiftyJSON
 
 class ShopViewController: BaseViewController {
@@ -154,7 +154,11 @@ class ShopViewController: BaseViewController {
         }
 //        shopHeaderImageView.image = UIImage(named: "Rectangle 2363")
 //        shopHeaderImageView.kf.setImage(with: URL(string: StoreService.shared.currentUser?.shopAvatar ?? ""))
-        shopHeaderImageView.kf.setImage(with: URL(string: StoreService.shared.currentUser?.shopAvatar ?? ""), placeholder: UIImage(named: "Group 2784"), options: nil, completionHandler: nil)
+//        shopHeaderImageView.kf.setImage(with: URL(string: StoreService.shared.currentUser?.shopAvatar ?? ""), placeholder: UIImage(named: "Group 2784"), options: nil, completionHandler: nil)
+        
+        
+        shopHeaderImageView.sd_setImage(with: URL(string: StoreService.shared.currentUser?.shopAvatar ?? ""), placeholderImage: UIImage(named: "Group 2784"))
+        
         shopHeaderImageView.layer.cornerRadius = scale(44) * 0.5
         shopHeaderImageView.layer.masksToBounds = true
 //        shopNameLabel.text = "NIKE旗舰店"

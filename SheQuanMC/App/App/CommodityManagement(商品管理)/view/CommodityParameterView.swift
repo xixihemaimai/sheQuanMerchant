@@ -7,11 +7,16 @@
 
 import UIKit
 import Util
+import MJRefresh
+import JFPopup
 
 
 class CommodityParameterView: UIView {
 
     
+    
+    
+    var pageIndex:Int32 = 1
     //输入uitextview
     
     //这边要进行修改这类的动作
@@ -59,7 +64,7 @@ class CommodityParameterView: UIView {
     }()
     
     
-    var reasonList:[String] = [String]()
+    var reasonList:[BrandModel] = [BrandModel]()
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -76,7 +81,7 @@ class CommodityParameterView: UIView {
             make.width.equalTo(scale(60))
             make.height.equalTo(scale(24))
         }
-        reasonList = ["Nike","阿迪达斯","斐乐","安德玛","安踏"]
+//        reasonList = ["Nike","阿迪达斯","斐乐","安德玛","安踏"]
         
         //取消
         let cancelBtn = UIButton()
@@ -119,6 +124,12 @@ class CommodityParameterView: UIView {
         tableview.register(CloseOrderReasonCell.self, forCellReuseIdentifier: "CloseOrderReasonCell")
         
         
+        tableview.mj_header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: #selector(brandHeaderRefresh))
+        let foot = MJRefreshAutoStateFooter(refreshingTarget: self, refreshingAction: #selector(brandFootRefresh))
+        foot.setTitle("到底了~", for: .noMoreData)
+        foot.setTitle("加载中..", for: .refreshing)
+        foot.setTitle("", for: .idle)
+        tableview.mj_footer = foot
         
         //看下需不需要添加下拉和上拉
         
@@ -152,6 +163,53 @@ class CommodityParameterView: UIView {
     }
     
     
+    //下拉刷新
+    @objc func brandHeaderRefresh(){
+        pageIndex = 1
+        loadBrandList(isHeader: true,isShowDig: true)
+    }
+    
+    //上拉刷新
+    @objc func brandFootRefresh(){
+        loadBrandList(isHeader: false,isShowDig: false)
+    }
+    
+    
+    func loadBrandList(isHeader:Bool,isShowDig:Bool){
+        if isShowDig{
+            JFPopup.loading(hit: "加载中....")
+        }
+        let parameters = ["brandName":(searchBar.text ?? ""),"categoryId":0,"pageIndex":Int32(pageIndex),"pageSize":10] as [String:Any]
+        NetWorkSRequest(OrderApi.getProductBrandList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+            JFPopup.hideLoading()
+            guard let model = try? JSONDecoder().decode(GenericResponse<[BrandModel]>.self, from: data) else{
+                return
+            }
+            if isHeader{
+                //下拉
+                self?.reasonList.removeAll()
+                self?.reasonList = model.data!
+                self?.tableview.mj_header?.endRefreshing()
+                self?.tableview.reloadData()
+                self?.pageIndex = 1
+            }else{
+                //上拉
+                self?.reasonList += model.data!
+                self?.tableview.reloadData()
+                self?.tableview.mj_footer?.endRefreshing()
+                self?.pageIndex += 1
+                if (model.data?.count ?? 0) < 1{
+                    self?.tableview.mj_footer?.endRefreshingWithNoMoreData()
+                }
+            }
+            
+        } failureCallback: { error, code in
+            JFPopup.hideLoading()
+            code.loginOut()
+        }
+    }
+    
+    
     //选择关闭订单原因
 //    @objc func choiceCloseReasoonAction(choiceBtn:UIButton){
 //        for i in 0..<reasonList.count{
@@ -179,7 +237,8 @@ extension CommodityParameterView:UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CloseOrderReasonCell") as! CloseOrderReasonCell
-        cell.reasonLabel.text = reasonList[indexPath.row]
+//        cell.reasonLabel.text = reasonList[indexPath.row]
+        cell.model = reasonList[indexPath.row]
         cell.choiceBtn.tag = indexPath.row
 //        cell.choiceBtn.addTarget(self, action: #selector(choiceCloseReasoonAction), for: .touchUpInside)
         return cell

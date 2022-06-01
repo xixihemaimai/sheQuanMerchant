@@ -32,6 +32,7 @@ class NewPasswordViewController: BaseViewController {
         newPasswordTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入新密码", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
         newPasswordTextField.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        newPasswordTextField.delegate = self
         return newPasswordTextField
     }()
     
@@ -63,6 +64,7 @@ class NewPasswordViewController: BaseViewController {
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
 //        againPasswordTextField.isSecureTextEntry = true
         againPasswordTextField.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        againPasswordTextField.delegate = self
         return againPasswordTextField
     }()
     
@@ -80,6 +82,7 @@ class NewPasswordViewController: BaseViewController {
         showErrerLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#F33A2F")
         showErrerLabel.font = UIFont.systemFont(ofSize: scale(12), weight: .regular)
         showErrerLabel.textAlignment = .left
+        showErrerLabel.isHidden = true
         return showErrerLabel
     }()
     
@@ -187,17 +190,20 @@ class NewPasswordViewController: BaseViewController {
     @objc func modifyPasswordAction(sureModifyBtn:UIButton){
         
         if !(newPasswordTextField.text?.isPassword ?? true){
+            showErrerLabel.isHidden = false
 //            JFPopup.toast(hit: "密码错误，6-16位字母数字组合")
-            showErrerLabel.text = "密码必须为6-16位，同时带有字母、数字组合"
+            showErrerLabel.text = "密码必须为8-16位，同时带有字母、数字组合"
             return
         }
         
         if !(againPasswordTextField.text?.isPassword ?? true){
-            showErrerLabel.text = "密码必须为6-16位，同时带有字母、数字组合"
+            showErrerLabel.isHidden = false
+            showErrerLabel.text = "密码必须为8-16位，同时带有字母、数字组合"
             return
         }
         
         if newPasswordTextField.text != againPasswordTextField.text{
+            showErrerLabel.isHidden = false
             showErrerLabel.text = "两次密码不一致，请重新输入"
             return
         }
@@ -220,4 +226,28 @@ class NewPasswordViewController: BaseViewController {
 //            JFPopup.toast(hit: "修改密码失败", icon: .fail)
         }
     }
+}
+
+extension NewPasswordViewController:UITextFieldDelegate{
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+            var maxNum = 11
+        if textField ==  newPasswordTextField{
+            maxNum = 16
+        }else if textField == againPasswordTextField{
+            maxNum = 16
+        }
+//        限制个数
+        let currentText = textField.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        return updatedText.count <= maxNum
+    }
+    
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        showErrerLabel.isHidden = true
+    }
+    
+    
 }

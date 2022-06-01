@@ -41,6 +41,16 @@ class CloseOrderReasonCell: UITableViewCell {
     
     
     
+    var model:BrandModel?{
+        didSet{
+            guard let _model = model else {
+                return
+            }
+            reasonLabel.text = _model.brandName
+        }
+    }
+    
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         

@@ -10,7 +10,7 @@ import Util
 import JFPopup
 import HXPhotoPicker
 import SwiftyJSON
-import Kingfisher
+import SDWebImage
 
 
 open class StoreOccupancyViewController: BaseViewController {
@@ -57,14 +57,15 @@ open class StoreOccupancyViewController: BaseViewController {
     //店铺名称
     lazy var shopTextField:UITextField = {
        let shopTextField = UITextField()
-        shopTextField.placeholder = "请输入店铺名称,长度不超过20个字"
+        shopTextField.placeholder = "请输入店铺名称,长度不超过25个字"
         shopTextField.clearButtonMode = .whileEditing
         shopTextField.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         shopTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
-        shopTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入店铺名称,长度不超过20个字", attributes: [
+        shopTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入店铺名称,长度不超过25个字", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
 //        shopTextField.addTarget(self, action: #selector(shopNameChangeAction), for: .editingDidEnd)
         shopTextField.addTarget(self, action: #selector(textFieldChange), for: .editingChanged)
+        shopTextField.delegate = self
         return shopTextField
     }()
     
@@ -108,6 +109,7 @@ open class StoreOccupancyViewController: BaseViewController {
         showErrerLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#F33A2F")
         showErrerLabel.font = UIFont.systemFont(ofSize: scale(12), weight: .regular)
         showErrerLabel.textAlignment = .left
+        showErrerLabel.isHidden = true
         return showErrerLabel
     }()
     
@@ -257,7 +259,10 @@ open class StoreOccupancyViewController: BaseViewController {
        if  (StoreService.shared.currentUser?.shopAvatar.count ?? 0) > 0{
 //           headerImageView.kf.setImage(with:URL(string: StoreService.shared.currentUser?.shopAvatar ?? ""))
            
-           headerImageView.kf.setImage(with: URL(string:StoreService.shared.currentUser?.shopAvatar ?? ""), placeholder: UIImage(named: "Group 2738"), options: nil, completionHandler: nil)
+//           headerImageView.kf.setImage(with: URL(string:StoreService.shared.currentUser?.shopAvatar ?? ""), placeholder: UIImage(named: "Group 2738"), options: nil, completionHandler: nil)
+           
+           headerImageView.sd_setImage(with: URL(string: StoreService.shared.currentUser?.shopAvatar ?? ""), placeholderImage: UIImage(named: "Group 2738"))
+           
            
        }else{
            headerImageView.image = UIImage(named: "Group 2738")
@@ -295,7 +300,7 @@ open class StoreOccupancyViewController: BaseViewController {
                             
                             
                             //网络请求的部分
-                            let Parameters = ["fileType":"20"]
+                            let Parameters = ["fileType":20]
 //                            let Parameters = [String:Any]()
                             JFPopupView.popup.loading(hit: "上传图片中....")
                             guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
@@ -307,7 +312,9 @@ open class StoreOccupancyViewController: BaseViewController {
                                     
                                   let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
                                     LXFLog(str)
-                                    self?.headerImageView.kf.setImage(with: URL(string: str), placeholder: UIImage(named: "Group 2738"), options: nil, completionHandler: nil)
+//                                    self?.headerImageView.kf.setImage(with: URL(string: str), placeholder: UIImage(named: "Group 2738"), options: nil, completionHandler: nil)
+                                    self?.headerImageView.sd_setImage(with: URL(string: str), placeholderImage: UIImage(named: "Group 2738"))
+                                    
 //                                    StoreService.shared.updateShopAvatar(json["data"]["cloudUrl"].string ?? "")
                                     StoreService.shared.updateShopAvatar(str)
 //                                    self?.headerImageView.layer.cornerRadius = scale(78) * 0.5
@@ -328,7 +335,7 @@ open class StoreOccupancyViewController: BaseViewController {
 //                            self?.headerImageView.image = photoModel.thumbPhoto?.isRoundCorner(radius:  (self?.headerImageView.width ?? 0) * 0.5, byRoundingCorners: .allCorners, imageSize: self?.headerImageView.size)
                             
                             //网络请求的部分
-                            let Parameters = ["fileType":"20"]
+                            let Parameters = ["fileType":20]
                             JFPopupView.popup.loading(hit: "上传图片中....")
                             guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
                             NetWorkResultRequest(StoreAppleApi.uploadFile(parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
@@ -341,7 +348,11 @@ open class StoreOccupancyViewController: BaseViewController {
                                     let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
                                       LXFLog(str)
                                     
-                                    self?.headerImageView.kf.setImage(with: URL(string: json["data"]["cloudUrl"].string ?? ""), placeholder: UIImage(named: "Group 2738"), options: nil, completionHandler: nil)
+//                                    self?.headerImageView.kf.setImage(with: URL(string: json["data"]["cloudUrl"].string ?? ""), placeholder: UIImage(named: "Group 2738"), options: nil, completionHandler: nil)
+                                    
+                                    self?.headerImageView.sd_setImage(with: URL(string: str), placeholderImage: UIImage(named: "Group 2738"))
+                                    
+                                    
 //                                    StoreService.shared.updateShopAvatar(json["data"]["cloudUrl"].string ?? "Group 2738")
                                     StoreService.shared.updateShopAvatar(str)
                                     
@@ -387,9 +398,10 @@ open class StoreOccupancyViewController: BaseViewController {
     
     
     @objc func textFieldChange(_ titleTF: UITextField) {
+        showErrerLabel.isHidden = true
         if titleTF.markedTextRange != nil {return}
         guard var genString = titleTF.text else{return}
-        if genString.count > 20{
+        if genString.count > 25{
            let startIdx = genString.startIndex
            let endIdx = genString.index(genString.startIndex, offsetBy: 19)
            genString = String(genString[startIdx...endIdx])
@@ -404,15 +416,17 @@ open class StoreOccupancyViewController: BaseViewController {
     @objc func nextShopAction(nextBtn:UIButton){
         //店铺名字
         if shopTextField.text?.containsEmoji() == true{
+            showErrerLabel.isHidden = false
             showErrerLabel.text = "店铺名称里面包含表情"
             return
         }
-        if shopTextField.text?.isValidNickName == false{
-            showErrerLabel.text = "店铺名称不合规,请重新输入"
-            return
-        }
+//        if shopTextField.text?.isValidNickName == false{
+//            showErrerLabel.text = "店铺名称不合规,请重新输入"
+//            return
+//        }
         //经营种类
         if choiceManagementBtn.currentTitle == "请选择经营种类"{
+            showErrerLabel.isHidden = false
             showErrerLabel.text = "请选择经营种类"
             return
         }
@@ -422,6 +436,7 @@ open class StoreOccupancyViewController: BaseViewController {
             encVc.audit = self!.audit
             Coordinator.shared?.pushViewController(self!, encVc, animated: true)
             JFPopup.toast(hit: "店铺认证成功", icon: .success)
+            self?.showErrerLabel.isHidden = true
             let mutableArr = NSMutableArray(array: self?.navigationController?.viewControllers ?? [])
             for i in 0..<mutableArr.count {
                 let vc = mutableArr[i] as! UIViewController
@@ -474,4 +489,24 @@ open class StoreOccupancyViewController: BaseViewController {
 //         UIApplication.shared.isIdleTimerDisabled = false
 //         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true;
 //     }
+}
+
+extension StoreOccupancyViewController:UITextFieldDelegate{
+//    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//        var maxNum = 11
+//        if textField == shopTextField {
+//            maxNum = 25
+//        }
+//        //限制个数
+//        let currentText = textField.text ?? ""
+//        guard let stringRange = Range(range, in: currentText) else { return false }
+//        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+//        return updatedText.count <= maxNum
+//    }
+//
+//
+    public func textFieldDidEndEditing(_ textField: UITextField) {
+        showErrerLabel.isHidden = true
+    }
+    
 }

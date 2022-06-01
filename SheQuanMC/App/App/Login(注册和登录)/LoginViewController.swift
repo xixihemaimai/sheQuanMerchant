@@ -44,6 +44,7 @@ class LoginViewController: BaseViewController {
     //输入框
     lazy var accountTextField:UITextField = {
        let accountTextField = UITextField()
+        accountTextField.keyboardType = .phonePad
         accountTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         accountTextField.placeholder = "请输入手机号"
         accountTextField.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
@@ -52,6 +53,7 @@ class LoginViewController: BaseViewController {
         accountTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入手机号", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
         accountTextField.addTarget(self, action: #selector(accountTextFieldInput), for: .editingChanged)
+        accountTextField.delegate = self
         return accountTextField
     }()
     
@@ -131,7 +133,7 @@ class LoginViewController: BaseViewController {
     lazy var forgetPasswordLoginBtn:UIButton = {
        let forgetPasswordLoginBtn = UIButton()
         forgetPasswordLoginBtn.contentHorizontalAlignment = .right
-        forgetPasswordLoginBtn.setTitle("忘记登录", for: .normal)
+        forgetPasswordLoginBtn.setTitle("忘记密码", for: .normal)
         forgetPasswordLoginBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333"), for: .normal)
         forgetPasswordLoginBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         forgetPasswordLoginBtn.isHidden = true
@@ -413,7 +415,7 @@ class LoginViewController: BaseViewController {
                 return
             }
             if !(passwordTextField.text?.isPassword ?? true){
-                JFPopup.toast(hit: "密码错误，6-16位字母数字组合")
+                JFPopup.toast(hit: "密码错误，8-16位字母数字组合")
                 return
             }
             
@@ -504,7 +506,28 @@ class LoginViewController: BaseViewController {
             } failureCallback: { error,code in
 //                LXFLog("错误")
                 JFPopupView.popup.hideLoading()
-//                JFPopup.toast(hit: "登录失败", icon: .fail)
+                if error == "该手机号不存在."{
+                    self.popup.alert {
+                        [.title("该手机号不存在"),
+                         .cancelAction([
+                            .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
+                            .text("取消"),
+                            .tapActionCallback({
+                            })
+                          ]),
+                         .confirmAction([
+                            .text("前往注册"),
+                            .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+                            .tapActionCallback({
+                                let registerVc = RegisterViewController()
+                                Coordinator.shared?.pushViewController(self, registerVc, animated: true)
+                                
+                                self.removeNavigationController()
+                            })
+                          ])
+                        ]
+                    }
+                }
             }
         }else{
             //验证码登录
@@ -608,8 +631,31 @@ class LoginViewController: BaseViewController {
             } failureCallback: { error,code in
                 JFPopupView.popup.hideLoading()
 //                JFPopup.toast(hit: "登录失败", icon: .fail)
+                if error == "该手机号不存在."{
+                    self.popup.alert {
+                        [.title("该手机号不存在"),
+                         .cancelAction([
+                            .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
+                            .text("取消"),
+                            .tapActionCallback({
+                            })
+                          ]),
+                         .confirmAction([
+                            .text("前往注册"),
+                            .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+                            .tapActionCallback({
+                                let registerVc = RegisterViewController()
+                                Coordinator.shared?.pushViewController(self, registerVc, animated: true)
+                                
+                                
+                                self.removeNavigationController()
+                            })
+                          ])
+                        ]
+                    }
+                }
             }
-      }
+        }
     }
     
     //删除当前的控制器
@@ -641,6 +687,22 @@ class LoginViewController: BaseViewController {
         }
     }
     
+    
+}
+
+
+extension LoginViewController:UITextFieldDelegate{
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+            var maxNum = 11
+        if textField ==  accountTextField{
+            maxNum = 11
+        }
+//        限制个数
+        let currentText = textField.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        return updatedText.count <= maxNum
+    }
     
 }
 

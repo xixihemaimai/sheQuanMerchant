@@ -6,16 +6,16 @@ inhibit_all_warnings!
 
 target 'SheQuanMC' do
   # Comment the next line if you don't want to use dynamic frameworks
-  use_frameworks!
-
+  
+use_frameworks!
   # Pods for SheQuanMC
 
 pod 'LDStreaming', :path => "LDStreaming"
 pod 'LDMessage', :path => "LDMessage"
-  pod 'CocoaAsyncSocket', :path => "CocoaAsyncSocket"
-    pod 'CocoaLumberjack', :path => "CocoaLumberjack"
-    pod 'Protobuf', :path => "protobuf"
- pod 'SnapKit'
+pod 'CocoaAsyncSocket', :path => "CocoaAsyncSocket"
+pod 'CocoaLumberjack', :path => "CocoaLumberjack"
+pod 'Protobuf', :path => "protobuf"
+pod 'SnapKit'
 
 pod 'DZNEmptyDataSet'
 pod 'JFPopup'
@@ -26,20 +26,20 @@ pod 'Moya'
 pod 'SwiftyJSON'
 pod 'RealmSwift'
 pod 'HandyJSON', '~> 5.0.2'
-pod 'Kingfisher'
+pod 'SDWebImage'
 end
 
 
 target 'App' do
   use_frameworks!
-  project 'App/App'
+project 'App/App'
 pod 'LDStreaming', :path => "LDStreaming"
 pod 'LDStreaming', :path => "LDStreaming"
 pod 'LDMessage', :path => "LDMessage"
-  pod 'CocoaAsyncSocket', :path => "CocoaAsyncSocket"
-    pod 'CocoaLumberjack', :path => "CocoaLumberjack"
-    pod 'Protobuf', :path => "protobuf"
- pod 'SnapKit'
+pod 'CocoaAsyncSocket', :path => "CocoaAsyncSocket"
+pod 'CocoaLumberjack', :path => "CocoaLumberjack"
+pod 'Protobuf', :path => "protobuf"
+pod 'SnapKit'
 
 pod 'DZNEmptyDataSet'
 pod 'JFPopup'
@@ -50,7 +50,7 @@ pod 'Moya'
 pod 'SwiftyJSON'
 pod 'RealmSwift'
 pod 'HandyJSON', '~> 5.0.2'
-pod 'Kingfisher'
+pod 'SDWebImage'
 end
 
 
@@ -59,11 +59,11 @@ target 'Util' do
 pod 'LDStreaming', :path => "LDStreaming"
 pod 'LDStreaming', :path => "LDStreaming"
 pod 'LDMessage', :path => "LDMessage"
-  pod 'CocoaAsyncSocket', :path => "CocoaAsyncSocket"
-    pod 'CocoaLumberjack', :path => "CocoaLumberjack"
-    pod 'Protobuf', :path => "protobuf"
-  project 'Util/Util'
- pod 'SnapKit'
+pod 'CocoaAsyncSocket', :path => "CocoaAsyncSocket"
+pod 'CocoaLumberjack', :path => "CocoaLumberjack"
+pod 'Protobuf', :path => "protobuf"
+project 'Util/Util'
+pod 'SnapKit'
 
 pod 'DZNEmptyDataSet'
 pod 'JFPopup'
@@ -74,5 +74,6 @@ pod 'Moya'
 pod 'SwiftyJSON'
 pod 'RealmSwift'
 pod 'HandyJSON', '~> 5.0.2'
-pod 'Kingfisher'
+pod 'SDWebImage'
 end
+
