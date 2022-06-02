@@ -256,14 +256,10 @@ open class StoreOccupancyViewController: BaseViewController {
            //店铺名称
            //经营种类
            //经营种类ID
+       LXFLog("========\(String(describing: StoreService.shared.currentUser?.shopAvatar))")
+       
        if  (StoreService.shared.currentUser?.shopAvatar.count ?? 0) > 0{
-//           headerImageView.kf.setImage(with:URL(string: StoreService.shared.currentUser?.shopAvatar ?? ""))
-           
-//           headerImageView.kf.setImage(with: URL(string:StoreService.shared.currentUser?.shopAvatar ?? ""), placeholder: UIImage(named: "Group 2738"), options: nil, completionHandler: nil)
-           
            headerImageView.sd_setImage(with: URL(string: StoreService.shared.currentUser?.shopAvatar ?? ""), placeholderImage: UIImage(named: "Group 2738"))
-           
-           
        }else{
            headerImageView.image = UIImage(named: "Group 2738")
        }
@@ -277,10 +273,7 @@ open class StoreOccupancyViewController: BaseViewController {
            choiceManagementBtn.setTitle("请选择经营品类", for: .normal)
            choiceManagementBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#878787"), for: .normal)
        }
-          categoryId = StoreService.shared.categoryId
-           
-           
-//       }
+       categoryId = StoreService.shared.categoryId
     }
     
 
@@ -288,6 +281,7 @@ open class StoreOccupancyViewController: BaseViewController {
     //选择相片
     @objc func choicePitureAction(tap:UITapGestureRecognizer){
         manager.type = .photo
+        manager.clearSelectedList()
         self.popup.actionSheet {
             [
                 JFPopupAction(with: "从手机相册选择", subTitle: nil, clickActionCallBack: { [weak self] in
@@ -295,13 +289,8 @@ open class StoreOccupancyViewController: BaseViewController {
                         LXFLog(photoList?.count)
                         if let photoModel:HXPhotoModel = photoList?.first{
                             //对图片进行
-//                            photoModel.thumbPhoto
-//                            self?.headerImageView.image = photoModel.thumbPhoto?.isRoundCorner(radius:  (self?.headerImageView.width ?? 0) * 0.5, byRoundingCorners: .allCorners, imageSize: self?.headerImageView.size)
-                            
-                            
                             //网络请求的部分
                             let Parameters = ["fileType":20]
-//                            let Parameters = [String:Any]()
                             JFPopupView.popup.loading(hit: "上传图片中....")
                             guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
                             NetWorkResultRequest(StoreAppleApi.uploadFile(parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
@@ -309,15 +298,11 @@ open class StoreOccupancyViewController: BaseViewController {
                                     LXFLog(data)
                                     let json = try JSON(data: data)
                                     //去掉\
-                                    
-                                  let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+                                    let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
                                     LXFLog(str)
-//                                    self?.headerImageView.kf.setImage(with: URL(string: str), placeholder: UIImage(named: "Group 2738"), options: nil, completionHandler: nil)
                                     self?.headerImageView.sd_setImage(with: URL(string: str), placeholderImage: UIImage(named: "Group 2738"))
-                                    
-//                                    StoreService.shared.updateShopAvatar(json["data"]["cloudUrl"].string ?? "")
                                     StoreService.shared.updateShopAvatar(str)
-//                                    self?.headerImageView.layer.cornerRadius = scale(78) * 0.5
+                                    
                                 }catch{}
                                 JFPopupView.popup.hideLoading()
                             } failureCallback: { error,code in
@@ -330,33 +315,18 @@ open class StoreOccupancyViewController: BaseViewController {
                     self?.hx_presentCustomCameraViewController(with: self?.manager) { photoList, viewController in
                         LXFLog(photoList)
                         if let photoModel:HXPhotoModel = photoList{
-                            //对图片进行
-//                            self?.headerImageView.image = photoModel.thumbPhoto
-//                            self?.headerImageView.image = photoModel.thumbPhoto?.isRoundCorner(radius:  (self?.headerImageView.width ?? 0) * 0.5, byRoundingCorners: .allCorners, imageSize: self?.headerImageView.size)
-                            
                             //网络请求的部分
                             let Parameters = ["fileType":20]
                             JFPopupView.popup.loading(hit: "上传图片中....")
                             guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
                             NetWorkResultRequest(StoreAppleApi.uploadFile(parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
                                 do{
-                                    
                                     LXFLog(data)
                                     let json = try JSON(data: data)
-//                                    self?.headerImageView.kf.setImage(with:URL(string: json["data"]["cloudUrl"].string ?? ""))
-                                    
                                     let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
                                       LXFLog(str)
-                                    
-//                                    self?.headerImageView.kf.setImage(with: URL(string: json["data"]["cloudUrl"].string ?? ""), placeholder: UIImage(named: "Group 2738"), options: nil, completionHandler: nil)
-                                    
                                     self?.headerImageView.sd_setImage(with: URL(string: str), placeholderImage: UIImage(named: "Group 2738"))
-                                    
-                                    
-//                                    StoreService.shared.updateShopAvatar(json["data"]["cloudUrl"].string ?? "Group 2738")
                                     StoreService.shared.updateShopAvatar(str)
-                                    
-//                                    self?.headerImageView.layer.cornerRadius = scale(78) * 0.5
                                 }catch{}
                                 JFPopupView.popup.hideLoading()
                             } failureCallback: { error,code in
@@ -379,7 +349,6 @@ open class StoreOccupancyViewController: BaseViewController {
         businessTypeVc.sureSelectBusinessType = {[weak self] businessTypeModel in
             choiceManagementBtn.setTitle(businessTypeModel.categoryName, for: .normal)
             //这边要获取这个模型
-//            self?.businessTypeModel = businessTypeModel
             self?.categoryId = businessTypeModel.categoryId
             choiceManagementBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333"), for: .normal)
             StoreService.shared.updateCategoryName(businessTypeModel.categoryName ?? "", businessTypeModel.categoryId ?? 0)
@@ -403,7 +372,7 @@ open class StoreOccupancyViewController: BaseViewController {
         guard var genString = titleTF.text else{return}
         if genString.count > 25{
            let startIdx = genString.startIndex
-           let endIdx = genString.index(genString.startIndex, offsetBy: 19)
+           let endIdx = genString.index(genString.startIndex, offsetBy: 26)
            genString = String(genString[startIdx...endIdx])
         }
         titleTF.text = genString
@@ -435,17 +404,16 @@ open class StoreOccupancyViewController: BaseViewController {
             let encVc = EnterpriseCertificationViewController()
             encVc.audit = self!.audit
             Coordinator.shared?.pushViewController(self!, encVc, animated: true)
-            JFPopup.toast(hit: "店铺认证成功", icon: .success)
             self?.showErrerLabel.isHidden = true
-            let mutableArr = NSMutableArray(array: self?.navigationController?.viewControllers ?? [])
-            for i in 0..<mutableArr.count {
-                let vc = mutableArr[i] as! UIViewController
-                if vc.isKind(of: StoreOccupancyViewController.self){
-                    mutableArr.removeObject(at: i)
-                    break
-                }
-            }
-            self?.navigationController?.viewControllers = mutableArr as! [UIViewController]
+//          let mutableArr = NSMutableArray(array: self?.navigationController?.viewControllers ?? [])
+//          for i in 0..<mutableArr.count {
+//              let vc = mutableArr[i] as! UIViewController
+//              if vc.isKind(of: StoreOccupancyViewController.self){
+//                 mutableArr.removeObject(at: i)
+//                 break
+//              }
+//           }
+//           self?.navigationController?.viewControllers = mutableArr as! [UIViewController]
         } failureCallback: { error,code in
         }
     }

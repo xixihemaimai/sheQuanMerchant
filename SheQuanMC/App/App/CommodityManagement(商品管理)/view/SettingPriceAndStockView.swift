@@ -320,6 +320,7 @@ class SettingPriceAndStockView: UIView {
     
     //上传图片
     @objc func uploadPitureAction(choicePitrueBtn:UIButton){
+        self.endEditing(true)
 //        manager.type = .photo
 //        manager.clearSelectedList()
 //        self.popup.actionSheet {

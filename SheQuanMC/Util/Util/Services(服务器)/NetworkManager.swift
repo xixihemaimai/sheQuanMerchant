@@ -163,7 +163,7 @@ public let requestClosure = { (endpoint: Endpoint, done: MoyaProvider.RequestRes
 //                request.httpBody = body.data(using: String.Encoding.utf8)
                 request.httpBody = getObjFromDataToData(obj: requestData, isEscape: true)
                 
-            }else if endpoint.url.contains("login/mobileLogin") || endpoint.url.contains("login/passLogin") || endpoint.url.contains("captcha/getCaptchaCode") || endpoint.url.contains("category/getCategoryInfoList") || endpoint.url.contains("shop/forgetPass") || endpoint.url.contains("shop/changePass") || endpoint.url.contains("shop/regAccount"){
+            }else if endpoint.url.contains("login/mobileLogin") || endpoint.url.contains("login/passLogin") || endpoint.url.contains("captcha/getCaptchaCode") || endpoint.url.contains("category/getCategoryInfoList") || endpoint.url.contains("shop/forgetPass") || endpoint.url.contains("shop/changePass") || endpoint.url.contains("shop/regAccount") {
                 //手机号登录 密码登录 发送验证码 经营种类 忘记密码 修改密码 注册账号
 //                var parames = (String(data: requestData, encoding: String.Encoding.utf8) ?? "").replacingOccurrences(of: "{", with: "", options: .literal, range: nil)
 //                parames = parames.replacingOccurrences(of: "}", with: "", options: .literal, range: nil)
@@ -183,6 +183,8 @@ public let requestClosure = { (endpoint: Endpoint, done: MoyaProvider.RequestRes
                 request.httpBody = getObjFromDataToData(obj: requestData, isEscape: false)
             }else if endpoint.url.contains("product/publish"){
                 request.httpBody = getJSONStringFromPushblishData(obj: requestData, isEscape: true)
+            }else if endpoint.url.contains("spec/addSpecGroup"){
+                request.httpBody = getJSONStringFromAddSpec(obj: requestData)
             }
             print("请求的url：\(request.url!)" + "\n" + "\(request.httpMethod ?? "")" + "发送参数" + "\(String(data: request.httpBody!, encoding: String.Encoding.utf8) ?? "")")
         } else {

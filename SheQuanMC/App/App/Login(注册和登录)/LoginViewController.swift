@@ -305,6 +305,7 @@ class LoginViewController: BaseViewController {
     @objc func codeAction(btn:UIButton){
         //这边要变化
         if btn.currentTitle == "验证码登录"{
+            passwordTextField.keyboardType = .numberPad
             btn.setTitle("密码登录", for: .normal)
             forgetPasswordLoginBtn.isHidden = true
             accountLabel.text = "+86v"
@@ -328,10 +329,11 @@ class LoginViewController: BaseViewController {
             loginBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
             loginBtn.isEnabled = true
             
-            accountTextField.keyboardType = .phonePad
+//            accountTextField.keyboardType = .phonePad
             
         }else{
             
+            passwordTextField.keyboardType = .default
             passwordTextField.snp.remakeConstraints { make in
                 make.left.equalTo(passwordLabel.snp.right).offset(scale(10))
                 make.top.equalTo(accountDiviver.snp.bottom).offset(scale(26))
@@ -347,7 +349,7 @@ class LoginViewController: BaseViewController {
                 make.top.equalTo(accountDiviver.snp.bottom).offset(scale(26))
             })
             
-            accountTextField.keyboardType = .default
+//            accountTextField.keyboardType = .default
             passwordTextField.placeholder = "请输入密码"
             passwordLabel.isHidden = false
             accountTextField.placeholder = "请输入账号(手机号)"
@@ -696,6 +698,12 @@ extension LoginViewController:UITextFieldDelegate{
             var maxNum = 11
         if textField ==  accountTextField{
             maxNum = 11
+        }else if textField == passwordTextField{
+            if codeLoginBtn.currentTitle == "验证码登录"{
+                maxNum = 16
+            }else{
+                maxNum = 6
+            }
         }
 //        限制个数
         let currentText = textField.text ?? ""

@@ -261,6 +261,7 @@ public class StoreService{
         }
         try! realm.write({
             storeModel.frontPic = frontPic
+            LXFLog(storeModel.frontPic)
         })
     }
     
@@ -278,6 +279,7 @@ public class StoreService{
         }
         try! realm.write({
             storeModel.reversePic = reversePic
+            LXFLog(storeModel.reversePic)
         })
     }
     
@@ -295,6 +297,7 @@ public class StoreService{
         }
         try! realm.write({
             storeModel.licencePic = licencePic
+            LXFLog(storeModel.licencePic)
         })
     }
     

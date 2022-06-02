@@ -288,7 +288,7 @@ class ReleaseGoodsViewController: BaseViewController {
         
         if type == 0{
             title = "发布商品"
-            commodityModel = CommodityModel(categoryId: 0, freeRefundIn7Days: false, freightInsure: false, freightTempId: 0, multiSpec: false, productCode: "", productDesc: "", productId: "", productName: "", productPics: [String](),sepNo:0,shopId: 0,skus: [Skus](), specs: [Specs](), spus: [Spus](), stock: 0,stockDeductType: 0)
+            commodityModel = CommodityModel(categoryId: StoreService.shared.categoryId, freeRefundIn7Days: false, freightInsure: false, freightTempId: 0, multiSpec: false,price:0.0,productCode: "", productDesc: "", productId: 0, productName: "", productPics: [String](),sepNo:0,shopId: Int64(StoreService.shared.shopId),skus: [Skus](), specGroups: [SpecGroups](), spus: [Spus](), stock: 0,stockDeductType: 0)
         }else{
             title = "编辑商品"
             
@@ -1022,11 +1022,13 @@ class ReleaseGoodsViewController: BaseViewController {
         switch goodsCategoryBtn.tag {
         case 0:
             let commodityCategoryVc = CommodityCategoryViewController()
+            commodityCategoryVc.selectCategoryId = self.commodityModel?.categoryId ?? StoreService.shared.categoryId
             Coordinator.shared?.pushViewController(self, commodityCategoryVc, animated: true)
-            
             commodityCategoryVc.choiceGoodsTypeTitle = { model in
                 self.goodsContentLabel.text = model.categoryName ?? "请选择"
-                self.goodsContentLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+                self.commodityModel?.categoryId = model.categoryId
+                LXFLog("=============\(String(describing: self.commodityModel?.categoryId))")
+//                self.goodsContentLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
                 self.goodsParameterSLabel.isHidden = false
                 self.goodsParameterSBtn.isHidden = false
                 self.specificationsSLabel.snp.remakeConstraints { make in
@@ -1040,17 +1042,27 @@ class ReleaseGoodsViewController: BaseViewController {
                 //商品描述goodsDescribe
                 self.goodsDescribe.text = "未填写"
                 self.commodityModel?.productDesc = ""
+                //用来判断是编辑还是新发布的东西
+//                self.type = 0
+                
                 //商品编码goodsCardTextField
                 self.goodsCardTextField.text = ""
                 self.commodityModel?.productCode = ""
+                
+                
                 //商品参数goodsParameter
                 self.goodsParameter.text = "未设置"
                 self.commodityModel?.spus = [Spus]()
+                
+                
+                
                 //多规格按钮specificationsSwitch
                 self.specificationsSwitch.isOn = false
                 // 商品规格commoditySpLabel
                 self.commoditySpLabel.text = "未设置"
-                self.commodityModel?.specs = [Specs]()
+                
+                self.commodityModel?.specGroups = [SpecGroups]()
+                
                 self.commodityModel?.skus = [Skus]()
                 //价钱priceTextfield
                 self.priceTextfield.text = ""
@@ -1061,52 +1073,14 @@ class ReleaseGoodsViewController: BaseViewController {
                 //退换货运费险returnGoodsInsuranceSwitch
                 self.returnGoodsInsuranceSwitch.isOn = true
             }
-            
-            
-//            commodityCategoryVc.choiceGoodsTypeTitle = { title in
-//                self.goodsContentLabel.text = title
-//                self.goodsContentLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
-//                self.goodsParameterSLabel.isHidden = false
-//                self.goodsParameterSBtn.isHidden = false
-//                self.specificationsSLabel.snp.remakeConstraints { make in
-//                    make.left.equalToSuperview()
-//                    make.top.equalTo(self.goodsParameterSBtn.snp.bottom).offset(scale(1))
-//                    make.width.equalTo(SCW)
-//                    make.height.equalTo(scale(50))
-//                }
-//                self.isModify = true
-//                //这边要把所有的商品的信息都需要删除
-//                //商品描述goodsDescribe
-//                self.goodsDescribe.text = "未填写"
-//                self.commodityModel?.productDesc = ""
-//                //商品编码goodsCardTextField
-//                self.goodsCardTextField.text = ""
-//                self.commodityModel?.productCode = ""
-//                //商品参数goodsParameter
-//                self.goodsParameter.text = "未设置"
-//                self.commodityModel?.spus = [Spus]()
-//                //多规格按钮specificationsSwitch
-//                self.specificationsSwitch.isOn = false
-//                // 商品规格commoditySpLabel
-//                self.commoditySpLabel.text = "未设置"
-//                self.commodityModel?.specs = [Specs]()
-//                self.commodityModel?.skus = [Skus]()
-//                //价钱priceTextfield
-//                self.priceTextfield.text = ""
-//                //库存stockTextfield
-//                self.stockTextfield.text = ""
-//                //七天无理由按钮returnGoodsSwitch
-//                self.returnGoodsSwitch.isOn = true
-//                //退换货运费险returnGoodsInsuranceSwitch
-//                self.returnGoodsInsuranceSwitch.isOn = true
-//            }
+        
         case 1:
+            //商品描述
             let proudctDesciptionVc = ProductDescriptionViewController()
-            proudctDesciptionVc.type = self.type
+//            proudctDesciptionVc.type = self.type
             proudctDesciptionVc.inputString = self.commodityModel?.productDesc
             Coordinator.shared?.pushViewController(self, proudctDesciptionVc, animated: true)
             proudctDesciptionVc.inputAttributedString = { string in
-                self.type = 1
                 self.commodityModel?.productDesc = string
                 self.goodsDescribe.text = "已填写"
                 self.isModify = true
@@ -1114,17 +1088,30 @@ class ReleaseGoodsViewController: BaseViewController {
             
         case 2:
             
+            //参数
             let commodityParametersVc = CommodityParametersViewController()
+            commodityParametersVc.categoryId = commodityModel?.categoryId ?? StoreService.shared.categoryId
+            commodityParametersVc.productId = commodityModel?.productId ?? Int64(0)
+            //这边是用来是否传递是已经填写好的，还是新的
+            commodityParametersVc.paraList = commodityModel?.spus ?? [Spus]()
             Coordinator.shared?.pushViewController(self, commodityParametersVc, animated: true)
+            commodityParametersVc.sureParmeter = { paraList in
+                self.commodityModel?.spus = paraList
+                self.goodsParameter.text = "已设置"
+            }
             
-            
+
             
         case 3:
             
+            //商品规格
             let commoditySepcificationsVc = CommoditySpecificationsViewController()
+            commoditySepcificationsVc.categoryId = self.commodityModel?.categoryId ?? StoreService.shared.categoryId
             Coordinator.shared?.pushViewController(self, commoditySepcificationsVc, animated: true)
             commoditySepcificationsVc.commoditySpecifications = { specList,priceInVentory in
-                self.commodityModel?.specs = specList
+                
+//                self.commodityModel?.specs = specList
+                
                 self.commodityModel?.skus = priceInVentory
                 self.commoditySpLabel.text = "已设置"
                 self.isModify = true
@@ -1141,110 +1128,55 @@ class ReleaseGoodsViewController: BaseViewController {
     
     //发布
     @objc func publishAction(publishBtn:UIButton){
-        
-        /**
-         {
-           "categoryId": 0,
-           "freeRefundIn7Days": false,
-           "freightInsure": false,
-           "freightTempId": 0,
-           "multiSpec": false,
-           "productCode": "string",
-           "productDesc": "string",
-           "productId": "string",
-           "productName": "string",
-           "productPics": [
-             "string"
-           ],
-           "skus": [
-             {
-               "price": 0,
-               "restrictedQty": 0,
-               "skuCode": "string",
-               "skuId": "string",
-               "skuPics": [
-                 "string"
-               ],
-               "specs": [
-                 {
-                   "specAttrId": 0,
-                   "specId": "string",
-                   "specValue": "string"
-                 }
-               ],
-               "stock": 0
-             }
-           ],
-           "specs": [
-             {
-               "specAttrId": 0,
-               "specId": "string",
-               "specValue": "string"
-             }
-           ],
-           "spus": [
-             {
-               "spuAttrId": 0,
-               "spuAttrName": "string",
-               "spuId": "string",
-               "spuValue": "string"
-             }
-           ],
-           "stockDeductType": 0
-         }
-         */
-
-        
         //这边要对specs 商品规格  skus  价格库存 spus 商品参数(Spu)
-        
-        
         var specsList:String = "["
-        for i in 0..<(commodityModel?.specs?.count ?? 0) {
-            let specs = commodityModel?.specs![i]
-            let specsDict = ["specAttrId":specs?.specAttrId as Any,"specId":specs?.specId as Any,"specValue":specs?.specValue as Any] as [String:Any]
-            let jsonstring = getJSONStringFromData(obj: specsDict, isEscape: true)
-            if i == 0{
-                specsList += jsonstring
-            }else
-            {
-                specsList += "," + jsonstring
-            }
-        }
-        specsList += "]"
+//        for i in 0..<(commodityModel?.specs?.count ?? 0) {
+//            let specs = commodityModel?.specs![i]
+//            let specsDict = ["specAttrId":specs?.specAttrId as Any,"specId":specs?.specId as Any,"specValue":specs?.specValue as Any] as [String:Any]
+//            let jsonstring = getJSONStringFromData(obj: specsDict, isEscape: true)
+//            if i == 0{
+//                specsList += jsonstring
+//            }else
+//            {
+//                specsList += "," + jsonstring
+//            }
+//        }
+//        specsList += "]"
         var skusList:String = "["
-        for j in 0..<(commodityModel?.skus?.count ?? 0){
-            let skus = commodityModel?.skus![j]
-
-            var specsLists:String = "["
-            for n in 0..<(skus?.specs?.count ?? 0){
-                let specs = skus?.specs![n]
-                let specsDict = ["specAttrId":specs?.specAttrId as Any,"specId":specs?.specId as Any,"specValue":specs?.specValue as Any] as [String:Any]
-                let jsonstring = getJSONStringFromData(obj: specsDict, isEscape: true)
-                if n == 0{
-                    specsLists += jsonstring
-                }else
-                {
-                    specsLists += "," + jsonstring
-                }
-            }
-            specsLists += "]"
-            let skusDict = ["price":skus?.price as Any,"restrictedQty":skus?.restrictedQty as Any,"skuCode":skus?.skuCode as Any,"skuId":skus?.skuId as Any,"skuPics":[String]() as Any,"specs":"","stock":skus?.stock as Any] as [String:Any]
-            let jsonstring = getJSONStringFromData(obj: skusDict, isEscape: true)
-            if j == 0{
-                skusList += jsonstring
-            }else
-            {
-                skusList += "," + jsonstring
-            }
-          skusList = (skusList as NSString).replacingOccurrences(of: "\"skuPics\":[]", with: ((skus?.skuPics?.count ?? 0) > 0 ? "\"skuPics\":" + "[" +
-                                                                                                  (skus?.skuPics?.last ?? "") + "]" : "\"skuPics\":[]")) as String
-          skusList = (skusList as NSString).replacingOccurrences(of: "\"specs\":\"\"", with: "\"specs\":" + specsLists) as String
-        }
-        skusList += "]"
+//        for j in 0..<(commodityModel?.skus?.count ?? 0){
+//            let skus = commodityModel?.skus![j]
+//
+//            var specsLists:String = "["
+//            for n in 0..<(skus?.specs?.count ?? 0){
+//                let specs = skus?.specs![n]
+//                let specsDict = ["specAttrId":specs?.specAttrId as Any,"specId":specs?.specId as Any,"specValue":specs?.specValue as Any] as [String:Any]
+//                let jsonstring = getJSONStringFromData(obj: specsDict, isEscape: true)
+//                if n == 0{
+//                    specsLists += jsonstring
+//                }else
+//                {
+//                    specsLists += "," + jsonstring
+//                }
+//            }
+//            specsLists += "]"
+//            let skusDict = ["price":skus?.price as Any,"restrictedQty":skus?.restrictedQty as Any,"skuCode":skus?.skuCode as Any,"skuId":skus?.skuId as Any,"skuPics":[String]() as Any,"specs":"","stock":skus?.stock as Any] as [String:Any]
+//            let jsonstring = getJSONStringFromData(obj: skusDict, isEscape: true)
+//            if j == 0{
+//                skusList += jsonstring
+//            }else
+//            {
+//                skusList += "," + jsonstring
+//            }
+//          skusList = (skusList as NSString).replacingOccurrences(of: "\"skuPics\":[]", with: ((skus?.skuPics?.count ?? 0) > 0 ? "\"skuPics\":" + "[" +
+//                                                                                                  (skus?.skuPics?.last ?? "") + "]" : "\"skuPics\":[]")) as String
+//          skusList = (skusList as NSString).replacingOccurrences(of: "\"specs\":\"\"", with: "\"specs\":" + specsLists) as String
+//        }
+//        skusList += "]"
+        
         var spusList:String = "["
         for k in 0..<(commodityModel?.spus?.count ?? 0){
             let spus = commodityModel?.spus![k]
-            let spusDict = ["spuAttrId":spus?.spuAttrId as Any,"spuAttrName":spus?.spuAttrName as Any,"spuId":spus?.spuId as Any,"spuValue":spus?.spuValue as Any] as [String:Any]
+            let spusDict = ["length":spus?.length as Any,"required":spus?.required as Any,"spuAttrId":spus?.spuAttrId as Any,"spuAttrName":spus?.spuAttrName as Any,"spuId":spus?.spuId as Any,"spuType":spus?.spuType as Any,"spuValue":spus?.spuValue as Any] as [String:Any]
             let jsonstring = getJSONStringFromData(obj: spusDict, isEscape: true)
             if k == 0{
                 spusList += jsonstring
@@ -1254,6 +1186,7 @@ class ReleaseGoodsViewController: BaseViewController {
             }
         }
         spusList += "]"
+        LXFLog("==================\(spusList)")
         
 //        var specsList:[[String:Any]] = [[String:Any]]()
 //        for j in 0..<(commodityModel?.specs?.count ?? 0){
@@ -1286,7 +1219,7 @@ class ReleaseGoodsViewController: BaseViewController {
         
         
         
-        let parameters = ["categoryId":0,"freeRefundIn7Days":returnGoodsSwitch.isOn,"freightInsure":returnGoodsInsuranceSwitch.isOn,"freightTempId":0,"multiSpec":specificationsSwitch.isOn,"productCode":goodsCardTextField.text ?? "","productDesc":(commodityModel?.productDesc ?? "") as Any,"productId":"","productName":goodsTextView.text ?? "","productPics":(commodityModel?.productPics ?? [String]()) as Any,"skus":(skusList.count > 0 ? skusList : [Skus]()) as Any,"specs":( specsList.count > 0 ? specsList : [Specs]() )as Any,"spus":(spusList.count > 0 ? spusList : [Spus]()) as Any,"stockDeductType":1] as [String:Any]
+        let parameters = ["categoryId":0,"freeRefundIn7Days":returnGoodsSwitch.isOn,"freightInsure":returnGoodsInsuranceSwitch.isOn,"freightTempId":0,"multiSpec":specificationsSwitch.isOn,"productCode":goodsCardTextField.text ?? "","productDesc":(commodityModel?.productDesc ?? "") as Any,"productId":Int64(0),"productName":goodsTextView.text ?? "","productPics":(commodityModel?.productPics ?? [String]()) as Any,"skus":(skusList.count > 0 ? skusList : [Skus]()) as Any,"specs":( specsList.count > 0 ? specsList : [Specs]() )as Any,"spus":(spusList.count > 0 ? spusList : [Spus]()) as Any,"stockDeductType":1] as [String:Any]
         NetWorkResultRequest(OrderApi.productPublish(parameters: parameters), needShowFailAlert: true) { result, data in
          
                          
@@ -1368,6 +1301,14 @@ class ReleaseGoodsViewController: BaseViewController {
              }
             
             
+//            commodityModel?.specs = [Specs]()
+//            commodityModel?.skus = [Skus]()
+            
+            
+            
+             
+            
+            
         }else{
             
             
@@ -1381,6 +1322,12 @@ class ReleaseGoodsViewController: BaseViewController {
                 make.width.equalTo(SCW)
                 make.height.equalTo(scale(50))
             }
+            
+            
+            
+            
+            
+            
           
         }
     }

@@ -70,7 +70,7 @@ class ProductDescriptionViewController: BaseViewController {
    
     
     //0为新发布，1位编辑
-    var type:Int = 0
+//    var type:Int = 0
     
     var inputString:String?
     
@@ -90,7 +90,7 @@ class ProductDescriptionViewController: BaseViewController {
         setUI()
         
         //这里利用模型来判断是编辑过得数据还是没有新要发布的
-        if type == 1{
+        if inputString != nil{
             if let array = getArrayOrDicFromJSONString(jsonString: inputString ?? "") as? [[String:Any]]{
                 let mutableAttributedStr = NSMutableAttributedString()
                 for dict in array {

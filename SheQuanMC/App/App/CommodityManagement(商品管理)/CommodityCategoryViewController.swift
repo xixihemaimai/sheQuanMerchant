@@ -26,9 +26,9 @@ class CommodityCategoryViewController: BaseViewController {
     
     var categoryList:[BussinessSecondTypeModel] = [BussinessSecondTypeModel]()
     
-//    var choiceTag:[String:Int] = [String:Int]()
+    var selectCategoryId:Int32 = 0
     
-    
+    //用来判断是选择了那个商品类目
     var choiceGoodsTypeTitle:((_ model:BussinessSecondTypeModel)->Void)?
 
     override func viewDidLoad() {
@@ -60,7 +60,8 @@ class CommodityCategoryViewController: BaseViewController {
         tableview.dataSource = self
         tableview.register(CommodityCategoryCell.self, forCellReuseIdentifier: "CommodityCategoryCell")
         
- 
+
+        
         getProductCategoryList()
         
     }
@@ -149,11 +150,12 @@ extension CommodityCategoryViewController:UITableViewDelegate,UITableViewDataSou
         let cell = tableView.dequeueReusableCell(withIdentifier: "CommodityCategoryCell")
         as! CommodityCategoryCell
         cell.model = categoryList[indexPath.row]
+        if cell.model?.categoryId == selectCategoryId{
+            cell.choiceBtn.isSelected = true
+        }else{
+            cell.choiceBtn.isSelected = false
+        }
         cell.choiceBtn.tag = indexPath.row
-//        cell.choiceBtn.addTarget(self, action: #selector(choiceSecondCategoryAction), for: .touchUpInside)
-//        if indexPath.row == choiceTag["tag"]{
-//            cell.choiceBtn.isSelected = true
-//        }
         return cell
     }
     

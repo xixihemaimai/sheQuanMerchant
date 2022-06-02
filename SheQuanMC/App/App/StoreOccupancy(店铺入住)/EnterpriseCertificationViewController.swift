@@ -598,19 +598,14 @@ class EnterpriseCertificationViewController: BaseViewController {
             //身份证号
             idCardTextField.text = StoreService.shared.currentUser?.certNo
             
+        LXFLog("========\(String(describing: StoreService.shared.currentUser?.frontPic))")
+        LXFLog("========\(String(describing: StoreService.shared.currentUser?.reversePic))")
+        LXFLog("========\(String(describing: StoreService.shared.currentUser?.licencePic))")
         
         if (StoreService.shared.currentUser?.frontPic.count ?? 0) > 0{
             //身份证正面
-//            cardFrontBtn
-//            cardFrontBtn.kf.setBackgroundImage(with: URL(string: StoreService.shared.currentUser?.frontPic ?? ""), for: .normal)
-            
-            
-            
-            
-//            cardFrontBtn.kf.setBackgroundImage(with: URL(string: StoreService.shared.currentUser?.frontPic ?? ""), for: .normal, placeholder: UIImage(named: "Group 2743"), options: nil, progressBlock: nil, completionHandler: nil)
-            
-            cardFrontBtn.sd_setImage(with: URL(string: StoreService.shared.currentUser?.frontPic ?? ""), for: .normal, placeholderImage: UIImage(named: "Group 2743"))
-            
+             //cardFrontBtn.kf.setBackgroundImage(with: URL(string: StoreService.shared.currentUser?.frontPic ?? ""), for: .normal)
+            cardFrontBtn.sd_setBackgroundImage(with: URL(string: StoreService.shared.currentUser?.frontPic ?? ""), for: .normal, placeholderImage: UIImage(named: "Group 2743"))
             cardFrontDeleteBtn.isHidden = false
         }else
         {
@@ -618,14 +613,9 @@ class EnterpriseCertificationViewController: BaseViewController {
         }
         if (StoreService.shared.currentUser?.reversePic.count ?? 0) > 0{
             //身份证反面
-//            cardBackDeleteBtn
-//            cardBackBtn.kf.setBackgroundImage(with: URL(string: StoreService.shared.currentUser?.reversePic ?? ""), for: .normal)
-            
-//            cardFrontBtn.kf.setBackgroundImage(with: URL(string: StoreService.shared.currentUser?.reversePic ?? ""), for: .normal, placeholder: UIImage(named: "Group 2744"), options: nil, progressBlock: nil, completionHandler: nil)
-            
-            
-            cardBackBtn.sd_setImage(with: URL(string: StoreService.shared.currentUser?.reversePic ?? ""), for: .normal, placeholderImage: UIImage(named: "Group 2744"))
-            
+            //cardBackBtn.kf.setBackgroundImage(with: URL(string: StoreService.shared.currentUser?.reversePic ?? ""), for: .normal)
+            //cardFrontBtn.kf.setBackgroundImage(with: URL(string: StoreService.shared.currentUser?.reversePic ?? ""), for: .normal, placeholder: UIImage(named: "Group 2744"), options: nil, progressBlock: nil, completionHandler: nil)
+            cardBackBtn.sd_setBackgroundImage(with: URL(string: StoreService.shared.currentUser?.reversePic ?? ""), for: .normal, placeholderImage: UIImage(named: "Group 2744"))
             cardBackDeleteBtn.isHidden = false
         }else{
             cardBackDeleteBtn.isHidden = true
@@ -633,18 +623,13 @@ class EnterpriseCertificationViewController: BaseViewController {
         
         if (StoreService.shared.currentUser?.licencePic.count ?? 0) > 0{
             //营业执照
-//            bussInBtn
-//            bussInBtn.kf.setBackgroundImage(with:  URL(string: StoreService.shared.currentUser?.licencePic ?? ""), for: .normal)
-            
-//            cardFrontBtn.kf.setBackgroundImage(with: URL(string: StoreService.shared.currentUser?.licencePic ?? ""), for: .normal, placeholder: UIImage(named: "Group 2745"), options: nil, progressBlock: nil, completionHandler: nil)
-            
-            bussInBtn.sd_setImage(with: URL(string: StoreService.shared.currentUser?.licencePic ?? ""), for: .normal, placeholderImage: UIImage(named: "Group 2745"))
-            
+            //bussInBtn.kf.setBackgroundImage(with:  URL(string: StoreService.shared.currentUser?.licencePic ?? ""), for: .normal)
+            //cardFrontBtn.kf.setBackgroundImage(with: URL(string: StoreService.shared.currentUser?.licencePic ?? ""), for: .normal, placeholder: UIImage(named: "Group 2745"), options: nil, progressBlock: nil, completionHandler: nil)
+            bussInBtn.sd_setBackgroundImage(with: URL(string: StoreService.shared.currentUser?.licencePic ?? ""), for: .normal, placeholderImage: UIImage(named: "Group 2745"))
             bussInDeleteBtn.isHidden = false
         }else{
             bussInDeleteBtn.isHidden = true
         }
-//        }
     }
     
     
@@ -706,9 +691,6 @@ class EnterpriseCertificationViewController: BaseViewController {
                     self?.hx_presentSelectPhotoController(with: self?.manager, didDone: { allList, photoList, videoList, isOriginal, viewController, manager in
                         if let photoModel:HXPhotoModel = photoList?.first{
                             //对图片进行
-//                            photoModel.thumbPhoto
-//                            sender.setBackgroundImage(photoModel.thumbPhoto, for: .normal)
-                            //网络请求的部分
                             let Parameters = ["fileType":20]
                             JFPopupView.popup.loading(hit: "上传图片中....")
                             guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
@@ -716,48 +698,24 @@ class EnterpriseCertificationViewController: BaseViewController {
                                 do{
                                     LXFLog(data)
                                     let json = try JSON(data: data)
+                                    LXFLog(json["data"]["cloudUrl"])
                                     if sender.tag == 0{
-                                        //身份证正面
-//                                        sender.kf.setBackgroundImage(with: URL(string:json["data"]["cloudUrl"].string ?? ""), for: .normal)
-                                        
-                                        
                                         let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
-                                        
                                         sender.sd_setBackgroundImage(with: URL(string: str), for: .normal, placeholderImage: UIImage(named: "Group 2743"))
-                                        
-                                        
+                                        //身份证正面
                                         StoreService.shared.updateFrontPic(str)
+                                        
                                     }else if sender.tag == 1{
+                                        
                                         let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
-//                                        sender.kf.setBackgroundImage(with: URL(string:str), for: .normal, placeholder: UIImage(named: "Group 2744"), options: nil, progressBlock: nil, completionHandler: nil)
-                                        
-                                        
-                                        
                                         sender.sd_setBackgroundImage(with: URL(string: str), for: .normal, placeholderImage: UIImage(named: "Group 2744"))
-//                                        sender.kf.setBackgroundImage(with: URL(string:json["data"]["cloudUrl"].string ?? ""), for: .normal)
                                         //身份证方面
                                         StoreService.shared.updateReversePic(str)
                                     }else{
                                         let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
-//                                        sender.kf.setBackgroundImage(with: URL(string:str), for: .normal, placeholder: UIImage(named: "Group 2745"), options: nil, progressBlock: nil, completionHandler: nil)
-                                        
                                         sender.sd_setBackgroundImage(with: URL(string: str), for: .normal, placeholderImage: UIImage(named: "Group 2745"))
-                                        
-//                                        sender.kf.setBackgroundImage(with: URL(string:json["data"]["cloudUrl"].string ?? ""), for: .normal)
                                         StoreService.shared.updateLicencePic(str)
                                     }
-//                                    if sender.tag == 0{
-//                                        //身份证正面
-//                                        sender.kf.setBackgroundImage(with: URL(string:json["data"]["cloudUrl"].string ?? ""), for: .normal)
-//                                        StoreService.shared.updateFrontPic(json["data"]["cloudUrl"].string ?? "")
-//                                    }else if sender.tag == 1{
-//                                        sender.kf.setBackgroundImage(with: URL(string:json["data"]["cloudUrl"].string ?? ""), for: .normal)
-//                                        //身份证方面
-//                                        StoreService.shared.updateReversePic(json["data"]["cloudUrl"].string ?? "")
-//                                    }else{
-//                                        sender.kf.setBackgroundImage(with: URL(string:json["data"]["cloudUrl"].string ?? ""), for: .normal)
-//                                        StoreService.shared.updateLicencePic(json["data"]["cloudUrl"].string ?? "")
-//                                    }
                                     //这边要判断删除是否显示
                                     if sender.tag == 0{
                                         self?.cardFrontDeleteBtn.isHidden = false
@@ -780,7 +738,6 @@ class EnterpriseCertificationViewController: BaseViewController {
                     self?.hx_presentCustomCameraViewController(with: self?.manager) { photoList, viewController in
                         if let photoModel:HXPhotoModel = photoList{
                             //对图片进行
-//                            self?.headerImageView.image = photoModel.thumbPhoto
                             let Parameters = ["fileType":20]
                             JFPopupView.popup.loading(hit: "上传图片中....")
                             guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
@@ -790,25 +747,17 @@ class EnterpriseCertificationViewController: BaseViewController {
                                     let json = try JSON(data: data)
                                     if sender.tag == 0{
                                         //身份证正面
-//                                        sender.kf.setBackgroundImage(with: URL(string:json["data"]["cloudUrl"].string ?? ""), for: .normal)
                                         let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
-//                                        sender.kf.setBackgroundImage(with: URL(string:str), for: .normal, placeholder: UIImage(named: "Group 2743"), options: nil, progressBlock: nil, completionHandler: nil)
                                         sender.sd_setBackgroundImage(with: URL(string: str), for: .normal, placeholderImage: UIImage(named: "Group 2743"))
-                                        
                                         StoreService.shared.updateFrontPic(str)
                                     }else if sender.tag == 1{
                                         let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
-//                                        sender.kf.setBackgroundImage(with: URL(string:str), for: .normal, placeholder: UIImage(named: "Group 2744"), options: nil, progressBlock: nil, completionHandler: nil)
                                         sender.sd_setBackgroundImage(with: URL(string: str), for: .normal, placeholderImage: UIImage(named: "Group 2744"))
-                                        
-//                                        sender.kf.setBackgroundImage(with: URL(string:json["data"]["cloudUrl"].string ?? ""), for: .normal)
                                         //身份证方面
                                         StoreService.shared.updateReversePic(str)
                                     }else{
                                         let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
-//                                        sender.kf.setBackgroundImage(with: URL(string:str), for: .normal, placeholder: UIImage(named: "Group 2745"), options: nil, progressBlock: nil, completionHandler: nil)
                                         sender.sd_setBackgroundImage(with: URL(string: str), for: .normal, placeholderImage: UIImage(named: "Group 2745"))
-//                                        sender.kf.setBackgroundImage(with: URL(string:json["data"]["cloudUrl"].string ?? ""), for: .normal)
                                         StoreService.shared.updateLicencePic(str)
                                     }
                                     //这边要判断删除是否显示
@@ -898,16 +847,33 @@ class EnterpriseCertificationViewController: BaseViewController {
             let enterpriseAuditVc = EnterpriseAuditViewController()
             enterpriseAuditVc.audit = self!.audit
             Coordinator.shared?.pushViewController(self!, enterpriseAuditVc, animated: true)
-            JFPopup.toast(hit: "企业认证成功", icon: .success)
-            let mutableArr = NSMutableArray(array: self?.navigationController?.viewControllers ?? [])
-            for i in 0..<mutableArr.count {
-                let vc = mutableArr[i] as! UIViewController
-                if vc.isKind(of: EnterpriseCertificationViewController.self){
-                    mutableArr.removeObject(at: i)
+//            JFPopup.toast(hit: "企业认证成功", icon: .success)
+
+            
+            let mutableArr1 = NSMutableArray(array: self?.navigationController?.viewControllers ?? [])
+                for i in 0..<mutableArr1.count {
+                let vc = mutableArr1[i] as! UIViewController
+                if vc.isKind(of: StoreOccupancyViewController.self){
+                    mutableArr1.removeObject(at: i)
                     break
                 }
             }
-            self?.navigationController?.viewControllers = mutableArr as! [UIViewController]
+            self?.navigationController?.viewControllers = mutableArr1 as! [UIViewController]
+            
+            
+            
+//            let mutableArr = NSMutableArray(array: self?.navigationController?.viewControllers ?? [])
+            for i in 0..<mutableArr1.count {
+                let vc = mutableArr1[i] as! UIViewController
+                if vc.isKind(of: EnterpriseCertificationViewController.self){
+                    mutableArr1.removeObject(at: i)
+                    break
+                }
+            }
+            self?.navigationController?.viewControllers = mutableArr1 as! [UIViewController]
+            
+          
+            
         } failureCallback: { error,code in
         }
     }

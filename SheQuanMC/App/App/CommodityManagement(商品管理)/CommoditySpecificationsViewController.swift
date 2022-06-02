@@ -34,12 +34,16 @@ class CommoditySpecificationsViewController: BaseViewController {
     
     
     
+    var categoryId:Int32 = 0
+    
+    
+    
     
     //这个用来判断是否添加俩个（不管后台传多少个，增删改查都没有关系）
     var addCoutList:[String] = [String]()
     
     //保存的是规格的数量(Specs 模型)
-    var saveList:[String] = [String]()
+    var saveList:[SpecGroups] = [SpecGroups]()
     
     //保存规格值得数组
     var saveValueList:[[Specs]] = [[Specs]]()
@@ -190,23 +194,43 @@ class CommoditySpecificationsViewController: BaseViewController {
         if addCoutList.count < 2{
             self.popup.bottomSheet {
                 
-                let addSpecificationsView = AddSpecificationsView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(400)), addSpecificationList: addCoutList)
+                let addSpecificationsView = AddSpecificationsView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(400)), addSpecificationList: addCoutList,categoryId: categoryId)
                 addSpecificationsView.cancelBlock = {[weak self] in
                     self?.popup.dismissPopup()
                 }
+                
+
+                
                 addSpecificationsView.sendSureSpecificationList = {[weak self] list in
                     for i in 0..<list.count {
-                        self?.saveList.append(list[i])
-                        self?.addCoutList.append(list[i])
-                        let colorList = [Specs]()
-                        self?.saveValueList.append(colorList)
-                    }
+                        let specGroups = list[i]
+                //                      let specGroups = SpecGroups(specGroupId: <#T##Int64?#>, specGroupName: <#T##String?#>, specs: <#T##[String]?#>)
+                            self?.saveList.append(specGroups)
+                            self?.addCoutList.append(specGroups.specGroupName ?? "")
+                            let colorList = [Specs]()
+                            self?.saveValueList.append(colorList)
+                        }
                     self?.newTableView.reloadData()
                     self?.popup.dismissPopup()
                 }
+                
+//                addSpecificationsView.sendSureSpecificationList = {[weak self] list in
+//                    for i in 0..<list.count {
+//                        let specGroups = list[i]
+////                      let specGroups = SpecGroups(specGroupId: <#T##Int64?#>, specGroupName: <#T##String?#>, specs: <#T##[String]?#>)
+//
+//                        self?.saveList.append(specGroups)
+//                        self?.addCoutList.append(specGroups)
+//
+//                        let colorList = [Specs]()
+//                        self?.saveValueList.append(colorList)
+//                    }
+//                    self?.newTableView.reloadData()
+//                    self?.popup.dismissPopup()
+//                }
                 return addSpecificationsView
             }
-            
+             
     //       let colorList = [String]()
     //       colorList.insert(String(1), at: 0)
     //       saveList.append(colorList)
@@ -219,7 +243,7 @@ class CommoditySpecificationsViewController: BaseViewController {
     
     //添加规格值得value
     @objc func addSpecificationValueAction(addBtn:UIButton){
-        let value = saveList[addBtn.tag]
+        let specGroups = saveList[addBtn.tag]
         var colorList = saveValueList[addBtn.tag]
         var isAdd:Bool = true
         for i in 0..<colorList.count {
@@ -234,11 +258,10 @@ class CommoditySpecificationsViewController: BaseViewController {
         if isAdd{
             if colorList.count < 20{
 //                colorList.append("")
-                let specs = Specs(specAttrId: 0, specId: value, specValue: "")
+                let specs = Specs(specGroupId: specGroups.specGroupId,specValue: "")
                 colorList.append(specs)
                 saveValueList[addBtn.tag] = colorList
                 newTableView.reloadData()
-                
                 guard let cell = newTableView.cellForRow(at: IndexPath(row: addBtn.tag, section: 0)) as? CommoditySpecificationCell else{
 //                    let cell = newTableView.dequeueReusableCell(withIdentifier: "CommoditySpecificationCell", for: IndexPath(item: addBtn.tag, section: 0)) as! CommoditySpecificationCell
 //                    var list:[UITextField] = [UITextField]()
@@ -287,23 +310,6 @@ class CommoditySpecificationsViewController: BaseViewController {
             }
         }
         if valueInt > 1{
-            //let colorList = saveValueList[0]
-            //if saveValueList.count > 1{
-            //   let newColorList = saveValueList[1]
-            //   if newColorList.count > 0{
-            //      for specs in colorList{
-            //          for specs1 in newColorList{
-            //              let skus = Skus(price: 0, restrictedQty: 0, skuCode: "", skuId: "", skuPics: [String](), specs: [specs,specs1], stock: 0)
-            //              unIonSetList.append(skus)
-            //          }
-            //      }
-            //   }else{
-            //      for specs in colorList{
-            //          let skus = Skus(price: 0, restrictedQty: 0, skuCode: "", skuId: "", skuPics: [String](), specs: [specs], stock: 0)
-            //          unIonSetList.append(skus)
-            //      }
-            //   }
-            
             getCombination(kid: 0, inputArray: saveValueList, addArray: [Skus]())
             unIonSetList = arrayForConsolidationValueThe(array: combinationArray)
             combinationArray.removeAll()
@@ -311,7 +317,6 @@ class CommoditySpecificationsViewController: BaseViewController {
             for i in 0..<temArray.count {
                 var value = ""
                 let skus = temArray[i]
-//                unIonSetList.append(skus)
                 for i in 0..<(skus.specs?.count ?? 0){
                     let specs = skus.specs?[i] as? Specs
                     value += specs?.specValue ?? ""
@@ -330,26 +335,16 @@ class CommoditySpecificationsViewController: BaseViewController {
                     }
                 }
             }
-            
-            
-            LXFLog("======================\(unIonSetList.count)")
-//          let array = arrayUnionListIsTheSameArray(array: unIonSetList)
-//          unIonSetList = arrayUnionListChageArray(array: array)
-            //这边是俩个数组对比tempArray和unIonSetList
-            LXFLog("======================\(unIonSetList)")
-            
-            
         }else{
             
             for i in 0..<saveValueList.count{
                 let colorList = saveValueList[i]
                 for specs in colorList{
-                    let skus = Skus(mixPurchase: 0, price: 0, restrictedQty: 0, skuCode: "", skuId: "", skuPics: [String](), specs: [specs], stock: 0)
+                    let skus = Skus( price: 0,skuCode: "", skuId: 0, skuPics: [String](), specs: [specs], stock: 0)
                     unIonSetList.append(skus)
                 }
             }
             for skus in temArray {
-//                let spec = skus.specs?.first
                 var value = ""
                 for i in 0..<(skus.specs?.count ?? 0){
                     let specs = skus.specs?[i] as? Specs
@@ -357,7 +352,6 @@ class CommoditySpecificationsViewController: BaseViewController {
                 }
                 for i in 0..<unIonSetList.count{
                    var skus1 = unIonSetList[i]
-//                    let spec1 = skus1.specs?.first
                     var value1 = ""
                     for i in 0..<(skus1.specs?.count ?? 0){
                         let specs1 = skus1.specs?[i] as? Specs
@@ -365,7 +359,7 @@ class CommoditySpecificationsViewController: BaseViewController {
                     }
                     if value == value1{
                        skus1 = skus
-                        unIonSetList[i] = skus1
+                       unIonSetList[i] = skus1
                        break
                     }
                 }
@@ -387,7 +381,7 @@ class CommoditySpecificationsViewController: BaseViewController {
                for i in 0 ..< dataArr.count {
                    var newArr = addArray
                    let specs = dataArr[i]
-                   let skus = Skus(mixPurchase: 0, price: 0, restrictedQty: 0, skuCode: "", skuId: "", skuPics: [String](), specs: [specs], stock: 0)
+                   let skus = Skus(price: 0,skuCode: "", skuId: 0, skuPics: [String](), specs: [specs], stock: 0)
                    newArr.append(skus)
                    getCombination(kid: kid + 1, inputArray: inputArray, addArray: newArr)
                }
@@ -397,9 +391,7 @@ class CommoditySpecificationsViewController: BaseViewController {
                    dataArr.append(addArray[i])
                }
                combinationArray.append(dataArr)
-               LXFLog("---------------\(combinationArray)")
            }
-        LXFLog("----11-----------\(combinationArray.count)")
     }
     
     
@@ -492,24 +484,6 @@ class CommoditySpecificationsViewController: BaseViewController {
     }
     
     //这里要写一个方法对数组进行便利，对相同的规格进行添加到一个数组中
-    /**
-     NSMutableArray *array = [NSMutableArray arrayWithArray:array1];
-     NSMutableArray *dateMutablearray = [@[] mutableCopy];
-        for (int i = 0; i < array.count; i ++) {
-            NSString *string = array[i];
-            NSMutableArray *tempArray = [@[] mutableCopy];
-            [tempArray addObject:string];
-            for (int j = i+1; j < array.count; j ++) {
-                NSString *jstring = array[j];
-                if([string isEqualToString:jstring]){
-                    [tempArray addObject:jstring];
-                    [array removeObjectAtIndex:j];
-                    j -= 1;
-                }
-            }
-          [dateMutablearray addObject:tempArray];
-        }
-     */
     //对数据进行整理->对相同的数组里面相同的进行整理
     func arrayConvenienceIsTheSameArray(array:[Specs]) -> [[Specs]]{
         var array1 = array
@@ -520,7 +494,7 @@ class CommoditySpecificationsViewController: BaseViewController {
             temp.append(specs)
             for var j in 1..<array.count{
                 let specs1 = array[j]
-                if specs.specId == specs1.specId{
+                if specs.specGroupId == specs1.specGroupId{
                     temp.append(specs1)
                     array1.remove(at: j)
                     j -= 1
@@ -552,7 +526,7 @@ class CommoditySpecificationsViewController: BaseViewController {
         var tempArray = [Skus]()
         let array1 = array
         for i in 0..<array1.count{
-            var skus = Skus(mixPurchase: 0, price: 0, restrictedQty: 0, skuCode: "", skuId: "", skuPics: [String](), specs: [Specs](), stock: 0)
+            var skus = Skus(price: 0,skuCode: "", skuId: 0, skuPics: [String](), specs: [Specs](), stock: 0)
            let temp = array1[i]
             for j in 0..<temp.count{
                let skus1 = temp[j]
@@ -561,7 +535,6 @@ class CommoditySpecificationsViewController: BaseViewController {
                     skus.specs?.append(spec)
                 }
                 skus.price = skus1.price
-                skus.restrictedQty = skus1.restrictedQty
                 skus.skuCode = skus1.skuCode
                 skus.skuId = skus1.skuId
                 skus.skuPics = skus1.skuPics
@@ -647,8 +620,8 @@ extension CommoditySpecificationsViewController:UITableViewDelegate,UITableViewD
     
     func numberOfSections(in tableView: UITableView) -> Int {
         var isShowSection:Bool = false
-        for colorList in saveList {
-            if colorList.count > 0 {
+        for specGroups in saveList {
+            if (specGroups.specs?.count ?? 0) > 0 {
                 isShowSection = true
                 break
             }else{
@@ -697,7 +670,10 @@ extension CommoditySpecificationsViewController:UITableViewDelegate,UITableViewD
             cell.deleteBtn.tag = indexPath.row
             cell.addBtn.addTarget(self, action: #selector(addSpecificationValueAction), for: .touchUpInside)
             cell.deleteBtn.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
-            cell.specificationLabel.text = saveList[indexPath.row]
+//            cell.specificationLabel.text = saveList[indexPath.row]
+            let specGroups = saveList[indexPath.row]
+            cell.specificationLabel.text = specGroups.specGroupName
+            
 //            if saveValueList.count > 0{
             cell.colorList = saveValueList[indexPath.row]
 //            }
@@ -834,13 +810,25 @@ extension CommoditySpecificationsViewController:CommoditySpecificationCellDelega
     //删除规格值
     func deleteSaveListTagAndIndex(tag: Int, index: Int) {
         var colorList = saveValueList[tag]
+        let spec = colorList[index]
         colorList.remove(at: index)
+        
         saveValueList[tag] = colorList
         
+        var specGroups = saveList[tag]
+        for i in 0..<(specGroups.specs?.count ?? 0){
+            let str = specGroups.specs?[i]
+            if str == spec.specValue{
+               specGroups.specs?.remove(at: i)
+               break
+            }
+        }
+        saveList[tag] = specGroups
+        
+        LXFLog("=========================\(saveValueList)")
+        LXFLog("=========================\(saveList)")
         
         UnionSetArray(tag: tag, index: index)
-        
-        
         newTableView.reloadData()
     }
     
@@ -852,11 +840,17 @@ extension CommoditySpecificationsViewController:CommoditySpecificationCellDelega
             var specs = colorList[index]
             specs.specValue = value
             colorList[index] = specs
-            saveValueList[tag] = colorList
             
-            UnionSetArray(tag: tag, index: index)
+           saveValueList[tag] = colorList
+           var specGroups = saveList[tag]
+           specGroups.specs?.append(value)
+           saveList[tag] = specGroups
             
-            newTableView.reloadData()
+            LXFLog("=========================\(saveValueList)")
+           LXFLog("=========================\(saveList)")
+            
+           UnionSetArray(tag: tag, index: index)
+           newTableView.reloadData()
     
         }
     }

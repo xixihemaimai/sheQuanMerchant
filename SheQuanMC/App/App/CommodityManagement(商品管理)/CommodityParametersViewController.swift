@@ -71,6 +71,12 @@ class CommodityParametersViewController: BaseViewController {
 
     var paraList:[Spus] = [Spus]()
     
+    //0为新发布，1位编辑
+    var type:Int = 0
+    
+    
+    //填写的参数确认返回上一个界面
+    var sureParmeter:((_ spus:[Spus])->Void)?
     
     
     //生产场地
@@ -145,6 +151,14 @@ class CommodityParametersViewController: BaseViewController {
     
     var _brandBtn:UIButton!
     
+    
+     //商品类目ID
+    var categoryId:Int32 = 0
+     //商品ID
+    var productId:Int64 = Int64(0)
+    
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -152,160 +166,9 @@ class CommodityParametersViewController: BaseViewController {
         title = "商品参数"
         
         view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#f8f8f8")
-        
-        
-        //正品证书
-        let certifiedBtn = UIButton()
-        certifiedBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
-        view.addSubview(certifiedBtn)
-        
-        certifiedBtn.snp.makeConstraints { make in
-            make.left.right.equalToSuperview()
-            make.top.equalTo(scale(1))
-            make.height.equalTo(scale(50))
-        }
-        
-        
-        certifiedBtn.addTarget(self, action: #selector(isUploadPitureAction), for: .touchUpInside)
-        
-        
-        let starLabel = UILabel()
-        starLabel.text = "*"
-        starLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#E82626")
-        starLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .medium)
-        certifiedBtn.addSubview(starLabel)
-        
-        starLabel.snp.makeConstraints { make in
-            make.left.equalTo(scale(16))
-            make.centerY.equalToSuperview()
-            make.width.equalTo(scale(8))
-            make.height.equalTo(scale(20))
-        }
-        
-        
-        let qualityLabel = UILabel()
-        qualityLabel.text = "正品证书"
-        qualityLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#787878")
-        qualityLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
-        certifiedBtn.addSubview(qualityLabel)
-        
-        qualityLabel.snp.makeConstraints { make in
-            make.left.equalTo(starLabel.snp.right).offset(scale(1))
-            make.centerY.equalToSuperview()
-            make.width.equalTo(scale(70))
-            make.height.equalTo(scale(22))
-        }
-        
-        
-        certifiedBtn.addSubview(isUploadLabel)
-        isUploadLabel.snp.makeConstraints { make in
-            //make.left.equalTo(scale(25))
-            make.left.equalTo(qualityLabel.snp.right).offset(scale(25))
-            make.centerY.equalToSuperview()
-            make.right.equalTo(-scale(40))
-            make.height.equalTo(scale(50))
-        }
-        
-        
-        let rightImage = UIImageView()
-        rightImage.image = UIImage(named: "Frame-right")
-        certifiedBtn.addSubview(rightImage)
-        
-        rightImage.snp.makeConstraints { make in
-            make.right.equalTo(-scale(16))
-            make.width.height.equalTo(scale(24))
-            make.centerY.equalToSuperview()
-        }
-        
-        
-        let certifiedView = UIView()
-        certifiedView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
-        certifiedBtn.addSubview(certifiedView)
-        
-        certifiedView.snp.makeConstraints { make in
-            make.left.equalTo(scale(16))
-            make.right.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.height.equalTo(scale(0.5))
-        }
-        
-        //品牌
-        
-        let brandBtn = UIButton()
-        brandBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
-        view.addSubview(brandBtn)
-        
-        brandBtn.snp.makeConstraints { make in
-            make.left.right.equalToSuperview()
-            make.top.equalTo(certifiedBtn.snp.bottom)
-            make.height.equalTo(scale(50))
-        }
-        _brandBtn = brandBtn
-        
-        brandBtn.addTarget(self, action: #selector(choiceBrandAction), for: .touchUpInside)
-        
-        let brandStarLabel = UILabel()
-        brandStarLabel.text = "*"
-        brandStarLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#E82626")
-        brandStarLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .medium)
-        brandBtn.addSubview(brandStarLabel)
-        
-        brandStarLabel.snp.makeConstraints { make in
-            make.left.equalTo(scale(16))
-            make.centerY.equalToSuperview()
-            make.width.equalTo(scale(8))
-            make.height.equalTo(scale(20))
-        }
-        
-        let brandLabel = UILabel()
-        brandLabel.text = "品牌"
-        brandLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#787878")
-        brandLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
-        brandBtn.addSubview(brandLabel)
-        brandLabel.snp.makeConstraints { make in
-            make.left.equalTo(starLabel.snp.right).offset(scale(1))
-            make.centerY.equalToSuperview()
-            make.width.equalTo(scale(70))
-            make.height.equalTo(scale(22))
-        }
-        
-        
-        brandBtn.addSubview(brandNameLabel)
-        brandNameLabel.snp.makeConstraints { make in
-            make.left.equalTo(brandLabel.snp.right).offset(scale(25))
-            make.centerY.equalToSuperview()
-            make.right.equalTo(-scale(40))
-            make.height.equalTo(scale(50))
-        }
-        
-        let brandRightImage = UIImageView()
-        brandRightImage.image = UIImage(named: "Frame-right")
-        brandBtn.addSubview(brandRightImage)
-        
-        brandRightImage.snp.makeConstraints { make in
-            make.right.equalTo(-scale(16))
-            make.centerY.equalToSuperview()
-            make.width.height.equalTo(scale(24))
-        }
-        
-        
-        
-        let brandView = UIView()
-        brandView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
-        brandBtn.addSubview(brandView)
-        
-        brandView.snp.makeConstraints { make in
-            make.left.equalTo(scale(16))
-            make.right.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.height.equalTo(scale(0.5))
-        }
-        
-        
         view.addSubview(tableview)
         tableview.snp.makeConstraints { make in
-            make.left.right.equalToSuperview()
-            make.top.equalTo(brandView.snp.bottom)
+            make.left.top.right.equalToSuperview()
             make.bottom.equalTo(iPhoneX ? -scale(92) : -scale(58))
         }
         
@@ -313,11 +176,174 @@ class CommodityParametersViewController: BaseViewController {
         tableview.delegate = self
         tableview.dataSource = self
         
-        
         tableview.register(CommodityParameterCell.self, forCellReuseIdentifier: "CommodityParameterCell")
         
         
         
+        
+        
+        
+        if paraList.count > 0{
+            //这边是已经填写过得
+            LXFLog("+============3===========\(paraList)")
+            self.tableview.reloadData()
+        }else{
+            //这边是新进来的
+            loadOrderSpuInfoList()
+        }
+        
+        
+        
+        
+        //正品证书
+//        let certifiedBtn = UIButton()
+//        certifiedBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
+//        view.addSubview(certifiedBtn)
+//
+//        certifiedBtn.snp.makeConstraints { make in
+//            make.left.right.equalToSuperview()
+//            make.top.equalTo(scale(1))
+//            make.height.equalTo(scale(50))
+//        }
+//
+//
+//        certifiedBtn.addTarget(self, action: #selector(isUploadPitureAction), for: .touchUpInside)
+//
+//
+//        let starLabel = UILabel()
+//        starLabel.text = "*"
+//        starLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#E82626")
+//        starLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .medium)
+//        certifiedBtn.addSubview(starLabel)
+//
+//        starLabel.snp.makeConstraints { make in
+//            make.left.equalTo(scale(16))
+//            make.centerY.equalToSuperview()
+//            make.width.equalTo(scale(8))
+//            make.height.equalTo(scale(20))
+//        }
+//
+//
+//        let qualityLabel = UILabel()
+//        qualityLabel.text = "正品证书"
+//        qualityLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#787878")
+//        qualityLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
+//        certifiedBtn.addSubview(qualityLabel)
+//
+//        qualityLabel.snp.makeConstraints { make in
+//            make.left.equalTo(starLabel.snp.right).offset(scale(1))
+//            make.centerY.equalToSuperview()
+//            make.width.equalTo(scale(70))
+//            make.height.equalTo(scale(22))
+//        }
+//
+//
+//        certifiedBtn.addSubview(isUploadLabel)
+//        isUploadLabel.snp.makeConstraints { make in
+//            //make.left.equalTo(scale(25))
+//            make.left.equalTo(qualityLabel.snp.right).offset(scale(25))
+//            make.centerY.equalToSuperview()
+//            make.right.equalTo(-scale(40))
+//            make.height.equalTo(scale(50))
+//        }
+//
+//
+//        let rightImage = UIImageView()
+//        rightImage.image = UIImage(named: "Frame-right")
+//        certifiedBtn.addSubview(rightImage)
+//
+//        rightImage.snp.makeConstraints { make in
+//            make.right.equalTo(-scale(16))
+//            make.width.height.equalTo(scale(24))
+//            make.centerY.equalToSuperview()
+//        }
+//
+//
+//        let certifiedView = UIView()
+//        certifiedView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
+//        certifiedBtn.addSubview(certifiedView)
+//
+//        certifiedView.snp.makeConstraints { make in
+//            make.left.equalTo(scale(16))
+//            make.right.equalToSuperview()
+//            make.bottom.equalToSuperview()
+//            make.height.equalTo(scale(0.5))
+//        }
+//
+//        //品牌
+//
+//        let brandBtn = UIButton()
+//        brandBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
+//        view.addSubview(brandBtn)
+//
+//        brandBtn.snp.makeConstraints { make in
+//            make.left.right.equalToSuperview()
+//            make.top.equalTo(certifiedBtn.snp.bottom)
+//            make.height.equalTo(scale(50))
+//        }
+//        _brandBtn = brandBtn
+//
+//        brandBtn.addTarget(self, action: #selector(choiceBrandAction), for: .touchUpInside)
+//
+//        let brandStarLabel = UILabel()
+//        brandStarLabel.text = "*"
+//        brandStarLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#E82626")
+//        brandStarLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .medium)
+//        brandBtn.addSubview(brandStarLabel)
+//
+//        brandStarLabel.snp.makeConstraints { make in
+//            make.left.equalTo(scale(16))
+//            make.centerY.equalToSuperview()
+//            make.width.equalTo(scale(8))
+//            make.height.equalTo(scale(20))
+//        }
+//
+//        let brandLabel = UILabel()
+//        brandLabel.text = "品牌"
+//        brandLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#787878")
+//        brandLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
+//        brandBtn.addSubview(brandLabel)
+//        brandLabel.snp.makeConstraints { make in
+//            make.left.equalTo(starLabel.snp.right).offset(scale(1))
+//            make.centerY.equalToSuperview()
+//            make.width.equalTo(scale(70))
+//            make.height.equalTo(scale(22))
+//        }
+//
+//
+//        brandBtn.addSubview(brandNameLabel)
+//        brandNameLabel.snp.makeConstraints { make in
+//            make.left.equalTo(brandLabel.snp.right).offset(scale(25))
+//            make.centerY.equalToSuperview()
+//            make.right.equalTo(-scale(40))
+//            make.height.equalTo(scale(50))
+//        }
+//
+//        let brandRightImage = UIImageView()
+//        brandRightImage.image = UIImage(named: "Frame-right")
+//        brandBtn.addSubview(brandRightImage)
+//
+//        brandRightImage.snp.makeConstraints { make in
+//            make.right.equalTo(-scale(16))
+//            make.centerY.equalToSuperview()
+//            make.width.height.equalTo(scale(24))
+//        }
+//
+//
+//
+//        let brandView = UIView()
+//        brandView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
+//        brandBtn.addSubview(brandView)
+//
+//        brandView.snp.makeConstraints { make in
+//            make.left.equalTo(scale(16))
+//            make.right.equalToSuperview()
+//            make.bottom.equalToSuperview()
+//            make.height.equalTo(scale(0.5))
+//        }
+        
+        
+       
         //生产场地 productionTextView
         
 //        let productionView = UIView()
@@ -555,7 +581,7 @@ class CommodityParametersViewController: BaseViewController {
         sureBtn.addTarget(self, action: #selector(sureAction), for: .touchUpInside)
 
         
-        loadOrderSpuInfoList()
+        
         
         
     }
@@ -563,17 +589,34 @@ class CommodityParametersViewController: BaseViewController {
     //确认的按键
     @objc func sureAction(sureBtn:UIButton){
         LXFLog("确认")
+        LXFLog("================\(paraList)")
+        //这边要判读是否填写完整
+        var isInputComplete:Bool = true
+        for spus in paraList {
+            if spus.required ?? true{
+                if spus.spuValue == nil{
+                    isInputComplete = false
+                    break
+                }
+            }
+        }
+        if isInputComplete == false{
+            JFPopup.toast(hit: "你还有些必填的信息没有填写完整")
+            return
+        }
+        sureParmeter!(paraList)
+        Coordinator.shared?.popViewController(self, true)
     }
     
     
     func loadOrderSpuInfoList(){
-        let parameters = ["categoryId":0,"productId":0]
+        let parameters = ["categoryId":categoryId,"productId":productId] as [String : Any]
         NetWorkResultRequest(OrderApi.getProductSpuList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
             guard let model = try? JSONDecoder().decode(GenericResponse<[Spus]>.self, from: data) else{
                 return
             }
-            self.paraList.removeAll()
-            self?.paraList = model.data
+            self?.paraList.removeAll()
+            self?.paraList = model.data!
             self?.tableview.reloadData()
         } failureCallback: { error, code in
             code.loginOut()
@@ -582,135 +625,89 @@ class CommodityParametersViewController: BaseViewController {
     
     
     //上传图片
-    @objc func isUploadPitureAction(certifiedBtn:UIButton){
-        manager.type = .photo
-//        manager.clearSelectedList()
-        self.popup.actionSheet {
-            [
-                JFPopupAction(with: "从手机相册选择", subTitle: nil, clickActionCallBack: { [weak self] in
-                    self?.hx_presentSelectPhotoController(with: self?.manager, didDone: { allList, photoList, videoList, isOriginal, viewController, manager in
-                        var imageDataArray = [Data]()
-                        photoList?.forEach({ HXPhotoModel in
-                            //对图片进行
-                            guard let image = HXPhotoModel.thumbPhoto else {
-                                return
-                            }
-//                            if (self?.commodityModel?.productPics?.count ?? 7) <= 5{
-                                guard let imageData = image.jpegData(compressionQuality: 1.0) else { return }//把图片转换成data
-                                imageDataArray.append(imageData)
-//                            }
-                        })
-                        let Parameters = ["fileType":20]
-                        JFPopupView.popup.loading(hit: "上传图片中....")
-                        NetWorkResultRequest(StoreAppleApi.batchUpload(parameters: Parameters, dataAry: imageDataArray), needShowFailAlert: true) { result, data in
-                            do{
-                                let json = try JSON(data: data)
-                                LXFLog(json)
-                                let array = json["data"]
-                                for i in 0..<array.count{
-                                    let cloudUrl = array[i]["cloudUrl"]
-                                    let data = try JSONEncoder().encode(cloudUrl)
-                                    var url = String(data: data, encoding:String.Encoding.utf8)!.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
-                                    url = url.replacingOccurrences(of: "\"", with: "", options: .literal, range: nil)
-                                    LXFLog(url)
-                                }
-                            }catch{}
-                            self?.isUploadLabel.text = "已上传"
-                            JFPopupView.popup.hideLoading()
-                        } failureCallback: { error,code in
-                            JFPopupView.popup.hideLoading()
-                        }
-                        
-                    })
-                }),
-                JFPopupAction(with: "拍照", subTitle: nil, clickActionCallBack: {[weak self] in
-                    self?.hx_presentCustomCameraViewController(with: self?.manager) { photoList, viewController in
-                        var imageDataArray = [Data]()
-                        if let photoModel:HXPhotoModel = photoList{
-                            //对图片进行
-                            guard let image = photoModel.thumbPhoto else {
-                                return
-                            }
-//                            if(self?.commodityModel?.productPics?.count ?? 7) <= 5{
-                                guard let imageData = image.jpegData(compressionQuality: 1.0) else { return }//把图片转换成data
-                                imageDataArray.append(imageData)
-//                            }
-                        }
-                        let Parameters = ["fileType":20]
-                        JFPopupView.popup.loading(hit: "上传图片中....")
-                        NetWorkResultRequest(StoreAppleApi.batchUpload(parameters: Parameters, dataAry: imageDataArray), needShowFailAlert: true) { result, data in
-                            do{
-                                let json = try JSON(data: data)
-                                let array = json["data"]
-                                for i in 0..<array.count{
-                                    let cloudUrl = array[i]["cloudUrl"]
-                                    let data = try JSONEncoder().encode(cloudUrl)
-                                    var url = String(data: data, encoding:String.Encoding.utf8)!.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
-                                    url = url.replacingOccurrences(of: "\"", with: "", options: .literal, range: nil)
-                                    LXFLog(url)
-                                }
-                            }catch{}
-                            self?.isUploadLabel.text = "已上传"
-                            JFPopupView.popup.hideLoading()
-                        } failureCallback: { error,code in
-                            JFPopupView.popup.hideLoading()
-                        }
-                        
-                    } cancel: { viewController in
-                    }
-                })
-            ]
-        }
-        
+//    @objc func isUploadPitureAction(certifiedBtn:UIButton){
 //        manager.type = .photo
 //        manager.clearSelectedList()
 //        self.popup.actionSheet {
 //            [
 //                JFPopupAction(with: "从手机相册选择", subTitle: nil, clickActionCallBack: { [weak self] in
 //                    self?.hx_presentSelectPhotoController(with: self?.manager, didDone: { allList, photoList, videoList, isOriginal, viewController, manager in
+//                        var imageDataArray = [Data]()
 //                        photoList?.forEach({ HXPhotoModel in
 //                            //对图片进行
 //                            guard let image = HXPhotoModel.thumbPhoto else {
 //                                return
 //                            }
-//
-//                            //网络请求
-//
+//                                guard let imageData = image.jpegData(compressionQuality: 1.0) else { return }//把图片转换成data
+//                                imageDataArray.append(imageData)
 //                        })
+//                        let Parameters = ["fileType":20]
+//                        JFPopupView.popup.loading(hit: "上传图片中....")
+//                        NetWorkResultRequest(StoreAppleApi.batchUpload(parameters: Parameters, dataAry: imageDataArray), needShowFailAlert: true) { result, data in
+//                            do{
+//                                let json = try JSON(data: data)
+//                                LXFLog(json)
+//                                let array = json["data"]
+//                                for i in 0..<array.count{
+//                                    let cloudUrl = array[i]["cloudUrl"]
+//                                    let data = try JSONEncoder().encode(cloudUrl)
+//                                    var url = String(data: data, encoding:String.Encoding.utf8)!.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+//                                    url = url.replacingOccurrences(of: "\"", with: "", options: .literal, range: nil)
+//                                    LXFLog(url)
+//                                }
+//                            }catch{}
+//                            self?.isUploadLabel.text = "已上传"
+//                            JFPopupView.popup.hideLoading()
+//                        } failureCallback: { error,code in
+//                            JFPopupView.popup.hideLoading()
+//                        }
+//
 //                    })
 //                }),
 //                JFPopupAction(with: "拍照", subTitle: nil, clickActionCallBack: {[weak self] in
 //                    self?.hx_presentCustomCameraViewController(with: self?.manager) { photoList, viewController in
-//                        LXFLog(photoList)
+//                        var imageDataArray = [Data]()
 //                        if let photoModel:HXPhotoModel = photoList{
-//                            //对图片进行
 //                            guard let image = photoModel.thumbPhoto else {
 //                                return
 //                            }
-//                            //网络请求
-//
+//                                guard let imageData = image.jpegData(compressionQuality: 1.0) else { return }//把图片转换成data
+//                                imageDataArray.append(imageData)
 //                        }
+//                        let Parameters = ["fileType":20]
+//                        JFPopupView.popup.loading(hit: "上传图片中....")
+//                        NetWorkResultRequest(StoreAppleApi.batchUpload(parameters: Parameters, dataAry: imageDataArray), needShowFailAlert: true) { result, data in
+//                            do{
+//                                let json = try JSON(data: data)
+//                                let array = json["data"]
+//                                for i in 0..<array.count{
+//                                    let cloudUrl = array[i]["cloudUrl"]
+//                                    let data = try JSONEncoder().encode(cloudUrl)
+//                                    var url = String(data: data, encoding:String.Encoding.utf8)!.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+//                                    url = url.replacingOccurrences(of: "\"", with: "", options: .literal, range: nil)
+//                                    LXFLog(url)
+//                                }
+//                            }catch{}
+//                            self?.isUploadLabel.text = "已上传"
+//                            JFPopupView.popup.hideLoading()
+//                        } failureCallback: { error,code in
+//                            JFPopupView.popup.hideLoading()
+//                        }
+//
 //                    } cancel: { viewController in
 //                    }
 //                })
 //            ]
 //        }
-        
-    }
+//    }
    
     
     
     
     //选择品牌
-    @objc func choiceBrandAction(brandBtn:UIButton){
-        self.popup.bottomSheet {
-            let commodityParametersView = CommodityParameterView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(450)))
-            commodityParametersView.cancelBlock = {[weak self] in
-                self?.popup.dismissPopup()
-            }
-            return commodityParametersView
-        }
-    }
+//    @objc func choiceBrandAction(brandBtn:UIButton){
+//
+//    }
     
     
     
@@ -771,8 +768,29 @@ extension CommodityParametersViewController:UITableViewDelegate,UITableViewDataS
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CommodityParameterCell") as! CommodityParameterCell
-//        cell.parameterLabel.text = "参数" + String(indexPath.row)
         cell.model = paraList[indexPath.row]
+        if indexPath.row == 0{
+            if cell.model?.spuValue == nil{
+                cell.parameterTextfield.placeholder = "未上传"
+                cell.parameterTextfield.isEnabled = false
+                cell.parameterTextfield.attributedPlaceholder = NSAttributedString.init(string:"未上传", attributes: [
+                    NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
+            }
+        }else if indexPath.row == 1{
+            if cell.model?.spuValue == nil{
+                cell.parameterTextfield.isEnabled = false
+                cell.parameterTextfield.placeholder = "请选择"
+                cell.parameterTextfield.attributedPlaceholder = NSAttributedString.init(string:"请选择", attributes: [
+                    NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
+            }
+        }else{
+            if cell.model?.spuValue == nil{
+                cell.parameterTextfield.isEnabled = true
+                cell.parameterTextfield.placeholder = "请输入"
+                cell.parameterTextfield.attributedPlaceholder = NSAttributedString.init(string:"请输入", attributes: [
+                    NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
+            }
+        }
         return cell
     }
     
@@ -781,6 +799,86 @@ extension CommodityParametersViewController:UITableViewDelegate,UITableViewDataS
         return UITableView.automaticDimension
     }
     
+    
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        var spus = paraList[indexPath.row]
+        let cell = tableView.cellForRow(at: indexPath) as! CommodityParameterCell
+        if spus.spuAttrName == "正品证书"{
+            manager.type = .photo
+            manager.clearSelectedList()
+            self.popup.actionSheet {
+                [
+                    JFPopupAction(with: "从手机相册选择", subTitle: nil, clickActionCallBack: { [weak self] in
+                        self?.hx_presentSelectPhotoController(with: self?.manager, didDone: { allList, photoList, videoList, isOriginal, viewController, manager in
+                            LXFLog(photoList?.count)
+                            if let photoModel:HXPhotoModel = photoList?.first{
+                                //网络请求的部分
+                                let Parameters = ["fileType":20]
+    //                            let Parameters = [String:Any]()
+                                JFPopupView.popup.loading(hit: "上传图片中....")
+                                guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
+                                NetWorkResultRequest(StoreAppleApi.uploadFile(parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
+                                    do{
+                                      let json = try JSON(data: data)
+                                      let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+                                      LXFLog(str)
+                                      spus.spuValue = str
+                                      self?.paraList[indexPath.row] = spus
+                                    }catch{}
+                                    cell.parameterTextfield.text = "已上传"
+                                    JFPopupView.popup.hideLoading()
+                                } failureCallback: { error,code in
+                                    JFPopupView.popup.hideLoading()
+                                }
+                            }
+                        })
+                    }),
+                    JFPopupAction(with: "拍照", subTitle: nil, clickActionCallBack: {[weak self] in
+                        self?.hx_presentCustomCameraViewController(with: self?.manager) { photoList, viewController in
+                            LXFLog(photoList)
+                            if let photoModel:HXPhotoModel = photoList{
+                                //对图片进行
+                                let Parameters = ["fileType":20]
+                                JFPopupView.popup.loading(hit: "上传图片中....")
+                                guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
+                                NetWorkResultRequest(StoreAppleApi.uploadFile(parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
+                                    do{
+                                        let json = try JSON(data: data)
+                                        let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+                                        LXFLog(str)
+                                        spus.spuValue = str
+                                        self?.paraList[indexPath.row] = spus
+                                    }catch{}
+                                    JFPopupView.popup.hideLoading()
+                                    cell.parameterTextfield.text = "已上传"
+                                } failureCallback: { error,code in
+                                    JFPopupView.popup.hideLoading()
+                                }
+                            }
+                        } cancel: { viewController in
+                        }
+                    })
+                ]
+            }
+        }else if spus.spuAttrName == "品牌"{
+            self.popup.bottomSheet {
+                let commodityParametersView = CommodityParameterView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(450)),categoryId:categoryId)
+                commodityParametersView.cancelBlock = {[weak self] in
+                    self?.popup.dismissPopup()
+                }
+                commodityParametersView.selectBrandNameBlock = {[weak self] brandName in
+                    cell.parameterTextfield.text = brandName
+                    spus.spuValue = brandName
+                    self?.paraList[indexPath.row] = spus
+                    self?.popup.dismissPopup()
+                }
+                return commodityParametersView
+            }
+        }
+    }
 }
 
 

@@ -15,7 +15,9 @@ class AddSpecificationsView: UIView {
     //这边要进行修改这类的动作
     var cancelBlock:(()->Void)?
     //确定之后传递过来的数组
-    var sendSureSpecificationList:((_ list:[String])->Void)?
+    var sendSureSpecificationList:((_ list:[SpecGroups])->Void)?
+    
+    var categoryId:Int32 = 0
 
     
     //规格一
@@ -59,9 +61,10 @@ class AddSpecificationsView: UIView {
     
     
     
-    init(frame:CGRect,addSpecificationList:[String]) {
+    init(frame:CGRect,addSpecificationList:[String],categoryId:Int32) {
         super.init(frame: frame)
         self.addSpecificationList = addSpecificationList
+        self.categoryId = categoryId
         
         backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
      
@@ -400,20 +403,47 @@ class AddSpecificationsView: UIView {
         //传递过来
         
         if (speciFirstTextfield.text?.count ?? 0) > 0{
-            
-//            list.append(speciFirstTextfield.text!)
             addSpecificationList.append(speciFirstTextfield.text ?? "")
         }
         
         if (speciSecondTextfield.text?.count ?? 0) > 0{
-//            let list = [String]()
-//            list.append(speciSecondTextfield.text!)
             addSpecificationList.append(speciSecondTextfield.text ?? "")
         }
 
+        
+        
+        
         if addSpecificationList.count > 0{
-            sendSureSpecificationList!(addSpecificationList)
+//            let resultStr = addSpecificationList.joined()
+            var resultstr = "["
+            for i in 0..<addSpecificationList.count{
+                let str = addSpecificationList[i]
+                if i == 0{
+                    resultstr += "\"" + str + "\""
+                }else{
+                    resultstr += "," + "\"" + str + "\""
+                }
+            }
+            resultstr += "]"
+            let paramters = ["categoryId":categoryId,"specGroupNames":resultstr] as [String:Any]
+            NetWorkResultRequest(OrderApi.addSpecGroup(paramters: paramters), needShowFailAlert: true) { result, data in
+                
+                guard let model = try? JSONDecoder().decode(GenericResponse<[SpecGroups]>.self, from: data) else {
+                    return
+                }
+                LXFLog("===================\(model.data)")
+                var newDataList:[SpecGroups] = [SpecGroups]()
+                for i in 0..<model.data!.count{
+                    let groups = model.data![i]
+                    let specGroups = SpecGroups(specGroupId: groups.specGroupId, specGroupName: groups.specGroupName, specs: [String]())
+                    newDataList.append(specGroups)
+                }
+                self.sendSureSpecificationList!(newDataList)
+            } failureCallback: { error, code in
+                code.loginOut()
+            }
         }
+
     }
     
     //添加新的规格名

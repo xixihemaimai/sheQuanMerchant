@@ -22,6 +22,9 @@ class CommodityParameterView: UIView {
     //这边要进行修改这类的动作
     var cancelBlock:(()->Void)?
     
+    //选择了品牌值
+    var selectBrandNameBlock:((_ brandName:String) ->Void)?
+    
     
     //完成按键
     lazy var sureBtn:UIButton = {
@@ -63,11 +66,13 @@ class CommodityParameterView: UIView {
         return tableview
     }()
     
+    var categoryId:Int32?
     
     var reasonList:[BrandModel] = [BrandModel]()
-    override init(frame: CGRect) {
+    
+    init(frame: CGRect,categoryId:Int32) {
         super.init(frame: frame)
-        
+        self.categoryId = categoryId
         backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
         let brandLabel = UILabel()
         brandLabel.text = "品牌"
@@ -108,6 +113,10 @@ class CommodityParameterView: UIView {
         if #available(iOS 13.0, *) {
             searchBar.searchTextField.addTarget(self, action: #selector(EndEdit), for: .editingDidEnd)
         }
+        
+        if #available(iOS 13.0, *) {
+            searchBar.searchTextField.addTarget(self, action: #selector(changeEdit), for: .editingChanged)
+        }
         searchBar.setPositionAdjustment(UIOffset(horizontal: SCW/2 - scale(80)/2, vertical: 0), for: .search)
         
         
@@ -144,7 +153,29 @@ class CommodityParameterView: UIView {
         }
         
         sureBtn.layer.cornerRadius = scale(4)
+        sureBtn.addTarget(self, action: #selector(sureSelectBrandAction), for: .touchUpInside)
         
+        loadBrandList(isHeader: true, isShowDig: true)
+        
+    }
+    
+    
+    //选择品牌
+    @objc func sureSelectBrandAction(sureBtn:UIButton){
+        var selectBrandName:String = ""
+        for i in 0..<reasonList.count{
+            let cell = tableview.cellForRow(at: IndexPath(row: i, section: 0)) as! CloseOrderReasonCell
+            if cell.choiceBtn.isSelected{
+               let brandModel = reasonList[i]
+               selectBrandName = brandModel.brandName ?? ""
+            }
+        }
+        if selectBrandName != ""{
+            //这边要返回回去
+            selectBrandNameBlock!(selectBrandName)
+        }else{
+            JFPopup.toast(hit: "您未选择品牌")
+        }
     }
     
     
@@ -157,9 +188,16 @@ class CommodityParameterView: UIView {
     @objc func BeginEdit(textfiled:UITextField){
         searchBar.setPositionAdjustment(UIOffset(horizontal: 0, vertical: 0), for: .search)
     }
+    
+    
     @objc func EndEdit(textfield:UITextField){
         searchBar.setPositionAdjustment(UIOffset(horizontal: SCW/2 - scale(80)/2, vertical: 0), for: .search)
         searchBar.resignFirstResponder()
+    }
+    
+    @objc func changeEdit(textfield:UITextField){
+        pageIndex = 1
+        loadBrandList(isHeader: true, isShowDig: true)
     }
     
     
@@ -179,7 +217,7 @@ class CommodityParameterView: UIView {
         if isShowDig{
             JFPopup.loading(hit: "加载中....")
         }
-        let parameters = ["brandName":(searchBar.text ?? ""),"categoryId":0,"pageIndex":Int32(pageIndex),"pageSize":10] as [String:Any]
+        let parameters = ["brandName":(searchBar.text ?? ""),"categoryId":categoryId as Any,"pageIndex":Int32(pageIndex),"pageSize":10] as [String:Any]
         NetWorkSRequest(OrderApi.getProductBrandList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
             JFPopup.hideLoading()
             guard let model = try? JSONDecoder().decode(GenericResponse<[BrandModel]>.self, from: data) else{
@@ -191,7 +229,7 @@ class CommodityParameterView: UIView {
                 self?.reasonList = model.data!
                 self?.tableview.mj_header?.endRefreshing()
                 self?.tableview.reloadData()
-                self?.pageIndex = 1
+                self?.pageIndex += 1
             }else{
                 //上拉
                 self?.reasonList += model.data!

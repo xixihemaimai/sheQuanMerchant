@@ -10,22 +10,25 @@ import Foundation
 
 
 public struct CommodityModel: Codable {
-    public var categoryId:Int32?
-    public var freeRefundIn7Days:Bool?
-    public var freightInsure:Bool?
-    public var freightTempId:Int32?
-    public var multiSpec: Bool?
-    public var productCode: String?
+    public var categoryId:Int32? //类目ID
+    public var freeRefundIn7Days:Bool? //七天无理由退货（false:关,true:开）
+    public var freightInsure:Bool? //运费模板ID
+    public var freightTempId:Int32? //退换货运费险（false:关，true:开）
+    public var multiSpec: Bool?    //多规格（false:关,true:开）
+    
+    public var price:Decimal?   //价格（只限于单规格）
+    
+    public var productCode: String?  //商品编码
     //商品描述
-    public var productDesc: String?
-    public var productId: String?
-    public var productName: String?
+    public var productDesc: String?  //商品描述
+    public var productId: Int64?    //商品ID
+    public var productName: String?  //商品名称
     //图片
-    public var productPics:[String]?
-    public var seqNo:Int32?
-    public var shopId:Int64?
-    public var skus:[Skus]?
-    public var specs:[Specs]?
+    public var productPics:[String]? //商品主图
+    public var seqNo:Int32?          //商品序号
+    public var shopId:Int64?         //商品ID
+    public var skus:[Skus]?          //价格库存
+    public var specGroups:[SpecGroups]?        //
     public var spus:[Spus]?
     public var stock:Int32?
     public var stockDeductType:Int32?
@@ -37,6 +40,7 @@ public struct CommodityModel: Codable {
         case freightInsure = "freightInsure"
         case freightTempId = "freightTempId"
         case multiSpec = "multiSpec"
+        case price = "price"
         case productCode = "productCode"
         case productDesc = "productDesc"
         case productId = "productId"
@@ -45,7 +49,7 @@ public struct CommodityModel: Codable {
         case seqNo = "seqNo"
         case shopId = "shopId"
         case skus = "skus"
-        case specs = "specs"
+        case specGroups = "specGroups"
         case spus = "spus"
         case stock = "stock"
         case stockDeductType = "stockDeductType"
@@ -58,27 +62,29 @@ public struct CommodityModel: Codable {
         freightInsure = try? values.decodeIfPresent(Bool.self, forKey: .freightInsure)
         freightTempId = try? values.decodeIfPresent(Int32.self, forKey: .freightTempId)
         multiSpec = try? values.decodeIfPresent(Bool.self, forKey: .multiSpec)
+        price = try? values.decodeIfPresent(Decimal.self, forKey: .price)
         productCode = try? values.decodeIfPresent(String.self, forKey: .productCode)
         productDesc = try? values.decodeIfPresent(String.self, forKey: .productDesc)
-        productId = try? values.decodeIfPresent(String.self, forKey: .productId)
+        productId = try? values.decodeIfPresent(Int64.self, forKey: .productId)
         productName = try? values.decodeIfPresent(String.self, forKey: .productName)
         productPics = try? values.decodeIfPresent([String].self, forKey: .productPics)
         seqNo = try? values.decodeIfPresent(Int32.self, forKey: .seqNo)
         shopId = try? values.decodeIfPresent(Int64.self, forKey: .shopId)
         skus = try? values.decodeIfPresent([Skus].self, forKey: .skus)
-        specs = try? values.decodeIfPresent([Specs].self, forKey: .specs)
+        specGroups = try? values.decodeIfPresent([SpecGroups].self, forKey: .specGroups)
         spus = try? values.decodeIfPresent([Spus].self, forKey: .spus)
         stock = try? values.decodeIfPresent(Int32.self, forKey: .stock)
         stockDeductType = try? values.decodeIfPresent(Int32.self, forKey: .stockDeductType)
     }
     
     
-    public init(categoryId:Int32? = 0,freeRefundIn7Days:Bool? = false,freightInsure:Bool? = false,freightTempId:Int32? = 0,multiSpec:Bool? = false,productCode:String? = "",productDesc:String? = "",productId:String? = "",productName:String? = "",productPics:[String]? = [String](),sepNo:Int32? = 0,shopId:Int64 = 0,skus:[Skus]? = [Skus](),specs:[Specs]? = [Specs](),spus:[Spus]? = [Spus](),stock:Int32? = 0,stockDeductType:Int32? = 0){
+    public init(categoryId:Int32? = 0,freeRefundIn7Days:Bool? = false,freightInsure:Bool? = false,freightTempId:Int32? = 0,multiSpec:Bool? = false,price:Decimal? = 0.0,productCode:String? = "",productDesc:String? = "",productId:Int64? = 0,productName:String? = "",productPics:[String]? = [String](),sepNo:Int32? = 0,shopId:Int64 = 0,skus:[Skus]? = [Skus](),specGroups:[SpecGroups]? = [SpecGroups](),spus:[Spus]? = [Spus](),stock:Int32? = 0,stockDeductType:Int32? = 0){
         self.categoryId = categoryId
         self.freeRefundIn7Days = freeRefundIn7Days
         self.freightInsure = freightInsure
         self.freightTempId = freightTempId
         self.multiSpec = multiSpec
+        self.price = price
         self.productCode = productCode
         self.productDesc = productDesc
         self.productId = productId
@@ -87,7 +93,7 @@ public struct CommodityModel: Codable {
         self.seqNo = sepNo
         self.shopId = shopId
         self.skus = skus
-        self.specs = specs
+        self.specGroups = specGroups
         self.spus = spus
         self.stock = stock
         self.stockDeductType = stockDeductType
@@ -98,13 +104,43 @@ public struct CommodityModel: Codable {
 }
 
 
+//商品规格组
+public struct SpecGroups:Codable{
+    public var specGroupId:Int64?
+    public var specGroupName:String?
+    public var specs:[String]?
+    
+    enum CodingKeys: String, CodingKey {
+        case specGroupId = "specGroupId"
+        case specGroupName = "specGroupName"
+        case specs = "specs"
+    }
+    
+    
+    
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        specGroupId = try? values.decodeIfPresent(Int64.self, forKey: .specGroupId)
+        specGroupName = try? values.decodeIfPresent(String.self, forKey: .specGroupName)
+        specs = try? values.decodeIfPresent([String].self, forKey: .specs)
+    }
+    
+    
+    
+    public init(specGroupId:Int64? = 0,specGroupName:String? = "",specs:[String]? = [String]()){
+        self.specGroupId = specGroupId
+        self.specGroupName = specGroupName
+        self.specs = specs
+    }
+}
+
+
+
 //价格库存
 public struct Skus: Codable {
-    public var mixPurchase:Int32?
     public var price:Decimal?
-    public var restrictedQty:Int32?
     public var skuCode: String?
-    public var skuId: String?
+    public var skuId: Int64?
     //图片
     public var skuPics:[String]?
     public var specs:[Specs]?
@@ -112,9 +148,7 @@ public struct Skus: Codable {
     
     
     enum CodingKeys: String, CodingKey {
-        case mixPurchase = "mixPurchase"
         case price = "price"
-        case restrictedQty = "restrictedQty"
         case skuCode = "skuCode"
         case skuId = "skuId"
         case skuPics = "skuPics"
@@ -124,11 +158,11 @@ public struct Skus: Codable {
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        mixPurchase = try? values.decodeIfPresent(Int32.self, forKey: .mixPurchase)
         price = try? values.decodeIfPresent(Decimal.self, forKey: .price)
-        restrictedQty = try? values.decodeIfPresent(Int32.self, forKey: .restrictedQty)
         skuCode = try? values.decodeIfPresent(String.self, forKey: .skuCode)
-        skuId = try? values.decodeIfPresent(String.self, forKey: .skuId)
+//        skuId = try? values.decodeIfPresent(String.self, forKey: .skuId)
+        skuId = try? values.decodeIfPresent(Int64.self, forKey: .skuId)
+        
         skuPics = try? values.decodeIfPresent([String].self, forKey: .skuPics)
         specs = try? values.decodeIfPresent([Specs].self, forKey: .specs)
         stock = try? values.decodeIfPresent(Int32.self, forKey: .stock)
@@ -136,10 +170,8 @@ public struct Skus: Codable {
     
     
     
-    public init(mixPurchase:Int32,price:Decimal? = 0,restrictedQty:Int32? = 0,skuCode:String? = "",skuId:String? = "",skuPics:[String]? = [String](),specs:[Specs]? = [Specs](),stock:Int32? = 0){
-        self.mixPurchase = mixPurchase
+    public init(price:Decimal? = 0,skuCode:String? = "",skuId:Int64? = 0,skuPics:[String]? = [String](),specs:[Specs]? = [Specs](),stock:Int32? = 0){
         self.price = price
-        self.restrictedQty = restrictedQty
         self.skuCode = skuCode
         self.skuId = skuId
         self.skuPics = skuPics
@@ -152,32 +184,23 @@ public struct Skus: Codable {
 
 
 public struct Specs: Codable {
-    public var specAttrId: Int32?
-    public var specId: String?
-    public var specName:String?
+    public var specGroupId: Int64?
     public var specValue: String?
    
     enum CodingKeys: String, CodingKey {
-        case specAttrId = "specAttrId"
-        case specId = "specId"
-        case specName = "specName"
+        case specGroupId = "specGroupId"
         case specValue = "specValue"
-
     }
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        specAttrId = try? values.decodeIfPresent(Int32.self, forKey: .specAttrId)
-        specId = try? values.decodeIfPresent(String.self, forKey: .specId)
-        specName = try? values.decodeIfPresent(String.self, forKey: .specName)
+        specGroupId = try? values.decodeIfPresent(Int64.self, forKey: .specGroupId)
         specValue = try? values.decodeIfPresent(String.self, forKey: .specValue)
     }
     
     
-    public init(specAttrId:Int32? = 0,specId:String? = "",specName:String? = "",specValue:String? = ""){
-        self.specAttrId = specAttrId
-        self.specId = specId
-        self.specName = specName
+    public init(specGroupId:Int64? = 0,specValue:String? = ""){
+        self.specGroupId = specGroupId
         self.specValue = specValue
     }
     

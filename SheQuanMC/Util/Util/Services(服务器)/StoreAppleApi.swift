@@ -17,7 +17,7 @@ public enum StoreAppleApi{
     case getCategoryInfoList(parameters:[String:String])    //获取经营种类列表(1)
     case getEntInfo                                         //获取企业认证信息（1）
     case uploadFile(parameters:[String:Int],imageDate:Data) //文件（图片）上传(1)
-    case batchUpload(parameters:[String:Int],dataAry:[Data])//批量上传
+    case batchUpload(parameters:[String:Int],dataAry:[Data])//批量上传  (1)
     case shopAuth(parameters:[String:Any])                  //店铺认证 （1）
     case entCert(parameters:[String:String])                //企业认证 （1）
 }

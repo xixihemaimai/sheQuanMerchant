@@ -76,6 +76,46 @@ public func getArrayOrDicFromJSONString(jsonString:String) -> Any {
 }
 
 
+public func getArrayJSONStringFromAddSpec(obj:[String:Any]) -> String{
+    if (!JSONSerialization.isValidJSONObject(obj)) {
+        print("无法解析出JSONString")
+        return ""
+    }
+    if let data : NSData = try? JSONSerialization.data(withJSONObject: obj, options: []) as NSData? {
+        var body:String = ""
+        do{
+            let items = try? JSONSerialization.jsonObject(with: data as Data, options: []) as? Dictionary<String, Any>
+            let dictlist = items?.sorted { t1, t2 in
+                return t1.key < t2.key ? true : false
+            }
+            if let dicts = dictlist{
+                for (_ ,element) in dicts.enumerated() {
+                    LXFLog(element.key)
+                    LXFLog(element.value)
+                    if let code = element.value as? Int {
+                       let result = String(code)
+                        body += "{" + "\"" + element.key + "\"" + ":" + result
+                    }
+                    if let code = element.value as? String{
+                        let result = String(code)
+                        body += "," + "\"" + element.key + "\"" + ":" + result
+                    }
+                }
+            }
+            body += "}"
+        }catch{
+          LXFLog(error)
+          return body
+        }
+        return body
+    }
+    return ""
+}
+
+
+
+
+
 //发布商品
 public func getJSONStringFromPushblish(obj:[String:Any],isEscape:Bool) -> String{
     if (!JSONSerialization.isValidJSONObject(obj)) {
@@ -453,6 +493,41 @@ public func getObjFromDataToData(obj:Data,isEscape:Bool) -> Data{
 //    LXFLog("-----------------------\(body)")
     return body.data(using: String.Encoding.utf8)!
 }
+
+
+
+//添加商品规格的
+public func getJSONStringFromAddSpec(obj:Data) -> Data{
+    var body:String = ""
+    do {
+        let items = try? JSONSerialization.jsonObject(with: obj, options: []) as? Dictionary<String, Any>
+        let dictlist = items?.sorted { t1, t2 in
+            return t1.key < t2.key ? true : false
+        }
+        if let dicts = dictlist{
+            for (_ ,element) in dicts.enumerated() {
+                LXFLog(element.key)
+                LXFLog(element.value)
+                if let code = element.value as? Int {
+                   let result = String(code)
+                    body += "{" + "\"" + element.key + "\"" + ":" + result
+                }
+                if let code = element.value as? String{
+                    let result = String(code)
+                    body += "," + "\"" + element.key + "\"" + ":" + result
+                }
+            }
+        }
+        body += "}"
+    }catch{
+        print(error)
+        return "".data(using: String.Encoding.utf8)!
+    }
+    return body.data(using: String.Encoding.utf8)!
+}
+
+
+
 
 //发布商品进行整理
 public func getJSONStringFromPushblishData(obj:Data,isEscape:Bool) -> Data{

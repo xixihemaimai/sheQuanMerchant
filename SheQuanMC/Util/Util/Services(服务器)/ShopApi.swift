@@ -13,7 +13,7 @@ import UIKit
 public enum shopApi{
     case forgetPass(parameters:[String:Any])    //忘记密码 （1）
     case changePass(parameters:[String:String]) //修改密码 （1）
-    case regAccount(parameters:[String:Any])    //注册账号
+    case regAccount(parameters:[String:Any])    //注册账号  (1)
     case getShopInfo                            //获取店铺信息(1)
 }
 

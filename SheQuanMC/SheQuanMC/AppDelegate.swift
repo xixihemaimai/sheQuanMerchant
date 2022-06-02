@@ -60,6 +60,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.rootViewController = navi
             //这边要判断重新获取店铺信息
             NetWorkResultRequest(shopApi.getShopInfo, needShowFailAlert: true) { result, data in
+                
+                
 //                 do{
 //                    let json = try JSON(data: data)
                     //需不需要删除数据库
@@ -67,27 +69,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     guard let model = try? JSONDecoder().decode(GenericResponse<StoreInfoModel>.self, from: data) else{
                         return
                     }
+                
 //                  if let data = model.data {
 //                     StoreService.shared.updateShopInfo(data)
 //                  }
                     guard let neWData = model.data else {
                         return
                     }
+                
+                LXFLog(neWData.auditStatus)
+                    
                     StoreService.shared.updateShopInfo(neWData)
 //                    LXFLog(neWData.auditStatus)
                     if neWData.auditStatus == 2{
                         self.window?.rootViewController = MainViewController()
                     }else if neWData.auditStatus == 1{
                         //审核中
-//                        let enterPriseVc = EnterpriseAuditViewController()
-//                        enterPriseVc.audit = 1
-//                        Coordinator.shared?.pushViewController(startPageVc, enterPriseVc, animated: false)
-                        
-                        
-                        self.window?.rootViewController = MainViewController()
-                        
-                        
-                        
+                        let enterPriseVc = EnterpriseAuditViewController()
+                        enterPriseVc.audit = 1
+                        Coordinator.shared?.pushViewController(startPageVc, enterPriseVc, animated: false)
+//                        self.window?.rootViewController = MainViewController()
                     }else if neWData.auditStatus == 3{
                         //审核失败
                         let enterPriseVc = EnterpriseAuditViewController()
