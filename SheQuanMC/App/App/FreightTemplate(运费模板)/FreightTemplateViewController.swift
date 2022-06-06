@@ -11,6 +11,12 @@ import Util
 
 class FreightTemplateViewController: BaseViewController {
 
+    
+    var list:[FreightListModel] = [FreightListModel]()
+    
+    var selectFreightId:((_ freightId:Int64) -> Void)?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -50,7 +56,24 @@ class FreightTemplateViewController: BaseViewController {
         
         
         
+       loadFreightList()
+        
     }
+    
+    func loadFreightList(){
+        NetWorkResultRequest(OrderApi.getProductFreightList, needShowFailAlert: true) { result, data in
+            guard let model = try? JSONDecoder().decode(GenericResponse<[FreightListModel]>.self, from: data) else { return }
+            self.list.removeAll()
+            if let data1 = model.data{
+                self.list = data1
+                self.tableview.reloadData()
+            }
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
+    }
+    
+    
     
     @objc func addTemplateAction(addTemplateBtn:UIButton){
         
@@ -145,7 +168,7 @@ class FreightTemplateViewController: BaseViewController {
 extension FreightTemplateViewController:UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return list.count
     }
     
     
@@ -156,16 +179,20 @@ extension FreightTemplateViewController:UITableViewDelegate,UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FreightTemplateCell") as! FreightTemplateCell
-        
+        let model = list[indexPath.row]
+        cell.model = model
         cell.isDefaultBtn.tag = indexPath.row
         cell.deleteBtn.tag = indexPath.row
         cell.editBtn.tag = indexPath.row
-        
         cell.isDefaultBtn.addTarget(self, action: #selector(setIsDefaultAction), for: .touchUpInside)
         cell.deleteBtn.addTarget(self, action: #selector(setDeleteAction), for: .touchUpInside)
         cell.editBtn.addTarget(self, action: #selector(setEditAction), for: .touchUpInside)
-        
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let model = list[indexPath.row]
+        self.selectFreightId!(model.freightId ?? 0)
     }
     
     

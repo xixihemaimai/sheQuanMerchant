@@ -7,6 +7,7 @@
 
 import UIKit
 import Util
+import SDWebImage
 
 class commodityStatusCell: UITableViewCell {
     
@@ -101,6 +102,39 @@ class commodityStatusCell: UITableViewCell {
         bottomView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#F8F8F8")
        return bottomView
     }()
+    
+    
+    var model:productListModel?{
+        didSet{
+            guard let _model = model else {
+                return
+            }
+            if (_model.stock ?? 0) < 1{
+                stockLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#F13232")
+            }else{
+                stockLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#999999")
+            }
+            stockLabel.text = "库存余量:" + String(_model.stock ?? 0)
+            
+            
+            goodsImageView.sd_setImage(with: URL(string: _model.productPic ?? ""), placeholderImage: UIImage(named: "Group 2784"))
+            
+            goodsIntroductLabel.text = _model.productName
+            
+            var specsStr:String = ""
+            for i in 0..<(_model.productSpecs?.count ?? 0) {
+                let str = _model.productSpecs?[i]
+                if i == 0{
+                    specsStr += (str ?? "")
+                }else{
+                    specsStr += "," + (str ?? "")
+                }
+            }
+            goodSpeciLabel.text = String(format: "商品规格:%@", specsStr)
+            
+        }
+    }
+    
     
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

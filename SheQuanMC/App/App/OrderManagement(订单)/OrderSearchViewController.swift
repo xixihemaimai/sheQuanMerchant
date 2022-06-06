@@ -102,14 +102,14 @@ class OrderSearchViewController: BaseViewController {
         tableview.dataSource = self
         tableview.register(OrderStatusCell.self, forCellReuseIdentifier: "OrderStatusCell")
         
-        loadSearchProduct(searchTextfield.text ?? "")
+//        loadSearchProduct(searchTextfield.text ?? "")
     }
     
     
     
     //搜索完成结束之后
     @objc func searchEndAction(searchTextfield:UITextField){
-        loadSearchProduct(searchTextfield.text ?? "")
+//        loadSearchProduct(searchTextfield.text ?? "")
     }
     
     //取消按键
@@ -122,7 +122,7 @@ class OrderSearchViewController: BaseViewController {
     override func headerRereshing() {
         LXFLog("下拉")
 //        tableview.mj_header?.endRefreshing()
-        loadSearchProduct(searchTextfield.text ?? "")
+//        loadSearchProduct(searchTextfield.text ?? "")
     }
     
     override func footerRereshing() {
@@ -132,25 +132,25 @@ class OrderSearchViewController: BaseViewController {
     
     
     
-    func loadSearchProduct(_ keyWords:String){
-        let parameters = ["keyWords":keyWords]
-        NetWorkResultRequest(OrderApi.SearchProduct(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
-            
-            self?.searchProductList.removeAll()
-            guard let model = try? JSONDecoder().decode(GenericResponse<[ProductInfoModel]>.self, from: data) else{
-                return
-            }
-            guard let newData = model.data else{
-                return
-            }
-            self?.searchProductList = newData
-            self?.tableview.reloadData()
-            self?.tableview.mj_header?.endRefreshing()
-        } failureCallback: { error, code in
-            code.loginOut()
-        }
-    }
-    
+//    func loadSearchProduct(_ keyWords:String){
+//        let parameters = ["keyWords":keyWords]
+//        NetWorkResultRequest(OrderApi.SearchProduct(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+//            
+//            self?.searchProductList.removeAll()
+//            guard let model = try? JSONDecoder().decode(GenericResponse<[ProductInfoModel]>.self, from: data) else{
+//                return
+//            }
+//            guard let newData = model.data else{
+//                return
+//            }
+//            self?.searchProductList = newData
+//            self?.tableview.reloadData()
+//            self?.tableview.mj_header?.endRefreshing()
+//        } failureCallback: { error, code in
+//            code.loginOut()
+//        }
+//    }
+//    
     
     
     

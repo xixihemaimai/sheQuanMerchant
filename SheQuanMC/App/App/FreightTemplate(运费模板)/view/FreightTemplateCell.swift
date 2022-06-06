@@ -52,6 +52,22 @@ class FreightTemplateCell: UITableViewCell {
         return templateType
     }()
     
+    
+    
+    var model:FreightListModel?{
+        didSet{
+            guard let _model = model else {
+                return
+            }
+            
+            templateName.text = _model.templateName
+            
+            chargeLabel.text = _model.templateName
+            
+        }
+        
+        
+    }
 
     //分割线
 //    lazy var midView:UIView = {

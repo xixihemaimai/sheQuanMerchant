@@ -56,12 +56,12 @@ class AddSpecificationsView: UIView {
     var bottomSView:UIView!
     var deleteSBtn:UIButton!
     
-    var addSpecificationList:[String] = [String]()
+    var addSpecificationList:[Int64] = [Int64]()
     
     
     
     
-    init(frame:CGRect,addSpecificationList:[String],categoryId:Int32) {
+    init(frame:CGRect,addSpecificationList:[Int64],categoryId:Int32) {
         super.init(frame: frame)
         self.addSpecificationList = addSpecificationList
         self.categoryId = categoryId
@@ -401,23 +401,23 @@ class AddSpecificationsView: UIView {
     //确定
     @objc func sureAction(sureBtn:UIButton){
         //传递过来
-        
+        var addSpecList:[String] = [String]()
         if (speciFirstTextfield.text?.count ?? 0) > 0{
-            addSpecificationList.append(speciFirstTextfield.text ?? "")
+            addSpecList.append(speciFirstTextfield.text ?? "")
         }
         
         if (speciSecondTextfield.text?.count ?? 0) > 0{
-            addSpecificationList.append(speciSecondTextfield.text ?? "")
+            addSpecList.append(speciSecondTextfield.text ?? "")
         }
 
         
         
         
-        if addSpecificationList.count > 0{
+        if addSpecList.count > 0{
 //            let resultStr = addSpecificationList.joined()
             var resultstr = "["
-            for i in 0..<addSpecificationList.count{
-                let str = addSpecificationList[i]
+            for i in 0..<addSpecList.count{
+                let str = addSpecList[i]
                 if i == 0{
                     resultstr += "\"" + str + "\""
                 }else{

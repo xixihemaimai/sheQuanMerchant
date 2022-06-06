@@ -163,7 +163,7 @@ class SettingPriceAndStockView: UIView {
         }
         //价钱
         let priceLabel = UILabel()
-        priceLabel.text = "价钱"
+        priceLabel.text = "价钱            ¥"
         priceLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         priceLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         priceLabel.textAlignment = .left
@@ -172,13 +172,13 @@ class SettingPriceAndStockView: UIView {
         priceLabel.snp.makeConstraints { make in
             make.left.equalTo(scale(16))
             make.height.equalTo(scale(22))
-            make.width.equalTo(scale(70))
+            make.width.equalTo(scale(107))
             make.top.equalTo(speciNameView.snp.bottom).offset(scale(13))
         }
         
         addSubview(priceTextfield)
         priceTextfield.snp.makeConstraints { make in
-            make.left.equalTo(priceLabel.snp.right).offset(scale(37))
+            make.left.equalTo(priceLabel.snp.right).offset(scale(0))
             make.height.equalTo(scale(22))
             make.top.equalTo(speciNameView.snp.bottom).offset(scale(13))
             make.right.equalTo(-scale(16))
@@ -220,7 +220,7 @@ class SettingPriceAndStockView: UIView {
         
         addSubview(stockTextfield)
         stockTextfield.snp.makeConstraints { make in
-            make.left.equalTo(priceLabel.snp.right).offset(scale(37))
+            make.left.equalTo(stockeLabel.snp.right).offset(scale(37))
             make.height.equalTo(scale(22))
             make.top.equalTo(diviver.snp.bottom).offset(scale(13))
             make.right.equalTo(-scale(16))
@@ -294,6 +294,7 @@ class SettingPriceAndStockView: UIView {
         if let skupics = skus.skuPics?.last {
 //            choicePitrueBtn.kf.setBackgroundImage(with: URL(string: skupics), for: .normal, placeholder: UIImage(named: "Group 2650"), options: nil, progressBlock: nil, completionHandler: nil)
             choicePitrueBtn.sd_setBackgroundImage(with: URL(string: skupics), for: .normal, placeholderImage: UIImage(named: "Group 2650"))
+            choicePitrueBtn.setTitle("", for: .normal)
         }else{
             choicePitrueBtn.setBackgroundImage(UIImage(named: "Group 2650"), for: .normal)
         }

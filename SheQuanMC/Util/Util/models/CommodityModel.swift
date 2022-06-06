@@ -10,35 +10,30 @@ import Foundation
 
 
 public struct CommodityModel: Codable {
-    public var categoryId:Int32? //类目ID
+    public var categoryId:Int32?       //类目ID
     public var freeRefundIn7Days:Bool? //七天无理由退货（false:关,true:开）
-    public var freightInsure:Bool? //运费模板ID
-    public var freightTempId:Int32? //退换货运费险（false:关，true:开）
-    public var multiSpec: Bool?    //多规格（false:关,true:开）
-    
-    public var price:Decimal?   //价格（只限于单规格）
-    
-    public var productCode: String?  //商品编码
-    //商品描述
-    public var productDesc: String?  //商品描述
-    public var productId: Int64?    //商品ID
-    public var productName: String?  //商品名称
-    //图片
-    public var productPics:[String]? //商品主图
-    public var seqNo:Int32?          //商品序号
-    public var shopId:Int64?         //商品ID
-    public var skus:[Skus]?          //价格库存
-    public var specGroups:[SpecGroups]?        //
-    public var spus:[Spus]?
-    public var stock:Int32?
-    public var stockDeductType:Int32?
+    public var freightId:Int64?        //运费模板ID
+    public var freightInsure:Bool?     //退换货运费险（false:关，true:开）
+    public var multiSpec: Bool?        //多规格（false:关,true:开）
+    public var price:Decimal?          //价格（只限于单规格）
+    public var productCode: String?    //商品编码
+    public var productDesc: String?    //商品描述
+    public var productId: Int64?       //商品ID
+    public var productName: String?    //商品名称
+    public var productPics:[String]?   //商品主图
+    public var seqNo:Int32?            //商品序号
+    public var skus:[Skus]?            //价格库存
+    public var specGroups:[SpecGroups]?//商品规格组
+    public var spus:[Spus]?            //商品参数
+    public var stock:Int32?            //库存（只限于单规格）
+    public var stockDeductType:Int32?  //库存扣减方式(1：拍下减库存、2：支付减库存)
     
     
     enum CodingKeys: String, CodingKey {
         case categoryId = "categoryId"
         case freeRefundIn7Days = "freeRefundIn7Days"
         case freightInsure = "freightInsure"
-        case freightTempId = "freightTempId"
+        case freightId = "freightId"
         case multiSpec = "multiSpec"
         case price = "price"
         case productCode = "productCode"
@@ -47,7 +42,6 @@ public struct CommodityModel: Codable {
         case productName = "productName"
         case productPics = "productPics"
         case seqNo = "seqNo"
-        case shopId = "shopId"
         case skus = "skus"
         case specGroups = "specGroups"
         case spus = "spus"
@@ -60,7 +54,7 @@ public struct CommodityModel: Codable {
         categoryId = try? values.decodeIfPresent(Int32.self, forKey: .categoryId)
         freeRefundIn7Days = try? values.decodeIfPresent(Bool.self, forKey: .freeRefundIn7Days)
         freightInsure = try? values.decodeIfPresent(Bool.self, forKey: .freightInsure)
-        freightTempId = try? values.decodeIfPresent(Int32.self, forKey: .freightTempId)
+        freightId = try? values.decodeIfPresent(Int64.self, forKey: .freightId)
         multiSpec = try? values.decodeIfPresent(Bool.self, forKey: .multiSpec)
         price = try? values.decodeIfPresent(Decimal.self, forKey: .price)
         productCode = try? values.decodeIfPresent(String.self, forKey: .productCode)
@@ -69,7 +63,6 @@ public struct CommodityModel: Codable {
         productName = try? values.decodeIfPresent(String.self, forKey: .productName)
         productPics = try? values.decodeIfPresent([String].self, forKey: .productPics)
         seqNo = try? values.decodeIfPresent(Int32.self, forKey: .seqNo)
-        shopId = try? values.decodeIfPresent(Int64.self, forKey: .shopId)
         skus = try? values.decodeIfPresent([Skus].self, forKey: .skus)
         specGroups = try? values.decodeIfPresent([SpecGroups].self, forKey: .specGroups)
         spus = try? values.decodeIfPresent([Spus].self, forKey: .spus)
@@ -78,11 +71,11 @@ public struct CommodityModel: Codable {
     }
     
     
-    public init(categoryId:Int32? = 0,freeRefundIn7Days:Bool? = false,freightInsure:Bool? = false,freightTempId:Int32? = 0,multiSpec:Bool? = false,price:Decimal? = 0.0,productCode:String? = "",productDesc:String? = "",productId:Int64? = 0,productName:String? = "",productPics:[String]? = [String](),sepNo:Int32? = 0,shopId:Int64 = 0,skus:[Skus]? = [Skus](),specGroups:[SpecGroups]? = [SpecGroups](),spus:[Spus]? = [Spus](),stock:Int32? = 0,stockDeductType:Int32? = 0){
+    public init(categoryId:Int32? = 0,freeRefundIn7Days:Bool? = false,freightId:Int64? = 0,freightInsure:Bool? = false,multiSpec:Bool? = false,price:Decimal? = 0.0,productCode:String? = "",productDesc:String? = "",productId:Int64? = 0,productName:String? = "",productPics:[String]? = [String](),sepNo:Int32? = 0,skus:[Skus]? = [Skus](),specGroups:[SpecGroups]? = [SpecGroups](),spus:[Spus]? = [Spus](),stock:Int32? = 0,stockDeductType:Int32? = 0){
         self.categoryId = categoryId
         self.freeRefundIn7Days = freeRefundIn7Days
         self.freightInsure = freightInsure
-        self.freightTempId = freightTempId
+        self.freightId = freightId
         self.multiSpec = multiSpec
         self.price = price
         self.productCode = productCode
@@ -91,7 +84,6 @@ public struct CommodityModel: Codable {
         self.productName = productName
         self.productPics = productPics
         self.seqNo = sepNo
-        self.shopId = shopId
         self.skus = skus
         self.specGroups = specGroups
         self.spus = spus
@@ -106,9 +98,9 @@ public struct CommodityModel: Codable {
 
 //商品规格组
 public struct SpecGroups:Codable{
-    public var specGroupId:Int64?
-    public var specGroupName:String?
-    public var specs:[String]?
+    public var specGroupId:Int64?    //规格组Id
+    public var specGroupName:String? //规格组名
+    public var specs:[String]?       //规格项
     
     enum CodingKeys: String, CodingKey {
         case specGroupId = "specGroupId"
@@ -138,13 +130,12 @@ public struct SpecGroups:Codable{
 
 //价格库存
 public struct Skus: Codable {
-    public var price:Decimal?
-    public var skuCode: String?
-    public var skuId: Int64?
-    //图片
-    public var skuPics:[String]?
-    public var specs:[Specs]?
-    public var stock:Int32?
+    public var price:Decimal?   //价格
+    public var skuCode: String? //Sku编码
+    public var skuId: Int64?    //SkuId
+    public var skuPics:[String]?//Sku图片
+    public var specs:[Specs]?   //商品规格
+    public var stock:Int32?     //库存
     
     
     enum CodingKeys: String, CodingKey {
@@ -184,8 +175,8 @@ public struct Skus: Codable {
 
 
 public struct Specs: Codable {
-    public var specGroupId: Int64?
-    public var specValue: String?
+    public var specGroupId: Int64?  //规格组Id
+    public var specValue: String?   //规格值
    
     enum CodingKeys: String, CodingKey {
         case specGroupId = "specGroupId"
@@ -209,13 +200,13 @@ public struct Specs: Codable {
 
 
 public struct Spus: Codable {
-    public var length:Int32?
-    public var required:Bool?
-    public var spuAttrId:Int32?
-    public var spuAttrName: String?
-    public var spuId: String?
-    public var spuType:Int32?
-    public var spuValue: String?
+    public var length:Int32?          //字符长度
+    public var required:Bool?         //是否必填（false：非必填、true：必填）
+    public var spuAttrId:Int64?       //商品参数属性Id
+    public var spuAttrName: String?   //商品参数名称
+    public var spuId: Int64?          //商品参数Id
+    public var spuType:Int32?         //商品参数类型（0：自定义、1：品牌、2：正品证书）
+    public var spuValue: String?      //Spu属性值
     
     
     enum CodingKeys: String, CodingKey {
@@ -232,16 +223,16 @@ public struct Spus: Codable {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         length = try? values.decodeIfPresent(Int32.self, forKey: .length)
         required = try? values.decodeIfPresent(Bool.self, forKey: .required)
-        spuAttrId = try? values.decodeIfPresent(Int32.self, forKey: .spuAttrId)
+        spuAttrId = try? values.decodeIfPresent(Int64.self, forKey: .spuAttrId)
         spuAttrName = try? values.decodeIfPresent(String.self, forKey: .spuAttrName)
-        spuId = try? values.decodeIfPresent(String.self, forKey: .spuId)
+        spuId = try? values.decodeIfPresent(Int64.self, forKey: .spuId)
         spuType = try? values.decodeIfPresent(Int32.self, forKey: .spuType)
         spuValue = try? values.decodeIfPresent(String.self, forKey: .spuValue)
     }
     
     
     
-    public init(length:Int32? = 0,required:Bool? = false,spuAttrId:Int32? = 0,spuAttrName:String? = "",spuId:String? = "",spuType:Int32? = 0,spuValue:String? = ""){
+    public init(length:Int32? = 0,required:Bool? = false,spuAttrId:Int64? = 0,spuAttrName:String? = "",spuId:Int64? = 0,spuType:Int32? = 0,spuValue:String? = ""){
         self.length = length
         self.required = required
         self.spuAttrId = spuAttrId

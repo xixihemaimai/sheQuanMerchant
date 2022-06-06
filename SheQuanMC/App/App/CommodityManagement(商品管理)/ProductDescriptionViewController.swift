@@ -91,7 +91,11 @@ class ProductDescriptionViewController: BaseViewController {
         
         //这里利用模型来判断是编辑过得数据还是没有新要发布的
         if inputString != nil{
+            inputString = inputString?.replacingOccurrences(of: "+", with: "\"", options: .literal, range: nil)
+            inputString = inputString?.replacingOccurrences(of: "\n", with: "\\n", options: .literal, range: nil)
+            LXFLog("======================\(inputString!)")
             if let array = getArrayOrDicFromJSONString(jsonString: inputString ?? "") as? [[String:Any]]{
+                LXFLog("====================\(array)")
                 let mutableAttributedStr = NSMutableAttributedString()
                 for dict in array {
                     if dict["image"] != nil{
@@ -104,17 +108,13 @@ class ProductDescriptionViewController: BaseViewController {
                         let imgSize = image.size
                         var newImgW = imgSize.width
                         var newImgH = imgSize.height
-                        let textW = SCW - CGFloat(30)
+                        let textW = SCW
                         if newImgW > textW{
                             let ratio = textW / newImgW
                             newImgW = textW
                             newImgH *= ratio
                         }
-                        
                         let attachment = NSTextAttachment(data: nil, ofType: nil)
-                        
-                        
-                        
                         attachment.image = image
                         attachment.bounds = CGRect(x: 0, y: 0, width: newImgW, height: newImgH)
                         mutableAttributedStr.insert(NSAttributedString(attachment: attachment), at: mutableAttributedStr.length)
@@ -291,7 +291,13 @@ class ProductDescriptionViewController: BaseViewController {
             let newImage = UIGraphicsGetImageFromCurrentImageContext()
             _image = newImage
         }else{
-            _image = image
+            let ratio = textW/newImgW
+            newImgH *= ratio
+            UIGraphicsBeginImageContext(CGSize(width: textW, height: newImgH))
+            image.draw(in: CGRect(x: 0, y: 0, width: textW, height: newImgH))
+            let newImage = UIGraphicsGetImageFromCurrentImageContext()
+//            newImage?.size
+            _image = newImage
         }
         if (_image != nil){
             _textView.add(_image)
@@ -317,7 +323,6 @@ class ProductDescriptionViewController: BaseViewController {
                             .tapActionCallback({
                                 
                             })
-                            
                         ]),
                         .confirmAction([
                             .text("确定"),
@@ -387,7 +392,6 @@ class ProductDescriptionViewController: BaseViewController {
         
     //完成
     @objc func completeAction(){
-        LXFLog("完成")
         if _textView.attributedText.length > 0{
             var imageArray = [String]()
             let arr1 = _textView.attributedText.getArrayWithAttributed()
@@ -420,116 +424,81 @@ class ProductDescriptionViewController: BaseViewController {
                             var dict = arr1?[i] as! [String:Any]
                             if (dict["image"] != nil && !(dict["image"] as! String).hasPrefix("http")){
                                 dict["image"] = urlStr
-    //                            LXFLog("--32============================\(String(describing: dict["image"]))")
                                 arr1?[i] = dict
                                 break
                             }
                         }
                     }
-                    let jsonString = self.getArrayFromData(obj: arr1 as Any)
-    //                LXFLog("+=================================\(jsonString)")
+                    var jsonString = self.getArrayFromData(obj: arr1 as Any)
+                    jsonString = jsonString.replacingOccurrences(of: "\"", with: "+", options: .literal, range: nil)
+                    jsonString = jsonString.replacingOccurrences(of: "\n", with: "\\n", options: .literal, range: nil)
+                    LXFLog(jsonString)
                     self.inputAttributedString!(jsonString)
                     Coordinator.shared?.popViewController(self, true)
                 } failureCallback: { error, code in
                     code.loginOut()
                 }
             }else{
-                let jsonString = self.getArrayFromData(obj: arr1 as Any)
+                var jsonString = self.getArrayFromData(obj: arr1 as Any)
+                jsonString = jsonString.replacingOccurrences(of: "\"", with: "+", options: .literal, range: nil)
+                jsonString = jsonString.replacingOccurrences(of: "\n", with: "\\n", options: .literal, range: nil)
+                LXFLog(jsonString)
                 self.inputAttributedString!(jsonString)
                 Coordinator.shared?.popViewController(self, true)
             }
         }else{
             Coordinator.shared?.popViewController(self, true)
         }
-        
-        /**
-         if (_textView.attributedText.length) {
-             NSArray *arr1 =  [_textView.attributedText getArrayWithAttributed];
-         
-             NSString *image = @"";
-             for (NSDictionary * dict in arr1) {
-                 if (dict[@"image"]!=nil) {
-                     默认图片
-                     image = dict[@"image"];
-                     break;
-                 }
-             }
-             NSString *wors = @"";
-             for (NSDictionary * dict1 in arr1) {
-                 if (dict1[@"image"]!=nil || [dict1[@"title"] isEqualToString:@"\n"] || [dict1[@"title"] containsString:@"\n"] ) {
-                     
-                 }else{
-                     NSString *title = dict1[@"title"];
-                     NSString *newTitle = [title stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-                     wors = [wors stringByAppendingString:newTitle];
-                     NSLog(@"%ld", wors.length);
-                 }
-             }
-             NSString *string = _textView.attributedText.string;
-             NSArray *array = [string componentsSeparatedByString:@"\n"];
-             NSString *content = @"";
-             if (array.count) {
-                 content = array[0];
-                 if (!content.length) {
-                     for (NSString *str in array) {
-                         content = [content stringByAppendingString:str];
-                     }
-                 }
-             }else{
-                 content = string;
-             }
-             //字数
-             NSInteger words = wors.length;
-             //保存索引
-             NSDictionary *dic = @{
-                                   @"day":_model.day,
-                                   @"type":@"1",
-                                   @"year":_model.year,
-                                   @"moth":_model.moth,
-                                   @"index":[NSString stringWithFormat:@"%ld",_model.index],
-                                   @"image":image,
-                                   @"words":[NSString stringWithFormat:@"%ld",words],
-                                   @"content":content
-                                   };
-             
-             NSString *conten = [NSString dicToString:dic];
-             if (_model.type ==1) {//更新
-                 NSString *sql1 = [NSString stringWithFormat:@"update t_index set contexText = '%@' where workId = '%@'",conten,[NSString stringWithFormat:@"%@%@%@",_model.year, _model.moth,_model.day]];
-                 [_indexdb insertOrUpdateData:sql1];
-             }else{//插入
-                 NSString *sql1 = [NSString stringWithFormat:@"INSERT INTO t_index (contexText, workId) VALUES ('%@','%@');",conten,[NSString stringWithFormat:@"%@%@%@",_model.year, _model.moth,_model.day]];
-                 [_indexdb insertOrUpdateData:sql1];
-             }
-             NSString *sqlcontent = [NSString arrayToString:arr1];
-             if (_model.type ==1) {//更新
-                 NSString *sql1 = [NSString stringWithFormat:@"update t_works set contexText = '%@' where workId = '%@'",sqlcontent,[NSString stringWithFormat:@"%@%@%@",_model.year, _model.moth,_model.day]];
-                 [_db insertOrUpdateData:sql1];
-             }else{//插入
-                 NSString *sql1 = [NSString stringWithFormat:@"INSERT INTO t_works (contexText, workId) VALUES ('%@','%@');",sqlcontent,[NSString stringWithFormat:@"%@%@%@",_model.year, _model.moth,_model.day]];
-                 [_db insertOrUpdateData:sql1];
-             }
-             [[NSNotificationCenter defaultCenter] postNotificationName:@"resh" object:dic];
-             NSArray *pushArr =NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
-             NSString *documents = [pushArr lastObject];
-             NSString *documentPath = [documents stringByAppendingPathComponent:@"arrayXML.xml"];
-             NSArray *resultArray = [NSArray arrayWithContentsOfFile:documentPath];
-             NSMutableArray *pushMarr = [NSMutableArray array];
-             [pushMarr addObjectsFromArray:resultArray];
-             [pushMarr addObject:[NSString stringWithFormat:@"%@%@%@",_model.year,_model.moth,_model.day]];
-             [pushMarr writeToFile:documentPath atomically:YES];
-             [[UIApplication sharedApplication] cancelAllLocalNotifications];
-           
-         }else{//如果啥都没有删除掉它
-             NSString *sql1 = [NSString stringWithFormat:@"DELETE FROM t_index WHERE workId = '%@'",[NSString stringWithFormat:@"%@%@%@",_model.year,_model.moth,_model.day]];
-             [_indexdb deleteData:sql1];
-             NSString *sql2 = [NSString stringWithFormat:@"DELETE FROM t_works WHERE workId = '%@'",[NSString stringWithFormat:@"%@%@%@",_model.year,_model.moth,_model.day]];
-             [_indexdb deleteData:sql1];
-             [_db deleteData:sql2];
-             [[NSNotificationCenter defaultCenter] postNotificationName:@"resh" object:nil];
-         }
-         [self.navigationController popViewControllerAnimated:YES];
-         */
+//        LXFLog("+=============================\(codingToCompleteHtml())")
     }
+    
+    
+    /// 将富文本编码成html标签
+    func codingToCompleteHtml() -> String? {
+        do {
+            let exportParams = [NSAttributedString.DocumentAttributeKey.documentType:NSAttributedString.DocumentType.html]
+            let htmlData = try _textView.attributedText.data(from: NSRange(location: 0, length: _textView.attributedText.length), documentAttributes: exportParams)
+            var string = String.init(data: htmlData, encoding: String.Encoding.utf8)
+            string = string?.replacingOccurrences(of: "pt;", with: "px;")
+            string = string?.replacingOccurrences(of: "pt}", with: "px}")
+            return string
+        } catch {
+            return nil
+        }
+    }
+    
+    
+    func convertHtml(string: String?) -> NSAttributedString? {
+        guard let string = string else {return nil}
+        guard let data = string.data(using: .utf8) else {
+            return nil
+        }
+        do {
+            let attrStr = try NSAttributedString(data: data,
+                                          options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding: String.Encoding.utf8.rawValue],
+                                          documentAttributes: nil)
+            let range = NSRange(location: 0, length: attrStr.length)
+            let str = NSMutableAttributedString(attributedString: attrStr)
+            str.enumerateAttribute(NSAttributedString.Key.font, in: NSMakeRange(0, str.length), options: .longestEffectiveRangeNotRequired) {
+                (value, range, stop) in
+                if let font = value as? UIFont {
+                    let userFont =  UIFontDescriptor.preferredFontDescriptor(withTextStyle: .title2)
+                    let pointSize = userFont.withSize(font.pointSize)
+                    let customFont = UIFont.systemFont(ofSize: pointSize.pointSize)
+                    let dynamicText = UIFontMetrics.default.scaledFont(for: customFont)
+                    str.addAttribute(NSAttributedString.Key.font,
+                                             value: dynamicText,
+                                             range: range)
+                }
+            }
+            str.addAttribute(NSAttributedString.Key.underlineStyle, value: 0, range: range)
+            return NSAttributedString(attributedString: str.attributedSubstring(from: range))
+        } catch {}
+        return nil
+        
+    }
+    
+    
     
     
     func getArrayFromData(obj:Any) -> String {

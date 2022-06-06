@@ -170,6 +170,41 @@ public func getJSONStringFromPushblish(obj:[String:Any],isEscape:Bool) -> String
                                 }
                             }
                         }
+                        
+                        
+                        
+                        if let code = element.value as? Decimal {
+                           let doubleValue = Double(truncating: code as? NSNumber ?? 0.0)
+                           let result = String(format: "%0.3f", doubleValue)
+                           LXFLog("======================\(result)")
+//                            if index == 0 {
+//                                if element.key == "freeRefundIn7Days" || element.key == "freightInsure" || element.key == "multiSpec"{
+//                                    if result == "1"{
+//                                        body +=  "," + "\"" + element.key + "\"" + ":" + "true"
+//                                    }else{
+//                                        body += "," + "\"" + element.key + "\"" + ":" + "false"
+//                                    }
+//                                }else{
+//                                    body += "{" + "\"" + element.key + "\"" + ":" + result
+//                                }
+//                            }else{
+////                                body += "," + "\"" + element.key + "\"" + ":" + result
+//                                if element.key == "freeRefundIn7Days" || element.key == "freightInsure" || element.key == "multiSpec"{
+//                                    if result == "1"{
+//                                        body += "," + "\"" + element.key + "\"" + ":" + "true"
+//                                    }else{
+//                                        body += "," + "\"" + element.key + "\"" + ":" + "false"
+//                                    }
+//                                }else{
+                                    body += "," + "\"" + element.key + "\"" + ":" + result
+//                                }
+//                            }
+                        }
+                        
+                        
+                        
+                        
+                        
                       //productDesc  productId productCode productName
                         if let code = element.value as? String{
                             let result = String(code)
@@ -576,6 +611,39 @@ public func getJSONStringFromPushblishData(obj:Data,isEscape:Bool) -> Data{
                         }
                     }
                 }
+                
+                
+                if let code = element.value as? Decimal {
+                   let doubleValue = Double(truncating: code as? NSNumber ?? 0.0)
+                   let result = String(format: "%0.3f", doubleValue)
+                   LXFLog("======================\(result)")
+//                            if index == 0 {
+//                                if element.key == "freeRefundIn7Days" || element.key == "freightInsure" || element.key == "multiSpec"{
+//                                    if result == "1"{
+//                                        body +=  "," + "\"" + element.key + "\"" + ":" + "true"
+//                                    }else{
+//                                        body += "," + "\"" + element.key + "\"" + ":" + "false"
+//                                    }
+//                                }else{
+//                                    body += "{" + "\"" + element.key + "\"" + ":" + result
+//                                }
+//                            }else{
+////                                body += "," + "\"" + element.key + "\"" + ":" + result
+//                                if element.key == "freeRefundIn7Days" || element.key == "freightInsure" || element.key == "multiSpec"{
+//                                    if result == "1"{
+//                                        body += "," + "\"" + element.key + "\"" + ":" + "true"
+//                                    }else{
+//                                        body += "," + "\"" + element.key + "\"" + ":" + "false"
+//                                    }
+//                                }else{
+                            body += "," + "\"" + element.key + "\"" + ":" + result
+//                                }
+//                            }
+                }
+                
+                
+                
+                
                 //productDesc  productId productCode productName
                 if let code = element.value as? String{
                     let result = String(code)

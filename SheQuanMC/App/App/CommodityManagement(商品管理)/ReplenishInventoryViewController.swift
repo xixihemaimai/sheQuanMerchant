@@ -7,6 +7,7 @@
 
 import UIKit
 import Util
+import SDWebImage
 
 class ReplenishInventoryViewController: BaseViewController {
 
@@ -19,6 +20,7 @@ class ReplenishInventoryViewController: BaseViewController {
         saveBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#FFFFFF"), for: .normal)
         saveBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         saveBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#313336")
+        saveBtn.addTarget(self, action: #selector(saveReplenishAction), for: .touchUpInside)
         return saveBtn
     }()
     
@@ -31,6 +33,14 @@ class ReplenishInventoryViewController: BaseViewController {
     }()
     
     
+    var goodsImageViews:UIImageView!
+    var goodsLabels:UILabel!
+    
+    
+    var productId:Int64 = 0
+    
+    
+    var model:soldOutSkuListModel?
     
     
     
@@ -89,6 +99,7 @@ class ReplenishInventoryViewController: BaseViewController {
         }
         
         goodsImageView.layer.cornerRadius = scale(2)
+        goodsImageViews = goodsImageView
         
         let goodsLabel = UILabel()
         goodsLabel.text = "商品名称Nike耐克官方AIR MONARCHIV男子训练鞋运懂老爹鞋休闲鞋"
@@ -104,6 +115,7 @@ class ReplenishInventoryViewController: BaseViewController {
             make.top.equalTo(scale(32))
             make.height.equalTo(scale(40))
         }
+        goodsLabels = goodsLabel
         
         let bottomView = UIView()
         bottomView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#F8F8F8")
@@ -133,9 +145,64 @@ class ReplenishInventoryViewController: BaseViewController {
             make.height.equalTo(scale(1))
         }
         
+        loadSoldOutSkuList()
+        
         tableview.layoutIfNeeded()
         
     }
+    
+    
+    func loadSoldOutSkuList(){
+        let parameter = ["productId":productId as Any] as [String:Any]
+        NetWorkResultRequest(OrderApi.getSoldOutSkuList(parameters: parameter), needShowFailAlert: true) { result, data in
+            guard let model = try? JSONDecoder().decode(GenericResponse<soldOutSkuListModel>.self, from: data) else { return }
+            if let data1 = model.data{
+               self.model = data1
+               LXFLog("+========================\(self.model)")
+               self.goodsImageViews.sd_setImage(with: URL(string: (self.model?.productPic ?? "")), placeholderImage: UIImage(named: "Rectangle 2363"))
+               self.goodsLabels.text = data1.productName
+               self.tableview.reloadData()
+            }
+            
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
+    }
+    
+    
+    //补库存
+    @objc func saveReplenishAction(saveBtn:UIButton){
+        var stockList:[SkuStockInfoModel] = [SkuStockInfoModel]()
+        for i in 0..<(model?.skus?.count ?? 0) {
+            let skus = model?.skus?[i]
+            let cell = tableview.cellForRow(at: IndexPath(row: i, section: 0)) as! ReplenishInventoryCell
+            LXFLog(cell.addTextField.text)
+            let skuStcokInfoModel = SkuStockInfoModel(skuId: skus?.skuId, stock: Int32(cell.addTextField.text ?? "0"))
+            stockList.append(skuStcokInfoModel)
+        }
+        
+        var specsLists:String = "["
+        for n in 0..<stockList.count{
+            let skuStcokInfoModel = stockList[n]
+            let specsDict = ["skuId":skuStcokInfoModel.skuId as Any,"stock":skuStcokInfoModel.stock as Any] as [String:Any]
+            let jsonstring = getJSONStringFromData(obj: specsDict, isEscape: true)
+            if n == 0{
+                specsLists += jsonstring
+            }else
+            {
+                specsLists += "," + jsonstring
+            }
+        }
+        specsLists += "]"
+        let parameters = ["productId":productId,"skuStocks":specsLists] as [String:Any]
+        NetWorkResultRequest(OrderApi.repairStock(parameters: parameters), needShowFailAlert: true) { result, data in
+            Coordinator.shared?.popViewController(self, true)
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
+    }
+    
+    
 }
 
 
@@ -143,13 +210,14 @@ extension ReplenishInventoryViewController:UITableViewDelegate,UITableViewDataSo
 
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return model?.skus?.count ?? 0
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReplenishInventoryCell")
         as! ReplenishInventoryCell
+        cell.model = model?.skus?[indexPath.row]
         return cell
     }
     

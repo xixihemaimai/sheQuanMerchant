@@ -590,6 +590,7 @@ class CommodityParametersViewController: BaseViewController {
     @objc func sureAction(sureBtn:UIButton){
         LXFLog("确认")
         LXFLog("================\(paraList)")
+        self.setEditing(true, animated: false)
         //这边要判读是否填写完整
         var isInputComplete:Bool = true
         for spus in paraList {
@@ -604,6 +605,10 @@ class CommodityParametersViewController: BaseViewController {
             JFPopup.toast(hit: "你还有些必填的信息没有填写完整")
             return
         }
+        
+        
+        
+        
         sureParmeter!(paraList)
         Coordinator.shared?.popViewController(self, true)
     }
@@ -769,28 +774,48 @@ extension CommodityParametersViewController:UITableViewDelegate,UITableViewDataS
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CommodityParameterCell") as! CommodityParameterCell
         cell.model = paraList[indexPath.row]
-        if indexPath.row == 0{
-            if cell.model?.spuValue == nil{
-                cell.parameterTextfield.placeholder = "未上传"
-                cell.parameterTextfield.isEnabled = false
-                cell.parameterTextfield.attributedPlaceholder = NSAttributedString.init(string:"未上传", attributes: [
-                    NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
-            }
-        }else if indexPath.row == 1{
-            if cell.model?.spuValue == nil{
-                cell.parameterTextfield.isEnabled = false
-                cell.parameterTextfield.placeholder = "请选择"
-                cell.parameterTextfield.attributedPlaceholder = NSAttributedString.init(string:"请选择", attributes: [
-                    NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
-            }
+        cell.parameterTextfield.tag = indexPath.row
+        cell.parameterTextfield.delegate = self
+        let spus = paraList[indexPath.row]
+        if spus.spuAttrName == "正品证书"{
+            cell.parameterTextfield.placeholder = "未上传"
+            cell.parameterTextfield.isEnabled = false
+            cell.parameterTextfield.attributedPlaceholder = NSAttributedString.init(string:"未上传", attributes: [
+                NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
+        }else if spus.spuAttrName == "品牌"{
+            cell.parameterTextfield.isEnabled = false
+            cell.parameterTextfield.placeholder = "请选择"
+            cell.parameterTextfield.attributedPlaceholder = NSAttributedString.init(string:"请选择", attributes: [
+                NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
         }else{
-            if cell.model?.spuValue == nil{
-                cell.parameterTextfield.isEnabled = true
-                cell.parameterTextfield.placeholder = "请输入"
-                cell.parameterTextfield.attributedPlaceholder = NSAttributedString.init(string:"请输入", attributes: [
-                    NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
-            }
+            cell.parameterTextfield.isEnabled = true
+            cell.parameterTextfield.placeholder = "请输入"
+            cell.parameterTextfield.attributedPlaceholder = NSAttributedString.init(string:"请输入", attributes: [
+                NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
         }
+        
+//        if indexPath.row == 0{
+//            if cell.model?.spuValue == nil{
+//                cell.parameterTextfield.placeholder = "未上传"
+//                cell.parameterTextfield.isEnabled = false
+//                cell.parameterTextfield.attributedPlaceholder = NSAttributedString.init(string:"未上传", attributes: [
+//                    NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
+//            }
+//        }else if indexPath.row == 1{
+//            if cell.model?.spuValue == nil{
+//                cell.parameterTextfield.isEnabled = false
+//                cell.parameterTextfield.placeholder = "请选择"
+//                cell.parameterTextfield.attributedPlaceholder = NSAttributedString.init(string:"请选择", attributes: [
+//                    NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
+//            }
+//        }else{
+//            if cell.model?.spuValue == nil{
+//                cell.parameterTextfield.isEnabled = true
+//                cell.parameterTextfield.placeholder = "请输入"
+//                cell.parameterTextfield.attributedPlaceholder = NSAttributedString.init(string:"请输入", attributes: [
+//                    NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
+//            }
+//        }
         return cell
     }
     
@@ -877,14 +902,25 @@ extension CommodityParametersViewController:UITableViewDelegate,UITableViewDataS
                 }
                 return commodityParametersView
             }
+        }else{
+            spus.spuValue = (cell.parameterTextfield.text ?? "")
+            paraList[indexPath.row] = spus
         }
     }
 }
 
 
 
-//extension CommodityParametersViewController:UITextViewDelegate{
-//
+extension CommodityParametersViewController:UITextFieldDelegate{
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField.tag > 1{
+            var spus = paraList[textField.tag]
+            spus.spuValue = (textField.text ?? "")
+            paraList[textField.tag] = spus
+        }
+    }
+    
+    
 //    func textViewDidChange(_ textView: UITextView) {
 //        if textView == productionTextView{
 //            if textView.text.count > 0{
@@ -933,5 +969,5 @@ extension CommodityParametersViewController:UITableViewDelegate,UITableViewDataS
 //        }
 //        return true
 //    }
-//}
+}
 

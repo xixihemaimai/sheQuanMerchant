@@ -12,6 +12,9 @@ import Util
 class CommodityStatusViewController: BaseViewController {
 
     
+    var list:[productListModel] = [productListModel]()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -24,12 +27,15 @@ class CommodityStatusViewController: BaseViewController {
         tableview.register(commodityStatusCell.self, forCellReuseIdentifier: "commodityStatusCell")
         tableview.register(commodityExamineCell.self, forCellReuseIdentifier: "commodityExamineCell")
 //        tableview.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
+        loadProductList()
     }
     
     
     override func headerRereshing() {
         LXFLog("下拉")
-        tableview.mj_header?.endRefreshing()
+//        tableview.mj_header?.endRefreshing()
+        
+        loadProductList()
     }
     
     override func footerRereshing() {
@@ -38,9 +44,39 @@ class CommodityStatusViewController: BaseViewController {
     }
     
     
+    
+    func loadProductList(){
+        var productStatus:Int32 = Int32(3)
+        if title == "上架中"{
+            productStatus = Int32(3)
+        }else if title == "审核中"{
+            productStatus = Int32(2)
+        }else if title == "未上架"{
+            productStatus = Int32(1)
+        }else if title == "已售罄"{
+            productStatus = Int32(4)
+        }
+        let parmeters = ["keyWord":"","lastSortTime":0,"productStatus":productStatus] as [String:Any]
+        NetWorkResultRequest(OrderApi.getProductInfoList(parameters: parmeters), needShowFailAlert: true) { result, data in
+            guard let model = try? JSONDecoder().decode(GenericResponse<[productListModel]>.self, from: data)else{ return }
+            self.list.removeAll()
+            guard let data1 = model.data else{return}
+            self.list = data1
+            LXFLog("====================\(self.list)")
+            self.tableview.reloadData()
+            self.tableview.mj_header?.endRefreshing()
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
+    }
+    
+    
+    
+    
     //已售罄---补库存和 未上架---删除
     @objc func stockAction(stockBtn:UIButton){
-        if title == "未上架"{
+        let productListModel = self.list[stockBtn.tag]
+        if productListModel.productStatus == 1{
             JFPopup.alert {
                 [
                     .title("确定要删除这个商品吗?"),
@@ -54,21 +90,32 @@ class CommodityStatusViewController: BaseViewController {
                         .text("删除"),
                         .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
                         .tapActionCallback({
-                            JFPopupView.popup.toast(hit: "点击了删除")
+//                            JFPopupView.popup.toast(hit: "点击了删除")
+//                            let productListModel = self.list[stockBtn.tag]
+                            let parameter = ["productId":productListModel.productId as Any] as [String:Any]
+                            NetWorkResultRequest(OrderApi.delProduct(parameters: parameter), needShowFailAlert: true) { result, data in
+                                self.list.remove(at: stockBtn.tag)
+                                self.tableview.reloadData()
+                            } failureCallback: { error, code in
+                                code.loginOut()
+                            }
                         })
                     ])
                 ]
             }
         }else{
+//            let productListModel = self.list[stockBtn.tag]
             // 跳转另一个界面
             let replenishVc = ReplenishInventoryViewController()
+            replenishVc.productId = Int64(productListModel.productId ?? 0)
             Coordinator.shared?.pushViewController(self, replenishVc, animated: true)
         }
     }
     
     //上架中--下架,已售罄--下架，未上架--上架
     @objc func downAction(downBtn:UIButton){
-        if title == "上架中" || title == "已售罄"{
+        let productListModel = self.list[downBtn.tag]
+        if productListModel.productStatus == 3 || productListModel.productStatus == 4{
             JFPopup.alert {
                 [
                     .title("确定要下架这个商品吗?"),
@@ -83,6 +130,18 @@ class CommodityStatusViewController: BaseViewController {
                         .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
                         .tapActionCallback({
                             JFPopupView.popup.toast(hit: "点击了下架")
+                            
+//                            let productListModel = self.list[downBtn.tag]
+                            let parameter = ["productId":productListModel.productId as Any] as [String:Any]
+                            NetWorkResultRequest(OrderApi.lowerShelf(parameters: parameter), needShowFailAlert: true) { result, data in
+                                self.list.remove(at: downBtn.tag)
+                                self.tableview.reloadData()
+                            } failureCallback: { error, code in
+                                code.loginOut()
+                            }
+
+                            
+                            
                         })
                     ])
                 ]
@@ -101,7 +160,19 @@ class CommodityStatusViewController: BaseViewController {
                         .text("上架"),
                         .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
                         .tapActionCallback({
-                            JFPopupView.popup.toast(hit: "点击了上架")
+//                            JFPopupView.popup.toast(hit: "点击了上架")
+                            
+//                            let productListModel = self.list[downBtn.tag]
+                            let parameter = ["productId":productListModel.productId as Any] as [String:Any]
+                            NetWorkResultRequest(OrderApi.upShelf(parameters: parameter), needShowFailAlert: true) { result, data in
+                                self.list.remove(at: downBtn.tag)
+                                self.tableview.reloadData()
+                            } failureCallback: { error, code in
+                                code.loginOut()
+                            }
+                            
+                            
+                            
                         })
                     ])
                 ]
@@ -110,7 +181,23 @@ class CommodityStatusViewController: BaseViewController {
     }
     //上架中--编辑，已售罄--编辑，未上架---编辑
     @objc func editAction(editBtn:UIButton){
+        
+        let productListModel = self.list[editBtn.tag]
+        let parameter = ["productId":productListModel.productId as Any] as [String:Any]
+        NetWorkResultRequest(OrderApi.getProductInfo(parameters: parameter), needShowFailAlert: true) { result, data in
+            guard let model = try? JSONDecoder().decode(GenericResponse<CommodityModel>.self, from: data) else { return }
+            if let data1 = model.data{
+                let releaseGoodsVc = ReleaseGoodsViewController()
+                releaseGoodsVc.type = 1
+                releaseGoodsVc.commodityModel = data1
+                Coordinator.shared?.pushViewController(self, releaseGoodsVc, animated: true)
+            }
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
+        
     }
+    
     
     //审核中的删除
     @objc func deleteAction(deleteBtn:UIButton){
@@ -127,7 +214,17 @@ class CommodityStatusViewController: BaseViewController {
                     .text("删除"),
                     .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
                     .tapActionCallback({
-                        JFPopupView.popup.toast(hit: "点击了删除")
+                        
+                        let productListModel = self.list[deleteBtn.tag]
+                        let parameter = ["productId":productListModel.productId as Any] as [String:Any]
+                        NetWorkResultRequest(OrderApi.delProduct(parameters: parameter), needShowFailAlert: true) { result, data in
+                            self.list.remove(at: deleteBtn.tag)
+                            self.tableview.reloadData()
+                        } failureCallback: { error, code in
+                            code.loginOut()
+                        }
+                        
+                        
                     })
                 ])
             ]
@@ -136,10 +233,20 @@ class CommodityStatusViewController: BaseViewController {
     
     //审核中的编辑
     @objc func examineEditAction(editBtn:UIButton){
-        
-        
-        
-        
+        let productListModel = self.list[editBtn.tag]
+        let parameter = ["productId":productListModel.productId as Any] as [String:Any]
+        NetWorkResultRequest(OrderApi.getProductInfo(parameters: parameter), needShowFailAlert: true) { result, data in
+            guard let model = try? JSONDecoder().decode(GenericResponse<CommodityModel>.self, from: data) else { return }
+            if let data1 = model.data{
+                let releaseGoodsVc = ReleaseGoodsViewController()
+                releaseGoodsVc.type = 1
+                LXFLog("==============\(data1)")
+                releaseGoodsVc.commodityModel = data1
+                Coordinator.shared?.pushViewController(self, releaseGoodsVc, animated: true)
+            }
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
     }
     
     //审核中的取消申请
@@ -160,6 +267,17 @@ class CommodityStatusViewController: BaseViewController {
                     .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
                     .tapActionCallback({
                         JFPopupView.popup.toast(hit: "点击了取消申请")
+                       
+                        let productListModel = self.list[cancelBtn.tag]
+                        let parameter = ["productId":productListModel.productId as Any] as [String:Any]
+                        NetWorkResultRequest(OrderApi.cancelApply(parameters: parameter), needShowFailAlert: true) { result, data in
+                            //取消申请成功之后的反应
+                            self.list.remove(at: cancelBtn.tag)
+                            self.tableview.reloadData()
+                        } failureCallback: { error, code in
+                            code.loginOut()
+                        }
+                        
                     })
                 ])
             ]
@@ -172,33 +290,35 @@ class CommodityStatusViewController: BaseViewController {
 extension CommodityStatusViewController:UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return list.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if title == "上架中" || title == "已售罄" || title == "未上架"{
+        let productListModel = list[indexPath.row]
+        // 1：未上架  2：审核中 3：上架中 4、已售罄
+        if productListModel.productStatus == 1 || productListModel.productStatus == 3 || productListModel.productStatus == 4{
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: "commodityStatusCell") as! commodityStatusCell
-            if title == "上架中"{
+            if productListModel.productStatus == 3{
                 cell.stockBtn.isHidden = true
-            }else if title == "已售罄"{
+            }else if productListModel.productStatus == 4{
                 cell.stockBtn.isHidden = false
-            }else if title == "未上架"{
+            }else if productListModel.productStatus == 1{
                 cell.stockBtn.setTitle("删除", for: .normal)
                 cell.downBtn.setTitle("上架", for: .normal)
             }
-            //0为没有库存，1为有库存
-            let stockNum = arc4random()%2
-            if stockNum < 1{
-                cell.stockLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#F13232")
-            }else{
-                cell.stockLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#999999")
-            }
-            cell.stockLabel.text = "库存余量:" + String(stockNum)
+//            if (productListModel.stock ?? 0) < 1{
+//                cell.stockLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#F13232")
+//            }else{
+//                cell.stockLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#999999")
+//            }
+//            cell.stockLabel.text = "库存余量:" + String(productListModel.stock ?? 0)
+            
+            cell.model = productListModel
             
             cell.stockBtn.tag = indexPath.row
             cell.downBtn.tag = indexPath.row
             cell.editBtn.tag = indexPath.row
-            
             cell.stockBtn.addTarget(self, action: #selector(stockAction), for: .touchUpInside)
             cell.downBtn.addTarget(self, action: #selector(downAction), for: .touchUpInside)
             cell.editBtn.addTarget(self, action: #selector(editAction), for: .touchUpInside)
@@ -206,23 +326,31 @@ extension CommodityStatusViewController:UITableViewDelegate,UITableViewDataSourc
             
             return cell
         }else{
+            
+            
+            let productListModel = list[indexPath.row]
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: "commodityExamineCell") as! commodityExamineCell
             //0为没有审核中，1为有已驳回
-            let stockNum = arc4random()%2
-            if stockNum < 1{
+//            let stockNum = arc4random()%2
+            cell.model = productListModel
+            
+            if productListModel.auditStatus == 2 {
+                //审核中
                 cell.deleteBtn.isHidden = true
                 cell.editBtn.isHidden = true
                 cell.cancelBtn.isHidden = false
                 cell.statusLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#666666")
-                cell.reasonLabel.text = "预计2个工作日内反馈申请结果"
+//                cell.reasonLabel.text = "预计2个工作日内反馈申请结果"
                 cell.statusLabel.text = "审核中"
-            }else{
+            }else if productListModel.auditStatus == 3{
+                //审核失败
                 cell.deleteBtn.isHidden = false
                 cell.editBtn.isHidden = false
                 cell.cancelBtn.isHidden = true
                 cell.statusLabel.text = "已驳回"
                 cell.statusLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#F13232")
-                cell.reasonLabel.text = "失败原因"
+//                cell.reasonLabel.text = productListModel.auditReason
             }
             cell.deleteBtn.tag = indexPath.row
             cell.editBtn.tag = indexPath.row
@@ -242,15 +370,23 @@ extension CommodityStatusViewController:UITableViewDelegate,UITableViewDataSourc
     
     
     
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-        let releaseGoodsVc = ReleaseGoodsViewController()
-        releaseGoodsVc.type = 1
-        Coordinator.shared?.pushViewController(self, releaseGoodsVc, animated: true)
-
-        
-    }
+//    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+//        tableView.deselectRow(at: indexPath, animated: true)
+//        let productListModel = self.list[indexPath.row]
+//        let parameter = ["productId":productListModel.productId as Any] as [String:Any]
+//        NetWorkResultRequest(OrderApi.getProductInfo(parameters: parameter), needShowFailAlert: true) { result, data in
+//            guard let model = try? JSONDecoder().decode(GenericResponse<CommodityModel>.self, from: data) else { return }
+//            if let data1 = model.data{
+//                LXFLog("+============================\(data1)")
+//                let releaseGoodsVc = ReleaseGoodsViewController()
+//                releaseGoodsVc.type = 1
+//                releaseGoodsVc.commodityModel = data1
+//                Coordinator.shared?.pushViewController(self, releaseGoodsVc, animated: true)
+//            }
+//        } failureCallback: { error, code in
+//            code.loginOut()
+//        }
+//    }
     
     
 }

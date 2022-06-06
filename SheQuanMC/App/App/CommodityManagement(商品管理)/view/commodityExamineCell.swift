@@ -115,6 +115,19 @@ class commodityExamineCell: UITableViewCell {
     }()
     
     
+    var model:productListModel?{
+        didSet{
+            guard let _model = model else { return }
+            
+            goodsImageView.sd_setImage(with: URL(string: _model.productPic ?? ""), placeholderImage: UIImage(named: "Group 2784"))
+            goodsIntroductLabel.text = _model.productName
+            applyTimeLabel.text = "申请时间:" + (_model.applyTime ?? "")
+            reasonLabel.text = _model.auditReason
+            
+        }
+    }
+    
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

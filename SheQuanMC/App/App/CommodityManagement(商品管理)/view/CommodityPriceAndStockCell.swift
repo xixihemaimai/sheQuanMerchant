@@ -97,12 +97,7 @@ class CommodityPriceAndStockCell: UITableViewCell {
         contentView.addSubview(commoditySImage)
         
         
-        diviver.snp.makeConstraints { make in
-            make.left.equalTo(scale(16))
-            make.right.equalTo(-scale(16))
-            make.top.equalToSuperview()
-            make.height.equalTo(scale(0.5))
-        }
+        
         
         specificationLabel.snp.makeConstraints { make in
             make.left.equalTo(scale(16))
@@ -156,6 +151,13 @@ class CommodityPriceAndStockCell: UITableViewCell {
             make.width.equalTo((SCW - scale(32))/2 - scale(1))
         }
 
+        
+        diviver.snp.makeConstraints { make in
+            make.left.equalTo(scale(16))
+            make.right.equalTo(-scale(16))
+            make.bottom.equalToSuperview()
+            make.height.equalTo(scale(0.5))
+        }
         
     }
     

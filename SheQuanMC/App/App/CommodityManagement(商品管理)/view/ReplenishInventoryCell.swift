@@ -41,6 +41,8 @@ class ReplenishInventoryCell: UITableViewCell {
     lazy var addTextField:UITextField = {
        let addTextField = UITextField()
         addTextField.placeholder = "请输入"
+        addTextField.keyboardType = .numberPad
+        addTextField.clearButtonMode = .whileEditing
         addTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
         addTextField.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
@@ -55,6 +57,13 @@ class ReplenishInventoryCell: UITableViewCell {
     }()
     
     
+    
+    var model:skusModel?{
+        didSet{
+            guard let _model = model else { return }
+            replenishNameLabel.text = _model.productSpecs
+        }
+    }
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

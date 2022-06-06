@@ -242,7 +242,7 @@ class RegisterViewController: BaseViewController {
             make.left.equalTo(scale(30))
             make.top.equalTo(codeDiviver.snp.bottom).offset(scale(34))
 //            make.width.equalTo(scale(scale(300)))
-            make.right.equalTo(-scale(100))
+            make.right.equalTo(-scale(80))
             make.height.equalTo(scale(20))
         }
         

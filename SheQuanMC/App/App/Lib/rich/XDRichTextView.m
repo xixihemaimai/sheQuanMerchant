@@ -131,7 +131,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     CGSize  imgSize = image.size;
     CGFloat newImgW = imgSize.width;
     CGFloat newImgH = imgSize.height;
-    CGFloat textW   = kAppFrameWidth - (30);
+    CGFloat textW   = kAppFrameWidth;
     if (newImgW > textW) {
         CGFloat ratio = textW / newImgW;
         newImgW  = textW;

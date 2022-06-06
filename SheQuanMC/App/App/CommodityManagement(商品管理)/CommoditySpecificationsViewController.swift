@@ -30,17 +30,19 @@ class CommoditySpecificationsViewController: BaseViewController {
     
     
     //商品规格和价格和库存
-    var commoditySpecifications:((_ SpecList:[Specs],_ PriceInVentory:[Skus]) ->Void)?
+    var commoditySpecifications:((_ specGroups:[SpecGroups],_ PriceInVentory:[Skus]) ->Void)?
     
     
     
     var categoryId:Int32 = 0
     
+    var productId:Int64 = 0
+    
     
     
     
     //这个用来判断是否添加俩个（不管后台传多少个，增删改查都没有关系）
-    var addCoutList:[String] = [String]()
+    var addCoutList:[Int64] = [Int64]()
     
     //保存的是规格的数量(Specs 模型)
     var saveList:[SpecGroups] = [SpecGroups]()
@@ -54,6 +56,9 @@ class CommoditySpecificationsViewController: BaseViewController {
     
     
     var combinationArray:[[Skus]] = [[Skus]]()
+    
+    //0位发布，1位编辑
+    var type:Int = 0
     
     
     
@@ -144,6 +149,162 @@ class CommoditySpecificationsViewController: BaseViewController {
         
         saveBtn.addTarget(self, action: #selector(saveManagerAction), for: .touchUpInside)
         
+        if type == 0{
+            //发布
+            if saveList.count > 0 && unIonSetList.count > 0{
+                for i in 0..<saveList.count {
+                    let specGroups = saveList[i]
+                    addCoutList.append(specGroups.specGroupId ?? 0)
+                    let colorList = [Specs]()
+                    saveValueList.append(colorList)
+                }
+                
+                for n in 0..<saveList.count{
+                    var specGroups = saveList[n]
+                    var colorList = saveValueList[n]
+                    
+                    if (specGroups.specs?.count ?? 0) > 0{
+                        for j in 0..<(specGroups.specs?.count ?? 0){
+                            let str = specGroups.specs?[j]
+                            let specs = Specs(specGroupId: specGroups.specGroupId,specValue:str)
+                            colorList.append(specs)
+                        }
+                        saveValueList[n] = colorList
+                    }else{
+                        specGroups.specs = [String]()
+                        saveList[n] = specGroups
+                    }
+                }
+                newTableView.reloadData()
+                
+            }else if saveList.count > 0 && unIonSetList.count < 1{
+                
+                for i in 0..<saveList.count {
+                    let specGroups = saveList[i]
+                    addCoutList.append(specGroups.specGroupId ?? 0)
+                    let colorList = [Specs]()
+                    saveValueList.append(colorList)
+                }
+                
+                for n in 0..<saveList.count{
+                    var specGroups = saveList[n]
+                    var colorList = saveValueList[n]
+                    if (specGroups.specs?.count ?? 0) > 0{
+                        for j in 0..<(specGroups.specs?.count ?? 0){
+                            let str = specGroups.specs?[j]
+                            let specs = Specs(specGroupId: specGroups.specGroupId,specValue:str)
+                            colorList.append(specs)
+                        }
+                        saveValueList[n] = colorList
+                    }else{
+                        specGroups.specs = [String]()
+                        saveList[n] = specGroups
+                    }
+                }
+                UnionSetArray(tag: 0, index: 0)
+                newTableView.reloadData()
+            }
+            
+            loadProductSpecList()
+            
+            
+        }else{
+            //编辑
+            
+            if saveList.count > 0 && unIonSetList.count > 0{
+                for _ in 0..<saveList.count {
+//                    let specGroups = saveList[i]
+//                    addCoutList.append(specGroups.specGroupId ?? 0)
+                    let colorList = [Specs]()
+                    saveValueList.append(colorList)
+                }
+                
+                for n in 0..<saveList.count{
+                    var specGroups = saveList[n]
+                    var colorList = saveValueList[n]
+                    
+                    if (specGroups.specs?.count ?? 0) > 0{
+                        for j in 0..<(specGroups.specs?.count ?? 0){
+                            let str = specGroups.specs?[j]
+                            let specs = Specs(specGroupId: specGroups.specGroupId,specValue:str)
+                            colorList.append(specs)
+                        }
+                        saveValueList[n] = colorList
+                    }else{
+                        specGroups.specs = [String]()
+                        saveList[n] = specGroups
+                    }
+                }
+                newTableView.reloadData()
+                
+            }else if saveList.count > 0 && unIonSetList.count < 1{
+                
+                for _ in 0..<saveList.count {
+//                    let specGroups = saveList[i]
+//                    addCoutList.append(specGroups.specGroupId ?? 0)
+                    let colorList = [Specs]()
+                    saveValueList.append(colorList)
+                }
+                
+                for n in 0..<saveList.count{
+                    var specGroups = saveList[n]
+                    var colorList = saveValueList[n]
+                    if (specGroups.specs?.count ?? 0) > 0{
+                        for j in 0..<(specGroups.specs?.count ?? 0){
+                            let str = specGroups.specs?[j]
+                            let specs = Specs(specGroupId: specGroups.specGroupId,specValue:str)
+                            colorList.append(specs)
+                        }
+                        saveValueList[n] = colorList
+                    }else{
+                        specGroups.specs = [String]()
+                        saveList[n] = specGroups
+                    }
+                }
+                UnionSetArray(tag: 0, index: 0)
+                newTableView.reloadData()
+            }
+        }
+    }
+    
+    
+    func loadProductSpecList(){
+        let parameters = ["categoryId":categoryId,"productId":productId] as [String:Any]
+        NetWorkResultRequest(OrderApi.getProductSpecList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+            
+            guard let model = try? JSONDecoder().decode(GenericResponse<[SpecGroups]>.self, from: data) else { return }
+            if let data1 = model.data{
+                //这边就是要进行设置了
+                for i in 0..<data1.count {
+                    let specGroups = data1[i]
+                    self?.saveList.append(specGroups)
+//                    self?.addCoutList.append(specGroups.specGroupName ?? "")
+                    let colorList = [Specs]()
+                    self?.saveValueList.append(colorList)
+                }
+                
+                //这边是设置规格值得地方
+                for n in 0..<(self?.saveList.count ?? 0){
+                    var specGroups = self?.saveList[n]
+                    var colorList = self?.saveValueList[n]
+                    if (specGroups?.specs?.count ?? 0) > 0{
+                        for j in 0..<(specGroups?.specs?.count ?? 0){
+                            let str = specGroups?.specs?[j]
+                            let specs = Specs(specGroupId: specGroups?.specGroupId,specValue:str)
+                            colorList?.append(specs)
+                        }
+                        self?.saveValueList[n] = colorList!
+                    }else{
+                        specGroups?.specs = [String]()
+                        self?.saveList[n] = specGroups!
+                    }
+                }
+                self?.UnionSetArray(tag: 0, index: 0)
+                self?.newTableView.reloadData()
+            }
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
     }
     
     
@@ -157,29 +318,31 @@ class CommoditySpecificationsViewController: BaseViewController {
         
         
         //这边要对商品规格进行重组 saveValueList里面有俩个数组
-        let specsArray = arrayForConsolidationThe(array: saveValueList)
+//        let specsArray = arrayForConsolidationThe(array: saveValueList)
         //还需要对价格和库存进行重组 unIonSetList
 //        let skusArray = arrayForConsolidationValueThe(array: unIonSetList)
         
         
-        LXFLog("-------------------\(specsArray)")
+//        LXFLog("-------------------\(specsArray)")
         
         LXFLog("==================\(unIonSetList)")
-        
-        
         //这边要进行判断没有填写完整的提醒，成功填写完整还需要返回上一个界面，把所需的数据传递过去
-        
+        saveList = saveList.filter({ specGroups in
+            specGroups.specs?.count != 0
+        })
         
         var isComplete:Bool = true
         for skus in unIonSetList {
-            if ((skus.price ?? 0.0) < 0) && ((skus.stock ?? 0) < 0){
+            let doubleValue = Double(truncating: skus.price as? NSNumber ?? 0.0)
+            let int32Value = Int32(truncating: skus.stock as? NSNumber ?? 0)
+            if (doubleValue < 0.1) && (int32Value < 1){
                 isComplete = false
                 break
             }
         }
         if isComplete{
             //这版要把填写的数据传递回去上一个界面
-            commoditySpecifications!(specsArray,unIonSetList)
+            commoditySpecifications!(saveList,unIonSetList)
             Coordinator.shared?.popViewController(self, true)
             
         }else{
@@ -190,7 +353,6 @@ class CommoditySpecificationsViewController: BaseViewController {
     
     //添加规格
     @objc func addSpecificationAction(addSepcificationsBtn:UIButton){
-        
         if addCoutList.count < 2{
             self.popup.bottomSheet {
                 
@@ -199,14 +361,12 @@ class CommoditySpecificationsViewController: BaseViewController {
                     self?.popup.dismissPopup()
                 }
                 
-
-                
                 addSpecificationsView.sendSureSpecificationList = {[weak self] list in
                     for i in 0..<list.count {
                         let specGroups = list[i]
                 //                      let specGroups = SpecGroups(specGroupId: <#T##Int64?#>, specGroupName: <#T##String?#>, specs: <#T##[String]?#>)
                             self?.saveList.append(specGroups)
-                            self?.addCoutList.append(specGroups.specGroupName ?? "")
+                            self?.addCoutList.append(specGroups.specGroupId ?? Int64(0))
                             let colorList = [Specs]()
                             self?.saveValueList.append(colorList)
                         }
@@ -310,7 +470,13 @@ class CommoditySpecificationsViewController: BaseViewController {
             }
         }
         if valueInt > 1{
-            getCombination(kid: 0, inputArray: saveValueList, addArray: [Skus]())
+            var array = saveValueList
+            LXFLog("=============\(array.count)")
+            array = array.filter { (webSocket) in
+                webSocket.count != 0
+            }
+            LXFLog("-------------\(array.count)")
+            getCombination(kid: 0, inputArray: array, addArray: [Skus]())
             unIonSetList = arrayForConsolidationValueThe(array: combinationArray)
             combinationArray.removeAll()
             
@@ -369,10 +535,8 @@ class CommoditySpecificationsViewController: BaseViewController {
     
     
     
-    func getCombination(kid: Int,
-                           inputArray: [[Specs]],
+    func getCombination(kid: Int, inputArray:[[Specs]],
                            addArray: [Skus]) {
-        
            if kid < inputArray.count {
                let dataArr = inputArray[kid]
                if dataArr.count == 0 {
@@ -466,15 +630,23 @@ class CommoditySpecificationsViewController: BaseViewController {
     
     //删除
     @objc func deleteAction(deleteBtn:UIButton){
+        
+        let specGroups = saveList[deleteBtn.tag]
         saveList.remove(at: deleteBtn.tag)
-        addCoutList.remove(at: deleteBtn.tag)
+        
+//      addCoutList.remove(at: deleteBtn.tag)
+        for i in 0..<addCoutList.count {
+            let specGroupId = addCoutList[i]
+            if specGroups.specGroupId == specGroupId{
+                addCoutList.remove(at: i)
+                break
+            }
+        }
+
         saveValueList.remove(at: deleteBtn.tag)
-//        unIonSetList.removeAll()
-        
+
         UnionSetArray(tag: deleteBtn.tag, index: 0)
-        
-        
-        
+            
         newTableView.reloadData()
     }
     
@@ -527,7 +699,7 @@ class CommoditySpecificationsViewController: BaseViewController {
         let array1 = array
         for i in 0..<array1.count{
             var skus = Skus(price: 0,skuCode: "", skuId: 0, skuPics: [String](), specs: [Specs](), stock: 0)
-           let temp = array1[i]
+            let temp = array1[i]
             for j in 0..<temp.count{
                let skus1 = temp[j]
                 for i in 0..<(skus1.specs?.count ?? 0)  {
@@ -708,8 +880,11 @@ extension CommoditySpecificationsViewController:UITableViewDelegate,UITableViewD
             var isSet:Bool = false
             for i in 0..<(skus.specs?.count ?? 0){
                 let specs = skus.specs?[i] as? Specs
-//                value += sp.specValue ?? ""
-                value += specs?.specValue ?? ""
+                if i == 0{
+                    value += (specs?.specValue ?? "")
+                }else{
+                    value += "" + "|" + "" + (specs?.specValue ?? "")
+                }
             }
             if ((skus.price ?? 0.0) > 0) && ((skus.stock ?? 0) > 0){
                 isSet = true
@@ -757,7 +932,7 @@ extension CommoditySpecificationsViewController:UITableViewDelegate,UITableViewD
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         if section == 0{
             let footView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "CommoditySpecificationsFooterView") as! CommoditySpecificationsFooterView
-            footView.addSepcificationsBtn.setTitle("添加规格" + "(\(saveList.count)/2)", for: .normal)
+            footView.addSepcificationsBtn.setTitle("添加规格" + "(\(addCoutList.count)/2)", for: .normal)
             footView.addSepcificationsBtn.addTarget(self, action: #selector(addSpecificationAction), for: .touchUpInside)
             return footView
         }
@@ -829,6 +1004,9 @@ extension CommoditySpecificationsViewController:CommoditySpecificationCellDelega
         LXFLog("=========================\(saveList)")
         
         UnionSetArray(tag: tag, index: index)
+        
+        LXFLog("=========================\(unIonSetList)")
+        
         newTableView.reloadData()
     }
     
@@ -846,10 +1024,18 @@ extension CommoditySpecificationsViewController:CommoditySpecificationCellDelega
            specGroups.specs?.append(value)
            saveList[tag] = specGroups
             
-            LXFLog("=========================\(saveValueList)")
+           LXFLog("=========================\(saveValueList)")
            LXFLog("=========================\(saveList)")
             
+            
+           
+            
+            
            UnionSetArray(tag: tag, index: index)
+            
+           LXFLog("=========================\(unIonSetList)")
+            
+            
            newTableView.reloadData()
     
         }
