@@ -123,10 +123,6 @@ class SettingPriceAndStockView: UIView {
 //            value += specs.specValue ?? ""
 //        }
         
-        
-        
-        
-        
 //        let skus = unIonSetList[indexPath.row]
 //            var temp = [Specs]()
 //            for skus in array{
@@ -136,15 +132,16 @@ class SettingPriceAndStockView: UIView {
         for i in 0..<(skus.specs?.count ?? 0){
             let specs = skus.specs?[i] as? Specs
 //                value += sp.specValue ?? ""
-            value += specs?.specValue ?? ""
+            
+            if i == 0 {
+                value += specs?.specValue ?? ""
+            }else{
+                value += "  |  " + (specs?.specValue ?? "")
+            }
         }
 //        if ((skus.price ?? 0.0) > 0) && ((skus.stock ?? 0) > 0){
 //            isSet = true
 //        }
-        
-        
-        
-        
         
 //        for i in 0..<(skus.specs?.count ?? 0){
 //            let specs = skus.specs?[i] as? Specs
@@ -185,7 +182,7 @@ class SettingPriceAndStockView: UIView {
         }
         
         let doubleValue = Double(truncating: skus.price as? NSNumber ?? 0.0)
-        if doubleValue < 0.01{
+        if doubleValue < 0{
             priceTextfield.text = ""
         }else{
             priceTextfield.text = String(format: "%0.3f", doubleValue)
@@ -228,7 +225,7 @@ class SettingPriceAndStockView: UIView {
         
 //        let doubleValue = Double(truncating: skus.price as? NSNumber ?? 0.0)
         let int32Value = Int32(truncating: skus.stock as? NSNumber ?? 0)
-        if int32Value <= 0{
+        if int32Value < 0{
             stockTextfield.text = ""
         }else{
             stockTextfield.text = String(format: "%d", int32Value)

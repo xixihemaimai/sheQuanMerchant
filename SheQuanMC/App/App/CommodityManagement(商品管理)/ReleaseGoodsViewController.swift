@@ -972,7 +972,7 @@ class ReleaseGoodsViewController: BaseViewController {
         
         if type == 0{
             title = "发布商品"
-            commodityModel = CommodityModel(categoryId: StoreService.shared.categoryId, freeRefundIn7Days: false, freightId: 0,freightInsure: false, multiSpec: false,price:0.0,productCode: "", productDesc: "", productId: 0, productName: "", productPics: [String](),sepNo:0,skus: [Skus](), specGroups: [SpecGroups](), spus: [Spus](), stock: 0,stockDeductType: 0)
+            commodityModel = CommodityModel(categoryId: StoreService.shared.categoryId, freeRefundIn7Days: false, freightId: 0,freightInsure: false, freightName: "默认模板",multiSpec: false,price:0.0,productCode: "", productDesc: "", productId: 0, productName: "", productPics: [String](),sepNo:0,skus: [Skus](), specGroups: [SpecGroups](), spus: [Spus](), stock: 0,stockDeductText: "拍下减库存",stockDeductType: 0)
         }else{
             title = "编辑商品"
             LXFLog("+===========32==========23232=====================\(commodityModel)")
@@ -987,7 +987,7 @@ class ReleaseGoodsViewController: BaseViewController {
             }
             
             //商品类目
-            if commodityModel?.categoryId != StoreService.shared.categoryId{
+            if commodityModel?.categoryId != StoreService.shared.categoryId || commodityModel?.categoryId != 0{
                 goodsContentLabel.text = "已选择"
             }
             
@@ -1089,8 +1089,30 @@ class ReleaseGoodsViewController: BaseViewController {
                 stockTextfield.text = ""
             }
             
-            //七天无理由退货
             
+            //拍下减库存
+            if (commodityModel?.stockDeductText?.count ?? 0) > 0{
+                stockReduceLabel.text = commodityModel?.stockDeductText
+            }else{
+                stockReduceLabel.text = "拍下减库存"
+            }
+            
+            
+            
+            
+            //defaultTemplate
+            if (commodityModel?.freightName?.count ?? 0) > 0 {
+                defaultTemplate.text = commodityModel?.freightName
+            }else{
+                defaultTemplate.text = "默认模板"
+            }
+            
+            
+            
+            
+            
+            
+            //七天无理由退货
             if commodityModel?.freeRefundIn7Days == false{
                 returnGoodsSwitch.isOn = false
             }else{
@@ -1192,6 +1214,15 @@ class ReleaseGoodsViewController: BaseViewController {
                 self.priceTextfield.text = ""
                 //库存stockTextfield
                 self.stockTextfield.text = ""
+                
+                self.stockReduceLabel.text = "拍下减库存"
+                
+                self.defaultTemplate.text = "默认模板"
+                
+                self.commodityModel?.freightId = Int64(0)
+                
+                
+                
                 //七天无理由按钮returnGoodsSwitch
                 self.returnGoodsSwitch.isOn = true
                 //退换货运费险returnGoodsInsuranceSwitch
@@ -1252,14 +1283,19 @@ class ReleaseGoodsViewController: BaseViewController {
             
         case 4:
             
-            //运费模板
-            let freightTemplateVc = FreightTemplateViewController()
-            Coordinator.shared?.pushViewController(self, freightTemplateVc, animated: true)
-            freightTemplateVc.selectFreightId = { freightId in
-                self.commodityModel?.freightId = Int64(freightId)
-                self.isModify = true
+            if commodityModel?.categoryId == 0 || commodityModel?.categoryId == StoreService.shared.categoryId{
+                JFPopup.toast(hit: "请先选择商品类目")
+            }else{
+                //运费模板
+                let freightTemplateVc = FreightTemplateViewController()
+                Coordinator.shared?.pushViewController(self, freightTemplateVc, animated: true)
+                freightTemplateVc.selectFreightId = { model in
+                    self.commodityModel?.freightName = model.templateName
+                    self.commodityModel?.freightId = Int64(model.freightId ?? 0)
+                    self.defaultTemplate.text = model.templateName
+                    self.isModify = true
+                }
             }
-            
         default:
             
             break
@@ -1416,6 +1452,13 @@ class ReleaseGoodsViewController: BaseViewController {
     
     
     func savePublish(){
+        
+        var specGroupsArray = commodityModel?.specGroups
+//        LXFLog("+================\(String(describing: specGroupsArray?.count))")
+        specGroupsArray = specGroupsArray?.filter({ SpecGroups in
+            SpecGroups.specs?.count != 0
+        })
+        
         var specsGroupsList:String = "["
         for i in 0..<(commodityModel?.specGroups?.count ?? 0) {
             let specGroup = commodityModel?.specGroups![i]
@@ -1614,9 +1657,9 @@ class ReleaseGoodsViewController: BaseViewController {
              }
             
             
-            commodityModel?.specGroups = [SpecGroups]()
-            commodityModel?.skus = [Skus]()
-            commoditySpLabel.text = "未设置"
+//            commodityModel?.specGroups = [SpecGroups]()
+//            commodityModel?.skus = [Skus]()
+//            commoditySpLabel.text = "未设置"
             
         }else{
             
@@ -1631,8 +1674,8 @@ class ReleaseGoodsViewController: BaseViewController {
                 make.height.equalTo(scale(50))
             }
             
-            priceTextfield.text = ""
-            stockTextfield.text = ""
+//            priceTextfield.text = ""
+//            stockTextfield.text = ""
             
         }
     }

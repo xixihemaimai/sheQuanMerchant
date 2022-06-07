@@ -85,7 +85,12 @@ class SpecificationValueView: UIView {
             }
         }
         if isIdentical{
-            delegate?.textfieldEditEndValueAndIndex(text: textfield.text ?? "", index: textfield.tag)
+            if (textfield.text?.count ?? 0) > 0{
+                delegate?.textfieldEditEndValueAndIndex(text: textfield.text ?? "", index: textfield.tag)
+                textfield.resignFirstResponder()
+            }else{
+                JFPopup.toast(hit: "请去添加规格值")
+            }
         }
     }
     

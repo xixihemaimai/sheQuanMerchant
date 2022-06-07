@@ -14,6 +14,7 @@ public struct CommodityModel: Codable {
     public var freeRefundIn7Days:Bool? //七天无理由退货（false:关,true:开）
     public var freightId:Int64?        //运费模板ID
     public var freightInsure:Bool?     //退换货运费险（false:关，true:开）
+    public var freightName:String?     //运费模版
     public var multiSpec: Bool?        //多规格（false:关,true:开）
     public var price:Decimal?          //价格（只限于单规格）
     public var productCode: String?    //商品编码
@@ -26,6 +27,7 @@ public struct CommodityModel: Codable {
     public var specGroups:[SpecGroups]?//商品规格组
     public var spus:[Spus]?            //商品参数
     public var stock:Int32?            //库存（只限于单规格）
+    public var stockDeductText:String? //库存扣减方式(1：拍下减库存、2：支付减库存)
     public var stockDeductType:Int32?  //库存扣减方式(1：拍下减库存、2：支付减库存)
     
     
@@ -33,6 +35,7 @@ public struct CommodityModel: Codable {
         case categoryId = "categoryId"
         case freeRefundIn7Days = "freeRefundIn7Days"
         case freightInsure = "freightInsure"
+        case freightName = "freightName"
         case freightId = "freightId"
         case multiSpec = "multiSpec"
         case price = "price"
@@ -46,6 +49,7 @@ public struct CommodityModel: Codable {
         case specGroups = "specGroups"
         case spus = "spus"
         case stock = "stock"
+        case stockDeductText = "stockDeductText"
         case stockDeductType = "stockDeductType"
     }
 
@@ -54,6 +58,7 @@ public struct CommodityModel: Codable {
         categoryId = try? values.decodeIfPresent(Int32.self, forKey: .categoryId)
         freeRefundIn7Days = try? values.decodeIfPresent(Bool.self, forKey: .freeRefundIn7Days)
         freightInsure = try? values.decodeIfPresent(Bool.self, forKey: .freightInsure)
+        freightName = try? values.decodeIfPresent(String.self, forKey: .freightName)
         freightId = try? values.decodeIfPresent(Int64.self, forKey: .freightId)
         multiSpec = try? values.decodeIfPresent(Bool.self, forKey: .multiSpec)
         price = try? values.decodeIfPresent(Decimal.self, forKey: .price)
@@ -67,15 +72,17 @@ public struct CommodityModel: Codable {
         specGroups = try? values.decodeIfPresent([SpecGroups].self, forKey: .specGroups)
         spus = try? values.decodeIfPresent([Spus].self, forKey: .spus)
         stock = try? values.decodeIfPresent(Int32.self, forKey: .stock)
+        stockDeductText = try? values.decodeIfPresent(String.self, forKey: .stockDeductText)
         stockDeductType = try? values.decodeIfPresent(Int32.self, forKey: .stockDeductType)
     }
     
     
-    public init(categoryId:Int32? = 0,freeRefundIn7Days:Bool? = false,freightId:Int64? = 0,freightInsure:Bool? = false,multiSpec:Bool? = false,price:Decimal? = 0.0,productCode:String? = "",productDesc:String? = "",productId:Int64? = 0,productName:String? = "",productPics:[String]? = [String](),sepNo:Int32? = 0,skus:[Skus]? = [Skus](),specGroups:[SpecGroups]? = [SpecGroups](),spus:[Spus]? = [Spus](),stock:Int32? = 0,stockDeductType:Int32? = 0){
+    public init(categoryId:Int32? = 0,freeRefundIn7Days:Bool? = false,freightId:Int64? = 0,freightInsure:Bool? = false,freightName:String? = "",multiSpec:Bool? = false,price:Decimal? = 0.0,productCode:String? = "",productDesc:String? = "",productId:Int64? = 0,productName:String? = "",productPics:[String]? = [String](),sepNo:Int32? = 0,skus:[Skus]? = [Skus](),specGroups:[SpecGroups]? = [SpecGroups](),spus:[Spus]? = [Spus](),stock:Int32? = 0,stockDeductText:String? = "",stockDeductType:Int32? = 0){
         self.categoryId = categoryId
         self.freeRefundIn7Days = freeRefundIn7Days
         self.freightInsure = freightInsure
         self.freightId = freightId
+        self.freightName = freightName
         self.multiSpec = multiSpec
         self.price = price
         self.productCode = productCode
@@ -88,6 +95,7 @@ public struct CommodityModel: Codable {
         self.specGroups = specGroups
         self.spus = spus
         self.stock = stock
+        self.stockDeductText = stockDeductText
         self.stockDeductType = stockDeductType
     }
     

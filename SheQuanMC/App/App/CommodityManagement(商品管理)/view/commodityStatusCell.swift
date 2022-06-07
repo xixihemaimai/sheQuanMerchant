@@ -121,17 +121,20 @@ class commodityStatusCell: UITableViewCell {
             
             goodsIntroductLabel.text = _model.productName
             
-            var specsStr:String = ""
-            for i in 0..<(_model.productSpecs?.count ?? 0) {
-                let str = _model.productSpecs?[i]
-                if i == 0{
-                    specsStr += (str ?? "")
-                }else{
-                    specsStr += "," + (str ?? "")
+            if _model.productStatus == 4{
+                var specsStr:String = ""
+                for i in 0..<(_model.productSpecs?.count ?? 0) {
+                    let str = _model.productSpecs?[i]
+                    if i == 0{
+                        specsStr += (str ?? "")
+                    }else{
+                        specsStr += "," + (str ?? "")
+                    }
                 }
+                goodSpeciLabel.text = String(format: "商品规格:%@", specsStr)
+            }else{
+                goodSpeciLabel.text = String(format: "累计销量:%d", _model.sales ?? 0)
             }
-            goodSpeciLabel.text = String(format: "商品规格:%@", specsStr)
-            
         }
     }
     

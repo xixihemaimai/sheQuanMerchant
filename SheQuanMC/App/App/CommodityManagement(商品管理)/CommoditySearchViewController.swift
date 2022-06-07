@@ -108,7 +108,7 @@ class CommoditySearchViewController: BaseViewController {
     
     
     func loadProductList(){
-        let parmeters = ["keyWord":searchTextfield.text as Any,"lastSortTime":0,"productStatus":0] as [String:Any]
+        let parmeters = ["keyWord":searchTextfield.text as Any,"lastSortTime":0,"productStatus":Int32(0)] as [String:Any]
         NetWorkResultRequest(OrderApi.getProductInfoList(parameters: parmeters), needShowFailAlert: true) { result, data in
             guard let model = try? JSONDecoder().decode(GenericResponse<[productListModel]>.self, from: data)else{ return }
             self.list.removeAll()

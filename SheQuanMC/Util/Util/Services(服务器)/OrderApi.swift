@@ -21,13 +21,13 @@ public enum OrderApi{
     case cancelApply(parameters:[String:Any])            //取消申请       (1)
     case delProduct(parameters:[String:Any])             //删除商品      （1）
     case lowerShelf(parameters:[String:Any])             //商品下架
-    case upShelf(parameters:[String:Any])                //商品上架
+    case upShelf(parameters:[String:Any])                //商品上架       （1）
     case repairStock(parameters:[String:Any])            //补库存
     case getSoldOutSkuList(parameters:[String:Any])      //获取售罄商品规格
     case draft(parameters:[String:Any])                  //存为草稿        (1)
     case getProductSpecList(parameters:[String:Any])     //获取商品规格列表  (1)
 //    case getFreightInfo(parameters:[String:Any])         //获取运费模板
-    case getProductFreightList                           //获取商品运费模板列表
+    case getProductFreightList                           //获取商品运费模板列表 （1）
 }
 
 

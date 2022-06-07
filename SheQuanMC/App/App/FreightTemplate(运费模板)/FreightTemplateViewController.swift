@@ -14,7 +14,7 @@ class FreightTemplateViewController: BaseViewController {
     
     var list:[FreightListModel] = [FreightListModel]()
     
-    var selectFreightId:((_ freightId:Int64) -> Void)?
+    var selectFreightId:((_ model:FreightListModel) -> Void)?
     
     
     override func viewDidLoad() {
@@ -192,7 +192,8 @@ extension FreightTemplateViewController:UITableViewDelegate,UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let model = list[indexPath.row]
-        self.selectFreightId!(model.freightId ?? 0)
+//        self.selectFreightId!(model.freightId ?? 0)
+        self.selectFreightId?(model)
     }
     
     
