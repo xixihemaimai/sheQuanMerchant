@@ -49,6 +49,11 @@ class CommodityCategoryViewController: BaseViewController {
             searchBar.searchTextField.addTarget(self, action: #selector(EndEdit), for: .editingDidEnd)
         }
         
+        if #available(iOS 13.0, *){
+            searchBar.searchTextField.addTarget(self, action: #selector(editChangedAction), for: .editingChanged)
+        }
+        
+        
         searchBar.setPositionAdjustment(UIOffset(horizontal: SCW/2 - scale(80)/2, vertical: 0), for: .search)
         view.addSubview(tableview)
         tableview.snp.makeConstraints { make in
@@ -78,8 +83,9 @@ class CommodityCategoryViewController: BaseViewController {
             self?.categoryList = models.data!
             self?.tableview.reloadData()
             self?.tableview.mj_header?.endRefreshing()
-        } failureCallback: { error, code in
+        } failureCallback: {[weak self] error, code in
             code.loginOut()
+            self?.tableview.mj_header?.endRefreshing()
         }
     }
     
@@ -112,6 +118,12 @@ class CommodityCategoryViewController: BaseViewController {
         searchBar.setPositionAdjustment(UIOffset(horizontal: SCW/2 - scale(80)/2, vertical: 0), for: .search)
         searchBar.resignFirstResponder()
     }
+    
+    //搜索变化中
+    @objc func editChangedAction(textfield:UITextField){
+        getProductCategoryList()
+    }
+    
     
 
     

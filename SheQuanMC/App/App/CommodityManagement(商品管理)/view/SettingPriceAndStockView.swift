@@ -110,6 +110,7 @@ class SettingPriceAndStockView: UIView {
             make.height.equalTo(scale(48))
         }
         
+        
         //规格
         let specificationNameLabel = UILabel()
 //        let array = unIonSetList[indexPath.row]
@@ -182,7 +183,7 @@ class SettingPriceAndStockView: UIView {
         }
         
         let doubleValue = Double(truncating: skus.price as? NSNumber ?? 0.0)
-        if doubleValue < 0{
+        if doubleValue < 0.000001{
             priceTextfield.text = ""
         }else{
             priceTextfield.text = String(format: "%0.3f", doubleValue)
@@ -225,7 +226,7 @@ class SettingPriceAndStockView: UIView {
         
 //        let doubleValue = Double(truncating: skus.price as? NSNumber ?? 0.0)
         let int32Value = Int32(truncating: skus.stock as? NSNumber ?? 0)
-        if int32Value < 0{
+        if int32Value < 1{
             stockTextfield.text = ""
         }else{
             stockTextfield.text = String(format: "%d", int32Value)
@@ -289,13 +290,13 @@ class SettingPriceAndStockView: UIView {
         choicePitrueBtn.addTarget(self, action: #selector(uploadPitureAction), for: .touchUpInside)
         
         if let skupics = skus.skuPics?.last {
-//            choicePitrueBtn.kf.setBackgroundImage(with: URL(string: skupics), for: .normal, placeholder: UIImage(named: "Group 2650"), options: nil, progressBlock: nil, completionHandler: nil)
             choicePitrueBtn.sd_setBackgroundImage(with: URL(string: skupics), for: .normal, placeholderImage: UIImage(named: "Group 2650"))
+            preview = skupics
             choicePitrueBtn.setTitle("", for: .normal)
         }else{
             choicePitrueBtn.setBackgroundImage(UIImage(named: "Group 2650"), for: .normal)
+            preview = ""
         }
-
         
         let sureBtn = UIButton()
         sureBtn.setTitle("确定", for: .normal)
@@ -319,53 +320,8 @@ class SettingPriceAndStockView: UIView {
     //上传图片
     @objc func uploadPitureAction(choicePitrueBtn:UIButton){
         self.endEditing(true)
-//        manager.type = .photo
-//        manager.clearSelectedList()
-//        self.popup.actionSheet {
-//                [
-//                    JFPopupAction(with: "从手机相册选择", subTitle: nil, clickActionCallBack: { [weak self] in
-//                        self?.currentVC?.hx_presentSelectPhotoController(with: self?.manager, didDone: { allList, photoList, videoList, isOriginal, viewController, manager in
-//                            photoList?.forEach({ HXPhotoModel in
-//                                //对图片进行
-//                                guard let image = HXPhotoModel.thumbPhoto else {
-//                                    return
-//                                }
-//
-//
-//                                // 上传图片
-//                                choicePitrueBtn.setBackgroundImage(image, for: .normal)
-//
-//
-//
-//                                choicePitrueBtn.setTitle("", for: .normal)
-//                            })
-//                        })
-//
-//                    }),
-//                    JFPopupAction(with: "拍照", subTitle: nil, clickActionCallBack: {[weak self] in
-//                        self?.currentVC?.hx_presentCustomCameraViewController(with: self?.manager) { photoList, viewController in
-//                            LXFLog(photoList)
-//                            if let photoModel:HXPhotoModel = photoList{
-//                                //对图片进行
-//                                guard let image = photoModel.thumbPhoto else {
-//                                    return
-//                                }
-//
-//                                // 上传图片
-//                                choicePitrueBtn.setBackgroundImage(image, for: .normal)
-//
-//
-//
-//
-//                                choicePitrueBtn.setTitle("", for: .normal)
-//                            }
-//                        } cancel: { viewController in
-//                        }
-//                    })
-//                ]
-//            }
-        
         manager.type = .photo
+        manager.clearSelectedList()
         self.popup.actionSheet {
             [
                 JFPopupAction(with: "从手机相册选择", subTitle: nil, clickActionCallBack: { [weak self] in
@@ -451,19 +407,24 @@ class SettingPriceAndStockView: UIView {
             return
         }
         
-//        for i in 0..<(arraySkus?.count ?? 0) {
-//            var skus = arraySkus![i]
-            //价钱
-            skus?.price = Decimal(string: priceTextfield.text!)
-            //库存
-            skus?.stock = Int32(stockTextfield.text!)
-            //预览图
-            skus?.skuPics?.append(preview)
-//            arraySkus![i] = skus
-//        }
-//        settingBlock!()
-        settingBlock!(skus!)
-        //这边还需要返回进行刷新
+        if Decimal(string: priceTextfield.text!) ?? 0.0 > 0 && Int32(stockTextfield.text!) ?? 0 > 0{
+    //        for i in 0..<(arraySkus?.count ?? 0) {
+    //            var skus = arraySkus![i]
+                //价钱
+                skus?.price = Decimal(string: priceTextfield.text!)
+                //库存
+                skus?.stock = Int32(stockTextfield.text!)
+                //预览图
+                skus?.skuPics?.append(preview)
+    //            arraySkus![i] = skus
+    //        }
+    //        settingBlock!()
+            settingBlock!(skus!)
+            //这边还需要返回进行刷新
+        }else{
+            JFPopup.toast(hit: "请设置大于0的值")
+            
+        }
     }
     
     required init?(coder: NSCoder) {

@@ -76,6 +76,7 @@ public func getArrayOrDicFromJSONString(jsonString:String) -> Any {
 }
 
 
+//添加商品规格组 ， 补库存
 public func getArrayJSONStringFromAddSpec(obj:[String:Any]) -> String{
     if (!JSONSerialization.isValidJSONObject(obj)) {
         print("无法解析出JSONString")
@@ -111,7 +112,6 @@ public func getArrayJSONStringFromAddSpec(obj:[String:Any]) -> String{
     }
     return ""
 }
-
 
 
 
@@ -531,7 +531,7 @@ public func getObjFromDataToData(obj:Data,isEscape:Bool) -> Data{
 
 
 
-//添加商品规格的
+//添加商品规格组 , 补库存
 public func getJSONStringFromAddSpec(obj:Data) -> Data{
     var body:String = ""
     do {

@@ -137,8 +137,9 @@ class BusinessTypeViewController: BaseViewController {
             
             self?.tableview.mj_header?.endRefreshing()
             
-        } failureCallback: { error,code in
+        } failureCallback: {[weak self] error,code in
             code.loginOut()
+            self?.tableview.mj_header?.endRefreshing()
         }
     }
     

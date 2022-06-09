@@ -203,10 +203,10 @@ class CommoditySpecificationsViewController: BaseViewController {
                 }
                 UnionSetArray(tag: 0, index: 0)
                 newTableView.reloadData()
+            }else if saveList.count < 1 && unIonSetList.count < 1{
+                
+                loadProductSpecList()
             }
-            
-            loadProductSpecList()
-            
             
         }else{
             //编辑
@@ -263,6 +263,10 @@ class CommoditySpecificationsViewController: BaseViewController {
                 }
                 UnionSetArray(tag: 0, index: 0)
                 newTableView.reloadData()
+            }else if saveList.count < 1 && unIonSetList.count < 1{
+                
+                loadProductSpecList()
+                
             }
         }
     }
@@ -315,21 +319,13 @@ class CommoditySpecificationsViewController: BaseViewController {
     
     //保存
     @objc func saveManagerAction(saveBtn:UIButton){
-        
-        
         //这边要对商品规格进行重组 saveValueList里面有俩个数组
 //        let specsArray = arrayForConsolidationThe(array: saveValueList)
         //还需要对价格和库存进行重组 unIonSetList
 //        let skusArray = arrayForConsolidationValueThe(array: unIonSetList)
-        
-        
 //        LXFLog("-------------------\(specsArray)")
-        
         LXFLog("==================\(unIonSetList)")
         //这边要进行判断没有填写完整的提醒，成功填写完整还需要返回上一个界面，把所需的数据传递过去
-       
-        
-        
         var isComplete:Bool = true
         for skus in unIonSetList {
             let doubleValue = Double(truncating: skus.price as? NSNumber ?? 0.0)
@@ -475,7 +471,7 @@ class CommoditySpecificationsViewController: BaseViewController {
     }
     
     
-    //添加并集之后的数组进行显示
+    //添加组合关系之后的数组进行显示
     func UnionSetArray(tag: Int, index: Int){
         let temArray = unIonSetList
          unIonSetList.removeAll()
@@ -502,8 +498,6 @@ class CommoditySpecificationsViewController: BaseViewController {
                 array[i] = colorList
             }
             
-            
-           
             getCombination(kid: 0, inputArray: array, addArray: [Skus]())
             unIonSetList = arrayForConsolidationValueThe(array: combinationArray)
             combinationArray.removeAll()
@@ -860,7 +854,7 @@ extension CommoditySpecificationsViewController:UITableViewDelegate,UITableViewD
 //                value += sp.specValue ?? ""
                 value += specs?.specValue ?? ""
             }
-            if ((skus.price ?? 0.0) >= 0) && ((skus.stock ?? 0) >= 0){
+            if ((skus.price ?? 0.0) > 0) && ((skus.stock ?? 0) > 0){
                 isSet = true
             }
             if isSet{
@@ -927,7 +921,7 @@ extension CommoditySpecificationsViewController:UITableViewDelegate,UITableViewD
                     value +=  "  |  " + (specs?.specValue ?? "")
                 }
             }
-            if ((skus.price ?? 0.0) >= 0) && ((skus.stock ?? 0) >= 0){
+            if ((skus.price ?? 0.0) > 0) && ((skus.stock ?? 0) > 0){
                 isSet = true
             }
             

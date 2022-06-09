@@ -12,6 +12,7 @@ import Foundation
 public struct CommodityModel: Codable {
     public var categoryId:Int32?       //类目ID
     public var freeRefundIn7Days:Bool? //七天无理由退货（false:关,true:开）
+    public var categoryName:String?    //类目名称
     public var freightId:Int64?        //运费模板ID
     public var freightInsure:Bool?     //退换货运费险（false:关，true:开）
     public var freightName:String?     //运费模版
@@ -33,6 +34,7 @@ public struct CommodityModel: Codable {
     
     enum CodingKeys: String, CodingKey {
         case categoryId = "categoryId"
+        case categoryName = "categoryName"
         case freeRefundIn7Days = "freeRefundIn7Days"
         case freightInsure = "freightInsure"
         case freightName = "freightName"
@@ -56,6 +58,7 @@ public struct CommodityModel: Codable {
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         categoryId = try? values.decodeIfPresent(Int32.self, forKey: .categoryId)
+        categoryName = try? values.decodeIfPresent(String.self, forKey: .categoryName)
         freeRefundIn7Days = try? values.decodeIfPresent(Bool.self, forKey: .freeRefundIn7Days)
         freightInsure = try? values.decodeIfPresent(Bool.self, forKey: .freightInsure)
         freightName = try? values.decodeIfPresent(String.self, forKey: .freightName)
@@ -77,8 +80,9 @@ public struct CommodityModel: Codable {
     }
     
     
-    public init(categoryId:Int32? = 0,freeRefundIn7Days:Bool? = false,freightId:Int64? = 0,freightInsure:Bool? = false,freightName:String? = "",multiSpec:Bool? = false,price:Decimal? = 0.0,productCode:String? = "",productDesc:String? = "",productId:Int64? = 0,productName:String? = "",productPics:[String]? = [String](),sepNo:Int32? = 0,skus:[Skus]? = [Skus](),specGroups:[SpecGroups]? = [SpecGroups](),spus:[Spus]? = [Spus](),stock:Int32? = 0,stockDeductText:String? = "",stockDeductType:Int32? = 0){
+    public init(categoryId:Int32? = 0,categoryName:String? = "",freeRefundIn7Days:Bool? = false,freightId:Int64? = 0,freightInsure:Bool? = false,freightName:String? = "",multiSpec:Bool? = false,price:Decimal? = 0.0,productCode:String? = "",productDesc:String? = "",productId:Int64? = 0,productName:String? = "",productPics:[String]? = [String](),sepNo:Int32? = 0,skus:[Skus]? = [Skus](),specGroups:[SpecGroups]? = [SpecGroups](),spus:[Spus]? = [Spus](),stock:Int32? = 0,stockDeductText:String? = "",stockDeductType:Int32? = 0){
         self.categoryId = categoryId
+        self.categoryName = categoryName
         self.freeRefundIn7Days = freeRefundIn7Days
         self.freightInsure = freightInsure
         self.freightId = freightId

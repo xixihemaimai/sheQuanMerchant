@@ -109,16 +109,17 @@ class CommoditySearchViewController: BaseViewController {
     
     func loadProductList(){
         let parmeters = ["keyWord":searchTextfield.text as Any,"lastSortTime":0,"productStatus":Int32(0)] as [String:Any]
-        NetWorkResultRequest(OrderApi.getProductInfoList(parameters: parmeters), needShowFailAlert: true) { result, data in
+        NetWorkResultRequest(OrderApi.getProductInfoList(parameters: parmeters), needShowFailAlert: true) {[weak self] result, data in
             guard let model = try? JSONDecoder().decode(GenericResponse<[productListModel]>.self, from: data)else{ return }
-            self.list.removeAll()
+            self?.list.removeAll()
             guard let data1 = model.data else{return}
-            self.list = data1
-            LXFLog("====================\(self.list)")
-            self.tableview.reloadData()
-            self.tableview.mj_header?.endRefreshing()
-        } failureCallback: { error, code in
+            self?.list = data1
+//            LXFLog("====================\(self.list)")
+            self?.tableview.reloadData()
+            self?.tableview.mj_header?.endRefreshing()
+        } failureCallback: {[weak self] error, code in
             code.loginOut()
+            self?.tableview.mj_header?.endRefreshing()
         }
     }
     
@@ -167,7 +168,7 @@ class CommoditySearchViewController: BaseViewController {
     
     
     @objc func searchChangeAction(searchTextfield:UITextField){
-        
+        loadProductList()
     }
     
     
@@ -195,8 +196,13 @@ class CommoditySearchViewController: BaseViewController {
 //                            let productListModel = self.list[stockBtn.tag]
                             let parameter = ["productId":productListModel.productId as Any] as [String:Any]
                             NetWorkResultRequest(OrderApi.delProduct(parameters: parameter), needShowFailAlert: true) { result, data in
-                                self.list.remove(at: stockBtn.tag)
-                                self.tableview.reloadData()
+//                                self.list.remove(at: stockBtn.tag)
+//                                self.tableview.reloadData()
+                                
+                                self.loadProductList()
+                                
+                                
+                                
                             } failureCallback: { error, code in
                                 code.loginOut()
                             }
@@ -237,8 +243,12 @@ class CommoditySearchViewController: BaseViewController {
 //                            let productListModel = self.list[downBtn.tag]
                             let parameter = ["productId":productListModel.productId as Any] as [String:Any]
                             NetWorkResultRequest(OrderApi.lowerShelf(parameters: parameter), needShowFailAlert: true) { result, data in
-                                self.list.remove(at: downBtn.tag)
-                                self.tableview.reloadData()
+//                                self.list.remove(at: downBtn.tag)
+//                                self.tableview.reloadData()
+                                
+                                self.loadProductList()
+                                
+                                
                             } failureCallback: { error, code in
                                 code.loginOut()
                             }
@@ -271,8 +281,12 @@ class CommoditySearchViewController: BaseViewController {
 //                            let productListModel = self.list[downBtn.tag]
                             let parameter = ["productId":productListModel.productId as Any] as [String:Any]
                             NetWorkResultRequest(OrderApi.upShelf(parameters: parameter), needShowFailAlert: true) { result, data in
-                                self.list.remove(at: downBtn.tag)
-                                self.tableview.reloadData()
+//                                self.list.remove(at: downBtn.tag)
+//                                self.tableview.reloadData()
+                                
+                                self.loadProductList()
+                                
+                                
                             } failureCallback: { error, code in
                                 code.loginOut()
                             }
@@ -323,8 +337,11 @@ class CommoditySearchViewController: BaseViewController {
                         let productListModel = self.list[deleteBtn.tag]
                         let parameter = ["productId":productListModel.productId as Any] as [String:Any]
                         NetWorkResultRequest(OrderApi.delProduct(parameters: parameter), needShowFailAlert: true) { result, data in
-                            self.list.remove(at: deleteBtn.tag)
-                            self.tableview.reloadData()
+//                            self.list.remove(at: deleteBtn.tag)
+//                            self.tableview.reloadData()
+                            
+                            self.loadProductList()
+                            
                         } failureCallback: { error, code in
                             code.loginOut()
                         }
@@ -381,8 +398,11 @@ class CommoditySearchViewController: BaseViewController {
                         let parameter = ["productId":productListModel.productId as Any] as [String:Any]
                         NetWorkResultRequest(OrderApi.cancelApply(parameters: parameter), needShowFailAlert: true) { result, data in
                             //取消申请成功之后的反应
-                            self.list.remove(at: cancelBtn.tag)
-                            self.tableview.reloadData()
+//                            self.list.remove(at: cancelBtn.tag)
+//                            self.tableview.reloadData()
+                            self.loadProductList()
+                            
+                            
                         } failureCallback: { error, code in
                             code.loginOut()
                         }

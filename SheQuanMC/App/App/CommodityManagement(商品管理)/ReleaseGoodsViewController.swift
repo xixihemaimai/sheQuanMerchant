@@ -972,10 +972,10 @@ class ReleaseGoodsViewController: BaseViewController {
         
         if type == 0{
             title = "发布商品"
-            commodityModel = CommodityModel(categoryId: StoreService.shared.categoryId, freeRefundIn7Days: false, freightId: 0,freightInsure: false, freightName: "默认模板",multiSpec: false,price:0.0,productCode: "", productDesc: "", productId: 0, productName: "", productPics: [String](),sepNo:0,skus: [Skus](), specGroups: [SpecGroups](), spus: [Spus](), stock: 0,stockDeductText: "拍下减库存",stockDeductType: 0)
+            commodityModel = CommodityModel(categoryId: StoreService.shared.categoryId, categoryName: "",freeRefundIn7Days: false, freightId: 0,freightInsure: false, freightName: "默认模板",multiSpec: false,price:0.0,productCode: "", productDesc: "", productId: 0, productName: "", productPics: [String](),sepNo:0,skus: [Skus](), specGroups: [SpecGroups](), spus: [Spus](), stock: 0,stockDeductText: "拍下减库存",stockDeductType: 0)
         }else{
             title = "编辑商品"
-            LXFLog("+===========32==========23232=====================\(commodityModel)")
+            LXFLog("+===========32==========23232=====================\(String(describing: commodityModel))")
             //商品名称
             if (commodityModel?.productName?.count ?? 0) > 0{
                 goodsTextView.text = commodityModel?.productName
@@ -988,7 +988,8 @@ class ReleaseGoodsViewController: BaseViewController {
             
             //商品类目
             if commodityModel?.categoryId != StoreService.shared.categoryId || commodityModel?.categoryId != 0{
-                goodsContentLabel.text = "已选择"
+//                goodsContentLabel.text = "已选择"
+                goodsContentLabel.text = commodityModel?.categoryName
             }
             
             //商品描述
@@ -1098,18 +1099,12 @@ class ReleaseGoodsViewController: BaseViewController {
             }
             
             
-            
-            
             //defaultTemplate
             if (commodityModel?.freightName?.count ?? 0) > 0 {
                 defaultTemplate.text = commodityModel?.freightName
             }else{
                 defaultTemplate.text = "默认模板"
             }
-            
-            
-            
-            
             
             
             //七天无理由退货
@@ -1120,14 +1115,11 @@ class ReleaseGoodsViewController: BaseViewController {
             }
             
             //退换货运费险
-            
             if commodityModel?.freightInsure == false{
                 returnGoodsInsuranceSwitch.isOn = false
             }else{
                 returnGoodsInsuranceSwitch.isOn = true
             }
-            
-            
             
             
         }
@@ -1161,6 +1153,7 @@ class ReleaseGoodsViewController: BaseViewController {
             commodityCategoryVc.choiceGoodsTypeTitle = { model in
                 self.goodsContentLabel.text = model.categoryName ?? "请选择"
                 self.commodityModel?.categoryId = model.categoryId
+                self.commodityModel?.categoryName = model.categoryName
                 LXFLog("=============\(String(describing: self.commodityModel?.categoryId))")
 //                self.goodsContentLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
                 self.goodsParameterSLabel.isHidden = false
@@ -1230,15 +1223,20 @@ class ReleaseGoodsViewController: BaseViewController {
             }
         
         case 1:
-            //商品描述
-            let proudctDesciptionVc = ProductDescriptionViewController()
-//            proudctDesciptionVc.type = self.type
-            proudctDesciptionVc.inputString = self.commodityModel?.productDesc
-            Coordinator.shared?.pushViewController(self, proudctDesciptionVc, animated: true)
-            proudctDesciptionVc.inputAttributedString = { string in
-                self.commodityModel?.productDesc = string
-                self.goodsDescribe.text = "已填写"
-                self.isModify = true
+            
+            if commodityModel?.categoryId == 0 || commodityModel?.categoryId == StoreService.shared.categoryId{
+                JFPopup.toast(hit: "请先选择商品类目")
+            }else{
+                //商品描述
+                let proudctDesciptionVc = ProductDescriptionViewController()
+    //            proudctDesciptionVc.type = self.type
+                proudctDesciptionVc.inputString = self.commodityModel?.productDesc
+                Coordinator.shared?.pushViewController(self, proudctDesciptionVc, animated: true)
+                proudctDesciptionVc.inputAttributedString = { string in
+                    self.commodityModel?.productDesc = string
+                    self.goodsDescribe.text = "已填写"
+                    self.isModify = true
+                }
             }
             
         case 2:
@@ -1437,7 +1435,7 @@ class ReleaseGoodsViewController: BaseViewController {
         }
         productPicsStr += "]"
         //
-        let parameters = ["categoryId":commodityModel?.categoryId as Any,"freeRefundIn7Days":returnGoodsSwitch.isOn,"freightId":(commodityModel?.freightId ?? 0) as Any,"freightInsure":returnGoodsInsuranceSwitch.isOn,"multiSpec":specificationsSwitch.isOn,"price": Decimal(string: priceTextfield.text ?? "") as Any ,"productCode":goodsCardTextField.text ?? "","productDesc":(commodityModel?.productDesc?.replacingOccurrences(of: "\n", with: "\\n", options: .literal, range: nil) ?? "") as Any,"productId":(commodityModel?.productId ?? 0) as Any,"productName":goodsTextView.text ?? "","productPics":(productPicsStr.count > 0 ? productPicsStr : [String]()) as Any,"seqNo":(commodityModel?.seqNo ?? 0) as Any,"skus":(skusList.count > 0 ? skusList : [Skus]()) as Any,"specGroups":( specsGroupsList.count > 0 ? specsGroupsList : [SpecGroups]() )as Any,"spus":(spusList.count > 0 ? spusList : [Spus]()) as Any,"stock":(stockTextfield.text?.count ?? 0 > 0 ? Int32(stockTextfield.text ?? "0") : 0)  as Any,"stockDeductType":1] as [String:Any]
+        let parameters = ["categoryId":commodityModel?.categoryId as Any,"freeRefundIn7Days":returnGoodsSwitch.isOn,"freightId":(commodityModel?.freightId ?? 0) as Any,"freightInsure":returnGoodsInsuranceSwitch.isOn,"multiSpec":specificationsSwitch.isOn,"price": Decimal(string: priceTextfield.text ?? "") as Any ,"productCode":goodsCardTextField.text ?? "","productDesc":(commodityModel?.productDesc ?? "") as Any,"productId":(commodityModel?.productId ?? 0) as Any,"productName":goodsTextView.text ?? "","productPics":(productPicsStr.count > 0 ? productPicsStr : [String]()) as Any,"seqNo":(commodityModel?.seqNo ?? 0) as Any,"skus":(skusList.count > 0 ? skusList : [Skus]()) as Any,"specGroups":( specsGroupsList.count > 0 ? specsGroupsList : [SpecGroups]() )as Any,"spus":(spusList.count > 0 ? spusList : [Spus]()) as Any,"stock":(stockTextfield.text?.count ?? 0 > 0 ? Int32(stockTextfield.text ?? "0") : 0)  as Any,"stockDeductType":1] as [String:Any]
         NetWorkResultRequest(OrderApi.productPublish(parameters: parameters), needShowFailAlert: true) { result, data in
             Coordinator.shared?.popViewController(self, true)
         } failureCallback: { error, code in
@@ -1575,13 +1573,12 @@ class ReleaseGoodsViewController: BaseViewController {
         }
         productPicsStr += "]"
         //
-        let parameters = ["categoryId":commodityModel?.categoryId as Any,"freeRefundIn7Days":returnGoodsSwitch.isOn,"freightId":(commodityModel?.freightId ?? 0) as Any,"freightInsure":returnGoodsInsuranceSwitch.isOn,"multiSpec":specificationsSwitch.isOn,"price": Decimal(string: priceTextfield.text ?? "") as Any ,"productCode":goodsCardTextField.text ?? "","productDesc":(commodityModel?.productDesc?.replacingOccurrences(of: "\n", with: "\\n", options: .literal, range: nil) ?? "") as Any,"productId":(commodityModel?.productId ?? 0) as Any,"productName":goodsTextView.text ?? "","productPics":(productPicsStr.count > 0 ? productPicsStr : [String]()) as Any,"seqNo":(commodityModel?.seqNo ?? 0) as Any,"skus":(skusList.count > 0 ? skusList : [Skus]()) as Any,"specGroups":( specsGroupsList.count > 0 ? specsGroupsList : [SpecGroups]() )as Any,"spus":(spusList.count > 0 ? spusList : [Spus]()) as Any,"stock":(stockTextfield.text?.count ?? 0 > 0 ? Int32(stockTextfield.text ?? "0") : 0)  as Any,"stockDeductType":1] as [String:Any]
+        let parameters = ["categoryId":commodityModel?.categoryId as Any,"freeRefundIn7Days":returnGoodsSwitch.isOn,"freightId":(commodityModel?.freightId ?? 0) as Any,"freightInsure":returnGoodsInsuranceSwitch.isOn,"multiSpec":specificationsSwitch.isOn,"price": Decimal(string: priceTextfield.text ?? "") as Any ,"productCode":goodsCardTextField.text ?? "","productDesc":(commodityModel?.productDesc ?? "") as Any,"productId":(commodityModel?.productId ?? 0) as Any,"productName":goodsTextView.text ?? "","productPics":(productPicsStr.count > 0 ? productPicsStr : [String]()) as Any,"seqNo":(commodityModel?.seqNo ?? 0) as Any,"skus":(skusList.count > 0 ? skusList : [Skus]()) as Any,"specGroups":( specsGroupsList.count > 0 ? specsGroupsList : [SpecGroups]() )as Any,"spus":(spusList.count > 0 ? spusList : [Spus]()) as Any,"stock":(stockTextfield.text?.count ?? 0 > 0 ? Int32(stockTextfield.text ?? "0") : 0)  as Any,"stockDeductType":1] as [String:Any]
         NetWorkResultRequest(OrderApi.draft(parameters: parameters), needShowFailAlert: true) { result, data in
             Coordinator.shared?.popViewController(self, true)
         } failureCallback: { error, code in
             code.loginOut()
         }
-        
     }
     
     

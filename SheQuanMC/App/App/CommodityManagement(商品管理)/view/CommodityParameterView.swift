@@ -241,9 +241,11 @@ class CommodityParameterView: UIView {
                 }
             }
             
-        } failureCallback: { error, code in
+        } failureCallback: {[weak self] error, code in
             JFPopup.hideLoading()
             code.loginOut()
+            self?.tableview.mj_header?.endRefreshing()
+            self?.tableview.mj_footer?.endRefreshing()
         }
     }
     

@@ -55,7 +55,7 @@ class SpecificationValueView: UIView {
                  deleteBtn.snp.makeConstraints { make in
                      make.centerY.equalTo(textfield)
                      make.right.equalTo(-scale(16))
-                     make.width.height.equalTo(scale(16))
+                     make.width.height.equalTo(scale(20))
                  }
             }
         }

@@ -20,7 +20,7 @@ public enum OrderApi{
     case getProductInfoList(parameters:[String:Any])     //获取商品列表   （1）
     case cancelApply(parameters:[String:Any])            //取消申请       (1)
     case delProduct(parameters:[String:Any])             //删除商品      （1）
-    case lowerShelf(parameters:[String:Any])             //商品下架
+    case lowerShelf(parameters:[String:Any])             //商品下架       （1）
     case upShelf(parameters:[String:Any])                //商品上架       （1）
     case repairStock(parameters:[String:Any])            //补库存
     case getSoldOutSkuList(parameters:[String:Any])      //获取售罄商品规格
@@ -132,7 +132,7 @@ extension OrderApi:TargetType{
             let nonce = String.nonce
             let deviceId = String.deviceUUID
             return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValue(time,nonce,deviceId),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
-        case .getProductInfo(let parameters),.getProductCategoryList(let parameters),.getProductBrandList(let parameters),.getProductSpuList(let parameters),.getProductSpecList(let parameters):
+        case .getProductCategoryList(let parameters),.getProductBrandList(let parameters),.getProductSpuList(let parameters),.getProductSpecList(let parameters),.getProductInfoList(let parameters):
             let time = Date().currentMilliStamp
             let nonce = String.nonce
             let deviceId = String.deviceUUID
@@ -149,7 +149,7 @@ extension OrderApi:TargetType{
             let nonce = String.nonce
             let deviceId = String.deviceUUID
             return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,getArrayJSONStringFromAddSpec(obj: paramters)),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
-        case .getProductInfoList(let parameters),.cancelApply(let parameters),.delProduct(let parameters),.lowerShelf(let parameters),.upShelf(let parameters),.getSoldOutSkuList(let parameters):
+        case .getProductInfo(let parameters),.cancelApply(let parameters),.delProduct(let parameters),.lowerShelf(let parameters),.upShelf(let parameters),.getSoldOutSkuList(let parameters):
             let time = Date().currentMilliStamp
             let nonce = String.nonce
             let deviceId = String.deviceUUID
@@ -159,7 +159,7 @@ extension OrderApi:TargetType{
             let time = Date().currentMilliStamp
             let nonce = String.nonce
             let deviceId = String.deviceUUID
-            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,getJSONStringFromData(obj: parameters,isEscape: false)),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,getArrayJSONStringFromAddSpec(obj: parameters)),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
             
             
 //        case .getFreightInfo(let parameters):

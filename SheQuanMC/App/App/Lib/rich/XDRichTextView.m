@@ -144,6 +144,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     // 转换图片
     NSTextAttachment *attachment = [[NSTextAttachment alloc]initWithData:nil ofType:nil];
     attachment.image = image;
+//    attachment.userInfo
     attachment.bounds = CGRectMake(0, 0, newImgW, newImgH);
     NSAttributedString *text = [NSAttributedString attributedStringWithAttachment:attachment];
     NSMutableAttributedString *imageText = [[NSMutableAttributedString alloc] initWithAttributedString:text];
@@ -163,6 +164,54 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     [self setInitLocation];
 }
 
+//图片的链接
+- (void)addImageImage:(NSString *)imageStr{
+
+    NSAttributedString *enterStr = [[NSAttributedString alloc] initWithString:@"\n"];
+    // 前文
+    NSMutableAttributedString *bfStr = [[NSMutableAttributedString alloc] initWithAttributedString:self.attributedText];
+    /*---------------添加内容 start-----------------*/
+    // 转换图片
+    NSTextAttachment *attachment = [[NSTextAttachment alloc]initWithData:nil ofType:nil];
+    
+    NSURL * url = [[NSURL alloc]initWithString:imageStr];
+    NSData * data = [[NSData alloc]initWithContentsOfURL:url];
+    UIImage * image = [[UIImage alloc]initWithData: data];
+    
+    CGSize  imgSize = image.size;
+    CGFloat newImgW = imgSize.width;
+    CGFloat newImgH = imgSize.height;
+    CGFloat textW   = kAppFrameWidth;
+    if (newImgW > textW) {
+        CGFloat ratio = textW / newImgW;
+        newImgW  = textW;
+        newImgH *= ratio;
+    }
+    attachment.image = image;
+    //图片链接
+//    attachment.userInfo = imageStr;
+    attachment.bounds = CGRectMake(0, 0, newImgW, newImgH);
+    NSAttributedString *text = [NSAttributedString attributedStringWithAttachment:attachment];
+    NSMutableAttributedString *imageText = [[NSMutableAttributedString alloc] initWithAttributedString:text];
+    // 前文换行
+    [imageText insertAttributedString:enterStr atIndex:0];
+    /*---------------添加内容 end-----------------*/
+    // 前文拼接图片
+    // 换行
+    [imageText insertAttributedString:enterStr atIndex:imageText.length];
+    [bfStr insertAttributedString:imageText atIndex:bfStr.length];
+//    // 拼接转换后的attributeStirng
+    [bfStr insertAttributedString:enterStr atIndex:bfStr.length];
+    NSMutableAttributedString *newAtt = [[NSMutableAttributedString alloc]init];
+    [newAtt setAttributedString:bfStr];
+    self.attributedText = newAtt;
+    [self becomeFirstResponder];
+    [self setInitLocation];
+}
+
+
+
+
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     
   UIView *view = [super hitTest:point withEvent:event];
@@ -176,3 +225,4 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 }
 
 @end
+

@@ -67,6 +67,7 @@ class CommodityStatusViewController: BaseViewController {
             self.tableview.mj_header?.endRefreshing()
         } failureCallback: { error, code in
             code.loginOut()
+            self.tableview.mj_header?.endRefreshing()
         }
     }
     
@@ -285,6 +286,11 @@ class CommodityStatusViewController: BaseViewController {
     }
     
     
+    func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView!) -> Bool {
+        return true
+    }
+    
+
 }
 
 extension CommodityStatusViewController:UITableViewDelegate,UITableViewDataSource{

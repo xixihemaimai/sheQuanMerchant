@@ -116,6 +116,18 @@
 		40A9A2132814D952006B1CBF /* Util.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A2112814D952006B1CBF /* Util.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		40AFEBC8281A97F50062D271 /* CommoditySearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AFEBC7281A97F50062D271 /* CommoditySearchViewController.swift */; };
 		40AFEBCA281B6B1A0062D271 /* ReleaseGoodsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AFEBC9281B6B1A0062D271 /* ReleaseGoodsViewController.swift */; };
+		40C377852851EB3F00DA9E70 /* SIXEditorInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C377792851EB3F00DA9E70 /* SIXEditorInputView.m */; };
+		40C377862851EB3F00DA9E70 /* SIXHTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C3777A2851EB3F00DA9E70 /* SIXHTMLParser.m */; };
+		40C377872851EB3F00DA9E70 /* SIXEditorHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = 40C3777B2851EB3F00DA9E70 /* SIXEditorHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		40C377882851EB3F00DA9E70 /* SIXEditorToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C3777C2851EB3F00DA9E70 /* SIXEditorToolBar.m */; };
+		40C377892851EB3F00DA9E70 /* SIXEditorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C3777D2851EB3F00DA9E70 /* SIXEditorView.m */; };
+		40C3778A2851EB3F00DA9E70 /* SIXEditorInputManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C3777E2851EB3F00DA9E70 /* SIXEditorInputManager.m */; };
+		40C3778B2851EB3F00DA9E70 /* SIXEditorInputView.h in Headers */ = {isa = PBXBuildFile; fileRef = 40C3777F2851EB3F00DA9E70 /* SIXEditorInputView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		40C3778C2851EB3F00DA9E70 /* SIXEditor.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 40C377802851EB3F00DA9E70 /* SIXEditor.bundle */; };
+		40C3778D2851EB3F00DA9E70 /* SIXHTMLParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 40C377812851EB3F00DA9E70 /* SIXHTMLParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		40C3778E2851EB3F00DA9E70 /* SIXEditorToolBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 40C377822851EB3F00DA9E70 /* SIXEditorToolBar.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		40C3778F2851EB3F00DA9E70 /* SIXEditorView.h in Headers */ = {isa = PBXBuildFile; fileRef = 40C377832851EB3F00DA9E70 /* SIXEditorView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		40C377902851EB3F00DA9E70 /* SIXEditorInputManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 40C377842851EB3F00DA9E70 /* SIXEditorInputManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7AD231528B3BBEAAE2E924AB /* Pods_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0920399F93ACA07BE969F0D4 /* Pods_App.framework */; };
 /* End PBXBuildFile section */
 
@@ -246,6 +258,18 @@
 		40A9A2112814D952006B1CBF /* Util.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Util.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		40AFEBC7281A97F50062D271 /* CommoditySearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommoditySearchViewController.swift; sourceTree = "<group>"; };
 		40AFEBC9281B6B1A0062D271 /* ReleaseGoodsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReleaseGoodsViewController.swift; sourceTree = "<group>"; };
+		40C377792851EB3F00DA9E70 /* SIXEditorInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIXEditorInputView.m; sourceTree = "<group>"; };
+		40C3777A2851EB3F00DA9E70 /* SIXHTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIXHTMLParser.m; sourceTree = "<group>"; };
+		40C3777B2851EB3F00DA9E70 /* SIXEditorHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIXEditorHeader.h; sourceTree = "<group>"; };
+		40C3777C2851EB3F00DA9E70 /* SIXEditorToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIXEditorToolBar.m; sourceTree = "<group>"; };
+		40C3777D2851EB3F00DA9E70 /* SIXEditorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIXEditorView.m; sourceTree = "<group>"; };
+		40C3777E2851EB3F00DA9E70 /* SIXEditorInputManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIXEditorInputManager.m; sourceTree = "<group>"; };
+		40C3777F2851EB3F00DA9E70 /* SIXEditorInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIXEditorInputView.h; sourceTree = "<group>"; };
+		40C377802851EB3F00DA9E70 /* SIXEditor.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SIXEditor.bundle; sourceTree = "<group>"; };
+		40C377812851EB3F00DA9E70 /* SIXHTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIXHTMLParser.h; sourceTree = "<group>"; };
+		40C377822851EB3F00DA9E70 /* SIXEditorToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIXEditorToolBar.h; sourceTree = "<group>"; };
+		40C377832851EB3F00DA9E70 /* SIXEditorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIXEditorView.h; sourceTree = "<group>"; };
+		40C377842851EB3F00DA9E70 /* SIXEditorInputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIXEditorInputManager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -499,6 +523,7 @@
 		409C298F2814FC0D00005ECB /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				40C377782851EB3F00DA9E70 /* SIXEditor */,
 				4075AEF1281CD871005EB854 /* rich */,
 				4060BC2E2816AD2600968C42 /* FuntionView(功能View) */,
 				409C29902814FC1500005ECB /* category(分类) */,
@@ -578,6 +603,25 @@
 			path = "My(我的)";
 			sourceTree = "<group>";
 		};
+		40C377782851EB3F00DA9E70 /* SIXEditor */ = {
+			isa = PBXGroup;
+			children = (
+				40C377792851EB3F00DA9E70 /* SIXEditorInputView.m */,
+				40C3777A2851EB3F00DA9E70 /* SIXHTMLParser.m */,
+				40C3777B2851EB3F00DA9E70 /* SIXEditorHeader.h */,
+				40C3777C2851EB3F00DA9E70 /* SIXEditorToolBar.m */,
+				40C3777D2851EB3F00DA9E70 /* SIXEditorView.m */,
+				40C3777E2851EB3F00DA9E70 /* SIXEditorInputManager.m */,
+				40C3777F2851EB3F00DA9E70 /* SIXEditorInputView.h */,
+				40C377802851EB3F00DA9E70 /* SIXEditor.bundle */,
+				40C377812851EB3F00DA9E70 /* SIXHTMLParser.h */,
+				40C377822851EB3F00DA9E70 /* SIXEditorToolBar.h */,
+				40C377832851EB3F00DA9E70 /* SIXEditorView.h */,
+				40C377842851EB3F00DA9E70 /* SIXEditorInputManager.h */,
+			);
+			path = SIXEditor;
+			sourceTree = "<group>";
+		};
 		7D942DB943BF26B30841ED37 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -595,6 +639,12 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40C377872851EB3F00DA9E70 /* SIXEditorHeader.h in Headers */,
+				40C3778B2851EB3F00DA9E70 /* SIXEditorInputView.h in Headers */,
+				40C3778D2851EB3F00DA9E70 /* SIXHTMLParser.h in Headers */,
+				40C3778E2851EB3F00DA9E70 /* SIXEditorToolBar.h in Headers */,
+				40C377902851EB3F00DA9E70 /* SIXEditorInputManager.h in Headers */,
+				40C3778F2851EB3F00DA9E70 /* SIXEditorView.h in Headers */,
 				4074C9FC2830BC10009E9023 /* MMLocationParser.h in Headers */,
 				4075AF09281CE7A5005EB854 /* UIColor+HEX.h in Headers */,
 				4075AF05281CD8E2005EB854 /* NSString+JSON.h in Headers */,
@@ -669,6 +719,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				408E425D282A271200C94119 /* city.json in Resources */,
+				40C3778C2851EB3F00DA9E70 /* SIXEditor.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -709,6 +760,7 @@
 				4075AEF0281CD621005EB854 /* ProductDescriptionViewController.swift in Sources */,
 				408E42382828B8C000C94119 /* ModifyReturnAddressViewController.swift in Sources */,
 				408E422E28266BE200C94119 /* OrderContentCell.swift in Sources */,
+				40C377852851EB3F00DA9E70 /* SIXEditorInputView.m in Sources */,
 				4075AEF8281CD871005EB854 /* XDRichTextView.m in Sources */,
 				408E423028289BD500C94119 /* OrderDetailViewController.swift in Sources */,
 				4083B25B2824C87200AFAD18 /* SettingPriceAndStockView.swift in Sources */,
@@ -725,6 +777,7 @@
 				4075AF02281CD8E2005EB854 /* NSAttributedString+Rich.m in Sources */,
 				401E5DC1281528C4009127A5 /* Edit+UIButton.swift in Sources */,
 				403B88052823797300FC4EA4 /* CommoditySpecificationsHeaderView.swift in Sources */,
+				40C377892851EB3F00DA9E70 /* SIXEditorView.m in Sources */,
 				4060BC492818C87400968C42 /* EnterpriseCertificationViewController.swift in Sources */,
 				403B88032823725400FC4EA4 /* CommoditySpecificationsViewController.swift in Sources */,
 				4074C9FB2830BC10009E9023 /* MMLocationParser.m in Sources */,
@@ -743,6 +796,7 @@
 				4080A4D2282CBD8300D32002 /* NoDeliveryCell.swift in Sources */,
 				403B880D2823B37700FC4EA4 /* CommodityPriceAndStockCell.swift in Sources */,
 				403B880B2823AECB00FC4EA4 /* CommoditySpecificationCell.swift in Sources */,
+				40C377862851EB3F00DA9E70 /* SIXHTMLParser.m in Sources */,
 				4060BC3728175ED300968C42 /* Edit+UIBarButtonItem.swift in Sources */,
 				4060BC3928177F1A00968C42 /* RegisterViewController.swift in Sources */,
 				408E42362828B49C00C94119 /* BuyerAdressCell.swift in Sources */,
@@ -761,6 +815,7 @@
 				4083B2642826223400AFAD18 /* ModifyPriceView.swift in Sources */,
 				4080A4CC282CA24500D32002 /* TemplateContentViewController.swift in Sources */,
 				40AFEBCA281B6B1A0062D271 /* ReleaseGoodsViewController.swift in Sources */,
+				40C377882851EB3F00DA9E70 /* SIXEditorToolBar.m in Sources */,
 				401E5DC9281528F3009127A5 /* Edit+UIImageView.swift in Sources */,
 				4060BC52281A2F6E00968C42 /* ShopDetailCardCell.swift in Sources */,
 				4075AF12281E3088005EB854 /* OrderStatusViewController.swift in Sources */,
@@ -774,6 +829,7 @@
 				4074C9EF282CE3D0009E9023 /* RegionView.swift in Sources */,
 				407D9802281A66C6005A8CBC /* commodityStatusCell.swift in Sources */,
 				408E42422828E8BE00C94119 /* CheckLogisticsViewController.swift in Sources */,
+				40C3778A2851EB3F00DA9E70 /* SIXEditorInputManager.m in Sources */,
 				401E5DD628163A48009127A5 /* StartPageViewController.swift in Sources */,
 				4075AF0E281E2673005EB854 /* OrderContentViewController.swift in Sources */,
 				403B880F2823BAA700FC4EA4 /* SpecificationValueView.swift in Sources */,

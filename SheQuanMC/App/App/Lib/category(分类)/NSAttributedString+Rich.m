@@ -8,6 +8,7 @@
 
 #import "NSAttributedString+Rich.h"
 #import "UIColor+HEX.h"
+
 @implementation NSAttributedString (Rich)
 -(NSMutableArray *)getArrayWithAttributed
 {
@@ -79,7 +80,7 @@
             [AttributeDict setObject:encodedImageStr forKey:@"image"];
             //这里为title加上图片标示
             //[AttributeDict setObject:@"[image]" forKey:@"title"];
-        }
+         }
         }
         //2.行间距
         NSParagraphStyle * paragraphStyle= Attributes[@"NSParagraphStyle"];

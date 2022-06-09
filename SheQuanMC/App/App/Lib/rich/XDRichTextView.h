@@ -11,6 +11,9 @@
 @interface XDRichTextView : UITextView
 /**插入图片*/
 - (void)addImage:(UIImage *)image;
+/**插入图片链接*/
+- (void)addImageImage:(NSString *)imageStr;
+
 /**加粗*/
 @property (nonatomic ,assign)   BOOL  Bold;
 /**斜体*/

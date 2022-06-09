@@ -194,6 +194,7 @@ extension FreightTemplateViewController:UITableViewDelegate,UITableViewDataSourc
         let model = list[indexPath.row]
 //        self.selectFreightId!(model.freightId ?? 0)
         self.selectFreightId?(model)
+        Coordinator.shared?.popViewController(self, true)
     }
     
     

@@ -610,8 +610,8 @@ class ShopViewController: BaseViewController {
             self?.tableview.mj_header?.endRefreshing()
             
         } failureCallback: {[weak self] error,code in
-            self?.tableview.mj_header?.endRefreshing()
             code.loginOut()
+            self?.tableview.mj_header?.endRefreshing()
         }
     }
     
