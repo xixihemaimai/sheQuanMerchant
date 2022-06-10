@@ -1322,7 +1322,7 @@ class ReleaseGoodsViewController: BaseViewController {
         var specsGroupsList:String = "["
         for i in 0..<(specGroupsArray?.count ?? 0) {
             let specGroup = specGroupsArray?[i]
-            let specsDict = ["specGroupId":specGroup?.specGroupId as Any,"specGroupName":specGroup?.specGroupName as Any,"specs":[String]() as Any] as [String:Any]
+            let specsDict = ["required":specGroup?.required as Any,"specGroupId":specGroup?.specGroupId as Any,"specGroupName":specGroup?.specGroupName as Any,"specGroupType":specGroup?.specGroupType as Any,"specs":[String]() as Any] as [String:Any]
             let jsonstring = getJSONStringFromData(obj: specsDict, isEscape: true)
             if i == 0{
                 specsGroupsList += jsonstring
@@ -1460,7 +1460,7 @@ class ReleaseGoodsViewController: BaseViewController {
         var specsGroupsList:String = "["
         for i in 0..<(commodityModel?.specGroups?.count ?? 0) {
             let specGroup = commodityModel?.specGroups![i]
-            let specsDict = ["specGroupId":specGroup?.specGroupId as Any,"specGroupName":specGroup?.specGroupName as Any,"specs":[String]() as Any] as [String:Any]
+            let specsDict = ["required":specGroup?.required as Any, "specGroupId":specGroup?.specGroupId as Any,"specGroupName":specGroup?.specGroupName as Any,"specGroupType":specGroup?.specGroupType as Any,"specs":[String]() as Any] as [String:Any]
             let jsonstring = getJSONStringFromData(obj: specsDict, isEscape: true)
             if i == 0{
                 specsGroupsList += jsonstring

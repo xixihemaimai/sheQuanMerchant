@@ -76,7 +76,7 @@ NSString * const ImagePlaceholderTag = @"\U0000fffc";
             //字号
             CGFloat fontSize = [font.fontDescriptor.fontAttributes[UIFontDescriptorSizeAttribute] floatValue];
             CGFloat location = html.length;
-            [html appendFormat:@"<span style=\"color:%@; font-size:%.0fpx;\">%@</span>", textColor, fontSize, selectString];
+            [html appendFormat:@"<span style=\'color:%@; font-size:%.0fpx;\'>%@</span>", textColor, fontSize, selectString];
             
             //斜体
             if ([attrs.allKeys containsObject:NSObliquenessAttributeName]) {
@@ -165,7 +165,15 @@ NSString * const ImagePlaceholderTag = @"\U0000fffc";
                 ;
                 //NSLog(@"%@:%@", imageName, NSStringFromCGRect(attachment.bounds));
             } else {
-                attachment.bounds = CGRectMake(0, 0, width, width);
+                
+                
+//                CGFloat width = self.frame.size.width-self.textContainer.lineFragmentPadding*2;
+//                NSMutableAttributedString *mAttributedString = self.attributedText.mutableCopy;
+//                NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
+//                attachment.bounds = CGRectMake(0, 0, width, width * image.size.height / image.size.width);
+                
+                attachment.bounds = CGRectMake(0, 0, width, 400);
+                
             }
         }
     }];

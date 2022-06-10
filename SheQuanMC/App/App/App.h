@@ -17,12 +17,12 @@ FOUNDATION_EXPORT const unsigned char AppVersionString[];
 
 
 #import <App/UITextView+Placeholder.h>
-#import <App/XDRichTextView.h>
-#import <App/XDEditTextTool.h>
-#import <App/XDRichTextModel.h>
-#import <App/NSAttributedString+Rich.h>
-#import <App/NSString+JSON.h>
-#import <App/UIColor+HEX.h>
+//#import <App/XDRichTextView.h>
+//#import <App/XDEditTextTool.h>
+//#import <App/XDRichTextModel.h>
+//#import <App/NSAttributedString+Rich.h>
+//#import <App/NSString+JSON.h>
+//#import <App/UIColor+HEX.h>
 #import <App/MMLocationParser.h>
 
 

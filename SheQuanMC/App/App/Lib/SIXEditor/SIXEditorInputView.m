@@ -19,6 +19,7 @@ NS_INLINE UIColor *six_colorWithHex(NSInteger hex) {
 @interface SIXEditorInputViewCell: UICollectionViewCell
 @property (nonatomic, strong) UILabel *label;
 @property (nonatomic, strong) UIView *colorView;
+@property (nonatomic, strong) UIImageView * xuanImage;
 @end
 
 @implementation SIXEditorInputViewCell
@@ -42,6 +43,18 @@ NS_INLINE UIColor *six_colorWithHex(NSInteger hex) {
     return _colorView;
 }
 
+
+- (UIImageView *)xuanImage{
+    if (!_xuanImage){
+        _xuanImage = [[UIImageView alloc]initWithFrame:CGRectMake(self.colorView.bounds.size.width/2 - self.colorView.bounds.size.width/4, self.colorView.bounds.size.height/2 - self.colorView.bounds.size.height/4, self.colorView.bounds.size.width - 20, self.colorView.bounds.size.height - 20)];
+        _xuanImage.image = [UIImage imageNamed:@"xuanzhong"];
+        _xuanImage.hidden = true;
+        [self.colorView addSubview:_xuanImage];
+    }
+    return _xuanImage;
+}
+
+
 @end
 
 
@@ -59,6 +72,8 @@ UICollectionViewDelegateFlowLayout>
 @property (nonatomic, strong) NSArray *textColors;
 @property (nonatomic, strong) NSArray *fontSizes;
 
+@property (nonatomic, assign) NSInteger index;
+
 @end
 
 @implementation SIXEditorInputView
@@ -72,7 +87,7 @@ UICollectionViewDelegateFlowLayout>
         CALayer *line = [CALayer layer];
         line.backgroundColor = [UIColor lightGrayColor].CGColor;
         line.frame = CGRectMake(0, 0, self.bounds.size.width, 0.5);
-        
+        self.index = 100;
         [self addSubview:self.collectionView];
         [self.layer addSublayer:line];
     }
@@ -140,12 +155,18 @@ UICollectionViewDelegateFlowLayout>
         {
             NSInteger hex = [self.textColors[indexPath.item] integerValue];
             cell.colorView.backgroundColor = six_colorWithHex(hex);
-            
             if (CGColorEqualToColor(cell.colorView.backgroundColor.CGColor, self.selectedTextColor.CGColor)) {
                 cell.colorView.layer.cornerRadius = itemSize.width * 0.5;
             } else {
                 cell.colorView.layer.cornerRadius = itemSize.width * 0.5;
             }
+            
+            if (indexPath.row == self.index){
+                [cell.xuanImage setHidden:false];
+            }else{
+                [cell.xuanImage setHidden:true];
+            }
+            
         }
             break;
         default:
@@ -163,7 +184,16 @@ UICollectionViewDelegateFlowLayout>
         case SIXEditorActionTextColor: {
             NSInteger hex = [self.textColors[indexPath.item] integerValue];
             self.selectedTextColor = six_colorWithHex(hex);
+            for (int i = 0; i < self.textColors.count; i++) {
+                SIXEditorInputViewCell * cell = (SIXEditorInputViewCell *)[collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+                [cell.xuanImage setHidden:true];
+            }
+            NSLog(@"=============================%ld",indexPath.row);
             [self.delegate inputView:self clickItemForTextColor:self.selectedTextColor];
+            SIXEditorInputViewCell * cell = (SIXEditorInputViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+            self.index = indexPath.row;
+            [cell.xuanImage setHidden:false];
+            
         }
             break;
         default:

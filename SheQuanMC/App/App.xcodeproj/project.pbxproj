@@ -52,18 +52,6 @@
 		4074C9FB2830BC10009E9023 /* MMLocationParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4074C9F92830BC0E009E9023 /* MMLocationParser.m */; };
 		4074C9FC2830BC10009E9023 /* MMLocationParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4074C9FA2830BC0F009E9023 /* MMLocationParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4075AEF0281CD621005EB854 /* ProductDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075AEEF281CD621005EB854 /* ProductDescriptionViewController.swift */; };
-		4075AEF8281CD871005EB854 /* XDRichTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4075AEF2281CD871005EB854 /* XDRichTextView.m */; };
-		4075AEF9281CD871005EB854 /* XDEditTextTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 4075AEF3281CD871005EB854 /* XDEditTextTool.m */; };
-		4075AEFA281CD871005EB854 /* XDRichTextModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 4075AEF4281CD871005EB854 /* XDRichTextModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4075AEFB281CD871005EB854 /* XDEditTextTool.h in Headers */ = {isa = PBXBuildFile; fileRef = 4075AEF5281CD871005EB854 /* XDEditTextTool.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4075AEFC281CD871005EB854 /* XDRichTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4075AEF6281CD871005EB854 /* XDRichTextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4075AEFD281CD871005EB854 /* XDRichTextModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4075AEF7281CD871005EB854 /* XDRichTextModel.m */; };
-		4075AF02281CD8E2005EB854 /* NSAttributedString+Rich.m in Sources */ = {isa = PBXBuildFile; fileRef = 4075AEFE281CD8E1005EB854 /* NSAttributedString+Rich.m */; };
-		4075AF03281CD8E2005EB854 /* NSString+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 4075AEFF281CD8E2005EB854 /* NSString+JSON.m */; };
-		4075AF04281CD8E2005EB854 /* NSAttributedString+Rich.h in Headers */ = {isa = PBXBuildFile; fileRef = 4075AF00281CD8E2005EB854 /* NSAttributedString+Rich.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4075AF05281CD8E2005EB854 /* NSString+JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 4075AF01281CD8E2005EB854 /* NSString+JSON.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4075AF08281CE7A5005EB854 /* UIColor+HEX.m in Sources */ = {isa = PBXBuildFile; fileRef = 4075AF06281CE7A3005EB854 /* UIColor+HEX.m */; };
-		4075AF09281CE7A5005EB854 /* UIColor+HEX.h in Headers */ = {isa = PBXBuildFile; fileRef = 4075AF07281CE7A5005EB854 /* UIColor+HEX.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4075AF0C281E1E08005EB854 /* OrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075AF0B281E1E08005EB854 /* OrderViewController.swift */; };
 		4075AF0E281E2673005EB854 /* OrderContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075AF0D281E2673005EB854 /* OrderContentViewController.swift */; };
 		4075AF10281E2696005EB854 /* AfterSalesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4075AF0F281E2695005EB854 /* AfterSalesViewController.swift */; };
@@ -194,18 +182,6 @@
 		4074C9F92830BC0E009E9023 /* MMLocationParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMLocationParser.m; sourceTree = "<group>"; };
 		4074C9FA2830BC0F009E9023 /* MMLocationParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMLocationParser.h; sourceTree = "<group>"; };
 		4075AEEF281CD621005EB854 /* ProductDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDescriptionViewController.swift; sourceTree = "<group>"; };
-		4075AEF2281CD871005EB854 /* XDRichTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XDRichTextView.m; sourceTree = "<group>"; };
-		4075AEF3281CD871005EB854 /* XDEditTextTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XDEditTextTool.m; sourceTree = "<group>"; };
-		4075AEF4281CD871005EB854 /* XDRichTextModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XDRichTextModel.h; sourceTree = "<group>"; };
-		4075AEF5281CD871005EB854 /* XDEditTextTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XDEditTextTool.h; sourceTree = "<group>"; };
-		4075AEF6281CD871005EB854 /* XDRichTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XDRichTextView.h; sourceTree = "<group>"; };
-		4075AEF7281CD871005EB854 /* XDRichTextModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XDRichTextModel.m; sourceTree = "<group>"; };
-		4075AEFE281CD8E1005EB854 /* NSAttributedString+Rich.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+Rich.m"; sourceTree = "<group>"; };
-		4075AEFF281CD8E2005EB854 /* NSString+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+JSON.m"; sourceTree = "<group>"; };
-		4075AF00281CD8E2005EB854 /* NSAttributedString+Rich.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Rich.h"; sourceTree = "<group>"; };
-		4075AF01281CD8E2005EB854 /* NSString+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+JSON.h"; sourceTree = "<group>"; };
-		4075AF06281CE7A3005EB854 /* UIColor+HEX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HEX.m"; sourceTree = "<group>"; };
-		4075AF07281CE7A5005EB854 /* UIColor+HEX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HEX.h"; sourceTree = "<group>"; };
 		4075AF0B281E1E08005EB854 /* OrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderViewController.swift; sourceTree = "<group>"; };
 		4075AF0D281E2673005EB854 /* OrderContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderContentViewController.swift; sourceTree = "<group>"; };
 		4075AF0F281E2695005EB854 /* AfterSalesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterSalesViewController.swift; sourceTree = "<group>"; };
@@ -382,19 +358,6 @@
 			path = view;
 			sourceTree = "<group>";
 		};
-		4075AEF1281CD871005EB854 /* rich */ = {
-			isa = PBXGroup;
-			children = (
-				4075AEF2281CD871005EB854 /* XDRichTextView.m */,
-				4075AEF3281CD871005EB854 /* XDEditTextTool.m */,
-				4075AEF4281CD871005EB854 /* XDRichTextModel.h */,
-				4075AEF5281CD871005EB854 /* XDEditTextTool.h */,
-				4075AEF6281CD871005EB854 /* XDRichTextView.h */,
-				4075AEF7281CD871005EB854 /* XDRichTextModel.m */,
-			);
-			path = rich;
-			sourceTree = "<group>";
-		};
 		4075AF0A281E1DE6005EB854 /* OrderManagement(订单) */ = {
 			isa = PBXGroup;
 			children = (
@@ -524,7 +487,6 @@
 			isa = PBXGroup;
 			children = (
 				40C377782851EB3F00DA9E70 /* SIXEditor */,
-				4075AEF1281CD871005EB854 /* rich */,
 				4060BC2E2816AD2600968C42 /* FuntionView(功能View) */,
 				409C29902814FC1500005ECB /* category(分类) */,
 			);
@@ -536,12 +498,6 @@
 			children = (
 				4074C9FA2830BC0F009E9023 /* MMLocationParser.h */,
 				4074C9F92830BC0E009E9023 /* MMLocationParser.m */,
-				4075AF07281CE7A5005EB854 /* UIColor+HEX.h */,
-				4075AF06281CE7A3005EB854 /* UIColor+HEX.m */,
-				4075AF00281CD8E2005EB854 /* NSAttributedString+Rich.h */,
-				4075AEFE281CD8E1005EB854 /* NSAttributedString+Rich.m */,
-				4075AF01281CD8E2005EB854 /* NSString+JSON.h */,
-				4075AEFF281CD8E2005EB854 /* NSString+JSON.m */,
 				409C29922814FC5D00005ECB /* UITextView+Placeholder.h */,
 				409C29912814FC5D00005ECB /* UITextView+Placeholder.m */,
 			);
@@ -646,12 +602,6 @@
 				40C377902851EB3F00DA9E70 /* SIXEditorInputManager.h in Headers */,
 				40C3778F2851EB3F00DA9E70 /* SIXEditorView.h in Headers */,
 				4074C9FC2830BC10009E9023 /* MMLocationParser.h in Headers */,
-				4075AF09281CE7A5005EB854 /* UIColor+HEX.h in Headers */,
-				4075AF05281CD8E2005EB854 /* NSString+JSON.h in Headers */,
-				4075AF04281CD8E2005EB854 /* NSAttributedString+Rich.h in Headers */,
-				4075AEFB281CD871005EB854 /* XDEditTextTool.h in Headers */,
-				4075AEFC281CD871005EB854 /* XDRichTextView.h in Headers */,
-				4075AEFA281CD871005EB854 /* XDRichTextModel.h in Headers */,
 				409C29942814FC5D00005ECB /* UITextView+Placeholder.h in Headers */,
 				401E5DAA28150242009127A5 /* App.h in Headers */,
 			);
@@ -761,7 +711,6 @@
 				408E42382828B8C000C94119 /* ModifyReturnAddressViewController.swift in Sources */,
 				408E422E28266BE200C94119 /* OrderContentCell.swift in Sources */,
 				40C377852851EB3F00DA9E70 /* SIXEditorInputView.m in Sources */,
-				4075AEF8281CD871005EB854 /* XDRichTextView.m in Sources */,
 				408E423028289BD500C94119 /* OrderDetailViewController.swift in Sources */,
 				4083B25B2824C87200AFAD18 /* SettingPriceAndStockView.swift in Sources */,
 				4075AF0C281E1E08005EB854 /* OrderViewController.swift in Sources */,
@@ -772,9 +721,7 @@
 				4074C9F1282D043C009E9023 /* RegionAddressCell.swift in Sources */,
 				408E42442828EA2E00C94119 /* CheckLogisticsNumberCell.swift in Sources */,
 				401E5DA02814FF17009127A5 /* ShopViewController.swift in Sources */,
-				4075AEF9281CD871005EB854 /* XDEditTextTool.m in Sources */,
 				4080A4D0282CBC1D00D32002 /* NoDeliveryViewController.swift in Sources */,
-				4075AF02281CD8E2005EB854 /* NSAttributedString+Rich.m in Sources */,
 				401E5DC1281528C4009127A5 /* Edit+UIButton.swift in Sources */,
 				403B88052823797300FC4EA4 /* CommoditySpecificationsHeaderView.swift in Sources */,
 				40C377892851EB3F00DA9E70 /* SIXEditorView.m in Sources */,
@@ -806,7 +753,6 @@
 				4075AF14281E3706005EB854 /* AfterSalesStatusViewController.swift in Sources */,
 				408E42502829101900C94119 /* ModifyAddressViewController.swift in Sources */,
 				408E423C2828C23700C94119 /* LogisticsCompanyViewController.swift in Sources */,
-				4075AF03281CD8E2005EB854 /* NSString+JSON.m in Sources */,
 				40AFEBC8281A97F50062D271 /* CommoditySearchViewController.swift in Sources */,
 				403B87FB282356C600FC4EA4 /* CommodityCategoryCell.swift in Sources */,
 				407D97FD281A3A11005A8CBC /* CommodityManagementViewController.swift in Sources */,
@@ -838,7 +784,6 @@
 				409C29932814FC5D00005ECB /* UITextView+Placeholder.m in Sources */,
 				408E42462828ED3800C94119 /* CheckLogisticsProgressCell.swift in Sources */,
 				407D9808281A8457005A8CBC /* ReplenishInventoryCell.swift in Sources */,
-				4075AF08281CE7A5005EB854 /* UIColor+HEX.m in Sources */,
 				4060BC3428175ECD00968C42 /* BaseNaviViewController.swift in Sources */,
 				407D9806281A8352005A8CBC /* ReplenishInventoryViewController.swift in Sources */,
 				4060BC302816AD5000968C42 /* CountDown.swift in Sources */,
@@ -856,7 +801,6 @@
 				408E42482828FDE800C94119 /* ModifyLogisticsViewController.swift in Sources */,
 				408E4257282A16D800C94119 /* BHJPickerView.swift in Sources */,
 				408E424A2829003C00C94119 /* OrderModifyLogisticsCell.swift in Sources */,
-				4075AEFD281CD871005EB854 /* XDRichTextModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

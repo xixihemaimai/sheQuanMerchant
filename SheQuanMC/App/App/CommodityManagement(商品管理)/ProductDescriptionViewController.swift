@@ -83,6 +83,9 @@ class ProductDescriptionViewController: BaseViewController {
     
     lazy var editorView:SIXEditorView = {
         let editorView = SIXEditorView(frame: view.bounds)
+        editorView.placeholder = "请输入详情"
+        editorView.placeholderColor = UIColor.colorWithDyColorChangObject(lightColor: "#C2C2C2")
+        editorView.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         editorView.isEditable = true
         return editorView
     }()
@@ -121,7 +124,7 @@ class ProductDescriptionViewController: BaseViewController {
         if inputString != nil{
             //editorView.frame.size.width-self.editorView.textContainer.lineFragmentPadding*2
             LXFLog("+================\(inputString)")
-            inputString = inputString?.replacingOccurrences(of: "+", with: "\"", options: .literal, range: nil)
+//            inputString = inputString?.replacingOccurrences(of: "+", with: "\"", options: .literal, range: nil)
             SIXHTMLParser.attributedText(withHtmlString: inputString, imageWidth: editorView.frame.size.width - (editorView.textContainer.lineFragmentPadding * 2)) { attributedText in
                 self.editorView.attributedText = attributedText
             }
@@ -465,14 +468,14 @@ class ProductDescriptionViewController: BaseViewController {
                         let str = String(format: "[image%d]", n)
                        htmls = (htmls as? NSString)?.replacingOccurrences(of: str, with: imageArray[n], options: .literal, range: NSRange(location: 0, length: (htmls as? NSString)?.length ?? 0))
                     }
-                   htmls = htmls?.replacingOccurrences(of: "\"", with: "+", options: .literal, range: nil)
+//                   htmls = htmls?.replacingOccurrences(of: "\"", with: "+", options: .literal, range: nil)
                     self.inputAttributedString!(htmls ?? "")
                     Coordinator.shared?.popViewController(self, true)
                 } failureCallback: { error, code in
                     code.loginOut()
                 }
             }else{
-                htmls = htmls?.replacingOccurrences(of: "\"", with: "+", options: .literal, range: nil)
+//                htmls = htmls?.replacingOccurrences(of: "\"", with: "+", options: .literal, range: nil)
                 self.inputAttributedString!(htmls ?? "")
                 Coordinator.shared?.popViewController(self, true)
             }

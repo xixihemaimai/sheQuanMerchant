@@ -10,6 +10,7 @@ import Util
 import JFPopup
 import HXPhotoPicker
 import SwiftUI
+import SwiftyJSON
 
 class CommoditySpecificationsViewController: BaseViewController {
     
@@ -275,37 +276,79 @@ class CommoditySpecificationsViewController: BaseViewController {
     func loadProductSpecList(){
         let parameters = ["categoryId":categoryId,"productId":productId] as [String:Any]
         NetWorkResultRequest(OrderApi.getProductSpecList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
-            
-            guard let model = try? JSONDecoder().decode(GenericResponse<[SpecGroups]>.self, from: data) else { return }
-            if let data1 = model.data{
-                //这边就是要进行设置了
-                for i in 0..<data1.count {
-                    let specGroups = data1[i]
+//            guard let model = try? JSONDecoder().decode(GenericResponse<[SpecGroups]>.self, from: data) else { return }
+//            LXFLog("================\(model)")
+            do{
+                let json = try JSON(data: data)
+                let array = json["data"]["specGroups"]
+                for i in 0..<array.count {
+                    let dict = array[i]
+                    //let specGroups = data1[i]
+                    var specGroups = SpecGroups(required: false, specGroupId: 0, specGroupName: "", specGroupType: 0, specs: [String]())
+                    specGroups.required = dict["required"].boolValue
+                    specGroups.specGroupType = dict["specGroupType"].int32Value
+                    specGroups.specGroupId = dict["specGroupId"].int64Value
+                    specGroups.specGroupName = dict["specGroupName"].stringValue
+//                    specGroups.specs = dict["specs"].arrayValue
+                    let specsArray = dict["specs"]
+                    for j in 0..<specsArray.count {
+                        let str = specsArray[j].stringValue
+                        specGroups.specs?.append(str)
+                    }
                     self?.saveList.append(specGroups)
-//                    self?.addCoutList.append(specGroups.specGroupName ?? "")
                     let colorList = [Specs]()
                     self?.saveValueList.append(colorList)
                 }
-                
-                //这边是设置规格值得地方
                 for n in 0..<(self?.saveList.count ?? 0){
-                    var specGroups = self?.saveList[n]
-                    var colorList = self?.saveValueList[n]
-                    if (specGroups?.specs?.count ?? 0) > 0{
-                        for j in 0..<(specGroups?.specs?.count ?? 0){
-                            let str = specGroups?.specs?[j]
-                            let specs = Specs(specGroupId: specGroups?.specGroupId,specValue:str)
-                            colorList?.append(specs)
-                        }
-                        self?.saveValueList[n] = colorList!
-                    }else{
-                        specGroups?.specs = [String]()
-                        self?.saveList[n] = specGroups!
+                var specGroups = self?.saveList[n]
+                var colorList = self?.saveValueList[n]
+                 if (specGroups?.specs?.count ?? 0) > 0{
+                    for j in 0..<(specGroups?.specs?.count ?? 0){
+                        let str = specGroups?.specs?[j]
+                        let specs = Specs(specGroupId: specGroups?.specGroupId,specValue:str)
+                        colorList?.append(specs)
+                    }
+                      self?.saveValueList[n] = colorList!
+                 }else{
+                    specGroups?.specs = [String]()
+                    self?.saveList[n] = specGroups!
                     }
                 }
                 self?.UnionSetArray(tag: 0, index: 0)
                 self?.newTableView.reloadData()
-            }
+            }catch{}
+            
+            
+            
+//            if let data1 = model.data{
+//                //这边就是要进行设置了
+//                for i in 0..<data1.count {
+//                    let specGroups = data1[i]
+//                    self?.saveList.append(specGroups)
+////                    self?.addCoutList.append(specGroups.specGroupName ?? "")
+//                    let colorList = [Specs]()
+//                    self?.saveValueList.append(colorList)
+//                }
+//
+//                //这边是设置规格值得地方
+//                for n in 0..<(self?.saveList.count ?? 0){
+//                    var specGroups = self?.saveList[n]
+//                    var colorList = self?.saveValueList[n]
+//                    if (specGroups?.specs?.count ?? 0) > 0{
+//                        for j in 0..<(specGroups?.specs?.count ?? 0){
+//                            let str = specGroups?.specs?[j]
+//                            let specs = Specs(specGroupId: specGroups?.specGroupId,specValue:str)
+//                            colorList?.append(specs)
+//                        }
+//                        self?.saveValueList[n] = colorList!
+//                    }else{
+//                        specGroups?.specs = [String]()
+//                        self?.saveList[n] = specGroups!
+//                    }
+//                }
+//                self?.UnionSetArray(tag: 0, index: 0)
+//                self?.newTableView.reloadData()
+//            }
         } failureCallback: { error, code in
             code.loginOut()
         }
@@ -336,25 +379,28 @@ class CommoditySpecificationsViewController: BaseViewController {
             }
         }
         if isComplete{
-            
-            saveList = saveList.filter({ specGroups in
-                specGroups.specs?.count != 0
-            })
-            
-            
-            if saveList.count > 0{
-                for i in 0..<saveList.count {
-                    var specGroups = saveList[i]
-                    specGroups.specs = specGroups.specs?.filter({ str in
-                         str != ""
+            if unIonSetList.count > 0{
+               
+                if saveList.count > 0{
+                    
+                    saveList = saveList.filter({ specGroups in
+                        specGroups.specs?.count != 0
                     })
-                    LXFLog("+===========\(specGroups.specs?.count)")
-                    saveList[i] = specGroups
-                }
-                
-                //这版要把填写的数据传递回去上一个界面
-                commoditySpecifications!(saveList,unIonSetList)
-                Coordinator.shared?.popViewController(self, true)
+                    
+                    for i in 0..<saveList.count {
+                        var specGroups = saveList[i]
+                        specGroups.specs = specGroups.specs?.filter({ str in
+                             str != ""
+                        })
+                        LXFLog("+===========\(specGroups.specs?.count)")
+                        saveList[i] = specGroups
+                    }
+                        //这版要把填写的数据传递回去上一个界面
+                        commoditySpecifications!(saveList,unIonSetList)
+                        Coordinator.shared?.popViewController(self, true)
+                    }else{
+                        JFPopup.toast(hit: "请添加规格值")
+                    }
             }else{
                 JFPopup.toast(hit: "请添加规格值")
             }
@@ -414,6 +460,7 @@ class CommoditySpecificationsViewController: BaseViewController {
     
     //添加规格值得value
     @objc func addSpecificationValueAction(addBtn:UIButton){
+        LXFLog("============\(addBtn.tag)")
         var specGroups = saveList[addBtn.tag]
         var colorList = saveValueList[addBtn.tag]
         var isAdd:Bool = true
@@ -667,22 +714,24 @@ class CommoditySpecificationsViewController: BaseViewController {
     @objc func deleteAction(deleteBtn:UIButton){
         
         let specGroups = saveList[deleteBtn.tag]
-        saveList.remove(at: deleteBtn.tag)
         
-//      addCoutList.remove(at: deleteBtn.tag)
-        for i in 0..<addCoutList.count {
-            let specGroupId = addCoutList[i]
-            if specGroups.specGroupId == specGroupId{
-                addCoutList.remove(at: i)
-                break
-            }
-        }
-
-        saveValueList.remove(at: deleteBtn.tag)
-
-        UnionSetArray(tag: deleteBtn.tag, index: 0)
+        if specGroups.required != true{
+            saveList.remove(at: deleteBtn.tag)
             
-        newTableView.reloadData()
+    //      addCoutList.remove(at: deleteBtn.tag)
+            for i in 0..<addCoutList.count {
+                let specGroupId = addCoutList[i]
+                if specGroups.specGroupId == specGroupId{
+                    addCoutList.remove(at: i)
+                    break
+                }
+            }
+            saveValueList.remove(at: deleteBtn.tag)
+            UnionSetArray(tag: deleteBtn.tag, index: 0)
+            newTableView.reloadData()
+        }else{
+            JFPopup.toast(hit: "该规格不能删除")
+        }
     }
     
     
@@ -881,6 +930,11 @@ extension CommoditySpecificationsViewController:UITableViewDelegate,UITableViewD
             let specGroups = saveList[indexPath.row]
             cell.specificationLabel.text = specGroups.specGroupName
             
+            if specGroups.required == true{
+                cell.deleteBtn.isHidden = true
+            }else{
+                cell.deleteBtn.isHidden = false
+            }
 //            if saveValueList.count > 0{
             cell.colorList = saveValueList[indexPath.row]
 //            }

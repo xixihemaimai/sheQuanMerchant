@@ -110,13 +110,17 @@ public struct CommodityModel: Codable {
 
 //商品规格组
 public struct SpecGroups:Codable{
+    public var required:Bool?        //是否必填（false：非必填、true：必填）
     public var specGroupId:Int64?    //规格组Id
     public var specGroupName:String? //规格组名
+    public var specGroupType:Int32?  //规格组类型（0：系统规格、1：自定义规格）
     public var specs:[String]?       //规格项
     
     enum CodingKeys: String, CodingKey {
+        case required    = "required"
         case specGroupId = "specGroupId"
         case specGroupName = "specGroupName"
+        case specGroupType = "specGroupType"
         case specs = "specs"
     }
     
@@ -124,15 +128,19 @@ public struct SpecGroups:Codable{
     
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
+        required = try? values.decodeIfPresent(Bool.self, forKey: .required)
         specGroupId = try? values.decodeIfPresent(Int64.self, forKey: .specGroupId)
         specGroupName = try? values.decodeIfPresent(String.self, forKey: .specGroupName)
+        specGroupType = try? values.decodeIfPresent(Int32.self, forKey: .specGroupType)
         specs = try? values.decodeIfPresent([String].self, forKey: .specs)
     }
     
     
     
-    public init(specGroupId:Int64? = 0,specGroupName:String? = "",specs:[String]? = [String]()){
+    public init(required:Bool? = false,specGroupId:Int64? = 0,specGroupName:String? = "",specGroupType:Int32? = 1,specs:[String]? = [String]()){
+        self.required = required
         self.specGroupId = specGroupId
+        self.specGroupType = specGroupType
         self.specGroupName = specGroupName
         self.specs = specs
     }
