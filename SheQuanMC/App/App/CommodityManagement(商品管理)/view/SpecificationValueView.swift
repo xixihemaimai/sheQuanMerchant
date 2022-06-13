@@ -89,7 +89,7 @@ class SpecificationValueView: UIView {
                 delegate?.textfieldEditEndValueAndIndex(text: textfield.text ?? "", index: textfield.tag)
                 textfield.resignFirstResponder()
             }else{
-                JFPopup.toast(hit: "请去添加规格值")
+//                JFPopup.toast(hit: "请去添加规格值")
             }
         }
     }

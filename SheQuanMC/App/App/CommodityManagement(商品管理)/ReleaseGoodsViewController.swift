@@ -1725,6 +1725,8 @@ class ReleaseGoodsViewController: BaseViewController {
                         self?.hx_presentSelectPhotoController(with: self?.manager, didDone: { allList, photoList, videoList, isOriginal, viewController, manager in
                             var imageDataArray = [Data]()
                             photoList?.forEach({ HXPhotoModel in
+                                
+                                
                                 //对图片进行
                                 guard let image = HXPhotoModel.thumbPhoto else {
                                     return
@@ -1733,6 +1735,9 @@ class ReleaseGoodsViewController: BaseViewController {
                                     guard let imageData = image.jpegData(compressionQuality: 1.0) else { return }//把图片转换成data
                                     imageDataArray.append(imageData)
                                 }
+                                
+                                
+                                
                             })
                             let Parameters = ["fileType":20]
                             JFPopupView.popup.loading(hit: "上传图片中....")
@@ -1812,7 +1817,17 @@ class ReleaseGoodsViewController: BaseViewController {
             mainSImage.isHidden = false
         }
         let imageW = scale(82)
-        for i in 0..<(commodityModel?.productPics?.count ?? 0) {
+        var count = 0
+        if (commodityModel?.productPics?.count ?? 0) > 6 {
+            count = 6
+//            LXFLog("=======32=======\(String(describing: commodityModel?.productPics?.count))")
+            let length = (commodityModel?.productPics?.count ?? 1) - 1
+            commodityModel?.productPics?.removeSubrange(6...length)
+        }else{
+//            LXFLog("+==3232323232=================")
+            count = commodityModel?.productPics?.count ?? 0
+        }
+        for i in 0..<count {
            let imageView = UIImageView()
            if i == 0{
                let mainImage = UIImageView()
@@ -1841,9 +1856,11 @@ class ReleaseGoodsViewController: BaseViewController {
                 make.top.equalTo(y)
                 make.width.height.equalTo(imageW)
             }
+//            imageView.contentMode = .scaleToFill
             imageView.layer.cornerRadius = scale(4)
             imageView.layer.borderWidth = scale(1)
             imageView.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#E2E2E2").cgColor
+//            imageView.layer.masksToBounds = true
             let deleteBtn = UIButton()
             deleteBtn.setBackgroundImage(UIImage(named: "Frame"), for: .normal)
             imageView.addSubview(deleteBtn)

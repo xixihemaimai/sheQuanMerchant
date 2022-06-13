@@ -117,12 +117,24 @@ class CommoditySpecificationCell: UITableViewCell {
             make.width.equalTo(scale(83))
             make.height.equalTo(scale(32))
             make.top.equalTo(specificationView.snp.bottom)
-            make.bottom.equalTo(-scale(16))
+//            make.bottom.equalTo(-scale(16))
         }
         
         addBtn.layer.cornerRadius = scale(4)
         addBtn.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#D6D6D6").cgColor
         addBtn.layer.borderWidth = scale(1)
+        
+        let bottomView = UIView()
+        bottomView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#F4F4F4")
+        contentView.addSubview(bottomView)
+        bottomView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.height.equalTo(scale(8))
+            make.top.equalTo(addBtn.snp.bottom).offset(scale(16))
+            make.bottom.equalToSuperview()
+        }
+        
+        
         
     }
     

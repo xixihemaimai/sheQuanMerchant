@@ -100,6 +100,8 @@
 		408E425F282B3BC100C94119 /* OrderSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E425E282B3BC100C94119 /* OrderSearchViewController.swift */; };
 		409C29932814FC5D00005ECB /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 409C29912814FC5D00005ECB /* UITextView+Placeholder.m */; };
 		409C29942814FC5D00005ECB /* UITextView+Placeholder.h in Headers */ = {isa = PBXBuildFile; fileRef = 409C29922814FC5D00005ECB /* UITextView+Placeholder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		40A267AB2856DDC00092321F /* AppSpecificationsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A267AA2856DDC00092321F /* AppSpecificationsCell.swift */; };
+		40A267AD2856E6070092321F /* AddSpecificationValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A267AC2856E6070092321F /* AddSpecificationValueView.swift */; };
 		40A9A2122814D952006B1CBF /* Util.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A2112814D952006B1CBF /* Util.framework */; };
 		40A9A2132814D952006B1CBF /* Util.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A2112814D952006B1CBF /* Util.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		40AFEBC8281A97F50062D271 /* CommoditySearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AFEBC7281A97F50062D271 /* CommoditySearchViewController.swift */; };
@@ -230,6 +232,8 @@
 		408E425E282B3BC100C94119 /* OrderSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSearchViewController.swift; sourceTree = "<group>"; };
 		409C29912814FC5D00005ECB /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
 		409C29922814FC5D00005ECB /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
+		40A267AA2856DDC00092321F /* AppSpecificationsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSpecificationsCell.swift; sourceTree = "<group>"; };
+		40A267AC2856E6070092321F /* AddSpecificationValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSpecificationValueView.swift; sourceTree = "<group>"; };
 		40A9A1E22812996D006B1CBF /* App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		40A9A2112814D952006B1CBF /* Util.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Util.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		40AFEBC7281A97F50062D271 /* CommoditySearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommoditySearchViewController.swift; sourceTree = "<group>"; };
@@ -413,6 +417,8 @@
 				403B880E2823BAA700FC4EA4 /* SpecificationValueView.swift */,
 				4083B25A2824C87200AFAD18 /* SettingPriceAndStockView.swift */,
 				408AF0E728407BA600D12584 /* CommodityParameterCell.swift */,
+				40A267AA2856DDC00092321F /* AppSpecificationsCell.swift */,
+				40A267AC2856E6070092321F /* AddSpecificationValueView.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -706,8 +712,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				4060BC50281A1B6300968C42 /* ShopDetailCell.swift in Sources */,
+				40A267AB2856DDC00092321F /* AppSpecificationsCell.swift in Sources */,
 				408AF0E828407BA600D12584 /* CommodityParameterCell.swift in Sources */,
 				4075AEF0281CD621005EB854 /* ProductDescriptionViewController.swift in Sources */,
+				40A267AD2856E6070092321F /* AddSpecificationValueView.swift in Sources */,
 				408E42382828B8C000C94119 /* ModifyReturnAddressViewController.swift in Sources */,
 				408E422E28266BE200C94119 /* OrderContentCell.swift in Sources */,
 				40C377852851EB3F00DA9E70 /* SIXEditorInputView.m in Sources */,

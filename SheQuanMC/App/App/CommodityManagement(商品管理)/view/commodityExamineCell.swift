@@ -154,7 +154,10 @@ class commodityExamineCell: UITableViewCell {
         }
         
         goodsImageView.layer.cornerRadius = scale(2)
-        
+        goodsImageView.layer.borderWidth = scale(0.5)
+        goodsImageView.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0").cgColor
+        goodsImageView.contentMode = .scaleAspectFill
+        goodsImageView.layer.masksToBounds = true
         
         goodsIntroductLabel.snp.makeConstraints { make in
             make.left.equalTo(goodsImageView.snp.right).offset(scale(12))

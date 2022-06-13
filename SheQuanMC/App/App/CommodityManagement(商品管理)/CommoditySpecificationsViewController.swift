@@ -43,7 +43,7 @@ class CommoditySpecificationsViewController: BaseViewController {
     
     
     //这个用来判断是否添加俩个（不管后台传多少个，增删改查都没有关系）
-    var addCoutList:[Int64] = [Int64]()
+//    var addCoutList:[Int64] = [Int64]()
     
     //保存的是规格的数量(Specs 模型)
     var saveList:[SpecGroups] = [SpecGroups]()
@@ -113,23 +113,23 @@ class CommoditySpecificationsViewController: BaseViewController {
             make.height.equalTo(iPhoneX ? scale(92) : scale(58))
         }
         
-        let cancelBtn = UIButton()
-        cancelBtn.setTitle("取消", for: .normal)
-        cancelBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333"), for: .normal)
-        cancelBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
-        bottomView.addSubview(cancelBtn)
-        cancelBtn.snp.makeConstraints { make in
-            make.left.equalTo(scale(16))
-//            make.top.equalTo(scale(14))
-            make.height.equalTo(scale(44))
-            make.width.equalTo(scale(120))
-            make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(10))
-        }
-        
-        cancelBtn.layer.cornerRadius = scale(4)
-        cancelBtn.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#C4C4C4").cgColor
-        cancelBtn.layer.borderWidth = scale(1)
-        cancelBtn.addTarget(self, action: #selector(cancelManagerAction), for: .touchUpInside)
+//        let cancelBtn = UIButton()
+//        cancelBtn.setTitle("取消", for: .normal)
+//        cancelBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333"), for: .normal)
+//        cancelBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
+//        bottomView.addSubview(cancelBtn)
+//        cancelBtn.snp.makeConstraints { make in
+//            make.left.equalTo(scale(16))
+////            make.top.equalTo(scale(14))
+//            make.height.equalTo(scale(44))
+//            make.width.equalTo(scale(120))
+//            make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(10))
+//        }
+//
+//        cancelBtn.layer.cornerRadius = scale(4)
+//        cancelBtn.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#C4C4C4").cgColor
+//        cancelBtn.layer.borderWidth = scale(1)
+//        cancelBtn.addTarget(self, action: #selector(cancelManagerAction), for: .touchUpInside)
         
         
         let saveBtn = UIButton()
@@ -140,8 +140,8 @@ class CommoditySpecificationsViewController: BaseViewController {
         bottomView.addSubview(saveBtn)
         saveBtn.snp.makeConstraints { make in
             make.right.equalTo(-scale(16))
-//            make.top.equalTo(scale(14))
-            make.left.equalTo(cancelBtn.snp.right).offset(scale(16))
+//            make.left.equalTo(cancelBtn.snp.right).offset(scale(16))
+            make.left.equalTo(scale(16))
             make.height.equalTo(scale(44))
             make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(10))
         }
@@ -155,7 +155,7 @@ class CommoditySpecificationsViewController: BaseViewController {
             if saveList.count > 0 && unIonSetList.count > 0{
                 for i in 0..<saveList.count {
                     let specGroups = saveList[i]
-                    addCoutList.append(specGroups.specGroupId ?? 0)
+//                    addCoutList.append(specGroups.specGroupId ?? 0)
                     let colorList = [Specs]()
                     saveValueList.append(colorList)
                 }
@@ -182,7 +182,7 @@ class CommoditySpecificationsViewController: BaseViewController {
                 
                 for i in 0..<saveList.count {
                     let specGroups = saveList[i]
-                    addCoutList.append(specGroups.specGroupId ?? 0)
+//                    addCoutList.append(specGroups.specGroupId ?? 0)
                     let colorList = [Specs]()
                     saveValueList.append(colorList)
                 }
@@ -204,10 +204,11 @@ class CommoditySpecificationsViewController: BaseViewController {
                 }
                 UnionSetArray(tag: 0, index: 0)
                 newTableView.reloadData()
-            }else if saveList.count < 1 && unIonSetList.count < 1{
-                
-                loadProductSpecList()
             }
+//            else if saveList.count < 1 && unIonSetList.count < 1{
+                
+//                loadProductSpecList()
+//            }
             
         }else{
             //编辑
@@ -264,101 +265,102 @@ class CommoditySpecificationsViewController: BaseViewController {
                 }
                 UnionSetArray(tag: 0, index: 0)
                 newTableView.reloadData()
-            }else if saveList.count < 1 && unIonSetList.count < 1{
-                
-                loadProductSpecList()
-                
             }
+//            else if saveList.count < 1 && unIonSetList.count < 1{
+                
+//                loadProductSpecList()
+                
+//            }
         }
     }
     
     
-    func loadProductSpecList(){
-        let parameters = ["categoryId":categoryId,"productId":productId] as [String:Any]
-        NetWorkResultRequest(OrderApi.getProductSpecList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
-//            guard let model = try? JSONDecoder().decode(GenericResponse<[SpecGroups]>.self, from: data) else { return }
-//            LXFLog("================\(model)")
-            do{
-                let json = try JSON(data: data)
-                let array = json["data"]["specGroups"]
-                for i in 0..<array.count {
-                    let dict = array[i]
-                    //let specGroups = data1[i]
-                    var specGroups = SpecGroups(required: false, specGroupId: 0, specGroupName: "", specGroupType: 0, specs: [String]())
-                    specGroups.required = dict["required"].boolValue
-                    specGroups.specGroupType = dict["specGroupType"].int32Value
-                    specGroups.specGroupId = dict["specGroupId"].int64Value
-                    specGroups.specGroupName = dict["specGroupName"].stringValue
-//                    specGroups.specs = dict["specs"].arrayValue
-                    let specsArray = dict["specs"]
-                    for j in 0..<specsArray.count {
-                        let str = specsArray[j].stringValue
-                        specGroups.specs?.append(str)
-                    }
-                    self?.saveList.append(specGroups)
-                    let colorList = [Specs]()
-                    self?.saveValueList.append(colorList)
-                }
-                for n in 0..<(self?.saveList.count ?? 0){
-                var specGroups = self?.saveList[n]
-                var colorList = self?.saveValueList[n]
-                 if (specGroups?.specs?.count ?? 0) > 0{
-                    for j in 0..<(specGroups?.specs?.count ?? 0){
-                        let str = specGroups?.specs?[j]
-                        let specs = Specs(specGroupId: specGroups?.specGroupId,specValue:str)
-                        colorList?.append(specs)
-                    }
-                      self?.saveValueList[n] = colorList!
-                 }else{
-                    specGroups?.specs = [String]()
-                    self?.saveList[n] = specGroups!
-                    }
-                }
-                self?.UnionSetArray(tag: 0, index: 0)
-                self?.newTableView.reloadData()
-            }catch{}
-            
-            
-            
-//            if let data1 = model.data{
-//                //这边就是要进行设置了
-//                for i in 0..<data1.count {
-//                    let specGroups = data1[i]
+//    func loadProductSpecList(){
+//        let parameters = ["categoryId":categoryId,"productId":productId] as [String:Any]
+//        NetWorkResultRequest(OrderApi.getProductSpecList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+////            guard let model = try? JSONDecoder().decode(GenericResponse<[SpecGroups]>.self, from: data) else { return }
+////            LXFLog("================\(model)")
+//            do{
+//                let json = try JSON(data: data)
+//                let array = json["data"]["specGroups"]
+//                for i in 0..<array.count {
+//                    let dict = array[i]
+//                    //let specGroups = data1[i]
+//                    var specGroups = SpecGroups(required: false, specGroupId: 0, specGroupName: "", specGroupType: 0, specs: [String]())
+//                    specGroups.required = dict["required"].boolValue
+//                    specGroups.specGroupType = dict["specGroupType"].int32Value
+//                    specGroups.specGroupId = dict["specGroupId"].int64Value
+//                    specGroups.specGroupName = dict["specGroupName"].stringValue
+////                    specGroups.specs = dict["specs"].arrayValue
+//                    let specsArray = dict["specs"]
+//                    for j in 0..<specsArray.count {
+//                        let str = specsArray[j].stringValue
+//                        specGroups.specs?.append(str)
+//                    }
 //                    self?.saveList.append(specGroups)
-////                    self?.addCoutList.append(specGroups.specGroupName ?? "")
 //                    let colorList = [Specs]()
 //                    self?.saveValueList.append(colorList)
 //                }
-//
-//                //这边是设置规格值得地方
 //                for n in 0..<(self?.saveList.count ?? 0){
-//                    var specGroups = self?.saveList[n]
-//                    var colorList = self?.saveValueList[n]
-//                    if (specGroups?.specs?.count ?? 0) > 0{
-//                        for j in 0..<(specGroups?.specs?.count ?? 0){
-//                            let str = specGroups?.specs?[j]
-//                            let specs = Specs(specGroupId: specGroups?.specGroupId,specValue:str)
-//                            colorList?.append(specs)
-//                        }
-//                        self?.saveValueList[n] = colorList!
-//                    }else{
-//                        specGroups?.specs = [String]()
-//                        self?.saveList[n] = specGroups!
+//                var specGroups = self?.saveList[n]
+//                var colorList = self?.saveValueList[n]
+//                 if (specGroups?.specs?.count ?? 0) > 0{
+//                    for j in 0..<(specGroups?.specs?.count ?? 0){
+//                        let str = specGroups?.specs?[j]
+//                        let specs = Specs(specGroupId: specGroups?.specGroupId,specValue:str)
+//                        colorList?.append(specs)
+//                    }
+//                      self?.saveValueList[n] = colorList!
+//                 }else{
+//                    specGroups?.specs = [String]()
+//                    self?.saveList[n] = specGroups!
 //                    }
 //                }
 //                self?.UnionSetArray(tag: 0, index: 0)
 //                self?.newTableView.reloadData()
-//            }
-        } failureCallback: { error, code in
-            code.loginOut()
-        }
-    }
+//            }catch{}
+//
+//
+//
+////            if let data1 = model.data{
+////                //这边就是要进行设置了
+////                for i in 0..<data1.count {
+////                    let specGroups = data1[i]
+////                    self?.saveList.append(specGroups)
+//////                    self?.addCoutList.append(specGroups.specGroupName ?? "")
+////                    let colorList = [Specs]()
+////                    self?.saveValueList.append(colorList)
+////                }
+////
+////                //这边是设置规格值得地方
+////                for n in 0..<(self?.saveList.count ?? 0){
+////                    var specGroups = self?.saveList[n]
+////                    var colorList = self?.saveValueList[n]
+////                    if (specGroups?.specs?.count ?? 0) > 0{
+////                        for j in 0..<(specGroups?.specs?.count ?? 0){
+////                            let str = specGroups?.specs?[j]
+////                            let specs = Specs(specGroupId: specGroups?.specGroupId,specValue:str)
+////                            colorList?.append(specs)
+////                        }
+////                        self?.saveValueList[n] = colorList!
+////                    }else{
+////                        specGroups?.specs = [String]()
+////                        self?.saveList[n] = specGroups!
+////                    }
+////                }
+////                self?.UnionSetArray(tag: 0, index: 0)
+////                self?.newTableView.reloadData()
+////            }
+//        } failureCallback: { error, code in
+//            code.loginOut()
+//        }
+//    }
     
     
     //取消
-    @objc func cancelManagerAction(cancelBtn:UIButton){
-        Coordinator.shared?.popViewController(self, true)
-    }
+//    @objc func cancelManagerAction(cancelBtn:UIButton){
+//        Coordinator.shared?.popViewController(self, true)
+//    }
     
     //保存
     @objc func saveManagerAction(saveBtn:UIButton){
@@ -392,7 +394,7 @@ class CommoditySpecificationsViewController: BaseViewController {
                         specGroups.specs = specGroups.specs?.filter({ str in
                              str != ""
                         })
-                        LXFLog("+===========\(specGroups.specs?.count)")
+//                        LXFLog("+===========\(specGroups.specs?.count)")
                         saveList[i] = specGroups
                     }
                         //这版要把填写的数据传递回去上一个界面
@@ -412,26 +414,63 @@ class CommoditySpecificationsViewController: BaseViewController {
     
     //添加规格
     @objc func addSpecificationAction(addSepcificationsBtn:UIButton){
-        if addCoutList.count < 2{
-            self.popup.bottomSheet {
+        if saveList.count < 3{
+            popup.bottomSheet {
                 
-                let addSpecificationsView = AddSpecificationsView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(400)), addSpecificationList: addCoutList,categoryId: categoryId)
+//                let addSpecificationsView = AddSpecificationsView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(400)), addSpecificationList: addCoutList,categoryId: categoryId)
+                
+                let addSpecificationsView = AddSpecificationsView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(400)), productId: productId, categoryId: categoryId)
                 addSpecificationsView.cancelBlock = {[weak self] in
                     self?.popup.dismissPopup()
                 }
                 
-                addSpecificationsView.sendSureSpecificationList = {[weak self] list in
-                    for i in 0..<list.count {
-                        let specGroups = list[i]
-                            //let specGroups = SpecGroups(specGroupId: <#T##Int64?#>, specGroupName: <#T##String?#>, specs: <#T##[String]?#>)
-                            self?.saveList.append(specGroups)
-                            self?.addCoutList.append(specGroups.specGroupId ?? Int64(0))
-                            let colorList = [Specs]()
-                            self?.saveValueList.append(colorList)
-                        }
+                addSpecificationsView.sendSureSpecificationList = {[weak self] specGroups in
+                    LXFLog("===============+++++++++++++++++++++++++++++[==============---------------------\(String(describing: specGroups))")
+                    self?.saveList.append(specGroups)
+                    let colorList = [Specs]()
+                    self?.saveValueList.append(colorList)
                     self?.newTableView.reloadData()
                     self?.popup.dismissPopup()
                 }
+                
+                addSpecificationsView.addCustomNewSpecification = {[weak self] in
+                    self?.popup.dismissPopup()
+                    self?.popup.dialog {
+                        let addSpecificationValueView = AddSpecificationValueView(frame: CGRect(x: 0, y: 0, width: SCW - scale(80), height: scale(166)), categoryId: (self?.categoryId ?? 0))
+                        addSpecificationValueView.cancelBlock = {
+                            self?.popup.dismissPopup()
+                            LXFLog("=====================23=============")
+                        }
+                        
+                        addSpecificationValueView.sureAddCustomNewSpecificationList = {[weak self] list in
+                            for i in 0..<list.count {
+                                let specGroups = list[i]
+                                self?.saveList.append(specGroups)
+                                let colorList = [Specs]()
+                                self?.saveValueList.append(colorList)
+                            }
+                            self?.newTableView.reloadData()
+                            self?.popup.dismissPopup()
+                        }
+                        return addSpecificationValueView
+                    }
+                }
+                
+                
+//                addSpecificationsView.sendSureSpecificationList = {[weak self] list in
+//                    for i in 0..<list.count {
+//                        let specGroups = list[i]
+//                            //let specGroups = SpecGroups(specGroupId: <#T##Int64?#>, specGroupName: <#T##String?#>, specs: <#T##[String]?#>)
+//                            self?.saveList.append(specGroups)
+//                            self?.addCoutList.append(specGroups.specGroupId ?? Int64(0))
+//                            let colorList = [Specs]()
+//                            self?.saveValueList.append(colorList)
+//                        }
+//                    self?.newTableView.reloadData()
+//                    self?.popup.dismissPopup()
+//                }
+                                                                  
+                                                                                                           
                 
 //                addSpecificationsView.sendSureSpecificationList = {[weak self] list in
 //                    for i in 0..<list.count {
@@ -719,13 +758,13 @@ class CommoditySpecificationsViewController: BaseViewController {
             saveList.remove(at: deleteBtn.tag)
             
     //      addCoutList.remove(at: deleteBtn.tag)
-            for i in 0..<addCoutList.count {
-                let specGroupId = addCoutList[i]
-                if specGroups.specGroupId == specGroupId{
-                    addCoutList.remove(at: i)
-                    break
-                }
-            }
+//            for i in 0..<addCoutList.count {
+//                let specGroupId = addCoutList[i]
+//                if specGroups.specGroupId == specGroupId{
+//                    addCoutList.remove(at: i)
+//                    break
+//                }
+//            }
             saveValueList.remove(at: deleteBtn.tag)
             UnionSetArray(tag: deleteBtn.tag, index: 0)
             newTableView.reloadData()
@@ -1020,10 +1059,12 @@ extension CommoditySpecificationsViewController:UITableViewDelegate,UITableViewD
     //组尾
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         if section == 0{
-            let footView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "CommoditySpecificationsFooterView") as! CommoditySpecificationsFooterView
-            footView.addSepcificationsBtn.setTitle("添加规格" + "(\(addCoutList.count)/2)", for: .normal)
-            footView.addSepcificationsBtn.addTarget(self, action: #selector(addSpecificationAction), for: .touchUpInside)
-            return footView
+            if saveList.count < 3{
+                let footView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "CommoditySpecificationsFooterView") as! CommoditySpecificationsFooterView
+                footView.addSepcificationsBtn.setTitle("添加规格" + "(\(saveList.count)/3)", for: .normal)
+                footView.addSepcificationsBtn.addTarget(self, action: #selector(addSpecificationAction), for: .touchUpInside)
+                return footView
+            }
         }
        return nil
     }
@@ -1036,7 +1077,11 @@ extension CommoditySpecificationsViewController:UITableViewDelegate,UITableViewD
     //组尾的高度
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         if section == 0{
-            return scale(64)
+            if saveList.count < 3{
+                return scale(64)
+            }else{
+                return 0
+            }
         }else{
             return 0
         }
