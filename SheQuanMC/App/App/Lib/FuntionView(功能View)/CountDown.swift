@@ -19,7 +19,7 @@ class CountDown: NSObject {
                if(timeout<=0){ //倒计时结束，关闭
                    _timer.cancel();
                    DispatchQueue.main.sync(execute: { () -> Void in
-                       btn.setTitle("获取验证码", for: .normal)
+                       btn.setTitle("重新发送", for: .normal)
                        btn.isEnabled = true
 //                       btn.layer.backgroundColor = UIColor.red.cgColor
                    })

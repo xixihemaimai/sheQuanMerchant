@@ -11,8 +11,8 @@ import HXPhotoPicker
 import Util
 import SwiftUI
 import SwiftyJSON
-
 import SDWebImage
+import JXPhotoBrowser
 
 class ReleaseGoodsViewController: BaseViewController {
     
@@ -51,6 +51,7 @@ class ReleaseGoodsViewController: BaseViewController {
        let goodsTextView = UITextView()
         goodsTextView.placeholder = "请输入商品名称"
         goodsTextView.placeholderColor = UIColor.colorWithDyColorChangObject(lightColor: "#C2C2C2")
+        goodsTextView.delegate = self
         return goodsTextView
     }()
     
@@ -100,6 +101,7 @@ class ReleaseGoodsViewController: BaseViewController {
         goodsCardTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
         goodsCardTextField.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
+        goodsCardTextField.delegate = self
         return goodsCardTextField
     }()
     
@@ -232,7 +234,6 @@ class ReleaseGoodsViewController: BaseViewController {
     
     var goodsParameterSBtn:UIButton!
     
-    
     var specificationsSLabel:UILabel!
     //多规格
     var specificationsSView:UIView!
@@ -250,21 +251,25 @@ class ReleaseGoodsViewController: BaseViewController {
     var mainSImage:UIImageView!
     //商品规格
     var commoditySBtn:UIButton!
-                             
     //这个值市用来判断是否修改过
     var isModify:Bool = false
-    
-    
     //发布的模型
     var commodityModel:CommodityModel?
-    
-    
-    
     //0位发布，1位编辑
     var type:Int = 0
-
-                                                
     
+    
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//
+//        navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+//        let target = navigationController?.interactivePopGestureRecognizer?.delegate
+//        let pan = UIPanGestureRecognizer(target: target, action: #selector(popBack))
+//        pan.delegate = self
+//        view.addGestureRecognizer(pan)
+//    }
+    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -278,6 +283,8 @@ class ReleaseGoodsViewController: BaseViewController {
         
 //        commodityModel = CommodityModel.init(categoryId: 0, freeRefundIn7Days: false, freightInsure: false, freightTempId: 0, multiSpec: false, productCode: "", productDesc: "", productId: "", productName: "", stockDeductType: 0)
         
+        
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
         
         
         view.addSubview(scrollView)
@@ -359,7 +366,6 @@ class ReleaseGoodsViewController: BaseViewController {
             make.height.equalTo(scale(19))
         }
         mainSImage = mainImage
-        
         //商品类目
         let goodsCategoryBtn = UIButton()
         goodsCategoryBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
@@ -1318,7 +1324,6 @@ class ReleaseGoodsViewController: BaseViewController {
             SpecGroups.specs?.count != 0
         })
         LXFLog("+=====3===========\(String(describing: specGroupsArray?.count))")
-        
         var specsGroupsList:String = "["
         for i in 0..<(specGroupsArray?.count ?? 0) {
             let specGroup = specGroupsArray?[i]
@@ -1584,15 +1589,53 @@ class ReleaseGoodsViewController: BaseViewController {
     
     
     
-    //willMoveToParentViewController
     //监听右滑返回
 //    override func willMove(toParent parent: UIViewController?) {
-//        
 //        super.willMove(toParent: parent)
+////        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
 //        if isModify{
-////            navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-//            LXFLog("-------------------------------------------")
-//            JFPopup.alert {
+//            LXFLog("-----------------------1--------------------")
+////            if (parent == nil){
+////                navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+//                LXFLog("-------------------2-----------------------")
+//                JFPopupView.popup.alert {
+//                    [
+//                        .title("退出后不会保存此商品，你可以选择保存草稿"),
+//                        .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+//                        .withoutAnimation(true),
+//                        .cancelAction([
+//                            .text("直接退出"),
+//                            .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
+//                            .tapActionCallback({
+////                                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+//                                self.isModify = false
+//                                Coordinator.shared?.popViewController(self, true)
+//                            })
+//                        ]),
+//                        .confirmAction([
+//                            .text("保存草稿"),
+//                            .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+//                            .tapActionCallback({
+//                                //Coordinator.shared?.popViewController(self, true)
+//                                self.isModify = false
+//
+//                            })
+//                        ])
+//                    ]
+//                }
+////                navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+////            }
+//        }
+//    }
+    
+                                         
+                                         
+                                         
+                                         
+//    @objc func popBack(pan: UIPanGestureRecognizer){
+//        LXFLog("+=================================================")
+//        if isModify{
+//            JFPopupView.popup.alert {
 //                [
 //                    .title("退出后不会保存此商品，你可以选择保存草稿"),
 //                    .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
@@ -1608,27 +1651,16 @@ class ReleaseGoodsViewController: BaseViewController {
 //                        .text("保存草稿"),
 //                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
 //                        .tapActionCallback({
-//                            Coordinator.shared?.popViewController(self, true)
+//                            //Coordinator.shared?.popViewController(self, true)
 //                        })
 //                    ])
 //                ]
 //            }
 //        }else{
-////            navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+//            Coordinator.shared?.popRootViewController(self)
 //        }
 //    }
-//    
-    
-    
-//    override func viewDidDisappear(_ animated: Bool) {
-//        super.viewDidDisappear(animated)
-//        if navigationController == nil{
-//            if isModify{
-//                LXFLog("-------------------------------------------")
-//            }
-//        }
-//    }
-    
+
     
     //开启或者关闭多规格
     @objc func openAndCloseMoreSepcifications(specificationsSwitch:UISwitch){
@@ -1691,6 +1723,7 @@ class ReleaseGoodsViewController: BaseViewController {
                         .text("直接退出"),
                         .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
                         .tapActionCallback({
+                            self.isModify = false
                             Coordinator.shared?.popViewController(self, true)
                         })
                         
@@ -1700,6 +1733,7 @@ class ReleaseGoodsViewController: BaseViewController {
                         .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
                         .tapActionCallback({
 //                            Coordinator.shared?.popViewController(self, true)
+                            self.isModify = false
                             self.savePublish()
                         })
                     ])
@@ -1735,7 +1769,7 @@ class ReleaseGoodsViewController: BaseViewController {
                                     guard let imageData = image.jpegData(compressionQuality: 1.0) else { return }//把图片转换成data
                                     imageDataArray.append(imageData)
                                 }
-                                
+                                self?.isModify = true
                                 
                                 
                             })
@@ -1775,6 +1809,7 @@ class ReleaseGoodsViewController: BaseViewController {
                                     guard let imageData = image.jpegData(compressionQuality: 1.0) else { return }//把图片转换成data
                                     imageDataArray.append(imageData)
                                 }
+                                self?.isModify = true
                             }
                             let Parameters = ["fileType":20]
                             JFPopupView.popup.loading(hit: "上传图片中....")
@@ -1873,6 +1908,11 @@ class ReleaseGoodsViewController: BaseViewController {
             }
             let tap = UITapGestureRecognizer(target: self, action: #selector(showBigPitrueAction))
             imageView.addGestureRecognizer(tap)
+            
+            
+            
+            
+            
         }
         //这边要判断图片有多少张
         //最后是把selectImageBtn添加进去
@@ -1925,7 +1965,93 @@ class ReleaseGoodsViewController: BaseViewController {
     @objc func showBigPitrueAction(tap:UITapGestureRecognizer){
        let imageView = tap.view as? UIImageView
         LXFLog(imageView?.tag)
+        selectImageView(imageView?.tag ?? 0)
+    }
+    
+    func selectImageView(_ showIndex: Int) {
+        let browser = JXPhotoBrowser()
+        browser.numberOfItems = {
+            return (self.commodityModel?.productPics?.count ?? 0)
+        }
+        browser.reloadCellAtIndex = { context in
+            let browserCell = context.cell as? JXPhotoBrowserImageCell
+            let indexPath = IndexPath(item: context.index, section: showIndex)
+            browserCell?.imageView.sd_setImage(with: URL(string: self.commodityModel?.productPics?[indexPath.row] ?? ""), placeholderImage: nil, options: [], completed: { (_, _, _, _) in
+                browserCell?.setNeedsLayout()
+            })
+        }
+        //指示器
+        browser.pageIndicator = JXPhotoBrowserNumberPageIndicator()
+        browser.pageIndex = showIndex
+        browser.show()
     }
     
     
+    
+}
+
+
+extension ReleaseGoodsViewController:UITextViewDelegate{
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "" && range.length > 0{
+            return true
+        }
+        if textView.text.count > 50{
+            return false
+        }
+        return true
+    }
+}
+
+
+extension ReleaseGoodsViewController:UITextFieldDelegate{
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        var maxNum = 30
+        if textField ==  goodsCardTextField{
+            maxNum = 30
+        }
+        //限制个数
+        let currentText = textField.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        return updatedText.count <= maxNum
+    }
+}
+
+extension ReleaseGoodsViewController:UIGestureRecognizerDelegate{
+    
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if isModify{
+           LXFLog("==============")
+            JFPopupView.popup.alert {
+                [
+                    .title("退出后不会保存此商品，你可以选择保存草稿"),
+                    .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+                    .withoutAnimation(true),
+                    .cancelAction([
+                        .text("直接退出"),
+                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
+                        .tapActionCallback({
+//                                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                            self.isModify = false
+                            Coordinator.shared?.popViewController(self, true)
+                        })
+                    ]),
+                    .confirmAction([
+                        .text("保存草稿"),
+                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+                        .tapActionCallback({
+                            //Coordinator.shared?.popViewController(self, true)
+                            self.isModify = false
+                            self.savePublish()
+                        })
+                    ])
+                ]
+            }
+            return !self.isModify
+        }else{
+           return true
+        }
+    }
 }

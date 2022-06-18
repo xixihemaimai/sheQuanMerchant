@@ -27,6 +27,7 @@ pod 'SwiftyJSON'
 pod 'RealmSwift'
 pod 'HandyJSON', '~> 5.0.2'
 pod 'SDWebImage'
+pod 'JXPhotoBrowser'
 end
 
 
@@ -51,6 +52,7 @@ pod 'SwiftyJSON'
 pod 'RealmSwift'
 pod 'HandyJSON', '~> 5.0.2'
 pod 'SDWebImage'
+pod 'JXPhotoBrowser'
 end
 
 
@@ -75,5 +77,6 @@ pod 'SwiftyJSON'
 pod 'RealmSwift'
 pod 'HandyJSON', '~> 5.0.2'
 pod 'SDWebImage'
+pod 'JXPhotoBrowser'
 end
 

@@ -8,11 +8,12 @@
 import UIKit
 import Util
 import JFPopup
+import SwiftyJSON
 
 class ModifyAddressViewController: BaseViewController {
 
     
-    var addressList:[AddressModel] = [AddressModel]()
+    
     
     
     //原姓名
@@ -63,7 +64,6 @@ class ModifyAddressViewController: BaseViewController {
         addressLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#C2C2C2")
 //        addressTextView.placeholderColor = UIColor.colorWithDyColorChangObject(lightColor: "#787878")
         addressLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
-       
         addressLabel.textAlignment = .left
        return addressLabel
     }()
@@ -100,6 +100,12 @@ class ModifyAddressViewController: BaseViewController {
         return isDefaultSwitch
     }()
     
+    
+    //省份数组
+    var provinceList:[NoDeliveryRegionModel] = [NoDeliveryRegionModel]()
+    
+    
+    var addressList:[NoDeliveryRegionModel] = [NoDeliveryRegionModel]()
     
     
     override func viewDidLoad() {
@@ -366,6 +372,28 @@ class ModifyAddressViewController: BaseViewController {
         }
         
         submitBtn.layer.cornerRadius = scale(4)
+        
+        
+        let parameters = ["level":2,"regionId":100000] as [String:Any]
+        NetWorkResultRequest(OrderApi.getRegionInfoList(parameters: parameters), needShowFailAlert: true) { result, data in
+            guard let model = try? JSONDecoder().decode(GenericResponse<[NoDeliveryRegionModel]>.self, from: data) else { return }
+            self.provinceList.removeAll()
+            if let _data = model.data{
+                self.provinceList = _data
+            }
+//            do{
+//                self.provinceList.removeAll()
+//                let json = try JSON(data: data)
+//                if let arrayJSON = json["data"].array{
+//                    self.provinceList = arrayJSON.map({ return NoDeliveryRegionModel(json: $0)})
+//                }
+                LXFLog("====================\(self.provinceList)")
+//            }catch{}
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
+
+        
     }
 
     
@@ -395,55 +423,62 @@ class ModifyAddressViewController: BaseViewController {
 //        pickerView.pickerViewShow()
         
         
-        var str = "福建省(龙岩市、厦门市、漳州市)"
-        str = str.replacingOccurrences(of: "(", with: "", options: .literal, range: nil)
-        str = str.replacingOccurrences(of: "、", with: "", options: .literal, range: nil)
-        str = str.replacingOccurrences(of: ")", with: "", options: .literal, range: nil)
-        LXFLog(str)
-        let parser = MMLocationParser.init(loation: str)
-
-        
-        
-        
-        
-        
-        
-        
-        LXFLog(parser.location)
-        LXFLog(parser.province)
-        LXFLog(parser.city)
-        LXFLog(parser.area)
-        LXFLog(parser.town)
-        LXFLog(parser.street)
-        LXFLog(parser.name)
-        LXFLog(parser.results)
+//        var str = "福建省(龙岩市、厦门市、漳州市)"
+//        str = str.replacingOccurrences(of: "(", with: "", options: .literal, range: nil)
+//        str = str.replacingOccurrences(of: "、", with: "", options: .literal, range: nil)
+//        str = str.replacingOccurrences(of: ")", with: "", options: .literal, range: nil)
+//        LXFLog(str)
+//        let parser = MMLocationParser.init(loation: str)
+//        LXFLog(parser.location)
+//        LXFLog(parser.province)
+//        LXFLog(parser.city)
+//        LXFLog(parser.area)
+//        LXFLog(parser.town)
+//        LXFLog(parser.street)
+//        LXFLog(parser.name)
+//        LXFLog(parser.results)
         
         //parser.results
         //有三个就是0位省 1为城市 2为区县
         //有俩个就是0位省 1为城市
         
-        if parser.results.count > 2{
-            //省  市  区
+//        if parser.results.count > 2{
+//            //省  市  区
+//
+//
+//
+//        }else{
+//            //省  市
+//
+//
+//
+//        }
+        
+        
+        
+        
+        if (addressLabel.text?.count ?? 0) > 0{
+            //self.addressList 为有值得情况
+            //这边要进行设置
+            
+            //要先判断addressList有几个才进行设置值
+            
+            //省份已经有了
+            //城市可以通过这个省份的regid获取
+            
+            
+            
             
             
             
         }else{
-            //省  市
-            
-            
-            
+            //self.addressList 为新建
+            self.addressList = [NoDeliveryRegionModel]()
         }
         
         
-        
-        
-        
-        
-        
-        
-        
         self.popup.bottomSheet {
-            let regionView = RegionView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(442)), addressList: self.addressList)
+            let regionView = RegionView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(442)), addressList: self.addressList,dataArray: self.provinceList)
             
             regionView.cancelBlock = {[weak self] in
                 self?.popup.dismissPopup()
@@ -453,7 +488,7 @@ class ModifyAddressViewController: BaseViewController {
                 self?.addressList = list
                 var addressText:String = ""
                 self?.addressList.forEach({ addressModel in
-                    addressText += (addressModel.region_name ?? "")
+                    addressText += (addressModel.regionName ?? "")
                 })
                 self?.addressLabel.text = addressText
                 self?.addressLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")

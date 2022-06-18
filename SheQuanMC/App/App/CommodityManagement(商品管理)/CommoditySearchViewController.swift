@@ -185,7 +185,7 @@ class CommoditySearchViewController: BaseViewController {
                     .withoutAnimation(true),
                     .cancelAction([
                         .text("取消"),
-                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 "))
+                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999"))
                     ]),
                     .confirmAction([
                         .text("删除"),
@@ -216,6 +216,9 @@ class CommoditySearchViewController: BaseViewController {
             // 跳转另一个界面
             let replenishVc = ReplenishInventoryViewController()
             Coordinator.shared?.pushViewController(self, replenishVc, animated: true)
+            replenishVc.successBlock = {
+                self.loadProductList()
+            }
         }
     }
     
@@ -269,7 +272,7 @@ class CommoditySearchViewController: BaseViewController {
                     .withoutAnimation(true),
                     .cancelAction([
                         .text("取消"),
-                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 "))
+                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999"))
                     ]),
                     .confirmAction([
                         .text("上架"),
@@ -325,7 +328,7 @@ class CommoditySearchViewController: BaseViewController {
                 .withoutAnimation(true),
                 .cancelAction([
                     .text("取消"),
-                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 "))
+                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999"))
                 ]),
                 .confirmAction([
                     .text("删除"),
@@ -381,11 +384,11 @@ class CommoditySearchViewController: BaseViewController {
                 .title("确定要取消申请吗?"),
                 .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
                 .subTitle("注:取消商品将移至未上架"),
-                .subTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 ")),
+                .subTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
                 .withoutAnimation(true),
                 .cancelAction([
                     .text("暂不取消"),
-                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 "))
+                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999"))
                 ]),
                 .confirmAction([
                     .text("取消申请"),

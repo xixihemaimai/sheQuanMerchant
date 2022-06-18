@@ -26,8 +26,14 @@ public enum OrderApi{
     case getSoldOutSkuList(parameters:[String:Any])      //获取售罄商品规格
     case draft(parameters:[String:Any])                  //存为草稿        (1)
     case getProductSpecList(parameters:[String:Any])     //获取商品规格列表  (1)
-//    case getFreightInfo(parameters:[String:Any])         //获取运费模板
-    case getProductFreightList                           //获取商品运费模板列表 （1）
+    
+//    case getProductFreightList                           //获取商品运费模板列表 （1）
+    case getFreightInfoList                              //获取运费模板列表   (1)
+    case defFreightTemplate(parameters:[String:Any])     //默认运费模版      (1)
+    case delFreightStatus(parameters:[String:Any])       //删除运费模版      (1)
+    case freightTemplate(parameters:[String:Any])        //新建/更新运费模板  (1)
+    case getFreightInfo(parameters:[String:Any])         //获取运费模板      (1)
+    case getRegionInfoList(parameters:[String:Any])      //获取行政地区列表  （1）
 }
 
 
@@ -71,11 +77,24 @@ extension OrderApi:TargetType{
             return "product/draft"
         case .getProductSpecList:
             return "spec/getProductSpecList"
-//        case .getFreightInfo:
-//            return "freight/getFreightInfo"
-        case .getProductFreightList:
-            return "freight/getProductFreightList"
-        
+            
+//        case .getProductFreightList:
+//            return "freight/getProductFreightList"
+            
+            
+            
+        case .getFreightInfoList:
+            return "freight/getFreightInfoList"
+        case .defFreightTemplate:
+            return "freight/defFreightTemplate"
+        case .delFreightStatus:
+            return "freight/delFreightStatus"
+        case .freightTemplate:
+            return "freight/freightTemplate"
+        case .getFreightInfo:
+            return "freight/getFreightInfo"
+        case .getRegionInfoList:
+            return "region/getRegionInfoList"
         }
     }
     
@@ -117,22 +136,34 @@ extension OrderApi:TargetType{
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         case .getProductSpecList(let parameters):
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
-//        case .getFreightInfo(let parameters):
-//            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
-        case .getProductFreightList:
+//        case .getProductFreightList:
+//            return .requestPlain
+        case .getFreightInfoList:
             return .requestPlain
+        case .defFreightTemplate(let parameters):
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+        case .delFreightStatus(let parameters):
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+        case .freightTemplate(let parameters):
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+        case .getFreightInfo(let parameters):
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+            
+        case .getRegionInfoList(let parameters):
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         }
     }
     
     public var headers: [String : String]? {
         
         switch self {
-        case .getOrderSalesInfo,.getProductFreightList:
+            //,.getProductFreightList
+        case .getOrderSalesInfo,.getFreightInfoList:
             let time = Date().currentMilliStamp
             let nonce = String.nonce
             let deviceId = String.deviceUUID
             return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValue(time,nonce,deviceId),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
-        case .getProductCategoryList(let parameters),.getProductBrandList(let parameters),.getProductSpuList(let parameters),.getProductSpecList(let parameters),.getProductInfoList(let parameters):
+        case .getProductCategoryList(let parameters),.getProductBrandList(let parameters),.getProductSpuList(let parameters),.getProductSpecList(let parameters),.getProductInfoList(let parameters),.defFreightTemplate(let parameters),.getFreightInfo(let parameters):
             let time = Date().currentMilliStamp
             let nonce = String.nonce
             let deviceId = String.deviceUUID
@@ -149,7 +180,7 @@ extension OrderApi:TargetType{
             let nonce = String.nonce
             let deviceId = String.deviceUUID
             return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,getArrayJSONStringFromAddSpec(obj: paramters)),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
-        case .getProductInfo(let parameters),.cancelApply(let parameters),.delProduct(let parameters),.lowerShelf(let parameters),.upShelf(let parameters),.getSoldOutSkuList(let parameters):
+        case .getProductInfo(let parameters),.cancelApply(let parameters),.delProduct(let parameters),.lowerShelf(let parameters),.upShelf(let parameters),.getSoldOutSkuList(let parameters),.delFreightStatus(let parameters):
             let time = Date().currentMilliStamp
             let nonce = String.nonce
             let deviceId = String.deviceUUID
@@ -162,11 +193,26 @@ extension OrderApi:TargetType{
             return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,getArrayJSONStringFromAddSpec(obj: parameters)),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
             
             
-//        case .getFreightInfo(let parameters):
+        //获取运费模板列表（新）
+//        case .getFreightInfoList(let parameters):
 //            let time = Date().currentMilliStamp
 //            let nonce = String.nonce
 //            let deviceId = String.deviceUUID
-//            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,getJSONStringFromData(obj: parameters,isEscape: false)),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+//            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,getFreightJSONStringFromAddSpec(obj: parameters)),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+            
+        //新建/更新运费模版
+        case .freightTemplate(let parameters):
+            let time = Date().currentMilliStamp
+            let nonce = String.nonce
+            let deviceId = String.deviceUUID
+            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,getArrayJSONStringFromUpdateAndNewTemplate(obj:parameters)),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+            
+        //获取行政区域
+        case .getRegionInfoList(let parameters):
+            let time = Date().currentMilliStamp
+            let nonce = String.nonce
+            let deviceId = String.deviceUUID
+            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,getJSONStringFromData(obj: parameters,isEscape: false)),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
             
         default:
            return ["Accept": "*/*","Content-Type":"application/json"]

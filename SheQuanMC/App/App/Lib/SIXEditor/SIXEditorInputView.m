@@ -46,7 +46,7 @@ NS_INLINE UIColor *six_colorWithHex(NSInteger hex) {
 
 - (UIImageView *)xuanImage{
     if (!_xuanImage){
-        _xuanImage = [[UIImageView alloc]initWithFrame:CGRectMake(self.colorView.bounds.size.width/2 - self.colorView.bounds.size.width/4, self.colorView.bounds.size.height/2 - self.colorView.bounds.size.height/4, self.colorView.bounds.size.width - 20, self.colorView.bounds.size.height - 20)];
+        _xuanImage = [[UIImageView alloc]initWithFrame:CGRectMake(self.colorView.bounds.size.width/2 - self.colorView.bounds.size.width/5, self.colorView.bounds.size.height/2 - self.colorView.bounds.size.height/5, self.colorView.bounds.size.width - 30, self.colorView.bounds.size.height - 30)];
         _xuanImage.image = [UIImage imageNamed:@"xuanzhong"];
         _xuanImage.hidden = true;
         [self.colorView addSubview:_xuanImage];
@@ -188,7 +188,6 @@ UICollectionViewDelegateFlowLayout>
                 SIXEditorInputViewCell * cell = (SIXEditorInputViewCell *)[collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
                 [cell.xuanImage setHidden:true];
             }
-            NSLog(@"=============================%ld",indexPath.row);
             [self.delegate inputView:self clickItemForTextColor:self.selectedTextColor];
             SIXEditorInputViewCell * cell = (SIXEditorInputViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
             self.index = indexPath.row;

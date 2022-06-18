@@ -132,6 +132,8 @@ open class StoreOccupancyViewController: BaseViewController {
     var categoryId:Int32?
     
     
+    //这个值市用来判断是否修改过
+    var isModify:Bool = false
     
 //    public override func viewDidAppear(_ animated: Bool) {
 //        super.viewDidAppear(animated)
@@ -152,6 +154,9 @@ open class StoreOccupancyViewController: BaseViewController {
        self.navigationItem.leftBarButtonItem?.customView = UIButton(setImage: "返回", setBackgroundImage: "", target: self, action: #selector(exitLoginStatus))
        
         
+       navigationController?.interactivePopGestureRecognizer?.delegate = self
+       
+       
         //Frame-right
         view.addSubview(headerImageView)
         headerImageView.snp.makeConstraints { make in
@@ -256,8 +261,6 @@ open class StoreOccupancyViewController: BaseViewController {
            //店铺名称
            //经营种类
            //经营种类ID
-       LXFLog("========\(String(describing: StoreService.shared.currentUser?.shopAvatar))")
-       
        if  (StoreService.shared.currentUser?.shopAvatar.count ?? 0) > 0{
            headerImageView.sd_setImage(with: URL(string: StoreService.shared.currentUser?.shopAvatar ?? ""), placeholderImage: UIImage(named: "Group 2738"))
        }else{
@@ -305,6 +308,7 @@ open class StoreOccupancyViewController: BaseViewController {
                                     
                                 }catch{}
                                 JFPopupView.popup.hideLoading()
+                                self?.isModify = true
                             } failureCallback: { error,code in
                                 JFPopupView.popup.hideLoading()
                             }
@@ -329,6 +333,7 @@ open class StoreOccupancyViewController: BaseViewController {
                                     StoreService.shared.updateShopAvatar(str)
                                 }catch{}
                                 JFPopupView.popup.hideLoading()
+                                self?.isModify = true
                             } failureCallback: { error,code in
                                 JFPopupView.popup.hideLoading()
                             }
@@ -352,6 +357,7 @@ open class StoreOccupancyViewController: BaseViewController {
             self?.categoryId = businessTypeModel.categoryId
             choiceManagementBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333"), for: .normal)
             StoreService.shared.updateCategoryName(businessTypeModel.categoryName ?? "", businessTypeModel.categoryId ?? 0)
+            self?.isModify = true
         }
     }
     
@@ -368,6 +374,7 @@ open class StoreOccupancyViewController: BaseViewController {
     
     @objc func textFieldChange(_ titleTF: UITextField) {
         showErrerLabel.isHidden = true
+        isModify = true
         if titleTF.markedTextRange != nil {return}
         guard var genString = titleTF.text else{return}
         if genString.count > 25{
@@ -421,35 +428,42 @@ open class StoreOccupancyViewController: BaseViewController {
     
     //退出登录状态
     @objc func exitLoginStatus(){
-        LXFLog("============")
-        JFPopup.alert {
-            [
-                .title("差一步就能开店了，确定要退出吗？"),
-                .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
-//                .subTitle("注:取消商品将移至未上架"),
-//                .subTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 ")),
-                .withoutAnimation(true),
-                .cancelAction([
-                    .text("取消"),
-                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
-                    .tapActionCallback({
-                    })
-                ]),
-                .confirmAction([
-                    .text("确定"),
-                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
-                    .tapActionCallback({
-                        //删除店铺信息
-                        StoreService.shared.delete()
-                        //重新变成登录登记
-                        let startPageVc = StartPageViewController()
-                        let windwin = UIApplication.shared.keyWindow
-                        windwin?.rootViewController = BaseNaviViewController(rootViewController: startPageVc)
-                    })
-                ])
-            ]
+        if isModify{
+            JFPopup.alert {
+                [
+                    .title("差一步就能开店了，确定要退出吗？"),
+                    .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+    //                .subTitle("注:取消商品将移至未上架"),
+    //                .subTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
+                    .withoutAnimation(true),
+                    .cancelAction([
+                        .text("取消"),
+                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
+                        .tapActionCallback({
+                        })
+                    ]),
+                    .confirmAction([
+                        .text("确定"),
+                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+                        .tapActionCallback({
+                            self.isModify = false
+                            //删除店铺信息
+                            StoreService.shared.delete()
+                            //重新变成登录登记
+                            let startPageVc = StartPageViewController()
+                            let windwin = UIApplication.shared.keyWindow
+                            windwin?.rootViewController = BaseNaviViewController(rootViewController: startPageVc)
+                        })
+                    ])
+                ]
+            }
+        }else{
+            Coordinator.shared?.popViewController(self, true)
         }
     }
+    
+    
+    
     
     //禁止某些页面滑动返回上一个页面
 //    public override func viewDidDisappear(_ animated: Bool) {
@@ -477,4 +491,43 @@ extension StoreOccupancyViewController:UITextFieldDelegate{
         showErrerLabel.isHidden = true
     }
     
+}
+
+
+extension StoreOccupancyViewController:UIGestureRecognizerDelegate{
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if isModify{
+           LXFLog("==============")
+            JFPopupView.popup.alert {
+                [
+                    .title("差一步就能开店了，确定要退出吗？"),
+                    .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+                    .withoutAnimation(true),
+                    .cancelAction([
+                        .text("取消"),
+                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
+                        .tapActionCallback({
+                        })
+                    ]),
+                    .confirmAction([
+                        .text("确定"),
+                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+                        .tapActionCallback({
+                            self.isModify = false
+                            //删除店铺信息
+                            StoreService.shared.delete()
+                            //重新变成登录登记
+                            let startPageVc = StartPageViewController()
+                            let windwin = UIApplication.shared.keyWindow
+                            windwin?.rootViewController = BaseNaviViewController(rootViewController: startPageVc)
+                            
+                        })
+                    ])
+                ]
+            }
+            return !self.isModify
+        }else{
+           return true
+        }
+    }
 }

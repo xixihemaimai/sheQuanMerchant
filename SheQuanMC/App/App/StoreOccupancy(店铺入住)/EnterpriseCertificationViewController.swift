@@ -598,10 +598,6 @@ class EnterpriseCertificationViewController: BaseViewController {
             //身份证号
             idCardTextField.text = StoreService.shared.currentUser?.certNo
             
-        LXFLog("========\(String(describing: StoreService.shared.currentUser?.frontPic))")
-        LXFLog("========\(String(describing: StoreService.shared.currentUser?.reversePic))")
-        LXFLog("========\(String(describing: StoreService.shared.currentUser?.licencePic))")
-        
         if (StoreService.shared.currentUser?.frontPic.count ?? 0) > 0{
             //身份证正面
              //cardFrontBtn.kf.setBackgroundImage(with: URL(string: StoreService.shared.currentUser?.frontPic ?? ""), for: .normal)

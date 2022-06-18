@@ -8,14 +8,12 @@
 import UIKit
 import JFPopup
 import Util
+import SwiftyJSON
 
 class NoDeliveryRegionView: UIView {
     
     
-    //取消的闭包
-    var cancelBlock:(()->Void)?
-    //确定的闭包
-    var sureChoiceAddress:((_ addreList:[AddressModel]) ->Void)?
+ 
 
 
     //这边添加标题视图
@@ -35,7 +33,7 @@ class NoDeliveryRegionView: UIView {
     
     
     lazy var tableview:NoDeliveryTableView = {
-        let tableview = NoDeliveryTableView(frame: .zero, style: .grouped)
+        let tableview = NoDeliveryTableView(frame: .zero, style: .plain)
         return tableview
     }()
     
@@ -55,22 +53,25 @@ class NoDeliveryRegionView: UIView {
     
     
     //这边要进行修改这个数组
-    var titleArray:[AddressModel] = [AddressModel]()
-    
+    var titleArray:[NoDeliveryRegionModel] = [NoDeliveryRegionModel]()
     
     var titleBtnArray:[UIButton] = [UIButton]()
-    
-
     //省份数组
-    var dataArray:[AddressModel] = [AddressModel]()
-    var cityArray : [AddressModel] = [AddressModel]()
-    var districtArray : [AddressModel] = [AddressModel]()
+    var dataArray:[NoDeliveryRegionModel] = [NoDeliveryRegionModel]()
+    //城市数组
+    var cityArray:[NoDeliveryRegionModel] = [NoDeliveryRegionModel]()
+    //取消的闭包
+    var cancelBlock:(()->Void)?
+    //确定的闭包
+    var sureChoiceAddress:((_ addreList:[NoDeliveryRegionModel]) ->Void)?
     
     
-    init(frame: CGRect,addressList:[AddressModel]) {
+    
+    init(frame: CGRect,addressList:[NoDeliveryRegionModel],dataArray:[NoDeliveryRegionModel]) {
         super.init(frame: frame)
         
         self.titleArray = addressList
+        self.dataArray = dataArray
         
         backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
         
@@ -135,9 +136,6 @@ class NoDeliveryRegionView: UIView {
             make.height.equalTo(scale(44))
         }
         
-        
-        
-        
         addSubview(contentScrollView)
         contentScrollView.snp.makeConstraints { make in
             make.left.bottom.equalToSuperview()
@@ -145,11 +143,10 @@ class NoDeliveryRegionView: UIView {
             make.width.equalTo(SCW)
         }
         
-        
         contentScrollView.addSubview(tableview)
         tableview.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
         tableview.snp.makeConstraints { make in
-            make.top.equalTo(-scale(20))
+            make.top.equalTo(0)
             make.height.equalTo(scale(442) - scale(106))
             make.left.equalToSuperview()
             make.width.equalTo(SCW)
@@ -158,104 +155,79 @@ class NoDeliveryRegionView: UIView {
        //同一个包情况
        //let path = Bundle.main.path(forResource:"city", ofType: "json")
        //不同一个包的情况
-       let path = Bundle(for: type(of: self)).url(forResource: "city", withExtension: "json")
-       do{
-           //let url = URL(fileURLWithPath: path!)
-           let addressData = try NSData.init(contentsOf: path!)
-           let addressDic = try JSONSerialization.jsonObject(with: addressData as! Data, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSArray
-           let dic = addressDic.object(at: 0) as! NSDictionary
-           let provinceArray = dic["childs"] as! NSArray
-           for i in 0..<provinceArray.count {
-                let provinceDic = provinceArray.object(at: i) as! NSDictionary
-                let provinceM = AddressModel.init()
-                provinceM.region_name = (provinceDic["region_name"] as? String)
-                provinceM.region_id = (provinceDic["region_id"] as! String)
-                provinceM.agency_id = (provinceDic["agency_id"] as? String)
-                provinceM.parent_id = (provinceDic["parent_id"] as! String)
-                provinceM.region_type = (provinceDic["region_type"] as! String)
-                provinceM.isChoice = false
-                provinceM.childs = (provinceDic["childs"] as! [NSDictionary])
-                self.dataArray.append(provinceM)
-           }
-       }catch{}
+//       let path = Bundle(for: type(of: self)).url(forResource: "city", withExtension: "json")
         if self.titleArray.count < 1{
-            let addressmodel = AddressModel()
-            addressmodel.region_name = "请选择"
-            titleArray = [addressmodel]
+            let noDeliveryRegionModel = NoDeliveryRegionModel(initials: "0", lat: 0, level: 0, lng: 0, regionId: 0, regionName: "请选择", isChoice: false)
+            titleArray = [noDeliveryRegionModel]
+            addTitleView()
+            addSubviewContentView()
+            let count = (titleArray.count > 2 ? 1 : titleArray.count - 1)
+            let btn = titleBtnArray[count]
+            changBtnTitle(titleBtn: btn)
         }else{
-            //这边要进行判断
-            let addressmodel = titleArray[0] as AddressModel
-            for i in 0..<self.dataArray.count {
-                let provinceM = self.dataArray[i] as AddressModel
-                if provinceM.region_name == (addressmodel.region_name)!{
-                    
-                    let addressmodel1 = titleArray[1] as AddressModel
-                    if addressmodel1.region_name == "全选" {
-                        self.cityArray.removeAll()
-                        let cityDicArray = provinceM.childs!
-                        for j in 0..<cityDicArray.count {
-                           let cityDic = cityDicArray[j]
-                           let cityM = AddressModel.init()
-                           cityM.region_name = (cityDic["region_name"] as? String)
-                           cityM.region_id = (cityDic["region_id"] as! String)
-                           cityM.agency_id = (cityDic["agency_id"] as? String)
-                           cityM.parent_id = (cityDic["parent_id"] as! String)
-                           cityM.region_type = (cityDic["region_type"] as! String)
-                           cityM.childs = (cityDic["childs"] as! [NSDictionary])
-                           cityM.isChoice = true
-                           self.cityArray.append(cityM)
+            var noDeliveryRegionModel = titleArray[0] as NoDeliveryRegionModel
+//            for i in 0..<self.dataArray.count {
+//                let noDeliveryRegionModel1 = self.dataArray[i] as NoDeliveryRegionModel
+//                if noDeliveryRegionModel1.regionName == noDeliveryRegionModel.regionName{
+                    //这个是要选中状态
+                    noDeliveryRegionModel.isChoice = true
+                    let noDeliveryRegionModel2 = titleArray[1] as NoDeliveryRegionModel
+                    if noDeliveryRegionModel2.regionName == "全选"{
+                        let parameters = ["level":3,"regionId":noDeliveryRegionModel.regionId as Any] as [String:Any]
+                        NetWorkResultRequest(OrderApi.getRegionInfoList(parameters: parameters), needShowFailAlert: true) { result, data in
+                            guard let model = try? JSONDecoder().decode(GenericResponse<[NoDeliveryRegionModel]>.self, from: data) else { return }
+                            self.cityArray.removeAll()
+                            if let _data = model.data{
+                                self.cityArray = _data
+                            }
+                            for i  in 0..<self.cityArray.count {
+                                var noDevliveryRegionMoel4 = self.cityArray[i]
+                                noDevliveryRegionMoel4.isChoice = true
+                                self.cityArray[i] = noDevliveryRegionMoel4
+                            }
+                            let noDeliveryRegionModel5 = NoDeliveryRegionModel(initials: "0", lat: 0, level: 0, lng: 0, regionId: 0, regionName: "全选", isChoice: true)
+                            self.cityArray.insert(noDeliveryRegionModel5, at: 0)
+                            self.addTitleView()
+                            self.addSubviewContentView()
+                            let count = (self.titleArray.count > 2 ? 1 : self.titleArray.count - 1)
+                            let btn = self.titleBtnArray[count]
+                            self.changBtnTitle(titleBtn: btn)
+                        } failureCallback: { error, code in
+                            code.loginOut()
                         }
-                        let addressmodel2 = AddressModel()
-                        addressmodel2.isChoice = true
-                        addressmodel2.region_name = "全选"
-                        self.cityArray.insert(addressmodel2, at: 0)
                     }else{
-                        
-                        //这边要根据titleArray之后的数据进行变化
-                        
-                        
-                        
-                        self.cityArray.removeAll()
-                        let cityDicArray = provinceM.childs!
-                        for j in 0..<cityDicArray.count {
-                           let cityDic = cityDicArray[j]
-                           let cityM = AddressModel.init()
-                           cityM.region_name = (cityDic["region_name"] as? String)
-                           cityM.region_id = (cityDic["region_id"] as! String)
-                           cityM.agency_id = (cityDic["agency_id"] as? String)
-                           cityM.parent_id = (cityDic["parent_id"] as! String)
-                           cityM.region_type = (cityDic["region_type"] as! String)
-                           cityM.childs = (cityDic["childs"] as! [NSDictionary])
-                           cityM.isChoice = false
-                           self.cityArray.append(cityM)
-                        }
-                        let addressmodel2 = AddressModel()
-                        addressmodel2.isChoice = false
-                        addressmodel2.region_name = "全选"
-                        self.cityArray.insert(addressmodel2, at: 0)
-                        
-                        for i in 0..<self.titleArray.count{
-                            let addressModel3 = self.titleArray[i]
-                            for j in 0..<self.cityArray.count{
-                                let addressmodel1 = self.cityArray[j]
-                                if addressmodel1.region_name == addressModel3.region_name{
-                                    self.cityArray[j] = addressModel3
+                        let parameters = ["level":3,"regionId":noDeliveryRegionModel.regionId as Any] as [String:Any]
+                        NetWorkResultRequest(OrderApi.getRegionInfoList(parameters: parameters), needShowFailAlert: true) { result, data in
+                            
+                            guard let model = try? JSONDecoder().decode(GenericResponse<[NoDeliveryRegionModel]>.self, from: data) else { return }
+                            self.cityArray.removeAll()
+                            if let _data = model.data{
+                                self.cityArray = _data
+                            }
+                            let noDeliveryRegionModel5 = NoDeliveryRegionModel(initials: "0", lat: 0, level: 0, lng: 0, regionId: 0, regionName: "全选", isChoice: false)
+                            self.cityArray.insert(noDeliveryRegionModel5, at: 0)
+                            for i in 0..<self.titleArray.count{
+                                let noDeliveryRegionModel6 = self.titleArray[i]
+                                for j in 0..<self.cityArray.count {
+                                    let noDeliveryRegionModel7 = self.cityArray[j]
+                                    if noDeliveryRegionModel7.regionName == noDeliveryRegionModel6.regionName{
+                                        self.cityArray[j] = noDeliveryRegionModel6
+                                    }
                                 }
                             }
+                            self.addTitleView()
+                            self.addSubviewContentView()
+                            let count = (self.titleArray.count > 2 ? 1 : self.titleArray.count - 1)
+                            let btn = self.titleBtnArray[count]
+                            self.changBtnTitle(titleBtn: btn)
+                        } failureCallback: { error, code in
+                            code.loginOut()
                         }
-                       
                     }
-                }
-            }
+//                }
+//            }
         }
-        addTitleView()
-        addSubviewContentView()
-        let count = (titleArray.count > 2 ? 1 : titleArray.count - 1)
-        let btn = titleBtnArray[count]
-//        titleBtnClick(titleBtn: btn)
-        changBtnTitle(titleBtn: btn)
     }
-    
     
     
     func addTitleView(){
@@ -270,10 +242,9 @@ class NoDeliveryRegionView: UIView {
         }
         let btnH = scale(44)
         titleBtnArray.removeAll()
-//        let btnW = (SCW/2)/3
-        let btnW = scale(80)
+        let btnW = scale(120)
         for i in 0..<(titleArray.count > 2 ? 2 : titleArray.count){
-            let addressmodel = titleArray[i] as AddressModel
+            let noDeliveryRegionModel = titleArray[i] as NoDeliveryRegionModel
             let titleBtn = UIButton()
             titleView.addSubview(titleBtn)
             titleBtn.snp.makeConstraints { make in
@@ -284,7 +255,7 @@ class NoDeliveryRegionView: UIView {
             }
             titleBtn.tag = i
             titleBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(14), weight: .medium)
-            titleBtn.setTitle(addressmodel.region_name, for: .normal)
+            titleBtn.setTitle(noDeliveryRegionModel.regionName, for: .normal)
             titleBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999"), for: .normal)
             titleBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333"), for: .selected)
             titleBtn.addTarget(self, action: #selector(titleBtnClick), for: .touchUpInside)
@@ -293,7 +264,7 @@ class NoDeliveryRegionView: UIView {
     }
     
     func addUnLineView(){
-       let count = (titleArray.count > 2 ? 1 : titleArray.count - 1)
+        let count = (titleArray.count > 2 ? 1 : titleArray.count - 1)
         let titleBtn = titleBtnArray[count]
         lineView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         titleView.addSubview(lineView)
@@ -331,19 +302,15 @@ class NoDeliveryRegionView: UIView {
                 if view.isKind(of: UITableView.self){
                     let tableview = view as! NoDeliveryTableView
                     titleArray.removeAll()
-                    for addressmodel in self.dataArray {
+                    for var addressmodel in self.dataArray {
                         addressmodel.isChoice = false
                     }
-                    let addressmodel = AddressModel()
-                    addressmodel.region_name = "请选择"
-                    addressmodel.isChoice = false
-                    titleArray.append(addressmodel)
-                    
+                    let noDeliveryRegionModel = NoDeliveryRegionModel(initials: "0", lat: 0, level: 0, lng: 0, regionId: 0, regionName: "请选择", isChoice: false)
+                    titleArray.append(noDeliveryRegionModel)
                     tableview.titleStringArray = self.dataArray
                     tableview.titleArray = titleArray
                     tableview.reloadData()
                     self.addTitleView()
-                    
                     for view in titleView.subviews {
                         if view.isKind(of: UIButton.self){
                             let btn = view as! UIButton
@@ -383,193 +350,138 @@ class NoDeliveryRegionView: UIView {
         }
         tableview.titleArray = self.titleArray
         tableview.reloadData()
-        tableview.backSelectType = {addressmodel,index,tableview in
+        tableview.backSelectType = {noDeliveryRegionModel,index,tableview in
             if self.titleArray.count == 1{
                 let provinceM = self.dataArray[index]
-                self.titleArray[0] = addressmodel
-                let addressmodel1 = AddressModel()
-                addressmodel1.region_name = "请选择"
-                addressmodel1.isChoice = false
-                self.titleArray.append(addressmodel1)
-                self.cityArray.removeAll()
-                let cityDicArray = provinceM.childs!
-                for j in 0..<cityDicArray.count {
-                   let cityDic = cityDicArray[j]
-                   let cityM = AddressModel.init()
-                   cityM.region_name = (cityDic["region_name"] as? String)
-                   cityM.region_id = (cityDic["region_id"] as! String)
-                   cityM.agency_id = (cityDic["agency_id"] as? String)
-                   cityM.parent_id = (cityDic["parent_id"] as! String)
-                   cityM.region_type = (cityDic["region_type"] as! String)
-                   cityM.childs = (cityDic["childs"] as! [NSDictionary])
-                   cityM.isChoice = false
-                   self.cityArray.append(cityM)
+                self.titleArray[0] = noDeliveryRegionModel
+                let noDeliveryRegionModel1 = NoDeliveryRegionModel(initials: "0", lat: 0, level: 0, lng: 0, regionId: 0, regionName: "请选择", isChoice: false)
+                self.titleArray.append(noDeliveryRegionModel1)
+                 let parameters = ["level":3,"regionId":provinceM.regionId as Any] as [String:Any]
+                 NetWorkResultRequest(OrderApi.getRegionInfoList(parameters: parameters), needShowFailAlert: true) { result, data in
+                     guard let model = try? JSONDecoder().decode(GenericResponse<[NoDeliveryRegionModel]>.self, from: data) else { return }
+                     self.cityArray.removeAll()
+                     if let _data = model.data{
+                         self.cityArray = _data
+                     }
+                     let noDeliveryRegionModel2 = NoDeliveryRegionModel(initials: "0", lat: 0, level: 0, lng: 0, regionId: 0, regionName: "全选", isChoice: false)
+                    self.cityArray.insert(noDeliveryRegionModel2, at: 0)
+                    tableview.titleArray = self.titleArray
+                    tableview.titleStringArray = self.cityArray
+                    self.addTitleView()
+                    tableview.reloadData()
+                    let count = (self.titleArray.count > 2 ? 1 : self.titleArray.count - 1)
+                    let btn = self.titleBtnArray[count]
+                    self.changBtnTitle(titleBtn: btn)
+                } failureCallback: { error, code in
+                    code.loginOut()
                 }
-                let addressmodel2 = AddressModel()
-                addressmodel2.isChoice = false
-                addressmodel2.region_name = "全选"
-                self.cityArray.insert(addressmodel2, at: 0)
-                tableview.titleArray = self.titleArray
-                tableview.titleStringArray = self.cityArray
-                
             }else{
-                
-                
-                
                 //对数组进行处理
                 var isOnly:Bool = true
                 for i in 0..<self.titleArray.count{
-                    let addressmodel1 = self.titleArray[i]
-                    if addressmodel.region_name == addressmodel1.region_name{
-                        self.titleArray[i] = addressmodel
+                    let noDeliveryRegionModel1 = self.titleArray[i]
+                    if noDeliveryRegionModel.regionName == noDeliveryRegionModel1.regionName{
+                        self.titleArray[i] = noDeliveryRegionModel
                         isOnly = false
                         break
                     }
                 }
-                
                 if isOnly{
-                    self.titleArray.append(addressmodel)
+                    self.titleArray.append(noDeliveryRegionModel)
                 }
-                
-                
                 //全选的变化
                 var isAllChoice = true
                 for i in 0..<tableview.titleStringArray.count{
-                    let addressmodel1 = tableview.titleStringArray[i]
-                    if addressmodel1.region_name == "全选"{
+                    let noDeliveryRegionModel1 = tableview.titleStringArray[i]
+                    if noDeliveryRegionModel1.regionName == "全选"{
                         continue
                     }
-                    if addressmodel1.isChoice == false{
+                    if noDeliveryRegionModel1.isChoice == false{
                         isAllChoice = false
                         break
                     }
                 }
-                //tableview.titleStringArray
                 if isAllChoice{
-                    
-                    let addressmodel2 = tableview.titleStringArray[0]
-                    addressmodel2.isChoice = true
-                    let addressmodel3 = AddressModel()
-                    addressmodel3.isChoice = true
-                    addressmodel3.region_name = "全选"
-                    self.titleArray.insert(addressmodel2, at: 1)
-                    
+                    var noDeliveryRegionModel2 = tableview.titleStringArray[0]
+                    noDeliveryRegionModel2.isChoice = true
+                    self.titleArray.insert(noDeliveryRegionModel2, at: 1)
                 }else{
-                    
-                   let addressmodel2 = tableview.titleStringArray[0]
-                   addressmodel2.isChoice = false
-                    
-                   
-                    for i in 0..<self.titleArray.count{
-                        let addremssmodel3 = self.titleArray[i]
-                        if addremssmodel3.region_name == "全选"{
-                            addremssmodel3.isChoice = false
-                            self.titleArray[i] = addremssmodel3
+                    var noDeliveryRegionModel2 = tableview.titleStringArray[0]
+                    noDeliveryRegionModel2.isChoice = false
+                    tableview.titleStringArray[0] = noDeliveryRegionModel2
+                    for i in 0..<self.titleArray.count {
+                        var noDeliveryRegionModel3 = self.titleArray[i]
+                        if noDeliveryRegionModel3.regionName == "全选"{
+                            noDeliveryRegionModel3.isChoice = false
+                            self.titleArray[i] = noDeliveryRegionModel3
                         }
                     }
-                
                 }
-                
-                self.titleArray = self.titleArray.filter { addressmodel in
-                    addressmodel.isChoice == true
-                }
-                
-                
+                self.titleArray = self.titleArray.filter({ noDeliveryRegionModel in
+                    noDeliveryRegionModel.isChoice == true
+                })
                 if self.titleArray.count == 1{
-                    let addressmodel1 = AddressModel()
-                    addressmodel1.region_name = "请选择"
-                    addressmodel.isChoice = false
-                    self.titleArray.append(addressmodel1)
+                    let noDeliveryRegionModel1 = NoDeliveryRegionModel(initials: "0", lat: 0, level: 0, lng: 0, regionId: 0, regionName: "请选择", isChoice: false)
+                    self.titleArray.append(noDeliveryRegionModel1)
                 }
-                
-                
                 tableview.titleArray = self.titleArray
+                self.addTitleView()
+                tableview.reloadData()
+                let count = (self.titleArray.count > 2 ? 1 : self.titleArray.count - 1)
+                let btn = self.titleBtnArray[count]
+                self.changBtnTitle(titleBtn: btn)
             }
-            
-            self.addTitleView()
-            tableview.reloadData()
-            let count = (self.titleArray.count > 2 ? 1 : self.titleArray.count - 1)
-            let btn = self.titleBtnArray[count]
-            self.changBtnTitle(titleBtn: btn)
         }
         
         //全选
         tableview.allSelectType = { addressmodel,index,tableview,isAllChoice in
-    
             if isAllChoice{
-                
-                for addressModel1 in tableview.titleStringArray {
-                    if addressModel1.isChoice == true{
-                        self.titleArray.append(addressModel1)
+                for noDeliveryRegionModel in tableview.titleStringArray{
+                    if noDeliveryRegionModel.isChoice == true{
+                        self.titleArray.append(noDeliveryRegionModel)
                     }
                 }
-                
-                
-                
-                
-                for i in 0..<self.titleArray.count{
-                    let addremssmodel3 = self.titleArray[i]
-                    if addremssmodel3.region_name == "全选"{
-                        addremssmodel3.isChoice = false
-                        self.titleArray[i] = addremssmodel3
+                for i in 0..<self.titleArray.count {
+                    var noDeliveryRegionModel3 = self.titleArray[i]
+                    if noDeliveryRegionModel3.regionName == "全选"{
+                        noDeliveryRegionModel3.isChoice = false
+                        self.titleArray[i] = noDeliveryRegionModel3
                     }
                 }
+                self.titleArray = self.titleArray.filter({ noDeliveryRegionModel in
+                    noDeliveryRegionModel.isChoice == true
+                })
                 
+                var noDeliveryRegionModel2 = tableview.titleStringArray[0]
+                noDeliveryRegionModel2.isChoice = true
+                self.titleArray.insert(noDeliveryRegionModel2, at: 1)
                 
-                self.titleArray = self.titleArray.filter { addressmodel in
-                    addressmodel.isChoice == true
-                }
-                
-                let addressmodel2 = tableview.titleStringArray[0]
-                addressmodel2.isChoice = true
-                let addressmodel3 = AddressModel()
-                addressmodel3.isChoice = true
-                addressmodel3.region_name = "全选"
-                self.titleArray.insert(addressmodel2, at: 1)
-                
-                
-                //返回剔除重复元素后的数组,其元素顺序不变,并保留一个
                 self.titleArray = self.titleArray.noRepetitionUseSet
-                                
                 
+            
             }else{
-                
-                for i in 1..<self.titleArray.count{
-                    let addressmodel = self.titleArray[i]
-                    addressmodel.isChoice = false
-                   
+                for i in 1..<self.titleArray.count {
+                    var noDeliveryRegionModel = self.titleArray[i]
+                    noDeliveryRegionModel.isChoice = false
                 }
-                
-                self.titleArray = self.titleArray.filter { addressmodel in
-                    addressmodel.isChoice == true
-                }
-                
-                
+                self.titleArray = self.titleArray.filter({ noDeliveryRegionModel in
+                    noDeliveryRegionModel.isChoice == true
+                })
             }
-            
-            self.titleArray = self.titleArray.filter { addressmodel in
-                addressmodel.isChoice == true
-            }
-            
+            self.titleArray = self.titleArray.filter({ noDeliveryRegionModel in
+                noDeliveryRegionModel.isChoice == true
+            })
             if self.titleArray.count == 1{
-                let addressmodel1 = AddressModel()
-                addressmodel1.region_name = "请选择"
-                addressmodel.isChoice = false
-                self.titleArray.append(addressmodel1)
+                let noDeliveryRegionModel1 = NoDeliveryRegionModel(initials: "0", lat: 0, level: 0, lng: 0, regionId: 0, regionName: "请选择", isChoice: false)
+                self.titleArray.append(noDeliveryRegionModel1)
             }
-            
-            
             tableview.titleArray = self.titleArray
-            
-            
             self.addTitleView()
             tableview.reloadData()
             let count = (self.titleArray.count > 2 ? 1 : self.titleArray.count - 1)
             let btn = self.titleBtnArray[count]
             self.changBtnTitle(titleBtn: btn)
         }
-        
-        
     }
     
     
@@ -602,7 +514,9 @@ class NoDeliveryRegionView: UIView {
             return
         }
         //把数组传递出去
-        sureChoiceAddress!(titleArray)
+        LXFLog("===========================\(titleArray)")
+//        sureChoiceAddress!(titleArray)
+        sureChoiceAddress?(titleArray)
     }
 }
 
@@ -628,16 +542,16 @@ class NoDeliveryTableView:UITableView{
     
   
     //选择值得时候
-    var backSelectType:((_ addressmodel:AddressModel,_ index:Int,_ tableview:NoDeliveryTableView)->Void)?
+    var backSelectType:((_ addressmodel:NoDeliveryRegionModel,_ index:Int,_ tableview:NoDeliveryTableView)->Void)?
     
     //全选和取消的时候
-    var allSelectType:((_ addressmodel:AddressModel,_ index:Int,_ tableview:NoDeliveryTableView,_ isAllChoice:Bool)->Void)?
+    var allSelectType:((_ addressmodel:NoDeliveryRegionModel,_ index:Int,_ tableview:NoDeliveryTableView,_ isAllChoice:Bool)->Void)?
     
     
-    var titleStringArray:[AddressModel] = [AddressModel]()
+    var titleStringArray:[NoDeliveryRegionModel] = [NoDeliveryRegionModel]()
     
     //用来判断是省份还是城市
-    var titleArray:[AddressModel] = [AddressModel]()
+    var titleArray:[NoDeliveryRegionModel] = [NoDeliveryRegionModel]()
     
     
     override init(frame: CGRect, style: UITableView.Style) {
@@ -659,10 +573,10 @@ class NoDeliveryTableView:UITableView{
     
     
     //选择全省
-    @objc func allProvinceChoiceAction(isChoiceBtn:UIButton){
-        
-        
-    }
+//    @objc func allProvinceChoiceAction(isChoiceBtn:UIButton){
+//
+//
+//    }
     
     
     required init?(coder: NSCoder) {
@@ -681,9 +595,9 @@ extension NoDeliveryTableView:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NoDeliveryTableviewCell") as! NoDeliveryTableviewCell
         let provinceM = titleStringArray[indexPath.row]
-        cell.addressLabel.text = provinceM.region_name
+        cell.addressLabel.text = provinceM.regionName
         cell.isChoiceBtn.tag = indexPath.row
-        cell.isChoiceBtn.addTarget(self, action: #selector(allProvinceChoiceAction), for: .touchUpInside)
+//        cell.isChoiceBtn.addTarget(self, action: #selector(allProvinceChoiceAction), for: .touchUpInside)
         //这里还要判断是否已经选择
         if titleArray.count == 1{
             cell.isChoiceBtn.isHidden = true
@@ -728,45 +642,42 @@ extension NoDeliveryTableView:UITableViewDelegate,UITableViewDataSource{
         tableView.deselectRow(at: indexPath, animated: true)
         //这边要带回去
         if titleArray.count == 1{
-            let provinceM = titleStringArray[indexPath.row]
+            var provinceM = titleStringArray[indexPath.row]
            //这边要进行更改
             let cell = tableView.cellForRow(at: indexPath) as! NoDeliveryTableviewCell
             for i in 0..<self.titleStringArray.count{
-               let provinceM1 = titleStringArray[i]
+               var provinceM1 = titleStringArray[i]
                provinceM1.isChoice = false
+               titleStringArray[i] = provinceM1
             }
             cell.isChoiceBtn.isSelected = !cell.isChoiceBtn.isSelected
             provinceM.isChoice = cell.isChoiceBtn.isSelected
+            titleStringArray[indexPath.row] = provinceM
             if cell.isChoiceBtn.isSelected{
                 backSelectType!(provinceM,indexPath.row,self)
+                tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
             }
         }else{
             //点击了全选
             if indexPath.row == 0{
-                
-                let provinceM = titleStringArray[indexPath.row]
+                var provinceM = titleStringArray[indexPath.row]
                 let cell = tableView.cellForRow(at: indexPath) as! NoDeliveryTableviewCell
                 cell.isChoiceBtn.isSelected = !cell.isChoiceBtn.isSelected
                 provinceM.isChoice = cell.isChoiceBtn.isSelected
-                for addressmodel in titleStringArray{
+                titleStringArray[indexPath.row] = provinceM
+                for i in 0..<titleStringArray.count{
+                    var addressmodel = titleStringArray[i]
                     addressmodel.isChoice = cell.isChoiceBtn.isSelected
+                    titleStringArray[i] = addressmodel
                 }
-                
-                
-//                backSelectType!(provinceM,indexPath.row,self,true)
                 allSelectType!(provinceM,indexPath.row,self,cell.isChoiceBtn.isSelected)
-                
             }else{
-                
                 //没有点击全选
                 let cell = tableView.cellForRow(at: indexPath) as! NoDeliveryTableviewCell
-                let provinceM = titleStringArray[indexPath.row]
+                var provinceM = titleStringArray[indexPath.row]
                 cell.isChoiceBtn.isSelected = !cell.isChoiceBtn.isSelected
                 provinceM.isChoice = cell.isChoiceBtn.isSelected
-
-                
-                
-                
+                titleStringArray[indexPath.row] = provinceM
                 backSelectType!(provinceM,indexPath.row,self)
             }
         }

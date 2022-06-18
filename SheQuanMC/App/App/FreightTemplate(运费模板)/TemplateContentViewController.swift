@@ -20,6 +20,7 @@ class TemplateContentViewController: BaseViewController {
         templateNameTextFiled.clearButtonMode = .whileEditing
         templateNameTextFiled.attributedPlaceholder = NSAttributedString.init(string:"请输入", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
+        templateNameTextFiled.addTarget(self, action: #selector(templateNameEditChangeAction), for: .editingChanged)
         return templateNameTextFiled
     }()
     
@@ -89,12 +90,23 @@ class TemplateContentViewController: BaseViewController {
     
     
     //底部
-    
     lazy var bottomView:UIView = {
        let bottomView = UIView()
         bottomView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#F8F8F8")
         return bottomView
     }()
+    
+    
+    //模型的数据
+    var freightListModel:FreightListModel?
+    //用来判断是0位新建，1为编辑
+    var type:Int = 0
+    
+    var _pieceLabel:UILabel!
+    
+    
+    //新建/更新成功之后进行的回调
+    var newAndUpdateBlock:(()->Void)?
     
     
     override func viewDidLoad() {
@@ -309,7 +321,7 @@ class TemplateContentViewController: BaseViewController {
         pieceLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         pieceLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         typeView.addSubview(pieceLabel)
-        
+        _pieceLabel = pieceLabel
         
         pieceLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
@@ -340,9 +352,6 @@ class TemplateContentViewController: BaseViewController {
             make.top.equalTo(typeView.snp.bottom)
             make.height.equalTo(scale(54))
         }
-        
-        
-        
         
         let freightLabel = UILabel()
         freightLabel.text = "运费配置"
@@ -402,26 +411,165 @@ class TemplateContentViewController: BaseViewController {
         
         completeBtn.layer.cornerRadius = scale(4)
         
-        
+        //这边要区分是修改还是新建
+        if type == 0{
+            
+            freightListModel = FreightListModel(chargeType: Int32(1), chargeTypeText: "按件计费", defTemp: false, freightConf: freightConfModel(firstPiece: 0, freight: 0, freightConfId: 0,parcelConditions: 0, renewal: 0, renewalFreight: 0), freightId: Int64(0), freightType: Int32(1), freightTypeText: "包邮", freightVerId: Int32(0), noDeliveryAreaIds: [Int32](), templateName: "")
+            
+            freeBtn.isSelected = true
+            customFreightBtn.isSelected = false
+            //计费方式
+            typeView.isHidden = true
+            //运费配置
+            freightConfigureBtn.isHidden = true
+            //按件计费
+            _pieceLabel.text = freightListModel?.chargeTypeText
+            
+            
+            bottomView.snp.remakeConstraints { make in
+                make.left.right.equalToSuperview()
+                make.top.equalTo(noDisBtn.snp.bottom)
+                make.bottom.equalTo(-scale(92))
+            }
+            
+        }else{
+            
+            //这边要看是包邮，还是自定义
+            templateNameTextFiled.text = freightListModel?.templateName
+            //按件计费
+            _pieceLabel.text = freightListModel?.chargeTypeText
+            
+            //freightType运费类型
+            if freightListModel?.freightType == Int32(1){
+                //包邮
+                freeBtn.isSelected = true
+                customFreightBtn.isSelected = false
+                
+                //计费方式
+                typeView.isHidden = true
+                //运费配置
+                freightConfigureBtn.isHidden = true
+                
+                bottomView.snp.remakeConstraints { make in
+                    make.left.right.equalToSuperview()
+                    make.top.equalTo(noDisBtn.snp.bottom)
+                    make.bottom.equalTo(-scale(92))
+                }
+                
+            }else{
+                //自定义
+                freeBtn.isSelected = false
+                customFreightBtn.isSelected = true
+                //计费方式
+                typeView.isHidden = false
+                //运费配置
+                freightConfigureBtn.isHidden = false
+                
+                bottomView.snp.remakeConstraints { make in
+                    make.left.right.equalToSuperview()
+                    make.top.equalTo(freightConfigureBtn.snp.bottom)
+                    make.bottom.equalTo(-scale(92))
+                }
+            }
+            //noSettingLabeL 暂未设置
+            if (freightListModel?.noDeliveryAreaIds?.count ?? 0 ) < 1{
+                noSettingLabeL.text = "暂未设置"
+            }else{
+                noSettingLabeL.text = "已设置"
+            }
+            
+            //freightConfigureLabel 未配置
+            if freightListModel?.freightConf?.firstPiece == 0 && freightListModel?.freightConf?.freight == 0 && freightListModel?.freightConf?.parcelConditions == 0 && freightListModel?.freightConf?.renewal == 0 && freightListModel?.freightConf?.renewalFreight == 0{
+                freightConfigureLabel.text = "未配置"
+            }else{
+                freightConfigureLabel.text = "已配置"
+            }
+        }
     }
     
     
     //完成
     @objc func completeAction(completeBtn:UIButton){
+        //这边是进行新建/更新运费模板
+//        freightListModel
+//
+          /**
+           {
+             "chargeType": 0,
+             "freightConf": {
+               "firstPiece": 0,
+               "freight": 0,
+               "freightConfId": 0,
+               "parcelConditions": 0,
+               "renewal": 0,
+               "renewalFreight": 0
+             },
+             "freightId": 0,
+             "freightType": 0,
+             "freightVerId": 0,
+             "noDeliveryAreaIds": [
+               0
+             ],
+             "templateName": "string"
+           }
+           */
+
+        //运费配置
+        let freightConfDict = ["firstPiece":freightListModel?.freightConf?.firstPiece as Any,"freight":freightListModel?.freightConf?.freight as Any,"freightConfId":freightListModel?.freightConf?.freightConfId as Any,"parcelConditions":freightListModel?.freightConf?.parcelConditions as Any,"renewal":freightListModel?.freightConf?.renewal as Any,"renewalFreight":freightListModel?.freightConf?.renewalFreight as Any] as [String:Any]
+        let jsonstring = getJSONStringFromData(obj: freightConfDict, isEscape: true)
         
-        
+//        LXFLog("===============\(jsonstring)")
+        //不配送区域
+//        freightListModel?.noDeliveryAreaIds?.append(2)
+//        freightListModel?.noDeliveryAreaIds?.append(3)
+//        freightListModel?.noDeliveryAreaIds?.append(4)
+        var resultstr = "["
+        for i in 0..<(freightListModel?.noDeliveryAreaIds?.count ?? 0){
+            guard let value = freightListModel?.noDeliveryAreaIds?[i] else{
+                return
+            }
+//            let values = Int32(truncating: value as? NSNumber ?? 0)
+            if i == 0{
+                resultstr += String(format: "%d",value)
+            }else{
+                resultstr += ","  + String(format: "%d",value)
+            }
+        }
+        resultstr += "]"
+//        LXFLog("=====================\(resultstr)")
+        let parameters = ["chargeType":freightListModel?.chargeType as Any,"freightConf":jsonstring,"freightId":freightListModel?.freightId as Any,"freightType":freightListModel?.freightType as Any,"freightVerId":freightListModel?.freightVerId as Any,"noDeliveryAreaIds":(resultstr.count > 0 ? resultstr : [Int32]()),"templateName":freightListModel?.templateName as Any] as [String:Any]
+        NetWorkResultRequest(OrderApi.freightTemplate(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+            //成功之后要返回上一个界面进行刷新
+            self?.newAndUpdateBlock?()
+            Coordinator.shared?.popViewController(self!, true)
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
     }
     
     //不配送区域
     @objc func noDisAction(noDisBtn:UIButton){
         let noDeliveryVc = NoDeliveryViewController()
+        noDeliveryVc.noDeliveryAreaIds = freightListModel?.noDeliveryAreaIds ?? [Int32]()
         Coordinator.shared?.pushViewController(self, noDeliveryVc, animated: true)
+        //这边是一个数组
+        
+        
+        
+        
+        
     }
     
     //运费配置
     @objc func freightConfigureAction(freightConfigureBtn:UIButton){
         let freightAllocationVc = FreightAllocationViewController()
+        freightAllocationVc.freightConf = freightListModel?.freightConf
         Coordinator.shared?.pushViewController(self, freightAllocationVc, animated: true)
+        freightAllocationVc.inputBlock = { freightConf in
+            self.freightListModel?.freightConf = freightConf
+            //是否配置
+            self.freightConfigureLabel.text = "已配置"
+        }
     }
     
     //包邮
@@ -435,6 +583,8 @@ class TemplateContentViewController: BaseViewController {
             make.top.equalTo(noDisBtn.snp.bottom)
             make.bottom.equalTo(-scale(92))
         }
+        freightListModel?.freightType = Int32(1)
+        freightListModel?.freightTypeText = "包邮"
     }
     
     
@@ -449,6 +599,14 @@ class TemplateContentViewController: BaseViewController {
             make.top.equalTo(freightConfigureBtn.snp.bottom)
             make.bottom.equalTo(-scale(92))
         }
+        freightListModel?.freightType = Int32(2)
+        freightListModel?.freightTypeText = "自定义"
     }
-
+    
+    
+    
+    @objc func templateNameEditChangeAction(templateNameTextFiled:UITextField){
+        freightListModel?.templateName = templateNameTextFiled.text
+    }
+    
 }

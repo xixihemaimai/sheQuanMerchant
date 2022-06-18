@@ -55,35 +55,58 @@ class FreightTemplateViewController: BaseViewController {
         addTemplateBtn.layer.cornerRadius = scale(4)
         
         
-        
        loadFreightList()
         
     }
     
     func loadFreightList(){
-        NetWorkResultRequest(OrderApi.getProductFreightList, needShowFailAlert: true) { result, data in
+        NetWorkResultRequest(OrderApi.getFreightInfoList, needShowFailAlert: true) { result, data in
             guard let model = try? JSONDecoder().decode(GenericResponse<[FreightListModel]>.self, from: data) else { return }
             self.list.removeAll()
             if let data1 = model.data{
                 self.list = data1
                 self.tableview.reloadData()
             }
+            self.tableview.mj_header?.endRefreshing()
         } failureCallback: { error, code in
             code.loginOut()
+            self.tableview.mj_header?.endRefreshing()
         }
+
+//        NetWorkResultRequest(OrderApi.getProductFreightList, needShowFailAlert: true) { result, data in
+//            guard let model = try? JSONDecoder().decode(GenericResponse<[FreightListModel]>.self, from: data) else { return }
+//            self.list.removeAll()
+//            if let data1 = model.data{
+//                self.list = data1
+//                self.tableview.reloadData()
+//            }
+//        } failureCallback: { error, code in
+//            code.loginOut()
+//        }
+    }
+    
+    
+    
+    override func headerRereshing() {
+        LXFLog("下拉")
+        loadFreightList()
     }
     
     
     
     @objc func addTemplateAction(addTemplateBtn:UIButton){
-        
         let templateContentVc = TemplateContentViewController()
         templateContentVc.title = "新建模板"
+        templateContentVc.type = 0
         Coordinator.shared?.pushViewController(self, templateContentVc, animated: true)
+        templateContentVc.newAndUpdateBlock = {
+            self.loadFreightList()
+        }
     }
     
     //删除
     @objc func setDeleteAction(deleteBtn:UIButton){
+        let model = list[deleteBtn.tag]
         JFPopup.alert {
             [
                 .title("确定要删除此模板吗？"),
@@ -103,7 +126,13 @@ class FreightTemplateViewController: BaseViewController {
                     .text("确定"),
                     .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
                     .tapActionCallback({
-                        JFPopupView.popup.toast(hit: "点击了保存草稿")
+                        let parameters = ["freightId":model.freightId as Any] as [String:Any]
+                        NetWorkResultRequest(OrderApi.delFreightStatus(parameters: parameters), needShowFailAlert: true) { result, data in
+                            //成功之后
+                            self.loadFreightList()
+                        } failureCallback: { error, code in
+                            code.loginOut()
+                        }
                     })
                 ])
             ]
@@ -112,6 +141,7 @@ class FreightTemplateViewController: BaseViewController {
     
     //设置为默认
     @objc func setIsDefaultAction(isDefaultBtn:UIButton){
+        let model = list[isDefaultBtn.tag]
         var title:String;
         if isDefaultBtn.isSelected {
             title = "确定要将此模板取消默认吗"
@@ -130,9 +160,6 @@ class FreightTemplateViewController: BaseViewController {
                     .text("取消"),
                     .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
                     .tapActionCallback({
-                        
-                        
-                        
                     })
                     
                 ]),
@@ -140,15 +167,22 @@ class FreightTemplateViewController: BaseViewController {
                     .text("确定"),
                     .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
                     .tapActionCallback({
-//                        JFPopupView.popup.toast(hit: "点击了确定")
-                        for i in 0..<3{
-                            let cell = self.tableview.cellForRow(at: IndexPath(row: i, section: 0)) as! FreightTemplateCell
-                            if isDefaultBtn.tag == i{
-                            }else{
-                                cell.isDefaultBtn.isSelected = false
-                            }
-                        }
+//                        for i in 0..<3{
+//                            let cell = self.tableview.cellForRow(at: IndexPath(row: i, section: 0)) as! FreightTemplateCell
+//                            if isDefaultBtn.tag == i{
+//                            }else{
+//                                cell.isDefaultBtn.isSelected = false
+//                            }
+//                        }
                         isDefaultBtn.isSelected = !isDefaultBtn.isSelected
+                        let parameters = ["defTemp":isDefaultBtn.isSelected,"freightId":model.freightId as Any] as [String:Any]
+                        NetWorkResultRequest(OrderApi.defFreightTemplate(parameters: parameters), needShowFailAlert: true) { result, data in
+                            //成功之后
+                            self.loadFreightList()
+                            
+                        } failureCallback: { error, code in
+                            code.loginOut()
+                        }
                     })
                 ])
             ]
@@ -157,11 +191,36 @@ class FreightTemplateViewController: BaseViewController {
     
     //编辑
     @objc func setEditAction(editBtn:UIButton){
-        let templateContentVc = TemplateContentViewController()
-        templateContentVc.title = "修改模板"
-        Coordinator.shared?.pushViewController(self, templateContentVc, animated: true)
+        
+        let model = list[editBtn.tag]
+        let parameters = ["freightId":model.freightId as Any] as [String:Any]
+        NetWorkResultRequest(OrderApi.getFreightInfo(parameters: parameters), needShowFailAlert: true) { result, data in
+            guard let model = try? JSONDecoder().decode(GenericResponse<FreightListModel>.self, from: data) else { return }
+            let templateContentVc = TemplateContentViewController()
+            templateContentVc.title = "修改模板"
+            var freightListModel = model.data
+            if freightListModel?.freightConf == nil{
+                freightListModel?.freightConf = freightConfModel(firstPiece: 0, freight: 0, freightConfId: 0,parcelConditions: 0, renewal: 0, renewalFreight: 0)
+            }
+            if freightListModel?.noDeliveryAreaIds == nil{
+                freightListModel?.noDeliveryAreaIds = [Int32]()
+            }
+            templateContentVc.type = 1
+            templateContentVc.freightListModel = freightListModel
+            Coordinator.shared?.pushViewController(self, templateContentVc, animated: true)
+            templateContentVc.newAndUpdateBlock = {
+                self.loadFreightList()
+            }
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
     }
 
+    
+    
+    func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView!) -> Bool {
+        return true
+    }
 
 }
 
@@ -191,13 +250,15 @@ extension FreightTemplateViewController:UITableViewDelegate,UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let model = list[indexPath.row]
-//        self.selectFreightId!(model.freightId ?? 0)
-        self.selectFreightId?(model)
-        Coordinator.shared?.popViewController(self, true)
+        tableView.deselectRow(at: indexPath, animated: true)
+        let vcArray = self.navigationController?.viewControllers
+        let vc = self.navigationController?.viewControllers[vcArray!.count - 2]
+        if (vc!.isKind(of: ReleaseGoodsViewController.self)){
+            let model = list[indexPath.row]
+            self.selectFreightId?(model)
+            Coordinator.shared?.popViewController(self, true)
+        }
     }
-    
-    
-    
+
     
 }

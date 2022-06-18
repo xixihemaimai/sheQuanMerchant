@@ -53,30 +53,6 @@ class FreightTemplateCell: UITableViewCell {
     }()
     
     
-    
-    var model:FreightListModel?{
-        didSet{
-            guard let _model = model else {
-                return
-            }
-            
-            templateName.text = _model.templateName
-            
-            chargeLabel.text = _model.templateName
-            
-        }
-        
-        
-    }
-
-    //分割线
-//    lazy var midView:UIView = {
-//       let midView = UIView()
-//        midView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
-//        return midView
-//    }()
-//
-    
     //默认地址按键
     lazy var isDefaultBtn:UIButton = {
        let isDefaultBtn = UIButton()
@@ -91,6 +67,41 @@ class FreightTemplateCell: UITableViewCell {
         editBtn.setBackgroundImage(UIImage(named: "编辑 1"), for: .normal)
         return editBtn
     }()
+    
+    
+    
+    var model:FreightListModel?{
+        didSet{
+            guard let _model = model else {
+                return
+            }
+            
+            if _model.defTemp == true{
+                isDelautImage.isHidden = false
+                isDefaultBtn.isSelected = true
+            }else{
+                isDelautImage.isHidden = true
+                isDefaultBtn.isSelected = false
+            }
+            templateName.text = _model.templateName
+            chargeLabel.text = _model.templateName
+            
+//            freightTypeText
+            templateType.text = _model.freightTypeText
+            
+            
+        }
+    }
+
+    //分割线
+//    lazy var midView:UIView = {
+//       let midView = UIView()
+//        midView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
+//        return midView
+//    }()
+//
+    
+    
     
     //默认地址lable
 //    lazy var defualtLabel:UILabel = {

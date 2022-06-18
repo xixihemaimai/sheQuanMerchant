@@ -110,7 +110,8 @@ class ProductDescriptionViewController: BaseViewController {
         
         
         
-        editorView.isEditable = true
+//        editorView.isEditable = true
+        editorView.delegate = self
         view.addSubview(editorView)
         editorView.snp.makeConstraints { make in
             make.left.right.bottom.equalToSuperview()
@@ -123,7 +124,7 @@ class ProductDescriptionViewController: BaseViewController {
         //这里利用模型来判断是编辑过得数据还是没有新要发布的
         if inputString != nil{
             //editorView.frame.size.width-self.editorView.textContainer.lineFragmentPadding*2
-            LXFLog("+================\(inputString)")
+            LXFLog("+================\(String(describing: inputString))")
 //            inputString = inputString?.replacingOccurrences(of: "+", with: "\"", options: .literal, range: nil)
             SIXHTMLParser.attributedText(withHtmlString: inputString, imageWidth: editorView.frame.size.width - (editorView.textContainer.lineFragmentPadding * 2)) { attributedText in
                 self.editorView.attributedText = attributedText
@@ -362,18 +363,15 @@ class ProductDescriptionViewController: BaseViewController {
     @objc func backSaveProduct(backBtn:UIButton){
 //        _textView.resignFirstResponder()
         editorView.resignFirstResponder()
-            
             if isModify{
                 JFPopup.alert {
                     [
                         .title("确定要放弃编辑商品详情吗？"),
                         .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
-        //                .subTitle("注:取消商品将移至未上架"),
-        //                .subTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 ")),
                         .withoutAnimation(true),
                         .cancelAction([
                             .text("取消"),
-                            .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 ")),
+                            .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
                             .tapActionCallback({
                                 
                             })
@@ -382,9 +380,8 @@ class ProductDescriptionViewController: BaseViewController {
                             .text("确定"),
                             .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
                             .tapActionCallback({
-                                JFPopupView.popup.toast(hit: "点击了确定")
+//                                JFPopupView.popup.toast(hit: "点击了确定")
                                 Coordinator.shared?.popViewController(self, true)
-                                
                             })
                         ])
                     ]
@@ -435,9 +432,7 @@ class ProductDescriptionViewController: BaseViewController {
 //
     //完成
     @objc func completeAction(){
-        
-        if editorView.attributedText.length > 0{
-        
+      if editorView.attributedText.length > 0{
         editorView.resignFirstResponder()
         SIXHTMLParser.sync_htmlString(withAttributedText:editorView.attributedText, orignalHtml: inputString) { html, images in
             var imageDatas = [Data]()
@@ -617,7 +612,12 @@ class ProductDescriptionViewController: BaseViewController {
     
 }
 
-extension ProductDescriptionViewController:UITextViewDelegate,UITextFieldDelegate{
+extension ProductDescriptionViewController:UITextViewDelegate{
+    
+    func textViewDidChange(_ textView: UITextView) {
+        isModify = true
+    }
+    
 //    func textViewDidChange(_ textView: UITextView) {
 //        _textTool.hiddenView()
 //        LXFLog(_textView.locationStr)
@@ -654,17 +654,17 @@ extension ProductDescriptionViewController:UITextViewDelegate,UITextFieldDelegat
 //    }
 //
 //
-//    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-//        if range.length == 1{
-//            return true
-//        }else{
-//            //超过长度限制
-//            if textView.text.count >= 2000+3{
-//                return false
-//            }
-//        }
-//        return true
-//    }
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if range.length == 1{
+            return true
+        }else{
+            //超过长度限制
+            if textView.text.count >= 2000+3{
+                return false
+            }
+        }
+        return true
+    }
    
     
 //    func textViewDidBeginEditing(_ textView: UITextView) {

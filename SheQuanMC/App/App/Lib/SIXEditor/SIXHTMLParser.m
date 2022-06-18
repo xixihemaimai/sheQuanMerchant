@@ -38,9 +38,6 @@ NSString * const ImagePlaceholderTag = @"\U0000fffc";
         handler(nil,nil);
         return;
     }
-    
-    NSLog(@"========1===================%@",orignalHtml);
-    
     NSMutableString *html = [NSMutableString string];
     NSString *string = attributedText.string;
     

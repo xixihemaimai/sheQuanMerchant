@@ -82,23 +82,115 @@ public struct productListModel: Codable {
 
 
 public struct FreightListModel:Codable{
+    public var chargeType:Int32?             //计费类型（1,按件计费）
+    public var chargeTypeText:String?        //计费类型(1.按件计费)
+    public var defTemp:Bool?                 //默认模版（false：取消默认、true：默认）
+    public var freightConf:freightConfModel? //运费配置
+    public var freightId:Int64?              //运费Id
+    public var freightType:Int32?            //运费类型 （1、包邮：2、自定义）
+    public var freightTypeText:String?       //运费类型（1、包邮：2、自定义）
+    public var freightVerId:Int32?           //运费版本Id
+    public var noDeliveryAreaIds:[Int32]?    //不配送区域
+    public var templateName:String?          //模版名称
     
-    public var freightId:Int64?
-    public var templateName:String?
     
     enum CodingKeys: String, CodingKey {
-        case freightId = "applyTime"
+        case chargeType = "chargeType"
+        case chargeTypeText = "chargeTypeText"
+        case defTemp = "defTemp"
+        case freightConf = "freightConf"
+        case freightId = "freightId"
+        case freightType = "freightType"
+        case freightTypeText = "freightTypeText"
+        case freightVerId = "freightVerId"
+        case noDeliveryAreaIds = "noDeliveryAreaIds"
         case templateName = "templateName"
     }
     
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
+        chargeType = try? values.decodeIfPresent(Int32.self, forKey: .chargeType)
+        chargeTypeText = try? values.decodeIfPresent(String.self, forKey: .chargeTypeText)
+        defTemp = try? values.decodeIfPresent(Bool.self, forKey: .defTemp)
+        freightConf = try? values.decodeIfPresent(freightConfModel.self, forKey: .freightConf)
         freightId = try? values.decode(Int64.self, forKey: .freightId)
+        freightType = try? values.decodeIfPresent(Int32.self, forKey: .freightType)
+        freightTypeText = try? values.decodeIfPresent(String.self, forKey: .freightTypeText)
+        freightVerId = try? values.decodeIfPresent(Int32.self, forKey: .freightVerId)
+        noDeliveryAreaIds = try? values.decodeIfPresent([Int32].self, forKey: .noDeliveryAreaIds)
         templateName = try? values.decodeIfPresent(String.self, forKey: .templateName)
-
     }
     
+    
+    
+//    public init(price:Decimal? = 0,skuCode:String? = "",skuId:Int64? = 0,skuPics:[String]? = [String](),specs:[Specs]? = [Specs](),stock:Int32? = 0){
+//        self.price = price
+//        self.skuCode = skuCode
+//        self.skuId = skuId
+//        self.skuPics = skuPics
+//        self.specs = specs
+//        self.stock = stock
+//    }
+    
+    
+    
+    public init(chargeType:Int32? = 0,chargeTypeText:String? = "",defTemp:Bool? = false,freightConf:freightConfModel? = freightConfModel(firstPiece: 0, freight: 0, parcelConditions: 0, renewal: 0, renewalFreight: 0),freightId:Int64? = 0,freightType:Int32? = 0,freightTypeText:String? = "",freightVerId:Int32? = 0,noDeliveryAreaIds:[Int32]? = [Int32](),templateName:String? = ""){
+        
+        self.chargeType = chargeType
+        self.chargeTypeText = chargeTypeText
+        self.defTemp = defTemp
+        self.freightConf = freightConf
+        self.freightId = freightId
+        self.freightType = freightType
+        self.freightTypeText = freightTypeText
+        self.freightVerId = freightVerId
+        self.noDeliveryAreaIds = noDeliveryAreaIds
+        self.templateName = templateName
+    }
 }
+
+
+
+public struct freightConfModel:Codable{
+    public var firstPiece:Int32? //首件
+    public var freight:Decimal?  //运费
+    public var freightConfId:Int64? //运费配置Id
+    public var parcelConditions:Int32? //   包邮条件(件）
+    public var renewal:Int32?    //续件
+    public var renewalFreight:Decimal?  //续件运费
+    
+    enum CodingKeys: String, CodingKey {
+        case firstPiece = "firstPiece"
+        case freight = "freight"
+        case freightConfId = "freightConfId"
+        case parcelConditions = "parcelConditions"
+        case renewal = "renewal"
+        case renewalFreight = "renewalFreight"
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        firstPiece = try? values.decodeIfPresent(Int32.self, forKey: .firstPiece)
+        freight = try? values.decodeIfPresent(Decimal.self, forKey: .freight)
+        freightConfId = try? values.decodeIfPresent(Int64.self, forKey: .freightConfId)
+        parcelConditions = try? values.decodeIfPresent(Int32.self, forKey: .parcelConditions)
+        renewal = try? values.decodeIfPresent(Int32.self, forKey: .renewal)
+        renewalFreight = try? values.decodeIfPresent(Decimal.self, forKey: .renewalFreight)
+    }
+    
+    
+    public init(firstPiece:Int32? = 0,freight:Decimal? = 0,freightConfId:Int64? = 0,parcelConditions:Int32? = 0,renewal:Int32? = 0,renewalFreight:Decimal? = 0){
+        self.firstPiece = firstPiece
+        self.freight = freight
+        self.freightConfId = freightConfId
+        self.parcelConditions = parcelConditions
+        self.renewal = renewal
+        self.renewalFreight = renewalFreight
+    }
+    
+    
+}
+
 
 
 

@@ -115,6 +115,55 @@ public func getArrayJSONStringFromAddSpec(obj:[String:Any]) -> String{
 
 
 
+//新建和更新运费模板
+public func getArrayJSONStringFromUpdateAndNewTemplate(obj:[String:Any]) -> String{
+    if (!JSONSerialization.isValidJSONObject(obj)) {
+        print("无法解析出JSONString")
+        return ""
+    }
+    if let data : NSData = try? JSONSerialization.data(withJSONObject: obj, options: []) as NSData? {
+        var body:String = ""
+        do{
+            let items = try? JSONSerialization.jsonObject(with: data as Data, options: []) as? Dictionary<String, Any>
+            let dictlist = items?.sorted { t1, t2 in
+                return t1.key < t2.key ? true : false
+            }
+            if let dicts = dictlist{
+                for (_ ,element) in dicts.enumerated() {
+                    LXFLog(element.key)
+                    LXFLog(element.value)
+                    if let code = element.value as? Int {
+                       let result = String(code)
+                        if element.key == "freightId" || element.key == "freightType" || element.key == "freightVerId"{
+                            body += "," + "\"" + element.key + "\"" + ":" + result
+                        }else{
+                            body += "{" + "\"" + element.key + "\"" + ":" + result
+                        }
+                    }
+                    if let code = element.value as? String{
+                        let result = String(code)
+                        if element.key == "templateName"{
+                            body += "," + "\"" + element.key + "\"" + ":" + "\"" + result + "\""
+                        }else{
+                            body += "," + "\"" + element.key + "\"" + ":" + result
+                        }
+                    }
+                }
+            }
+            body += "}"
+        }catch{
+          LXFLog(error)
+          return body
+        }
+        return body
+    }
+    return ""
+}
+
+
+
+
+
 
 //发布商品
 public func getJSONStringFromPushblish(obj:[String:Any],isEscape:Bool) -> String{
@@ -136,17 +185,17 @@ public func getJSONStringFromPushblish(obj:[String:Any],isEscape:Bool) -> String
             var body:String = ""
             do {
                 let items = try? JSONSerialization.jsonObject(with: data as Data, options: []) as? Dictionary<String, Any>
-                LXFLog("---2323--------\(items)")
+//                LXFLog("---2323--------\(items)")
                 let dictlist = items?.sorted { t1, t2 in
                     return t1.key < t2.key ? true : false
                 }
                 if let dicts = dictlist{
                     for (index,element) in dicts.enumerated() {
-                        LXFLog(element.key)
-                        LXFLog(element.value)
+//                        LXFLog(element.key)
+//                        LXFLog(element.value)
                         if let code = element.value as? Int {
                         let result = String(code)
-                          LXFLog("======================\(result)")
+//                          LXFLog("======================\(result)")
                             if index == 0 {
                                 if element.key == "freeRefundIn7Days" || element.key == "freightInsure" || element.key == "multiSpec"{
                                     if result == "1"{
@@ -170,13 +219,10 @@ public func getJSONStringFromPushblish(obj:[String:Any],isEscape:Bool) -> String
                                 }
                             }
                         }
-                        
-                        
-                        
                         if let code = element.value as? Decimal {
                            let doubleValue = Double(truncating: code as? NSNumber ?? 0.0)
                            let result = String(format: "%0.3f", doubleValue)
-                           LXFLog("======================\(result)")
+//                           LXFLog("======================\(result)")
 //                            if index == 0 {
 //                                if element.key == "freeRefundIn7Days" || element.key == "freightInsure" || element.key == "multiSpec"{
 //                                    if result == "1"{
@@ -200,11 +246,6 @@ public func getJSONStringFromPushblish(obj:[String:Any],isEscape:Bool) -> String
 //                                }
 //                            }
                         }
-                        
-                        
-                        
-                        
-                        
                       //productDesc  productId productCode productName
                         if let code = element.value as? String{
                             let result = String(code)
@@ -231,215 +272,6 @@ public func getJSONStringFromPushblish(obj:[String:Any],isEscape:Bool) -> String
                 print(error)
                 return body
             }
-            
-            
-            
-//            if let dict = getArrayOrDicFromJSONString(jsonString: JSONString as String) as? [String:String]{
-//
-//                LXFLog(dict)
-//
-//               let dictList = dict.sorted { t1, t2 in
-//                   return t1.key < t2.key ? true : false
-//                }
-//
-//
-//                for (index,element) in dictList.enumerated() {
-//                    LXFLog(element.key)
-//                    LXFLog(element.value)
-//                }
-//
-//            }
-            
-
-            //"productDesc"商品描述
-//            let range = JSONString.range(of: "\"productDesc\":")
-//            var productStr = JSONString.substring(from: range.location)
-//            let productDescStr = productStr.sub(to: range.length + 2)
-//            LXFLog("==========\(productDescStr)")
-//            //productDescStr == "\"productDesc\":\"\""
-//            if JSONString.contains("productDesc" + ":" + "" + ","){
-//                let location = productStr.position(of: ",")
-//                productStr = productStr.sub(start: 0, length: location)
-//                LXFLog("==========\(productStr)")
-//            }else if JSONString.contains("productDesc" + ":" + ""){
-//                //最后一行
-//                let location = productStr.positionOf(sub: "\"", backwards: true)
-//                productStr = productStr.sub(start: 0, length: location)
-//                LXFLog("==========\(productStr)")
-//            }else{
-//                LXFLog("==========\(productStr)")
-//                let location = productStr.position(of: "]")
-//                productStr = productStr.sub(start: 0, length: location + 2)
-//                LXFLog("========\(productStr)")
-//            }
-//
-//            //图片
-//            let range1 = JSONString.range(of: "\"productPics\":")
-//            var productPicsStr = JSONString.substring(from: range1.location)
-//            let productPStr = productPicsStr.sub(to: range1.length + 2)
-//            if productPStr == "\"productPics\":[]"{
-//                let location = productPicsStr.position(of: "]")
-//                productPicsStr = productPicsStr.sub(start: 0, length: location + 2)
-//                LXFLog("==========\(productPicsStr)")
-//            }else{
-//
-//                LXFLog("==========\(productPicsStr)")
-//                let location = productPicsStr.position(of: "]")
-//                productPicsStr = productPicsStr.sub(start: 0, length: location + 2)
-//                LXFLog("========\(productPicsStr)")
-//            }
-//
-//
-//            LXFLog("=====================================================================")
-//            //skus     价格库存 里面  specs 商品规格
-//            let range2 = JSONString.range(of: "\"skus\":")
-//            var skusStr = JSONString.substring(from: range2.location)
-//            let skusPStr = skusStr.sub(to: range2.length + 4)
-//            LXFLog("+=========\(skusPStr)")
-//            if skusPStr == "\"skus\":\"[]\""{
-//                let location = skusStr.position(of: ",")
-//                skusStr = skusStr.sub(start: 0, length: location + 2)
-//                LXFLog("==========\(skusStr)")
-//            }else if skusPStr == "\"skus\":\"[]\"," {
-//                let location = skusStr.position(of: "]")
-//                skusStr = skusStr.sub(start: 0, length: location + 3)
-//                LXFLog("==========\(skusStr)")
-//            }else{
-//                LXFLog("==========\(skusStr)")
-//                let location = skusStr.positionOf(sub: "stock", backwards: true)
-//                let newSkustr = skusStr.sub(start: 0, length: location)
-//                let ssstr = skusStr
-//                var str = ssstr.replacingOccurrences(of: newSkustr, with: "")
-//                let newlocation = str.position(of: "}]")
-//                str = str.sub(start: 0, length: newlocation + 4)
-////                skusStr += str
-//                skusStr = newSkustr + str
-//                LXFLog("----------\(str)")
-//                LXFLog("========\(skusStr)")
-//            }
-//
-//            LXFLog("==3-====================================================")
-//            //specs    商品规格
-//            let range3 = JSONString.range(of: "\"specs\":")
-//            var specsStr = JSONString.substring(from: range3.location)
-//            let SpecsPStr = specsStr.sub(to: range3.length + 4)
-//            LXFLog("+=========\(SpecsPStr)")
-//            if SpecsPStr == "\"specs\":\"[]\""{
-//                let location = specsStr.position(of: "]")
-//                specsStr = specsStr.sub(start: 0, length: location + 2)
-//                LXFLog("==========\(specsStr)")
-//            }else if SpecsPStr == "\"specs\":\"[]\","{
-//                let location = specsStr.position(of: ",")
-//                specsStr = specsStr.sub(start: 0, length: location + 3)
-//                LXFLog("==========\(specsStr)")
-//            }else{
-//                let location = specsStr.position(of: "}]")
-//                specsStr = specsStr.sub(start: 0, length: location + 4)
-//                LXFLog("========\(specsStr)")
-//            }
-//
-//            LXFLog("==4-====================================================")
-//
-//            //spus     商品参数(Spu)
-//            let range4 = JSONString.range(of: "\"spus\":")
-//            var spusStr = JSONString.substring(from: range4.location)
-//            let SpusPStr = spusStr.sub(to: range4.length + 4)
-//            LXFLog("+=========\(SpusPStr)")
-//            if SpusPStr == "\"spus\":\"[]\""{
-//                let location = spusStr.position(of: "]")
-//                spusStr = spusStr.sub(start: 0, length: location + 3)
-//                LXFLog("==========\(spusStr)")
-//            }else if SpecsPStr == "\"specs\":\"[]\","{
-//                let location = spusStr.position(of: "]")
-//                spusStr = spusStr.sub(start: 0, length: location + 2)
-//                LXFLog("==========\(spusStr)")
-//            }
-//            else{
-//                let location = spusStr.position(of: "}]")
-//                spusStr = spusStr.sub(start: 0, length: location + 4)
-//                LXFLog("========\(spusStr)")
-//            }
-//
-//            JSONString = JSONString.replacingOccurrences(of: productStr, with: "") as NSString
-//            JSONString = JSONString.replacingOccurrences(of: productPicsStr, with: "") as NSString
-//            JSONString = JSONString.replacingOccurrences(of: skusStr, with: "") as NSString
-//            JSONString = JSONString.replacingOccurrences(of: specsStr, with: "") as NSString
-//            JSONString = JSONString.replacingOccurrences(of: spusStr, with: "") as NSString
-//
-//
-//            LXFLog("====================================\(JSONString)")
-//
-//             //这边就是对jsonstring进行添加
-//            //
-////            NSString *str=[NSString initWithFormat:@"%@,%@" , a , b];
-////            JSONString = (JSONString as String) + "\"productDesc\":\"\"," + "\"productPics\":[]," + "\"skus\":[]," +  "\"specs\":[]," + "\"spus\":[],"
-//
-////            JSONString = JSONString.stringByAppendingFormat("%@%@%@%%@", "\"productDesc\":\"\",","\"productPics\":[],","\"skus\":[],", "\"specs\":[],","\"spus\":[],")
-//
-//            let str = "," + "productDesc" + ":" + "\"\"" + "," + "productPics" + ":" + "[]" + "," + "skus" + ":" + "[]" + "," + "specs" + ":" + "[]" + "," + "spus" + ":" + "[]"
-//            //.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
-//            JSONString = ((JSONString as String) + str) as NSString
-//
-//            LXFLog("==========32=========================\(JSONString)")
-//
-//
-//            //这边要做得就是对一些有""""的进行删除skus":"[]" ,"specs":"[]" "spus":"[]"
-//           skusStr = skusStr.sub(to: skusStr.count - 1)
-//            let skusIndex = skusStr.position(of: ":")
-//            skusStr = skusStr.sub(from: skusIndex + 1)
-//            LXFLog("============\(skusStr)")
-//            skusStr = "\"skus\":" + skusStr.sub(to: skusStr.count - 1)
-//            LXFLog("----------------\(skusStr)")
-//
-//
-//            specsStr = specsStr.sub(to: skusStr.count - 1)
-//            let specsStrIndex = specsStr.position(of: ":")
-//            specsStr = specsStr.sub(from: specsStrIndex + 1)
-//            specsStr = "\"specs\":" + specsStr.sub(to: specsStr.count - 1)
-//            LXFLog("----------------\(specsStr)")
-//
-//
-//            spusStr = spusStr.sub(to: skusStr.count - 1)
-//            let spusStrIndex = spusStr.position(of: ":")
-//            spusStr = spusStr.sub(from: spusStrIndex + 1)
-//            spusStr = "\"spus\":" + spusStr.sub(to: spusStr.count - 1)
-//            LXFLog("----------------\(spusStr)")
-
-
-
-//
-//            let charset = CharacterSet(charactersIn: ",}]")
-//            let fullNameArr = (JSONString as String).components(separatedBy: charset)
-//            LXFLog(fullNameArr)
-//            LXFLog("+==============\(fullNameArr.count)")
-//            let sortedWords = fullNameArr.sorted()
-//            LXFLog("=============\(sortedWords)")
-//            var body:String = ""
-//            for (index,var value) in sortedWords.enumerated(){
-////                if value == "\"productDesc\":"{
-////                    let productDescStr = str.sub(to: 2)
-////                    if productDescStr != "\"\""{
-////                        value +=  str + "\""
-////                    }
-////                }
-////                if value == "\"productPics\":"{
-////                    let productPicsStr = strPic.sub(to: 2)
-////                    if productPicsStr != "[]"{
-////                        value +=  strPic
-////                    }
-////                }
-//
-//
-//                if index == 0{
-//                   body = "{" + value
-//                }else{
-//                    body = body + "," + value
-//                }
-//            }
-//            body = body + "}"
-////            LXFLog("-----------------2-1------------\(body)")
-//            return body
-//        }
         return body
     }
     return ""
@@ -564,6 +396,10 @@ public func getJSONStringFromAddSpec(obj:Data) -> Data{
 
 
 
+
+
+
+
 //发布商品进行整理
 public func getJSONStringFromPushblishData(obj:Data,isEscape:Bool) -> Data{
     //    if var JSONString = NSString(data:obj,encoding: String.Encoding.utf8.rawValue) {
@@ -583,8 +419,8 @@ public func getJSONStringFromPushblishData(obj:Data,isEscape:Bool) -> Data{
         }
         if let dicts = dictlist{
             for (index,element) in dicts.enumerated() {
-                LXFLog(element.key)
-                LXFLog(element.value)
+//                LXFLog(element.key)
+//                LXFLog(element.value)
                 if let code = element.value as? Int {
                     let result = String(code)
 //                    LXFLog("======================\(result)")
@@ -616,7 +452,7 @@ public func getJSONStringFromPushblishData(obj:Data,isEscape:Bool) -> Data{
                 if let code = element.value as? Decimal {
                    let doubleValue = Double(truncating: code as? NSNumber ?? 0.0)
                    let result = String(format: "%0.3f", doubleValue)
-                   LXFLog("======================\(result)")
+//                   LXFLog("======================\(result)")
 //                            if index == 0 {
 //                                if element.key == "freeRefundIn7Days" || element.key == "freightInsure" || element.key == "multiSpec"{
 //                                    if result == "1"{
@@ -673,4 +509,45 @@ public func getJSONStringFromPushblishData(obj:Data,isEscape:Bool) -> Data{
     return body.data(using: String.Encoding.utf8)!
 //    }
 //    return "".data(using: String.Encoding.utf8)!
+}
+
+
+
+//新建和更新运费模板
+public func getArrayJSONStringFromUpdateAndNewTemplateData(obj:Data) -> Data{
+    var body:String = ""
+    do {
+        let items = try? JSONSerialization.jsonObject(with: obj, options: []) as? Dictionary<String, Any>
+//        LXFLog("---2323--------\(items)")
+        let dictlist = items?.sorted { t1, t2 in
+            return t1.key < t2.key ? true : false
+        }
+        if let dicts = dictlist{
+            for (_ ,element) in dicts.enumerated() {
+                LXFLog(element.key)
+                LXFLog(element.value)
+                if let code = element.value as? Int {
+                   let result = String(code)
+                    if element.key == "freightId" || element.key == "freightType" || element.key == "freightVerId"{
+                        body += "," + "\"" + element.key + "\"" + ":" + result
+                    }else{
+                        body += "{" + "\"" + element.key + "\"" + ":" + result
+                    }
+                }
+                if let code = element.value as? String{
+                    let result = String(code)
+                    if element.key == "templateName"{
+                        body += "," + "\"" + element.key + "\"" + ":" + "\"" + result + "\""
+                    }else{
+                        body += "," + "\"" + element.key + "\"" + ":" + result
+                    }
+                }
+            }
+        }
+        body += "}"
+     } catch {
+         print(error)
+         return "".data(using: String.Encoding.utf8)!
+    }
+    return body.data(using: String.Encoding.utf8)!
 }

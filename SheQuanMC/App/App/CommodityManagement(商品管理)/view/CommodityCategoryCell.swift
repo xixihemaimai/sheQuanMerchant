@@ -41,7 +41,7 @@ class CommodityCategoryCell: UITableViewCell {
     var model:BussinessSecondTypeModel?{
         didSet{
             guard let _model = model else { return }
-            categoryLabel.text = model?.categoryName
+            categoryLabel.text = _model.categoryName
         }
     }
     

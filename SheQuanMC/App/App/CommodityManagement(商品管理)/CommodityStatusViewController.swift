@@ -34,7 +34,6 @@ class CommodityStatusViewController: BaseViewController {
     override func headerRereshing() {
         LXFLog("下拉")
 //        tableview.mj_header?.endRefreshing()
-        
         loadProductList()
     }
     
@@ -85,7 +84,7 @@ class CommodityStatusViewController: BaseViewController {
                     .withoutAnimation(true),
                     .cancelAction([
                         .text("取消"),
-                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 "))
+                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999"))
                     ]),
                     .confirmAction([
                         .text("删除"),
@@ -110,6 +109,9 @@ class CommodityStatusViewController: BaseViewController {
             let replenishVc = ReplenishInventoryViewController()
             replenishVc.productId = Int64(productListModel.productId ?? 0)
             Coordinator.shared?.pushViewController(self, replenishVc, animated: true)
+            replenishVc.successBlock = {
+                self.loadProductList()
+            }
         }
     }
     
@@ -124,7 +126,7 @@ class CommodityStatusViewController: BaseViewController {
                     .withoutAnimation(true),
                     .cancelAction([
                         .text("取消"),
-                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 "))
+                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999"))
                     ]),
                     .confirmAction([
                         .text("下架"),
@@ -155,7 +157,7 @@ class CommodityStatusViewController: BaseViewController {
                     .withoutAnimation(true),
                     .cancelAction([
                         .text("取消"),
-                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 "))
+                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999"))
                     ]),
                     .confirmAction([
                         .text("上架"),
@@ -209,7 +211,7 @@ class CommodityStatusViewController: BaseViewController {
                 .withoutAnimation(true),
                 .cancelAction([
                     .text("取消"),
-                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 "))
+                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999"))
                 ]),
                 .confirmAction([
                     .text("删除"),
@@ -257,11 +259,11 @@ class CommodityStatusViewController: BaseViewController {
                 .title("确定要取消申请吗?"),
                 .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
                 .subTitle("注:取消商品将移至未上架"),
-                .subTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 ")),
+                .subTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
                 .withoutAnimation(true),
                 .cancelAction([
                     .text("暂不取消"),
-                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 "))
+                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999"))
                 ]),
                 .confirmAction([
                     .text("取消申请"),

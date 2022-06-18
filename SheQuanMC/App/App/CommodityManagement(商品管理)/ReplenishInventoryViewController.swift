@@ -42,6 +42,9 @@ class ReplenishInventoryViewController: BaseViewController {
     
     var model:soldOutSkuListModel?
     
+    //补仓成功之后的回调
+    var successBlock:(()->Void)?
+    
     
     
     override func viewDidLoad() {
@@ -163,7 +166,6 @@ class ReplenishInventoryViewController: BaseViewController {
                self.goodsLabels.text = data1.productName
                self.tableview.reloadData()
             }
-            
         } failureCallback: { error, code in
             code.loginOut()
         }
@@ -180,7 +182,6 @@ class ReplenishInventoryViewController: BaseViewController {
             let skuStcokInfoModel = SkuStockInfoModel(skuId: skus?.skuId, stock: Int32(cell.addTextField.text ?? "0"))
             stockList.append(skuStcokInfoModel)
         }
-        
         var specsLists:String = "["
         for n in 0..<stockList.count{
             let skuStcokInfoModel = stockList[n]
@@ -197,6 +198,8 @@ class ReplenishInventoryViewController: BaseViewController {
         let parameters = ["productId":productId,"skuStocks":specsLists] as [String:Any]
         NetWorkResultRequest(OrderApi.repairStock(parameters: parameters), needShowFailAlert: true) { result, data in
             Coordinator.shared?.popViewController(self, true)
+            //这边还要做一个处理回调
+            self.successBlock!()
         } failureCallback: { error, code in
             code.loginOut()
         }

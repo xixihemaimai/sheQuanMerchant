@@ -157,13 +157,12 @@ public class EnterpriseAuditViewController: BaseViewController {
     
     //退出登录状态
     @objc func exitLoginStatus(){
-        LXFLog("============")
         JFPopup.alert {
             [
                 .title("确定要退出吗？"),
                 .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
 //                .subTitle("注:取消商品将移至未上架"),
-//                .subTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 ")),
+//                .subTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
                 .withoutAnimation(true),
                 .cancelAction([
                     .text("取消"),

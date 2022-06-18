@@ -150,20 +150,18 @@ class CommoditySpecificationsViewController: BaseViewController {
         
         saveBtn.addTarget(self, action: #selector(saveManagerAction), for: .touchUpInside)
         
-        if type == 0{
+//        if type == 0{
             //发布
             if saveList.count > 0 && unIonSetList.count > 0{
-                for i in 0..<saveList.count {
-                    let specGroups = saveList[i]
-//                    addCoutList.append(specGroups.specGroupId ?? 0)
+                for _ in 0..<saveList.count {
+                    //let specGroups = saveList[i]
+                    //addCoutList.append(specGroups.specGroupId ?? 0)
                     let colorList = [Specs]()
                     saveValueList.append(colorList)
                 }
-                
                 for n in 0..<saveList.count{
                     var specGroups = saveList[n]
                     var colorList = saveValueList[n]
-                    
                     if (specGroups.specs?.count ?? 0) > 0{
                         for j in 0..<(specGroups.specs?.count ?? 0){
                             let str = specGroups.specs?[j]
@@ -177,16 +175,13 @@ class CommoditySpecificationsViewController: BaseViewController {
                     }
                 }
                 newTableView.reloadData()
-                
             }else if saveList.count > 0 && unIonSetList.count < 1{
-                
-                for i in 0..<saveList.count {
-                    let specGroups = saveList[i]
-//                    addCoutList.append(specGroups.specGroupId ?? 0)
+                for _ in 0..<saveList.count {
+                    //let specGroups = saveList[i]
+                    //addCoutList.append(specGroups.specGroupId ?? 0)
                     let colorList = [Specs]()
                     saveValueList.append(colorList)
                 }
-                
                 for n in 0..<saveList.count{
                     var specGroups = saveList[n]
                     var colorList = saveValueList[n]
@@ -210,70 +205,65 @@ class CommoditySpecificationsViewController: BaseViewController {
 //                loadProductSpecList()
 //            }
             
-        }else{
-            //编辑
-            
-            if saveList.count > 0 && unIonSetList.count > 0{
-                for _ in 0..<saveList.count {
-//                    let specGroups = saveList[i]
-//                    addCoutList.append(specGroups.specGroupId ?? 0)
-                    let colorList = [Specs]()
-                    saveValueList.append(colorList)
-                }
-                
-                for n in 0..<saveList.count{
-                    var specGroups = saveList[n]
-                    var colorList = saveValueList[n]
-                    
-                    if (specGroups.specs?.count ?? 0) > 0{
-                        for j in 0..<(specGroups.specs?.count ?? 0){
-                            let str = specGroups.specs?[j]
-                            let specs = Specs(specGroupId: specGroups.specGroupId,specValue:str)
-                            colorList.append(specs)
-                        }
-                        saveValueList[n] = colorList
-                    }else{
-                        specGroups.specs = [String]()
-                        saveList[n] = specGroups
-                    }
-                }
-                newTableView.reloadData()
-                
-            }else if saveList.count > 0 && unIonSetList.count < 1{
-                
-                for _ in 0..<saveList.count {
-//                    let specGroups = saveList[i]
-//                    addCoutList.append(specGroups.specGroupId ?? 0)
-                    let colorList = [Specs]()
-                    saveValueList.append(colorList)
-                }
-                
-                for n in 0..<saveList.count{
-                    var specGroups = saveList[n]
-                    var colorList = saveValueList[n]
-                    if (specGroups.specs?.count ?? 0) > 0{
-                        for j in 0..<(specGroups.specs?.count ?? 0){
-                            let str = specGroups.specs?[j]
-                            let specs = Specs(specGroupId: specGroups.specGroupId,specValue:str)
-                            colorList.append(specs)
-                        }
-                        saveValueList[n] = colorList
-                    }else{
-                        specGroups.specs = [String]()
-                        saveList[n] = specGroups
-                    }
-                }
-                UnionSetArray(tag: 0, index: 0)
-                newTableView.reloadData()
-            }
-//            else if saveList.count < 1 && unIonSetList.count < 1{
-                
-//                loadProductSpecList()
-                
+//        }else{
+//            //编辑
+//
+//            if saveList.count > 0 && unIonSetList.count > 0{
+//                for _ in 0..<saveList.count {
+////                    let specGroups = saveList[i]
+////                    addCoutList.append(specGroups.specGroupId ?? 0)
+//                    let colorList = [Specs]()
+//                    saveValueList.append(colorList)
+//                }
+//
+//                for n in 0..<saveList.count{
+//                    var specGroups = saveList[n]
+//                    var colorList = saveValueList[n]
+//
+//                    if (specGroups.specs?.count ?? 0) > 0{
+//                        for j in 0..<(specGroups.specs?.count ?? 0){
+//                            let str = specGroups.specs?[j]
+//                            let specs = Specs(specGroupId: specGroups.specGroupId,specValue:str)
+//                            colorList.append(specs)
+//                        }
+//                        saveValueList[n] = colorList
+//                    }else{
+//                        specGroups.specs = [String]()
+//                        saveList[n] = specGroups
+//                    }
+//                }
+//                newTableView.reloadData()
+//
+//            }else if saveList.count > 0 && unIonSetList.count < 1{
+//
+//                for _ in 0..<saveList.count {
+////                    let specGroups = saveList[i]
+////                    addCoutList.append(specGroups.specGroupId ?? 0)
+//                    let colorList = [Specs]()
+//                    saveValueList.append(colorList)
+//                }
+//
+//                for n in 0..<saveList.count{
+//                    var specGroups = saveList[n]
+//                    var colorList = saveValueList[n]
+//                    if (specGroups.specs?.count ?? 0) > 0{
+//                        for j in 0..<(specGroups.specs?.count ?? 0){
+//                            let str = specGroups.specs?[j]
+//                            let specs = Specs(specGroupId: specGroups.specGroupId,specValue:str)
+//                            colorList.append(specs)
+//                        }
+//                        saveValueList[n] = colorList
+//                    }else{
+//                        specGroups.specs = [String]()
+//                        saveList[n] = specGroups
+//                    }
+//                }
+//                UnionSetArray(tag: 0, index: 0)
+//                newTableView.reloadData()
 //            }
-        }
+//        }
     }
-    
+//
     
 //    func loadProductSpecList(){
 //        let parameters = ["categoryId":categoryId,"productId":productId] as [String:Any]
@@ -416,14 +406,11 @@ class CommoditySpecificationsViewController: BaseViewController {
     @objc func addSpecificationAction(addSepcificationsBtn:UIButton){
         if saveList.count < 3{
             popup.bottomSheet {
-                
-//                let addSpecificationsView = AddSpecificationsView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(400)), addSpecificationList: addCoutList,categoryId: categoryId)
-                
+                //let addSpecificationsView = AddSpecificationsView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(400)), addSpecificationList: addCoutList,categoryId: categoryId)
                 let addSpecificationsView = AddSpecificationsView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(400)), productId: productId, categoryId: categoryId)
                 addSpecificationsView.cancelBlock = {[weak self] in
                     self?.popup.dismissPopup()
                 }
-                
                 addSpecificationsView.sendSureSpecificationList = {[weak self] specGroups in
                     LXFLog("===============+++++++++++++++++++++++++++++[==============---------------------\(String(describing: specGroups))")
                     self?.saveList.append(specGroups)
@@ -432,7 +419,6 @@ class CommoditySpecificationsViewController: BaseViewController {
                     self?.newTableView.reloadData()
                     self?.popup.dismissPopup()
                 }
-                
                 addSpecificationsView.addCustomNewSpecification = {[weak self] in
                     self?.popup.dismissPopup()
                     self?.popup.dialog {
@@ -441,7 +427,6 @@ class CommoditySpecificationsViewController: BaseViewController {
                             self?.popup.dismissPopup()
                             LXFLog("=====================23=============")
                         }
-                        
                         addSpecificationValueView.sureAddCustomNewSpecificationList = {[weak self] list in
                             for i in 0..<list.count {
                                 let specGroups = list[i]
@@ -455,8 +440,6 @@ class CommoditySpecificationsViewController: BaseViewController {
                         return addSpecificationValueView
                     }
                 }
-                
-                
 //                addSpecificationsView.sendSureSpecificationList = {[weak self] list in
 //                    for i in 0..<list.count {
 //                        let specGroups = list[i]
@@ -470,8 +453,6 @@ class CommoditySpecificationsViewController: BaseViewController {
 //                    self?.popup.dismissPopup()
 //                }
                                                                   
-                                                                                                           
-                
 //                addSpecificationsView.sendSureSpecificationList = {[weak self] list in
 //                    for i in 0..<list.count {
 //                        let specGroups = list[i]
@@ -486,13 +467,12 @@ class CommoditySpecificationsViewController: BaseViewController {
 //                }
                 return addSpecificationsView
             }
-             
     //       let colorList = [String]()
     //       colorList.insert(String(1), at: 0)
     //       saveList.append(colorList)
     //       tableview.reloadData()
         }else{
-            JFPopup.toast(hit: "只允许添加俩个规格")
+            JFPopup.toast(hit: "只允许添加3个规格")
         }
     }
     
@@ -569,12 +549,10 @@ class CommoditySpecificationsViewController: BaseViewController {
             }
         }
         if valueInt > 1{
-            
             var array = saveValueList
             array = array.filter { (webSocket) in
                 webSocket.count != 0
             }
-            
             for i in 0..<array.count{
                 var colorList = array[i]
                 colorList = colorList.filter({ specs in
@@ -583,11 +561,9 @@ class CommoditySpecificationsViewController: BaseViewController {
                 LXFLog("+===========\(colorList.count)")
                 array[i] = colorList
             }
-            
             getCombination(kid: 0, inputArray: array, addArray: [Skus]())
             unIonSetList = arrayForConsolidationValueThe(array: combinationArray)
             combinationArray.removeAll()
-            
             for i in 0..<temArray.count {
                 var value = ""
                 let skus = temArray[i]
@@ -610,8 +586,6 @@ class CommoditySpecificationsViewController: BaseViewController {
                 }
             }
         }else{
-            
-            
             var array = saveValueList
             for i in 0..<array.count{
                 var colorList = array[i]
@@ -621,7 +595,6 @@ class CommoditySpecificationsViewController: BaseViewController {
                 LXFLog("+===========\(colorList.count)")
                 array[i] = colorList
             }
-            
             for i in 0..<array.count{
                 let colorList = array[i]
                 for specs in colorList{
@@ -629,8 +602,6 @@ class CommoditySpecificationsViewController: BaseViewController {
                     unIonSetList.append(skus)
                 }
             }
-            
-            
             for skus in temArray {
                 var value = ""
                 for i in 0..<(skus.specs?.count ?? 0){
@@ -653,8 +624,6 @@ class CommoditySpecificationsViewController: BaseViewController {
             }
         }
     }
-    
-    
     
     func getCombination(kid: Int, inputArray:[[Specs]],
                            addArray: [Skus]) {
@@ -747,32 +716,43 @@ class CommoditySpecificationsViewController: BaseViewController {
 //        }
 //    }
     
-    
-    
     //删除
     @objc func deleteAction(deleteBtn:UIButton){
-        
-        let specGroups = saveList[deleteBtn.tag]
-        
-        if specGroups.required != true{
-            saveList.remove(at: deleteBtn.tag)
-            
-    //      addCoutList.remove(at: deleteBtn.tag)
-//            for i in 0..<addCoutList.count {
-//                let specGroupId = addCoutList[i]
-//                if specGroups.specGroupId == specGroupId{
-//                    addCoutList.remove(at: i)
-//                    break
-//                }
-//            }
-            saveValueList.remove(at: deleteBtn.tag)
-            UnionSetArray(tag: deleteBtn.tag, index: 0)
-            newTableView.reloadData()
-        }else{
-            JFPopup.toast(hit: "该规格不能删除")
+        JFPopup.alert {
+            [
+                .title("确定要删除这个规格和改规格底下所有规格值?"),
+                .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+                .withoutAnimation(true),
+                .cancelAction([
+                    .text("取消"),
+                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999"))
+                ]),
+                .confirmAction([
+                    .text("删除"),
+                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+                    .tapActionCallback({
+                        //let specGroups = saveList[deleteBtn.tag]
+                        //if specGroups.required != true{
+                             self.saveList.remove(at: deleteBtn.tag)
+                             //addCoutList.remove(at: deleteBtn.tag)
+                             //for i in 0..<addCoutList.count {
+                                   //let specGroupId = addCoutList[i]
+                                   //if specGroups.specGroupId == specGroupId{
+                                        //addCoutList.remove(at: i)
+                                        //break
+                                     //}
+                               //}
+                             self.saveValueList.remove(at: deleteBtn.tag)
+                             self.UnionSetArray(tag: deleteBtn.tag, index: 0)
+                             self.newTableView.reloadData()
+                        //}else{
+                        //   JFPopup.toast(hit: "该规格不能删除")
+                        //}
+                    })
+                ])
+            ]
         }
     }
-    
     
     override func emptyDataSetShouldDisplay(_ scrollView: UIScrollView!) -> Bool {
         return false
@@ -814,9 +794,6 @@ class CommoditySpecificationsViewController: BaseViewController {
         return tempArray
     }
     
-    
-    
-    
     func arrayForConsolidationValueThe(array:[[Skus]]) -> [Skus]{
         var tempArray = [Skus]()
         let array1 = array
@@ -839,8 +816,6 @@ class CommoditySpecificationsViewController: BaseViewController {
         }
         return tempArray
     }
-    
-    
     
 //    func arrayUnionListIsTheSameArray(array:[Skus]) -> [[Skus]]{
 //        var array1 = array
@@ -872,8 +847,6 @@ class CommoditySpecificationsViewController: BaseViewController {
 //        return tempArray
 //    }
 //
-//
-//
 //    func arrayUnionListChageArray(array:[[Skus]]) -> [Skus]{
 //        var tempArray = [Skus]()
 //        let array1 = array
@@ -893,10 +866,6 @@ class CommoditySpecificationsViewController: BaseViewController {
 //        return tempArray
 //    }
 //
-    
-    
-    
-    
 }
 
 
@@ -969,11 +938,11 @@ extension CommoditySpecificationsViewController:UITableViewDelegate,UITableViewD
             let specGroups = saveList[indexPath.row]
             cell.specificationLabel.text = specGroups.specGroupName
             
-            if specGroups.required == true{
-                cell.deleteBtn.isHidden = true
-            }else{
-                cell.deleteBtn.isHidden = false
-            }
+//            if specGroups.required == true{
+//                cell.deleteBtn.isHidden = true
+//            }else{
+//                cell.deleteBtn.isHidden = false
+//            }
 //            if saveValueList.count > 0{
             cell.colorList = saveValueList[indexPath.row]
 //            }
@@ -1099,7 +1068,6 @@ extension CommoditySpecificationsViewController:UITableViewDelegate,UITableViewD
                     self?.popup.dismissPopup()
 //                    self?.newTableView.reloadData()
                 }
-                
                 //这里要传回添加完成之后的值
                 settingPriceAndStockView.settingBlock = {[weak self] list in
                     skus = list
@@ -1132,14 +1100,10 @@ extension CommoditySpecificationsViewController:CommoditySpecificationCellDelega
             }
         }
         saveList[tag] = specGroups
-        
         LXFLog("=========================\(saveValueList)")
         LXFLog("=========================\(saveList)")
-        
         UnionSetArray(tag: tag, index: index)
-        
         LXFLog("=========================\(unIonSetList)")
-        
         newTableView.reloadData()
     }
     
@@ -1152,19 +1116,15 @@ extension CommoditySpecificationsViewController:CommoditySpecificationCellDelega
             var specs = colorList[index]
             specs.specValue = value
             colorList[index] = specs
-            
             saveValueList[tag] = colorList
             var specGroups = saveList[tag]
             specGroups.specs?[index] = value
             saveList[tag] = specGroups
-            
            LXFLog("=========================\(saveValueList)")
            LXFLog("=========================\(saveList)")
            UnionSetArray(tag: tag, index: index)
            LXFLog("=========================\(unIonSetList)")
-            
            newTableView.reloadData()
-            
         }
         
 //        else{

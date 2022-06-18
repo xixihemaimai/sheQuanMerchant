@@ -9,6 +9,7 @@ import UIKit
 import Util
 import JFPopup
 import SwiftyJSON
+import SwiftUI
 
 
 
@@ -328,11 +329,22 @@ class AddSpecificationsView: UIView {
     func loadProductSpecList(){
         let parameters = ["categoryId":categoryId,"productId":productId] as [String:Any]
         NetWorkResultRequest(OrderApi.getProductSpecList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
-//            guard let model = try? JSONDecoder().decode(GenericResponse<[SpecGroups]>.self, from: data) else { return }
-//            LXFLog("================\(model)")
+           
             do{
                 let json = try JSON(data: data)
+//                LXFLog("================\(json)")
                 let array = json["data"]["specGroups"]
+                
+//                guard let model = try? JSONDecoder().decode(GenericResponse<[SpecGroups]>.self, from: data) else { return }
+//                LXFLog("================\(model)")
+       
+//                LXFLog("==========\(data)")
+//                if let array1s = json["data"]["specGroups"].array{
+//                   LXFLog("=================\(array1s)")
+//                   LXFLog("===============\(array1s[0])")
+//                   LXFLog("===============\(String(describing: array1s[0]["specGroupType"].int32))")
+//                }
+                
                 for i in 0..<array.count {
                     let dict = array[i]
                     //let specGroups = data1[i]
@@ -376,7 +388,7 @@ class AddSpecificationsView: UIView {
 //                self?.newTableView.reloadData()
                 
                 
-                LXFLog("====================\(self?.specificationsList)")
+                LXFLog("====================\(String(describing: self?.specificationsList))")
                 self?.tableview.reloadData()
             }catch{}
             
