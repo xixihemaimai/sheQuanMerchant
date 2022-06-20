@@ -414,7 +414,7 @@ class TemplateContentViewController: BaseViewController {
         //这边要区分是修改还是新建
         if type == 0{
             
-            freightListModel = FreightListModel(chargeType: Int32(1), chargeTypeText: "按件计费", defTemp: false, freightConf: freightConfModel(firstPiece: 0, freight: 0, freightConfId: 0,parcelConditions: 0, renewal: 0, renewalFreight: 0), freightId: Int64(0), freightType: Int32(1), freightTypeText: "包邮", freightVerId: Int32(0), noDeliveryAreaIds: [Int32](), templateName: "")
+            freightListModel = FreightListModel(chargeType: Int32(1), chargeTypeText: "按件计费", defTemp: false, freightConf: freightConfModel(firstPiece: 0, freight: 0, freightConfId: 0,parcelConditions: 0, renewal: 0, renewalFreight: 0), freightId: Int64(0), freightType: Int32(1), freightTypeText: "包邮", freightVerId: Int32(0), noDeliveryRegionIds: [Int32](), templateName: "")
             
             freeBtn.isSelected = true
             customFreightBtn.isSelected = false
@@ -472,7 +472,7 @@ class TemplateContentViewController: BaseViewController {
                 }
             }
             //noSettingLabeL 暂未设置
-            if (freightListModel?.noDeliveryAreaIds?.count ?? 0 ) < 1{
+            if (freightListModel?.noDeliveryRegionIds?.count ?? 0 ) < 1{
                 noSettingLabeL.text = "暂未设置"
             }else{
                 noSettingLabeL.text = "已设置"
@@ -524,8 +524,8 @@ class TemplateContentViewController: BaseViewController {
 //        freightListModel?.noDeliveryAreaIds?.append(3)
 //        freightListModel?.noDeliveryAreaIds?.append(4)
         var resultstr = "["
-        for i in 0..<(freightListModel?.noDeliveryAreaIds?.count ?? 0){
-            guard let value = freightListModel?.noDeliveryAreaIds?[i] else{
+        for i in 0..<(freightListModel?.noDeliveryRegionIds?.count ?? 0){
+            guard let value = freightListModel?.noDeliveryRegionIds?[i] else{
                 return
             }
 //            let values = Int32(truncating: value as? NSNumber ?? 0)
@@ -537,7 +537,7 @@ class TemplateContentViewController: BaseViewController {
         }
         resultstr += "]"
 //        LXFLog("=====================\(resultstr)")
-        let parameters = ["chargeType":freightListModel?.chargeType as Any,"freightConf":jsonstring,"freightId":freightListModel?.freightId as Any,"freightType":freightListModel?.freightType as Any,"freightVerId":freightListModel?.freightVerId as Any,"noDeliveryAreaIds":(resultstr.count > 0 ? resultstr : [Int32]()),"templateName":freightListModel?.templateName as Any] as [String:Any]
+        let parameters = ["chargeType":freightListModel?.chargeType as Any,"freightConf":jsonstring,"freightId":freightListModel?.freightId as Any,"freightType":freightListModel?.freightType as Any,"freightVerId":freightListModel?.freightVerId as Any,"noDeliveryRegionIds":(resultstr.count > 0 ? resultstr : [Int32]()),"templateName":freightListModel?.templateName as Any] as [String:Any]
         NetWorkResultRequest(OrderApi.freightTemplate(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
             //成功之后要返回上一个界面进行刷新
             self?.newAndUpdateBlock?()
@@ -550,14 +550,14 @@ class TemplateContentViewController: BaseViewController {
     //不配送区域
     @objc func noDisAction(noDisBtn:UIButton){
         let noDeliveryVc = NoDeliveryViewController()
-        noDeliveryVc.noDeliveryAreaIds = freightListModel?.noDeliveryAreaIds ?? [Int32]()
+//        noDeliveryVc.noDeliveryAreaIds = freightListModel?.noDeliveryAreaIds ?? [Int32]()
+        noDeliveryVc.freightListModel = freightListModel
         Coordinator.shared?.pushViewController(self, noDeliveryVc, animated: true)
         //这边是一个数组
-        
-        
-        
-        
-        
+        noDeliveryVc.noDeliveryCompleteBlock = { freightListModel in
+            self.freightListModel = freightListModel
+            self.noSettingLabeL.text = "已设置"
+        }
     }
     
     //运费配置

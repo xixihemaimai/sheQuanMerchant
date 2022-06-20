@@ -202,8 +202,8 @@ class FreightTemplateViewController: BaseViewController {
             if freightListModel?.freightConf == nil{
                 freightListModel?.freightConf = freightConfModel(firstPiece: 0, freight: 0, freightConfId: 0,parcelConditions: 0, renewal: 0, renewalFreight: 0)
             }
-            if freightListModel?.noDeliveryAreaIds == nil{
-                freightListModel?.noDeliveryAreaIds = [Int32]()
+            if freightListModel?.noDeliveryRegionIds == nil{
+                freightListModel?.noDeliveryRegionIds = [Int32]()
             }
             templateContentVc.type = 1
             templateContentVc.freightListModel = freightListModel

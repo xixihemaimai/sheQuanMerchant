@@ -90,7 +90,7 @@ public struct FreightListModel:Codable{
     public var freightType:Int32?            //运费类型 （1、包邮：2、自定义）
     public var freightTypeText:String?       //运费类型（1、包邮：2、自定义）
     public var freightVerId:Int32?           //运费版本Id
-    public var noDeliveryAreaIds:[Int32]?    //不配送区域
+    public var noDeliveryRegionIds:[Int32]?    //不配送区域
     public var templateName:String?          //模版名称
     
     
@@ -103,7 +103,7 @@ public struct FreightListModel:Codable{
         case freightType = "freightType"
         case freightTypeText = "freightTypeText"
         case freightVerId = "freightVerId"
-        case noDeliveryAreaIds = "noDeliveryAreaIds"
+        case noDeliveryRegionIds = "noDeliveryRegionIds"
         case templateName = "templateName"
     }
     
@@ -117,7 +117,7 @@ public struct FreightListModel:Codable{
         freightType = try? values.decodeIfPresent(Int32.self, forKey: .freightType)
         freightTypeText = try? values.decodeIfPresent(String.self, forKey: .freightTypeText)
         freightVerId = try? values.decodeIfPresent(Int32.self, forKey: .freightVerId)
-        noDeliveryAreaIds = try? values.decodeIfPresent([Int32].self, forKey: .noDeliveryAreaIds)
+        noDeliveryRegionIds = try? values.decodeIfPresent([Int32].self, forKey: .noDeliveryRegionIds)
         templateName = try? values.decodeIfPresent(String.self, forKey: .templateName)
     }
     
@@ -134,7 +134,7 @@ public struct FreightListModel:Codable{
     
     
     
-    public init(chargeType:Int32? = 0,chargeTypeText:String? = "",defTemp:Bool? = false,freightConf:freightConfModel? = freightConfModel(firstPiece: 0, freight: 0, parcelConditions: 0, renewal: 0, renewalFreight: 0),freightId:Int64? = 0,freightType:Int32? = 0,freightTypeText:String? = "",freightVerId:Int32? = 0,noDeliveryAreaIds:[Int32]? = [Int32](),templateName:String? = ""){
+    public init(chargeType:Int32? = 0,chargeTypeText:String? = "",defTemp:Bool? = false,freightConf:freightConfModel? = freightConfModel(firstPiece: 0, freight: 0, parcelConditions: 0, renewal: 0, renewalFreight: 0),freightId:Int64? = 0,freightType:Int32? = 0,freightTypeText:String? = "",freightVerId:Int32? = 0,noDeliveryRegionIds:[Int32]? = [Int32](),templateName:String? = ""){
         
         self.chargeType = chargeType
         self.chargeTypeText = chargeTypeText
@@ -144,7 +144,7 @@ public struct FreightListModel:Codable{
         self.freightType = freightType
         self.freightTypeText = freightTypeText
         self.freightVerId = freightVerId
-        self.noDeliveryAreaIds = noDeliveryAreaIds
+        self.noDeliveryRegionIds = noDeliveryRegionIds
         self.templateName = templateName
     }
 }

@@ -178,8 +178,8 @@ class ReleaseGoodsViewController: BaseViewController {
     //默认模板
     lazy var defaultTemplate:UILabel = {
         let defaultTemplate = UILabel()
-        defaultTemplate.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
-        defaultTemplate.text = "默认模板"
+        defaultTemplate.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#C2C2C2")
+        defaultTemplate.text = "未设置"
         defaultTemplate.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         return defaultTemplate
     }()
@@ -868,17 +868,30 @@ class ReleaseGoodsViewController: BaseViewController {
         freightBtn.addTarget(self, action: #selector(choiceCategoryAction), for: .touchUpInside)
         
         
+        let freightStarLabel = UILabel()
+        freightStarLabel.text = "*"
+        freightStarLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#E82626")
+        freightStarLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .medium)
+        freightBtn.addSubview(freightStarLabel)
+        freightStarLabel.snp.makeConstraints { make in
+            make.left.equalTo(scale(16))
+            make.centerY.equalToSuperview()
+            make.width.equalTo(scale(8))
+            make.height.equalTo(scale(20))
+        }
+        
         let freightLabel = UILabel()
         freightLabel.text = "运费模板"
         freightLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#787878")
         freightLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .medium)
         freightBtn.addSubview(freightLabel)
         freightLabel.snp.makeConstraints { make in
-            make.left.equalTo(scale(16))
+            make.left.equalTo(freightStarLabel.snp.right)
             make.centerY.equalToSuperview()
             make.width.equalTo(scale(75))
             make.height.equalTo(scale(22))
         }
+        
         
         freightBtn.addSubview(defaultTemplate)
         defaultTemplate.snp.makeConstraints { make in
@@ -978,7 +991,7 @@ class ReleaseGoodsViewController: BaseViewController {
         
         if type == 0{
             title = "发布商品"
-            commodityModel = CommodityModel(categoryId: StoreService.shared.categoryId, categoryName: "",freeRefundIn7Days: false, freightId: 0,freightInsure: false, freightName: "默认模板",multiSpec: false,price:0.0,productCode: "", productDesc: "", productId: 0, productName: "", productPics: [String](),sepNo:0,skus: [Skus](), specGroups: [SpecGroups](), spus: [Spus](), stock: 0,stockDeductText: "拍下减库存",stockDeductType: 0)
+            commodityModel = CommodityModel(categoryId: StoreService.shared.categoryId, categoryName: "",freeRefundIn7Days: false, freightId: 0,freightInsure: false, freightName: "未设置",multiSpec: false,price:0.0,productCode: "", productDesc: "", productId: 0, productName: "", productPics: [String](),sepNo:0,skus: [Skus](), specGroups: [SpecGroups](), spus: [Spus](), stock: 0,stockDeductText: "拍下减库存",stockDeductType: 0)
         }else{
             title = "编辑商品"
             LXFLog("+===========32==========23232=====================\(String(describing: commodityModel))")
@@ -996,11 +1009,13 @@ class ReleaseGoodsViewController: BaseViewController {
             if commodityModel?.categoryId != StoreService.shared.categoryId || commodityModel?.categoryId != 0{
 //                goodsContentLabel.text = "已选择"
                 goodsContentLabel.text = commodityModel?.categoryName
+                goodsContentLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
             }
             
             //商品描述
             if (commodityModel?.productDesc?.count ?? 0) > 0{
                 goodsDescribe.text = "已填写"
+                goodsDescribe.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
             }
             
             //商品编码
@@ -1012,6 +1027,7 @@ class ReleaseGoodsViewController: BaseViewController {
             //这边是否显示商品参数
             if commodityModel?.categoryId != StoreService.shared.categoryId{
                 goodsParameter.text = "已设置"
+                goodsParameter.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
                 goodsParameterSLabel.isHidden = false
                 goodsParameterSBtn.isHidden = false
                 specificationsSLabel.snp.remakeConstraints { make in
@@ -1056,6 +1072,7 @@ class ReleaseGoodsViewController: BaseViewController {
             
             if (commodityModel?.specGroups?.count ?? 0) > 0 && (commodityModel?.skus?.count ?? 0) > 0{
                 commoditySpLabel.text = "已设置"
+                commoditySpLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
                 for n in 0..<(commodityModel?.specGroups?.count ?? 0){
                     var specGroups = commodityModel?.specGroups?[n]
                     if (specGroups?.specs?.count ?? 0) < 1{
@@ -1108,8 +1125,9 @@ class ReleaseGoodsViewController: BaseViewController {
             //defaultTemplate
             if (commodityModel?.freightName?.count ?? 0) > 0 {
                 defaultTemplate.text = commodityModel?.freightName
+                defaultTemplate.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
             }else{
-                defaultTemplate.text = "默认模板"
+                defaultTemplate.text = "未设置"
             }
             
             
@@ -1158,6 +1176,7 @@ class ReleaseGoodsViewController: BaseViewController {
             Coordinator.shared?.pushViewController(self, commodityCategoryVc, animated: true)
             commodityCategoryVc.choiceGoodsTypeTitle = { model in
                 self.goodsContentLabel.text = model.categoryName ?? "请选择"
+                self.goodsContentLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
                 self.commodityModel?.categoryId = model.categoryId
                 self.commodityModel?.categoryName = model.categoryName
                 LXFLog("=============\(String(describing: self.commodityModel?.categoryId))")
@@ -1174,6 +1193,7 @@ class ReleaseGoodsViewController: BaseViewController {
                 //这边要把所有的商品的信息都需要删除
                 //商品描述goodsDescribe
                 self.goodsDescribe.text = "未填写"
+                self.goodsDescribe.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#C2C2C2")
                 self.commodityModel?.productDesc = ""
                 //用来判断是编辑还是新发布的东西
 //                self.type = 0
@@ -1185,6 +1205,7 @@ class ReleaseGoodsViewController: BaseViewController {
                 
                 //商品参数goodsParameter
                 self.goodsParameter.text = "未设置"
+                self.goodsParameter.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#C2C2C2")
                 self.commodityModel?.spus = [Spus]()
                 
                 
@@ -1205,7 +1226,7 @@ class ReleaseGoodsViewController: BaseViewController {
                 
                 // 商品规格commoditySpLabel
                 self.commoditySpLabel.text = "未设置"
-                
+                self.commoditySpLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#C2C2C2")
                 self.commodityModel?.specGroups = [SpecGroups]()
                 
                 self.commodityModel?.skus = [Skus]()
@@ -1216,8 +1237,8 @@ class ReleaseGoodsViewController: BaseViewController {
                 
                 self.stockReduceLabel.text = "拍下减库存"
                 
-                self.defaultTemplate.text = "默认模板"
-                
+                self.defaultTemplate.text = "未设置"
+                self.defaultTemplate.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#C2C2C2")
                 self.commodityModel?.freightId = Int64(0)
                 
                 
@@ -1241,6 +1262,7 @@ class ReleaseGoodsViewController: BaseViewController {
                 proudctDesciptionVc.inputAttributedString = { string in
                     self.commodityModel?.productDesc = string
                     self.goodsDescribe.text = "已填写"
+                    self.goodsDescribe.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
                     self.isModify = true
                 }
             }
@@ -1257,6 +1279,7 @@ class ReleaseGoodsViewController: BaseViewController {
             commodityParametersVc.sureParmeter = { paraList in
                 self.commodityModel?.spus = paraList
                 self.goodsParameter.text = "已设置"
+                self.goodsParameter.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
             }
             
 
@@ -1281,12 +1304,11 @@ class ReleaseGoodsViewController: BaseViewController {
                     self.commodityModel?.specGroups = specGroups
                     self.commodityModel?.skus = priceInVentory
                     self.commoditySpLabel.text = "已设置"
+                    self.commoditySpLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
                     self.isModify = true
                 }
             }
-            
         case 4:
-            
             if commodityModel?.categoryId == 0 || commodityModel?.categoryId == StoreService.shared.categoryId{
                 JFPopup.toast(hit: "请先选择商品类目")
             }else{
@@ -1297,11 +1319,11 @@ class ReleaseGoodsViewController: BaseViewController {
                     self.commodityModel?.freightName = model.templateName
                     self.commodityModel?.freightId = Int64(model.freightId ?? 0)
                     self.defaultTemplate.text = model.templateName
+                    self.defaultTemplate.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
                     self.isModify = true
                 }
             }
         default:
-            
             break
         }
     }
@@ -1316,6 +1338,75 @@ class ReleaseGoodsViewController: BaseViewController {
 //         SpecGroups.specs?.count != 0
 //      })
 //      LXFLog("+==============\(String(describing: commodityModel?.specGroups?.count))")
+                
+        //商品标题
+        if goodsTextView.text.count < 1{
+            JFPopup.toast(hit: "请填写完整资料")
+            return
+        }
+        //图片需要大于等于1
+        if (self.commodityModel?.productPics?.count ?? 0) < 1{
+            JFPopup.toast(hit: "请填写完整资料")
+            return
+        }
+        //商品类目
+        if goodsContentLabel.text == "请选择"{
+            JFPopup.toast(hit: "请填写完整资料")
+            return
+        }
+        
+        //商品描述
+        if goodsDescribe.text == "未填写"{
+            JFPopup.toast(hit: "请填写完整资料")
+            return
+        }
+        //商品参数
+        if goodsParameter.text == "未设置"{
+            JFPopup.toast(hit: "请填写完整资料")
+            return
+        }
+        
+        
+        //单规格的时候 价钱和库存
+        if specificationsSwitch.isOn == false{
+            //价钱
+            if (priceTextfield.text?.count ?? 0) < 1{
+                JFPopup.toast(hit: "请填写完整资料")
+                return
+            }
+            
+            
+            if Decimal(string: priceTextfield.text ?? "") ?? 0 < 0.0{
+                JFPopup.toast(hit: "请填写完整资料")
+                return
+            }
+            
+        
+            
+            if (stockTextfield.text?.count ?? 0) < 1{
+                JFPopup.toast(hit: "请填写完整资料")
+                return
+            }
+            
+            if Decimal(string: stockTextfield.text ?? "") ?? 0 < 1{
+                JFPopup.toast(hit: "请填写完整资料")
+                return
+            }
+            
+        }else{
+            
+            if commoditySpLabel.text == "未设置"{
+               JFPopup.toast(hit: "请填写完整资料")
+               return
+            }
+            
+        }
+        
+        //默认模板 self.defaultTemplate.text = "未设置" self.commodityModel?.freightId = Int64(0)
+        if defaultTemplate.text == "未设置" && self.commodityModel?.freightId == Int64(0){
+           JFPopup.toast(hit: "请填写完整资料")
+           return
+        }
         
         
         var specGroupsArray = commodityModel?.specGroups

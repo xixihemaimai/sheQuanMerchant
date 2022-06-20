@@ -227,12 +227,9 @@ class FreightTemplateCell: UITableViewCell {
             make.top.equalTo(freeLabel.snp.bottom).offset(scale(12))
         }
         
-        
-        
-        
         isDefaultBtn.snp.makeConstraints { make in
             make.left.equalTo(scale(16))
-            make.top.equalTo(midView.snp.bottom).offset(scale(19))
+            make.top.equalTo(midView.snp.bottom).offset(scale(18))
             make.width.height.equalTo(scale(15))
         }
         

@@ -18,16 +18,15 @@ class NoDeliveryViewController: BaseViewController {
     
 //    var addressList:[AddressModel] = [AddressModel]()
     //最外层数组
-    var regionList:[[NoDeliveryRegionModel]] = [[NoDeliveryRegionModel]]()
+    var regionList:[RegionInfoModel] = [RegionInfoModel]()
     //省份数组
-    var provinceList:[NoDeliveryRegionModel] = [NoDeliveryRegionModel]()
+    var provinceList:[RegionInfoModel] = [RegionInfoModel]()
     
-    
-    
+    var freightListModel:FreightListModel?
     //数据数组
-    var noDeliveryAreaIds:[Int32] = [Int32]()
+//    var noDeliveryAreaIds:[Int32] = [Int32]()
     //添加不配送区域的回调
-    var noDeliveryCompleteBlock:((_ noDeliveryAreaIds:[Int32])->Void)?
+    var noDeliveryCompleteBlock:((_ freightListModel:FreightListModel)->Void)?
     
     
 
@@ -65,25 +64,47 @@ class NoDeliveryViewController: BaseViewController {
         }
         
         addRegionBtn.layer.cornerRadius = scale(4)
-     
+        //这边获取
+        var resultstr = "["
+        for i in 0..<(freightListModel?.noDeliveryRegionIds?.count ?? 0){
+            guard let value = freightListModel?.noDeliveryRegionIds?[i] else{
+                return
+            }
+            if i == 0{
+                resultstr += String(format: "%d",value)
+            }else{
+                resultstr += ","  + String(format: "%d",value)
+            }
+        }
+        resultstr += "]"
+        let parameters1 = ["freightVerId":freightListModel?.freightId as Any,"noDeliveryRegionIds":(resultstr.count > 0 ? resultstr : [Int32]())] as [String:Any]
+        NetWorkResultRequest(OrderApi.getNoDeliveryRegionList(parameters: parameters1), needShowFailAlert: true) { result, data in
+            guard let model = try? JSONDecoder().decode(GenericResponse<[RegionInfoModel]>.self, from: data) else { return }
+            self.regionList.removeAll()
+            if let _data = model.data{
+//                self.regionList = _data
+                for i in 0..<_data.count{
+                    var regionInfoModel = _data[i]
+                    regionInfoModel.childNodes = regionInfoModel.childNodes?.filter({ regionInfoModel2 in
+                        regionInfoModel2.checked == true
+                    })
+                    self.regionList.append(regionInfoModel)
+                }
+            }
+            self.tableview.reloadData()
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
         
-//        let parameters = ["level":1,"regionId":0]  获取国家行政编码
-//        NetWorkResultRequest(OrderApi.getRegionInfoList(parameters: parameters), needShowFailAlert: true) { result, data in
-//        } failureCallback: { error, code in
-//        }
         //这边获取省份
-        let parameters = ["level":2,"regionId":100000] as [String:Any]
-        NetWorkResultRequest(OrderApi.getRegionInfoList(parameters: parameters), needShowFailAlert: true) { result, data in
-                guard let model = try? JSONDecoder().decode(GenericResponse<[NoDeliveryRegionModel]>.self, from: data) else { return }
+        let parameters = ["freightVerId":freightListModel?.freightId as Any,"level":2,"regionId":0,"subHierarchy":1] as [String:Any]
+        NetWorkResultRequest(OrderApi.getFreightRegionList(parameters: parameters), needShowFailAlert: true) { result, data in
+                guard let model = try? JSONDecoder().decode(GenericResponse<[RegionInfoModel]>.self, from: data) else { return }
                 self.provinceList.removeAll()
                 if let _data = model.data{
                     self.provinceList = _data
                 }
-//                let json = try JSON(data: data)
-//                if let arrayJSON = json["data"].array{
-//                    self.provinceList = arrayJSON.map({ return NoDeliveryRegionModel(json: $0)})
-//                }
-                LXFLog("====================\(self.provinceList)")
+//                LXFLog("====================\(self.provinceList)")
         } failureCallback: { error, code in
             code.loginOut()
         }
@@ -97,80 +118,86 @@ class NoDeliveryViewController: BaseViewController {
         LXFLog("添加不配送区域")
         //这边要把所有的界面展示的都带过去
         self.popup.bottomSheet {
-            let nodeliveryRegionView = NoDeliveryRegionView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(442)), addressList: [],dataArray:self.provinceList)
-                    
+            //(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(442)), addressList: [],dataArray:self.provinceList)
+            let nodeliveryRegionView = NoDeliveryRegionView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(442)) , regionInfoModel: RegionInfoModel(initials: "", lat: 0, level: 2, lng: 0, regionId: 0, regionName: "", checked: false, childNodes: [RegionInfoModel]()), addNewNoAreaList: self.regionList, dataArray: self.provinceList, jumpType: 0)
+            
             nodeliveryRegionView.cancelBlock = {[weak self] in
                 self?.popup.dismissPopup()
             }
             
             nodeliveryRegionView.sureChoiceAddress = {[weak self] list in
-                //self?.addressList = list
-                //有全选的要对省份进行判断
-                //要是没有的话要对区域进行判断
-                let addressModel = list[1]
-                if addressModel.regionName == "全选"{
-                    var isAdd:Bool = true
-                    for i in 0..<(self?.regionList.count ?? 0){
-                        let array = self?.regionList[i]
-                        for j in 0..<(array?.count ?? 0){
-                            let addressmodel2 = array![j] as NoDeliveryRegionModel
-                            for n in 0..<list.count{
-                            let addressmodel1 = list[n]
-                            if addressmodel2.regionName == "全选" || addressmodel1.regionName == "全选"{
-                               continue
-                            }
-                            if addressmodel2.regionName == addressmodel1.regionName{
-                               isAdd = false
-                               break
-                            }
-                          }
-                        }
-                    }
-                    if isAdd{
-                        self?.regionList.append(list)
-//                        let newList = list.filter({ noDeliveryRegionModel in
-//                            noDeliveryRegionModel.regionName != "全选"
-//                        })
-//                        self?.regionList.append(newList)
-                    }else{
-                        JFPopup.toast(hit: "添加的地址有相同的地方")
-                    }
-                }else{
-                    //没有全选的时候
-                    var isAdd:Bool = true
-                    for i in 0..<(self?.regionList.count ?? 0){
-                        if let array = self?.regionList[i]{
-                            for j in 1..<array.count{
-                                let addressmodel2 = array[j] as NoDeliveryRegionModel
-                                for n in 0..<list.count{
-                                let addressmodel1 = list[n]
-                                if addressmodel2.regionName == "全选" || addressmodel1.regionName == "全选"{
-                                   continue
-                                }
-                                if addressmodel2.regionName == addressmodel1.regionName{
-                                   isAdd = false
-                                   break
-                                }
-                              }
-                            }
-                        }
-                    }
-                    if isAdd{
-                        self?.regionList.append(list)
-//                        let newList = list.filter({ noDeliveryRegionModel in
-//                            noDeliveryRegionModel.regionName != "全选"
-//                        })
-//                        self?.regionList.append(newList)
-                    }else{
-                        JFPopup.toast(hit: "添加的地址有相同的地方")
+                self?.regionList = list
+                
+                
+                var noDeliveryRegionIds:[Int32] = [Int32]()
+                for n in 0..<(self?.regionList.count ?? 0){
+                    let regionInfoModel = self?.regionList[n]
+                    noDeliveryRegionIds.append((regionInfoModel?.regionId)!)
+                    for j in 0..<(regionInfoModel?.childNodes?.count ?? 0){
+                        let regionInfoModel2 = regionInfoModel?.childNodes?[j]
+                        noDeliveryRegionIds.append((regionInfoModel2?.regionId)!)
                     }
                 }
+                self?.freightListModel?.noDeliveryRegionIds = noDeliveryRegionIds
+                self?.noDeliveryCompleteBlock?((self?.freightListModel)!)
+                
+                //有全选的要对省份进行判断
+                //要是没有的话要对区域进行判断
+//                let addressModel = list[1]
+//                if addressModel.regionName == "全选"{
+//                    var isAdd:Bool = true
+//                    for i in 0..<(self?.regionList.count ?? 0){
+//                        let array = self?.regionList[i]
+//                        for j in 0..<(array?.count ?? 0){
+//                            let addressmodel2 = array![j] as RegionInfoModel
+//                            for n in 0..<list.count{
+//                            let addressmodel1 = list[n]
+//                            if addressmodel2.regionName == "全选" || addressmodel1.regionName == "全选"{
+//                               continue
+//                            }
+//                            if addressmodel2.regionName == addressmodel1.regionName{
+//                               isAdd = false
+//                               break
+//                            }
+//                          }
+//                        }
+//                    }
+//                    if isAdd{
+//                        self?.regionList.append(list)
+//                    }else{
+//                        JFPopup.toast(hit: "添加的地址有相同的地方")
+//                    }
+//                }else{
+//                    //没有全选的时候
+//                    var isAdd:Bool = true
+//                    for i in 0..<(self?.regionList.count ?? 0){
+//                        if let array = self?.regionList[i]{
+//                            for j in 1..<array.count{
+//                                let addressmodel2 = array[j] as RegionInfoModel
+//                                for n in 0..<list.count{
+//                                let addressmodel1 = list[n]
+//                                if addressmodel2.regionName == "全选" || addressmodel1.regionName == "全选"{
+//                                   continue
+//                                }
+//                                if addressmodel2.regionName == addressmodel1.regionName{
+//                                   isAdd = false
+//                                   break
+//                                }
+//                              }
+//                            }
+//                        }
+//                    }
+//                    if isAdd{
+//                        self?.regionList.append(list)
+//                    }else{
+//                        JFPopup.toast(hit: "添加的地址有相同的地方")
+//                    }
+//                }
                 self?.tableview.reloadData()
                 self?.popup.dismissPopup()
             }
             return nodeliveryRegionView
         }
-       
     }
     
     
@@ -197,6 +224,18 @@ class NoDeliveryViewController: BaseViewController {
                     JFPopupView.popup.toast(hit: "删除成功")
                     self?.regionList.remove(at: cancelBtn.tag)
                     self?.tableview.reloadData()
+                    var noDeliveryRegionIds:[Int32] = [Int32]()
+                    for n in 0..<(self?.regionList.count ?? 0){
+                        let regionInfoModel = self?.regionList[n]
+                        noDeliveryRegionIds.append((regionInfoModel?.regionId)!)
+                        for j in 0..<(regionInfoModel?.childNodes?.count ?? 0){
+                            let regionInfoModel2 = regionInfoModel?.childNodes?[j]
+                            noDeliveryRegionIds.append((regionInfoModel2?.regionId)!)
+                        }
+                    }
+                    self?.freightListModel?.noDeliveryRegionIds = noDeliveryRegionIds
+                    self?.noDeliveryCompleteBlock?((self?.freightListModel)!)
+                    
                 })
              ])
             ]
@@ -220,24 +259,39 @@ extension NoDeliveryViewController:UITableViewDelegate,UITableViewDataSource{
         //判断是否为全选的一个状态
         //第1中是全选的话，显示为省份的值
         //第2中是省份在显示各个选中的城市
-        let array = regionList[indexPath.row]
-        let addressmodel = array[1] as NoDeliveryRegionModel
-        if addressmodel.regionName == "全选"{
-            let addressmodel1 = array[0] as NoDeliveryRegionModel
-            cell.addressText = addressmodel1.regionName!
+        let regionInfoModel = regionList[indexPath.row]
+//        let addressmodel = array[1] as RegionInfoModel
+        if regionInfoModel.checked == true{
+//        if addressmodel.regionName == "全选"{
+//            let addressmodel1 = array[0] as RegionInfoModel
+            cell.addressText = regionInfoModel.regionName ?? ""
         }else{
             //这边是省份和后续的东西
-            var addressText:String = ""
-            for i in 0..<array.count{
-                let addressmodel = array[i] as NoDeliveryRegionModel
-                if i == 0{
-                    addressText += (addressmodel.regionName)! + "("
-                }else if i == array.count - 1{
-                    addressText += (addressmodel.regionName)! + ")"
+            var addressText:String = (regionInfoModel.regionName ?? "") + "("
+            for i in 0..<(regionInfoModel.childNodes?.count ?? 0){
+                let addressmodel = regionInfoModel.childNodes?[i]
+                if regionInfoModel.childNodes?.count == 1{
+                        addressText += (addressmodel?.regionName ?? "") + ")"
                 }else{
-                    addressText += (addressmodel.regionName)! + "、"
+                    if i == 0{
+                        addressText += (addressmodel?.regionName ?? "")
+                    }else if i == regionInfoModel.childNodes!.count - 1{
+                        addressText += "、" + (addressmodel?.regionName ?? "") + ")"
+                    }else{
+                        addressText +=  "、" + (addressmodel?.regionName ?? "")
+                    }
                 }
             }
+//            for i in 0..<array.count{
+//                let addressmodel = array[i] as RegionInfoModel
+//                if i == 0{
+//                    addressText += (addressmodel.regionName)! + "("
+//                }else if i == array.count - 1{
+//                    addressText += (addressmodel.regionName)! + ")"
+//                }else{
+//                    addressText += (addressmodel.regionName)! + "、"
+//                }
+//            }
 //          cell.regionLabel.text = addressText
             cell.addressText = addressText
         }
@@ -298,79 +352,92 @@ extension NoDeliveryViewController:UITableViewDelegate,UITableViewDataSource{
         let list = self.regionList[indexPath.row]
         self.popup.bottomSheet {
             LXFLog("====================-----------------------------------------")
-            let nodeliveryRegionView = NoDeliveryRegionView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(442)), addressList: list,dataArray: self.provinceList)
+            let nodeliveryRegionView = NoDeliveryRegionView(frame:CGRect(x: 0, y: 0, width: SCW, height: scale(442)), regionInfoModel: list, addNewNoAreaList: self.regionList, dataArray: self.provinceList, jumpType: 1)
             nodeliveryRegionView.cancelBlock = {[weak self] in
                 self?.popup.dismissPopup()
-
             }
             nodeliveryRegionView.sureChoiceAddress = {[weak self] list in
                 //self?.addressList = list
-                //有全选的要对省份进行判断
-                //要是没有的话要对区域进行判断
-                let addressModel = list[1]
-                if addressModel.regionName == "全选"{
-                    var isAdd:Bool = true
-                    for i in 0..<(self?.regionList.count ?? 0){
-                        let array = self?.regionList[i]
-                        if i == indexPath.row{
-                          continue
-                        }
-                        for j in 0..<(array?.count ?? 0){
-                            let addressmodel2 = array![j] as NoDeliveryRegionModel
-                            for n in 0..<list.count{
-                            let addressmodel1 = list[n]
-                            if addressmodel2.regionName == "全选" || addressmodel1.regionName == "全选"{
-                                continue
-                            }
-                            if addressmodel2.regionName == addressmodel1.regionName{
-                               isAdd = false
-                               break
-                            }
-                          }
-                        }
-                    }
-                    if isAdd{
-                        //self?.regionList.append(list)
-                        self?.regionList[indexPath.row] = list
-                    }else{
-                        JFPopup.toast(hit: "添加的地址有相同的地方")
-                    }
-                }else{
-                    //没有全选的时候
-                    var isAdd:Bool = true
-                    for i in 0..<(self?.regionList.count ?? 0){
-                        if let array = self?.regionList[i]{
-                            if i == indexPath.row{
-                              continue
-                            }
-                            for j in 1..<array.count{
-                                let addressmodel2 = array[j] as NoDeliveryRegionModel
-                                for n in 0..<list.count{
-                                let addressmodel1 = list[n]
-                                if addressmodel2.regionName == "全选" || addressmodel1.regionName == "全选"{
-                                    continue
-                                }
-                                if addressmodel2.regionName == addressmodel1.regionName{
-                                   isAdd = false
-                                   break
-                                }
-                              }
-                           }
-                        }
-                    }
-                    if isAdd{
-//                        self?.regionList.append(list)
-                        self?.regionList[indexPath.row] = list
-                    }else{
-                        JFPopup.toast(hit: "添加的地址有相同的地方")
+                self?.regionList = list
+                //这边要传递出去数据
+                var noDeliveryRegionIds:[Int32] = [Int32]()
+                for n in 0..<(self?.regionList.count ?? 0){
+                    let regionInfoModel = self?.regionList[n]
+                    noDeliveryRegionIds.append((regionInfoModel?.regionId)!)
+                    for j in 0..<(regionInfoModel?.childNodes?.count ?? 0){
+                        let regionInfoModel2 = regionInfoModel?.childNodes?[j]
+                        noDeliveryRegionIds.append((regionInfoModel2?.regionId)!)
                     }
                 }
+                self?.freightListModel?.noDeliveryRegionIds = noDeliveryRegionIds
+                self?.noDeliveryCompleteBlock?((self?.freightListModel)!)
+                
+                
+                
+//                //有全选的要对省份进行判断
+//                //要是没有的话要对区域进行判断
+//                let addressModel = list[1]
+//                if addressModel.regionName == "全选"{
+//                    var isAdd:Bool = true
+//                    for i in 0..<(self?.regionList.count ?? 0){
+//                        let array = self?.regionList[i]
+//                        if i == indexPath.row{
+//                          continue
+//                        }
+//                        for j in 0..<(array?.count ?? 0){
+//                            let addressmodel2 = array![j] as RegionInfoModel
+//                            for n in 0..<list.count{
+//                            let addressmodel1 = list[n]
+//                            if addressmodel2.regionName == "全选" || addressmodel1.regionName == "全选"{
+//                                continue
+//                            }
+//                            if addressmodel2.regionName == addressmodel1.regionName{
+//                               isAdd = false
+//                               break
+//                            }
+//                          }
+//                        }
+//                    }
+//                    if isAdd{
+//                        self?.regionList[indexPath.row] = list
+//                    }else{
+//                        JFPopup.toast(hit: "添加的地址有相同的地方")
+//                    }
+//                }else{
+//                    //没有全选的时候
+//                    var isAdd:Bool = true
+//                    for i in 0..<(self?.regionList.count ?? 0){
+//                        if let array = self?.regionList[i]{
+//                            if i == indexPath.row{
+//                              continue
+//                            }
+//                            for j in 1..<array.count{
+//                                let addressmodel2 = array[j] as RegionInfoModel
+//                                for n in 0..<list.count{
+//                                let addressmodel1 = list[n]
+//                                if addressmodel2.regionName == "全选" || addressmodel1.regionName == "全选"{
+//                                    continue
+//                                }
+//                                if addressmodel2.regionName == addressmodel1.regionName{
+//                                   isAdd = false
+//                                   break
+//                                }
+//                              }
+//                           }
+//                        }
+//                    }
+//                    if isAdd{
+//                        self?.regionList[indexPath.row] = list
+//                    }else{
+//                        JFPopup.toast(hit: "添加的地址有相同的地方")
+//                    }
+//                }
                 self?.tableview.reloadData()
                 self?.popup.dismissPopup()
             }
             return nodeliveryRegionView
         }
-    
-           
     }
 }
+        
+        

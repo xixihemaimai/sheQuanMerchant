@@ -35,7 +35,7 @@ class AddSpecificationsView: UIView {
     
     
     lazy var tableview:UITableView = {
-        let tableview = UITableView(frame: .zero, style: .grouped)
+        let tableview = UITableView(frame: .zero, style: .plain)
         tableview.estimatedSectionFooterHeight = 0
         tableview.estimatedSectionHeaderHeight = 0
         tableview.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
@@ -145,30 +145,28 @@ class AddSpecificationsView: UIView {
             make.height.equalTo(scale(0.5))
             make.top.equalTo(specificationLabel.snp.bottom).offset(scale(15))
         }
-
-        
         
         addSubview(tableview)
         tableview.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
-            make.top.equalTo(diviver.snp.bottom).offset(-scale(20))
-            make.bottom.equalTo(-scale(60))
+            make.top.equalTo(diviver.snp.bottom)
+            make.bottom.equalTo(iPhoneX ? -scale(92) : -scale(58))
         }
         tableview.delegate = self
         tableview.dataSource = self
         tableview.register(AppSpecificationsCell.self, forCellReuseIdentifier: "AppSpecificationsCell")
-        tableview.contentInset = UIEdgeInsets(top: scale(20), left: 0, bottom: scale(40), right: 0)
+//        tableview.contentInset = UIEdgeInsets(top: scale(20), left: 0, bottom: scale(40), right: 0)
         
         addSubview(addNewSpecificationBtn)
         addNewSpecificationBtn.snp.makeConstraints { make in
             make.left.equalTo(scale(16))
             make.right.equalTo(-scale(16))
-            make.bottom.equalTo(-scale(10))
+            make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(10))
             make.height.equalTo(scale(44))
         }
         
         addNewSpecificationBtn.addTarget(self, action: #selector(addNewSpecificationAction), for: .touchUpInside)
-        
+        addNewSpecificationBtn.layer.cornerRadius = scale(4)
         
         
         

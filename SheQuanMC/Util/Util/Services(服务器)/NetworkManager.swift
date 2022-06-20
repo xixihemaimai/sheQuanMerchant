@@ -146,15 +146,15 @@ public let requestClosure = { (endpoint: Endpoint, done: MoyaProvider.RequestRes
             if endpoint.url.contains("shop/shopAuth") || endpoint.url.contains("ent/entCert"){
                 //解决图片链接有转义字符的问题
                 request.httpBody = getObjFromDataToData(obj: requestData, isEscape: true)
-            }else if endpoint.url.contains("login/mobileLogin") || endpoint.url.contains("login/passLogin") || endpoint.url.contains("captcha/getCaptchaCode") || endpoint.url.contains("category/getCategoryInfoList") || endpoint.url.contains("shop/forgetPass") || endpoint.url.contains("shop/changePass") || endpoint.url.contains("shop/regAccount") || endpoint.url.contains("prodmanage/getProductInfoList") || endpoint.url.contains("category/getProductCategoryList") || endpoint.url.contains("brand/getProductBrandList") || endpoint.url.contains("spec/getProductSpecList") || endpoint.url.contains("spu/getProductSpuList") || endpoint.url.contains("region/getRegionInfoList") || endpoint.url.contains("freight/defFreightTemplate"){
+            }else if endpoint.url.contains("login/mobileLogin") || endpoint.url.contains("login/passLogin") || endpoint.url.contains("captcha/getCaptchaCode") || endpoint.url.contains("category/getCategoryInfoList") || endpoint.url.contains("shop/forgetPass") || endpoint.url.contains("shop/changePass") || endpoint.url.contains("shop/regAccount") || endpoint.url.contains("prodmanage/getProductInfoList") || endpoint.url.contains("category/getProductCategoryList") || endpoint.url.contains("brand/getProductBrandList") || endpoint.url.contains("spec/getProductSpecList") || endpoint.url.contains("spu/getProductSpuList") || endpoint.url.contains("region/getFreightRegionList") || endpoint.url.contains("freight/defFreightTemplate"){
                 //手机号登录 密码登录 发送验证码 经营种类 忘记密码 修改密码 注册账号  获取商品列表 获取商品类目 获取品牌列表 获取商品规格列表  获取商品参数列表 获取行政区域
                 //默认运费模板
                 request.httpBody = getObjFromDataToData(obj: requestData, isEscape: false)
             }else if endpoint.url.contains("product/publish") || endpoint.url.contains("product/draft"){
                 //发布商品，存为草稿
                 request.httpBody = getJSONStringFromPushblishData(obj: requestData, isEscape: true)
-            }else if endpoint.url.contains("spec/addSpecGroup") || endpoint.url.contains("prodmanage/repairStock"){
-                //添加商品规格组,补库存
+            }else if endpoint.url.contains("spec/addSpecGroup") || endpoint.url.contains("prodmanage/repairStock") || endpoint.url.contains("region/getNoDeliveryRegionList"){
+                //添加商品规格组,补库存,获取不配送区域列表
                 request.httpBody = getJSONStringFromAddSpec(obj: requestData)
             }else if endpoint.url.contains("freight/freightTemplate"){
                 //更新/新建运费模板

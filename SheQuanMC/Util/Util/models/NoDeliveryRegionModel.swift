@@ -9,7 +9,10 @@ import Foundation
 //import SwiftyJSON
 
 
-public struct NoDeliveryRegionModel:Codable,Hashable{
+public struct RegionInfoModel:Codable,Hashable{
+    
+    public var checked:Bool?     //是否选中
+    public var childNodes:[RegionInfoModel]? //子节点
     public var initials:String?   //首字母
     public var lat:Decimal?       //纬度
     /**
@@ -22,7 +25,6 @@ public struct NoDeliveryRegionModel:Codable,Hashable{
     public var lng:Decimal?       //经度
     public var regionId:Int32?    //行政地区编号，例如：110101
     public var regionName:String? //行政地区名称
-    public var isChoice:Bool?     //自己的添加的是否选中
     
 //    public init(json: JSON) {
 //        initials = json["initials"].string
@@ -45,7 +47,8 @@ public struct NoDeliveryRegionModel:Codable,Hashable{
         case lng = "lng"
         case regionId = "regionId"
         case regionName = "regionName"
-        case isChoice = "isChoice"
+        case checked = "checked"
+        case childNodes = "childNodes"
     }
     
     
@@ -58,18 +61,51 @@ public struct NoDeliveryRegionModel:Codable,Hashable{
         lng = try? values.decodeIfPresent(Decimal.self, forKey: .lng)
         regionId = try? values.decode(Int32.self, forKey: .regionId)
         regionName = try? values.decodeIfPresent(String.self, forKey: .regionName)
-        isChoice = try? values.decodeIfPresent(Bool.self, forKey: .isChoice)
+        checked = try? values.decodeIfPresent(Bool.self, forKey: .checked)
+        childNodes = try? values.decodeIfPresent([RegionInfoModel].self, forKey: .childNodes)
     }
     
     
-    public init(initials:String? = "",lat:Decimal? = 0,level:Int32? = 0,lng:Decimal? = 0,regionId:Int32? = 0,regionName:String? = "",isChoice:Bool = false){
+    public init(initials:String? = "",lat:Decimal? = 0,level:Int32? = 0,lng:Decimal? = 0,regionId:Int32? = 0,regionName:String? = "",checked:Bool? = false,childNodes:[RegionInfoModel]? = [RegionInfoModel]()){
         self.initials = initials
         self.lat = lat
         self.level = level
         self.lng = lng
         self.regionId = regionId
         self.regionName = regionName
-        self.isChoice = isChoice
+        self.checked = checked
+        self.childNodes = childNodes
     }
     
 }
+
+
+
+
+//public struct NoDeliveryRegionListModel:Codable{
+//    public var province:String?
+//    public var isAllChoice:Bool?
+//    public var citys:[String]?
+//    
+//    enum CodingKeys: String, CodingKey {
+//        case province = "province"
+//        case isAllChoice = "isAllChoice"
+//        case citys = "citys"
+//    }
+//    
+//    public init(from decoder: Decoder) throws {
+//        let values = try decoder.container(keyedBy: CodingKeys.self)
+//        province = try? values.decodeIfPresent(String.self, forKey: .province)
+//        isAllChoice = try? values.decodeIfPresent(Bool.self, forKey: .isAllChoice)
+//        citys = try? values.decodeIfPresent([String].self, forKey: .citys)
+//    }
+//    
+//    public init(province:String? = "",isAllChoice:Bool? = false,citys:[String]? = [String]()){
+//        self.province = province
+//        self.isAllChoice = isAllChoice
+//        self.citys = citys
+//    }
+//    
+//}
+
+

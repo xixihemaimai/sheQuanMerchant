@@ -123,7 +123,7 @@ class CommodityManagementViewController: BaseViewController {
             make.right.equalTo(-scale(16))
             make.height.equalTo(scale(44))
 //            make.top.equalTo(iPhoneX ? scale(14) : scale(2.5))
-            make.bottom.equalTo(iPhoneX ? -scale(14) : -scale(10))
+            make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(10))
         }
         publishBtn.layer.cornerRadius = scale(4)
         publishBtn.addTarget(self, action: #selector(publishAction), for: .touchUpInside)

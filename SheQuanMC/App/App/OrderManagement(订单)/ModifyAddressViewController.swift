@@ -102,10 +102,10 @@ class ModifyAddressViewController: BaseViewController {
     
     
     //省份数组
-    var provinceList:[NoDeliveryRegionModel] = [NoDeliveryRegionModel]()
+    var provinceList:[RegionInfoModel] = [RegionInfoModel]()
     
     
-    var addressList:[NoDeliveryRegionModel] = [NoDeliveryRegionModel]()
+    var addressList:[RegionInfoModel] = [RegionInfoModel]()
     
     
     override func viewDidLoad() {
@@ -349,13 +349,6 @@ class ModifyAddressViewController: BaseViewController {
             make.bottom.equalTo(iPhoneX ? -scale(92) : -scale(58))
         }
         
-        
-        
-        
-        
-        
-        
-        
         //提交
         let submitBtn = UIButton()
         submitBtn.setTitle("提交", for: .normal)
@@ -374,26 +367,16 @@ class ModifyAddressViewController: BaseViewController {
         submitBtn.layer.cornerRadius = scale(4)
         
         
-        let parameters = ["level":2,"regionId":100000] as [String:Any]
-        NetWorkResultRequest(OrderApi.getRegionInfoList(parameters: parameters), needShowFailAlert: true) { result, data in
-            guard let model = try? JSONDecoder().decode(GenericResponse<[NoDeliveryRegionModel]>.self, from: data) else { return }
-            self.provinceList.removeAll()
-            if let _data = model.data{
-                self.provinceList = _data
-            }
-//            do{
-//                self.provinceList.removeAll()
-//                let json = try JSON(data: data)
-//                if let arrayJSON = json["data"].array{
-//                    self.provinceList = arrayJSON.map({ return NoDeliveryRegionModel(json: $0)})
-//                }
-                LXFLog("====================\(self.provinceList)")
-//            }catch{}
+        let parameters = ["freightVerId":0 as Any,"level":2,"regionId":0,"subHierarchy":2] as [String:Any]
+        NetWorkResultRequest(OrderApi.getFreightRegionList(parameters: parameters), needShowFailAlert: true) { result, data in
+                guard let model = try? JSONDecoder().decode(GenericResponse<[RegionInfoModel]>.self, from: data) else { return }
+                self.provinceList.removeAll()
+                if let _data = model.data{
+                    self.provinceList = _data
+                }
         } failureCallback: { error, code in
             code.loginOut()
         }
-
-        
     }
 
     
@@ -473,7 +456,7 @@ class ModifyAddressViewController: BaseViewController {
             
         }else{
             //self.addressList 为新建
-            self.addressList = [NoDeliveryRegionModel]()
+            self.addressList = [RegionInfoModel]()
         }
         
         

@@ -27,13 +27,14 @@ public enum OrderApi{
     case draft(parameters:[String:Any])                  //存为草稿        (1)
     case getProductSpecList(parameters:[String:Any])     //获取商品规格列表  (1)
     
-//    case getProductFreightList                           //获取商品运费模板列表 （1）
+//    case getProductFreightList                         //获取商品运费模板列表 （1）
     case getFreightInfoList                              //获取运费模板列表   (1)
     case defFreightTemplate(parameters:[String:Any])     //默认运费模版      (1)
     case delFreightStatus(parameters:[String:Any])       //删除运费模版      (1)
     case freightTemplate(parameters:[String:Any])        //新建/更新运费模板  (1)
     case getFreightInfo(parameters:[String:Any])         //获取运费模板      (1)
-    case getRegionInfoList(parameters:[String:Any])      //获取行政地区列表  （1）
+    case getFreightRegionList(parameters:[String:Any])      //获取行政地区列表  （1）
+    case getNoDeliveryRegionList(parameters:[String:Any])//获取不配送区域列表
 }
 
 
@@ -93,8 +94,10 @@ extension OrderApi:TargetType{
             return "freight/freightTemplate"
         case .getFreightInfo:
             return "freight/getFreightInfo"
-        case .getRegionInfoList:
-            return "region/getRegionInfoList"
+        case .getFreightRegionList:
+            return "region/getFreightRegionList"
+        case .getNoDeliveryRegionList:
+            return "region/getNoDeliveryRegionList"
         }
     }
     
@@ -149,7 +152,9 @@ extension OrderApi:TargetType{
         case .getFreightInfo(let parameters):
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
             
-        case .getRegionInfoList(let parameters):
+        case .getFreightRegionList(let parameters):
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+        case .getNoDeliveryRegionList(let parameters):
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         }
     }
@@ -208,12 +213,18 @@ extension OrderApi:TargetType{
             return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,getArrayJSONStringFromUpdateAndNewTemplate(obj:parameters)),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
             
         //获取行政区域
-        case .getRegionInfoList(let parameters):
+        case .getFreightRegionList(let parameters):
             let time = Date().currentMilliStamp
             let nonce = String.nonce
             let deviceId = String.deviceUUID
             return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,getJSONStringFromData(obj: parameters,isEscape: false)),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
             
+        //获取不配送区域的列表
+        case .getNoDeliveryRegionList(let parameters):
+            let time = Date().currentMilliStamp
+            let nonce = String.nonce
+            let deviceId = String.deviceUUID
+            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,getArrayJSONStringFromAddSpec(obj: parameters)),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
         default:
            return ["Accept": "*/*","Content-Type":"application/json"]
         }
