@@ -107,7 +107,7 @@ class ProductDescriptionViewController: BaseViewController {
 //        initData()
 //        setUI()
         
-        
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
         
         
 //        editorView.isEditable = true
@@ -674,4 +674,38 @@ extension ProductDescriptionViewController:UITextViewDelegate{
     
     
     
+}
+
+
+
+extension ProductDescriptionViewController:UIGestureRecognizerDelegate{
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        editorView.resignFirstResponder()
+        if isModify{
+            JFPopup.alert {
+                [
+                    .title("确定要放弃编辑商品详情吗？"),
+                    .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+                    .withoutAnimation(true),
+                    .cancelAction([
+                        .text("取消"),
+                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
+                        .tapActionCallback({
+                            
+                        })
+                    ]),
+                    .confirmAction([
+                        .text("确定"),
+                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+                        .tapActionCallback({
+                            Coordinator.shared?.popViewController(self, true)
+                        })
+                    ])
+                ]
+            }
+            return !self.isModify
+        }else{
+          return true
+        }
+   }
 }

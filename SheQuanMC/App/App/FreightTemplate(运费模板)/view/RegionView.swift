@@ -167,21 +167,6 @@ class RegionView: UIView {
 //           //let url = URL(fileURLWithPath: path!)
 //           let addressData = try NSData.init(contentsOf: path!)
 //           let addressDic = try JSONSerialization.jsonObject(with: addressData as! Data, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSArray
-//           let dic = addressDic.object(at: 0) as! NSDictionary
-//           let provinceArray = dic["childs"] as! NSArray
-//           for i in 0..<provinceArray.count {
-//                let provinceDic = provinceArray.object(at: i) as! NSDictionary
-//                let provinceM = AddressModel.init()
-//                provinceM.region_name = (provinceDic["region_name"] as? String)
-//                provinceM.region_id = (provinceDic["region_id"] as! String)
-//                provinceM.agency_id = (provinceDic["agency_id"] as? String)
-//                provinceM.parent_id = (provinceDic["parent_id"] as! String)
-//                provinceM.region_type = (provinceDic["region_type"] as! String)
-//                provinceM.childs = (provinceDic["childs"] as! [NSDictionary])
-//                self.dataArray.append(provinceM)
-//           }
-//       }catch{}
-        
         
         
         
@@ -281,7 +266,6 @@ class RegionView: UIView {
 //        let btnW = (SCW/2)/3
         let btnW = scale(120)
         for i in 0..<titleArray.count {
-//            let addressmodel = titleArray[i] as AddressModel
             let regionInfoModel = titleArray[i] as RegionInfoModel
             let titleBtn = UIButton()
             titleView.addSubview(titleBtn)

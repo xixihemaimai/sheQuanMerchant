@@ -470,48 +470,22 @@ extension CommoditySearchViewController:UITableViewDelegate,UITableViewDataSourc
 //            }
             //0为没有库存，1为有库存
             cell.model = productListModel
-            
             cell.stockBtn.tag = indexPath.row
             cell.downBtn.tag = indexPath.row
             cell.editBtn.tag = indexPath.row
-            
             cell.stockBtn.addTarget(self, action: #selector(stockAction), for: .touchUpInside)
             cell.downBtn.addTarget(self, action: #selector(downAction), for: .touchUpInside)
             cell.editBtn.addTarget(self, action: #selector(editAction), for: .touchUpInside)
-          
             return cell
-          
-          
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "commodityExamineCell") as! commodityExamineCell
-            //0为没有审核中，1为有已驳回
             cell.model = productListModel
-            
-            if productListModel.auditStatus == 2 {
-                //审核中
-                cell.deleteBtn.isHidden = true
-                cell.editBtn.isHidden = true
-                cell.cancelBtn.isHidden = false
-                cell.statusLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#666666")
-//                cell.reasonLabel.text = "预计2个工作日内反馈申请结果"
-                cell.statusLabel.text = "审核中"
-            }else if productListModel.auditStatus == 3{
-                //审核失败
-                cell.deleteBtn.isHidden = false
-                cell.editBtn.isHidden = false
-                cell.cancelBtn.isHidden = true
-                cell.statusLabel.text = "已驳回"
-                cell.statusLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#F13232")
-//                cell.reasonLabel.text = productListModel.auditReason
-            }
             cell.deleteBtn.tag = indexPath.row
             cell.editBtn.tag = indexPath.row
             cell.cancelBtn.tag = indexPath.row
-            
             cell.deleteBtn.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
             cell.editBtn.addTarget(self, action: #selector(examineEditAction), for: .touchUpInside)
             cell.cancelBtn.addTarget(self, action: #selector(cancelApplyAction), for: .touchUpInside)
-            
             return cell
         }
     }

@@ -365,7 +365,7 @@ class CommoditySpecificationsViewController: BaseViewController {
         for skus in unIonSetList {
             let doubleValue = Double(truncating: skus.price as? NSNumber ?? 0.0)
             let int32Value = Int32(truncating: skus.stock as? NSNumber ?? 0)
-            if (doubleValue < 0.1) && (int32Value < 1){
+            if (doubleValue < 0.1) && (int32Value < 0){
                 isComplete = false
                 break
             }
@@ -412,7 +412,6 @@ class CommoditySpecificationsViewController: BaseViewController {
                     self?.popup.dismissPopup()
                 }
                 addSpecificationsView.sendSureSpecificationList = {[weak self] specGroups in
-                    LXFLog("===============+++++++++++++++++++++++++++++[==============---------------------\(String(describing: specGroups))")
                     self?.saveList.append(specGroups)
                     let colorList = [Specs]()
                     self?.saveValueList.append(colorList)
@@ -425,7 +424,6 @@ class CommoditySpecificationsViewController: BaseViewController {
                         let addSpecificationValueView = AddSpecificationValueView(frame: CGRect(x: 0, y: 0, width: SCW - scale(80), height: scale(166)), categoryId: (self?.categoryId ?? 0))
                         addSpecificationValueView.cancelBlock = {
                             self?.popup.dismissPopup()
-                            LXFLog("=====================23=============")
                         }
                         addSpecificationValueView.sureAddCustomNewSpecificationList = {[weak self] list in
                             for i in 0..<list.count {
@@ -480,6 +478,8 @@ class CommoditySpecificationsViewController: BaseViewController {
     //添加规格值得value
     @objc func addSpecificationValueAction(addBtn:UIButton){
         LXFLog("============\(addBtn.tag)")
+//        self.setEditing(true, animated: false)
+        UIApplication.shared.keyWindow?.endEditing(true)
         var specGroups = saveList[addBtn.tag]
         var colorList = saveValueList[addBtn.tag]
         var isAdd:Bool = true
@@ -488,9 +488,10 @@ class CommoditySpecificationsViewController: BaseViewController {
             if specs.specValue == ""{
                 isAdd = false
                 break
-            }else{
-                isAdd = true
             }
+//            else{
+//                isAdd = true
+//            }
         }
         if isAdd{
             if colorList.count < 20{
@@ -720,7 +721,7 @@ class CommoditySpecificationsViewController: BaseViewController {
     @objc func deleteAction(deleteBtn:UIButton){
         JFPopup.alert {
             [
-                .title("确定要删除这个规格和改规格底下所有规格值?"),
+                .title("确定要删除这个规格和该规格底下所有规格值?"),
                 .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
                 .withoutAnimation(true),
                 .cancelAction([
@@ -911,7 +912,7 @@ extension CommoditySpecificationsViewController:UITableViewDelegate,UITableViewD
 //                value += sp.specValue ?? ""
                 value += specs?.specValue ?? ""
             }
-            if ((skus.price ?? 0.0) > 0) && ((skus.stock ?? 0) > 0){
+            if ((skus.price ?? 0.0) > 0) && ((skus.stock ?? 0) >= 0){
                 isSet = true
             }
             if isSet{
@@ -983,7 +984,7 @@ extension CommoditySpecificationsViewController:UITableViewDelegate,UITableViewD
                     value +=  "  |  " + (specs?.specValue ?? "")
                 }
             }
-            if ((skus.price ?? 0.0) > 0) && ((skus.stock ?? 0) > 0){
+            if ((skus.price ?? 0.0) > 0) && ((skus.stock ?? 0) >= 0){
                 isSet = true
             }
             
@@ -993,7 +994,7 @@ extension CommoditySpecificationsViewController:UITableViewDelegate,UITableViewD
                 cell.midView.isHidden = false
 //                let skus = array.first
                 let doubleValue = Double(truncating: skus.price as? NSNumber ?? 0.0)
-                let price = String(format: "%0.3f", doubleValue)
+                let price = String(format: "%0.2f", doubleValue)
                 let int32Value = Int32(truncating: skus.stock as? NSNumber ?? 0)
                 let stock = String(format: "%d", int32Value)
                 cell.priceLabel.text = "价格:¥" + price

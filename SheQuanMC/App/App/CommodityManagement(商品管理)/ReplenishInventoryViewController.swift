@@ -20,7 +20,7 @@ class ReplenishInventoryViewController: BaseViewController {
         saveBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#FFFFFF"), for: .normal)
         saveBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         saveBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#313336")
-        saveBtn.addTarget(self, action: #selector(saveReplenishAction), for: .touchUpInside)
+        
         return saveBtn
     }()
     
@@ -75,9 +75,11 @@ class ReplenishInventoryViewController: BaseViewController {
             make.left.equalTo(scale(16))
             make.right.equalTo(-scale(16))
             make.height.equalTo(scale(44))
-            make.top.equalTo(iPhoneX ? -scale(34) : -scale(10))
+            make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(10))
         }
         saveBtn.layer.cornerRadius = scale(4)
+        
+        saveBtn.addTarget(self, action: #selector(saveReplenishAction), for: .touchUpInside)
     }
     
     func customTableviewHeaderView(){
@@ -100,8 +102,11 @@ class ReplenishInventoryViewController: BaseViewController {
             make.top.equalTo(scale(15))
             make.width.height.equalTo(scale(78))
         }
-        
         goodsImageView.layer.cornerRadius = scale(2)
+        goodsImageView.layer.borderWidth = scale(0.5)
+        goodsImageView.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0").cgColor
+        goodsImageView.contentMode = .scaleAspectFill
+        goodsImageView.layer.masksToBounds = true
         goodsImageViews = goodsImageView
         
         let goodsLabel = UILabel()
@@ -195,7 +200,7 @@ class ReplenishInventoryViewController: BaseViewController {
             }
         }
         specsLists += "]"
-        let parameters = ["productId":productId,"skuStocks":specsLists] as [String:Any]
+        let parameters = ["productId":productId,"skuStocks":(specsLists.count > 0 ? specsLists : [SkuStockInfoModel]())] as [String:Any]
         NetWorkResultRequest(OrderApi.repairStock(parameters: parameters), needShowFailAlert: true) { result, data in
             Coordinator.shared?.popViewController(self, true)
             //这边还要做一个处理回调

@@ -606,9 +606,6 @@ class CommodityParametersViewController: BaseViewController {
             return
         }
         
-        
-        
-        
         sureParmeter!(paraList)
         Coordinator.shared?.popViewController(self, true)
     }
@@ -621,7 +618,17 @@ class CommodityParametersViewController: BaseViewController {
                 return
             }
             self?.paraList.removeAll()
-            self?.paraList = model.data!
+            
+            if let _data = model.data{
+                self?.paraList = _data
+//                for i in 0..<_data.count {
+//                    let spus = _data[i] as Spus
+//                    if spus.spuValue?.count < 0{
+//                        spus.spuValue = ""
+//                    }
+//                    self?.paraList.append(spus)
+//                }
+            }
             self?.tableview.reloadData()
         } failureCallback: { error, code in
             code.loginOut()
@@ -919,6 +926,18 @@ extension CommodityParametersViewController:UITextFieldDelegate{
             paraList[textField.tag] = spus
         }
     }
+    
+    
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let maxNum = 50
+        //限制个数
+        let currentText = textField.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        return updatedText.count <= maxNum
+    }
+    
     
     
 //    func textViewDidChange(_ textView: UITextView) {

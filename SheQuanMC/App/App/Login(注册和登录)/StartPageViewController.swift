@@ -169,6 +169,9 @@ open class StartPageViewController: BaseViewController {
            make.height.equalTo(scale(20))
            make.width.equalTo(scale(50))
        }
+       userAgreementBtn.addTarget(self, action: #selector(jumpUserAgreementAction), for: .touchUpInside)
+       privacyPolicytBtn.addTarget(self, action: #selector(jumpPrivacyAction), for: .touchUpInside)
+       
        
        //这边要弹起用户协议和隐私协议
        
@@ -189,8 +192,13 @@ open class StartPageViewController: BaseViewController {
             userPrivacyView.jumpType = {[weak self] type in
                 self?.popup.dismissPopup()
                 if type == 0 || type == 1{
-                    let loginVc = LoginViewController()
-                    Coordinator.shared?.pushViewController(self!,loginVc, animated: true)
+                    let wkwebVc = WKWebViewViewController()
+                    if type == 0{
+                        wkwebVc.title = "隐私政策"
+                    }else{
+                        wkwebVc.title = "用户协议"
+                    }
+                    Coordinator.shared?.pushViewController(self!, wkwebVc, animated: true)
                 }else if type == 3{
                     //同意的步骤
                     UserDefaults.standard.set(true, forKey: "isFristLaunchScreen")
@@ -235,6 +243,21 @@ open class StartPageViewController: BaseViewController {
     //是否已阅读
     @objc func agreeReadAction(agreenBtn:UIButton){
         agreenBtn.isSelected = !agreenBtn.isSelected
+    }
+    
+    
+    
+    @objc func jumpUserAgreementAction(UserAgreementBtn:UIButton){
+        let wkwebVc = WKWebViewViewController()
+        wkwebVc.title = "用户协议"
+        Coordinator.shared?.pushViewController(self, wkwebVc, animated: true)
+    }
+    
+    
+    @objc func jumpPrivacyAction(privacyPolicytBtn:UIButton){
+        let wkwebVc = WKWebViewViewController()
+        wkwebVc.title = "隐私政策"
+        Coordinator.shared?.pushViewController(self, wkwebVc, animated: true)
     }
     
     

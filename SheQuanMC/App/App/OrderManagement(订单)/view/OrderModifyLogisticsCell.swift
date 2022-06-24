@@ -67,6 +67,19 @@ class OrderModifyLogisticsCell: UITableViewCell {
     }()
  
     
+    var orderInfoModel:OrederInfoModel?{
+        didSet{
+            guard let _orderInfoModel = orderInfoModel else { return }
+            orderImage.sd_setImage(with: URL(string: _orderInfoModel.products?.first?.productPic ?? ""), placeholderImage: UIImage(named: "Group 2784"))
+            truePriceLabel.text = "¥" + (_orderInfoModel.payAmount ?? "0")
+            let qtyStr = String(format: "%d", _orderInfoModel.products?.first?.qty ?? 0)
+            numberLabel.text = (_orderInfoModel.products?.first?.specs ?? "") + "x" + qtyStr
+            orderIntroductLabel.text = _orderInfoModel.products?.first?.productName
+        }
+    }
+    
+    
+    
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -113,6 +126,12 @@ class OrderModifyLogisticsCell: UITableViewCell {
             make.top.equalTo(diviver.snp.bottom).offset(scale(15))
             make.width.height.equalTo(scale(80))
         }
+        
+        
+        orderImage.layer.cornerRadius = scale(2)
+        orderImage.layer.borderWidth = scale(0.5)
+        orderImage.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#E9E9E9").cgColor
+        orderImage.layer.masksToBounds = true
         
         
         orderIntroductLabel.snp.makeConstraints { make in

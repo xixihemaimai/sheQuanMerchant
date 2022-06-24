@@ -7,6 +7,7 @@
 
 import UIKit
 import Util
+import JFPopup
 
 class TemplateContentViewController: BaseViewController {
 
@@ -95,6 +96,21 @@ class TemplateContentViewController: BaseViewController {
         bottomView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#F8F8F8")
         return bottomView
     }()
+    
+    
+    //完成
+    lazy var completeBtn:UIButton = {
+       let completeBtn = UIButton()
+        completeBtn.setTitle("完成", for: .normal)
+        completeBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#ffffff"), for: .normal)
+        completeBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
+//        completeBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#313336")
+        completeBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
+        completeBtn.isEnabled = false
+        return completeBtn
+    }()
+    
+    
     
     
     //模型的数据
@@ -289,9 +305,6 @@ class TemplateContentViewController: BaseViewController {
         }
         
         
-        
-        
-        
         view.addSubview(typeView)
         typeView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
@@ -392,31 +405,25 @@ class TemplateContentViewController: BaseViewController {
             make.bottom.equalTo(iPhoneX ? -scale(92) : -scale(58))
         }
         
-        
-        
-        let completeBtn = UIButton()
-        completeBtn.setTitle("完成", for: .normal)
-        completeBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#ffffff"), for: .normal)
-        completeBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
-        completeBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#313336")
-        completeBtn.addTarget(self, action: #selector(completeAction), for: .touchUpInside)
         view.addSubview(completeBtn)
-        
         completeBtn.snp.makeConstraints { make in
             make.left.equalTo(scale(16))
             make.right.equalTo(-scale(16))
             make.height.equalTo(scale(44))
             make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(10))
         }
-        
         completeBtn.layer.cornerRadius = scale(4)
+        completeBtn.addTarget(self, action: #selector(completeAction), for: .touchUpInside)
+        
+        
         
         //这边要区分是修改还是新建
         if type == 0{
             
             freightListModel = FreightListModel(chargeType: Int32(1), chargeTypeText: "按件计费", defTemp: false, freightConf: freightConfModel(firstPiece: 0, freight: 0, freightConfId: 0,parcelConditions: 0, renewal: 0, renewalFreight: 0), freightId: Int64(0), freightType: Int32(1), freightTypeText: "包邮", freightVerId: Int32(0), noDeliveryRegionIds: [Int32](), templateName: "")
-            
+            //包邮的按键
             freeBtn.isSelected = true
+            //自定义的按键
             customFreightBtn.isSelected = false
             //计费方式
             typeView.isHidden = true
@@ -431,6 +438,9 @@ class TemplateContentViewController: BaseViewController {
                 make.top.equalTo(noDisBtn.snp.bottom)
                 make.bottom.equalTo(-scale(92))
             }
+            
+            
+            
             
         }else{
             
@@ -484,12 +494,26 @@ class TemplateContentViewController: BaseViewController {
             }else{
                 freightConfigureLabel.text = "已配置"
             }
+            
+            if (templateNameTextFiled.text?.count ?? 0) < 1{
+                completeBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
+                completeBtn.isEnabled = false
+            }else{
+                completeBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#313336")
+                completeBtn.isEnabled = true
+            }
         }
     }
     
     
     //完成
     @objc func completeAction(completeBtn:UIButton){
+        
+        if (templateNameTextFiled.text?.count ?? 0) < 1{
+            JFPopup.toast(hit: "请填写模板名称")
+            return
+        }
+        
         //这边是进行新建/更新运费模板
 //        freightListModel
 //
@@ -585,6 +609,22 @@ class TemplateContentViewController: BaseViewController {
         }
         freightListModel?.freightType = Int32(1)
         freightListModel?.freightTypeText = "包邮"
+        
+        
+        if freeBtn.isSelected == false{
+            customFreightBtn.isSelected = true
+            freightListModel?.freightType = Int32(2)
+            freightListModel?.freightTypeText = "自定义"
+
+            typeView.isHidden = false
+            freightConfigureBtn.isHidden = false
+            bottomView.snp.remakeConstraints { make in
+                make.left.right.equalToSuperview()
+                make.top.equalTo(freightConfigureBtn.snp.bottom)
+                make.bottom.equalTo(-scale(92))
+            }
+        }
+        
     }
     
     
@@ -601,12 +641,32 @@ class TemplateContentViewController: BaseViewController {
         }
         freightListModel?.freightType = Int32(2)
         freightListModel?.freightTypeText = "自定义"
+        
+        if customFreightBtn.isSelected == false{
+            freeBtn.isSelected = true
+            freightListModel?.freightType = Int32(1)
+            freightListModel?.freightTypeText = "包邮"
+
+            typeView.isHidden = true
+            freightConfigureBtn.isHidden = true
+            bottomView.snp.remakeConstraints { make in
+                make.left.right.equalToSuperview()
+                make.top.equalTo(noDisBtn.snp.bottom)
+                make.bottom.equalTo(-scale(92))
+            }
+        }
     }
     
-    
-    
     @objc func templateNameEditChangeAction(templateNameTextFiled:UITextField){
-        freightListModel?.templateName = templateNameTextFiled.text
+        if (templateNameTextFiled.text?.count ?? 0) > 0{
+            freightListModel?.templateName = templateNameTextFiled.text
+            completeBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#313336")
+            completeBtn.isEnabled = true
+        }else{
+            freightListModel?.templateName = ""
+            completeBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
+            completeBtn.isEnabled = false
+        }
     }
     
 }

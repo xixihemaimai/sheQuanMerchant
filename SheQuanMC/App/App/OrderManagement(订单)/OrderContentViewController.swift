@@ -174,10 +174,10 @@ class OrderContentViewController: BaseViewController {
             let vc = OrderStatusViewController()
             vc.orderViewVc = orderViewVc
             let btn = btnArray[i]
-            vc.view.tag = i
-            self.addChild(vc)
+            vc.view.tag = btn.tag
             vc.delegate = self
             vc.title = btn.currentTitle
+            self.addChild(vc)
         }
         let count = self.children.count
         contentScrollView.contentSize = CGSize(width: count * Int(view.bounds.size.width), height: 0)

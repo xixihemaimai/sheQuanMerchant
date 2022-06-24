@@ -7,9 +7,30 @@
 
 import UIKit
 import Util
+import JFPopup
+
+
+
 
 class ModifyLogisticsViewController: BaseViewController {
 
+    //这边要判断是1进入还是2进入的，返回的时候要的事情是不同的
+    enum jumpType:Int {
+        case listJumpType = 0      //这个是列表进入
+        case detailJumpType  //这个是详情进入
+    }
+
+    var jump:jumpType = .listJumpType
+    
+    var orderInfoModel:OrederInfoModel?
+    
+    var logisticsModel:LogisticsModel?
+    
+    
+    var jumpSuccessBlockListType:(()->Void)?
+    var jumpSuccessBlockDetailType:(()->Void)?
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -42,7 +63,11 @@ class ModifyLogisticsViewController: BaseViewController {
         
         
         let suerModifyBtn = UIButton()
-        suerModifyBtn.setTitle("确认修改", for: .normal)
+        if title == "订单发货"{
+            suerModifyBtn.setTitle("确认发货", for: .normal)
+        }else{
+            suerModifyBtn.setTitle("确认修改", for: .normal)
+        }
         suerModifyBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#ffffff"), for: .normal)
         suerModifyBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         suerModifyBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#313336")
@@ -56,15 +81,20 @@ class ModifyLogisticsViewController: BaseViewController {
         }
         
         suerModifyBtn.layer.cornerRadius = scale(4)
+        suerModifyBtn.addTarget(self, action: #selector(sureModifyLogisticsAction), for: .touchUpInside)
     }
     
     //goodsDetailLabel 选择物流
     @objc func choiceLogisticsAction(goodsDetailBtn:UIButton){
         let logisticsCompanyVc = LogisticsCompanyViewController()
         Coordinator.shared?.pushViewController(self, logisticsCompanyVc, animated: true)
-        
         // 这边要返回选择的物流公司
-        
+        logisticsCompanyVc.selectLogisticsSuccessBlock = {[weak self] logisticsModel  in
+            self?.logisticsModel = logisticsModel
+            let cell = self?.tableview.cellForRow(at: IndexPath(row: 1, section: 0)) as! LogisticsInformationCell
+            cell.goodsDetailLabel.text = logisticsModel.logisticsName
+            self?.tableview.reloadData()
+        }
     }
     
     
@@ -72,6 +102,31 @@ class ModifyLogisticsViewController: BaseViewController {
     @objc func modifyReturnAddressAction(modifyBtn:UIButton){
         let returnAddressVc = ModifyReturnAddressViewController()
         Coordinator.shared?.pushViewController(self, returnAddressVc, animated: true)
+    }
+    
+    
+    //确认修改物流
+    @objc func sureModifyLogisticsAction(suerModifyBtn:UIButton){
+        let cell = tableview.cellForRow(at: IndexPath(row: 1, section: 0)) as! LogisticsInformationCell
+        if (cell.expressTextField.text?.count ?? 0) < 1{
+            JFPopup.toast(hit: "请填写快递单号")
+            return
+        }
+        if (self.logisticsModel?.logisticsName?.count ?? 0) < 1{
+            JFPopup.toast(hit: "请选择物流")
+            return
+        }
+        let parameters = ["expressNo":cell.expressTextField.text as Any,"logisticsId":self.logisticsModel?.logisticsId as Any,"orderId":orderInfoModel?.orderId as Any,"returnAddrId":0] as [String:Any]
+        NetWorkResultRequest(OrderApi.modiyLogistics(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+            if self?.jump == .listJumpType{
+                self?.jumpSuccessBlockListType?()
+            }else{
+                self?.jumpSuccessBlockDetailType?()
+            }
+            Coordinator.shared?.popViewController(self!, true)
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
     }
     
 }
@@ -90,17 +145,15 @@ extension ModifyLogisticsViewController:UITableViewDelegate,UITableViewDataSourc
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0{
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderModifyLogisticsCell") as! OrderModifyLogisticsCell
+            cell.orderInfoModel = orderInfoModel
             return cell
         }else if indexPath.row == 1{
             let cell = tableView.dequeueReusableCell(withIdentifier: "LogisticsInformationCell") as! LogisticsInformationCell
-            
             cell.goodsDetailBtn.addTarget(self, action: #selector(choiceLogisticsAction), for: .touchUpInside)
             return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "ReturnGoodsAddressCell") as! ReturnGoodsAddressCell
-            
             cell.modifyBtn.addTarget(self, action: #selector(modifyReturnAddressAction), for: .touchUpInside)
-            
             return cell
         }
     }

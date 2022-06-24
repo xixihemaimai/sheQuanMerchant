@@ -12,9 +12,6 @@ import RealmSwift
 public class StoreService{
     
     public static let shared = StoreService()
-    
-    
-    
     public func isLogin() -> Bool {
         guard let realm = try? Realm() else { return false }
         return !realm.objects(StoreModel.self).isEmpty

@@ -107,35 +107,39 @@ class FreightTemplateViewController: BaseViewController {
     //删除
     @objc func setDeleteAction(deleteBtn:UIButton){
         let model = list[deleteBtn.tag]
-        JFPopup.alert {
-            [
-                .title("确定要删除此模板吗？"),
-                .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
-//                .subTitle("注:取消商品将移至未上架"),
-//                .subTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 ")),
-                .withoutAnimation(true),
-                .cancelAction([
-                    .text("取消"),
-                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
-                    .tapActionCallback({
-                        Coordinator.shared?.popViewController(self, true)
-                    })
-                    
-                ]),
-                .confirmAction([
-                    .text("确定"),
-                    .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
-                    .tapActionCallback({
-                        let parameters = ["freightId":model.freightId as Any] as [String:Any]
-                        NetWorkResultRequest(OrderApi.delFreightStatus(parameters: parameters), needShowFailAlert: true) { result, data in
-                            //成功之后
-                            self.loadFreightList()
-                        } failureCallback: { error, code in
-                            code.loginOut()
-                        }
-                    })
-                ])
-            ]
+        if model.defTemp == false{
+            JFPopup.alert {
+                [
+                    .title("确定要删除此模板吗？"),
+                    .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+    //                .subTitle("注:取消商品将移至未上架"),
+    //                .subTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999 ")),
+                    .withoutAnimation(true),
+                    .cancelAction([
+                        .text("取消"),
+                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
+                        .tapActionCallback({
+                            Coordinator.shared?.popViewController(self, true)
+                        })
+                        
+                    ]),
+                    .confirmAction([
+                        .text("确定"),
+                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+                        .tapActionCallback({
+                            let parameters = ["freightId":model.freightId as Any] as [String:Any]
+                            NetWorkResultRequest(OrderApi.delFreightStatus(parameters: parameters), needShowFailAlert: true) { result, data in
+                                //成功之后
+                                self.loadFreightList()
+                            } failureCallback: { error, code in
+                                code.loginOut()
+                            }
+                        })
+                    ])
+                ]
+            }
+        }else{
+            JFPopup.toast(hit: "默认模板不能删除")
         }
     }
     

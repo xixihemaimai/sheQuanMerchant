@@ -15,8 +15,7 @@ class ModifyReturnAddressViewController: BaseViewController {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
-        
-        title = "修改退货地址"
+        title = "收货地址"
         
         let topView = UIView()
         topView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#f8f8f8")

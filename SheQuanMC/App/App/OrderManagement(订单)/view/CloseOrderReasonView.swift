@@ -28,14 +28,22 @@ class CloseOrderReasonView: UIView {
     //这边要进行修改这类的动作
     var cancelBlock:(()->Void)?
     
-    var reasonList:[String] = [String]()
+    var reasonList:[CloseOrderTypeRspModel] = [CloseOrderTypeRspModel]()
+    
+    var orderId:Int64?
     
     
-    override init(frame: CGRect) {
+    
+    // 成功之后返回的block
+    var sureCloseSuccessBlock:(()->Void)?
+    
+    
+    init(frame: CGRect,orderId:Int64) {
         super.init(frame: frame)
         
         backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
             
+        self.orderId = orderId
         
         let titleLabel = UILabel()
         titleLabel.text = "选择关闭订单理由"
@@ -74,7 +82,7 @@ class CloseOrderReasonView: UIView {
         tableview.dataSource = self
         
         
-        reasonList = ["无法联系上买家","买家误拍或重拍了","买家无诚意完成交易","已经缺货无法交易"]
+//        reasonList = ["无法联系上买家","买家误拍或重拍了","买家无诚意完成交易","已经缺货无法交易"]
         tableview.register(CloseOrderReasonCell.self, forCellReuseIdentifier: "CloseOrderReasonCell")
         
         //确定
@@ -95,8 +103,26 @@ class CloseOrderReasonView: UIView {
         
         sureBtn.layer.cornerRadius = scale(4)
         
-        
+
+        loadCloseOrderReasonList()
     }
+    
+    
+    
+    
+    func loadCloseOrderReasonList(){
+        NetWorkResultRequest(OrderApi.getCloseOrderReasonList, needShowFailAlert: true) { result, data in
+            guard let model = try? JSONDecoder().decode(GenericResponse<[CloseOrderTypeRspModel]>.self, from: data) else { return }
+            self.reasonList.removeAll()
+            if let _data = model.data{
+                self.reasonList = _data
+            }
+            self.tableview.reloadData()
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
+    }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -109,7 +135,21 @@ class CloseOrderReasonView: UIView {
     
     //确定
     @objc func sureAction(sureBtn:UIButton){
-        
+        var selectIndex = 0
+        for i in 0..<reasonList.count{
+            let cell = tableview.cellForRow(at: IndexPath(row: i, section: 0)) as! CloseOrderReasonCell
+            if cell.choiceBtn.isSelected{
+                selectIndex = i
+            }
+        }
+        let closeOrderTypeRspModel = reasonList[selectIndex]
+        let parameters = ["closeReasonId":closeOrderTypeRspModel.closeReasonId as Any,"orderId":self.orderId as Any] as [String : Any]
+        NetWorkResultRequest(OrderApi.closeOrder(parameters: parameters), needShowFailAlert: true) { result, data in
+            //这边成功之后要做得事情是返回前面的状态
+            self.sureCloseSuccessBlock?()
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
     }
     
     
@@ -135,9 +175,9 @@ extension CloseOrderReasonView:UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CloseOrderReasonCell") as! CloseOrderReasonCell
-        cell.reasonLabel.text = reasonList[indexPath.row]
+        let closeOrderTypeRspModel = reasonList[indexPath.row]
+        cell.reasonLabel.text = closeOrderTypeRspModel.closeReason
         cell.choiceBtn.tag = indexPath.row
-//        cell.choiceBtn.addTarget(self, action: #selector(choiceCloseReasoonAction), for: .touchUpInside)
         return cell
     }
     

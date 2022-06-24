@@ -33,6 +33,16 @@ class CheckLogisticsNumberCell: UITableViewCell {
         
     }()
     
+    var viewLogisticsModel:ViewLogisticsModel?{
+        didSet{
+            guard let _viewLogisticsModel = viewLogisticsModel else { return }
+            
+            logisticsCompanyLabel.text = _viewLogisticsModel.logisticsName
+            waybillNumberLabel.text = "运费编号:" + (_viewLogisticsModel.waybillNo ?? "")
+
+        }
+    }
+    
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

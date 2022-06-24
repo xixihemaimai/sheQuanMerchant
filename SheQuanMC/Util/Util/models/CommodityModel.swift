@@ -30,6 +30,7 @@ public struct CommodityModel: Codable {
     public var stock:Int32?            //库存（只限于单规格）
     public var stockDeductText:String? //库存扣减方式(1：拍下减库存、2：支付减库存)
     public var stockDeductType:Int32?  //库存扣减方式(1：拍下减库存、2：支付减库存)
+    public var productStatus:Int32?    //商品状态 1：未上架 2：审核中 3：上架中 4、已售罄
     
     
     enum CodingKeys: String, CodingKey {
@@ -53,6 +54,7 @@ public struct CommodityModel: Codable {
         case stock = "stock"
         case stockDeductText = "stockDeductText"
         case stockDeductType = "stockDeductType"
+        case productStatus = "productStatus"
     }
 
     public init(from decoder: Decoder) throws {
@@ -77,10 +79,11 @@ public struct CommodityModel: Codable {
         stock = try? values.decodeIfPresent(Int32.self, forKey: .stock)
         stockDeductText = try? values.decodeIfPresent(String.self, forKey: .stockDeductText)
         stockDeductType = try? values.decodeIfPresent(Int32.self, forKey: .stockDeductType)
+        productStatus = try? values.decodeIfPresent(Int32.self, forKey: .productStatus)
     }
     
     
-    public init(categoryId:Int32? = 0,categoryName:String? = "",freeRefundIn7Days:Bool? = false,freightId:Int64? = 0,freightInsure:Bool? = false,freightName:String? = "",multiSpec:Bool? = false,price:Decimal? = 0.0,productCode:String? = "",productDesc:String? = "",productId:Int64? = 0,productName:String? = "",productPics:[String]? = [String](),sepNo:Int32? = 0,skus:[Skus]? = [Skus](),specGroups:[SpecGroups]? = [SpecGroups](),spus:[Spus]? = [Spus](),stock:Int32? = 0,stockDeductText:String? = "",stockDeductType:Int32? = 0){
+    public init(categoryId:Int32? = 0,categoryName:String? = "",freeRefundIn7Days:Bool? = false,freightId:Int64? = 0,freightInsure:Bool? = false,freightName:String? = "",multiSpec:Bool? = false,price:Decimal? = 0.0,productCode:String? = "",productDesc:String? = "",productId:Int64? = 0,productName:String? = "",productPics:[String]? = [String](),sepNo:Int32? = 0,skus:[Skus]? = [Skus](),specGroups:[SpecGroups]? = [SpecGroups](),spus:[Spus]? = [Spus](),stock:Int32? = 0,stockDeductText:String? = "",stockDeductType:Int32? = 0,productStatus:Int32? = 1){
         self.categoryId = categoryId
         self.categoryName = categoryName
         self.freeRefundIn7Days = freeRefundIn7Days
@@ -101,6 +104,7 @@ public struct CommodityModel: Codable {
         self.stock = stock
         self.stockDeductText = stockDeductText
         self.stockDeductType = stockDeductType
+        self.productStatus = productStatus
     }
     
     

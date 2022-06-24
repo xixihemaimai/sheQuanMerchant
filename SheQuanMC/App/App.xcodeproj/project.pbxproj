@@ -98,6 +98,11 @@
 		408E425A282A16F400C94119 /* AddressModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E4259282A16F400C94119 /* AddressModel.swift */; };
 		408E425D282A271200C94119 /* city.json in Resources */ = {isa = PBXBuildFile; fileRef = 408E425C282A271100C94119 /* city.json */; };
 		408E425F282B3BC100C94119 /* OrderSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E425E282B3BC100C94119 /* OrderSearchViewController.swift */; };
+		409635392861622C00AA323C /* WKWebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409635382861622B00AA323C /* WKWebViewViewController.swift */; };
+		4096353F2864599400AA323C /* MomentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4096353E2864599200AA323C /* MomentsView.swift */; };
+		4096354128645A8400AA323C /* MomentsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4096354028645A8400AA323C /* MomentsViewCell.swift */; };
+		4096354328645AA700AA323C /* MomentsPostButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4096354228645AA700AA323C /* MomentsPostButton.swift */; };
+		4096354528645AD100AA323C /* MomentsDeleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4096354428645AD100AA323C /* MomentsDeleteView.swift */; };
 		409C29932814FC5D00005ECB /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 409C29912814FC5D00005ECB /* UITextView+Placeholder.m */; };
 		409C29942814FC5D00005ECB /* UITextView+Placeholder.h in Headers */ = {isa = PBXBuildFile; fileRef = 409C29922814FC5D00005ECB /* UITextView+Placeholder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		40A267AB2856DDC00092321F /* AppSpecificationsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A267AA2856DDC00092321F /* AppSpecificationsCell.swift */; };
@@ -230,6 +235,11 @@
 		408E4259282A16F400C94119 /* AddressModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressModel.swift; sourceTree = "<group>"; };
 		408E425C282A271100C94119 /* city.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = city.json; sourceTree = "<group>"; };
 		408E425E282B3BC100C94119 /* OrderSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSearchViewController.swift; sourceTree = "<group>"; };
+		409635382861622B00AA323C /* WKWebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WKWebViewViewController.swift; sourceTree = "<group>"; };
+		4096353E2864599200AA323C /* MomentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentsView.swift; sourceTree = "<group>"; };
+		4096354028645A8400AA323C /* MomentsViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentsViewCell.swift; sourceTree = "<group>"; };
+		4096354228645AA700AA323C /* MomentsPostButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentsPostButton.swift; sourceTree = "<group>"; };
+		4096354428645AD100AA323C /* MomentsDeleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentsDeleteView.swift; sourceTree = "<group>"; };
 		409C29912814FC5D00005ECB /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
 		409C29922814FC5D00005ECB /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
 		40A267AA2856DDC00092321F /* AppSpecificationsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSpecificationsCell.swift; sourceTree = "<group>"; };
@@ -295,6 +305,7 @@
 				4060BC3828177F1A00968C42 /* RegisterViewController.swift */,
 				4060BC3A281794B000968C42 /* ForgetPasswordViewController.swift */,
 				4060BC3C2817986800968C42 /* NewPasswordViewController.swift */,
+				409635382861622B00AA323C /* WKWebViewViewController.swift */,
 			);
 			path = "Login(注册和登录)";
 			sourceTree = "<group>";
@@ -419,6 +430,10 @@
 				408AF0E728407BA600D12584 /* CommodityParameterCell.swift */,
 				40A267AA2856DDC00092321F /* AppSpecificationsCell.swift */,
 				40A267AC2856E6070092321F /* AddSpecificationValueView.swift */,
+				4096353E2864599200AA323C /* MomentsView.swift */,
+				4096354028645A8400AA323C /* MomentsViewCell.swift */,
+				4096354228645AA700AA323C /* MomentsPostButton.swift */,
+				4096354428645AD100AA323C /* MomentsDeleteView.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -724,6 +739,7 @@
 				4075AF0C281E1E08005EB854 /* OrderViewController.swift in Sources */,
 				4083B25E2825FC2A00AFAD18 /* OrderStatusCell.swift in Sources */,
 				408E423A2828BA0D00C94119 /* AddressCell.swift in Sources */,
+				4096354128645A8400AA323C /* MomentsViewCell.swift in Sources */,
 				403B8807282379C600FC4EA4 /* CommoditySpecificationsFooterView.swift in Sources */,
 				4074C9F3282DF506009E9023 /* NoDeliveryRegionView.swift in Sources */,
 				4074C9F1282D043C009E9023 /* RegionAddressCell.swift in Sources */,
@@ -744,6 +760,7 @@
 				4060BC452817DF7100968C42 /* BusinessTypeCell.swift in Sources */,
 				408E42402828C4EA00C94119 /* LogisticsCompanyHeaderView.swift in Sources */,
 				403B87FD28235E4300FC4EA4 /* CommodityParametersViewController.swift in Sources */,
+				4096354528645AD100AA323C /* MomentsDeleteView.swift in Sources */,
 				4060BC472817E31F00968C42 /* BusinessTypeHeaderView.swift in Sources */,
 				4060BC422817DE0200968C42 /* BusinessTypeViewController.swift in Sources */,
 				4060BC2B28168DFD00968C42 /* MainViewController.swift in Sources */,
@@ -777,12 +794,14 @@
 				4074C9F5282DF764009E9023 /* NoDeliveryTableviewCell.swift in Sources */,
 				4083B260282615AA00AFAD18 /* CloseOrderReasonView.swift in Sources */,
 				4080A4C7282C98B700D32002 /* FreightTemplateViewController.swift in Sources */,
+				4096354328645AA700AA323C /* MomentsPostButton.swift in Sources */,
 				408E424C282903B200C94119 /* ReturnGoodsAddressCell.swift in Sources */,
 				408E42342828ADD100C94119 /* OrderDeliveryLogisticsCell.swift in Sources */,
 				4080A4CE282CB08000D32002 /* FreightAllocationViewController.swift in Sources */,
 				4074C9EF282CE3D0009E9023 /* RegionView.swift in Sources */,
 				407D9802281A66C6005A8CBC /* commodityStatusCell.swift in Sources */,
 				408E42422828E8BE00C94119 /* CheckLogisticsViewController.swift in Sources */,
+				409635392861622C00AA323C /* WKWebViewViewController.swift in Sources */,
 				40C3778A2851EB3F00DA9E70 /* SIXEditorInputManager.m in Sources */,
 				401E5DD628163A48009127A5 /* StartPageViewController.swift in Sources */,
 				4075AF0E281E2673005EB854 /* OrderContentViewController.swift in Sources */,
@@ -792,6 +811,7 @@
 				409C29932814FC5D00005ECB /* UITextView+Placeholder.m in Sources */,
 				408E42462828ED3800C94119 /* CheckLogisticsProgressCell.swift in Sources */,
 				407D9808281A8457005A8CBC /* ReplenishInventoryCell.swift in Sources */,
+				4096353F2864599400AA323C /* MomentsView.swift in Sources */,
 				4060BC3428175ECD00968C42 /* BaseNaviViewController.swift in Sources */,
 				407D9806281A8352005A8CBC /* ReplenishInventoryViewController.swift in Sources */,
 				4060BC302816AD5000968C42 /* CountDown.swift in Sources */,

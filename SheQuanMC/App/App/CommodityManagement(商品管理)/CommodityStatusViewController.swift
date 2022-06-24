@@ -334,32 +334,9 @@ extension CommodityStatusViewController:UITableViewDelegate,UITableViewDataSourc
             
             return cell
         }else{
-            
-            
             let productListModel = list[indexPath.row]
-            
             let cell = tableView.dequeueReusableCell(withIdentifier: "commodityExamineCell") as! commodityExamineCell
-            //0为没有审核中，1为有已驳回
-//            let stockNum = arc4random()%2
             cell.model = productListModel
-            
-            if productListModel.auditStatus == 2 {
-                //审核中
-                cell.deleteBtn.isHidden = true
-                cell.editBtn.isHidden = true
-                cell.cancelBtn.isHidden = false
-                cell.statusLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#666666")
-//                cell.reasonLabel.text = "预计2个工作日内反馈申请结果"
-                cell.statusLabel.text = "审核中"
-            }else if productListModel.auditStatus == 3{
-                //审核失败
-                cell.deleteBtn.isHidden = false
-                cell.editBtn.isHidden = false
-                cell.cancelBtn.isHidden = true
-                cell.statusLabel.text = "已驳回"
-                cell.statusLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#F13232")
-//                cell.reasonLabel.text = productListModel.auditReason
-            }
             cell.deleteBtn.tag = indexPath.row
             cell.editBtn.tag = indexPath.row
             cell.cancelBtn.tag = indexPath.row

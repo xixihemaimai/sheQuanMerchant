@@ -29,6 +29,13 @@ class LogisticsCompanyCell: UITableViewCell {
     }()
     
     
+    var logisticsModel:LogisticsModel?{
+        didSet{
+            guard let _logisticsModel = logisticsModel else { return }
+            companyLabel.text = _logisticsModel.logisticsName
+        }
+    }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         

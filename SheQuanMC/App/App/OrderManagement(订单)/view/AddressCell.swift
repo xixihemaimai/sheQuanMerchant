@@ -24,7 +24,9 @@ class AddressCell: UITableViewCell {
     //电话号码
     lazy var phoneNumberLabel:UILabel = {
        let phoneNumberLabel = UILabel()
-        phoneNumberLabel.text = "123****8910"
+        let number = "12333338910"
+//        phoneNumberLabel.text = "12333338910"
+        phoneNumberLabel.text = number.hidePhone(combine: "****")
         phoneNumberLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#808080")
         phoneNumberLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         phoneNumberLabel.textAlignment = .left
@@ -115,6 +117,8 @@ class AddressCell: UITableViewCell {
         return bottomView
     }()
     
+    
+    //默认的话就不显示，不是默认就显示
     
 
     

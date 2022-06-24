@@ -46,6 +46,7 @@ class OrderStatusCell: UITableViewCell {
         returnGoodsLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         returnGoodsLabel.textAlignment = .right
         returnGoodsLabel.text = "退货退款中"
+        returnGoodsLabel.isHidden = true
         return returnGoodsLabel
     }()
     
@@ -223,35 +224,52 @@ class OrderStatusCell: UITableViewCell {
     
     
     
-    var productInfoModel:ProductInfoModel?{
-        
+    var orederInfoModel:OrederInfoModel?{
         didSet{
-            guard let _productInfoModel = productInfoModel else { return }
-            
-            statusLabel.text = _productInfoModel.statusText
-//            headerImage.kf.setImage(with: URL(string: _productInfoModel.shopAvatar ?? ""), placeholder: UIImage(named: "Group 2784"), options: nil, completionHandler: nil)
-            
-            headerImage.sd_setImage(with: URL(string: _productInfoModel.shopAvatar ?? ""), placeholderImage: UIImage(named: "Group 2784"))
-            
-            nicknameLabel.text = _productInfoModel.shopName
-//            orderImage.kf.setImage(with: URL(string: _productInfoModel.productPic ?? ""), placeholder:UIImage(named: "") , options: nil, completionHandler: nil)
-            
-            orderImage.sd_setImage(with: URL(string: _productInfoModel.productPic ?? ""), placeholderImage: UIImage(named: ""))
-            
-            //productName
-            orderIntroductLabel.text = _productInfoModel.productName
-            
-            numberLabel.text = (_productInfoModel.productSpecs ?? "") + "x" + String(_productInfoModel.qty ?? 0)
-//            actualAmount
-            priceLabel.text = "¥" + (_productInfoModel.actualAmount ?? "")
-            truePriceLabel.text =  "¥" + (_productInfoModel.actualAmount ?? "")
+            guard let _orederInfoModel = orederInfoModel else { return }
             
             
+            returnGoodsLabel.isHidden = true
+            
+            statusLabel.text = _orederInfoModel.orderStatusText
+            
+            nicknameLabel.text = _orederInfoModel.nickName
             
             
-            if _productInfoModel.statusText == "待付款"{
+            orderImage.sd_setImage(with: URL(string: _orederInfoModel.products?.first?.productPic ?? ""), placeholderImage: UIImage(named: "Group 2784"))
+            priceLabel.text = "¥" + (_orederInfoModel.products?.first?.price ?? "0")
+            
+            
+            truePriceLabel.text = "¥" + (_orederInfoModel.payAmount ?? "0")
+            
+    
+            let qtyStr = String(format: "%d", _orederInfoModel.products?.first?.qty ?? 0)
+            numberLabel.text = (_orederInfoModel.products?.first?.specs ?? "") + "x" + qtyStr
+            
+//            headerImage.sd_setImage(with: URL(string: _productInfoModel.shopAvatar ?? ""), placeholderImage: UIImage(named: "Group 2784"))
+//            nicknameLabel.text = _productInfoModel.shopName
+//            orderImage.sd_setImage(with: URL(string: _productInfoModel.productPic ?? ""), placeholderImage: UIImage(named: ""))
+//            orderIntroductLabel.text = _productInfoModel.productName
+//            numberLabel.text = (_productInfoModel.productSpecs ?? "") + "x" + String(_productInfoModel.qty ?? 0)
+//            priceLabel.text = "¥" + (_productInfoModel.actualAmount ?? "")
+//            truePriceLabel.text =  "¥" + (_productInfoModel.actualAmount ?? "")
+            
+            
+            orderIntroductLabel.text = _orederInfoModel.products?.first?.productName
+            
+            
+            if  (_orederInfoModel.remarks?.count ?? 0) > 0{
+                buyersView.isHidden = false
+                buyerTrueLabel.text = _orederInfoModel.remarks
+            }else{
+                buyersView.isHidden = true
+            }
+            
+            
+            
+            
+            if _orederInfoModel.orderStatus == 10{
                 //待支付
-                
                 midView.isHidden = true
                 returnGoodsLabel.isHidden = true
                 
@@ -267,7 +285,8 @@ class OrderStatusCell: UITableViewCell {
                
                 
                 
-            }else if  _productInfoModel.statusText == "待发货"{
+            }else if  _orederInfoModel.orderStatus == 20 {
+                //待发货
                 
                 closeOrderBtn.isHidden = true
                 modifyPriceBtn.isHidden = true
@@ -276,14 +295,15 @@ class OrderStatusCell: UITableViewCell {
                 checkLogisticsBtn.isHidden = true
                 modifyLogisticsBtn.isHidden = true
                 
-                returnGoodsLabel.text = "仅退款"
+//                returnGoodsLabel.text = "仅退款"
                 
                 
                 
 //                statusLabel.text = _productInfoModel.statusText
                 
                 
-            }else if _productInfoModel.statusText == "已发货"{
+            }else if _orederInfoModel.orderStatus == 21{
+               //已发货
                 
                 closeOrderBtn.isHidden = true
                 modifyPriceBtn.isHidden = true
@@ -292,32 +312,23 @@ class OrderStatusCell: UITableViewCell {
                 checkLogisticsBtn.isHidden = false
                 modifyLogisticsBtn.isHidden = false
                 
-                returnGoodsLabel.text = "退款退款中"
-//                statusLabel.text = "已发货"
+              
                 
             }else{
-             
-                
+                //交易成功 交易失败
                 orderView.snp.makeConstraints { make in
                     make.left.right.equalToSuperview()
                     make.top.equalTo(scale(8))
                     make.height.equalTo(scale(200))
                     make.bottom.equalToSuperview()
                 }
-                
-                
-                
                 midView.isHidden = true
                 returnGoodsLabel.isHidden = true
-                
                 closeOrderBtn.isHidden = true
                 modifyPriceBtn.isHidden = true
                 toShipBtn.isHidden = true
-                
                 checkLogisticsBtn.isHidden = true
                 modifyLogisticsBtn.isHidden = true
-                
-                
             }
         }
         
@@ -405,7 +416,9 @@ class OrderStatusCell: UITableViewCell {
         }
         
         orderImage.layer.cornerRadius = scale(2)
-        
+        orderImage.layer.borderWidth = scale(0.5)
+        orderImage.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#E9E9E9").cgColor
+        orderImage.layer.masksToBounds = true
         
         orderIntroductLabel.snp.makeConstraints { make in
             make.left.equalTo(orderImage.snp.right).offset(scale(12))

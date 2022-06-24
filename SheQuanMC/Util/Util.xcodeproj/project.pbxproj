@@ -26,6 +26,7 @@
 		408AF0E6283F2C8D00D12584 /* CommodityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408AF0E5283F2C8C00D12584 /* CommodityModel.swift */; };
 		408E4262282B580900C94119 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E4260282B580800C94119 /* NetworkManager.swift */; };
 		408E4263282B580900C94119 /* MoyaConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E4261282B580900C94119 /* MoyaConfig.swift */; };
+		4096353D2861B66E00AA323C /* OrderInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4096353C2861B66E00AA323C /* OrderInfoModel.swift */; };
 		4099C0ED281F6C10002889A7 /* LoginApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4099C0EC281F6C0F002889A7 /* LoginApi.swift */; };
 		40A59B982847431F00B712AE /* OrderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A59B972847431E00B712AE /* OrderModel.swift */; };
 		40A9A20E2814D6F1006B1CBF /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A9A20D2814D6F1006B1CBF /* Config.swift */; };
@@ -56,6 +57,7 @@
 		408AF0E5283F2C8C00D12584 /* CommodityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommodityModel.swift; sourceTree = "<group>"; };
 		408E4260282B580800C94119 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		408E4261282B580900C94119 /* MoyaConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoyaConfig.swift; sourceTree = "<group>"; };
+		4096353C2861B66E00AA323C /* OrderInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderInfoModel.swift; sourceTree = "<group>"; };
 		4099C0EC281F6C0F002889A7 /* LoginApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginApi.swift; sourceTree = "<group>"; };
 		40A59B972847431E00B712AE /* OrderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderModel.swift; sourceTree = "<group>"; };
 		40A9A1F628129991006B1CBF /* Util.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Util.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -124,6 +126,7 @@
 				408AF0E5283F2C8C00D12584 /* CommodityModel.swift */,
 				40A59B972847431E00B712AE /* OrderModel.swift */,
 				40BEA398285ABA570049AD28 /* NoDeliveryRegionModel.swift */,
+				4096353C2861B66E00AA323C /* OrderInfoModel.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -284,6 +287,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4096353D2861B66E00AA323C /* OrderInfoModel.swift in Sources */,
 				40091A4228348E99009D60BD /* StoreModel.swift in Sources */,
 				401E5DB828152152009127A5 /* Edit+String.swift in Sources */,
 				401E5DD1281530EF009127A5 /* Util.swift in Sources */,

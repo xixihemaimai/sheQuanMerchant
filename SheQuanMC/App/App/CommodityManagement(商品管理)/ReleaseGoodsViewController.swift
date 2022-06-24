@@ -62,6 +62,21 @@ class ReleaseGoodsViewController: BaseViewController {
         return pitureView
     }()
     
+    
+//    private var vMoments: MomentsView!
+    lazy var vMoments:MomentsView = {
+       let vMoments = MomentsView()
+        vMoments.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
+        return vMoments
+    }()
+    
+    
+    
+    
+    
+    
+    
+    
     //添加图片的按键
     lazy var addPitureBtn:UIButton = {
        let addPitureBtn = UIButton()
@@ -338,44 +353,102 @@ class ReleaseGoodsViewController: BaseViewController {
             make.bottom.equalTo(-scale(5))
         }
         
-        scrollView.addSubview(pitureView)
-        pitureView.snp.makeConstraints { make in
+//        scrollView.addSubview(pitureView)
+//        pitureView.snp.makeConstraints { make in
+//            make.left.equalToSuperview()
+//            make.width.equalTo(SCW)
+//            make.top.equalTo(goodsTitleView.snp.bottom)
+//            make.height.equalTo(scale(132))
+//        }
+//        pitureView.addSubview(addPitureBtn)
+//        addPitureBtn.snp.makeConstraints { make in
+//            make.left.equalTo(scale(25))
+//            make.centerY.equalToSuperview()
+//            make.width.height.equalTo(scale(82))
+//        }
+//        addPitureBtn.addTarget(self, action: #selector(addPitureAction), for: .touchUpInside)
+//        let mainImage = UIImageView()
+//        mainImage.image = UIImage(named: "Group 2786")
+//        addPitureBtn.addSubview(mainImage)
+//        mainImage.snp.makeConstraints { make in
+//            make.left.top.equalToSuperview()
+//            make.width.equalTo(scale(31))
+//            make.height.equalTo(scale(19))
+//        }
+//        mainSImage = mainImage
+//
+        
+        scrollView.addSubview(vMoments)
+        vMoments.itemLength = scale(82)
+        vMoments.snp.makeConstraints { (make) in
             make.left.equalToSuperview()
             make.width.equalTo(SCW)
             make.top.equalTo(goodsTitleView.snp.bottom)
             make.height.equalTo(scale(132))
         }
+                
+        /// 更新高度
+        vMoments.heightBlock = { [weak self] height in
+            self?.vMoments.snp.remakeConstraints({ make in
+                make.left.equalToSuperview()
+                make.width.equalTo(SCW)
+                make.top.equalTo(goodsTitleView.snp.bottom)
+                make.height.equalTo(scale(height))
+            })
+        }
+                
+        /// 点击按钮
+        vMoments.btnPostBlock = { [weak self] in
+            self?.uploadImage()
+        }
+        ///
+//        vMoments.sl = {[weak self] index in
+//            self?.commodityModel?.productPics?.remove(at: index)
+//        }
         
-        
-        pitureView.addSubview(addPitureBtn)
-        addPitureBtn.snp.makeConstraints { make in
-            make.left.equalTo(scale(25))
-            make.centerY.equalToSuperview()
-            make.width.height.equalTo(scale(82))
+        vMoments.selectBlock = {[weak self] arrData in
+            self?.commodityModel?.productPics = arrData
         }
         
-        addPitureBtn.addTarget(self, action: #selector(addPitureAction), for: .touchUpInside)
-        
-        
-        let mainImage = UIImageView()
-        mainImage.image = UIImage(named: "Group 2786")
-        addPitureBtn.addSubview(mainImage)
-        mainImage.snp.makeConstraints { make in
-            make.left.top.equalToSuperview()
-            make.width.equalTo(scale(31))
-            make.height.equalTo(scale(19))
+        /// 添加长按操作
+        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(longPress(_ :)))
+        gesture.minimumPressDuration = 0.5
+        view.addGestureRecognizer(gesture)
+                
+        /// 添加删除区域
+        let vDeleteArea = MomentsDeleteView()
+        vDeleteArea.isDelete = false
+        view.addSubview(vDeleteArea)
+                
+        vDeleteArea.snp.makeConstraints { (make) in
+            make.left.right.bottom.equalToSuperview()
+            make.height.equalTo(60)
         }
-        mainSImage = mainImage
+                
+        vDeleteArea.hideView()
+        vMoments.vDeleteArea = vDeleteArea
+        
+        
         //商品类目
         let goodsCategoryBtn = UIButton()
         goodsCategoryBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
         scrollView.addSubview(goodsCategoryBtn)
+       
+//        goodsCategoryBtn.snp.makeConstraints { make in
+//            make.left.equalToSuperview()
+//            make.top.equalTo(pitureView.snp.bottom).offset(scale(1))
+//            make.width.equalTo(SCW)
+//            make.height.equalTo(scale(50))
+//        }
+        
         goodsCategoryBtn.snp.makeConstraints { make in
             make.left.equalToSuperview()
-            make.top.equalTo(pitureView.snp.bottom).offset(scale(1))
+            make.top.equalTo(vMoments.snp.bottom).offset(scale(1))
             make.width.equalTo(SCW)
             make.height.equalTo(scale(50))
         }
+        
+        
         goodsCategorySBtn = goodsCategoryBtn
         goodsCategoryBtn.tag = 0
         goodsCategoryBtn.addTarget(self, action: #selector(choiceCategoryAction), for: .touchUpInside)
@@ -991,7 +1064,7 @@ class ReleaseGoodsViewController: BaseViewController {
         
         if type == 0{
             title = "发布商品"
-            commodityModel = CommodityModel(categoryId: StoreService.shared.categoryId, categoryName: "",freeRefundIn7Days: false, freightId: 0,freightInsure: false, freightName: "未设置",multiSpec: false,price:0.0,productCode: "", productDesc: "", productId: 0, productName: "", productPics: [String](),sepNo:0,skus: [Skus](), specGroups: [SpecGroups](), spus: [Spus](), stock: 0,stockDeductText: "拍下减库存",stockDeductType: 0)
+            commodityModel = CommodityModel(categoryId: StoreService.shared.categoryId, categoryName: "",freeRefundIn7Days: false, freightId: 0,freightInsure: false, freightName: "未设置",multiSpec: false,price:0.0,productCode: "", productDesc: "", productId: 0, productName: "", productPics: [String](),sepNo:0,skus: [Skus](), specGroups: [SpecGroups](), spus: [Spus](), stock: 0,stockDeductText: "拍下减库存",stockDeductType: 0,productStatus: 1)
         }else{
             title = "编辑商品"
             LXFLog("+===========32==========23232=====================\(String(describing: commodityModel))")
@@ -1002,7 +1075,8 @@ class ReleaseGoodsViewController: BaseViewController {
             
             //商品主图
             if (commodityModel?.productPics?.count ?? 0) > 0{
-                addAndRefreshPhotoImage()
+//                addAndRefreshPhotoImage()
+                vMoments.arrData = (commodityModel?.productPics)!
             }
             
             //商品类目
@@ -1146,6 +1220,39 @@ class ReleaseGoodsViewController: BaseViewController {
             }
             
             
+            
+            if commodityModel?.productStatus == 3 || commodityModel?.productStatus == 4{
+                
+                saveBtn.isHidden = true
+                
+                publishBtn.snp.remakeConstraints { make in
+                    make.top.equalTo(transportView.snp.bottom).offset(scale(35))
+                    make.left.equalTo(scale(16))
+                    make.width.equalTo(SCW - scale(32))
+                    make.height.equalTo(scale(44))
+                }
+                
+            }else{
+                
+                saveBtn.isHidden = false
+
+                saveBtn.snp.remakeConstraints { make in
+                    make.left.equalTo(scale(16))
+                    make.top.equalTo(transportView.snp.bottom).offset(scale(35))
+                    make.width.equalTo(scale(120))
+                    make.height.equalTo(scale(44))
+                }
+                
+                publishBtn.snp.remakeConstraints { make in
+                    make.top.equalTo(transportView.snp.bottom).offset(scale(35))
+                    make.left.equalTo(saveBtn.snp.right).offset(scale(16))
+                    make.height.equalTo(scale(44))
+                    make.width.equalTo(SCW - scale(120) - scale(48))
+                }
+            }
+            
+            
+            
         }
         
         
@@ -1153,6 +1260,134 @@ class ReleaseGoodsViewController: BaseViewController {
         
         scrollView.layoutIfNeeded()
     }
+    
+    
+    
+    
+    
+    
+    /// 添加拖动手势
+    @objc private func longPress(_ gesture: UILongPressGestureRecognizer) {
+        vMoments.longPress(gesture)
+    }
+        
+    func uploadImage() {
+//        vMoments.arrData.append(UIImage(named: "fengjingtu\(getRandom(1, 4))")!)
+        if (commodityModel?.productPics?.count ?? 7) > 6 {
+            JFPopup.toast(hit: "只能选择6张图片")
+        }else{
+            manager.type = .photo
+            manager.clearSelectedList()
+            self.popup.actionSheet {
+                [
+                    JFPopupAction(with: "从手机相册选择", subTitle: nil, clickActionCallBack: { [weak self] in
+                        self?.hx_presentSelectPhotoController(with: self?.manager, didDone: { allList, photoList, videoList, isOriginal, viewController, manager in
+                            var imageDataArray = [Data]()
+                            photoList?.forEach({ HXPhotoModel in
+                                //对图片进行
+                                guard let image = HXPhotoModel.thumbPhoto else {
+                                    return
+                                }
+//                                if (self?.commodityModel?.productPics?.count ?? 7) <= 6{
+                                    guard let imageData = image.jpegData(compressionQuality: 1.0) else { return }//把图片转换成data
+                                    imageDataArray.append(imageData)
+//                                }
+                                self?.isModify = true
+                            })
+                            let Parameters = ["fileType":20]
+                            JFPopupView.popup.loading(hit: "上传图片中....")
+                            NetWorkResultRequest(StoreAppleApi.batchUpload(parameters: Parameters, dataAry: imageDataArray), needShowFailAlert: true) { result, data in
+                                do{
+                                    let json = try JSON(data: data)
+                                    LXFLog(json)
+                                    let array = json["data"]
+                                    for i in 0..<array.count{
+                                        let cloudUrl = array[i]["cloudUrl"]
+                                        let data = try JSONEncoder().encode(cloudUrl)
+                                        var url = String(data: data, encoding:String.Encoding.utf8)!.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+                                        url = url.replacingOccurrences(of: "\"", with: "", options: .literal, range: nil)
+                                        LXFLog(url)
+                                        self?.commodityModel?.productPics?.append(url)
+                                    }
+                                }catch{}
+//                                self?.addAndRefreshPhotoImage()
+                                LXFLog("-----------------------")
+                                if (self?.commodityModel?.productPics?.count ?? 0) > 0{
+                                    if (self?.commodityModel?.productPics?.count ?? 0) > 6 {
+                                        LXFLog("----------2-------------")
+                                        let length = (self?.commodityModel?.productPics?.count ?? 1) - 1
+                                        self?.commodityModel?.productPics?.removeSubrange(6...length)
+                                        
+                                        self?.vMoments.arrData = (self?.commodityModel?.productPics)!
+                                    }else{
+                                        LXFLog("----------3-------------")
+                                        self?.vMoments.arrData = (self?.commodityModel?.productPics)!
+                                    }
+                                }
+                                JFPopupView.popup.hideLoading()
+                            } failureCallback: { error,code in
+                                JFPopupView.popup.hideLoading()
+                            }
+                            
+                        })
+                    }),
+                    JFPopupAction(with: "拍照", subTitle: nil, clickActionCallBack: {[weak self] in
+                        self?.hx_presentCustomCameraViewController(with: self?.manager) { photoList, viewController in
+                            var imageDataArray = [Data]()
+                            if let photoModel:HXPhotoModel = photoList{
+                                //对图片进行
+                                guard let image = photoModel.thumbPhoto else {
+                                    return
+                                }
+//                                if(self?.commodityModel?.productPics?.count ?? 7) <= 6{
+                                    guard let imageData = image.jpegData(compressionQuality: 1.0) else { return }//把图片转换成data
+                                    imageDataArray.append(imageData)
+//                                }
+                                self?.isModify = true
+                            }
+                            let Parameters = ["fileType":20]
+                            JFPopupView.popup.loading(hit: "上传图片中....")
+                            NetWorkResultRequest(StoreAppleApi.batchUpload(parameters: Parameters, dataAry: imageDataArray), needShowFailAlert: true) { result, data in
+                                do{
+                                    let json = try JSON(data: data)
+                                    let array = json["data"]
+                                    for i in 0..<array.count{
+                                        let cloudUrl = array[i]["cloudUrl"]
+                                        let data = try JSONEncoder().encode(cloudUrl)
+                                        var url = String(data: data, encoding:String.Encoding.utf8)!.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+                                        url = url.replacingOccurrences(of: "\"", with: "", options: .literal, range: nil)
+                                        LXFLog(url)
+                                        self?.commodityModel?.productPics?.append(url)
+                                    }
+                                }catch{}
+//                                self?.addAndRefreshPhotoImage()
+                                if (self?.commodityModel?.productPics?.count ?? 0) > 0{
+                                    if (self?.commodityModel?.productPics?.count ?? 0) > 6 {
+                                        let length = (self?.commodityModel?.productPics?.count ?? 1) - 1
+                                        self?.commodityModel?.productPics?.removeSubrange(6...length)
+                                        self?.vMoments.arrData = (self?.commodityModel?.productPics)!
+                                    }else{
+                                        self?.vMoments.arrData = (self?.commodityModel?.productPics)!
+                                    }
+                                }
+                                JFPopupView.popup.hideLoading()
+                            } failureCallback: { error,code in
+                                JFPopupView.popup.hideLoading()
+                            }
+                            
+                        } cancel: { viewController in
+                        }
+                    })
+                ]
+            }
+        }
+    }
+        
+    
+    
+    
+    
+    
     
     
     override func viewDidLayoutSubviews() {
@@ -1388,7 +1623,12 @@ class ReleaseGoodsViewController: BaseViewController {
                 return
             }
             
-            if Decimal(string: stockTextfield.text ?? "") ?? 0 < 1{
+//            if Decimal(string: stockTextfield.text ?? "") ?? 0 < 1{
+//                JFPopup.toast(hit: "请填写完整资料")
+//                return
+//            }
+            
+            if (stockTextfield.text?.count ?? 0) < 1{
                 JFPopup.toast(hit: "请填写完整资料")
                 return
             }
@@ -1476,7 +1716,11 @@ class ReleaseGoodsViewController: BaseViewController {
         var spusList:String = "["
         for k in 0..<(commodityModel?.spus?.count ?? 0){
             let spus = commodityModel?.spus![k]
-            let spusDict = ["length":spus?.length as Any,"required":spus?.required as Any,"spuAttrId":spus?.spuAttrId as Any,"spuAttrName":spus?.spuAttrName as Any,"spuId":spus?.spuId as Any,"spuType":spus?.spuType as Any,"spuValue":spus?.spuValue as Any] as [String:Any]
+            var spuValue = spus?.spuValue
+            if spus?.spuValue == nil{
+                spuValue = ""
+            }
+            let spusDict = ["length":spus?.length as Any,"required":spus?.required as Any,"spuAttrId":spus?.spuAttrId as Any,"spuAttrName":spus?.spuAttrName as Any,"spuId":spus?.spuId as Any,"spuType":spus?.spuType as Any,"spuValue":spuValue as Any] as [String:Any]
             let jsonstring = getJSONStringFromData(obj: spusDict, isEscape: true)
             if k == 0{
                 spusList += jsonstring
@@ -1614,7 +1858,12 @@ class ReleaseGoodsViewController: BaseViewController {
         var spusList:String = "["
         for k in 0..<(commodityModel?.spus?.count ?? 0){
             let spus = commodityModel?.spus![k]
-            let spusDict = ["length":spus?.length as Any,"required":spus?.required as Any,"spuAttrId":spus?.spuAttrId as Any,"spuAttrName":spus?.spuAttrName as Any,"spuId":spus?.spuId as Any,"spuType":spus?.spuType as Any,"spuValue":spus?.spuValue as Any] as [String:Any]
+            var spuValue = spus?.spuValue
+            if spus?.spuValue == nil{
+                LXFLog("+==========")
+                spuValue = ""
+            }
+            let spusDict = ["length":spus?.length as Any,"required":spus?.required as Any,"spuAttrId":spus?.spuAttrId as Any,"spuAttrName":spus?.spuAttrName as Any,"spuId":spus?.spuId as Any,"spuType":spus?.spuType as Any,"spuValue":spuValue as Any] as [String:Any]
             let jsonstring = getJSONStringFromData(obj: spusDict, isEscape: true)
             if k == 0{
                 spusList += jsonstring
@@ -1677,81 +1926,6 @@ class ReleaseGoodsViewController: BaseViewController {
         }
     }
     
-    
-    
-    
-    //监听右滑返回
-//    override func willMove(toParent parent: UIViewController?) {
-//        super.willMove(toParent: parent)
-////        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-//        if isModify{
-//            LXFLog("-----------------------1--------------------")
-////            if (parent == nil){
-////                navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-//                LXFLog("-------------------2-----------------------")
-//                JFPopupView.popup.alert {
-//                    [
-//                        .title("退出后不会保存此商品，你可以选择保存草稿"),
-//                        .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
-//                        .withoutAnimation(true),
-//                        .cancelAction([
-//                            .text("直接退出"),
-//                            .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
-//                            .tapActionCallback({
-////                                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-//                                self.isModify = false
-//                                Coordinator.shared?.popViewController(self, true)
-//                            })
-//                        ]),
-//                        .confirmAction([
-//                            .text("保存草稿"),
-//                            .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
-//                            .tapActionCallback({
-//                                //Coordinator.shared?.popViewController(self, true)
-//                                self.isModify = false
-//
-//                            })
-//                        ])
-//                    ]
-//                }
-////                navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-////            }
-//        }
-//    }
-    
-                                         
-                                         
-                                         
-                                         
-//    @objc func popBack(pan: UIPanGestureRecognizer){
-//        LXFLog("+=================================================")
-//        if isModify{
-//            JFPopupView.popup.alert {
-//                [
-//                    .title("退出后不会保存此商品，你可以选择保存草稿"),
-//                    .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
-//                    .withoutAnimation(true),
-//                    .cancelAction([
-//                        .text("直接退出"),
-//                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
-//                        .tapActionCallback({
-//                            Coordinator.shared?.popViewController(self, true)
-//                        })
-//                    ]),
-//                    .confirmAction([
-//                        .text("保存草稿"),
-//                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
-//                        .tapActionCallback({
-//                            //Coordinator.shared?.popViewController(self, true)
-//                        })
-//                    ])
-//                ]
-//            }
-//        }else{
-//            Coordinator.shared?.popRootViewController(self)
-//        }
-//    }
-
     
     //开启或者关闭多规格
     @objc func openAndCloseMoreSepcifications(specificationsSwitch:UISwitch){
@@ -1936,7 +2110,6 @@ class ReleaseGoodsViewController: BaseViewController {
         pitureView.subviews.forEach { view in
             view.removeFromSuperview()
         }
-        
         if (commodityModel?.productPics?.count ?? 0) > 0{
             mainSImage.isHidden = true
         }else{
@@ -1946,11 +2119,9 @@ class ReleaseGoodsViewController: BaseViewController {
         var count = 0
         if (commodityModel?.productPics?.count ?? 0) > 6 {
             count = 6
-//            LXFLog("=======32=======\(String(describing: commodityModel?.productPics?.count))")
             let length = (commodityModel?.productPics?.count ?? 1) - 1
             commodityModel?.productPics?.removeSubrange(6...length)
         }else{
-//            LXFLog("+==3232323232=================")
             count = commodityModel?.productPics?.count ?? 0
         }
         for i in 0..<count {
@@ -1970,10 +2141,7 @@ class ReleaseGoodsViewController: BaseViewController {
            let row = i / 3
            let colom = i % 3
            let imageStr = commodityModel?.productPics?[i]
-//           imageView.kf.setImage(with: URL(string: (imageStr ?? "")), placeholder: UIImage(named: "Group 2786"), options: nil, completionHandler: nil)
-            
-            imageView.sd_setImage(with: URL(string: (imageStr ?? "")), placeholderImage: UIImage(named: "Group 2786"))
-            
+           imageView.sd_setImage(with: URL(string: (imageStr ?? "")), placeholderImage: UIImage(named: "Group 2786"))
            let x = CGFloat(colom) * (imageW + scale(25)) + scale(25)
             let y = CGFloat(row) * (imageW + scale(25)) + scale(25)
             pitureView.addSubview(imageView)
@@ -1999,11 +2167,6 @@ class ReleaseGoodsViewController: BaseViewController {
             }
             let tap = UITapGestureRecognizer(target: self, action: #selector(showBigPitrueAction))
             imageView.addGestureRecognizer(tap)
-            
-            
-            
-            
-            
         }
         //这边要判断图片有多少张
         //最后是把selectImageBtn添加进去
@@ -2077,8 +2240,6 @@ class ReleaseGoodsViewController: BaseViewController {
         browser.show()
     }
     
-    
-    
 }
 
 
@@ -2087,7 +2248,7 @@ extension ReleaseGoodsViewController:UITextViewDelegate{
         if text == "" && range.length > 0{
             return true
         }
-        if textView.text.count > 50{
+        if textView.text.count > 49{
             return false
         }
         return true
@@ -2100,7 +2261,7 @@ extension ReleaseGoodsViewController:UITextFieldDelegate{
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         var maxNum = 30
         if textField ==  goodsCardTextField{
-            maxNum = 30
+            maxNum = 15
         }
         //限制个数
         let currentText = textField.text ?? ""
@@ -2111,10 +2272,8 @@ extension ReleaseGoodsViewController:UITextFieldDelegate{
 }
 
 extension ReleaseGoodsViewController:UIGestureRecognizerDelegate{
-    
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if isModify{
-           LXFLog("==============")
             JFPopupView.popup.alert {
                 [
                     .title("退出后不会保存此商品，你可以选择保存草稿"),

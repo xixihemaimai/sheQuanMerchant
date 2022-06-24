@@ -118,12 +118,25 @@ class commodityExamineCell: UITableViewCell {
     var model:productListModel?{
         didSet{
             guard let _model = model else { return }
-            
             goodsImageView.sd_setImage(with: URL(string: _model.productPic ?? ""), placeholderImage: UIImage(named: "Group 2784"))
             goodsIntroductLabel.text = _model.productName
             applyTimeLabel.text = "申请时间:" + (_model.applyTime ?? "")
             reasonLabel.text = _model.auditReason
-            
+            if _model.auditStatus == 4 {
+                //审核失败
+                deleteBtn.isHidden = false
+                editBtn.isHidden = false
+                cancelBtn.isHidden = true
+                statusLabel.text = "已驳回"
+                statusLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#F13232")
+            }else{
+                //审核中
+                deleteBtn.isHidden = true
+                editBtn.isHidden = true
+                cancelBtn.isHidden = false
+                statusLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#666666")
+                statusLabel.text = "审核中"
+            }
         }
     }
     

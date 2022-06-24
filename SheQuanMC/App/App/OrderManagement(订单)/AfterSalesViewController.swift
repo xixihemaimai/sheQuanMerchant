@@ -114,8 +114,6 @@ class AfterSalesViewController: BaseViewController {
         btn.titleLabel?.font = UIFont.systemFont(ofSize: scale(14), weight: .medium)
         btn.isSelected = true
         perBtn = btn
-        
-        
         //让标题按钮居中
         var offsetX = btn.center.x - SCW * 0.5
         if offsetX < 0 {
@@ -170,10 +168,10 @@ class AfterSalesViewController: BaseViewController {
         for i in 0..<btnArray.count {
             let vc = AfterSalesStatusViewController()
             let btn = btnArray[i]
-            vc.view.tag = i
-            self.addChild(vc)
             vc.delegate = self
             vc.title = btn.currentTitle
+            vc.view.tag = i
+            self.addChild(vc)
         }
         let count = self.children.count
         contentScrollView.contentSize = CGSize(width: count * Int(view.bounds.size.width), height: 0)

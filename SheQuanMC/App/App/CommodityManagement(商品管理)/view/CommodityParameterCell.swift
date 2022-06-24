@@ -67,7 +67,11 @@ class CommodityParameterCell: UITableViewCell {
             parameterLabel.text = _model.spuAttrName
             if _model.required == true{
                 brandStarLabel.isHidden = false
-                brandRightImage.isHidden = false
+                if _model.spuType == 1 || _model.spuType == 2{
+                    brandRightImage.isHidden = false
+                }else{
+                    brandRightImage.isHidden = true
+                }
             }else{
                 brandStarLabel.isHidden = true
                 brandRightImage.isHidden = true

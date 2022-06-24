@@ -10,9 +10,8 @@ import Util
 
 class CheckLogisticsViewController: BaseViewController {
 
-    
-    
-    
+    var orderInfoModel:OrederInfoModel?
+    var viewLogisticsModel:ViewLogisticsModel?
     
     
     override func viewDidLoad() {
@@ -36,9 +35,24 @@ class CheckLogisticsViewController: BaseViewController {
         tableview.register(CheckLogisticsNumberCell.self, forCellReuseIdentifier: "CheckLogisticsNumberCell")
         tableview.register(CheckLogisticsProgressCell.self, forCellReuseIdentifier: "CheckLogisticsProgressCell")
         
+        loadChechViewLogisticsList() 
     }
     
-
+    
+    
+    func loadChechViewLogisticsList(){
+        let parameters = ["orderId":orderInfoModel?.orderId as Any] as [String:Any]
+        NetWorkResultRequest(OrderApi.viewLogistics(parameters: parameters), needShowFailAlert: true) { result, data in
+            guard let model = try? JSONDecoder().decode(GenericResponse<ViewLogisticsModel>.self, from: data) else { return }
+            if let _data = model.data{
+                self.viewLogisticsModel = _data
+            }
+            self.tableview.reloadData()
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
+    }
+    
 }
 
 
@@ -63,16 +77,16 @@ extension CheckLogisticsViewController:UITableViewDelegate,UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0{
             let cell = tableView.dequeueReusableCell(withIdentifier: "CheckLogisticsNumberCell") as! CheckLogisticsNumberCell
+            cell.viewLogisticsModel = viewLogisticsModel
             return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "CheckLogisticsProgressCell") as! CheckLogisticsProgressCell
+            cell.viewLogisticsListModel = viewLogisticsModel?.tracks?[indexPath.row]
             if indexPath.row == 0 {
                 cell.topView.isHidden = true
-                cell.first = "1"
             }else{
                 cell.topView.isHidden = false
             }
-            
             if indexPath.row == 9{
                 cell.bottomView.isHidden = true
             }else

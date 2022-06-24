@@ -51,6 +51,7 @@ class SettingPriceAndStockView: UIView {
         priceTextfield.text = "¥"
         priceTextfield.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         priceTextfield.textAlignment = .left
+        priceTextfield.delegate = self
         return priceTextfield
     }()
     
@@ -407,7 +408,7 @@ class SettingPriceAndStockView: UIView {
             return
         }
         
-        if Decimal(string: priceTextfield.text!) ?? 0.0 > 0 && Int32(stockTextfield.text!) ?? 0 > 0{
+        if Decimal(string: priceTextfield.text!) ?? 0.0 > 0 && Int32(stockTextfield.text!) ?? 0 >= 0{
     //        for i in 0..<(arraySkus?.count ?? 0) {
     //            var skus = arraySkus![i]
                 //价钱
@@ -431,4 +432,22 @@ class SettingPriceAndStockView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+}
+
+extension SettingPriceAndStockView:UITextFieldDelegate{
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if string.count == 0{
+           return true
+        }
+        let checkStr = (textField.text as? NSString)?.replacingCharacters(in: range, with: string)
+        let regex = "^\\-?([1-9]\\d*|0)(\\.\\d{0,2})?$"
+        return self.isValid(checkStr: checkStr!, regex: regex)
+    }
+
+    func isValid(checkStr:String, regex:String) ->Bool{
+        let predicte = NSPredicate(format:"SELF MATCHES %@", regex)
+        return predicte.evaluate(with: checkStr)
+    }
+
 }

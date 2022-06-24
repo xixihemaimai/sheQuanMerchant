@@ -60,33 +60,18 @@ class CheckLogisticsProgressCell: UITableViewCell {
     
     
     
-    var first:String?{
+    var viewLogisticsListModel:ViewLogisticsListModel?{
         didSet{
-//            guard let _first = first else{return}
+            guard let _viewLogisticsListModel = viewLogisticsListModel else { return }
             
-            
-            
-            //这边重新获取文字高度
-            
-//            expressLabel.snp.makeConstraints { make in
-//                make.left.equalTo(midView.snp.right).offset(scale(5))
-//                make.top.equalTo(scale(16))
-//                make.right.equalTo(-scale(16))
-//                make.height.equalTo(scale(22))
-//            }
-            
-            let string = "【发件】【福建省】快件离开【福建省厦门】已发往【北京中转站】"
-            
+            let string = (_viewLogisticsListModel.trackStatus ?? "") + (_viewLogisticsListModel.trackName ?? "") + (_viewLogisticsListModel.trackStatusText ?? "")
             expressLabel.snp.remakeConstraints { make in
                 make.left.equalTo(midView.snp.right).offset(scale(5))
                 make.top.equalTo(scale(16))
                 make.right.equalTo(-scale(16))
                 make.height.equalTo(string.rectHeight(font: UIFont.systemFont(ofSize: scale(14), weight: .regular), size: CGSize(width: SCW - scale(50), height: CGFloat(MAXFLOAT))) + scale(10))
             }
-            
             expressLabel.text = string
-            
-            
             midView.snp.remakeConstraints { make in
                 make.left.equalTo(scale(18))
                 make.top.equalTo(topView.snp.bottom)
@@ -96,12 +81,48 @@ class CheckLogisticsProgressCell: UITableViewCell {
             midView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
             midView.layer.cornerRadius = scale(6)
             
-            
-            
-            
+            timeLabel.text = _viewLogisticsListModel.trackTime
             
         }
     }
+    
+    
+//    var first:String?{
+//        didSet{
+////            guard let _first = first else{return}
+//
+//
+//
+//            //这边重新获取文字高度
+//
+////            expressLabel.snp.makeConstraints { make in
+////                make.left.equalTo(midView.snp.right).offset(scale(5))
+////                make.top.equalTo(scale(16))
+////                make.right.equalTo(-scale(16))
+////                make.height.equalTo(scale(22))
+////            }
+//
+//            let string = "【发件】【福建省】快件离开【福建省厦门】已发往【北京中转站】"
+//
+//            expressLabel.snp.remakeConstraints { make in
+//                make.left.equalTo(midView.snp.right).offset(scale(5))
+//                make.top.equalTo(scale(16))
+//                make.right.equalTo(-scale(16))
+//                make.height.equalTo(string.rectHeight(font: UIFont.systemFont(ofSize: scale(14), weight: .regular), size: CGSize(width: SCW - scale(50), height: CGFloat(MAXFLOAT))) + scale(10))
+//            }
+//
+//            expressLabel.text = string
+//
+//
+//            midView.snp.remakeConstraints { make in
+//                make.left.equalTo(scale(18))
+//                make.top.equalTo(topView.snp.bottom)
+//                make.width.height.equalTo(scale(12))
+//            }
+//            midView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+//            midView.layer.cornerRadius = scale(6)
+//        }
+//    }
     
     
     

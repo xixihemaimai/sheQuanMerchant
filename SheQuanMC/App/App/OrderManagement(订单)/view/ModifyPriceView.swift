@@ -7,11 +7,13 @@
 
 import UIKit
 import Util
+import JFPopup
 
 class ModifyPriceView: UIView {
 
     var cancelBlock:(()->Void)?
-    
+    //修改成功之后的动作
+    var modifyPriceSuccessBlock:(()->Void)?
     
     
     //订单原价修改
@@ -64,10 +66,14 @@ class ModifyPriceView: UIView {
     }()
     
     
+    var _origilLabel:UILabel!
+    var _priceLabel:UILabel!
+    var _freightLabel:UILabel!
     
-    
-    override init(frame: CGRect) {
+    var orderId:Int64?
+    init(frame: CGRect,orderId:Int64) {
         super.init(frame: frame)
+        self.orderId = orderId
         
         backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
             
@@ -123,6 +129,7 @@ class ModifyPriceView: UIView {
             make.top.equalTo(scale(13))
             make.height.equalTo(scale(22))
         }
+        _origilLabel = origilLabel
         
         let priceView = UIView()
         priceView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
@@ -149,7 +156,7 @@ class ModifyPriceView: UIView {
             make.right.equalTo(-scale(16))
             make.height.equalTo(scale(22))
         }
-        
+        _priceLabel = priceLabel
         
         
         let modifyView = UIView()
@@ -229,6 +236,7 @@ class ModifyPriceView: UIView {
             make.right.equalTo(-scale(16))
             make.height.equalTo(scale(22))
         }
+        _freightLabel = freightLabel
         
         
         let modifyFreightView = UIView()
@@ -319,6 +327,24 @@ class ModifyPriceView: UIView {
         
     }
     
+    
+    func loadModifyPriceInfo(){
+        let parameters = ["orderId":orderId as Any] as [String:Any]
+        NetWorkResultRequest(OrderApi.getChangePrice(parameters: parameters), needShowFailAlert: true) { result, data in
+            guard let model = try? JSONDecoder().decode(GenericResponse<chagePriceModel>.self, from: data) else { return }
+            if let _data = model.data{
+                self._origilLabel.text = _data.originalPrice
+                self._priceLabel.text = _data.price
+                self._freightLabel.text = _data.freight
+            }
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
+    }
+    
+    
+    
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -331,8 +357,24 @@ class ModifyPriceView: UIView {
     
     //确认修改
     @objc func sureModifyAction(sureModifyBtn:UIButton){
+        //originTextfield  修改后价格
+        //freightTextfield 运费修改价格
+        if (originTextfield.text?.count ?? 0) < 1{
+           JFPopup.toast(hit: "请填写订单原价(含运费)的修改价格")
+           return
+        }
         
+        if (freightTextfield.text?.count ?? 0) < 1{
+            JFPopup.toast(hit: "请填写修改后运费的价格")
+            return
+        }
         
+        let parameters = ["":""] as [String:Any]
+        NetWorkResultRequest(OrderApi.modifyPrice(parameters: parameters), needShowFailAlert: true) { result, data in
+            self.modifyPriceSuccessBlock?()
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
     }
     
     

@@ -56,8 +56,13 @@ class FreightTemplateCell: UITableViewCell {
     //默认地址按键
     lazy var isDefaultBtn:UIButton = {
        let isDefaultBtn = UIButton()
-        isDefaultBtn.setBackgroundImage(UIImage(named: "Ellipse 38"), for: .normal)
-        isDefaultBtn.setBackgroundImage(UIImage(named: "Group 2742"), for: .selected)
+        isDefaultBtn.setTitle(" 设为默认", for: .normal)
+        isDefaultBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
+        isDefaultBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#808080"), for: .normal)
+//        isDefaultBtn.setBackgroundImage(UIImage(named: "Ellipse 38"), for: .normal)
+//        isDefaultBtn.setBackgroundImage(UIImage(named: "Group 2742"), for: .selected)
+        isDefaultBtn.setImage(UIImage(named: "Ellipse 38"), for: .normal)
+        isDefaultBtn.setImage(UIImage(named: "Group 2742"), for: .selected)
         return isDefaultBtn
     }()
     
@@ -75,21 +80,26 @@ class FreightTemplateCell: UITableViewCell {
             guard let _model = model else {
                 return
             }
-            
+            templateName.text = _model.templateName
             if _model.defTemp == true{
+                let width = _model.templateName?.singleLineWidth(font: UIFont.systemFont(ofSize: scale(16), weight: .medium))
+                templateName.snp.remakeConstraints { make in
+                    make.left.equalTo(scale(16))
+                    make.top.equalTo(scale(16))
+                    make.width.equalTo(width!)
+                    make.height.equalTo(scale(22))
+                }
                 isDelautImage.isHidden = false
                 isDefaultBtn.isSelected = true
+                deleteBtn.isHidden = true
             }else{
+                deleteBtn.isHidden = false
                 isDelautImage.isHidden = true
                 isDefaultBtn.isSelected = false
             }
-            templateName.text = _model.templateName
-            chargeLabel.text = _model.templateName
             
-//            freightTypeText
+            chargeLabel.text = _model.chargeTypeText
             templateType.text = _model.freightTypeText
-            
-            
         }
     }
 
@@ -227,24 +237,26 @@ class FreightTemplateCell: UITableViewCell {
             make.top.equalTo(freeLabel.snp.bottom).offset(scale(12))
         }
         
+        contentView.addSubview(isDefaultBtn)
         isDefaultBtn.snp.makeConstraints { make in
             make.left.equalTo(scale(16))
             make.top.equalTo(midView.snp.bottom).offset(scale(18))
-            make.width.height.equalTo(scale(15))
+            make.width.height.equalTo(scale(80))
+            make.height.equalTo(scale(20))
         }
         
-        let setDelautLabel = UILabel()
-        setDelautLabel.text = "设为默认"
-        setDelautLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#808080")
-        setDelautLabel.textAlignment = .left
-        setDelautLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
-        contentView.addSubview(setDelautLabel)
-        setDelautLabel.snp.makeConstraints { make in
-            make.left.equalTo(isDefaultBtn.snp.right).offset(scale(4))
-            make.top.equalTo(midView.snp.bottom).offset(scale(15))
-            make.height.equalTo(scale(20))
-            make.width.equalTo(scale(100))
-        }
+//        let setDelautLabel = UILabel()
+//        setDelautLabel.text = "设为默认"
+//        setDelautLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#808080")
+//        setDelautLabel.textAlignment = .left
+//        setDelautLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
+//        contentView.addSubview(setDelautLabel)
+//        setDelautLabel.snp.makeConstraints { make in
+//            make.left.equalTo(isDefaultBtn.snp.right).offset(scale(4))
+//            make.top.equalTo(midView.snp.bottom).offset(scale(15))
+//            make.height.equalTo(scale(20))
+//            make.width.equalTo(scale(100))
+//        }
         
         deleteBtn.snp.makeConstraints { make in
             make.right.equalTo(-scale(16))
@@ -267,10 +279,6 @@ class FreightTemplateCell: UITableViewCell {
             make.top.equalTo(deleteBtn.snp.bottom).offset(scale(12))
             make.bottom.equalToSuperview()
         }
-        
-        
-        
-        
     }
     
     required init?(coder: NSCoder) {

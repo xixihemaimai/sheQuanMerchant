@@ -17,6 +17,9 @@ class OrderDetailStatusCell: UITableViewCell {
     var dayStr:Int?
     var timer:Timer?
     var totalTime:String?
+    
+    var countdownComplete:(()->Void)?
+    
     //状态
     lazy var orderStatusLabel:UILabel = {
        let orderStatusLabel = UILabel()
@@ -35,6 +38,7 @@ class OrderDetailStatusCell: UITableViewCell {
         orderDetailStatusLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#F13232")
         orderDetailStatusLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         orderDetailStatusLabel.textAlignment = .left
+        orderDetailStatusLabel.isHidden = true
         return orderDetailStatusLabel
     }()
     
@@ -48,6 +52,41 @@ class OrderDetailStatusCell: UITableViewCell {
         timeLabel.textAlignment = .left
       return timeLabel
     }()
+    
+    
+    var orderInfoModel:OrederInfoModel?{
+        didSet{
+            guard let _orderInfoModel = orderInfoModel else { return }
+            //这边添加一个倒计时的方法
+            
+            if _orderInfoModel.orderStatus == 10{
+                orderStatusLabel.text = "待支付"
+                inputTimeAndEndTime(_orderInfoModel.orderTime ?? "", _orderInfoModel.payRemainingTime ?? "")
+                timeLabel.text = totalTime! + "未付款则自动关闭订单"
+            }else if _orderInfoModel.orderStatus == 20{
+                orderStatusLabel.text = "待发货"
+                timeLabel.text = "合理发货，请勿虚假发货，请及时发货"
+            }else if _orderInfoModel.orderStatus == 21{
+                orderStatusLabel.text = "已发货"
+                inputTimeAndEndTime(_orderInfoModel.orderTime ?? "", _orderInfoModel.payRemainingTime ?? "")
+                timeLabel.text = totalTime! + "后自动收货"
+            }else if _orderInfoModel.orderStatus == 30{
+                orderStatusLabel.text = "交易成功"
+                timeLabel.isHidden = true
+                orderStatusLabel.snp.remakeConstraints { make in
+                    make.left.equalTo(scale(19))
+                    make.width.equalTo(scale(80))
+//                    make.top.equalTo(scale(12))
+                    make.height.equalTo(scale(28))
+                    make.center.equalToSuperview()
+                    make.bottom.equalTo(-scale(12))
+                }
+            }else if _orderInfoModel.orderStatus == 41{
+                orderStatusLabel.text = "交易关闭"
+                timeLabel.text = "失败的原因"
+            }
+        }
+    }
     
     
     
@@ -82,11 +121,6 @@ class OrderDetailStatusCell: UITableViewCell {
             make.height.equalTo(scale(20))
             make.bottom.equalTo(-scale(12))
         }
-        
-        
-        
-        //这边添加一个倒计时的方法
-        inputTimeAndEndTime("2022-05-10 23:59:00", "2022-05-25 00:00:00")
         
     }
     
@@ -176,10 +210,11 @@ class OrderDetailStatusCell: UITableViewCell {
         if sencondStr == 0 && minitStr! == 0 && hourStr == 0 && dayStr == 0{
             timer?.invalidate()
             timer = nil
+            countdownComplete?()
         }
+        
         totalTime = "\(dayStr ?? 0)天\(hourStr ?? 0)时\(minitStr ?? 0)分\(sencondStr ?? 0)秒"
-        timeLabel.text = totalTime! + "未付款则自动关闭订单"
-        LXFLog(totalTime)
+//        LXFLog(totalTime)
     }
     
     

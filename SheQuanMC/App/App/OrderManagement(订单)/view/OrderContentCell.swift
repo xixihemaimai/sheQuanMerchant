@@ -199,6 +199,38 @@ class OrderContentCell: UITableViewCell {
         return trueCollectLabel
     }()
     
+    
+    var orderInfoModel:OrederInfoModel?{
+        didSet{
+            guard let _orderInfoModel = orderInfoModel else { return }
+            
+            headerImage.sd_setImage(with: URL(string: _orderInfoModel.faceUrl ?? ""), placeholderImage: UIImage(named: "Group 2784"))
+            
+            nicknameLabel.text = _orderInfoModel.nickName
+            
+            orderImage.sd_setImage(with: URL(string: _orderInfoModel.products?.first?.productPic ?? ""), placeholderImage: UIImage(named: "Group 2750"))
+            
+            orderIntroductLabel.text = _orderInfoModel.products?.first?.productName
+            
+            let qtyStr = String(format: "%d", _orderInfoModel.products?.first?.qty ?? 0)
+            numberLabel.text = (_orderInfoModel.products?.first?.specs ?? "") + "x" + qtyStr
+            
+            priceLabel.text = "¥" + (_orderInfoModel.products?.first?.price ?? "0.00")
+            
+            goodsTotalPriceLabel.text = "¥" + (_orderInfoModel.totalAmount ?? "0.00")
+            
+            freightPriceLabel.text = "¥" + (_orderInfoModel.freight ?? "0.00")
+            
+            discountPriceLabel.text = "¥" + (_orderInfoModel.discount ?? "希望尽快发货")
+            
+            buyerTrueLabel.text = _orderInfoModel.remarks
+            
+            totalPriceLabel.text = "¥" + (_orderInfoModel.payAmount ?? "0.00")
+            
+        }
+    }
+    
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -222,6 +254,8 @@ class OrderContentCell: UITableViewCell {
             make.top.equalTo(topView.snp.bottom).offset(scale(12))
             make.width.height.equalTo(scale(20))
         }
+        headerImage.layer.cornerRadius = scale(10)
+        
         
         nicknameLabel.snp.makeConstraints { make in
             make.left.equalTo(headerImage.snp.right).offset(scale(4))
@@ -249,6 +283,14 @@ class OrderContentCell: UITableViewCell {
             make.top.equalTo(midView.snp.bottom).offset(scale(15))
             make.width.height.equalTo(scale(80))
         }
+        
+        orderImage.layer.cornerRadius = scale(2)
+        orderImage.layer.borderWidth = scale(0.5)
+        orderImage.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#E9E9E9").cgColor
+        orderImage.layer.masksToBounds = true
+        
+        
+        
         
         orderIntroductLabel.snp.makeConstraints { make in
             make.left.equalTo(orderImage.snp.right).offset(scale(12))

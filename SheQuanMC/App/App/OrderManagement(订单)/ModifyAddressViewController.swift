@@ -251,8 +251,6 @@ class ModifyAddressViewController: BaseViewController {
         }
         
         
-        
-        
         let thirdView = UIView()
         thirdView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
         view.addSubview(thirdView)
@@ -263,8 +261,6 @@ class ModifyAddressViewController: BaseViewController {
             make.height.equalTo(scale(0.5))
             make.top.equalTo(choiceAddresssBtn.snp.bottom)
         }
-        
-        
         
         
         let detailAddressLabel = UILabel()
@@ -402,57 +398,36 @@ class ModifyAddressViewController: BaseViewController {
     //所在地区
     @objc func locationAction(choiceAddresssBtn:UIButton){
         LXFLog("---------------------")
-//        let pickerView = BHJPickerView.init(self, .address)
-//        pickerView.pickerViewShow()
-        
-        
-//        var str = "福建省(龙岩市、厦门市、漳州市)"
-//        str = str.replacingOccurrences(of: "(", with: "", options: .literal, range: nil)
-//        str = str.replacingOccurrences(of: "、", with: "", options: .literal, range: nil)
-//        str = str.replacingOccurrences(of: ")", with: "", options: .literal, range: nil)
-//        LXFLog(str)
-//        let parser = MMLocationParser.init(loation: str)
-//        LXFLog(parser.location)
-//        LXFLog(parser.province)
-//        LXFLog(parser.city)
-//        LXFLog(parser.area)
-//        LXFLog(parser.town)
-//        LXFLog(parser.street)
-//        LXFLog(parser.name)
-//        LXFLog(parser.results)
-        
-        //parser.results
-        //有三个就是0位省 1为城市 2为区县
-        //有俩个就是0位省 1为城市
-        
-//        if parser.results.count > 2{
-//            //省  市  区
-//
-//
-//
-//        }else{
-//            //省  市
-//
-//
-//
-//        }
-        
-        
-        
-        
+          //let pickerView = BHJPickerView.init(self, .address)
+          //pickerView.pickerViewShow()
+          //var str = "福建省(龙岩市、厦门市、漳州市)"
+          //str = str.replacingOccurrences(of: "(", with: "", options: .literal, range: nil)
+          //str = str.replacingOccurrences(of: "、", with: "", options: .literal, range: nil)
+          //str = str.replacingOccurrences(of: ")", with: "", options: .literal, range: nil)
+          //LXFLog(str)
+          //let parser = MMLocationParser.init(loation: str)
+          //LXFLog(parser.location)
+          //LXFLog(parser.province)
+          //LXFLog(parser.city)
+          //LXFLog(parser.area)
+          //LXFLog(parser.town)
+          //LXFLog(parser.street)
+          //LXFLog(parser.name)
+          //LXFLog(parser.results)
+          //parser.results
+          //有三个就是0位省 1为城市 2为区县
+          //有俩个就是0位省 1为城市
+          //if parser.results.count > 2{
+          // //省  市  区
+          //}else{
+          // //省  市
+          //}
         if (addressLabel.text?.count ?? 0) > 0{
             //self.addressList 为有值得情况
             //这边要进行设置
-            
             //要先判断addressList有几个才进行设置值
-            
             //省份已经有了
             //城市可以通过这个省份的regid获取
-            
-            
-            
-            
-            
             
         }else{
             //self.addressList 为新建

@@ -10,7 +10,7 @@ import Moya
 
 
 public enum OrderApi{
-    case getOrderSalesInfo                              //获取订单销售数据（首页) (1)
+   
     case getProductInfo(parameters:[String:Any])        //获取商品信息    (1)
     case productPublish(parameters:[String:Any])        //发布商品       (1)
     case getProductCategoryList(parameters:[String:Any])//获取商品类目列表 (1)
@@ -23,7 +23,7 @@ public enum OrderApi{
     case lowerShelf(parameters:[String:Any])             //商品下架       （1）
     case upShelf(parameters:[String:Any])                //商品上架       （1）
     case repairStock(parameters:[String:Any])            //补库存
-    case getSoldOutSkuList(parameters:[String:Any])      //获取售罄商品规格
+    case getSoldOutSkuList(parameters:[String:Any])      //获取售罄商品规格  (1)
     case draft(parameters:[String:Any])                  //存为草稿        (1)
     case getProductSpecList(parameters:[String:Any])     //获取商品规格列表  (1)
     
@@ -33,10 +33,27 @@ public enum OrderApi{
     case delFreightStatus(parameters:[String:Any])       //删除运费模版      (1)
     case freightTemplate(parameters:[String:Any])        //新建/更新运费模板  (1)
     case getFreightInfo(parameters:[String:Any])         //获取运费模板      (1)
-    case getFreightRegionList(parameters:[String:Any])      //获取行政地区列表  （1）
-    case getNoDeliveryRegionList(parameters:[String:Any])//获取不配送区域列表
+    case getFreightRegionList(parameters:[String:Any])   //获取行政地区列表  （1）
+    case getNoDeliveryRegionList(parameters:[String:Any])//获取不配送区域列表 （1）
+    
+    
+    case getOrderSalesInfo                                //获取订单销售数据（首页) (1)
+    
+    case getOrderProductList(parameters:[String:Any])     //获取订单商品列表
+    case getOrderDetailInfo(parameters:[String:Any])      //获取订单详情
+    case getCloseOrderReasonList                          //获取关闭订单原因列表
+    case closeOrder(parameters:[String:Any])              //关闭订单
+    case getChangePrice(parameters:[String:Any])          //获取修改价格
+    case modifyPrice(parameters:[String:Any])             //确定修改价格
+    
+    ///sqshop/api/logistics/getLogisticsList
+                                  
+    case getLogisticsList(parameters:[String:Any])       //获取物流列表 (1)
+    case modiyLogistics(parameters:[String:Any])         //修改物流
+    case viewLogistics(parameters:[String:Any])          //查看物流
+    
 }
-
+ 
 
 
 extension OrderApi:TargetType{
@@ -83,7 +100,7 @@ extension OrderApi:TargetType{
 //            return "freight/getProductFreightList"
             
             
-            
+        //运费模板
         case .getFreightInfoList:
             return "freight/getFreightInfoList"
         case .defFreightTemplate:
@@ -98,6 +115,33 @@ extension OrderApi:TargetType{
             return "region/getFreightRegionList"
         case .getNoDeliveryRegionList:
             return "region/getNoDeliveryRegionList"
+            
+            
+        //订单
+        case .getOrderProductList:
+            return "ordermanage/getOrderProductList"
+        case .getOrderDetailInfo:
+            return "ordermanage/getOrderDetailInfo"
+        case .getCloseOrderReasonList:
+            return "ordermanage​/getCloseOrderReasonList"
+        case .closeOrder:
+            return "ordermanage/closeOrder"
+        case .getChangePrice:
+            return "ordermanage/getChangePrice"
+        case .modifyPrice:
+            return "ordermanage/modifyPrice"
+            
+            
+            
+        //物流
+            
+        case .getLogisticsList:
+            return "logistics/getLogisticsList"
+        case .modiyLogistics:
+            return "logistics/modifyLogistics"
+        case .viewLogistics:
+            return "logistics/viewLogistics"
+        
         }
     }
     
@@ -139,6 +183,8 @@ extension OrderApi:TargetType{
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         case .getProductSpecList(let parameters):
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+            
+            
 //        case .getProductFreightList:
 //            return .requestPlain
         case .getFreightInfoList:
@@ -156,6 +202,29 @@ extension OrderApi:TargetType{
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         case .getNoDeliveryRegionList(let parameters):
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+            
+            
+        case .getOrderProductList(let parameters):
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+        case .getOrderDetailInfo(let parameters):
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+        case .getCloseOrderReasonList:
+            return .requestPlain
+        case .closeOrder(let parameters):
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+        case .getChangePrice(let parameters):
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+        case .modifyPrice(let parameters):
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+            
+            
+        case .getLogisticsList(let parameters):
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+        case .modiyLogistics(let parameters):
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+        case .viewLogistics(let parameters):
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+        
         }
     }
     
@@ -163,12 +232,12 @@ extension OrderApi:TargetType{
         
         switch self {
             //,.getProductFreightList
-        case .getOrderSalesInfo,.getFreightInfoList:
+        case .getOrderSalesInfo,.getFreightInfoList,.getCloseOrderReasonList:
             let time = Date().currentMilliStamp
             let nonce = String.nonce
             let deviceId = String.deviceUUID
             return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValue(time,nonce,deviceId),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
-        case .getProductCategoryList(let parameters),.getProductBrandList(let parameters),.getProductSpuList(let parameters),.getProductSpecList(let parameters),.getProductInfoList(let parameters),.defFreightTemplate(let parameters),.getFreightInfo(let parameters):
+        case .getProductCategoryList(let parameters),.getProductBrandList(let parameters),.getProductSpuList(let parameters),.getProductSpecList(let parameters),.getProductInfoList(let parameters),.defFreightTemplate(let parameters),.getFreightInfo(let parameters),.getOrderProductList(let parameters),.closeOrder(let parameters),.getChangePrice(let parameters),.modifyPrice(let parameters),.getOrderDetailInfo(let parameters),.getLogisticsList(let parameters),.modiyLogistics(let parameters),.viewLogistics(let parameters):
             let time = Date().currentMilliStamp
             let nonce = String.nonce
             let deviceId = String.deviceUUID
@@ -185,6 +254,7 @@ extension OrderApi:TargetType{
             let nonce = String.nonce
             let deviceId = String.deviceUUID
             return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,getArrayJSONStringFromAddSpec(obj: paramters)),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+            
         case .getProductInfo(let parameters),.cancelApply(let parameters),.delProduct(let parameters),.lowerShelf(let parameters),.upShelf(let parameters),.getSoldOutSkuList(let parameters),.delFreightStatus(let parameters):
             let time = Date().currentMilliStamp
             let nonce = String.nonce
@@ -225,6 +295,14 @@ extension OrderApi:TargetType{
             let nonce = String.nonce
             let deviceId = String.deviceUUID
             return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,getArrayJSONStringFromAddSpec(obj: parameters)),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+            
+            
+            
+        //获取订单信息列表
+//        case .getOrderInfoList(let parameters):
+            
+       
+            
         default:
            return ["Accept": "*/*","Content-Type":"application/json"]
         }

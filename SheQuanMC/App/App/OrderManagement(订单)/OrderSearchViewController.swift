@@ -27,7 +27,7 @@ class OrderSearchViewController: BaseViewController {
     
     
     //数组
-    var searchProductList:[ProductInfoModel] = [ProductInfoModel]()
+    var searchProductList:[OrederInfoModel] = [OrederInfoModel]()
     
     
     
@@ -103,6 +103,9 @@ class OrderSearchViewController: BaseViewController {
         tableview.register(OrderStatusCell.self, forCellReuseIdentifier: "OrderStatusCell")
         
 //        loadSearchProduct(searchTextfield.text ?? "")
+        
+        loadOrderStatus()
+        
     }
     
     
@@ -123,6 +126,9 @@ class OrderSearchViewController: BaseViewController {
         LXFLog("下拉")
 //        tableview.mj_header?.endRefreshing()
 //        loadSearchProduct(searchTextfield.text ?? "")
+        
+        loadOrderStatus()
+        
     }
     
     override func footerRereshing() {
@@ -132,25 +138,23 @@ class OrderSearchViewController: BaseViewController {
     
     
     
-//    func loadSearchProduct(_ keyWords:String){
-//        let parameters = ["keyWords":keyWords]
-//        NetWorkResultRequest(OrderApi.SearchProduct(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
-//            
-//            self?.searchProductList.removeAll()
-//            guard let model = try? JSONDecoder().decode(GenericResponse<[ProductInfoModel]>.self, from: data) else{
-//                return
-//            }
-//            guard let newData = model.data else{
-//                return
-//            }
-//            self?.searchProductList = newData
-//            self?.tableview.reloadData()
-//            self?.tableview.mj_header?.endRefreshing()
-//        } failureCallback: { error, code in
-//            code.loginOut()
-//        }
-//    }
-//    
+    func loadOrderStatus(){
+        let parameters = ["lastOrderId":0,"orderStatus":0] as [String:Any]
+        NetWorkResultRequest(OrderApi.getOrderProductList(parameters: parameters), needShowFailAlert: true) { result, data in
+            guard let model = try? JSONDecoder().decode(GenericResponse<[OrederInfoModel]>.self, from: data) else { return }
+            self.searchProductList.removeAll()
+            if let _data = model.data{
+                self.searchProductList = _data
+            }
+            self.tableview.mj_header?.endRefreshing()
+            self.tableview.mj_footer?.endRefreshing()
+            self.tableview.reloadData()
+        } failureCallback: { error, code in
+            code.loginOut()
+            self.tableview.mj_header?.endRefreshing()
+            self.tableview.mj_footer?.endRefreshing()
+        }
+    }
     
     
     
@@ -159,10 +163,16 @@ class OrderSearchViewController: BaseViewController {
     
     //关闭订单按键
     @objc func closeOrderAction(closeOrderBtn:UIButton){
+        let orderInfoModel = searchProductList[closeOrderBtn.tag]
         // 这边要自定义一个UIview
         self.popup.bottomSheet {
-            let closeOrderReasonView = CloseOrderReasonView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(489)))
+            let closeOrderReasonView = CloseOrderReasonView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(489)), orderId: orderInfoModel.orderId ?? 0)
             closeOrderReasonView.cancelBlock = {[weak self] in
+                self?.popup.dismissPopup()
+            }
+            
+            closeOrderReasonView.sureCloseSuccessBlock = {[weak self] in
+                self?.loadOrderStatus()
                 self?.popup.dismissPopup()
             }
             return closeOrderReasonView
@@ -172,9 +182,17 @@ class OrderSearchViewController: BaseViewController {
     //改价按键
     @objc func modifyPriceAction(modifyPriceBtn:UIButton){
         //这边也要自定义一个UIview
+        
+        let orderInfoModel = searchProductList[modifyPriceBtn.tag]
+        
         self.popup.bottomSheet {
-            let modifyPriceView = ModifyPriceView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(492)))
+            let modifyPriceView = ModifyPriceView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(492)), orderId: orderInfoModel.orderId ?? 0)
             modifyPriceView.cancelBlock = {[weak self] in
+                self?.popup.dismissPopup()
+            }
+            
+            modifyPriceView.modifyPriceSuccessBlock = { [weak self] in
+                self?.loadOrderStatus()
                 self?.popup.dismissPopup()
             }
             return modifyPriceView
@@ -185,22 +203,36 @@ class OrderSearchViewController: BaseViewController {
     
     //查看物流
     @objc func checkLogisticsAction(checkLogisticsBtn:UIButton){
+        let orderInfoModel = searchProductList[checkLogisticsBtn.tag]
         let checkLogistVC = CheckLogisticsViewController()
+        checkLogistVC.orderInfoModel = orderInfoModel
         Coordinator.shared?.pushViewController(self, checkLogistVC, animated: true)
     }
     
     //修改物流
     @objc func modifyLogisticsAction(modifyLogisticsBtn:UIButton){
+        let orderInfoModel = searchProductList[modifyLogisticsBtn.tag]
         let modifyLogisticsVc  = ModifyLogisticsViewController()
         modifyLogisticsVc.title = "修改物流"
+        modifyLogisticsVc.jump = .listJumpType
+        modifyLogisticsVc.orderInfoModel = orderInfoModel
         Coordinator.shared?.pushViewController(self, modifyLogisticsVc, animated: true)
+        modifyLogisticsVc.jumpSuccessBlockListType = {[weak self] in
+            self?.loadOrderStatus()
+        }
     }
     
     //去发货
     @objc func toShipAction(toShipBtn:UIButton){
+        let orderInfoModel = searchProductList[toShipBtn.tag]
         let modifyLogisticsVc  = ModifyLogisticsViewController()
         modifyLogisticsVc.title = "订单发货"
+        modifyLogisticsVc.jump = .listJumpType
+        modifyLogisticsVc.orderInfoModel = orderInfoModel
         Coordinator.shared?.pushViewController(self, modifyLogisticsVc, animated: true)
+        modifyLogisticsVc.jumpSuccessBlockListType = {[weak self] in
+            self?.loadOrderStatus()
+        }
     }
 
 }
@@ -217,61 +249,41 @@ extension OrderSearchViewController:UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let productInfoModel = searchProductList[indexPath.row] as ProductInfoModel
-        
+        let orederInfoModel = searchProductList[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "OrderStatusCell") as! OrderStatusCell
-        
-        cell.productInfoModel = productInfoModel
-        
-//        if view.tag == 0{
-//            let index = Int(arc4random_uniform(5))
-//            let array = ["全部","待支付","待发货","已发货","交易成功","交易失败"]
-//            let string = array[index]
-//            cell.contentString = string
-//        }else if view.tag == 1{
-//            cell.contentString = "待支付"
-//        }else if view.tag == 2{
-//            cell.contentString = "待发货"
-//        }else if view.tag == 3{
-//            cell.contentString = "已发货"
-//        }else if view.tag == 4{
-//            cell.contentString = "交易成功"
-//        }else{
-//            cell.contentString = "交易失败"
-//        }
-        
+        cell.orederInfoModel = orederInfoModel
         //关闭订单按键
         cell.closeOrderBtn.tag = indexPath.row
         cell.closeOrderBtn.addTarget(self, action: #selector(closeOrderAction), for: .touchUpInside)
         //改价按键
         cell.modifyPriceBtn.tag = indexPath.row
         cell.modifyPriceBtn.addTarget(self, action: #selector(modifyPriceAction), for: .touchUpInside)
-        
         //去发货
         cell.toShipBtn.tag = indexPath.row
         cell.toShipBtn.addTarget(self, action: #selector(toShipAction), for: .touchUpInside)
-        
         //修改物流 查看物理
         cell.checkLogisticsBtn.tag = indexPath.row
         cell.checkLogisticsBtn.addTarget(self, action: #selector(checkLogisticsAction), for: .touchUpInside)
         cell.modifyLogisticsBtn.tag = indexPath.row
         cell.modifyLogisticsBtn.addTarget(self, action: #selector(modifyLogisticsAction), for: .touchUpInside)
-        
         return cell
     }
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let orderDetailVc = OrderDetailViewController()
-//        let cell = tableView.cellForRow(at: indexPath) as! OrderStatusCell
-        let productInfoModel = searchProductList[indexPath.row] as ProductInfoModel
-        
-        
-        orderDetailVc.status = productInfoModel.statusText
-        
-        Coordinator.shared?.pushViewController(self, orderDetailVc, animated: true)
+        let orderInfoModel = searchProductList[indexPath.row]
+        //这边是看下是直接去跳转在去获取数据还是先获取数据在进行变化
+        let parameters = ["orderId":orderInfoModel.orderId as Any] as [String:Any]
+        NetWorkResultRequest(OrderApi.getOrderDetailInfo(parameters: parameters), needShowFailAlert: true) { result, data in
+            guard let model = try? JSONDecoder().decode(GenericResponse<OrederInfoModel>.self, from: data) else { return }
+            if let _data = model.data{
+                let orderDetailVc = OrderDetailViewController()
+                orderDetailVc.orderInfoModel = _data
+                Coordinator.shared?.pushViewController(self, orderDetailVc, animated: true)
+            }
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
     }
-    
-    
 }

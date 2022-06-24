@@ -56,8 +56,6 @@ class ReplenishInventoryCell: UITableViewCell {
        return bottomView
     }()
     
-    
-    
     var model:skusModel?{
         didSet{
             guard let _model = model else { return }

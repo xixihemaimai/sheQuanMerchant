@@ -68,9 +68,16 @@ class OrderDetailViewController: BaseViewController {
     }()
     
     
+    lazy var topView:UIView = {
+       let topView = UIView()
+        topView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#f8f8f8")
+        return topView
+    }()
     
     
-    var status:String?
+    
+    
+    var orderInfoModel:OrederInfoModel?
     
     
 
@@ -83,10 +90,8 @@ class OrderDetailViewController: BaseViewController {
         title = "订单详情"
         
         
-        let topView = UIView()
-        topView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#f8f8f8")
+        
         view.addSubview(topView)
-
         topView.snp.makeConstraints { make in
             make.left.top.right.equalToSuperview()
             make.height.equalTo(scale(1))
@@ -198,109 +203,162 @@ class OrderDetailViewController: BaseViewController {
         modifyLogisticsBtn.addTarget(self, action: #selector(modifyLogisticsAction), for: .touchUpInside)
                 
                 
-                
-                    
-                if status == "待支付"{
-                    
-                    
-                    closeOrderBtn.isHidden = false
-                    modifyPriceBtn.isHidden = false
-                    toShipBtn.isHidden = true
-                    
-                    checkLogisticsBtn.isHidden = true
-                    modifyLogisticsBtn.isHidden = true
-                    
-                    
-                    
-                }else if status == "待发货"{
-                    
-                    closeOrderBtn.isHidden = true
-                    modifyPriceBtn.isHidden = true
-                    toShipBtn.isHidden = false
-                    
-                    checkLogisticsBtn.isHidden = true
-                    modifyLogisticsBtn.isHidden = true
-                    
-                    
-                    
-                }else if status == "已发货"{
-                    
-                    closeOrderBtn.isHidden = true
-                    modifyPriceBtn.isHidden = true
-                    toShipBtn.isHidden = true
-                    
-                    checkLogisticsBtn.isHidden = false
-                    modifyLogisticsBtn.isHidden = false
-                    
-                    
-                }else{
-                    closeOrderBtn.isHidden = true
-                    modifyPriceBtn.isHidden = true
-                    toShipBtn.isHidden = true
-                    
-                    checkLogisticsBtn.isHidden = true
-                    modifyLogisticsBtn.isHidden = true
-                    
-                    tableview.snp.remakeConstraints { make in
-                        make.left.right.equalToSuperview()
-                        make.top.equalTo(topView.snp.bottom)
-                        make.bottom.equalTo(scale(0))
-                    }
-                }
-        
-        
+        if orderInfoModel?.orderStatus == 10{
+            //待支付
+           closeOrderBtn.isHidden = false
+           modifyPriceBtn.isHidden = false
+           toShipBtn.isHidden = true
+           checkLogisticsBtn.isHidden = true
+           modifyLogisticsBtn.isHidden = true
+        }else if orderInfoModel?.orderStatus == 20{
+            //待发货
+           closeOrderBtn.isHidden = true
+           modifyPriceBtn.isHidden = true
+           toShipBtn.isHidden = false
+           checkLogisticsBtn.isHidden = true
+           modifyLogisticsBtn.isHidden = true
+        }else if orderInfoModel?.orderStatus == 21{
+           //已发货
+           closeOrderBtn.isHidden = true
+           modifyPriceBtn.isHidden = true
+           toShipBtn.isHidden = true
+           checkLogisticsBtn.isHidden = false
+           modifyLogisticsBtn.isHidden = false
+        }else{
+           closeOrderBtn.isHidden = true
+           modifyPriceBtn.isHidden = true
+           toShipBtn.isHidden = true
+           checkLogisticsBtn.isHidden = true
+           modifyLogisticsBtn.isHidden = true
+           tableview.snp.remakeConstraints { make in
+               make.left.right.equalToSuperview()
+               make.top.equalTo(topView.snp.bottom)
+               make.bottom.equalTo(scale(0))
+            }
+        }
     }
     
     deinit {
-        let cell = tableview.cellForRow(at: IndexPath(row:0, section: 0)) as! OrderDetailStatusCell
-        cell.timer?.invalidate()
-        cell.timer = nil
+        let cell = tableview.cellForRow(at: IndexPath(row:0, section: 0)) as? OrderDetailStatusCell
+        cell?.timer?.invalidate()
+        cell?.timer = nil
     }
     
     
     //修改价格
     @objc func modifyPriceAction(modifyPriceBtn:UIButton){
-        //这边也要自定义一个UIview
         self.popup.bottomSheet {
-            let modifyPriceView = ModifyPriceView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(492)))
+            let modifyPriceView = ModifyPriceView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(492)),orderId: orderInfoModel?.orderId ?? 0)
             modifyPriceView.cancelBlock = {[weak self] in
                 self?.popup.dismissPopup()
             }
+            
+            modifyPriceView.modifyPriceSuccessBlock = {[weak self] in
+                //这边是去重新获取该订单信息
+                self?.reloadCurrentOrderInfo()
+                self?.popup.dismissPopup()
+            }
+            
             return modifyPriceView
         }
+        
     }
     
     //关闭订单
     @objc func closeOrderAction(closeOrderBtn:UIButton){
-        // 这边要自定义一个UIview
         self.popup.bottomSheet {
-            let closeOrderReasonView = CloseOrderReasonView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(489)))
+            let closeOrderReasonView = CloseOrderReasonView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(489)),orderId: orderInfoModel?.orderId ?? 0)
             closeOrderReasonView.cancelBlock = {[weak self] in
+                self?.popup.dismissPopup()
+            }
+            //成功之后需要做得事情
+            closeOrderReasonView.sureCloseSuccessBlock = {[weak self] in
+                //这边是去重新获取该订单信息
+                self?.reloadCurrentOrderInfo()
                 self?.popup.dismissPopup()
             }
             return closeOrderReasonView
         }
     }
     
-    //去发货
-    @objc func toShipAction(toshipBtn:UIButton){
-        let modifyLogisticsVc  = ModifyLogisticsViewController()
-        modifyLogisticsVc.title = "订单发货"
-        Coordinator.shared?.pushViewController(self, modifyLogisticsVc, animated: true)
+    func reloadCurrentOrderInfo(){
+        let parameters = ["orderId":orderInfoModel?.orderId as Any] as [String:Any]
+        NetWorkResultRequest(OrderApi.getOrderDetailInfo(parameters: parameters), needShowFailAlert: true) { result, data in
+            guard let model = try? JSONDecoder().decode(GenericResponse<OrederInfoModel>.self, from: data) else { return }
+            if let _data = model.data{
+                self.orderInfoModel = _data
+                if self.orderInfoModel?.orderStatus == 10{
+                    //待支付
+                    self.closeOrderBtn.isHidden = false
+                    self.modifyPriceBtn.isHidden = false
+                    self.toShipBtn.isHidden = true
+                    self.checkLogisticsBtn.isHidden = true
+                    self.modifyLogisticsBtn.isHidden = true
+                }else if self.orderInfoModel?.orderStatus == 20{
+                    //待发货
+                    self.closeOrderBtn.isHidden = true
+                    self.modifyPriceBtn.isHidden = true
+                    self.toShipBtn.isHidden = false
+                    self.checkLogisticsBtn.isHidden = true
+                    self.modifyLogisticsBtn.isHidden = true
+                }else if self.orderInfoModel?.orderStatus == 21{
+                   //已发货
+                    self.closeOrderBtn.isHidden = true
+                    self.modifyPriceBtn.isHidden = true
+                    self.toShipBtn.isHidden = true
+                    self.checkLogisticsBtn.isHidden = false
+                    self.modifyLogisticsBtn.isHidden = false
+                }else{
+                    self.closeOrderBtn.isHidden = true
+                    self.modifyPriceBtn.isHidden = true
+                    self.toShipBtn.isHidden = true
+                    self.checkLogisticsBtn.isHidden = true
+                    self.modifyLogisticsBtn.isHidden = true
+                    self.tableview.snp.remakeConstraints { make in
+                       make.left.right.equalToSuperview()
+                        make.top.equalTo(self.topView.snp.bottom)
+                       make.bottom.equalTo(scale(0))
+                    }
+                }
+                self.tableview.reloadData()
+            }
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
     }
+    
     
     
     //修改物流
     @objc func checkLogisticsAction(checkLogisticsBtn:UIButton){
         let modifyLogisticsVc  = ModifyLogisticsViewController()
         modifyLogisticsVc.title = "修改物流"
+        modifyLogisticsVc.jump = .detailJumpType
+        modifyLogisticsVc.orderInfoModel = orderInfoModel
         Coordinator.shared?.pushViewController(self, modifyLogisticsVc, animated: true)
+        modifyLogisticsVc.jumpSuccessBlockDetailType = {[weak self] in
+            self?.reloadCurrentOrderInfo()
+        }
+    }
+    
+    
+    //去发货
+    @objc func toShipAction(toshipBtn:UIButton){
+        let modifyLogisticsVc  = ModifyLogisticsViewController()
+        modifyLogisticsVc.title = "订单发货"
+        modifyLogisticsVc.jump = .detailJumpType
+        modifyLogisticsVc.orderInfoModel = orderInfoModel
+        Coordinator.shared?.pushViewController(self, modifyLogisticsVc, animated: true)
+        modifyLogisticsVc.jumpSuccessBlockDetailType = {[weak self] in
+            self?.reloadCurrentOrderInfo()
+        }
     }
     
     
     //查看物流
     @objc func modifyLogisticsAction(modifyLogisticsBtn:UIButton){
         let checkLogistVC = CheckLogisticsViewController()
+        checkLogistVC.orderInfoModel = orderInfoModel
         Coordinator.shared?.pushViewController(self, checkLogistVC, animated: true)
     }
     
@@ -309,22 +367,38 @@ class OrderDetailViewController: BaseViewController {
     //修改买家地址
     @objc func modifyBuyerAddressAction(modifyBtn:UIButton){
         let modifyAddressVc = ModifyReturnAddressViewController()
+        
         Coordinator.shared?.pushViewController(self, modifyAddressVc, animated: true)
     }
     
     //进入物流
     @objc func joinCheckLogisticsAction(joinSignBtn:UIButton){
         let checkLogistVC = CheckLogisticsViewController()
+        checkLogistVC.orderInfoModel = orderInfoModel
         Coordinator.shared?.pushViewController(self, checkLogistVC, animated: true)
     }
+    
+    
+    //复制
+    @objc func copyAddressInfoAction(copyBtn:UIButton){
+        
+//        UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+//        pasteboard.string = @"复制的内容";
+        let pasteBoard = UIPasteboard.general
+        pasteBoard.string = "农大侠，13950800000 福建省 厦门市 思明区 莲前街道岭兜二路75号"
+        JFPopup.toast(hit: "复制成功")
+    }
+    
 
 }
 
 extension OrderDetailViewController:UITableViewDelegate,UITableViewDataSource{
-
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        if orderInfoModel?.orderStatus == 10{
+            return 3
+        }else{
+           return 4
+        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -339,35 +413,67 @@ extension OrderDetailViewController:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0{
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderDetailStatusCell") as! OrderDetailStatusCell
+            cell.orderInfoModel = orderInfoModel
+            //这边用来判断是否倒计时完成--重新获取下商品详情 待支付  已发货
+//            if cell.orderInfoModel?.orderStatus == 10 || cell.orderInfoModel?.orderStatus == 21{
+                LXFLog("=================32-----32----------")
+                cell.countdownComplete = {[weak self] in
+                    LXFLog("-32==12==========12==2")
+                    self?.reloadCurrentOrderInfo()
+                }
+//            }
             return cell
         }
-        if status == "待支付"{
+        if orderInfoModel?.orderStatus == 10{
+            //待支付
             if indexPath.row == 1{
+                LXFLog("=================1")
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OrderContentCell") as! OrderContentCell
+                cell.orderInfoModel = orderInfoModel
                 return cell
             }else{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OrderToBePaidCell") as! OrderToBePaidCell
+                cell.orderInfoModel = orderInfoModel
                 return cell
             }
             
-        }else if status == "待发货"{
+        }else if orderInfoModel?.orderStatus == 20 || orderInfoModel?.orderStatus == 21{
+            //待发货 已发货
             if indexPath.row == 1{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "BuyerAdressCell") as! BuyerAdressCell
+                //修改
                 cell.modifyBtn.tag = indexPath.row
                 cell.modifyBtn.addTarget(self, action: #selector(modifyBuyerAddressAction), for: .touchUpInside)
+                //复制
+                cell.copyBtn.tag = indexPath.row
+                cell.copyBtn.addTarget(self, action: #selector(copyAddressInfoAction), for: .touchUpInside)
+                return cell
+            }else if indexPath.row == 2{
+                LXFLog("=================2")
+                let cell = tableView.dequeueReusableCell(withIdentifier: "OrderContentCell") as! OrderContentCell
+                cell.orderInfoModel = orderInfoModel
                 return cell
             }else{
-                let cell = tableView.dequeueReusableCell(withIdentifier: "OrderContentCell") as! OrderContentCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "OrderToBePaidCell") as! OrderToBePaidCell
+                cell.orderInfoModel = orderInfoModel
                 return cell
             }
         }else{
+            //交易关闭 交易成功
             if indexPath.row == 1{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OrderDeliveryLogisticsCell") as! OrderDeliveryLogisticsCell
                 cell.joinSignBtn.tag = indexPath.row
                 cell.joinSignBtn.addTarget(self, action: #selector(joinCheckLogisticsAction), for: .touchUpInside)
                 return cell
-            }else{
+            }else if indexPath.row == 2{
+                LXFLog("=================3")
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OrderContentCell") as! OrderContentCell
+                cell.orderInfoModel = orderInfoModel
+                return cell
+            }
+            else{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "OrderToBePaidCell") as! OrderToBePaidCell
+                cell.orderInfoModel = orderInfoModel
                 return cell
             }
         }

@@ -56,6 +56,10 @@ class BuyerAdressCell: UITableViewCell {
         copyBtn.setTitle("复制", for: .normal)
         copyBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333"), for: .normal)
         copyBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
+        /**
+         UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+         pasteboard.string = @"复制的内容";
+         */
         return copyBtn
     }()
     
