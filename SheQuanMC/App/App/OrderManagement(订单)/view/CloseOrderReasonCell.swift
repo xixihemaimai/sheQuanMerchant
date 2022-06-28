@@ -50,6 +50,15 @@ class CloseOrderReasonCell: UITableViewCell {
         }
     }
     
+    var modelCloseReason:CloseOrderTypeRspModel?{
+        didSet{
+            guard let _model = modelCloseReason else {
+                return
+            }
+            reasonLabel.text = _model.closeReason
+        }
+    }
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

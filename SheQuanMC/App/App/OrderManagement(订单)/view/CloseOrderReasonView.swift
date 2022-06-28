@@ -10,19 +10,19 @@ import Util
 
 class CloseOrderReasonView: UIView {
 
-    lazy var tableview:UITableView = {
-        let tableview = UITableView(frame: .zero, style: .plain)
-        tableview.isScrollEnabled = false
-        tableview.estimatedSectionFooterHeight = 0
-        tableview.estimatedSectionHeaderHeight = 0
-        tableview.separatorStyle = .none
+    lazy var newTableview:UITableView = {
+        let newTableview = UITableView(frame: .zero, style: .plain)
+        newTableview.isScrollEnabled = false
+        newTableview.estimatedSectionFooterHeight = 0
+        newTableview.estimatedSectionHeaderHeight = 0
+        newTableview.separatorStyle = .none
         if #available(iOS 15.0, *){
-            tableview.sectionHeaderTopPadding = 0
+            newTableview.sectionHeaderTopPadding = 0
         }
         if #available(iOS 11.0, *){
-            tableview.contentInsetAdjustmentBehavior = .never
+            newTableview.contentInsetAdjustmentBehavior = .never
         }
-        return tableview
+        return newTableview
     }()
     
     //这边要进行修改这类的动作
@@ -40,7 +40,6 @@ class CloseOrderReasonView: UIView {
     
     init(frame: CGRect,orderId:Int64) {
         super.init(frame: frame)
-        
         backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
             
         self.orderId = orderId
@@ -69,21 +68,18 @@ class CloseOrderReasonView: UIView {
         }
         
         
-        addSubview(tableview)
-        tableview.snp.makeConstraints { make in
+        addSubview(newTableview)
+        newTableview.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.bottom.equalTo(iPhoneX ? -scale(92) : -scale(58))
             make.top.equalTo(titleLabel.snp.bottom).offset(scale(15))
         }
-        
-        tableview.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
-        
-        tableview.delegate = self
-        tableview.dataSource = self
-        
-        
+
+        newTableview.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
+        newTableview.delegate = self
+        newTableview.dataSource = self
 //        reasonList = ["无法联系上买家","买家误拍或重拍了","买家无诚意完成交易","已经缺货无法交易"]
-        tableview.register(CloseOrderReasonCell.self, forCellReuseIdentifier: "CloseOrderReasonCell")
+        newTableview.register(CloseOrderReasonCell.self, forCellReuseIdentifier: "CloseOrderReasonCell")
         
         //确定
         let sureBtn = UIButton()
@@ -103,21 +99,19 @@ class CloseOrderReasonView: UIView {
         
         sureBtn.layer.cornerRadius = scale(4)
         
-
-        loadCloseOrderReasonList()
+       
+        loadReasonList()
     }
     
     
-    
-    
-    func loadCloseOrderReasonList(){
-        NetWorkResultRequest(OrderApi.getCloseOrderReasonList, needShowFailAlert: true) { result, data in
+    func loadReasonList(){
+        NetWorkResultRequest(OrderApi.getCloseReasonList, needShowFailAlert: true) { result, data in
             guard let model = try? JSONDecoder().decode(GenericResponse<[CloseOrderTypeRspModel]>.self, from: data) else { return }
             self.reasonList.removeAll()
             if let _data = model.data{
                 self.reasonList = _data
             }
-            self.tableview.reloadData()
+            self.newTableview.reloadData()
         } failureCallback: { error, code in
             code.loginOut()
         }
@@ -137,13 +131,13 @@ class CloseOrderReasonView: UIView {
     @objc func sureAction(sureBtn:UIButton){
         var selectIndex = 0
         for i in 0..<reasonList.count{
-            let cell = tableview.cellForRow(at: IndexPath(row: i, section: 0)) as! CloseOrderReasonCell
+            let cell = newTableview.cellForRow(at: IndexPath(row: i, section: 0)) as! CloseOrderReasonCell
             if cell.choiceBtn.isSelected{
                 selectIndex = i
             }
         }
         let closeOrderTypeRspModel = reasonList[selectIndex]
-        let parameters = ["closeReasonId":closeOrderTypeRspModel.closeReasonId as Any,"orderId":self.orderId as Any] as [String : Any]
+        let parameters = ["closeReasonId":closeOrderTypeRspModel.closeReasonId as Any,"orderId":orderId as Any] as [String : Any]
         NetWorkResultRequest(OrderApi.closeOrder(parameters: parameters), needShowFailAlert: true) { result, data in
             //这边成功之后要做得事情是返回前面的状态
             self.sureCloseSuccessBlock?()
@@ -176,7 +170,8 @@ extension CloseOrderReasonView:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CloseOrderReasonCell") as! CloseOrderReasonCell
         let closeOrderTypeRspModel = reasonList[indexPath.row]
-        cell.reasonLabel.text = closeOrderTypeRspModel.closeReason
+//        cell.reasonLabel.text = closeOrderTypeRspModel.closeReason
+        cell.modelCloseReason = closeOrderTypeRspModel
         cell.choiceBtn.tag = indexPath.row
         return cell
     }
@@ -191,7 +186,7 @@ extension CloseOrderReasonView:UITableViewDelegate,UITableViewDataSource{
         tableView.deselectRow(at: indexPath, animated: true)
         let cell1 = tableView.cellForRow(at: indexPath) as! CloseOrderReasonCell
         for i in 0..<reasonList.count{
-            let cell = tableview.cellForRow(at: IndexPath(row: i, section: 0)) as! CloseOrderReasonCell
+            let cell = newTableview.cellForRow(at: IndexPath(row: i, section: 0)) as! CloseOrderReasonCell
             if indexPath.row == i{
             }else{
                 cell.choiceBtn.isSelected = false

@@ -30,7 +30,7 @@ open class MainViewController: UITabBarController {
        for i in 0..<titleS.count {
            let dict = titleS[i]
            let Vc = creatViewController(title: dict["name"]!, normalString:dict["normal"]!, selectString: dict["select"]!)
-         self.addChild(Vc)
+           self.addChild(Vc)
        }
     }
     public func creatViewController(title:String,normalString:String,selectString:String)->UIViewController{

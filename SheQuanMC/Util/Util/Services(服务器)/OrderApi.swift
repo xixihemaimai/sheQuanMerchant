@@ -38,10 +38,9 @@ public enum OrderApi{
     
     
     case getOrderSalesInfo                                //获取订单销售数据（首页) (1)
-    
+    case getCloseReasonList                               //获取关闭订单原因列表
     case getOrderProductList(parameters:[String:Any])     //获取订单商品列表
     case getOrderDetailInfo(parameters:[String:Any])      //获取订单详情
-    case getCloseOrderReasonList                          //获取关闭订单原因列表
     case closeOrder(parameters:[String:Any])              //关闭订单
     case getChangePrice(parameters:[String:Any])          //获取修改价格
     case modifyPrice(parameters:[String:Any])             //确定修改价格
@@ -51,7 +50,7 @@ public enum OrderApi{
     case getLogisticsList(parameters:[String:Any])       //获取物流列表 (1)
     case modiyLogistics(parameters:[String:Any])         //修改物流
     case viewLogistics(parameters:[String:Any])          //查看物流
-    
+    case getProductOrderCount                             //订单数
 }
  
 
@@ -122,14 +121,16 @@ extension OrderApi:TargetType{
             return "ordermanage/getOrderProductList"
         case .getOrderDetailInfo:
             return "ordermanage/getOrderDetailInfo"
-        case .getCloseOrderReasonList:
-            return "ordermanage​/getCloseOrderReasonList"
+        case .getCloseReasonList:
+            return "ordermanage/getCloseOrderReasonList"
         case .closeOrder:
             return "ordermanage/closeOrder"
         case .getChangePrice:
             return "ordermanage/getChangePrice"
         case .modifyPrice:
             return "ordermanage/modifyPrice"
+        case .getProductOrderCount:
+            return "ordermanage/getProductOrderCount"
             
             
             
@@ -208,7 +209,7 @@ extension OrderApi:TargetType{
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         case .getOrderDetailInfo(let parameters):
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
-        case .getCloseOrderReasonList:
+        case .getCloseReasonList:
             return .requestPlain
         case .closeOrder(let parameters):
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
@@ -216,6 +217,8 @@ extension OrderApi:TargetType{
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         case .modifyPrice(let parameters):
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+        case .getProductOrderCount:
+            return .requestPlain
             
             
         case .getLogisticsList(let parameters):
@@ -232,7 +235,7 @@ extension OrderApi:TargetType{
         
         switch self {
             //,.getProductFreightList
-        case .getOrderSalesInfo,.getFreightInfoList,.getCloseOrderReasonList:
+        case .getOrderSalesInfo,.getFreightInfoList,.getCloseReasonList,.getProductOrderCount:
             let time = Date().currentMilliStamp
             let nonce = String.nonce
             let deviceId = String.deviceUUID
@@ -246,6 +249,7 @@ extension OrderApi:TargetType{
             let time = Date().currentMilliStamp
             let nonce = String.nonce
             let deviceId = String.deviceUUID
+            LXFLog("=============\(parameters)")
             let parm = getJSONStringFromPushblish(obj: parameters, isEscape: true)
             return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValueData(time, nonce, deviceId,parm),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
         case .addSpecGroup(let paramters):

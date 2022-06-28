@@ -359,7 +359,7 @@ class CommoditySpecificationsViewController: BaseViewController {
         //还需要对价格和库存进行重组 unIonSetList
 //        let skusArray = arrayForConsolidationValueThe(array: unIonSetList)
 //        LXFLog("-------------------\(specsArray)")
-        LXFLog("==================\(unIonSetList)")
+//        LXFLog("==================\(unIonSetList)")
         //这边要进行判断没有填写完整的提醒，成功填写完整还需要返回上一个界面，把所需的数据传递过去
         var isComplete:Bool = true
         for skus in unIonSetList {
@@ -477,7 +477,7 @@ class CommoditySpecificationsViewController: BaseViewController {
     
     //添加规格值得value
     @objc func addSpecificationValueAction(addBtn:UIButton){
-        LXFLog("============\(addBtn.tag)")
+//        LXFLog("============\(addBtn.tag)")
 //        self.setEditing(true, animated: false)
         UIApplication.shared.keyWindow?.endEditing(true)
         var specGroups = saveList[addBtn.tag]

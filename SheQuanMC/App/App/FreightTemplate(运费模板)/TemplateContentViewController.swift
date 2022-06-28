@@ -580,7 +580,11 @@ class TemplateContentViewController: BaseViewController {
         //这边是一个数组
         noDeliveryVc.noDeliveryCompleteBlock = { freightListModel in
             self.freightListModel = freightListModel
-            self.noSettingLabeL.text = "已设置"
+            if (self.freightListModel?.noDeliveryRegionIds?.count ?? 0) > 0{
+                self.noSettingLabeL.text = "已设置"
+            }else{
+                self.noSettingLabeL.text = "暂未设置"
+            }
         }
     }
     

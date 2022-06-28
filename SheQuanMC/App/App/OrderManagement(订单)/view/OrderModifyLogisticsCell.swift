@@ -13,6 +13,7 @@ class OrderModifyLogisticsCell: UITableViewCell {
     //商品图片
     lazy var orderImage:UIImageView = {
        let orderImage = UIImageView()
+        orderImage.contentMode = .scaleAspectFill
         orderImage.image = UIImage(named: "Group 2750")
         return orderImage
     }()
@@ -28,15 +29,56 @@ class OrderModifyLogisticsCell: UITableViewCell {
         return orderIntroductLabel
     }()
     
+    //价钱
+    lazy var priceLabel:UILabel = {
+       let priceLabel = UILabel()
+        priceLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        priceLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
+        priceLabel.textAlignment = .right
+        priceLabel.text = "¥258.00"
+        return priceLabel
+    }()
+    
+    
+    
+    
+    
+    lazy var productName:UILabel = {
+       let productName = UILabel()
+        productName.text = "商品名称"
+//      productName.textColor = UIColor.colorWithDyColorChangObject(lightColor: "")
+        productName.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#B0B0B0")
+        productName.font = UIFont.systemFont(ofSize: scale(12), weight: .regular)
+        productName.textAlignment = .left
+        return productName
+    }()
+    
+    
+    
     //数量
     lazy var numberLabel:UILabel = {
        let numberLabel = UILabel()
         numberLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#B0B0B0")
         numberLabel.font = UIFont.systemFont(ofSize: scale(12), weight: .regular)
-        numberLabel.textAlignment = .left
-        numberLabel.text = "黑橙色×1"
+        //numberLabel.textAlignment = .left
+        numberLabel.textAlignment = .right
+        numberLabel.text = "×1"
         return numberLabel
     }()
+    
+//    //数量
+//    lazy var numberLabel:UILabel = {
+//       let numberLabel = UILabel()
+//        numberLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#B0B0B0")
+//        numberLabel.font = UIFont.systemFont(ofSize: scale(12), weight: .regular)
+//        numberLabel.textAlignment = .left
+//        numberLabel.text = "黑橙色×1"
+//        return numberLabel
+//    }()
+    
+    
+    
+    
     
     
     //实收的价钱
@@ -71,10 +113,26 @@ class OrderModifyLogisticsCell: UITableViewCell {
         didSet{
             guard let _orderInfoModel = orderInfoModel else { return }
             orderImage.sd_setImage(with: URL(string: _orderInfoModel.products?.first?.productPic ?? ""), placeholderImage: UIImage(named: "Group 2784"))
-            truePriceLabel.text = "¥" + (_orderInfoModel.payAmount ?? "0")
-            let qtyStr = String(format: "%d", _orderInfoModel.products?.first?.qty ?? 0)
-            numberLabel.text = (_orderInfoModel.products?.first?.specs ?? "") + "x" + qtyStr
+            
             orderIntroductLabel.text = _orderInfoModel.products?.first?.productName
+            
+            priceLabel.text = "¥" + (_orderInfoModel.products?.first?.price ?? "0")
+            
+            productName.text = _orderInfoModel.products?.first?.specs
+            
+            let qtyStr = String(format: "%d", _orderInfoModel.products?.first?.qty ?? 0)
+            numberLabel.text = "x" + qtyStr
+            
+            truePriceLabel.text = "¥" + (_orderInfoModel.payAmount ?? "0")
+
+            let width = (truePriceLabel.text?.singleLineWidth(font: UIFont.systemFont(ofSize: scale(16), weight: .semibold)) ?? 0)
+            
+            truePriceLabel.snp.remakeConstraints { make in
+                make.top.equalTo(orderImage.snp.bottom).offset(scale(12))
+                make.right.equalTo(-scale(16))
+                make.width.equalTo(width)
+                make.height.equalTo(scale(12))
+            }
         }
     }
     
@@ -116,6 +174,8 @@ class OrderModifyLogisticsCell: UITableViewCell {
         
         contentView.addSubview(orderImage)
         contentView.addSubview(orderIntroductLabel)
+        contentView.addSubview(priceLabel)
+        contentView.addSubview(productName)
         contentView.addSubview(numberLabel)
         contentView.addSubview(netReceiptsLabel)
         contentView.addSubview(truePriceLabel)
@@ -134,51 +194,74 @@ class OrderModifyLogisticsCell: UITableViewCell {
         orderImage.layer.masksToBounds = true
         
         
+//        orderIntroductLabel.snp.makeConstraints { make in
+//            make.left.equalTo(orderImage.snp.right).offset(scale(12))
+//            make.right.equalTo(-scale(16))
+//            make.height.equalTo(scale(40))
+//            make.top.equalTo(diviver.snp.bottom).offset(scale(15))
+//        }
+//
+//
+//
+//        numberLabel.snp.makeConstraints { make in
+//            make.left.equalTo(orderImage.snp.right).offset(scale(12))
+//            make.height.equalTo(scale(12))
+//            make.top.equalTo(orderIntroductLabel.snp.bottom).offset(scale(12))
+//            make.width.equalTo(scale(120))
+//        }
+//
+        
         orderIntroductLabel.snp.makeConstraints { make in
             make.left.equalTo(orderImage.snp.right).offset(scale(12))
-            make.right.equalTo(-scale(16))
-            make.height.equalTo(scale(40))
             make.top.equalTo(diviver.snp.bottom).offset(scale(15))
+            make.width.equalTo(scale(184))
+            make.height.equalTo(scale(40))
         }
         
+        priceLabel.snp.makeConstraints { make in
+            make.right.equalTo(-scale(16))
+            make.top.equalTo(diviver.snp.bottom).offset(scale(19))
+            make.height.equalTo(scale(12))
+            make.left.equalTo(orderIntroductLabel.snp.right)
+        }
         
+        productName.snp.makeConstraints { make in
+            make.left.equalTo(orderImage.snp.right).offset(scale(12))
+            make.top.equalTo(orderIntroductLabel.snp.bottom).offset(scale(16))
+            make.width.equalTo(scale(200))
+            make.height.equalTo(scale(12))
+        }
         
         numberLabel.snp.makeConstraints { make in
-            make.left.equalTo(orderImage.snp.right).offset(scale(12))
-            make.height.equalTo(scale(12))
-            make.top.equalTo(orderIntroductLabel.snp.bottom).offset(scale(12))
+            make.top.equalTo(orderIntroductLabel.snp.bottom).offset(scale(16))
+            make.right.equalTo(-scale(16))
             make.width.equalTo(scale(120))
+            make.height.equalTo(scale(12))
         }
         
-        
-        
+
         truePriceLabel.snp.makeConstraints { make in
             make.right.equalTo(-scale(16))
-            make.top.equalTo(orderIntroductLabel.snp.bottom).offset(scale(12))
+            make.top.equalTo(orderImage.snp.bottom).offset(scale(12))
             make.height.equalTo(scale(12))
             make.width.equalTo(scale(80))
         }
         
         
         netReceiptsLabel.snp.makeConstraints { make in
-            make.right.equalTo(truePriceLabel.snp.left).offset(scale(6))
+            make.right.equalTo(truePriceLabel.snp.left).offset(-scale(6))
             make.height.equalTo(scale(12))
-            make.top.equalTo(orderIntroductLabel.snp.bottom).offset(scale(12))
-            make.width.equalTo(scale(90))
+            make.top.equalTo(orderImage.snp.bottom).offset(scale(12))
+            make.width.equalTo(scale(120))
         }
-        
         
         
         contentView.addSubview(bottomView)
-        
-        
         bottomView.snp.makeConstraints { make in
             make.left.right.bottom.equalToSuperview()
             make.height.equalTo(scale(8))
-            make.top.equalTo(orderImage.snp.bottom).offset(scale(16))
+            make.top.equalTo(truePriceLabel.snp.bottom).offset(scale(16))
         }
-        
-        
     }
     
     required init?(coder: NSCoder) {

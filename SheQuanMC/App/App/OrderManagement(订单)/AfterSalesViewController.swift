@@ -114,6 +114,7 @@ class AfterSalesViewController: BaseViewController {
         btn.titleLabel?.font = UIFont.systemFont(ofSize: scale(14), weight: .medium)
         btn.isSelected = true
         perBtn = btn
+        selectIndex = btn.tag
         //让标题按钮居中
         var offsetX = btn.center.x - SCW * 0.5
         if offsetX < 0 {
@@ -168,7 +169,7 @@ class AfterSalesViewController: BaseViewController {
         for i in 0..<btnArray.count {
             let vc = AfterSalesStatusViewController()
             let btn = btnArray[i]
-            vc.delegate = self
+//            vc.delegate = self
             vc.title = btn.currentTitle
             vc.view.tag = i
             self.addChild(vc)
@@ -194,17 +195,17 @@ extension AfterSalesViewController:UIScrollViewDelegate{
 }
 
 
-extension AfterSalesViewController:AfterSalesStatusViewControllerDelegate{
-    func returnBackNumber(_ title: String, _ tag: Int) {
-        let btn = btnArray[tag]
-        //这边要变成那个状态的数量和下划线的宽度
-        btn.setTitle(title, for: .normal)
-        btn.titleLabel?.sizeToFit()
-        titleView.snp.remakeConstraints { make in
-            make.width.equalTo((btn.titleLabel?.bounds.size.width)!)
-            make.centerX.equalTo(btn.snp.centerX)
-            make.height.equalTo(scale(2))
-            make.bottom.equalTo(btn.snp.bottom).offset(-scale(2))
-        }
-    }
-}
+//extension AfterSalesViewController:AfterSalesStatusViewControllerDelegate{
+//    func returnBackNumber(_ title: String, _ tag: Int) {
+//        let btn = btnArray[tag]
+//        //这边要变成那个状态的数量和下划线的宽度
+//        btn.setTitle(title, for: .normal)
+//        btn.titleLabel?.sizeToFit()
+//        titleView.snp.remakeConstraints { make in
+//            make.width.equalTo((btn.titleLabel?.bounds.size.width)!)
+//            make.centerX.equalTo(btn.snp.centerX)
+//            make.height.equalTo(scale(2))
+//            make.bottom.equalTo(btn.snp.bottom).offset(-scale(2))
+//        }
+//    }
+//}

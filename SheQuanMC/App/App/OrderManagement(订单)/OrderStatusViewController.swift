@@ -11,19 +11,19 @@ import JFPopup
 import SwiftUI
 
 
-protocol OrderStatusViewControllerDelegate:NSObjectProtocol {
-    
-    /// 返回的数量
-    /// - Parameters:
-    ///   - title:内容
-    ///   - tag: 位置
-    func returnBackNumber(_ title:String,_ tag:Int)
-}
+//protocol OrderStatusViewControllerDelegate:NSObjectProtocol {
+//
+//    /// 返回的数量
+//    /// - Parameters:
+//    ///   - title:内容
+//    ///   - tag: 位置
+//    func returnBackNumber(_ title:String,_ tag:Int)
+//}
 
 
 class OrderStatusViewController: BaseViewController {
 
-    weak var delegate:OrderStatusViewControllerDelegate?
+//    weak var delegate:OrderStatusViewControllerDelegate?
     
     //用来保存订单首页的控制权
     var orderViewVc:OrderViewController?
@@ -44,15 +44,13 @@ class OrderStatusViewController: BaseViewController {
         tableview.delegate = self
         tableview.dataSource = self
         tableview.register(OrderStatusCell.self, forCellReuseIdentifier: "OrderStatusCell")
-        
 //        loadOrderStatus()
-        
-        
-        self.tableview.mj_header?.beginRefreshing()
+        tableview.mj_header?.beginRefreshing()
         
     }
 
     func loadOrderStatus(){
+//        LXFLog("==================\(title)")
         var tag = 0
         if view.tag == 0{
             tag = 0
@@ -75,12 +73,10 @@ class OrderStatusViewController: BaseViewController {
                 self.orderInfoList = _data
             }
             self.tableview.mj_header?.endRefreshing()
-            self.tableview.mj_footer?.endRefreshing()
             self.tableview.reloadData()
         } failureCallback: { error, code in
             code.loginOut()
             self.tableview.mj_header?.endRefreshing()
-            self.tableview.mj_footer?.endRefreshing()
         }
     }
     
@@ -99,20 +95,19 @@ class OrderStatusViewController: BaseViewController {
     
     
     
-    @objc func showSS(){
-        //"待支付(0)","待发货(0)","已发货(0)"
-        if title?.contains("待支付") == true {
-            title = "待支付(99+)"
-            delegate?.returnBackNumber(title ?? "", view.tag)
-        }else if title?.contains("待发货") == true {
-            title = "待发货(99+)"
-            delegate?.returnBackNumber(title ?? "", view.tag)
-        }else if title?.contains("已发货") == true {
-            title = "已发货(99+)"
-            delegate?.returnBackNumber(title ?? "", view.tag)
-        }
-        
-    }
+//    @objc func showSS(){
+//        //"待支付(0)","待发货(0)","已发货(0)"
+//        if title?.contains("待支付") == true {
+//            title = "待支付(99+)"
+//            delegate?.returnBackNumber(title ?? "", view.tag)
+//        }else if title?.contains("待发货") == true {
+//            title = "待发货(99+)"
+//            delegate?.returnBackNumber(title ?? "", view.tag)
+//        }else if title?.contains("已发货") == true {
+//            title = "已发货(99+)"
+//            delegate?.returnBackNumber(title ?? "", view.tag)
+//        }
+//    }
     
     
     
@@ -120,12 +115,12 @@ class OrderStatusViewController: BaseViewController {
     @objc func closeOrderAction(closeOrderBtn:UIButton){
         // 这边要自定义一个UIview
         let orderInfoModel = orderInfoList[closeOrderBtn.tag]
+        LXFLog("+==================\(orderInfoModel.orderId)")
         self.popup.bottomSheet {
             let closeOrderReasonView = CloseOrderReasonView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(489)),orderId: orderInfoModel.orderId ?? 0)
             closeOrderReasonView.cancelBlock = {[weak self] in
                 self?.popup.dismissPopup()
             }
-            
             //成功之后需要做得事情
             closeOrderReasonView.sureCloseSuccessBlock = {[weak self] in
                 self?.loadOrderStatus()
@@ -134,6 +129,8 @@ class OrderStatusViewController: BaseViewController {
             return closeOrderReasonView
         }
     }
+    
+   
     
     //改价按键
     @objc func modifyPriceAction(modifyPriceBtn:UIButton){
@@ -144,14 +141,10 @@ class OrderStatusViewController: BaseViewController {
             modifyPriceView.cancelBlock = {[weak self] in
                 self?.popup.dismissPopup()
             }
-            
             modifyPriceView.modifyPriceSuccessBlock = {[weak self] in
-
                 self?.loadOrderStatus()
-
                 self?.popup.dismissPopup()
             }
-            
             return modifyPriceView
         }
     }
@@ -193,23 +186,19 @@ class OrderStatusViewController: BaseViewController {
     }
     
     
-    
-    
+    override func emptyDataSetShouldDisplay(_ scrollView: UIScrollView!) -> Bool {
+        return true
+    }
     
     func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView!) -> Bool {
         return true
     }
-    
-    
-    
-    
 }
 
 
 
 extension OrderStatusViewController:UITableViewDelegate,UITableViewDataSource{
 
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return orderInfoList.count
     }

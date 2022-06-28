@@ -123,6 +123,11 @@
 		40C3778E2851EB3F00DA9E70 /* SIXEditorToolBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 40C377822851EB3F00DA9E70 /* SIXEditorToolBar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		40C3778F2851EB3F00DA9E70 /* SIXEditorView.h in Headers */ = {isa = PBXBuildFile; fileRef = 40C377832851EB3F00DA9E70 /* SIXEditorView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		40C377902851EB3F00DA9E70 /* SIXEditorInputManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 40C377842851EB3F00DA9E70 /* SIXEditorInputManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		40FA49FF286AD930003237C0 /* MyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FA49FE286AD92F003237C0 /* MyCell.swift */; };
+		40FA4A01286AE730003237C0 /* MyLoginOutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FA4A00286AE730003237C0 /* MyLoginOutCell.swift */; };
+		40FA4A05286AEAA3003237C0 /* shopInfomationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FA4A04286AEAA3003237C0 /* shopInfomationCell.swift */; };
+		40FA4A07286AF031003237C0 /* ShopInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FA4A06286AF031003237C0 /* ShopInformationViewController.swift */; };
+		40FA4A09286AFDC4003237C0 /* ModifyShopNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FA4A08286AFDC4003237C0 /* ModifyShopNameViewController.swift */; };
 		7AD231528B3BBEAAE2E924AB /* Pods_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0920399F93ACA07BE969F0D4 /* Pods_App.framework */; };
 /* End PBXBuildFile section */
 
@@ -260,6 +265,11 @@
 		40C377822851EB3F00DA9E70 /* SIXEditorToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIXEditorToolBar.h; sourceTree = "<group>"; };
 		40C377832851EB3F00DA9E70 /* SIXEditorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIXEditorView.h; sourceTree = "<group>"; };
 		40C377842851EB3F00DA9E70 /* SIXEditorInputManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIXEditorInputManager.h; sourceTree = "<group>"; };
+		40FA49FE286AD92F003237C0 /* MyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCell.swift; sourceTree = "<group>"; };
+		40FA4A00286AE730003237C0 /* MyLoginOutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLoginOutCell.swift; sourceTree = "<group>"; };
+		40FA4A04286AEAA3003237C0 /* shopInfomationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shopInfomationCell.swift; sourceTree = "<group>"; };
+		40FA4A06286AF031003237C0 /* ShopInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopInformationViewController.swift; sourceTree = "<group>"; };
+		40FA4A08286AFDC4003237C0 /* ModifyShopNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyShopNameViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -575,7 +585,10 @@
 		40A9A21C2814F1B8006B1CBF /* My(我的) */ = {
 			isa = PBXGroup;
 			children = (
+				40FA49FD286AD90C003237C0 /* view */,
 				401E5DAB281520D5009127A5 /* MyViewController.swift */,
+				40FA4A06286AF031003237C0 /* ShopInformationViewController.swift */,
+				40FA4A08286AFDC4003237C0 /* ModifyShopNameViewController.swift */,
 			);
 			path = "My(我的)";
 			sourceTree = "<group>";
@@ -597,6 +610,16 @@
 				40C377842851EB3F00DA9E70 /* SIXEditorInputManager.h */,
 			);
 			path = SIXEditor;
+			sourceTree = "<group>";
+		};
+		40FA49FD286AD90C003237C0 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				40FA49FE286AD92F003237C0 /* MyCell.swift */,
+				40FA4A00286AE730003237C0 /* MyLoginOutCell.swift */,
+				40FA4A04286AEAA3003237C0 /* shopInfomationCell.swift */,
+			);
+			path = view;
 			sourceTree = "<group>";
 		};
 		7D942DB943BF26B30841ED37 /* Pods */ = {
@@ -728,6 +751,8 @@
 			files = (
 				4060BC50281A1B6300968C42 /* ShopDetailCell.swift in Sources */,
 				40A267AB2856DDC00092321F /* AppSpecificationsCell.swift in Sources */,
+				40FA4A01286AE730003237C0 /* MyLoginOutCell.swift in Sources */,
+				40FA4A05286AEAA3003237C0 /* shopInfomationCell.swift in Sources */,
 				408AF0E828407BA600D12584 /* CommodityParameterCell.swift in Sources */,
 				4075AEF0281CD621005EB854 /* ProductDescriptionViewController.swift in Sources */,
 				40A267AD2856E6070092321F /* AddSpecificationValueView.swift in Sources */,
@@ -747,6 +772,7 @@
 				401E5DA02814FF17009127A5 /* ShopViewController.swift in Sources */,
 				4080A4D0282CBC1D00D32002 /* NoDeliveryViewController.swift in Sources */,
 				401E5DC1281528C4009127A5 /* Edit+UIButton.swift in Sources */,
+				40FA4A09286AFDC4003237C0 /* ModifyShopNameViewController.swift in Sources */,
 				403B88052823797300FC4EA4 /* CommoditySpecificationsHeaderView.swift in Sources */,
 				40C377892851EB3F00DA9E70 /* SIXEditorView.m in Sources */,
 				4060BC492818C87400968C42 /* EnterpriseCertificationViewController.swift in Sources */,
@@ -755,6 +781,7 @@
 				407D9804281A70DF005A8CBC /* commodityExamineCell.swift in Sources */,
 				408E42322828AA9300C94119 /* OrderToBePaidCell.swift in Sources */,
 				4074C9F8282F37B4009E9023 /* UserPrivacyView.swift in Sources */,
+				40FA49FF286AD930003237C0 /* MyCell.swift in Sources */,
 				401E5DAC281520D5009127A5 /* MyViewController.swift in Sources */,
 				403B880128236A8100FC4EA4 /* CommodityParameterView.swift in Sources */,
 				4060BC452817DF7100968C42 /* BusinessTypeCell.swift in Sources */,
@@ -764,6 +791,7 @@
 				4060BC472817E31F00968C42 /* BusinessTypeHeaderView.swift in Sources */,
 				4060BC422817DE0200968C42 /* BusinessTypeViewController.swift in Sources */,
 				4060BC2B28168DFD00968C42 /* MainViewController.swift in Sources */,
+				40FA4A07286AF031003237C0 /* ShopInformationViewController.swift in Sources */,
 				4060BC3B281794B000968C42 /* ForgetPasswordViewController.swift in Sources */,
 				4080A4D2282CBD8300D32002 /* NoDeliveryCell.swift in Sources */,
 				403B880D2823B37700FC4EA4 /* CommodityPriceAndStockCell.swift in Sources */,

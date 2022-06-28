@@ -117,6 +117,8 @@ class ReleaseGoodsViewController: BaseViewController {
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
         goodsCardTextField.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         goodsCardTextField.delegate = self
+        goodsCardTextField.tag = 0
+        goodsCardTextField.addTarget(self, action: #selector(valueChangeAction), for: .editingChanged)
         return goodsCardTextField
     }()
     
@@ -136,6 +138,8 @@ class ReleaseGoodsViewController: BaseViewController {
        let specificationsSwitch = UISwitch()
         specificationsSwitch.onTintColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         specificationsSwitch.isOn = false
+        specificationsSwitch.tag = 0
+        specificationsSwitch.addTarget(self, action: #selector(switchAction), for: .valueChanged)
         return specificationsSwitch
     }()
     
@@ -146,7 +150,10 @@ class ReleaseGoodsViewController: BaseViewController {
         priceTextfield.keyboardType = .decimalPad
         priceTextfield.attributedPlaceholder = NSAttributedString.init(string:"请输入", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
-        goodsCardTextField.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
+        priceTextfield.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
+//        priceTextfield.delegate = self
+        priceTextfield.tag = 1
+        priceTextfield.addTarget(self, action: #selector(valueChangeAction), for: .editingChanged)
         return priceTextfield
     }()
     
@@ -159,10 +166,11 @@ class ReleaseGoodsViewController: BaseViewController {
         stockTextfield.attributedPlaceholder = NSAttributedString.init(string:"请输入", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
         stockTextfield.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
+        stockTextfield.delegate = self
+        stockTextfield.tag = 2
+        stockTextfield.addTarget(self, action: #selector(valueChangeAction), for: .editingChanged)
         return stockTextfield
     }()
-    
-    
     
     //商品规格
     lazy var commoditySpLabel:UILabel = {
@@ -173,14 +181,6 @@ class ReleaseGoodsViewController: BaseViewController {
         return commoditySpLabel
     }()
                                                   
-                                                  
-    
-    
-    
-    
-    
-    
-    
     //库存扣减方式
     lazy var stockReduceLabel:UILabel = {
        let stockReduceLabel = UILabel()
@@ -204,6 +204,8 @@ class ReleaseGoodsViewController: BaseViewController {
        let returnGoodsSwitch = UISwitch()
         returnGoodsSwitch.onTintColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         returnGoodsSwitch.isOn = true
+        returnGoodsSwitch.tag = 1
+        returnGoodsSwitch.addTarget(self, action: #selector(switchAction), for: .valueChanged)
         return returnGoodsSwitch
     }()
     
@@ -213,6 +215,8 @@ class ReleaseGoodsViewController: BaseViewController {
        let returnGoodsInsuranceSwitch = UISwitch()
         returnGoodsInsuranceSwitch.onTintColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         returnGoodsInsuranceSwitch.isOn = true
+        returnGoodsInsuranceSwitch.tag = 2
+        returnGoodsInsuranceSwitch.addTarget(self, action: #selector(switchAction), for: .valueChanged)
         return returnGoodsInsuranceSwitch
     }()
     
@@ -240,7 +244,6 @@ class ReleaseGoodsViewController: BaseViewController {
         publishBtn.addTarget(self, action: #selector(publishAction), for: .touchUpInside)
         return publishBtn
     }()
-    
     
     //商品编码
     var goodsCardSView:UIView!
@@ -272,6 +275,8 @@ class ReleaseGoodsViewController: BaseViewController {
     var commodityModel:CommodityModel?
     //0位发布，1位编辑
     var type:Int = 0
+    //是否能存为草稿的判断
+    var isDraft:Bool = false
     
     
 //    override func viewWillAppear(_ animated: Bool) {
@@ -1067,12 +1072,12 @@ class ReleaseGoodsViewController: BaseViewController {
             commodityModel = CommodityModel(categoryId: StoreService.shared.categoryId, categoryName: "",freeRefundIn7Days: false, freightId: 0,freightInsure: false, freightName: "未设置",multiSpec: false,price:0.0,productCode: "", productDesc: "", productId: 0, productName: "", productPics: [String](),sepNo:0,skus: [Skus](), specGroups: [SpecGroups](), spus: [Spus](), stock: 0,stockDeductText: "拍下减库存",stockDeductType: 0,productStatus: 1)
         }else{
             title = "编辑商品"
+            self.isDraft = true
             LXFLog("+===========32==========23232=====================\(String(describing: commodityModel))")
             //商品名称
             if (commodityModel?.productName?.count ?? 0) > 0{
                 goodsTextView.text = commodityModel?.productName
             }
-            
             //商品主图
             if (commodityModel?.productPics?.count ?? 0) > 0{
 //                addAndRefreshPhotoImage()
@@ -1172,7 +1177,6 @@ class ReleaseGoodsViewController: BaseViewController {
                 priceTextfield.text = ""
             }
             
-            
             //库存
             let int32Value = Int32(truncating: commodityModel?.stock as? NSNumber ?? 0)
             var stockStr:String = ""
@@ -1250,18 +1254,20 @@ class ReleaseGoodsViewController: BaseViewController {
                     make.width.equalTo(SCW - scale(120) - scale(48))
                 }
             }
-            
-            
-            
         }
-        
-        
-        
-        
         scrollView.layoutIfNeeded()
     }
     
+    @objc func valueChangeAction(textfield:UITextField){
+        if (textfield.text?.count ?? 0) > 0{
+            self.isDraft = true
+        }
+    }
     
+    @objc func switchAction(swicth:UISwitch){
+        LXFLog("=================32==")
+        self.isDraft = true
+    }
     
     
     
@@ -1293,6 +1299,7 @@ class ReleaseGoodsViewController: BaseViewController {
                                     imageDataArray.append(imageData)
 //                                }
                                 self?.isModify = true
+                                self?.isDraft = true
                             })
                             let Parameters = ["fileType":20]
                             JFPopupView.popup.loading(hit: "上传图片中....")
@@ -1344,6 +1351,7 @@ class ReleaseGoodsViewController: BaseViewController {
                                     imageDataArray.append(imageData)
 //                                }
                                 self?.isModify = true
+                                self?.isDraft = true
                             }
                             let Parameters = ["fileType":20]
                             JFPopupView.popup.loading(hit: "上传图片中....")
@@ -1425,6 +1433,7 @@ class ReleaseGoodsViewController: BaseViewController {
                     make.height.equalTo(scale(50))
                 }
                 self.isModify = true
+                self.isDraft = true
                 //这边要把所有的商品的信息都需要删除
                 //商品描述goodsDescribe
                 self.goodsDescribe.text = "未填写"
@@ -1499,6 +1508,7 @@ class ReleaseGoodsViewController: BaseViewController {
                     self.goodsDescribe.text = "已填写"
                     self.goodsDescribe.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
                     self.isModify = true
+                    self.isDraft = true
                 }
             }
             
@@ -1514,14 +1524,11 @@ class ReleaseGoodsViewController: BaseViewController {
             commodityParametersVc.sureParmeter = { paraList in
                 self.commodityModel?.spus = paraList
                 self.goodsParameter.text = "已设置"
+                self.isModify = true
+                self.isDraft = true
                 self.goodsParameter.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
             }
-            
-
-            
         case 3:
-            
-            
             if commodityModel?.categoryId == 0 || commodityModel?.categoryId == StoreService.shared.categoryId{
                 JFPopup.toast(hit: "请先选择商品类目")
             }else{
@@ -1535,12 +1542,19 @@ class ReleaseGoodsViewController: BaseViewController {
                 commoditySepcificationsVc.type = type
                 Coordinator.shared?.pushViewController(self, commoditySepcificationsVc, animated: true)
                 commoditySepcificationsVc.commoditySpecifications = { specGroups,priceInVentory in
-    //              self.commodityModel?.specs = specList
-                    self.commodityModel?.specGroups = specGroups
-                    self.commodityModel?.skus = priceInVentory
-                    self.commoditySpLabel.text = "已设置"
-                    self.commoditySpLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+                    if specGroups.count > 0 && priceInVentory.count > 0 {
+                        self.commodityModel?.specGroups = specGroups
+                        self.commodityModel?.skus = priceInVentory
+                        self.commoditySpLabel.text = "已设置"
+                        self.commoditySpLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+                    }else{
+                        self.commodityModel?.specGroups = specGroups
+                        self.commodityModel?.skus = priceInVentory
+                        self.commoditySpLabel.text = "未设置"
+                        self.commoditySpLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#C2C2C2")
+                    }
                     self.isModify = true
+                    self.isDraft = true
                 }
             }
         case 4:
@@ -1556,6 +1570,7 @@ class ReleaseGoodsViewController: BaseViewController {
                     self.defaultTemplate.text = model.templateName
                     self.defaultTemplate.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
                     self.isModify = true
+                    self.isDraft = true
                 }
             }
         default:
@@ -1611,7 +1626,7 @@ class ReleaseGoodsViewController: BaseViewController {
             }
             
             
-            if Decimal(string: priceTextfield.text ?? "") ?? 0 < 0.0{
+            if Decimal(string: priceTextfield.text ?? "") ?? 0 < 0.000000000000000{
                 JFPopup.toast(hit: "请填写完整资料")
                 return
             }
@@ -1628,11 +1643,6 @@ class ReleaseGoodsViewController: BaseViewController {
 //                return
 //            }
             
-            if (stockTextfield.text?.count ?? 0) < 1{
-                JFPopup.toast(hit: "请填写完整资料")
-                return
-            }
-            
         }else{
             
             if commoditySpLabel.text == "未设置"{
@@ -1648,7 +1658,7 @@ class ReleaseGoodsViewController: BaseViewController {
            return
         }
         
-        
+    
         var specGroupsArray = commodityModel?.specGroups
         LXFLog("+================\(String(describing: specGroupsArray?.count))")
         specGroupsArray = specGroupsArray?.filter({ SpecGroups in
@@ -1774,8 +1784,7 @@ class ReleaseGoodsViewController: BaseViewController {
             }
         }
         productPicsStr += "]"
-        //
-        let parameters = ["categoryId":commodityModel?.categoryId as Any,"freeRefundIn7Days":returnGoodsSwitch.isOn,"freightId":(commodityModel?.freightId ?? 0) as Any,"freightInsure":returnGoodsInsuranceSwitch.isOn,"multiSpec":specificationsSwitch.isOn,"price": Decimal(string: priceTextfield.text ?? "") as Any ,"productCode":goodsCardTextField.text ?? "","productDesc":(commodityModel?.productDesc ?? "") as Any,"productId":(commodityModel?.productId ?? 0) as Any,"productName":goodsTextView.text ?? "","productPics":(productPicsStr.count > 0 ? productPicsStr : [String]()) as Any,"seqNo":(commodityModel?.seqNo ?? 0) as Any,"skus":(skusList.count > 0 ? skusList : [Skus]()) as Any,"specGroups":( specsGroupsList.count > 0 ? specsGroupsList : [SpecGroups]() )as Any,"spus":(spusList.count > 0 ? spusList : [Spus]()) as Any,"stock":(stockTextfield.text?.count ?? 0 > 0 ? Int32(stockTextfield.text ?? "0") : 0)  as Any,"stockDeductType":1] as [String:Any]
+        let parameters = ["categoryId":commodityModel?.categoryId as Any,"freeRefundIn7Days":returnGoodsSwitch.isOn,"freightId":(commodityModel?.freightId ?? 0) as Any,"freightInsure":returnGoodsInsuranceSwitch.isOn,"multiSpec":specificationsSwitch.isOn,"price":((priceTextfield.text?.count ?? 0 ) > 0 ? Decimal(string: priceTextfield.text ?? "0") : Decimal(string:"0")) as Any ,"productCode":goodsCardTextField.text ?? "","productDesc":(commodityModel?.productDesc ?? "") as Any,"productId":(commodityModel?.productId ?? 0) as Any,"productName":goodsTextView.text ?? "","productPics":(productPicsStr.count > 0 ? productPicsStr : [String]()) as Any,"seqNo":(commodityModel?.seqNo ?? 0) as Any,"skus":(skusList.count > 0 ? skusList : [Skus]()) as Any,"specGroups":( specsGroupsList.count > 0 ? specsGroupsList : [SpecGroups]() )as Any,"spus":(spusList.count > 0 ? spusList : [Spus]()) as Any,"stock":(stockTextfield.text?.count ?? 0 > 0 ? Int32(stockTextfield.text ?? "0") : 0)  as Any,"stockDeductType":1] as [String:Any]
         NetWorkResultRequest(OrderApi.productPublish(parameters: parameters), needShowFailAlert: true) { result, data in
             Coordinator.shared?.popViewController(self, true)
         } failureCallback: { error, code in
@@ -1791,15 +1800,169 @@ class ReleaseGoodsViewController: BaseViewController {
     
     func savePublish(){
         
+        if self.isDraft == false{
+            JFPopup.toast(hit: "请填写资料")
+            return
+        }
+        
+        
+        
+        //这边看下怎么修改，需要才上传
+        var parameters1 = [String:Any]()
+        //类目ID(1)categoryId
+        parameters1["categoryId"] = commodityModel?.categoryId
+        //七天无理由退货（1）
+        parameters1["freeRefundIn7Days"] = returnGoodsSwitch.isOn
+        //运费模板ID （2）
+        if self.defaultTemplate.text != "未设置"{
+            parameters1["freightId"] = commodityModel?.freightId
+        }
+        //退换货运费险（1）
+        parameters1["freightInsure"] = returnGoodsInsuranceSwitch.isOn
+        //多规格（1）
+        parameters1["multiSpec"] = specificationsSwitch.isOn
+        //价格 （2）
+        if (priceTextfield.text?.count ?? 0) > 0{
+            parameters1["price"] = Decimal(string: priceTextfield.text ?? "0")
+        }
+        //商品编码（2）
+        if (goodsCardTextField.text?.count ?? 0) > 0{
+            parameters1["productCode"] = goodsCardTextField.text ?? ""
+        }
+        //商品描述（2）
+        if self.goodsDescribe.text == "已填写"{
+            parameters1["productDesc"] = commodityModel?.productDesc ?? ""
+        }
+        //商品ID（1）
+        parameters1["productId"] = commodityModel?.productId
+        //商品名称（2）
+        if goodsTextView.text.count > 0 {
+            parameters1["productName"] = goodsTextView.text ?? ""
+        }
+        //商品主图（2）
+        if (commodityModel?.productPics?.count ?? 0) > 0{
+            var productPicsStr = "["
+            for v in 0..<(commodityModel?.productPics?.count ?? 0) {
+                guard let str = commodityModel?.productPics?[v] else{
+                    return
+                }
+                if v == 0{
+                    productPicsStr += "\"" + str + "\""
+                }else{
+                    productPicsStr += "," + "\"" + str + "\""
+                }
+            }
+            productPicsStr += "]"
+            parameters1["productPics"] = (productPicsStr.count > 0 ? productPicsStr : [String]())
+        }
+        //价格与库存（2）
+        if (commodityModel?.skus?.count ?? 0) > 0 {
+            var skusList:String = "["
+            for j in 0..<(commodityModel?.skus?.count ?? 0){
+                let skus = commodityModel?.skus![j]
+                var specsLists:String = "["
+                for n in 0..<(skus?.specs?.count ?? 0){
+                    let specs = skus?.specs![n]
+                    let specsDict = ["specGroupId":specs?.specGroupId as Any,"specValue":specs?.specValue as Any] as [String:Any]
+                    let jsonstring = getJSONStringFromData(obj: specsDict, isEscape: true)
+                    if n == 0{
+                        specsLists += jsonstring
+                    }else
+                    {
+                        specsLists += "," + jsonstring
+                    }
+                }
+                specsLists += "]"
+                let skusDict = ["price":skus?.price as Any,"skuCode":skus?.skuCode as Any,"skuId":skus?.skuId as Any,"skuPics":[String]() as Any,"specs":"","stock":skus?.stock as Any] as [String:Any]
+                let jsonstring = getJSONStringFromData(obj: skusDict, isEscape: true)
+                if j == 0{
+                    skusList += jsonstring
+                }else
+                {
+                    skusList += "," + jsonstring
+                }
+
+                skusList = (skusList as NSString).replacingOccurrences(of: "\"skuPics\":[]", with: ((skus?.skuPics?.count ?? 0) > 0) ? ("\"skuPics\":" + "[" + "\""
+                                                                                                                                        + (skus?.skuPics?.last ?? "") + "\"" + "]") : "\"skuPics\":[]") as String
+                skusList = (skusList as NSString).replacingOccurrences(of: "\"specs\":\"\"", with: "\"specs\":" + specsLists) as String
+            }
+            skusList += "]"
+            parameters1["skus"] = (skusList.count > 0 ? skusList : [Skus]())
+        }
+        //商品规格组（2）
+        var specGroupsArray1 = commodityModel?.specGroups
+        specGroupsArray1 = specGroupsArray1?.filter({ SpecGroups in
+            SpecGroups.specs?.count != 0
+        })
+        if (specGroupsArray1?.count ?? 0) > 0{
+            var specsGroupsList:String = "["
+            for i in 0..<(specGroupsArray1?.count ?? 0) {
+                let specGroup = specGroupsArray1?[i]
+                let specsDict = ["required":specGroup?.required as Any, "specGroupId":specGroup?.specGroupId as Any,"specGroupName":specGroup?.specGroupName as Any,"specGroupType":specGroup?.specGroupType as Any,"specs":[String]() as Any] as [String:Any]
+                let jsonstring = getJSONStringFromData(obj: specsDict, isEscape: true)
+                if i == 0{
+                    specsGroupsList += jsonstring
+                }else
+                {
+                    specsGroupsList += "," + jsonstring
+                }
+                var resultstr = "["
+                for i in 0..<(specGroup?.specs?.count ?? 0){
+                    guard let str = specGroup?.specs?[i] else{
+                        return
+                    }
+                    if i == 0{
+                        resultstr += "\"" + str + "\""
+                    }else{
+                        resultstr += "," + "\"" + str + "\""
+                    }
+                }
+                resultstr += "]"
+                specsGroupsList = (specsGroupsList as NSString).replacingOccurrences(of: "\"specs\":[]", with: "\"specs\":" + resultstr) as String
+            }
+            specsGroupsList += "]"
+            parameters1["specGroups"] = ( specsGroupsList.count > 0 ? specsGroupsList : [SpecGroups]() )
+        }
+        //商品spus（参数） (2)
+        if (commodityModel?.spus?.count ?? 0) > 0{
+            var spusList:String = "["
+            for k in 0..<(commodityModel?.spus?.count ?? 0){
+                let spus = commodityModel?.spus![k]
+                var spuValue = spus?.spuValue
+                if spus?.spuValue == nil{
+                    spuValue = ""
+                }
+                let spusDict = ["length":spus?.length as Any,"required":spus?.required as Any,"spuAttrId":spus?.spuAttrId as Any,"spuAttrName":spus?.spuAttrName as Any,"spuId":spus?.spuId as Any,"spuType":spus?.spuType as Any,"spuValue":spuValue as Any] as [String:Any]
+                let jsonstring = getJSONStringFromData(obj: spusDict, isEscape: true)
+                if k == 0{
+                    spusList += jsonstring
+                }else
+                {
+                    spusList += "," + jsonstring
+                }
+            }
+            spusList += "]"
+            parameters1["spus"] = (spusList.count > 0 ? spusList : [Spus]())
+        }
+        //库存（2）
+        if (stockTextfield.text?.count ?? 0) > 0{
+            parameters1["stock"] = Int32(stockTextfield.text ?? "0")
+        }
+        //库存扣减方式（1）
+        parameters1["stockDeductType"] = 1
+        
+        
+
+
+        //存为草稿要怎么判断呢？
         var specGroupsArray = commodityModel?.specGroups
-//        LXFLog("+================\(String(describing: specGroupsArray?.count))")
         specGroupsArray = specGroupsArray?.filter({ SpecGroups in
             SpecGroups.specs?.count != 0
         })
-        
         var specsGroupsList:String = "["
-        for i in 0..<(commodityModel?.specGroups?.count ?? 0) {
-            let specGroup = commodityModel?.specGroups![i]
+//        for i in 0..<(commodityModel?.specGroups?.count ?? 0) {
+        for i in 0..<(specGroupsArray?.count ?? 0) {
+            let specGroup = specGroupsArray?[i]
             let specsDict = ["required":specGroup?.required as Any, "specGroupId":specGroup?.specGroupId as Any,"specGroupName":specGroup?.specGroupName as Any,"specGroupType":specGroup?.specGroupType as Any,"specs":[String]() as Any] as [String:Any]
             let jsonstring = getJSONStringFromData(obj: specsDict, isEscape: true)
             if i == 0{
@@ -1860,7 +2023,6 @@ class ReleaseGoodsViewController: BaseViewController {
             let spus = commodityModel?.spus![k]
             var spuValue = spus?.spuValue
             if spus?.spuValue == nil{
-                LXFLog("+==========")
                 spuValue = ""
             }
             let spusDict = ["length":spus?.length as Any,"required":spus?.required as Any,"spuAttrId":spus?.spuAttrId as Any,"spuAttrName":spus?.spuAttrName as Any,"spuId":spus?.spuId as Any,"spuType":spus?.spuType as Any,"spuValue":spuValue as Any] as [String:Any]
@@ -1873,8 +2035,6 @@ class ReleaseGoodsViewController: BaseViewController {
             }
         }
         spusList += "]"
-        LXFLog("==================\(spusList)")
-        
         //        var specsList:[[String:Any]] = [[String:Any]]()
         //        for j in 0..<(commodityModel?.specs?.count ?? 0){
         //            let specs = commodityModel?.specs![j]
@@ -1903,8 +2063,6 @@ class ReleaseGoodsViewController: BaseViewController {
         //            let spusDict = ["spuAttrId":spus?.spuAttrId as Any,"spuAttrName":spus?.spuAttrName as Any,"spuId":spus?.spuId as Any,"spuValue":spus?.spuValue as Any] as [String:Any]
         //            spusList.append(spusDict)
         //        }
-        
-        
         var productPicsStr = "["
         for v in 0..<(commodityModel?.productPics?.count ?? 0) {
             guard let str = commodityModel?.productPics?[v] else{
@@ -1917,8 +2075,7 @@ class ReleaseGoodsViewController: BaseViewController {
             }
         }
         productPicsStr += "]"
-        //
-        let parameters = ["categoryId":commodityModel?.categoryId as Any,"freeRefundIn7Days":returnGoodsSwitch.isOn,"freightId":(commodityModel?.freightId ?? 0) as Any,"freightInsure":returnGoodsInsuranceSwitch.isOn,"multiSpec":specificationsSwitch.isOn,"price": Decimal(string: priceTextfield.text ?? "") as Any ,"productCode":goodsCardTextField.text ?? "","productDesc":(commodityModel?.productDesc ?? "") as Any,"productId":(commodityModel?.productId ?? 0) as Any,"productName":goodsTextView.text ?? "","productPics":(productPicsStr.count > 0 ? productPicsStr : [String]()) as Any,"seqNo":(commodityModel?.seqNo ?? 0) as Any,"skus":(skusList.count > 0 ? skusList : [Skus]()) as Any,"specGroups":( specsGroupsList.count > 0 ? specsGroupsList : [SpecGroups]() )as Any,"spus":(spusList.count > 0 ? spusList : [Spus]()) as Any,"stock":(stockTextfield.text?.count ?? 0 > 0 ? Int32(stockTextfield.text ?? "0") : 0)  as Any,"stockDeductType":1] as [String:Any]
+        let parameters = ["categoryId":commodityModel?.categoryId as Any,"freeRefundIn7Days":returnGoodsSwitch.isOn,"freightId":(commodityModel?.freightId ?? 0) as Any,"freightInsure":returnGoodsInsuranceSwitch.isOn,"multiSpec":specificationsSwitch.isOn,"price":((priceTextfield.text?.count ?? 0 ) > 0 ? Decimal(string: priceTextfield.text ?? "0") : Decimal(string: "0")) as Any,"productCode":goodsCardTextField.text ?? "","productDesc":(commodityModel?.productDesc ?? "") as Any,"productId":(commodityModel?.productId ?? 0) as Any,"productName":goodsTextView.text ?? "","productPics":(productPicsStr.count > 0 ? productPicsStr : [String]()) as Any,"seqNo":(commodityModel?.seqNo ?? 0) as Any,"skus":(skusList.count > 0 ? skusList : [Skus]()) as Any,"specGroups":( specsGroupsList.count > 0 ? specsGroupsList : [SpecGroups]() )as Any,"spus":(spusList.count > 0 ? spusList : [Spus]()) as Any,"stock":(stockTextfield.text?.count ?? 0 > 0 ? Int32(stockTextfield.text ?? "0") : 0)  as Any,"stockDeductType":1] as [String:Any]
         NetWorkResultRequest(OrderApi.draft(parameters: parameters), needShowFailAlert: true) { result, data in
             Coordinator.shared?.popViewController(self, true)
         } failureCallback: { error, code in
@@ -1930,7 +2087,6 @@ class ReleaseGoodsViewController: BaseViewController {
     //开启或者关闭多规格
     @objc func openAndCloseMoreSepcifications(specificationsSwitch:UISwitch){
         if specificationsSwitch.isOn == true{
-
             //关闭
              commoditySBtn.isHidden = false
              priceSView.isHidden = true
@@ -2253,11 +2409,18 @@ extension ReleaseGoodsViewController:UITextViewDelegate{
         }
         return true
     }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        if textView.text.count > 0{
+            self.isDraft = true
+        }
+    }
+    
+    
 }
 
 
 extension ReleaseGoodsViewController:UITextFieldDelegate{
-    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         var maxNum = 30
         if textField ==  goodsCardTextField{

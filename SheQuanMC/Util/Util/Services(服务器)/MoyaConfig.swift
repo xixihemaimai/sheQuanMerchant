@@ -191,8 +191,8 @@ public func getJSONStringFromPushblish(obj:[String:Any],isEscape:Bool) -> String
                 }
                 if let dicts = dictlist{
                     for (index,element) in dicts.enumerated() {
-//                        LXFLog(element.key)
-//                        LXFLog(element.value)
+                        LXFLog(element.key)
+                        LXFLog(element.value)
                         if let code = element.value as? Int {
                         let result = String(code)
 //                          LXFLog("======================\(result)")
@@ -220,8 +220,9 @@ public func getJSONStringFromPushblish(obj:[String:Any],isEscape:Bool) -> String
                             }
                         }
                         if let code = element.value as? Decimal {
+                           LXFLog("+===============\(code)")
                            let doubleValue = Double(truncating: code as? NSNumber ?? 0.0)
-                           let result = String(format: "%0.3f", doubleValue)
+                           let result = String(format: "%0.2f", doubleValue)
 //                           LXFLog("======================\(result)")
 //                            if index == 0 {
 //                                if element.key == "freeRefundIn7Days" || element.key == "freightInsure" || element.key == "multiSpec"{
@@ -246,11 +247,21 @@ public func getJSONStringFromPushblish(obj:[String:Any],isEscape:Bool) -> String
 //                                }
 //                            }
                         }
+                        if let code = element.value as? NSNumber {
+                            if !body.contains("price"){
+                                if element.key == "price"{
+                                    LXFLog("+=======4========\(code)")
+                                    let doubleValue = Double(truncating: code ?? 0.0)
+                                    let result = String(format: "%0.2f", doubleValue)
+                                    body += "," + "\"" + element.key + "\"" + ":" + result
+                                }
+                            }
+                        }
                       //productDesc  productId productCode productName
                         if let code = element.value as? String{
+//                            LXFLog("+=======3========\(code)")
                             let result = String(code)
                             if index == 0 {
-                                 
                                 if element.key == "productDesc" || element.key == "productId" || element.key == "productCode" || element.key == "productName"{
                                     body += "{" + "\"" + element.key + "\"" + ":" + "\"" + result + "\""
                                 }else{
@@ -476,7 +487,15 @@ public func getJSONStringFromPushblishData(obj:Data,isEscape:Bool) -> Data{
 //                                }
 //                            }
                 }
-                
+                if let code = element.value as? NSNumber {
+                    if !body.contains("price"){
+                        if element.key == "price"{
+                        let doubleValue = Double(truncating: code ?? 0.0)
+                        let result = String(format: "%0.2f", doubleValue)
+                        body += "," + "\"" + element.key + "\"" + ":" + result
+                      }
+                    }
+                }
                 
                 
                 

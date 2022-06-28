@@ -10,15 +10,10 @@ import Util
 import JFPopup
 
 class FreightAllocationViewController: BaseViewController {
-
-
-    
     //运费配置的模型
     var freightConf:freightConfModel?
     //回掉
     var inputBlock:((_ freightConf:freightConfModel)->Void)?
-    
-    
     //件数
     lazy var numberTextField:UITextField = {
         let numberTextField = UITextField()
@@ -45,6 +40,7 @@ class FreightAllocationViewController: BaseViewController {
         freeNumberTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
         freeNumberTextField.tag = 1
+        freeNumberTextField.delegate = self
         freeNumberTextField.addTarget(self, action: #selector(freightConfEditChangeAction), for: .editingChanged)
         return freeNumberTextField
     }()
@@ -59,7 +55,6 @@ class FreightAllocationViewController: BaseViewController {
         addNumberTextField.font = UIFont.systemFont(ofSize: scale(18), weight: .regular)
         addNumberTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
-        
         addNumberTextField.tag = 2
         addNumberTextField.addTarget(self, action: #selector(freightConfEditChangeAction), for: .editingChanged)
         return addNumberTextField
@@ -75,10 +70,9 @@ class FreightAllocationViewController: BaseViewController {
         addFreeNumberTextField.font = UIFont.systemFont(ofSize: scale(18), weight: .regular)
         addFreeNumberTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
-        
         addFreeNumberTextField.tag = 3
+        addFreeNumberTextField.delegate = self
         addFreeNumberTextField.addTarget(self, action: #selector(freightConfEditChangeAction), for: .editingChanged)
-        
         return addFreeNumberTextField
     }()
     
@@ -92,11 +86,8 @@ class FreightAllocationViewController: BaseViewController {
         packageTextField.font = UIFont.systemFont(ofSize: scale(18), weight: .regular)
         packageTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
-        
         packageTextField.tag = 4
         packageTextField.addTarget(self, action: #selector(freightConfEditChangeAction), for: .editingChanged)
-        
-        
         return packageTextField
     }()
     
@@ -146,9 +137,7 @@ class FreightAllocationViewController: BaseViewController {
             make.height.equalTo(scale(196))
         }
         
-        
         // 首件
-        
         let firstLabel = UILabel()
         firstLabel.text = "首件"
         firstLabel.textAlignment = .left
@@ -179,7 +168,7 @@ class FreightAllocationViewController: BaseViewController {
         }
         
         let int32Value = Int32(truncating: freightConf?.firstPiece as? NSNumber ?? 0)
-        if int32Value < 1{
+        if int32Value < 0{
             numberTextField.text = ""
         }else{
             numberTextField.text = String(format: "%d", int32Value)
@@ -243,7 +232,7 @@ class FreightAllocationViewController: BaseViewController {
         if doubleValue < 0.000001{
             freeNumberTextField.text = ""
         }else{
-            freeNumberTextField.text = String(format: "%0.3f", doubleValue)
+            freeNumberTextField.text = String(format: "%0.2f", doubleValue)
         }
         
         
@@ -288,9 +277,6 @@ class FreightAllocationViewController: BaseViewController {
             make.height.equalTo(scale(20))
         }
         
-        
-        
-        
         let addnumberLabel = UILabel()
         addnumberLabel.text = "增加(件)"
         addnumberLabel.textAlignment = .left
@@ -306,13 +292,11 @@ class FreightAllocationViewController: BaseViewController {
         }
         
         let renewal = Int32(truncating: freightConf?.renewal as? NSNumber ?? 0)
-        if renewal < 1{
+        if renewal < 0{
             addNumberTextField.text = ""
         }else{
             addNumberTextField.text = String(format: "%d", renewal)
         }
-        
-        
         
         contentView.addSubview(addNumberTextField)
         addNumberTextField.snp.makeConstraints { make in
@@ -368,7 +352,7 @@ class FreightAllocationViewController: BaseViewController {
         if renewalFreight < 0.000001{
             addFreeNumberTextField.text = ""
         }else{
-            addFreeNumberTextField.text = String(format: "%0.3f", renewalFreight)
+            addFreeNumberTextField.text = String(format: "%0.2f", renewalFreight)
         }
         
         
@@ -380,12 +364,9 @@ class FreightAllocationViewController: BaseViewController {
             make.top.equalTo(addFirstLabel.snp.bottom).offset(scale(12))
         }
         
-        
-        
         let addfreightView = UIView()
         addfreightView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
         contentView.addSubview(addfreightView)
-
         addfreightView.snp.makeConstraints { make in
             make.left.equalTo(addSFreightLabel.snp.right).offset(scale(12))
             make.top.equalTo(addFreeNumberTextField.snp.bottom).offset(5)
@@ -393,23 +374,18 @@ class FreightAllocationViewController: BaseViewController {
             make.right.equalTo(-scale(16))
         }
         
-        
-        
-        
         let appointLabel = UILabel()
         appointLabel.text = "指定条件包邮"
         appointLabel.font = UIFont.systemFont(ofSize: scale(17), weight: .medium)
         appointLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         appointLabel.textAlignment = .left
         view.addSubview(appointLabel)
-        
         appointLabel.snp.makeConstraints { make in
             make.left.equalTo(scale(16))
             make.right.equalTo(-scale(16))
             make.top.equalTo(contentView.snp.bottom).offset(scale(16))
             make.height.equalTo(scale(24))
         }
-        
         
         let packageConditionsView = UIView()
         packageConditionsView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
@@ -420,9 +396,6 @@ class FreightAllocationViewController: BaseViewController {
             make.top.equalTo(appointLabel.snp.bottom).offset(scale(12))
             make.height.equalTo(scale(82))
         }
-        
-        //packageTextField
-        
         
         let packageLabel = UILabel()
         packageLabel.text = "包邮条件(件)"
@@ -438,14 +411,11 @@ class FreightAllocationViewController: BaseViewController {
             make.width.equalTo(scale(90))
         }
         let parcelConditions = Int32(truncating: freightConf?.parcelConditions as? NSNumber ?? 0)
-        if parcelConditions < 1{
+        if parcelConditions < 0{
             packageTextField.text = ""
         }else{
             packageTextField.text = String(format: "%d", parcelConditions)
         }
-        
-        
-        
         packageConditionsView.addSubview(packageTextField)
         packageTextField.snp.makeConstraints { make in
             make.left.equalTo(packageLabel.snp.right).offset(scale(6))
@@ -457,15 +427,12 @@ class FreightAllocationViewController: BaseViewController {
         let packageView = UIView()
         packageView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
         packageConditionsView.addSubview(packageView)
-        
         packageView.snp.makeConstraints { make in
             make.left.equalTo(packageLabel.snp.right).offset(scale(6))
             make.right.equalTo(-scale(16))
             make.top.equalTo(packageTextField.snp.bottom).offset(scale(8))
             make.height.equalTo(scale(0.5))
         }
-        
-        
         
         let bottomView = UIView()
         bottomView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
@@ -474,8 +441,6 @@ class FreightAllocationViewController: BaseViewController {
             make.left.right.bottom.equalToSuperview()
             make.height.equalTo(iPhoneX ? scale(92) : scale(58))
         }
-
-        
         
         let saveBtn = UIButton()
         saveBtn.setTitle("保存", for: .normal)
@@ -552,3 +517,23 @@ class FreightAllocationViewController: BaseViewController {
     }
 
 }
+
+
+extension FreightAllocationViewController:UITextFieldDelegate{
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if string.count == 0{
+           return true
+        }
+        let checkStr = (textField.text as? NSString)?.replacingCharacters(in: range, with: string)
+        let regex = "^\\-?([1-9]\\d*|0)(\\.\\d{0,2})?$"
+        return self.isValid(checkStr: checkStr!, regex: regex)
+    }
+
+    func isValid(checkStr:String, regex:String) ->Bool{
+        let predicte = NSPredicate(format:"SELF MATCHES %@", regex)
+        return predicte.evaluate(with: checkStr)
+    }
+
+}
+

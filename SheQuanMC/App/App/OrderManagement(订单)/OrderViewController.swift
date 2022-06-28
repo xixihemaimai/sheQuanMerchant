@@ -137,6 +137,14 @@ class OrderViewController: BaseViewController {
             showContentAction(btn: afterSalesBtn)
         }
         
+        //还是要真机测试，往右滑和uiscrollview失效的问题
+        let gestureArr = navigationController?.view.gestureRecognizers
+        for i in 0..<(gestureArr?.count ?? 0) {
+            let gestureRecognizer = gestureArr![i]
+            if gestureRecognizer.isKind(of: UIScreenEdgePanGestureRecognizer.self){
+                contentScrollView.panGestureRecognizer.require(toFail: gestureRecognizer)
+            }
+        }
     }
     
     //搜索

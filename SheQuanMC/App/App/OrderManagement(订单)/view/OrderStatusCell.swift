@@ -16,7 +16,7 @@ class OrderStatusCell: UITableViewCell {
     //这边是UIView
     lazy var orderView:UIView = {
        let orderView = UIView()
-        orderView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#FFFFFF")
+        orderView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#F8F8F8")
         return orderView
     }()
         
@@ -46,7 +46,7 @@ class OrderStatusCell: UITableViewCell {
         returnGoodsLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         returnGoodsLabel.textAlignment = .right
         returnGoodsLabel.text = "退货退款中"
-        returnGoodsLabel.isHidden = true
+//        returnGoodsLabel.isHidden = true
         return returnGoodsLabel
     }()
     
@@ -80,6 +80,7 @@ class OrderStatusCell: UITableViewCell {
     //商品图片
     lazy var orderImage:UIImageView = {
        let orderImage = UIImageView()
+        orderImage.contentMode = .scaleAspectFill
         orderImage.image = UIImage(named: "Group 2750")
         return orderImage
     }()
@@ -106,13 +107,28 @@ class OrderStatusCell: UITableViewCell {
     }()
     
     
+    
+    //商品名称
+    lazy var productName:UILabel = {
+       let productName = UILabel()
+        productName.text = "商品名称"
+//      productName.textColor = UIColor.colorWithDyColorChangObject(lightColor: "")
+        productName.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#B0B0B0")
+        productName.font = UIFont.systemFont(ofSize: scale(12), weight: .regular)
+        productName.textAlignment = .left
+        return productName
+    }()
+    
+    
+    
     //数量
     lazy var numberLabel:UILabel = {
        let numberLabel = UILabel()
         numberLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#B0B0B0")
         numberLabel.font = UIFont.systemFont(ofSize: scale(12), weight: .regular)
-        numberLabel.textAlignment = .left
-        numberLabel.text = "黑橙色×1"
+        //numberLabel.textAlignment = .left
+        numberLabel.textAlignment = .right
+        numberLabel.text = "×1"
         return numberLabel
     }()
     
@@ -229,12 +245,13 @@ class OrderStatusCell: UITableViewCell {
             guard let _orederInfoModel = orederInfoModel else { return }
             
             
-            returnGoodsLabel.isHidden = true
+//            returnGoodsLabel.isHidden = true
+            
+            returnGoodsLabel.text = _orederInfoModel.refundingText
             
             statusLabel.text = _orederInfoModel.orderStatusText
             
             nicknameLabel.text = _orederInfoModel.nickName
-            
             
             orderImage.sd_setImage(with: URL(string: _orederInfoModel.products?.first?.productPic ?? ""), placeholderImage: UIImage(named: "Group 2784"))
             priceLabel.text = "¥" + (_orederInfoModel.products?.first?.price ?? "0")
@@ -242,22 +259,38 @@ class OrderStatusCell: UITableViewCell {
             
             truePriceLabel.text = "¥" + (_orederInfoModel.payAmount ?? "0")
             
-    
+            let width = (truePriceLabel.text?.singleLineWidth(font: UIFont.systemFont(ofSize: scale(16), weight: .semibold)) ?? 0)
+            
+            truePriceLabel.snp.remakeConstraints { make in
+                make.top.equalTo(orderImage.snp.bottom).offset(scale(12))
+                make.right.equalTo(-scale(16))
+                make.width.equalTo(width)
+                make.height.equalTo(scale(12))
+            }
+            
+            
+            productName.text = _orederInfoModel.products?.first?.specs
+            
             let qtyStr = String(format: "%d", _orederInfoModel.products?.first?.qty ?? 0)
-            numberLabel.text = (_orederInfoModel.products?.first?.specs ?? "") + "x" + qtyStr
-            
-//            headerImage.sd_setImage(with: URL(string: _productInfoModel.shopAvatar ?? ""), placeholderImage: UIImage(named: "Group 2784"))
-//            nicknameLabel.text = _productInfoModel.shopName
-//            orderImage.sd_setImage(with: URL(string: _productInfoModel.productPic ?? ""), placeholderImage: UIImage(named: ""))
-//            orderIntroductLabel.text = _productInfoModel.productName
-//            numberLabel.text = (_productInfoModel.productSpecs ?? "") + "x" + String(_productInfoModel.qty ?? 0)
-//            priceLabel.text = "¥" + (_productInfoModel.actualAmount ?? "")
-//            truePriceLabel.text =  "¥" + (_productInfoModel.actualAmount ?? "")
-            
+            numberLabel.text = "x" + qtyStr
             
             orderIntroductLabel.text = _orederInfoModel.products?.first?.productName
             
-            
+            if (_orederInfoModel.remarks?.count ?? 0) < 1{
+                buyersView.snp.remakeConstraints { make in
+                    make.left.equalTo(scale(16))
+                    make.right.equalTo(-scale(16))
+                    make.height.equalTo(scale(0.1))
+                    make.top.equalTo(truePriceLabel.snp.bottom).offset(scale(12))
+                }
+            }else{
+                buyersView.snp.remakeConstraints { make in
+                    make.left.equalTo(scale(16))
+                    make.right.equalTo(-scale(16))
+                    make.height.equalTo(scale(32))
+                    make.top.equalTo(truePriceLabel.snp.bottom).offset(scale(12))
+                }
+            }
             if  (_orederInfoModel.remarks?.count ?? 0) > 0{
                 buyersView.isHidden = false
                 buyerTrueLabel.text = _orederInfoModel.remarks
@@ -265,63 +298,40 @@ class OrderStatusCell: UITableViewCell {
                 buyersView.isHidden = true
             }
             
-            
-            
-            
             if _orederInfoModel.orderStatus == 10{
                 //待支付
                 midView.isHidden = true
                 returnGoodsLabel.isHidden = true
-                
                 closeOrderBtn.isHidden = false
                 modifyPriceBtn.isHidden = false
                 toShipBtn.isHidden = true
-                
                 checkLogisticsBtn.isHidden = true
                 modifyLogisticsBtn.isHidden = true
-                
-                
 //                returnGoodsLabel.text = "退款退款中"
-               
-                
-                
             }else if  _orederInfoModel.orderStatus == 20 {
                 //待发货
-                
                 closeOrderBtn.isHidden = true
                 modifyPriceBtn.isHidden = true
                 toShipBtn.isHidden = false
-                
                 checkLogisticsBtn.isHidden = true
                 modifyLogisticsBtn.isHidden = true
-                
 //                returnGoodsLabel.text = "仅退款"
-                
-                
-                
 //                statusLabel.text = _productInfoModel.statusText
-                
-                
             }else if _orederInfoModel.orderStatus == 21{
                //已发货
-                
                 closeOrderBtn.isHidden = true
                 modifyPriceBtn.isHidden = true
                 toShipBtn.isHidden = true
-                
                 checkLogisticsBtn.isHidden = false
                 modifyLogisticsBtn.isHidden = false
-                
-              
-                
             }else{
                 //交易成功 交易失败
-                orderView.snp.makeConstraints { make in
-                    make.left.right.equalToSuperview()
-                    make.top.equalTo(scale(8))
-                    make.height.equalTo(scale(200))
-                    make.bottom.equalToSuperview()
-                }
+//                orderView.snp.makeConstraints { make in
+//                    make.left.right.equalToSuperview()
+//                    make.top.equalTo(scale(8))
+//                    make.height.equalTo(scale(200))
+//                    make.bottom.equalToSuperview()
+//                }
                 midView.isHidden = true
                 returnGoodsLabel.isHidden = true
                 closeOrderBtn.isHidden = true
@@ -329,6 +339,24 @@ class OrderStatusCell: UITableViewCell {
                 toShipBtn.isHidden = true
                 checkLogisticsBtn.isHidden = true
                 modifyLogisticsBtn.isHidden = true
+                
+                if (_orederInfoModel.remarks?.count ?? 0) < 1{
+                    buyersView.snp.remakeConstraints { make in
+                        make.left.equalTo(scale(16))
+                        make.right.equalTo(-scale(16))
+                        make.height.equalTo(scale(0.1))
+                        make.top.equalTo(truePriceLabel.snp.bottom).offset(scale(12))
+                        make.bottom.equalTo(-scale(12))
+                    }
+                }else{
+                    buyersView.snp.remakeConstraints { make in
+                        make.left.equalTo(scale(16))
+                        make.right.equalTo(-scale(16))
+                        make.height.equalTo(scale(32))
+                        make.top.equalTo(truePriceLabel.snp.bottom).offset(scale(12))
+                        make.bottom.equalTo(-scale(12))
+                    }
+                }
             }
         }
         
@@ -338,48 +366,48 @@ class OrderStatusCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#F8F8F8")
+        contentView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
         
         contentView.addSubview(orderView)
-        orderView.addSubview(headerImage)
-        orderView.addSubview(nicknameLabel)
-        orderView.addSubview(returnGoodsLabel)
-        orderView.addSubview(midView)
-        orderView.addSubview(statusLabel)
-        orderView.addSubview(diviver)
-        orderView.addSubview(orderImage)
-        orderView.addSubview(orderIntroductLabel)
-        orderView.addSubview(priceLabel)
-        orderView.addSubview(numberLabel)
-        orderView.addSubview(netReceiptsLabel)
-        orderView.addSubview(truePriceLabel)
+        contentView.addSubview(headerImage)
+        contentView.addSubview(nicknameLabel)
+        contentView.addSubview(returnGoodsLabel)
+        contentView.addSubview(midView)
+        contentView.addSubview(statusLabel)
+        contentView.addSubview(diviver)
+        contentView.addSubview(orderImage)
+        contentView.addSubview(orderIntroductLabel)
+        contentView.addSubview(priceLabel)
+        contentView.addSubview(productName)
+        contentView.addSubview(numberLabel)
+        contentView.addSubview(netReceiptsLabel)
+        contentView.addSubview(truePriceLabel)
         
         
         orderView.snp.makeConstraints { make in
-            make.left.right.equalToSuperview()
-            make.top.equalTo(scale(8))
-            make.height.equalTo(scale(239))
-            make.bottom.equalToSuperview()
+            make.left.top.right.equalToSuperview()
+            make.height.equalTo(scale(8))
+//            make.bottom.equalToSuperview()
         }
         
         
         headerImage.snp.makeConstraints { make in
             make.left.equalTo(scale(16))
-            make.top.equalTo(scale(13))
+            make.top.equalTo(orderView.snp.bottom).offset(scale(13))
             make.width.height.equalTo(scale(12))
         }
         
         nicknameLabel.snp.makeConstraints { make in
             make.left.equalTo(headerImage.snp.right).offset(scale(4))
-            make.top.equalTo(scale(10))
+            make.top.equalTo(orderView.snp.bottom).offset(scale(10))
             make.width.equalTo(scale(200))
             make.height.equalTo(scale(17))
         }
         
-        
         statusLabel.snp.makeConstraints { make in
             make.right.equalTo(-scale(16))
-            make.top.equalTo(scale(8))
+            //make.top.equalTo(scale(8))
+            make.top.equalTo(orderView.snp.bottom).offset(scale(8))
             make.width.equalTo(scale(60))
             make.height.equalTo(scale(20))
         }
@@ -387,7 +415,8 @@ class OrderStatusCell: UITableViewCell {
         
         midView.snp.makeConstraints { make in
             make.right.equalTo(statusLabel.snp.left).offset(scale(8))
-            make.top.equalTo(scale(9))
+//            make.top.equalTo(scale(9))
+            make.top.equalTo(orderView.snp.bottom).offset(scale(9))
             make.width.equalTo(scale(1))
             make.height.equalTo(scale(16))
         }
@@ -395,7 +424,8 @@ class OrderStatusCell: UITableViewCell {
         
         returnGoodsLabel.snp.makeConstraints { make in
             make.right.equalTo(midView.snp.left).offset(-scale(8))
-            make.top.equalTo(scale(7))
+//            make.top.equalTo(scale(7))
+            make.top.equalTo(orderView.snp.bottom).offset(scale(7))
             make.width.equalTo(scale(90))
             make.height.equalTo(scale(20))
         }
@@ -427,8 +457,6 @@ class OrderStatusCell: UITableViewCell {
             make.height.equalTo(scale(40))
         }
         
-        
-        
         priceLabel.snp.makeConstraints { make in
             make.right.equalTo(-scale(16))
             make.top.equalTo(diviver.snp.bottom).offset(scale(19))
@@ -436,12 +464,17 @@ class OrderStatusCell: UITableViewCell {
             make.left.equalTo(orderIntroductLabel.snp.right)
         }
         
-        
+        productName.snp.makeConstraints { make in
+            make.left.equalTo(orderImage.snp.right).offset(scale(12))
+            make.top.equalTo(orderIntroductLabel.snp.bottom).offset(scale(16))
+            make.width.equalTo(scale(200))
+            make.height.equalTo(scale(12))
+        }
         
         numberLabel.snp.makeConstraints { make in
-            make.left.equalTo(orderImage.snp.right).offset(scale(12))
-            make.top.equalTo(orderIntroductLabel.snp.bottom).offset(scale(12))
-            make.width.equalTo(scale(100))
+            make.top.equalTo(orderIntroductLabel.snp.bottom).offset(scale(16))
+            make.right.equalTo(-scale(16))
+            make.width.equalTo(scale(120))
             make.height.equalTo(scale(12))
         }
         
@@ -450,23 +483,23 @@ class OrderStatusCell: UITableViewCell {
         
         truePriceLabel.snp.makeConstraints { make in
             make.right.equalTo(-scale(16))
-            make.top.equalTo(priceLabel.snp.bottom).offset(scale(40))
+            make.top.equalTo(orderImage.snp.bottom).offset(scale(12))
             make.height.equalTo(scale(12))
             make.width.equalTo(scale(80))
         }
         
         
         netReceiptsLabel.snp.makeConstraints { make in
-            make.right.equalTo(truePriceLabel.snp.left).offset(scale(6))
+            make.right.equalTo(truePriceLabel.snp.left).offset(-scale(6))
             make.height.equalTo(scale(12))
-            make.top.equalTo(priceLabel.snp.bottom).offset(scale(40))
-            make.width.equalTo(scale(90))
+            make.top.equalTo(orderImage.snp.bottom).offset(scale(12))
+            make.width.equalTo(scale(110))
         }
         
         
         
         
-        orderView.addSubview(buyersView)
+        contentView.addSubview(buyersView)
         buyersView.addSubview(buyerLabel)
         buyersView.addSubview(buyerTrueLabel)
         
@@ -474,7 +507,7 @@ class OrderStatusCell: UITableViewCell {
             make.left.equalTo(scale(16))
             make.right.equalTo(-scale(16))
             make.height.equalTo(scale(32))
-            make.top.equalTo(orderImage.snp.bottom).offset(scale(12))
+            make.top.equalTo(truePriceLabel.snp.bottom).offset(scale(12))
         }
         
         buyersView.layer.cornerRadius = scale(2)
@@ -492,11 +525,12 @@ class OrderStatusCell: UITableViewCell {
             make.height.equalTo(scale(12))
         }
         
-        orderView.addSubview(closeOrderBtn)
-        orderView.addSubview(modifyPriceBtn)
+        contentView.addSubview(closeOrderBtn)
+        contentView.addSubview(modifyPriceBtn)
         
 
         modifyPriceBtn.snp.makeConstraints { make in
+            make.top.equalTo(buyersView.snp.bottom).offset(scale(16))
             make.bottom.equalTo(-scale(12))
             make.height.equalTo(scale(26))
             make.width.equalTo(scale(60))
@@ -507,9 +541,8 @@ class OrderStatusCell: UITableViewCell {
         modifyPriceBtn.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#C4C4C4").cgColor
         modifyPriceBtn.layer.borderWidth = scale(1)
         
-        
-        
         closeOrderBtn.snp.makeConstraints { make in
+            make.top.equalTo(buyersView.snp.bottom).offset(scale(16))
             make.bottom.equalTo(-scale(12))
             make.height.equalTo(scale(26))
             make.width.equalTo(scale(80))
@@ -521,9 +554,10 @@ class OrderStatusCell: UITableViewCell {
         closeOrderBtn.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#C4C4C4").cgColor
         closeOrderBtn.layer.borderWidth = scale(1)
         
-        orderView.addSubview(toShipBtn)
+        contentView.addSubview(toShipBtn)
         
         toShipBtn.snp.makeConstraints { make in
+            make.top.equalTo(buyersView.snp.bottom).offset(scale(16))
             make.bottom.equalTo(-scale(12))
             make.height.equalTo(scale(26))
             make.width.equalTo(scale(74))
@@ -535,13 +569,11 @@ class OrderStatusCell: UITableViewCell {
         toShipBtn.layer.borderWidth = scale(1)
         
         
-        
-        orderView.addSubview(modifyLogisticsBtn)
-        orderView.addSubview(checkLogisticsBtn)
-        
-        
+        contentView.addSubview(modifyLogisticsBtn)
+        contentView.addSubview(checkLogisticsBtn)
         
         checkLogisticsBtn.snp.makeConstraints { make in
+            make.top.equalTo(buyersView.snp.bottom).offset(scale(16))
             make.right.equalTo(-scale(16))
             make.height.equalTo(scale(26))
             make.width.equalTo(scale(88))
@@ -553,19 +585,17 @@ class OrderStatusCell: UITableViewCell {
         checkLogisticsBtn.layer.borderWidth = scale(1)
         
         
-        
         modifyLogisticsBtn.snp.makeConstraints { make in
-            make.bottom.equalTo(-scale(12))
+            make.top.equalTo(buyersView.snp.bottom).offset(scale(16))
             make.height.equalTo(scale(26))
             make.width.equalTo(scale(88))
             make.right.equalTo(checkLogisticsBtn.snp.left).offset(-scale(12))
+            make.bottom.equalTo(-scale(12))
         }
         
         modifyLogisticsBtn.layer.cornerRadius = scale(4)
         modifyLogisticsBtn.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#C4C4C4").cgColor
         modifyLogisticsBtn.layer.borderWidth = scale(1)
-        
-        
         
     }
     

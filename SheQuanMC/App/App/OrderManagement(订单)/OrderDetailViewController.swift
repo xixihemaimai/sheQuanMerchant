@@ -88,9 +88,6 @@ class OrderDetailViewController: BaseViewController {
         view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
         
         title = "订单详情"
-        
-        
-        
         view.addSubview(topView)
         topView.snp.makeConstraints { make in
             make.left.top.right.equalToSuperview()
@@ -108,14 +105,12 @@ class OrderDetailViewController: BaseViewController {
         
         tableview.delegate = self
         tableview.dataSource = self
-        
-        
          
         tableview.register(OrderDetailStatusCell.self, forCellReuseIdentifier: "OrderDetailStatusCell")
         tableview.register(OrderContentCell.self, forCellReuseIdentifier: "OrderContentCell")
         tableview.register(OrderToBePaidCell.self, forCellReuseIdentifier: "OrderToBePaidCell")
         
-        // 待支付 OrderDetailStatusCell OrderContentCell OrderToBePaidCell 底下按键为 关闭订单 改价
+        //待支付 OrderDetailStatusCell OrderContentCell OrderToBePaidCell 底下按键为 关闭订单 改价
         //待发货 OrderDetailStatusCell BuyerAdressCell OrderContentCell    底下按键为 去发货
         //已发货 OrderDetailStatusCell OrderDeliveryLogisticsCell OrderContentCell  底下按键为 修改物流 查看物流
         //交易成功 OrderDetailStatusCell OrderDeliveryLogisticsCell OrderContentCell 底下为空
@@ -317,7 +312,7 @@ class OrderDetailViewController: BaseViewController {
                     self.tableview.snp.remakeConstraints { make in
                        make.left.right.equalToSuperview()
                         make.top.equalTo(self.topView.snp.bottom)
-                       make.bottom.equalTo(scale(0))
+                       make.bottom.equalToSuperview()
                     }
                 }
                 self.tableview.reloadData()

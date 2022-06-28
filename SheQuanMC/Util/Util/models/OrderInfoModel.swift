@@ -14,8 +14,8 @@ public struct OrederInfoModel: Codable {
     public var freight:String?     //运费
     public var totalAmount:String? //商品总价
     public var orderTime:String?     //下单时间
-    public var payRemainingTime:String? //支付剩余时间
-    
+    public var payRemainingTime:Int64? //支付剩余时间
+    public var refundingText:String?   //退货退款中
     
     public var nickName: String?
     public var orderId:Int64?
@@ -35,7 +35,7 @@ public struct OrederInfoModel: Codable {
         case totalAmount = "totalAmount"
         case orderTime = "orderTime"
         case payRemainingTime = "payRemainingTime"
-        
+        case refundingText = "refundingText"
         
         case nickName = "nickName"
         case orderId = "orderId"
@@ -58,7 +58,8 @@ public struct OrederInfoModel: Codable {
         freight = try? values.decodeIfPresent(String.self, forKey: .freight)
         totalAmount = try? values.decodeIfPresent(String.self, forKey: .totalAmount)
         orderTime = try? values.decodeIfPresent(String.self, forKey: .orderTime)
-        payRemainingTime = try? values.decodeIfPresent(String.self, forKey: .payRemainingTime)
+        payRemainingTime = try? values.decodeIfPresent(Int64.self, forKey: .payRemainingTime)
+        refundingText = try? values.decodeIfPresent(String.self, forKey: .refundingText)
         
         
         nickName = try? values.decodeIfPresent(String.self, forKey: .nickName)
@@ -214,3 +215,22 @@ public struct ViewLogisticsListModel: Codable {
     }
     
 }
+
+
+
+public struct ProductOrderCountModel:Codable{
+    public var orderCount: Int32?
+    public var orderStatus: Int32?
+    enum CodingKeys:String,CodingKey {
+       case orderStatus = "orderStatus"
+       case orderCount = "orderCount"
+    }
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        orderStatus = try? values.decodeIfPresent(Int32.self, forKey: .orderStatus)
+        orderCount = try? values.decodeIfPresent(Int32.self, forKey: .orderCount)
+    }
+}
+
+
+

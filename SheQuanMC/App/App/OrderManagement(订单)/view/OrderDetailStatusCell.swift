@@ -38,7 +38,7 @@ class OrderDetailStatusCell: UITableViewCell {
         orderDetailStatusLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#F13232")
         orderDetailStatusLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         orderDetailStatusLabel.textAlignment = .left
-        orderDetailStatusLabel.isHidden = true
+//        orderDetailStatusLabel.isHidden = true
         return orderDetailStatusLabel
     }()
     
@@ -58,38 +58,52 @@ class OrderDetailStatusCell: UITableViewCell {
         didSet{
             guard let _orderInfoModel = orderInfoModel else { return }
             //这边添加一个倒计时的方法
-            
+            if (_orderInfoModel.refundingText?.count ?? 0) > 0{
+                orderDetailStatusLabel.text = _orderInfoModel.refundingText
+                orderDetailStatusLabel.isHidden = false
+            }else{
+                orderDetailStatusLabel.isHidden = true
+            }
             if _orderInfoModel.orderStatus == 10{
+                timer?.invalidate()
+                timer = nil
                 orderStatusLabel.text = "待支付"
-                inputTimeAndEndTime(_orderInfoModel.orderTime ?? "", _orderInfoModel.payRemainingTime ?? "")
-                timeLabel.text = totalTime! + "未付款则自动关闭订单"
+//                inputTimeAndEndTime(_orderInfoModel.orderTime ?? "", _orderInfoModel.payRemainingTime ?? "")
+                inputEndTime(endTime: _orderInfoModel.payRemainingTime ?? 0)
+                timeLabel.text = (totalTime ?? "0天0时0分0秒") + "未付款则自动关闭订单"
             }else if _orderInfoModel.orderStatus == 20{
+                timer?.invalidate()
+                timer = nil
                 orderStatusLabel.text = "待发货"
                 timeLabel.text = "合理发货，请勿虚假发货，请及时发货"
             }else if _orderInfoModel.orderStatus == 21{
+                timer?.invalidate()
+                timer = nil
                 orderStatusLabel.text = "已发货"
-                inputTimeAndEndTime(_orderInfoModel.orderTime ?? "", _orderInfoModel.payRemainingTime ?? "")
-                timeLabel.text = totalTime! + "后自动收货"
+//                inputTimeAndEndTime(_orderInfoModel.orderTime ?? "", _orderInfoModel.payRemainingTime ?? "")
+                inputEndTime(endTime: _orderInfoModel.payRemainingTime ?? 0)
+                timeLabel.text = (totalTime ?? "0天0时0分0秒") + "后自动收货"
+//                orderDetailStatusLabel.text = _orderInfoModel.refundingText
             }else if _orderInfoModel.orderStatus == 30{
+                timer?.invalidate()
+                timer = nil
                 orderStatusLabel.text = "交易成功"
                 timeLabel.isHidden = true
                 orderStatusLabel.snp.remakeConstraints { make in
                     make.left.equalTo(scale(19))
                     make.width.equalTo(scale(80))
-//                    make.top.equalTo(scale(12))
                     make.height.equalTo(scale(28))
                     make.center.equalToSuperview()
                     make.bottom.equalTo(-scale(12))
                 }
             }else if _orderInfoModel.orderStatus == 41{
+                timer?.invalidate()
+                timer = nil
                 orderStatusLabel.text = "交易关闭"
                 timeLabel.text = "失败的原因"
             }
         }
     }
-    
-    
-    
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -100,10 +114,9 @@ class OrderDetailStatusCell: UITableViewCell {
         contentView.addSubview(orderDetailStatusLabel)
         contentView.addSubview(timeLabel)
         
-        
         orderStatusLabel.snp.makeConstraints { make in
             make.left.equalTo(scale(19))
-            make.width.equalTo(scale(80))
+            make.width.equalTo(scale(120))
             make.top.equalTo(scale(12))
             make.height.equalTo(scale(28))
         }
@@ -114,6 +127,7 @@ class OrderDetailStatusCell: UITableViewCell {
             make.right.equalTo(-scale(16))
             make.height.equalTo(scale(20))
         }
+        
         timeLabel.snp.makeConstraints { make in
             make.left.equalTo(scale(19))
             make.top.equalTo(orderStatusLabel.snp.bottom).offset(scale(4))
@@ -125,70 +139,37 @@ class OrderDetailStatusCell: UITableViewCell {
     }
     
     
+    func inputEndTime(endTime:Int64){
+        //毫秒转换
+        dayStr = Int(endTime)/24/60/60/1000
+        hourStr = (Int(endTime)/60/60/1000)%24
+        minitStr = (Int(endTime)/60/1000)%60
+        sencondStr = Int(endTime/1000)%60
+//        LXFLog("+=====================\(dayStr)------------\(hourStr)---------\(minitStr)-----------\(sencondStr)")
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
+        RunLoop.main.add(timer!, forMode: .common)
+    }
+    
     
     
     func inputTimeAndEndTime(_ startTime:String,_ endTime:String){
-        
         // 输入时间
         let startTime = startTime
         let endTime = endTime
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        
-        
         let CTMZone = NSTimeZone.init(forSecondsFromGMT: 0)
-//        formatter.timeZone = timeZone! as TimeZone
         formatter.timeZone = CTMZone as TimeZone
-        
-        
-//        let timeDate = formatter.date(from: dateString)
-        
-        
         let startDate = formatter.date(from: startTime)
         let endDate = formatter.date(from: endTime)
-
-//        let late1 = (startDate?.timeIntervalSince1970 ?? 0) * 1
-    
-//        let late2 = (endDate?.timeIntervalSince1970 ?? 0) * 1
-        
-//        let timeInterVal = late2 - late1
-        
-        
-        
-        //结束的时间
-//        let timeFormatter = DateFormatter()
-//        timeFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        //注意这里将时间以秒为单位 如一天：24*60*60
-//        let time = 15*24*60*60 - 60*60
-//        timeDate.addTimeInterval(TimeInterval(time))
-        
-        
-//        let time = 4*60*60 - 60*60
-//        LXFLog(time)
-//        let futureDate = startDate?.addingTimeInterval(TimeInterval(time))
-//
-//
-//        //接下来计算
+        //接下来计算
         let calender = Calendar.current
         let unit:Set<Calendar.Component> = [.day,.hour,.minute,.second]
         let commponent:DateComponents = calender.dateComponents(unit, from: startDate!, to: endDate!)
-
         sencondStr = commponent.second
         minitStr = commponent.minute
         hourStr = commponent.hour
         dayStr = commponent.day
-
-        
-//
-//        sencondStr = Int(timeInterVal) % 60
-//
-//        minitStr = Int(timeInterVal) / 60 % 60
-//
-//        hourStr = Int(timeInterVal) / 3600 - 1
-//
-//        dayStr = Int(timeInterVal) % (24 * 3600)
-
-        
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
         RunLoop.main.add(timer!, forMode: .common)
     }
@@ -214,7 +195,17 @@ class OrderDetailStatusCell: UITableViewCell {
         }
         
         totalTime = "\(dayStr ?? 0)天\(hourStr ?? 0)时\(minitStr ?? 0)分\(sencondStr ?? 0)秒"
-//        LXFLog(totalTime)
+        if sencondStr == 0 && minitStr == 0 && hourStr == 0 && dayStr == 0{
+            timer?.invalidate()
+            timer = nil
+            countdownComplete?()
+        }
+        
+        if self.orderInfoModel?.orderStatus == 10{
+            timeLabel.text = (totalTime ?? "0天0时0分0秒") + "未付款则自动关闭订单"
+        }else{
+            timeLabel.text = (totalTime ?? "0天0时0分0秒") + "后自动收货"
+        }
     }
     
     

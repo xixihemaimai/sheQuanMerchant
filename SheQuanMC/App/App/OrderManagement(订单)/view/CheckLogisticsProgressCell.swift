@@ -72,15 +72,6 @@ class CheckLogisticsProgressCell: UITableViewCell {
                 make.height.equalTo(string.rectHeight(font: UIFont.systemFont(ofSize: scale(14), weight: .regular), size: CGSize(width: SCW - scale(50), height: CGFloat(MAXFLOAT))) + scale(10))
             }
             expressLabel.text = string
-            midView.snp.remakeConstraints { make in
-                make.left.equalTo(scale(18))
-                make.top.equalTo(topView.snp.bottom)
-                make.width.height.equalTo(scale(12))
-            }
-            
-            midView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
-            midView.layer.cornerRadius = scale(6)
-            
             timeLabel.text = _viewLogisticsListModel.trackTime
             
         }
@@ -152,7 +143,7 @@ class CheckLogisticsProgressCell: UITableViewCell {
         }
         
         midView.snp.makeConstraints { make in
-            make.left.equalTo(scale(20))
+            make.left.equalTo(scale(19.5))
             make.top.equalTo(topView.snp.bottom)
             make.width.height.equalTo(scale(8))
         }

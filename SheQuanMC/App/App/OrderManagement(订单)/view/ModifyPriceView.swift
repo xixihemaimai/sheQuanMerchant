@@ -324,7 +324,7 @@ class ModifyPriceView: UIView {
         
         sureModifyBtn.layer.cornerRadius = scale(4)
         
-        
+        loadModifyPriceInfo()
     }
     
     
@@ -333,15 +333,14 @@ class ModifyPriceView: UIView {
         NetWorkResultRequest(OrderApi.getChangePrice(parameters: parameters), needShowFailAlert: true) { result, data in
             guard let model = try? JSONDecoder().decode(GenericResponse<chagePriceModel>.self, from: data) else { return }
             if let _data = model.data{
-                self._origilLabel.text = _data.originalPrice
-                self._priceLabel.text = _data.price
-                self._freightLabel.text = _data.freight
+                self._origilLabel.text = "订单原价(含运费):¥" + (_data.originalPrice ?? "0")
+                self._priceLabel.text = "价格: ¥" + (_data.price ?? "0")
+                self._freightLabel.text = "运费: ¥" + (_data.freight ?? "0")
             }
         } failureCallback: { error, code in
             code.loginOut()
         }
     }
-    
     
     
     
@@ -363,15 +362,13 @@ class ModifyPriceView: UIView {
            JFPopup.toast(hit: "请填写订单原价(含运费)的修改价格")
            return
         }
-        
         if (freightTextfield.text?.count ?? 0) < 1{
             JFPopup.toast(hit: "请填写修改后运费的价格")
             return
         }
-        
-        let parameters = ["":""] as [String:Any]
-        NetWorkResultRequest(OrderApi.modifyPrice(parameters: parameters), needShowFailAlert: true) { result, data in
-            self.modifyPriceSuccessBlock?()
+        let parameters = ["freight":Decimal(string: freightTextfield.text ?? "0")  as Any,"orderId":orderId as Any,"price":Decimal(string: originTextfield.text ?? "0") as Any] as [String:Any]
+        NetWorkResultRequest(OrderApi.modifyPrice(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+            self?.modifyPriceSuccessBlock?()
         } failureCallback: { error, code in
             code.loginOut()
         }
@@ -379,7 +376,6 @@ class ModifyPriceView: UIView {
     
     
     //订单价格输入
-    
     @objc func originInput(originTextfield:UITextField){
         //这边要进行相加，并赋值到underLabel 并对确定修改按键进行更改
         let number = (originTextfield.text?.toCGFloat() ?? 0.0)

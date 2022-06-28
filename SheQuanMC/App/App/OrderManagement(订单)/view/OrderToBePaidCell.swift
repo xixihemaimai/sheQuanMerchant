@@ -31,8 +31,6 @@ class OrderToBePaidCell: UITableViewCell {
         return payNumberLabel
     }()
     
-    
-    
     //付款方式
     lazy var payTypeLabel:UILabel = {
         let payTypeLabel = UILabel()
@@ -81,6 +79,13 @@ class OrderToBePaidCell: UITableViewCell {
                 }
             }else{
                 
+                orderTimeLabel.snp.remakeConstraints { make in
+                    make.left.equalTo(scale(16))
+                    make.top.equalTo(payTypeLabel.snp
+                        .bottom).offset(scale(6))
+                    make.height.equalTo(scale(28))
+                    make.right.equalTo(-scale(16))
+                }
                 payTypeLabel.isHidden = false
                 payTimeLabel.isHidden = false
                 payNumberLabel.isHidden = false
@@ -144,6 +149,7 @@ class OrderToBePaidCell: UITableViewCell {
             make.height.equalTo(scale(28))
             make.right.equalTo(-scale(16))
         }
+        
         payTimeLabel.snp.makeConstraints { make in
             make.left.equalTo(scale(16))
             make.right.equalTo(-scale(16))

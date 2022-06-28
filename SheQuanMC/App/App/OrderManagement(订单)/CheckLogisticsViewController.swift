@@ -84,8 +84,22 @@ extension CheckLogisticsViewController:UITableViewDelegate,UITableViewDataSource
             cell.viewLogisticsListModel = viewLogisticsModel?.tracks?[indexPath.row]
             if indexPath.row == 0 {
                 cell.topView.isHidden = true
+                cell.midView.snp.remakeConstraints { make in
+                    make.left.equalTo(scale(18))
+                    make.top.equalTo(cell.topView.snp.bottom)
+                    make.width.height.equalTo(scale(12))
+                }
+                cell.midView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+                cell.midView.layer.cornerRadius = scale(6)
             }else{
                 cell.topView.isHidden = false
+                cell.midView.snp.remakeConstraints { make in
+                    make.left.equalTo(scale(19.5))
+                    make.top.equalTo(cell.topView.snp.bottom)
+                    make.width.height.equalTo(scale(8))
+                }
+                cell.midView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#C4C4C4")
+                cell.midView.layer.cornerRadius = scale(4)
             }
             if indexPath.row == 9{
                 cell.bottomView.isHidden = true
