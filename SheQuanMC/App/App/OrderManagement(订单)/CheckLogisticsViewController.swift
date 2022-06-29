@@ -11,6 +11,7 @@ import Util
 class CheckLogisticsViewController: BaseViewController {
 
     var orderInfoModel:OrederInfoModel?
+    
     var viewLogisticsModel:ViewLogisticsModel?
     
     
@@ -42,17 +43,17 @@ class CheckLogisticsViewController: BaseViewController {
     
     func loadChechViewLogisticsList(){
         let parameters = ["orderId":orderInfoModel?.orderId as Any] as [String:Any]
-        NetWorkResultRequest(OrderApi.viewLogistics(parameters: parameters), needShowFailAlert: true) { result, data in
+        NetWorkResultRequest(OrderApi.viewLogistics(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
             guard let model = try? JSONDecoder().decode(GenericResponse<ViewLogisticsModel>.self, from: data) else { return }
             if let _data = model.data{
-                self.viewLogisticsModel = _data
+                self?.viewLogisticsModel = _data
+                self?.viewLogisticsModel?.tracks?.reverse()
             }
-            self.tableview.reloadData()
+            self?.tableview.reloadData()
         } failureCallback: { error, code in
             code.loginOut()
         }
     }
-    
 }
 
 
@@ -64,7 +65,7 @@ extension CheckLogisticsViewController:UITableViewDelegate,UITableViewDataSource
         if section == 0{
             return 1
         }else{
-            return 10
+            return viewLogisticsModel?.tracks?.count ?? 0
         }
     }
     
@@ -101,10 +102,10 @@ extension CheckLogisticsViewController:UITableViewDelegate,UITableViewDataSource
                 cell.midView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#C4C4C4")
                 cell.midView.layer.cornerRadius = scale(4)
             }
-            if indexPath.row == 9{
+            
+            if (indexPath.row + 1) == viewLogisticsModel?.tracks?.count{
                 cell.bottomView.isHidden = true
-            }else
-            {
+            }else{
                 cell.bottomView.isHidden = false
             }
             return cell

@@ -10,6 +10,14 @@ import Util
 import JFPopup
 
 class ModifyReturnAddressViewController: BaseViewController {
+    
+    var addressList:[RetAddressInfoModel] = [RetAddressInfoModel]()
+    
+    //进入的方式0为店铺进入，1位订单部分进入
+    var jumpType:Int = 0
+    
+    var choiceRetAddressSuccessBlock:((_ retAddressInfoModel:RetAddressInfoModel)->Void)?
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +42,6 @@ class ModifyReturnAddressViewController: BaseViewController {
         }
         tableview.delegate = self
         tableview.dataSource = self
-        
         tableview.register(AddressCell.self, forCellReuseIdentifier: "AddressCell")
         
         
@@ -55,30 +62,64 @@ class ModifyReturnAddressViewController: BaseViewController {
         
         addAdressBtn.layer.cornerRadius = scale(4)
         
-        
-        
-        
+        reloadReturnAddressList()
     }
+    
+    override func headerRereshing() {
+        reloadReturnAddressList()
+    }
+    
+    func reloadReturnAddressList(){
+        NetWorkResultRequest(OrderApi.getRetAddressList, needShowFailAlert: true) {[weak self] result, data in
+            guard let model = try? JSONDecoder().decode(GenericResponse<[RetAddressInfoModel]>.self, from: data) else { return }
+            self?.addressList.removeAll()
+            if let _data = model.data{
+                self?.addressList = _data
+            }
+            self?.tableview.mj_header?.endRefreshing()
+            self?.tableview.reloadData()
+        } failureCallback: {[weak self] error, code in
+            code.loginOut()
+            self?.tableview.mj_header?.endRefreshing()
+        }
+    }
+    
     
     //添加新地址
     @objc func addNewAddressAction(addAddressBtn:UIButton){
         let addNewAddressVc = ModifyAddressViewController()
         addNewAddressVc.title = "添加新地址"
         Coordinator.shared?.pushViewController(self, addNewAddressVc, animated: true)
-        
+        addNewAddressVc.updateAndAddSuccessBlock = {[weak self] in
+            self?.reloadReturnAddressList()
+        }
     }
     //修改地址
     @objc func modifyAddressAction(modifyAddressBtn:UIButton){
-        let addNewAddressVc = ModifyAddressViewController()
-        addNewAddressVc.title = "修改地址"
-        Coordinator.shared?.pushViewController(self, addNewAddressVc, animated: true)
+        let retAddressInfoModel = addressList[modifyAddressBtn.tag]
+        let parameters = ["retAddressId":retAddressInfoModel.retAddressId as Any] as [String:Any]
+        NetWorkResultRequest(OrderApi.getRetAddressInfo(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+            guard let model = try? JSONDecoder().decode(GenericResponse<RetAddressInfoModel>.self, from: data) else { return }
+            if let _data = model.data{
+                //这边跳转界面
+               let addNewAddressVc = ModifyAddressViewController()
+                addNewAddressVc.retAddressInfoModel = _data
+               addNewAddressVc.title = "编辑地址"
+               Coordinator.shared?.pushViewController(self!, addNewAddressVc, animated: true)
+                addNewAddressVc.updateAndAddSuccessBlock = {
+                    self?.reloadReturnAddressList()
+                }
+            }
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
     }
     
     
     //是否为默认
     @objc func isDefaultAction(isDefaultBtn:UIButton){
         //清除其他默认的状态
-        
+        let retAddressInfoModel = addressList[isDefaultBtn.tag]
         var title:String;
         if isDefaultBtn.isSelected {
             title = "确定要将此模板取消默认吗"
@@ -102,15 +143,8 @@ class ModifyReturnAddressViewController: BaseViewController {
                     .text("确定"),
                     .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
                     .tapActionCallback({
-//                        JFPopupView.popup.toast(hit: "点击了确定")
-                        for i in 0..<3{
-                            let cell = self.tableview.cellForRow(at: IndexPath(row: i, section: 0)) as! AddressCell
-                            if isDefaultBtn.tag == i{
-                            }else{
-                                cell.isDefaultBtn.isSelected = false
-                            }
-                        }
-                        isDefaultBtn.isSelected = !isDefaultBtn.isSelected
+
+                        
                     })
                 ])
             ]
@@ -119,6 +153,7 @@ class ModifyReturnAddressViewController: BaseViewController {
     
     
     @objc func deleteAction(deleteBtn:UIButton){
+        let retAddressInfoModel = addressList[deleteBtn.tag]
         
         JFPopup.alert {
             [
@@ -137,7 +172,12 @@ class ModifyReturnAddressViewController: BaseViewController {
                     .text("确定"),
                     .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
                     .tapActionCallback({
-                        JFPopupView.popup.toast(hit: "点击了保存草稿")
+                        let parameters = ["retAddressId":retAddressInfoModel.retAddressId as Any] as [String:Any]
+                        NetWorkResultRequest(OrderApi.delRetAddressInfo(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+                            self?.reloadReturnAddressList()
+                        } failureCallback: { error, code in
+                            code.loginOut()
+                        }
                     })
                 ])
             ]
@@ -151,9 +191,8 @@ class ModifyReturnAddressViewController: BaseViewController {
 extension ModifyReturnAddressViewController:UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return addressList.count
     }
-    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
@@ -162,21 +201,26 @@ extension ModifyReturnAddressViewController:UITableViewDelegate,UITableViewDataS
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AddressCell") as! AddressCell
+        cell.retAddressInfoModel = addressList[indexPath.row]
         cell.modifyAddressBtn.tag = indexPath.row
-        
         cell.isDefaultBtn.tag = indexPath.row
         cell.deleteBtn.tag = indexPath.row
-        
         cell.isDefaultBtn.addTarget(self, action: #selector(isDefaultAction), for: .touchUpInside)
         cell.deleteBtn.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
-        
         cell.modifyAddressBtn.addTarget(self, action: #selector(modifyAddressAction), for: .touchUpInside)
         //是否为默认地址
-        
         return cell
     }
     
     
-   
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        // 这边要把退货地址传递回去
+        let retAddressInfoModel = addressList[indexPath.row]
+        if jumpType == 1{
+            choiceRetAddressSuccessBlock?(retAddressInfoModel)
+            Coordinator.shared?.popViewController(self, true)
+        }
+    }
     
 }

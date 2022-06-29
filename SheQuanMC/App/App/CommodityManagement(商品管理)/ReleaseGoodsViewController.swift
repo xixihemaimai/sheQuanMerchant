@@ -151,7 +151,7 @@ class ReleaseGoodsViewController: BaseViewController {
         priceTextfield.attributedPlaceholder = NSAttributedString.init(string:"请输入", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
         priceTextfield.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
-//        priceTextfield.delegate = self
+        priceTextfield.delegate = self
         priceTextfield.tag = 1
         priceTextfield.addTarget(self, action: #selector(valueChangeAction), for: .editingChanged)
         return priceTextfield
@@ -1169,7 +1169,7 @@ class ReleaseGoodsViewController: BaseViewController {
             if doubleValue < 0.01{
                 priceStr = ""
             }else{
-                priceStr = String(format: "%0.3f", doubleValue)
+                priceStr = String(format: "%0.2f", doubleValue)
             }
             if priceStr.count > 0{
                 priceTextfield.text = priceStr
@@ -1660,11 +1660,11 @@ class ReleaseGoodsViewController: BaseViewController {
         
     
         var specGroupsArray = commodityModel?.specGroups
-        LXFLog("+================\(String(describing: specGroupsArray?.count))")
+//        LXFLog("+================\(String(describing: specGroupsArray?.count))")
         specGroupsArray = specGroupsArray?.filter({ SpecGroups in
             SpecGroups.specs?.count != 0
         })
-        LXFLog("+=====3===========\(String(describing: specGroupsArray?.count))")
+//        LXFLog("+=====3===========\(String(describing: specGroupsArray?.count))")
         var specsGroupsList:String = "["
         for i in 0..<(specGroupsArray?.count ?? 0) {
             let specGroup = specGroupsArray?[i]
@@ -1740,7 +1740,7 @@ class ReleaseGoodsViewController: BaseViewController {
             }
         }
         spusList += "]"
-        LXFLog("==================\(spusList)")
+//        LXFLog("==================\(spusList)")
         
         //        var specsList:[[String:Any]] = [[String:Any]]()
         //        for j in 0..<(commodityModel?.specs?.count ?? 0){
@@ -2425,6 +2425,13 @@ extension ReleaseGoodsViewController:UITextFieldDelegate{
         var maxNum = 30
         if textField ==  goodsCardTextField{
             maxNum = 15
+        }else if textField == priceTextfield{
+            if string.count == 0{
+               return true
+            }
+            let checkStr = (textField.text as? NSString)?.replacingCharacters(in: range, with: string)
+            let regex = "^\\-?([1-9]\\d*|0)(\\.\\d{0,2})?$"
+            return self.isValid(checkStr: checkStr!, regex: regex)
         }
         //限制个数
         let currentText = textField.text ?? ""
@@ -2432,6 +2439,12 @@ extension ReleaseGoodsViewController:UITextFieldDelegate{
         let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
         return updatedText.count <= maxNum
     }
+
+    func isValid(checkStr:String, regex:String) ->Bool{
+        let predicte = NSPredicate(format:"SELF MATCHES %@", regex)
+        return predicte.evaluate(with: checkStr)
+    }
+    
 }
 
 extension ReleaseGoodsViewController:UIGestureRecognizerDelegate{
@@ -2468,3 +2481,7 @@ extension ReleaseGoodsViewController:UIGestureRecognizerDelegate{
         }
     }
 }
+
+
+
+

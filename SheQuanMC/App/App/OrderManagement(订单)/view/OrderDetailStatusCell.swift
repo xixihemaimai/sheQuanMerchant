@@ -69,8 +69,11 @@ class OrderDetailStatusCell: UITableViewCell {
                 timer = nil
                 orderStatusLabel.text = "待支付"
 //                inputTimeAndEndTime(_orderInfoModel.orderTime ?? "", _orderInfoModel.payRemainingTime ?? "")
-                inputEndTime(endTime: _orderInfoModel.payRemainingTime ?? 0)
-                timeLabel.text = (totalTime ?? "0天0时0分0秒") + "未付款则自动关闭订单"
+                if _orderInfoModel.payRemainingTime != 0{
+                    inputEndTime(endTime: _orderInfoModel.payRemainingTime ?? 0)
+                }else{
+                    timeLabel.text = (totalTime ?? "0天0时0分0秒") + "未付款则自动关闭订单"
+                }
             }else if _orderInfoModel.orderStatus == 20{
                 timer?.invalidate()
                 timer = nil
@@ -81,8 +84,12 @@ class OrderDetailStatusCell: UITableViewCell {
                 timer = nil
                 orderStatusLabel.text = "已发货"
 //                inputTimeAndEndTime(_orderInfoModel.orderTime ?? "", _orderInfoModel.payRemainingTime ?? "")
-                inputEndTime(endTime: _orderInfoModel.payRemainingTime ?? 0)
-                timeLabel.text = (totalTime ?? "0天0时0分0秒") + "后自动收货"
+                
+                if _orderInfoModel.payRemainingTime != 0{
+                    inputEndTime(endTime: _orderInfoModel.payRemainingTime ?? 0)
+                }else{
+                    timeLabel.text = (totalTime ?? "0天0时0分0秒") + "后自动收货"
+                }
 //                orderDetailStatusLabel.text = _orderInfoModel.refundingText
             }else if _orderInfoModel.orderStatus == 30{
                 timer?.invalidate()
@@ -193,21 +200,18 @@ class OrderDetailStatusCell: UITableViewCell {
             timer = nil
             countdownComplete?()
         }
-        
         totalTime = "\(dayStr ?? 0)天\(hourStr ?? 0)时\(minitStr ?? 0)分\(sencondStr ?? 0)秒"
         if sencondStr == 0 && minitStr == 0 && hourStr == 0 && dayStr == 0{
             timer?.invalidate()
             timer = nil
             countdownComplete?()
         }
-        
         if self.orderInfoModel?.orderStatus == 10{
             timeLabel.text = (totalTime ?? "0天0时0分0秒") + "未付款则自动关闭订单"
         }else{
             timeLabel.text = (totalTime ?? "0天0时0分0秒") + "后自动收货"
         }
     }
-    
     
     
     required init?(coder: NSCoder) {

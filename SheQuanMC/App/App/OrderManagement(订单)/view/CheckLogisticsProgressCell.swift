@@ -63,17 +63,14 @@ class CheckLogisticsProgressCell: UITableViewCell {
     var viewLogisticsListModel:ViewLogisticsListModel?{
         didSet{
             guard let _viewLogisticsListModel = viewLogisticsListModel else { return }
-            
-            let string = (_viewLogisticsListModel.trackStatus ?? "") + (_viewLogisticsListModel.trackName ?? "") + (_viewLogisticsListModel.trackStatusText ?? "")
+            expressLabel.text = _viewLogisticsListModel.trackName
             expressLabel.snp.remakeConstraints { make in
                 make.left.equalTo(midView.snp.right).offset(scale(5))
-                make.top.equalTo(scale(16))
+                make.top.equalTo(scale(13))
                 make.right.equalTo(-scale(16))
-                make.height.equalTo(string.rectHeight(font: UIFont.systemFont(ofSize: scale(14), weight: .regular), size: CGSize(width: SCW - scale(50), height: CGFloat(MAXFLOAT))) + scale(10))
+                make.height.equalTo((expressLabel.text?.rectHeight(font: UIFont.systemFont(ofSize: scale(14), weight: .regular), size: CGSize(width: SCW - scale(50), height: CGFloat(MAXFLOAT))) ?? 10) + scale(10))
             }
-            expressLabel.text = string
             timeLabel.text = _viewLogisticsListModel.trackTime
-            
         }
     }
     

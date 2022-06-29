@@ -10,14 +10,15 @@ import Util
 
 class ModifyShopNameViewController: BaseViewController {
     
-    lazy var modifyTextField:UITextField = {
-        let modifyTextField = UITextField()
-        modifyTextField.placeholder = StoreService.shared.currentUser?.shopName
-        modifyTextField.attributedPlaceholder = NSAttributedString.init(string:StoreService.shared.currentUser?.shopName ?? "", attributes: [
-            NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
-        modifyTextField.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
-        modifyTextField.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
-        return modifyTextField
+    lazy var modifyTextView:UITextView = {
+        let modifyTextView = UITextView()
+        modifyTextView.placeholder = "    " + (StoreService.shared.currentUser?.shopName ?? "")
+        modifyTextView.placeholderColor = UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")
+//        modifyTextField.attributedPlaceholder = NSAttributedString.init(string: "    " + (StoreService.shared.currentUser?.shopName ?? ""), attributes: [
+//            NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
+        modifyTextView.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
+        modifyTextView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
+        return modifyTextView
     }()
     
 
@@ -26,13 +27,12 @@ class ModifyShopNameViewController: BaseViewController {
 
         title = "修改店铺名"
         view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#f8f8f8")
-        view.addSubview(modifyTextField)
-        modifyTextField.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.left.equalTo(scale(16))
-            make.right.equalTo(-scale(16))
+        view.addSubview(modifyTextView)
+        modifyTextView.snp.makeConstraints { make in
+            make.top.left.right.equalToSuperview()
             make.height.equalTo(scale(164))
         }
+        
         
         let bottomview = UIView()
         bottomview.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")

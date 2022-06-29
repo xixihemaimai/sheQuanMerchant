@@ -670,6 +670,7 @@ class ShopViewController: BaseViewController {
             Coordinator.shared?.pushViewController(self, frieghtTemplateVc, animated: true)
         }else if btn.tag == 5{
             let modifyReturnVc = ModifyReturnAddressViewController()
+            modifyReturnVc.jumpType = 0
             Coordinator.shared?.pushViewController(self, modifyReturnVc, animated: true)
         }else{
             JFPopup.toast(hit: "本功能暂时还在完善中,请耐心等待")

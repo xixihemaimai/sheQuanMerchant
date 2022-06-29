@@ -7,6 +7,8 @@
 
 import Foundation
 
+
+//订单详情和订单列表
 public struct OrederInfoModel: Codable {
     
     public var discount:String?    //优惠
@@ -16,6 +18,11 @@ public struct OrederInfoModel: Codable {
     public var orderTime:String?     //下单时间
     public var payRemainingTime:Int64? //支付剩余时间
     public var refundingText:String?   //退货退款中
+    public var payTime:String?      //付款时间
+    public var payType:String?      //付款方式
+    public var tradeNo:String?      //付款编码
+    
+    public var closeTime:String?    //关闭时间
     
     public var nickName: String?
     public var orderId:Int64?
@@ -37,6 +44,8 @@ public struct OrederInfoModel: Codable {
         case payRemainingTime = "payRemainingTime"
         case refundingText = "refundingText"
         
+        case closeTime = "closeTime"
+        
         case nickName = "nickName"
         case orderId = "orderId"
         case orderNo = "orderNo"
@@ -46,6 +55,9 @@ public struct OrederInfoModel: Codable {
         case products = "products"
         case remarks = "remarks"
         case userId = "userId"
+        case payTime = "payTime"
+        case payType = "payType"
+        case tradeNo = "tradeNo"
     }
     
     
@@ -60,7 +72,11 @@ public struct OrederInfoModel: Codable {
         orderTime = try? values.decodeIfPresent(String.self, forKey: .orderTime)
         payRemainingTime = try? values.decodeIfPresent(Int64.self, forKey: .payRemainingTime)
         refundingText = try? values.decodeIfPresent(String.self, forKey: .refundingText)
+        payTime = try? values.decodeIfPresent(String.self, forKey: .payTime)
+        payType = try? values.decodeIfPresent(String.self, forKey: .payType)
+        tradeNo = try? values.decodeIfPresent(String.self, forKey: .tradeNo)
         
+        closeTime = try? values.decodeIfPresent(String.self, forKey: .closeTime)
         
         nickName = try? values.decodeIfPresent(String.self, forKey: .nickName)
         orderId = try? values.decodeIfPresent(Int64.self, forKey: .orderId)
@@ -75,6 +91,7 @@ public struct OrederInfoModel: Codable {
     
 }
 
+//订单商品信息
 public struct OrederInfoProductsModel: Codable {
     public var price: String?
     public var productId:Int64?
@@ -108,7 +125,7 @@ public struct OrederInfoProductsModel: Codable {
 
 
 
-
+//关闭订单列表
 public struct CloseOrderTypeRspModel:Codable{
     public var closeReason:String?
     public var closeReasonId:Int32?
@@ -126,19 +143,16 @@ public struct CloseOrderTypeRspModel:Codable{
 }
 
 
-
+//改变价格
 public struct chagePriceModel:Codable{
     public var freight:String?
     public var originalPrice:String?
     public var price:String?
-    
-    
     enum CodingKeys:String,CodingKey {
        case freight = "freight"
        case originalPrice = "originalPrice"
        case price = "price"
     }
-    
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         freight = try? values.decodeIfPresent(String.self, forKey: .freight)
@@ -150,7 +164,7 @@ public struct chagePriceModel:Codable{
 
 
 
-
+//物流列表
 public struct LogisticsModel:Codable{
     public var logisticsId:Int32?
     public var logisticsName:String?
@@ -171,41 +185,36 @@ public struct LogisticsModel:Codable{
 }
 
 
-
+//查看物流第一组
 public struct ViewLogisticsModel: Codable {
     public var logisticsName:String?
     public var tracks:[ViewLogisticsListModel]?
-    public var waybillNo: String?
-    
-    
+    public var expressNo: String?
     enum CodingKeys:String,CodingKey {
        case logisticsName = "logisticsName"
        case tracks = "tracks"
-        case waybillNo = "waybillNo"
+       case expressNo = "expressNo"
     }
-    
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         logisticsName = try? values.decodeIfPresent(String.self, forKey: .logisticsName)
         tracks = try? values.decodeIfPresent([ViewLogisticsListModel].self, forKey: .tracks)
-        waybillNo = try? values.decodeIfPresent(String.self, forKey: .waybillNo)
+        expressNo = try? values.decodeIfPresent(String.self, forKey: .expressNo)
     }
 }
 
+//查看物流动态列表
 public struct ViewLogisticsListModel: Codable {
     public var trackName: String?
     public var trackStatus: String?
     public var trackStatusText: String?
     public var trackTime: String?
-    
-    
     enum CodingKeys:String,CodingKey {
        case trackName = "trackName"
        case trackStatus = "trackStatus"
        case trackStatusText = "trackStatusText"
        case trackTime = "trackTime"
     }
-    
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         trackName = try? values.decodeIfPresent(String.self, forKey: .trackName)
@@ -213,11 +222,12 @@ public struct ViewLogisticsListModel: Codable {
         trackStatusText = try? values.decodeIfPresent(String.self, forKey: .trackStatusText)
         trackTime = try? values.decodeIfPresent(String.self, forKey: .trackTime)
     }
-    
 }
 
 
 
+
+//订单数
 public struct ProductOrderCountModel:Codable{
     public var orderCount: Int32?
     public var orderStatus: Int32?
@@ -233,4 +243,110 @@ public struct ProductOrderCountModel:Codable{
 }
 
 
+//获取订单物流
+public struct OrderLogisticsModel:Codable{
+    public var logistics:LogisticsInfoModel?
+    public var product:OrederInfoProductsModel?
+    public var retAddress:RetAddressInfoModel?
+    
+    enum CodingKeys:String,CodingKey {
+        case logistics = "logistics"
+        case product = "product"
+        case retAddress = "retAddress"
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        logistics = try? values.decodeIfPresent(LogisticsInfoModel.self, forKey: .logistics)
+        product = try? values.decodeIfPresent(OrederInfoProductsModel.self, forKey: .product)
+        retAddress = try? values.decodeIfPresent(RetAddressInfoModel.self, forKey: .retAddress)
+    }
+}
 
+
+
+
+//订单物流
+public struct LogisticsInfoModel:Codable{
+    public var expressNo:String? //快递单号
+    public var logisticsId:Int32? //物流Id
+    public var logisticsType:Int32? //物流方式
+    
+    enum CodingKeys:String,CodingKey {
+       case expressNo = "expressNo"
+       case logisticsId = "logisticsId"
+       case logisticsType = "logisticsType"
+    }
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        expressNo = try? values.decodeIfPresent(String.self, forKey: .expressNo)
+        logisticsId = try? values.decodeIfPresent(Int32.self, forKey: .logisticsId)
+        logisticsType = try? values.decodeIfPresent(Int32.self, forKey: .logisticsType)
+    }
+}
+
+
+//退货地址模型
+public struct RetAddressInfoModel:Codable{
+    public var address:String? //详细地址
+    public var cityId:Int32?   //城市id
+    public var cityName:String? //城市名称
+    public var consignee:String? //收件人
+    public var isDef:Bool?      //是否默认 （0：否、1：是）
+    public var mobile:String?   //手机号
+    public var provinceId:Int32?   //省份ID
+    public var provinceName:String? //省份名称
+    public var regionId:Int32?     //地区ID
+    public var regionName:String?   //地区名称
+    public var retAddressId:Int64?  //退货地址ID
+    public var zipCode:String?      //邮编地址
+
+    
+    enum CodingKeys:String,CodingKey {
+       case address = "address"
+       case cityId = "cityId"
+       case cityName = "cityName"
+       case consignee = "consignee"
+       case isDef = "isDef"
+       case mobile = "mobile"
+       case provinceId = "provinceId"
+       case provinceName = "provinceName"
+       case regionId = "regionId"
+       case regionName = "regionName"
+       case retAddressId = "retAddressId"
+       case zipCode = "zipCode"
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        address = try? values.decodeIfPresent(String.self, forKey: .address)
+        cityId = try? values.decodeIfPresent(Int32.self, forKey: .cityId)
+        cityName = try? values.decodeIfPresent(String.self, forKey: .cityName)
+        consignee = try? values.decodeIfPresent(String.self, forKey: .consignee)
+        isDef = try? values.decodeIfPresent(Bool.self, forKey: .isDef)
+        mobile = try? values.decodeIfPresent(String.self, forKey: .mobile)
+        provinceId = try? values.decodeIfPresent(Int32.self, forKey: .provinceId)
+        provinceName = try? values.decodeIfPresent(String.self, forKey: .provinceName)
+        regionId = try? values.decodeIfPresent(Int32.self, forKey: .regionId)
+        regionName = try? values.decodeIfPresent(String.self, forKey: .regionName)
+        retAddressId = try? values.decodeIfPresent(Int64.self, forKey: .retAddressId)
+        zipCode = try? values.decodeIfPresent(String.self, forKey: .zipCode)
+    }
+    
+    
+    public init(address:String? = "",cityId:Int32? = 0,cityName:String? = "",consignee:String? = "",isDef:Bool? = false,mobile:String? = "",provinceId:Int32? = 0,provinceName:String? = "",regionId:Int32? = 0,regionName:String? = "",retAddressId:Int64? = 0,zipCode:String? = ""){
+        self.address = address
+        self.cityId = cityId
+        self.cityName = cityName
+        self.consignee = consignee
+        self.isDef = isDef
+        self.mobile = mobile
+        self.provinceId = provinceId
+        self.provinceName = provinceName
+        self.regionId = regionId
+        self.regionName = regionName
+        self.retAddressId = retAddressId
+        self.zipCode = zipCode
+    }
+    
+}

@@ -173,6 +173,9 @@ class OrderSearchViewController: BaseViewController {
             
             closeOrderReasonView.sureCloseSuccessBlock = {[weak self] in
                 self?.loadOrderStatus()
+                
+                NotificationCenter.default.post(name: NSNotification.Name("changeOrderCount"), object: nil)
+                
                 self?.popup.dismissPopup()
             }
             return closeOrderReasonView
@@ -193,6 +196,9 @@ class OrderSearchViewController: BaseViewController {
             
             modifyPriceView.modifyPriceSuccessBlock = { [weak self] in
                 self?.loadOrderStatus()
+                
+                NotificationCenter.default.post(name: NSNotification.Name("changeOrderCount"), object: nil)
+                
                 self?.popup.dismissPopup()
             }
             return modifyPriceView
@@ -215,7 +221,7 @@ class OrderSearchViewController: BaseViewController {
         let modifyLogisticsVc  = ModifyLogisticsViewController()
         modifyLogisticsVc.title = "修改物流"
         modifyLogisticsVc.jump = .listJumpType
-        modifyLogisticsVc.orderInfoModel = orderInfoModel
+        modifyLogisticsVc.orderId = orderInfoModel.orderId ?? 0
         Coordinator.shared?.pushViewController(self, modifyLogisticsVc, animated: true)
         modifyLogisticsVc.jumpSuccessBlockListType = {[weak self] in
             self?.loadOrderStatus()
@@ -228,13 +234,12 @@ class OrderSearchViewController: BaseViewController {
         let modifyLogisticsVc  = ModifyLogisticsViewController()
         modifyLogisticsVc.title = "订单发货"
         modifyLogisticsVc.jump = .listJumpType
-        modifyLogisticsVc.orderInfoModel = orderInfoModel
+        modifyLogisticsVc.orderId = orderInfoModel.orderId ?? 0
         Coordinator.shared?.pushViewController(self, modifyLogisticsVc, animated: true)
         modifyLogisticsVc.jumpSuccessBlockListType = {[weak self] in
             self?.loadOrderStatus()
         }
     }
-
 }
 
 extension OrderSearchViewController:UITableViewDelegate,UITableViewDataSource{

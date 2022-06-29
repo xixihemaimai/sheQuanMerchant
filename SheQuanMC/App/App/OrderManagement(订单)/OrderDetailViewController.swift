@@ -251,6 +251,9 @@ class OrderDetailViewController: BaseViewController {
             modifyPriceView.modifyPriceSuccessBlock = {[weak self] in
                 //这边是去重新获取该订单信息
                 self?.reloadCurrentOrderInfo()
+                
+                NotificationCenter.default.post(name: NSNotification.Name("changeOrderCount"), object: nil)
+                
                 self?.popup.dismissPopup()
             }
             
@@ -270,6 +273,9 @@ class OrderDetailViewController: BaseViewController {
             closeOrderReasonView.sureCloseSuccessBlock = {[weak self] in
                 //这边是去重新获取该订单信息
                 self?.reloadCurrentOrderInfo()
+                
+                NotificationCenter.default.post(name: NSNotification.Name("changeOrderCount"), object: nil)
+                
                 self?.popup.dismissPopup()
             }
             return closeOrderReasonView
@@ -324,16 +330,11 @@ class OrderDetailViewController: BaseViewController {
     
     
     
-    //修改物流
+    //查看物流
     @objc func checkLogisticsAction(checkLogisticsBtn:UIButton){
-        let modifyLogisticsVc  = ModifyLogisticsViewController()
-        modifyLogisticsVc.title = "修改物流"
-        modifyLogisticsVc.jump = .detailJumpType
-        modifyLogisticsVc.orderInfoModel = orderInfoModel
-        Coordinator.shared?.pushViewController(self, modifyLogisticsVc, animated: true)
-        modifyLogisticsVc.jumpSuccessBlockDetailType = {[weak self] in
-            self?.reloadCurrentOrderInfo()
-        }
+        let checkLogistVC = CheckLogisticsViewController()
+        checkLogistVC.orderInfoModel = orderInfoModel
+        Coordinator.shared?.pushViewController(self, checkLogistVC, animated: true)
     }
     
     
@@ -342,7 +343,7 @@ class OrderDetailViewController: BaseViewController {
         let modifyLogisticsVc  = ModifyLogisticsViewController()
         modifyLogisticsVc.title = "订单发货"
         modifyLogisticsVc.jump = .detailJumpType
-        modifyLogisticsVc.orderInfoModel = orderInfoModel
+        modifyLogisticsVc.orderId = orderInfoModel?.orderId ?? 0
         Coordinator.shared?.pushViewController(self, modifyLogisticsVc, animated: true)
         modifyLogisticsVc.jumpSuccessBlockDetailType = {[weak self] in
             self?.reloadCurrentOrderInfo()
@@ -350,11 +351,16 @@ class OrderDetailViewController: BaseViewController {
     }
     
     
-    //查看物流
+    //修改物流
     @objc func modifyLogisticsAction(modifyLogisticsBtn:UIButton){
-        let checkLogistVC = CheckLogisticsViewController()
-        checkLogistVC.orderInfoModel = orderInfoModel
-        Coordinator.shared?.pushViewController(self, checkLogistVC, animated: true)
+        let modifyLogisticsVc  = ModifyLogisticsViewController()
+        modifyLogisticsVc.title = "修改物流"
+        modifyLogisticsVc.jump = .detailJumpType
+        modifyLogisticsVc.orderId = orderInfoModel?.orderId ?? 0
+        Coordinator.shared?.pushViewController(self, modifyLogisticsVc, animated: true)
+        modifyLogisticsVc.jumpSuccessBlockDetailType = {[weak self] in
+            self?.reloadCurrentOrderInfo()
+        }
     }
     
     
@@ -362,8 +368,12 @@ class OrderDetailViewController: BaseViewController {
     //修改买家地址
     @objc func modifyBuyerAddressAction(modifyBtn:UIButton){
         let modifyAddressVc = ModifyReturnAddressViewController()
-        
+        modifyAddressVc.jumpType = 1
         Coordinator.shared?.pushViewController(self, modifyAddressVc, animated: true)
+        modifyAddressVc.choiceRetAddressSuccessBlock = {[weak self] retAddressInfoModel in
+            //这边要修改地址的地方
+            
+        }
     }
     
     //进入物流
@@ -411,9 +421,7 @@ extension OrderDetailViewController:UITableViewDelegate,UITableViewDataSource{
             cell.orderInfoModel = orderInfoModel
             //这边用来判断是否倒计时完成--重新获取下商品详情 待支付  已发货
 //            if cell.orderInfoModel?.orderStatus == 10 || cell.orderInfoModel?.orderStatus == 21{
-                LXFLog("=================32-----32----------")
                 cell.countdownComplete = {[weak self] in
-                    LXFLog("-32==12==========12==2")
                     self?.reloadCurrentOrderInfo()
                 }
 //            }
@@ -422,7 +430,6 @@ extension OrderDetailViewController:UITableViewDelegate,UITableViewDataSource{
         if orderInfoModel?.orderStatus == 10{
             //待支付
             if indexPath.row == 1{
-                LXFLog("=================1")
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OrderContentCell") as! OrderContentCell
                 cell.orderInfoModel = orderInfoModel
                 return cell
@@ -444,7 +451,6 @@ extension OrderDetailViewController:UITableViewDelegate,UITableViewDataSource{
                 cell.copyBtn.addTarget(self, action: #selector(copyAddressInfoAction), for: .touchUpInside)
                 return cell
             }else if indexPath.row == 2{
-                LXFLog("=================2")
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OrderContentCell") as! OrderContentCell
                 cell.orderInfoModel = orderInfoModel
                 return cell
@@ -461,7 +467,6 @@ extension OrderDetailViewController:UITableViewDelegate,UITableViewDataSource{
                 cell.joinSignBtn.addTarget(self, action: #selector(joinCheckLogisticsAction), for: .touchUpInside)
                 return cell
             }else if indexPath.row == 2{
-                LXFLog("=================3")
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OrderContentCell") as! OrderContentCell
                 cell.orderInfoModel = orderInfoModel
                 return cell

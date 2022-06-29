@@ -51,13 +51,29 @@ class ReturnGoodsAddressCell: UITableViewCell {
     }()
     
     
+    var retAddress:RetAddressInfoModel?{
+        didSet{
+            guard let _retAddress = retAddress else { return }
+            nickNameLabel.text = _retAddress.consignee
+            phoneNumberLabel.text = _retAddress.mobile?.hidePhone(combine: "****")
+            phoneNumberLabel.text = _retAddress.mobile
+            addressLabel.text = String(format: "%@%@%@%@", _retAddress.provinceName ?? "",_retAddress.cityName ?? "",_retAddress.regionName ?? "",_retAddress.address ?? "")
+            var width = (_retAddress.consignee?.singleLineWidth(font: UIFont.systemFont(ofSize: scale(16), weight: .semibold)) ?? 10)
+            width += scale(5)
+            nickNameLabel.snp.remakeConstraints { make in
+                make.left.equalTo(scale(16))
+                make.width.equalTo(width)
+                make.height.equalTo(scale(22))
+                make.top.equalTo(scale(16))
+            }
+        }
+    }
+    
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
-        
-        
-        
         let topView = UIView()
         topView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#F8F8F8")
         contentView.addSubview(topView)

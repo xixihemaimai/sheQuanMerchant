@@ -308,7 +308,7 @@ class CommoditySearchViewController: BaseViewController {
         NetWorkResultRequest(OrderApi.getProductInfo(parameters: parameter), needShowFailAlert: true) { result, data in
             guard let model = try? JSONDecoder().decode(GenericResponse<CommodityModel>.self, from: data) else { return }
             if let data1 = model.data{
-                LXFLog("==============\(data1)")
+//                LXFLog("==============\(data1)")
                 let releaseGoodsVc = ReleaseGoodsViewController()
                 releaseGoodsVc.type = 1
                 releaseGoodsVc.commodityModel = data1

@@ -24,6 +24,7 @@ class OrderContentCell: UITableViewCell {
     
     lazy var headerImage:UIImageView = {
        let headerImage = UIImageView()
+        headerImage.contentMode = .scaleAspectFill
         headerImage.image = UIImage(named: "Frame-评论")
         return headerImage
     }()
@@ -302,6 +303,7 @@ class OrderContentCell: UITableViewCell {
             make.width.height.equalTo(scale(20))
         }
         headerImage.layer.cornerRadius = scale(10)
+        headerImage.layer.masksToBounds = true
         
         
         nicknameLabel.snp.makeConstraints { make in

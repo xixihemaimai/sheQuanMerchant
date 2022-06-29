@@ -85,11 +85,15 @@ class LogisticsInformationCell: UITableViewCell {
     
     
     
-    var logisticsModel:LogisticsModel?{
+    var logistics:LogisticsInfoModel?{
         didSet{
-            guard let _logisticsModel = logisticsModel else { return }
+            guard let _logistics = logistics else { return }
             
-            goodsDetailLabel.text = _logisticsModel.logisticsName
+//          goodsDetailLabel.text = _logisticsModel.logisticsName
+            
+            
+            expressTextField.text = _logistics.expressNo
+            
         }
     }
     

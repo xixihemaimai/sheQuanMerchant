@@ -61,7 +61,7 @@ class CommodityStatusViewController: BaseViewController {
             self.list.removeAll()
             guard let data1 = model.data else{return}
             self.list = data1
-            LXFLog("====================\(self.list)")
+//            LXFLog("====================\(self.list)")
             self.tableview.reloadData()
             self.tableview.mj_header?.endRefreshing()
         } failureCallback: { error, code in
@@ -243,7 +243,7 @@ class CommodityStatusViewController: BaseViewController {
             if let data1 = model.data{
                 let releaseGoodsVc = ReleaseGoodsViewController()
                 releaseGoodsVc.type = 1
-                LXFLog("==============\(data1)")
+//                LXFLog("==============\(data1)")
                 releaseGoodsVc.commodityModel = data1
                 Coordinator.shared?.pushViewController(self, releaseGoodsVc, animated: true)
             }

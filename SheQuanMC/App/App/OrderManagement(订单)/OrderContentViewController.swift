@@ -46,6 +46,10 @@ class OrderContentViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.addObserver(self, selector: #selector(changeOrderCount), name: NSNotification.Name("changeOrderCount"), object: nil)
+        
         //创建头部的uiscrollview
         addTitleScrollview()
         //创建内容的UISrollview
@@ -206,7 +210,7 @@ class OrderContentViewController: BaseViewController {
             vc.orderViewVc = orderViewVc
             let btn = btnArray[i]
             vc.view.tag = btn.tag
-//            vc.delegate = self
+            vc.delegate = self
             vc.title = btn.currentTitle
             self.addChild(vc)
 //            vc.view?.frame = CGRect(x: i * Int(contentScrollView.size.width), y: 0, width: Int(contentScrollView.size.width), height: Int(contentScrollView.size.height))
@@ -215,6 +219,67 @@ class OrderContentViewController: BaseViewController {
         let count = self.children.count
         contentScrollView.contentSize = CGSize(width: count * Int(view.bounds.size.width), height: 0)
     }
+    
+    
+    
+    //改变订单数
+    @objc func changeOrderCount(noti:Notification){
+        LXFLog("+=============23========23================================================3=================23=============================")
+        NetWorkResultRequest(OrderApi.getProductOrderCount, needShowFailAlert: true) {[weak self] result, data in
+           //这边获取订单数
+            guard let model = try? JSONDecoder().decode(GenericResponse<[ProductOrderCountModel]>.self, from: data) else { return }
+            var titleArray = [String]()
+            if let _data = model.data{
+                for i in 0..<_data.count{
+                    let productOrderCountModel = _data[i]
+                    if i == 0{
+                        //全部
+                        titleArray.append("全部" + "(" + String(productOrderCountModel.orderCount ?? 0) + ")")
+                    }else if i == 1{
+                        //待支付
+                        titleArray.append("待支付" + "(" + String(productOrderCountModel.orderCount ?? 0) + ")")
+                    }else if i == 2{
+                        //待发货
+                        titleArray.append("待发货" + "(" + String(productOrderCountModel.orderCount ?? 0) + ")")
+                    }else if i == 3{
+                        //已发货
+                        titleArray.append("已发货" + "(" + String(productOrderCountModel.orderCount ?? 0) + ")")
+                    }else if i == 4{
+                        //交易成功
+                        titleArray.append("交易成功" + "(" + String(productOrderCountModel.orderCount ?? 0) + ")")
+                    }else{
+                        //交易关闭
+                        titleArray.append("交易关闭" + "(" + String(productOrderCountModel.orderCount ?? 0) + ")")
+                    }
+                }
+                self?.titleArray = titleArray
+                self?.btnArray.removeAll()
+                for view in self!.titleScrollView.subviews {
+                    view.removeFromSuperview()
+                }
+                for vc in self!.children {
+                    vc.removeFromParent()
+                }
+                for vc in self!.contentScrollView.subviews {
+                    vc.removeFromSuperview()
+                }
+                self?.titleView.removeFromSuperview()
+                self?.addTitleArrayBtn()
+                self?.adddUnlineView()
+                self?.addChildViewController()
+                //执行第一个
+                let btn = self?.btnArray[self?.selectIndex ?? 0]
+                self?.showTitleAction(btn: btn!)
+            }
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
 }
 
 extension OrderContentViewController:UIScrollViewDelegate{
@@ -226,6 +291,7 @@ extension OrderContentViewController:UIScrollViewDelegate{
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let ratio = Int(scrollView.contentOffset.x / scrollView.width)
+        selectIndex = ratio
         let btn = btnArray[ratio]
         showTitleAction(btn: btn)
     }
@@ -233,21 +299,29 @@ extension OrderContentViewController:UIScrollViewDelegate{
 }
 
 
-//extension OrderContentViewController:OrderStatusViewControllerDelegate{
-//    func returnBackNumber(_ title: String, _ tag: Int) {
-//        LXFLog("===============")
-//        let btn = btnArray[tag]
-//        //这边要变成那个状态的数量和下划线的宽度
-//        btn.setTitle(title, for: .normal)
-//        btn.titleLabel?.sizeToFit()
-//        titleView.snp.remakeConstraints { make in
-//            make.width.equalTo((btn.titleLabel?.bounds.size.width)!)
-//            make.centerX.equalTo(btn.snp.centerX)
-//            make.height.equalTo(scale(2))
-//            make.bottom.equalTo(btn.snp.bottom).offset(-scale(2))
-//        }
-//    }
-//}
+extension OrderContentViewController:OrderStatusViewControllerDelegate{
+    func returnBackNumber(_ titleArray: [String], _ tag: Int) {
+        self.titleArray = titleArray
+        selectIndex = tag
+        btnArray.removeAll()
+        for view in titleScrollView.subviews {
+            view.removeFromSuperview()
+        }
+        for vc in children {
+            vc.removeFromParent()
+        }
+        for vc in contentScrollView.subviews {
+            vc.removeFromSuperview()
+        }
+        titleView.removeFromSuperview()
+        addTitleArrayBtn()
+        adddUnlineView()
+        addChildViewController()
+        //执行第一个
+        let btn = btnArray[selectIndex]
+        showTitleAction(btn: btn)
+    }
+}
 
 
 

@@ -89,9 +89,10 @@ class OrderToBePaidCell: UITableViewCell {
                 payTypeLabel.isHidden = false
                 payTimeLabel.isHidden = false
                 payNumberLabel.isHidden = false
-                //付款编号
-                //付款方式
-                //付款时间
+                
+                payTimeLabel.text = "付款时间:" + (_orderInfoModel.payTime ?? "")
+                payTypeLabel.text = "付款方式:" + (_orderInfoModel.payType ?? "")
+                payNumberLabel.text = "付款编号:" + (_orderInfoModel.tradeNo ?? "")
             }
         }
     }

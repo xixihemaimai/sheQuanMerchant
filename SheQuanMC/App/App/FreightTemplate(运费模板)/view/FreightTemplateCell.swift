@@ -82,11 +82,12 @@ class FreightTemplateCell: UITableViewCell {
             }
             templateName.text = _model.templateName
             if _model.defTemp == true{
-                let width = _model.templateName?.singleLineWidth(font: UIFont.systemFont(ofSize: scale(16), weight: .medium))
+                var width = (_model.templateName?.singleLineWidth(font: UIFont.systemFont(ofSize: scale(16), weight: .medium)) ?? 10)
+                width += scale(5)
                 templateName.snp.remakeConstraints { make in
                     make.left.equalTo(scale(16))
                     make.top.equalTo(scale(16))
-                    make.width.equalTo(width!)
+                    make.width.equalTo(width)
                     make.height.equalTo(scale(22))
                 }
                 isDelautImage.isHidden = false
@@ -97,7 +98,6 @@ class FreightTemplateCell: UITableViewCell {
                 isDelautImage.isHidden = true
                 isDefaultBtn.isSelected = false
             }
-            
             chargeLabel.text = _model.chargeTypeText
             templateType.text = _model.freightTypeText
         }

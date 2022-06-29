@@ -48,6 +48,7 @@ class ModifyAddressViewController: BaseViewController {
         phoneNmberTextView.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         phoneNmberTextView.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         phoneNmberTextView.textAlignment = .left
+        phoneNmberTextView.delegate = self
         return phoneNmberTextView
     }()
     
@@ -78,7 +79,7 @@ class ModifyAddressViewController: BaseViewController {
         detailAddressTextView.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         detailAddressTextView.textAlignment = .left
         detailAddressTextView.delegate = self
-         return detailAddressTextView
+        return detailAddressTextView
     }()
     
     
@@ -94,7 +95,7 @@ class ModifyAddressViewController: BaseViewController {
     
     lazy var isDefaultSwitch:UISwitch = {
        let isDefaultSwitch = UISwitch()
-        isDefaultSwitch.isOn = true
+        isDefaultSwitch.isOn = false
         isDefaultSwitch.onTintColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         isDefaultSwitch.addTarget(self, action: #selector(isDefaultSwitchAction), for: .touchUpInside)
         return isDefaultSwitch
@@ -104,8 +105,13 @@ class ModifyAddressViewController: BaseViewController {
     //省份数组
     var provinceList:[RegionInfoModel] = [RegionInfoModel]()
     
-    
     var addressList:[RegionInfoModel] = [RegionInfoModel]()
+    
+    var retAddressInfoModel:RetAddressInfoModel?
+    
+    
+    var updateAndAddSuccessBlock:(()->Void)?
+    
     
     
     override func viewDidLoad() {
@@ -361,18 +367,52 @@ class ModifyAddressViewController: BaseViewController {
         }
         
         submitBtn.layer.cornerRadius = scale(4)
+        submitBtn.addTarget(self, action: #selector(submitAction), for: .touchUpInside)
         
         
+        if title == "添加新地址"{
+            retAddressInfoModel = RetAddressInfoModel(address: detailAddressTextView.text, cityId: 0, cityName: "", consignee: nameTextView.text, isDef: isDefaultSwitch.isOn, mobile: phoneNmberTextView.text, provinceId: 0, provinceName: "", regionId: 0, regionName: "", retAddressId: 0, zipCode: "")
+        }else{
+            
+            nameTextView.text = retAddressInfoModel?.consignee
+            if nameTextView.text.count > 0 {
+                deleteNameBtn.isHidden = false
+            }else{
+                deleteNameBtn.isHidden = true
+            }
+            
+            
+            phoneNmberTextView.text = retAddressInfoModel?.mobile
+            
+            addressLabel.text = String(format: "%@%@%@", retAddressInfoModel?.provinceName ?? "",retAddressInfoModel?.cityName ?? "",retAddressInfoModel?.regionName ?? "")
+            addressLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+            
+            detailAddressTextView.text = retAddressInfoModel?.address
+            
+            if detailAddressTextView.text.count > 0 {
+                deleteAddressBtn.isHidden = false
+            }else{
+                deleteAddressBtn.isHidden = true
+            }
+            
+            
+            isDefaultSwitch.isOn = retAddressInfoModel?.isDef == true ? true : false
+            
+        }
+        
+
         let parameters = ["freightVerId":0 as Any,"level":2,"regionId":0,"subHierarchy":2] as [String:Any]
-        NetWorkResultRequest(OrderApi.getFreightRegionList(parameters: parameters), needShowFailAlert: true) { result, data in
-                guard let model = try? JSONDecoder().decode(GenericResponse<[RegionInfoModel]>.self, from: data) else { return }
-                self.provinceList.removeAll()
-                if let _data = model.data{
-                    self.provinceList = _data
-                }
+        NetWorkResultRequest(OrderApi.getFreightRegionList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+            guard let model = try? JSONDecoder().decode(GenericResponse<[RegionInfoModel]>.self, from: data) else { return }
+            self?.provinceList.removeAll()
+            if let _data = model.data{
+                self?.provinceList = _data
+            }
         } failureCallback: { error, code in
             code.loginOut()
         }
+        
+        
     }
 
     
@@ -380,17 +420,34 @@ class ModifyAddressViewController: BaseViewController {
     @objc func deleteNameAction(deleteNameBtn:UIButton){
         nameTextView.text = ""
         deleteNameBtn.isHidden = true
+        
+        retAddressInfoModel?.consignee = nameTextView.text
     }
     
     //删除详细地址
     @objc func deleteAddressAction(deleteAddressBtn:UIButton){
         detailAddressTextView.text = ""
         deleteAddressBtn.isHidden = true
+        
+        retAddressInfoModel?.address = detailAddressTextView.text
     }
     
     //修改是否默认
     @objc func isDefaultSwitchAction(isDefaultSwitch:UISwitch){
         isDefaultSwitch.isOn = isDefaultSwitch.isOn
+        retAddressInfoModel?.isDef = isDefaultSwitch.isOn
+    }
+    
+    //提交
+    @objc func submitAction(submitBtn:UIButton){
+        let parameters = ["address":retAddressInfoModel?.address as Any,"cityId":retAddressInfoModel?.cityId as Any,"consignee":retAddressInfoModel?.consignee as Any,"isDef":retAddressInfoModel?.isDef as Any,"mobile":retAddressInfoModel?.mobile as Any,"provinceId":retAddressInfoModel?.provinceId as Any,"regionId":retAddressInfoModel?.regionId as Any,"retAddressId":retAddressInfoModel?.retAddressId as Any,"zipCode":retAddressInfoModel?.zipCode as Any] as [String:Any]
+        NetWorkResultRequest(OrderApi.updateRetAddress(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+            //成功之后
+            self?.updateAndAddSuccessBlock?()
+            Coordinator.shared?.popViewController(self!, true)
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
     }
     
     
@@ -423,25 +480,39 @@ class ModifyAddressViewController: BaseViewController {
           // //省  市
           //}
         if (addressLabel.text?.count ?? 0) > 0{
+            
+            self.addressList.removeAll()
+            if (retAddressInfoModel?.provinceName?.count ?? 0) > 0{
+               //省
+                let regionInfoModel = RegionInfoModel(initials: "", lat: 0, level: 2, lng: 0, regionId: retAddressInfoModel?.provinceId, regionName: retAddressInfoModel?.provinceName, checked: false, childNodes: [RegionInfoModel]())
+               self.addressList.append(regionInfoModel)
+            }
+            
+            if (retAddressInfoModel?.cityName?.count ?? 0) > 0{
+                //城市
+                let regionInfoModel = RegionInfoModel(initials: "", lat: 0, level: 3, lng: 0, regionId: retAddressInfoModel?.cityId, regionName: retAddressInfoModel?.cityName, checked: false, childNodes: [RegionInfoModel]())
+                self.addressList.append(regionInfoModel)
+            }
+            
+            if (retAddressInfoModel?.regionName?.count ?? 0) > 0{
+                //地区
+                let regionInfoModel = RegionInfoModel(initials: "", lat: 0, level: 4, lng: 0, regionId: retAddressInfoModel?.regionId, regionName: retAddressInfoModel?.regionName, checked: false, childNodes: [RegionInfoModel]())
+                self.addressList.append(regionInfoModel)
+            }
             //self.addressList 为有值得情况
             //这边要进行设置
             //要先判断addressList有几个才进行设置值
             //省份已经有了
             //城市可以通过这个省份的regid获取
-            
         }else{
             //self.addressList 为新建
             self.addressList = [RegionInfoModel]()
         }
-        
-        
         self.popup.bottomSheet {
             let regionView = RegionView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(442)), addressList: self.addressList,dataArray: self.provinceList)
-            
             regionView.cancelBlock = {[weak self] in
                 self?.popup.dismissPopup()
             }
-            
             regionView.sureChoiceAddress = {[weak self] list in
                 self?.addressList = list
                 var addressText:String = ""
@@ -449,6 +520,20 @@ class ModifyAddressViewController: BaseViewController {
                     addressText += (addressModel.regionName ?? "")
                 })
                 self?.addressLabel.text = addressText
+                //添加数组
+                for i in 0..<(self?.addressList.count ?? 0){
+                    let regionInfoModel = self?.addressList[i]
+                    if i == 0{
+                        self?.retAddressInfoModel?.provinceId = regionInfoModel?.regionId
+                        self?.retAddressInfoModel?.provinceName = regionInfoModel?.regionName
+                    }else if i == 1{
+                        self?.retAddressInfoModel?.cityId = regionInfoModel?.regionId
+                        self?.retAddressInfoModel?.cityName = regionInfoModel?.regionName
+                    }else{
+                        self?.retAddressInfoModel?.regionId = regionInfoModel?.regionId
+                        self?.retAddressInfoModel?.regionName = regionInfoModel?.regionName
+                    }
+                }
                 self?.addressLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
                 self?.popup.dismissPopup()
             }
@@ -480,12 +565,23 @@ extension ModifyAddressViewController:UITextViewDelegate{
     
     func textViewDidChange(_ textView: UITextView) {
         if textView == nameTextView{
+            
+            retAddressInfoModel?.consignee = textView.text
+            
             if textView.text.count > 0 {
                 deleteNameBtn.isHidden = false
             }else{
                 deleteNameBtn.isHidden = true
             }
+        }else if textView == phoneNmberTextView{
+           
+            retAddressInfoModel?.mobile = textView.text
+             
         }else{
+            
+            retAddressInfoModel?.address = textView.text
+            
+            
             if textView.text.count > 0 {
                 deleteAddressBtn.isHidden = false
             }else{

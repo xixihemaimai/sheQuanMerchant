@@ -109,21 +109,21 @@ class OrderModifyLogisticsCell: UITableViewCell {
     }()
  
     
-    var orderInfoModel:OrederInfoModel?{
+    var product:OrederInfoProductsModel?{
         didSet{
-            guard let _orderInfoModel = orderInfoModel else { return }
-            orderImage.sd_setImage(with: URL(string: _orderInfoModel.products?.first?.productPic ?? ""), placeholderImage: UIImage(named: "Group 2784"))
+            guard let _product = product else { return }
+            orderImage.sd_setImage(with: URL(string: _product.productPic ?? ""), placeholderImage: UIImage(named: "Group 2784"))
             
-            orderIntroductLabel.text = _orderInfoModel.products?.first?.productName
+            orderIntroductLabel.text = _product.productName
             
-            priceLabel.text = "¥" + (_orderInfoModel.products?.first?.price ?? "0")
+            priceLabel.text = "¥" + (_product.price ?? "0")
             
-            productName.text = _orderInfoModel.products?.first?.specs
+            productName.text = _product.specs
             
-            let qtyStr = String(format: "%d", _orderInfoModel.products?.first?.qty ?? 0)
+            let qtyStr = String(format: "%d", _product.qty ?? 0)
             numberLabel.text = "x" + qtyStr
             
-            truePriceLabel.text = "¥" + (_orderInfoModel.payAmount ?? "0")
+//            truePriceLabel.text = "¥" + (_orderInfoModel.payAmount ?? "0")
 
             let width = (truePriceLabel.text?.singleLineWidth(font: UIFont.systemFont(ofSize: scale(16), weight: .semibold)) ?? 0)
             

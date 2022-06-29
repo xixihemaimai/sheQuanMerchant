@@ -372,19 +372,16 @@ class CommoditySpecificationsViewController: BaseViewController {
         }
         if isComplete{
             if unIonSetList.count > 0{
-               
                 if saveList.count > 0{
-                    
                     saveList = saveList.filter({ specGroups in
                         specGroups.specs?.count != 0
                     })
-                    
                     for i in 0..<saveList.count {
                         var specGroups = saveList[i]
                         specGroups.specs = specGroups.specs?.filter({ str in
                              str != ""
                         })
-//                        LXFLog("+===========\(specGroups.specs?.count)")
+                        //LXFLog("+===========\(specGroups.specs?.count)")
                         saveList[i] = specGroups
                     }
                         //这版要把填写的数据传递回去上一个界面
@@ -559,7 +556,7 @@ class CommoditySpecificationsViewController: BaseViewController {
                 colorList = colorList.filter({ specs in
                     specs.specValue != ""
                 })
-                LXFLog("+===========\(colorList.count)")
+//                LXFLog("+===========\(colorList.count)")
                 array[i] = colorList
             }
             getCombination(kid: 0, inputArray: array, addArray: [Skus]())
@@ -593,7 +590,7 @@ class CommoditySpecificationsViewController: BaseViewController {
                 colorList = colorList.filter({ specs in
                     specs.specValue != ""
                 })
-                LXFLog("+===========\(colorList.count)")
+//                LXFLog("+===========\(colorList.count)")
                 array[i] = colorList
             }
             for i in 0..<array.count{
@@ -1087,7 +1084,7 @@ extension CommoditySpecificationsViewController:CommoditySpecificationCellDelega
     
     //删除规格值
     func deleteSaveListTagAndIndex(tag: Int, index: Int) {
-        LXFLog("+===========\(tag)-------------\(index)")
+//        LXFLog("+===========\(tag)-------------\(index)")
         var colorList = saveValueList[tag]
         let spec = colorList[index]
         colorList.remove(at: index)
@@ -1101,17 +1098,17 @@ extension CommoditySpecificationsViewController:CommoditySpecificationCellDelega
             }
         }
         saveList[tag] = specGroups
-        LXFLog("=========================\(saveValueList)")
-        LXFLog("=========================\(saveList)")
+//        LXFLog("=========================\(saveValueList)")
+//        LXFLog("=========================\(saveList)")
         UnionSetArray(tag: tag, index: index)
-        LXFLog("=========================\(unIonSetList)")
+//        LXFLog("=========================\(unIonSetList)")
         newTableView.reloadData()
     }
     
     
     //修改规格值
     func modityTextfieldTagAndIndexAndValue(tag: Int, index: Int, value: String) {
-        LXFLog("+===========\(tag)-------------\(index)-------------\(value)")
+//        LXFLog("+===========\(tag)-------------\(index)-------------\(value)")
         if value != ""{
             var colorList = saveValueList[tag]
             var specs = colorList[index]
@@ -1121,10 +1118,10 @@ extension CommoditySpecificationsViewController:CommoditySpecificationCellDelega
             var specGroups = saveList[tag]
             specGroups.specs?[index] = value
             saveList[tag] = specGroups
-           LXFLog("=========================\(saveValueList)")
-           LXFLog("=========================\(saveList)")
+//           LXFLog("=========================\(saveValueList)")
+//           LXFLog("=========================\(saveList)")
            UnionSetArray(tag: tag, index: index)
-           LXFLog("=========================\(unIonSetList)")
+//           LXFLog("=========================\(unIonSetList)")
            newTableView.reloadData()
         }
         

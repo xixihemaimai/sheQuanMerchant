@@ -11,19 +11,19 @@ import JFPopup
 import SwiftUI
 
 
-//protocol OrderStatusViewControllerDelegate:NSObjectProtocol {
-//
-//    /// 返回的数量
-//    /// - Parameters:
-//    ///   - title:内容
-//    ///   - tag: 位置
-//    func returnBackNumber(_ title:String,_ tag:Int)
-//}
+protocol OrderStatusViewControllerDelegate:NSObjectProtocol {
+
+    /// 返回的数量
+    /// - Parameters:
+    ///   - title:内容
+    ///   - tag: 位置
+    func returnBackNumber(_ titleArray:[String],_ tag:Int)
+}
 
 
 class OrderStatusViewController: BaseViewController {
 
-//    weak var delegate:OrderStatusViewControllerDelegate?
+    weak var delegate:OrderStatusViewControllerDelegate?
     
     //用来保存订单首页的控制权
     var orderViewVc:OrderViewController?
@@ -31,10 +31,10 @@ class OrderStatusViewController: BaseViewController {
     
     var orderInfoList:[OrederInfoModel] = [OrederInfoModel]()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+       
         view.addSubview(tableview)
         
         tableview.snp.makeConstraints { make in
@@ -92,22 +92,42 @@ class OrderStatusViewController: BaseViewController {
     }
     
     
+    func reloadCurrentCountChange(){
+        NetWorkResultRequest(OrderApi.getProductOrderCount, needShowFailAlert: true) {[weak self] result, data in
+           //这边获取订单数
+            guard let model = try? JSONDecoder().decode(GenericResponse<[ProductOrderCountModel]>.self, from: data) else { return }
+            var titleArray = [String]()
+            if let _data = model.data{
+                for i in 0..<_data.count{
+                    let productOrderCountModel = _data[i]
+                    if i == 0{
+                        //全部
+                        titleArray.append("全部" + "(" + String(productOrderCountModel.orderCount ?? 0) + ")")
+                    }else if i == 1{
+                        //待支付
+                        titleArray.append("待支付" + "(" + String(productOrderCountModel.orderCount ?? 0) + ")")
+                    }else if i == 2{
+                        //待发货
+                        titleArray.append("待发货" + "(" + String(productOrderCountModel.orderCount ?? 0) + ")")
+                    }else if i == 3{
+                        //已发货
+                        titleArray.append("已发货" + "(" + String(productOrderCountModel.orderCount ?? 0) + ")")
+                    }else if i == 4{
+                        //交易成功
+                        titleArray.append("交易成功" + "(" + String(productOrderCountModel.orderCount ?? 0) + ")")
+                    }else{
+                        //交易关闭
+                        titleArray.append("交易关闭" + "(" + String(productOrderCountModel.orderCount ?? 0) + ")")
+                    }
+                }
+                self?.delegate?.returnBackNumber(titleArray, self?.view.tag ?? 0)
+            }
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
+    }
     
     
-    
-//    @objc func showSS(){
-//        //"待支付(0)","待发货(0)","已发货(0)"
-//        if title?.contains("待支付") == true {
-//            title = "待支付(99+)"
-//            delegate?.returnBackNumber(title ?? "", view.tag)
-//        }else if title?.contains("待发货") == true {
-//            title = "待发货(99+)"
-//            delegate?.returnBackNumber(title ?? "", view.tag)
-//        }else if title?.contains("已发货") == true {
-//            title = "已发货(99+)"
-//            delegate?.returnBackNumber(title ?? "", view.tag)
-//        }
-//    }
     
     
     
@@ -115,7 +135,7 @@ class OrderStatusViewController: BaseViewController {
     @objc func closeOrderAction(closeOrderBtn:UIButton){
         // 这边要自定义一个UIview
         let orderInfoModel = orderInfoList[closeOrderBtn.tag]
-        LXFLog("+==================\(orderInfoModel.orderId)")
+//        LXFLog("+==================\(orderInfoModel.orderId)")
         self.popup.bottomSheet {
             let closeOrderReasonView = CloseOrderReasonView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(489)),orderId: orderInfoModel.orderId ?? 0)
             closeOrderReasonView.cancelBlock = {[weak self] in
@@ -124,6 +144,7 @@ class OrderStatusViewController: BaseViewController {
             //成功之后需要做得事情
             closeOrderReasonView.sureCloseSuccessBlock = {[weak self] in
                 self?.loadOrderStatus()
+                self?.reloadCurrentCountChange()
                 self?.popup.dismissPopup()
             }
             return closeOrderReasonView
@@ -165,10 +186,12 @@ class OrderStatusViewController: BaseViewController {
         let modifyLogisticsVc  = ModifyLogisticsViewController()
         modifyLogisticsVc.title = "修改物流"
         modifyLogisticsVc.jump = .listJumpType
-        modifyLogisticsVc.orderInfoModel = orderInfoModel
+//        modifyLogisticsVc.orderInfoModel = orderInfoModel
+        modifyLogisticsVc.orderId = orderInfoModel.orderId ?? 0
         Coordinator.shared?.pushViewController(orderViewVc ?? self, modifyLogisticsVc, animated: true)
         modifyLogisticsVc.jumpSuccessBlockListType = {[weak self] in
             self?.loadOrderStatus()
+//            self?.reloadCurrentCountChange()
         }
     }
     
@@ -178,10 +201,12 @@ class OrderStatusViewController: BaseViewController {
         let modifyLogisticsVc  = ModifyLogisticsViewController()
         modifyLogisticsVc.title = "订单发货"
         modifyLogisticsVc.jump = .listJumpType
-        modifyLogisticsVc.orderInfoModel = orderInfoModel
+//        modifyLogisticsVc.orderInfoModel = orderInfoModel
+        modifyLogisticsVc.orderId = orderInfoModel.orderId ?? 0
         Coordinator.shared?.pushViewController(orderViewVc ?? self, modifyLogisticsVc, animated: true)
         modifyLogisticsVc.jumpSuccessBlockListType = {[weak self] in
             self?.loadOrderStatus()
+//            self?.reloadCurrentCountChange()
         }
     }
     
@@ -193,6 +218,10 @@ class OrderStatusViewController: BaseViewController {
     func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView!) -> Bool {
         return true
     }
+    
+    
+   
+    
 }
 
 
@@ -248,7 +277,4 @@ extension OrderStatusViewController:UITableViewDelegate,UITableViewDataSource{
         }
 //
     }
-    
-    
-    
 }

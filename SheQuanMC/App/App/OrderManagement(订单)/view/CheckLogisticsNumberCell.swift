@@ -37,8 +37,8 @@ class CheckLogisticsNumberCell: UITableViewCell {
         didSet{
             guard let _viewLogisticsModel = viewLogisticsModel else { return }
             
-            logisticsCompanyLabel.text = _viewLogisticsModel.logisticsName
-            waybillNumberLabel.text = "运费编号:" + (_viewLogisticsModel.waybillNo ?? "")
+            logisticsCompanyLabel.text = "物流公司:" + (_viewLogisticsModel.logisticsName ?? "")
+            waybillNumberLabel.text = "运费编号:" + (_viewLogisticsModel.expressNo ?? "")
 
         }
     }

@@ -84,22 +84,25 @@ class AddressCell: UITableViewCell {
     //默认地址按键
     lazy var isDefaultBtn:UIButton = {
        let isDefaultBtn = UIButton()
-        isDefaultBtn.setBackgroundImage(UIImage(named: "Ellipse 38"), for: .normal)
-        isDefaultBtn.setBackgroundImage(UIImage(named: "Group 2742"), for: .selected)
+        isDefaultBtn.setTitle(" 默认地址", for: .normal)
+        isDefaultBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#808080"), for: .normal)
+        isDefaultBtn.titleLabel?.font =  UIFont.systemFont(ofSize: scale(14), weight: .regular)
+        isDefaultBtn.setImage(UIImage(named: "Ellipse 38"), for: .normal)
+        isDefaultBtn.setImage(UIImage(named: "Group 2742"), for: .selected)
         return isDefaultBtn
     }()
     
     
     
     //默认地址lable
-    lazy var defualtLabel:UILabel = {
-       let defualtLabel = UILabel()
-        defualtLabel.text = "默认地址"
-        defualtLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#808080")
-        defualtLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
-        defualtLabel.textAlignment = .left
-        return defualtLabel
-    }()
+//    lazy var defualtLabel:UILabel = {
+//       let defualtLabel = UILabel()
+//        defualtLabel.text = "默认地址"
+//        defualtLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#808080")
+//        defualtLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
+//        defualtLabel.textAlignment = .left
+//        return defualtLabel
+//    }()
     
     //删除
     lazy var deleteBtn:UIButton = {
@@ -117,8 +120,51 @@ class AddressCell: UITableViewCell {
         return bottomView
     }()
     
-    
-    //默认的话就不显示，不是默认就显示
+    var retAddressInfoModel:RetAddressInfoModel?{
+        didSet{
+            guard let _retAddressInfoModel = retAddressInfoModel else { return }
+            nickNameLabel.text = _retAddressInfoModel.consignee
+            phoneNumberLabel.text = _retAddressInfoModel.mobile
+            addressLabel.text = String(format: "%@%@%@%@", _retAddressInfoModel.provinceName ?? "",_retAddressInfoModel.cityName ?? "",_retAddressInfoModel.regionName ?? "",_retAddressInfoModel.address ?? "")
+            var width = (_retAddressInfoModel.consignee?.singleLineWidth(font: UIFont.systemFont(ofSize: scale(16), weight: .semibold)) ?? 10)
+            width += scale(5)
+            
+            nickNameLabel.snp.remakeConstraints { make in
+                make.left.equalTo(scale(16))
+                make.width.equalTo(width)
+                make.height.equalTo(scale(22))
+                make.top.equalTo(scale(16))
+            }
+
+            if _retAddressInfoModel.isDef == true{
+
+                isDefaultBtn.isSelected = true
+                deleteBtn.isHidden = true
+                isDefaultLabel.isHidden = false
+                
+                addressLabel.snp.remakeConstraints { make in
+                    make.left.equalTo(isDefaultLabel.snp.right).offset(scale(4))
+                    make.height.equalTo(scale(16))
+                    make.top.equalTo(phoneNumberLabel.snp.bottom).offset(scale(8))
+                    make.right.equalTo(-scale(50))
+                }
+
+            }else{
+                
+                isDefaultLabel.isHidden = true
+                deleteBtn.isHidden = false
+                isDefaultBtn.isSelected = false
+
+                addressLabel.snp.remakeConstraints { make in
+                    make.left.equalTo(scale(16))
+                    make.height.equalTo(scale(16))
+                    make.top.equalTo(phoneNumberLabel.snp.bottom).offset(scale(8))
+                    make.right.equalTo(-scale(50))
+                }
+
+            }
+        }
+    }
     
 
     
@@ -144,7 +190,6 @@ class AddressCell: UITableViewCell {
             make.height.equalTo(scale(22))
             make.right.equalTo(-scale(50))
         }
-        
         
         isDefaultLabel.snp.makeConstraints { make in
             make.left.equalTo(scale(16))
@@ -181,7 +226,7 @@ class AddressCell: UITableViewCell {
         
         contentView.addSubview(midView)
         contentView.addSubview(isDefaultBtn)
-        contentView.addSubview(defualtLabel)
+//        contentView.addSubview(defualtLabel)
         
         
         midView.snp.makeConstraints { make in
@@ -195,16 +240,17 @@ class AddressCell: UITableViewCell {
         isDefaultBtn.snp.makeConstraints { make in
             make.left.equalTo(scale(16))
             make.top.equalTo(midView.snp.bottom).offset(scale(14))
-            make.width.height.equalTo(scale(15))
-        }
-        
-        defualtLabel.snp.makeConstraints { make in
-            make.left.equalTo(isDefaultBtn.snp.right).offset(scale(8))
-            make.top.equalTo(midView.snp.bottom).offset(scale(12))
-            make.width.equalTo(scale(70))
             make.height.equalTo(scale(20))
+            make.width.height.equalTo(scale(80))
         }
         
+//        defualtLabel.snp.makeConstraints { make in
+//            make.left.equalTo(isDefaultBtn.snp.right).offset(scale(8))
+//            make.top.equalTo(midView.snp.bottom).offset(scale(12))
+//            make.width.equalTo(scale(70))
+//            make.height.equalTo(scale(20))
+//        }
+//
         
         contentView.addSubview(deleteBtn)
         contentView.addSubview(bottomView)

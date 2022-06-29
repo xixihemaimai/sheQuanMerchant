@@ -497,7 +497,6 @@ extension StoreOccupancyViewController:UITextFieldDelegate{
 extension StoreOccupancyViewController:UIGestureRecognizerDelegate{
     public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if isModify{
-           LXFLog("==============")
             JFPopupView.popup.alert {
                 [
                     .title("差一步就能开店了，确定要退出吗？"),
