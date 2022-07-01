@@ -9,9 +9,9 @@ import Foundation
 import UIKit
 
 
-
 public let SCW = UIScreen.main.bounds.size.width
 public let SCH = UIScreen.main.bounds.size.height
+
 
 //这边还需要判断是不是iphonex 以上的机型
 //iphone6 ,7,8,se

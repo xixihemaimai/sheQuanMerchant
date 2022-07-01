@@ -61,9 +61,6 @@ public class MyViewController: BaseViewController {
         myCustomTableViewHeaderView()
     }
     
-    
-    
-    
     func myCustomTableViewHeaderView(){
         let headerView = UIView()
         headerView.backgroundColor = UIColor.clear
@@ -74,12 +71,10 @@ public class MyViewController: BaseViewController {
             make.height.equalTo(scale(164))
         }
         
-        
         let headerBtn = UIButton()
         headerBtn.backgroundColor = UIColor.clear
         headerBtn.addTarget(self, action: #selector(jumpShopInfomationAction), for: .touchUpInside)
         headerView.addSubview(headerBtn)
-        
         headerBtn.snp.makeConstraints { make in
             make.top.equalTo(scale(69))
             make.left.equalTo(scale(16))
@@ -191,7 +186,6 @@ extension MyViewController:UITableViewDelegate,UITableViewDataSource{
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        LXFLog("===============\(indexPath.row)")
     }
     
 }

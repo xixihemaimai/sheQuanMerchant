@@ -117,8 +117,6 @@ class ReleaseGoodsViewController: BaseViewController {
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
         goodsCardTextField.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         goodsCardTextField.delegate = self
-        goodsCardTextField.tag = 0
-        goodsCardTextField.addTarget(self, action: #selector(valueChangeAction), for: .editingChanged)
         return goodsCardTextField
     }()
     
@@ -138,8 +136,8 @@ class ReleaseGoodsViewController: BaseViewController {
        let specificationsSwitch = UISwitch()
         specificationsSwitch.onTintColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         specificationsSwitch.isOn = false
-        specificationsSwitch.tag = 0
-        specificationsSwitch.addTarget(self, action: #selector(switchAction), for: .valueChanged)
+//        specificationsSwitch.tag = 0
+//        specificationsSwitch.addTarget(self, action: #selector(switchAction), for: .valueChanged)
         return specificationsSwitch
     }()
     
@@ -152,8 +150,6 @@ class ReleaseGoodsViewController: BaseViewController {
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
         priceTextfield.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         priceTextfield.delegate = self
-        priceTextfield.tag = 1
-        priceTextfield.addTarget(self, action: #selector(valueChangeAction), for: .editingChanged)
         return priceTextfield
     }()
     
@@ -167,8 +163,6 @@ class ReleaseGoodsViewController: BaseViewController {
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
         stockTextfield.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         stockTextfield.delegate = self
-        stockTextfield.tag = 2
-        stockTextfield.addTarget(self, action: #selector(valueChangeAction), for: .editingChanged)
         return stockTextfield
     }()
     
@@ -204,8 +198,8 @@ class ReleaseGoodsViewController: BaseViewController {
        let returnGoodsSwitch = UISwitch()
         returnGoodsSwitch.onTintColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         returnGoodsSwitch.isOn = true
-        returnGoodsSwitch.tag = 1
-        returnGoodsSwitch.addTarget(self, action: #selector(switchAction), for: .valueChanged)
+//        returnGoodsSwitch.tag = 1
+//        returnGoodsSwitch.addTarget(self, action: #selector(switchAction), for: .valueChanged)
         return returnGoodsSwitch
     }()
     
@@ -215,8 +209,8 @@ class ReleaseGoodsViewController: BaseViewController {
        let returnGoodsInsuranceSwitch = UISwitch()
         returnGoodsInsuranceSwitch.onTintColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         returnGoodsInsuranceSwitch.isOn = true
-        returnGoodsInsuranceSwitch.tag = 2
-        returnGoodsInsuranceSwitch.addTarget(self, action: #selector(switchAction), for: .valueChanged)
+//        returnGoodsInsuranceSwitch.tag = 2
+//        returnGoodsInsuranceSwitch.addTarget(self, action: #selector(switchAction), for: .valueChanged)
         return returnGoodsInsuranceSwitch
     }()
     
@@ -275,9 +269,6 @@ class ReleaseGoodsViewController: BaseViewController {
     var commodityModel:CommodityModel?
     //0位发布，1位编辑
     var type:Int = 0
-    //是否能存为草稿的判断
-    var isDraft:Bool = false
-    
     
 //    override func viewWillAppear(_ animated: Bool) {
 //        super.viewWillAppear(animated)
@@ -1072,7 +1063,6 @@ class ReleaseGoodsViewController: BaseViewController {
             commodityModel = CommodityModel(categoryId: StoreService.shared.categoryId, categoryName: "",freeRefundIn7Days: false, freightId: 0,freightInsure: false, freightName: "未设置",multiSpec: false,price:0.0,productCode: "", productDesc: "", productId: 0, productName: "", productPics: [String](),sepNo:0,skus: [Skus](), specGroups: [SpecGroups](), spus: [Spus](), stock: 0,stockDeductText: "拍下减库存",stockDeductType: 0,productStatus: 1)
         }else{
             title = "编辑商品"
-            self.isDraft = true
             LXFLog("+===========32==========23232=====================\(String(describing: commodityModel))")
             //商品名称
             if (commodityModel?.productName?.count ?? 0) > 0{
@@ -1258,16 +1248,6 @@ class ReleaseGoodsViewController: BaseViewController {
         scrollView.layoutIfNeeded()
     }
     
-    @objc func valueChangeAction(textfield:UITextField){
-        if (textfield.text?.count ?? 0) > 0{
-            self.isDraft = true
-        }
-    }
-    
-    @objc func switchAction(swicth:UISwitch){
-        LXFLog("=================32==")
-        self.isDraft = true
-    }
     
     
     
@@ -1299,7 +1279,6 @@ class ReleaseGoodsViewController: BaseViewController {
                                     imageDataArray.append(imageData)
 //                                }
                                 self?.isModify = true
-                                self?.isDraft = true
                             })
                             let Parameters = ["fileType":20]
                             JFPopupView.popup.loading(hit: "上传图片中....")
@@ -1351,7 +1330,6 @@ class ReleaseGoodsViewController: BaseViewController {
                                     imageDataArray.append(imageData)
 //                                }
                                 self?.isModify = true
-                                self?.isDraft = true
                             }
                             let Parameters = ["fileType":20]
                             JFPopupView.popup.loading(hit: "上传图片中....")
@@ -1433,7 +1411,6 @@ class ReleaseGoodsViewController: BaseViewController {
                     make.height.equalTo(scale(50))
                 }
                 self.isModify = true
-                self.isDraft = true
                 //这边要把所有的商品的信息都需要删除
                 //商品描述goodsDescribe
                 self.goodsDescribe.text = "未填写"
@@ -1508,7 +1485,6 @@ class ReleaseGoodsViewController: BaseViewController {
                     self.goodsDescribe.text = "已填写"
                     self.goodsDescribe.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
                     self.isModify = true
-                    self.isDraft = true
                 }
             }
             
@@ -1525,7 +1501,6 @@ class ReleaseGoodsViewController: BaseViewController {
                 self.commodityModel?.spus = paraList
                 self.goodsParameter.text = "已设置"
                 self.isModify = true
-                self.isDraft = true
                 self.goodsParameter.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
             }
         case 3:
@@ -1554,7 +1529,6 @@ class ReleaseGoodsViewController: BaseViewController {
                         self.commoditySpLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#C2C2C2")
                     }
                     self.isModify = true
-                    self.isDraft = true
                 }
             }
         case 4:
@@ -1570,7 +1544,6 @@ class ReleaseGoodsViewController: BaseViewController {
                     self.defaultTemplate.text = model.templateName
                     self.defaultTemplate.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
                     self.isModify = true
-                    self.isDraft = true
                 }
             }
         default:
@@ -1800,8 +1773,14 @@ class ReleaseGoodsViewController: BaseViewController {
     
     func savePublish(){
         
-        if self.isDraft == false{
-            JFPopup.toast(hit: "请填写资料")
+        if goodsTextView.text.count < 1{
+            JFPopup.toast(hit: "请填写商品名称")
+            return
+        }
+        
+        
+        if (commodityModel?.productPics?.count ?? 0) < 1{
+            JFPopup.toast(hit: "请添加最少一张图片")
             return
         }
         
@@ -2411,12 +2390,10 @@ extension ReleaseGoodsViewController:UITextViewDelegate{
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        if textView.text.count > 0{
-            self.isDraft = true
+        if textView == goodsTextView{
+            isModify = true
         }
     }
-    
-    
 }
 
 

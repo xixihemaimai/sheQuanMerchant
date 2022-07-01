@@ -56,12 +56,43 @@ class BuyerAdressCell: UITableViewCell {
         copyBtn.setTitle("复制", for: .normal)
         copyBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333"), for: .normal)
         copyBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
-        /**
-         UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-         pasteboard.string = @"复制的内容";
-         */
         return copyBtn
     }()
+    
+    lazy var addressImage:UIImageView = {
+       let addressImage = UIImageView()
+        addressImage.image = UIImage(named: "Group 2711")
+        return addressImage
+    }()
+    
+    
+    lazy var diviver:UIView = {
+       let diviver = UIView()
+        diviver.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
+        return diviver
+    }()
+    
+    
+    
+    var retAddress:RetAddressInfoModel?{
+        didSet{
+            guard let _retAddress = retAddress else { return }
+            nickNameLabel.text = _retAddress.consignee
+            phoneNumberLabel.text = _retAddress.mobile?.hidePhone(combine: "****")
+            phoneNumberLabel.text = _retAddress.mobile
+            addressLabel.text = String(format: "%@%@%@%@", _retAddress.provinceName ?? "",_retAddress.cityName ?? "",_retAddress.regionName ?? "",_retAddress.address ?? "")
+            var width = (_retAddress.consignee?.singleLineWidth(font: UIFont.systemFont(ofSize: scale(16), weight: .semibold)) ?? 10)
+            width += scale(5)
+            nickNameLabel.snp.remakeConstraints { make in
+                make.left.equalTo(addressImage.snp.right).offset(scale(3))
+                make.width.equalTo(width)
+                make.height.equalTo(scale(22))
+                make.top.equalTo(diviver.snp.bottom).offset(scale(10))
+            }
+        }
+    }
+    
+    
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -93,10 +124,7 @@ class BuyerAdressCell: UITableViewCell {
         }
         
         //分割线
-        let diviver = UIView()
-        diviver.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
         contentView.addSubview(diviver)
-        
         diviver.snp.makeConstraints { make in
             make.left.equalTo(scale(16))
             make.right.equalTo(-scale(16))
@@ -104,11 +132,8 @@ class BuyerAdressCell: UITableViewCell {
             make.height.equalTo(scale(0.5))
         }
         
-        
-        let addressImage = UIImageView()
-        addressImage.image = UIImage(named: "Group 2711")
+
         contentView.addSubview(addressImage)
-        
         addressImage.snp.makeConstraints { make in
             make.left.equalTo(scale(16))
             make.top.equalTo(diviver.snp.bottom).offset(scale(10))

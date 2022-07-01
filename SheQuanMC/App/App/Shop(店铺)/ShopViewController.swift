@@ -579,16 +579,14 @@ class ShopViewController: BaseViewController {
     }
     
     override func headerRereshing() {
-        print("下拉")
-//        tableview.mj_header?.endRefreshing()
+//        print("下拉")
         loadOrderInfo()
     }
     
     
-    override func footerRereshing() {
-        print("上拉")
-        tableview.mj_footer?.endRefreshing()
-    }
+//    override func footerRereshing() {
+//        tableview.mj_footer?.endRefreshing()
+//    }
     
     
     
@@ -681,5 +679,6 @@ class ShopViewController: BaseViewController {
     override func emptyDataSetShouldDisplay(_ scrollView: UIScrollView!) -> Bool {
         return false
     }
+    
 }
 

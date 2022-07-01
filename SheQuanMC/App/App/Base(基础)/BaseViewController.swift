@@ -9,6 +9,7 @@ import UIKit
 import MJRefresh
 import DZNEmptyDataSet
 import Util
+import Alamofire
 
 open class BaseViewController: UIViewController {
 
@@ -85,6 +86,13 @@ open class BaseViewController: UIViewController {
        navigationController?.navigationBar.barTintColor = UIColor.white
        //设置背景颜色
        view.backgroundColor = viewControllerBackGroundColor
+       let network = NetworkReachabilityManager()
+       if network?.isReachable == false{
+//           LXFLog("===============================\("测试")")
+           let noNetVc = NoNetViewController()
+           Coordinator.shared?.pushViewController(self, noNetVc, animated: true)
+           return
+       }
     }
     
     
@@ -116,6 +124,11 @@ extension BaseViewController:DZNEmptyDataSetSource,DZNEmptyDataSetDelegate{
     
     //是否显示
     open func emptyDataSetShouldDisplay(_ scrollView: UIScrollView!) -> Bool {
+        return true
+    }
+    
+    
+   open func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView!) -> Bool {
         return true
     }
     

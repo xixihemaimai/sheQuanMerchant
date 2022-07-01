@@ -171,18 +171,9 @@ class CommodityParametersViewController: BaseViewController {
             make.left.top.right.equalToSuperview()
             make.bottom.equalTo(iPhoneX ? -scale(92) : -scale(58))
         }
-        
-        
         tableview.delegate = self
         tableview.dataSource = self
-        
         tableview.register(CommodityParameterCell.self, forCellReuseIdentifier: "CommodityParameterCell")
-        
-        
-        
-        
-        
-        
         if paraList.count > 0{
             //这边是已经填写过得
 //            LXFLog("+============3===========\(paraList)")
@@ -761,9 +752,9 @@ class CommodityParametersViewController: BaseViewController {
 //        }
 //    }
     
-    override func emptyDataSetShouldDisplay(_ scrollView: UIScrollView!) -> Bool {
-        return false
-    }
+//    override func emptyDataSetShouldDisplay(_ scrollView: UIScrollView!) -> Bool {
+//        return false
+//    }
     
 
 }

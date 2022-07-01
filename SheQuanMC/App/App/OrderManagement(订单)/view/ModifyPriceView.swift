@@ -20,11 +20,13 @@ class ModifyPriceView: UIView {
     lazy var originTextfield:UITextField = {
        let originTextfield = UITextField()
         originTextfield.placeholder = "请输入"
+        originTextfield.clearButtonMode = .whileEditing
         originTextfield.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
-        originTextfield.keyboardType = .numberPad
+        originTextfield.keyboardType = .decimalPad
         originTextfield.attributedPlaceholder = NSAttributedString.init(string:"请输入", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
         originTextfield.addTarget(self, action: #selector(originInput), for: .editingChanged)
+        originTextfield.delegate = self
         return originTextfield
     }()
     
@@ -33,11 +35,13 @@ class ModifyPriceView: UIView {
     lazy var freightTextfield:UITextField = {
        let freightTextfield = UITextField()
         freightTextfield.placeholder = "请输入"
-        freightTextfield.keyboardType = .numberPad
+        freightTextfield.keyboardType = .decimalPad
+        freightTextfield.clearButtonMode = .whileEditing
         freightTextfield.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         freightTextfield.attributedPlaceholder = NSAttributedString.init(string:"请输入", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
         freightTextfield.addTarget(self, action: #selector(freightInput), for: .editingChanged)
+        freightTextfield.delegate = self
         return freightTextfield
     }()
     
@@ -381,8 +385,8 @@ class ModifyPriceView: UIView {
         let number = (originTextfield.text?.toCGFloat() ?? 0.0)
         let freightNumber = (freightTextfield.text?.toCGFloat() ?? 0.0)
         let total = number + freightNumber
-        underLabel.text = String(format: "¥%.1f", total)
-        if underLabel.text != "----"{
+        underLabel.text = String(format: "¥%.2f", total)
+        if originTextfield.text?.count ?? 0 > 0 && freightTextfield.text?.count ?? 0 > 0{
             sureModifyBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#313336")
             sureModifyBtn.isEnabled = true
         }else{
@@ -399,7 +403,7 @@ class ModifyPriceView: UIView {
         let freightNumber = (freightTextfield.text?.toCGFloat() ?? 0.0)
         let total = number + freightNumber
         underLabel.text = String(format: "¥%.1f", total)
-        if underLabel.text != "----"{
+        if originTextfield.text?.count ?? 0 > 0 && freightTextfield.text?.count ?? 0 > 0{
             sureModifyBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#313336")
             sureModifyBtn.isEnabled = true
         }else{
@@ -407,4 +411,22 @@ class ModifyPriceView: UIView {
             sureModifyBtn.isEnabled = false
         }
     }
+}
+
+extension ModifyPriceView:UITextFieldDelegate{
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if string.count == 0{
+           return true
+        }
+        let checkStr = (textField.text as? NSString)?.replacingCharacters(in: range, with: string)
+        let regex = "^\\-?([1-9]\\d*|0)(\\.\\d{0,2})?$"
+        return self.isValid(checkStr: checkStr!, regex: regex)
+    }
+
+    func isValid(checkStr:String, regex:String) ->Bool{
+        let predicte = NSPredicate(format:"SELF MATCHES %@", regex)
+        return predicte.evaluate(with: checkStr)
+    }
+    
 }

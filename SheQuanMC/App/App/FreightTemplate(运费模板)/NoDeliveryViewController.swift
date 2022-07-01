@@ -64,6 +64,26 @@ class NoDeliveryViewController: BaseViewController {
         }
         
         addRegionBtn.layer.cornerRadius = scale(4)
+        
+        loadNoDeliveryList()
+        
+        //这边获取省份
+        let parameters = ["freightVerId":freightListModel?.freightId as Any,"level":2,"regionId":0,"subHierarchy":1] as [String:Any]
+        NetWorkResultRequest(OrderApi.getFreightRegionList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+                guard let model = try? JSONDecoder().decode(GenericResponse<[RegionInfoModel]>.self, from: data) else { return }
+                self?.provinceList.removeAll()
+                if let _data = model.data{
+                    self?.provinceList = _data
+                }
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
+        
+    }
+    
+    
+    
+    func loadNoDeliveryList(){
         //这边获取
         var resultstr = "["
         for i in 0..<(freightListModel?.noDeliveryRegionIds?.count ?? 0){
@@ -78,9 +98,9 @@ class NoDeliveryViewController: BaseViewController {
         }
         resultstr += "]"
         let parameters1 = ["freightVerId":freightListModel?.freightId as Any,"noDeliveryRegionIds":(resultstr.count > 0 ? resultstr : [Int32]())] as [String:Any]
-        NetWorkResultRequest(OrderApi.getNoDeliveryRegionList(parameters: parameters1), needShowFailAlert: true) { result, data in
+        NetWorkResultRequest(OrderApi.getNoDeliveryRegionList(parameters: parameters1), needShowFailAlert: true) {[weak self] result, data in
             guard let model = try? JSONDecoder().decode(GenericResponse<[RegionInfoModel]>.self, from: data) else { return }
-            self.regionList.removeAll()
+            self?.regionList.removeAll()
             if let _data = model.data{
 //                self.regionList = _data
                 for i in 0..<_data.count{
@@ -88,27 +108,20 @@ class NoDeliveryViewController: BaseViewController {
                     regionInfoModel.childNodes = regionInfoModel.childNodes?.filter({ regionInfoModel2 in
                         regionInfoModel2.checked == true
                     })
-                    self.regionList.append(regionInfoModel)
+                    self?.regionList.append(regionInfoModel)
                 }
             }
-            self.tableview.reloadData()
-        } failureCallback: { error, code in
+            self?.tableview.reloadData()
+            self?.tableview.mj_header?.endRefreshing()
+        } failureCallback: {[weak self] error, code in
             code.loginOut()
+            self?.tableview.mj_header?.endRefreshing()
         }
-        
-        //这边获取省份
-        let parameters = ["freightVerId":freightListModel?.freightId as Any,"level":2,"regionId":0,"subHierarchy":1] as [String:Any]
-        NetWorkResultRequest(OrderApi.getFreightRegionList(parameters: parameters), needShowFailAlert: true) { result, data in
-                guard let model = try? JSONDecoder().decode(GenericResponse<[RegionInfoModel]>.self, from: data) else { return }
-                self.provinceList.removeAll()
-                if let _data = model.data{
-                    self.provinceList = _data
-                }
-//                LXFLog("====================\(self.provinceList)")
-        } failureCallback: { error, code in
-            code.loginOut()
-        }
-        
+    }
+    
+    
+    override func headerRereshing() {
+        loadNoDeliveryList()
     }
     
 

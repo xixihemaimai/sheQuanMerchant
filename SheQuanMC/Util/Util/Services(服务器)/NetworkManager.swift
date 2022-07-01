@@ -323,8 +323,6 @@ public func NetWorkSRequest(_ target: TargetType, needShowFailAlert: Bool = true
 /// - Returns: 取消当前网络请求Cancellable实例
 @discardableResult
 public func NetWorkResultRequest(_ target: TargetType, needShowFailAlert: Bool = true, successCallback:@escaping RequestCallback, failureCallback: errorCallback? = nil) -> Cancellable? {
-    
-    
     // 先判断网络是否有链接 没有的话直接返回--代码略
     if !UIDevice.isNetworkConnect {
         // code = 9999 代表无网络  这里根据具体业务来自定义
@@ -360,7 +358,7 @@ public func NetWorkResultRequest(_ target: TargetType, needShowFailAlert: Bool =
                 errorHandler(code: 1000000, message: String(data: response.data, encoding: String.Encoding.utf8)!, needShowFailAlert: needShowFailAlert, failure: failureCallback)
             }
         case let .failure(error as NSError):
-            errorHandler(code: error.code, message: "网络连接失败", needShowFailAlert: needShowFailAlert, failure: failureCallback)
+            errorHandler(code: error.code, message: "网络异常，请检查网络连接", needShowFailAlert: needShowFailAlert, failure: failureCallback)
         }
     }
     

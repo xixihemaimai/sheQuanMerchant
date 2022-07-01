@@ -109,18 +109,22 @@ class OrderModifyLogisticsCell: UITableViewCell {
     }()
  
     
-    var product:OrederInfoProductsModel?{
+    var orderLogisticsModel:OrderLogisticsModel?{
         didSet{
-            guard let _product = product else { return }
-            orderImage.sd_setImage(with: URL(string: _product.productPic ?? ""), placeholderImage: UIImage(named: "Group 2784"))
+            guard let _orderLogisticsModel = orderLogisticsModel else { return }
+            truePriceLabel.text = "¥" + (_orderLogisticsModel.totalAmount ?? "")
             
-            orderIntroductLabel.text = _product.productName
             
-            priceLabel.text = "¥" + (_product.price ?? "0")
             
-            productName.text = _product.specs
+            orderImage.sd_setImage(with: URL(string: _orderLogisticsModel.products?.first?.productPic ?? ""), placeholderImage: UIImage(named: "Group 2784"))
             
-            let qtyStr = String(format: "%d", _product.qty ?? 0)
+            orderIntroductLabel.text = _orderLogisticsModel.products?.first?.productName
+            
+            priceLabel.text = "¥" + (_orderLogisticsModel.products?.first?.price ?? "0")
+            
+            productName.text = _orderLogisticsModel.products?.first?.specs
+            
+            let qtyStr = String(format: "%d", _orderLogisticsModel.products?.first?.qty ?? 0)
             numberLabel.text = "x" + qtyStr
             
 //            truePriceLabel.text = "¥" + (_orderInfoModel.payAmount ?? "0")
@@ -133,11 +137,10 @@ class OrderModifyLogisticsCell: UITableViewCell {
                 make.width.equalTo(width)
                 make.height.equalTo(scale(12))
             }
+            
+            
         }
     }
-    
-    
-    
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

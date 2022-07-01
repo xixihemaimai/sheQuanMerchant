@@ -105,7 +105,6 @@ public func getArrayJSONStringFromAddSpec(obj:[String:Any]) -> String{
             }
             body += "}"
         }catch{
-          LXFLog(error)
           return body
         }
         return body
@@ -152,7 +151,6 @@ public func getArrayJSONStringFromUpdateAndNewTemplate(obj:[String:Any]) -> Stri
             }
             body += "}"
         }catch{
-          LXFLog(error)
           return body
         }
         return body
@@ -220,7 +218,6 @@ public func getJSONStringFromPushblish(obj:[String:Any],isEscape:Bool) -> String
                             }
                         }
                         if let code = element.value as? Decimal {
-                           LXFLog("+===============\(code)")
                            let doubleValue = Double(truncating: code as? NSNumber ?? 0.0)
                            let result = String(format: "%0.2f", doubleValue)
 //                           LXFLog("======================\(result)")
@@ -250,7 +247,6 @@ public func getJSONStringFromPushblish(obj:[String:Any],isEscape:Bool) -> String
                         if let code = element.value as? NSNumber {
                             if !body.contains("price"){
                                 if element.key == "price"{
-                                    LXFLog("+=======4========\(code)")
                                     let doubleValue = Double(truncating: code ?? 0.0)
                                     let result = String(format: "%0.2f", doubleValue)
                                     body += "," + "\"" + element.key + "\"" + ":" + result

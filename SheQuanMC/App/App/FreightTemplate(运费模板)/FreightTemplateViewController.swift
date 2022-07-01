@@ -60,17 +60,17 @@ class FreightTemplateViewController: BaseViewController {
     }
     
     func loadFreightList(){
-        NetWorkResultRequest(OrderApi.getFreightInfoList, needShowFailAlert: true) { result, data in
+        NetWorkResultRequest(OrderApi.getFreightInfoList, needShowFailAlert: true) {[weak self] result, data in
             guard let model = try? JSONDecoder().decode(GenericResponse<[FreightListModel]>.self, from: data) else { return }
-            self.list.removeAll()
+            self?.list.removeAll()
             if let data1 = model.data{
-                self.list = data1
-                self.tableview.reloadData()
+                self?.list = data1
+                self?.tableview.reloadData()
             }
-            self.tableview.mj_header?.endRefreshing()
-        } failureCallback: { error, code in
+            self?.tableview.mj_header?.endRefreshing()
+        } failureCallback: {[weak self] error, code in
             code.loginOut()
-            self.tableview.mj_header?.endRefreshing()
+            self?.tableview.mj_header?.endRefreshing()
         }
 
 //        NetWorkResultRequest(OrderApi.getProductFreightList, needShowFailAlert: true) { result, data in
@@ -88,7 +88,7 @@ class FreightTemplateViewController: BaseViewController {
     
     
     override func headerRereshing() {
-        LXFLog("下拉")
+//        LXFLog("下拉")
         loadFreightList()
     }
     
@@ -212,8 +212,8 @@ class FreightTemplateViewController: BaseViewController {
             templateContentVc.type = 1
             templateContentVc.freightListModel = freightListModel
             Coordinator.shared?.pushViewController(self, templateContentVc, animated: true)
-            templateContentVc.newAndUpdateBlock = {
-                self.loadFreightList()
+            templateContentVc.newAndUpdateBlock = {[weak self] in
+                self?.loadFreightList()
             }
         } failureCallback: { error, code in
             code.loginOut()
@@ -222,9 +222,9 @@ class FreightTemplateViewController: BaseViewController {
 
     
     
-    func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView!) -> Bool {
-        return true
-    }
+//    func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView!) -> Bool {
+//        return true
+//    }
 
 }
 

@@ -141,7 +141,8 @@ class AfterSalesViewController: BaseViewController {
         if (vc.view.superview != nil){
             return
         }
-        vc.view?.frame = contentScrollView.bounds
+//        vc.view?.frame = contentScrollView.bounds
+        vc.view?.frame = CGRect(x: btn.tag * Int(contentScrollView.size.width), y: 0, width: Int(contentScrollView.size.width), height: Int(contentScrollView.size.height))
         contentScrollView.addSubview(vc.view)
     }
     

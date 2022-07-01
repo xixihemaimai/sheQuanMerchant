@@ -94,15 +94,13 @@
 		408E424C282903B200C94119 /* ReturnGoodsAddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E424B282903B200C94119 /* ReturnGoodsAddressCell.swift */; };
 		408E424E2829050300C94119 /* LogisticsInformationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E424D2829050300C94119 /* LogisticsInformationCell.swift */; };
 		408E42502829101900C94119 /* ModifyAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E424F2829101900C94119 /* ModifyAddressViewController.swift */; };
-		408E4257282A16D800C94119 /* BHJPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E4256282A16D800C94119 /* BHJPickerView.swift */; };
-		408E425A282A16F400C94119 /* AddressModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E4259282A16F400C94119 /* AddressModel.swift */; };
-		408E425D282A271200C94119 /* city.json in Resources */ = {isa = PBXBuildFile; fileRef = 408E425C282A271100C94119 /* city.json */; };
 		408E425F282B3BC100C94119 /* OrderSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E425E282B3BC100C94119 /* OrderSearchViewController.swift */; };
 		409635392861622C00AA323C /* WKWebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409635382861622B00AA323C /* WKWebViewViewController.swift */; };
 		4096353F2864599400AA323C /* MomentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4096353E2864599200AA323C /* MomentsView.swift */; };
 		4096354128645A8400AA323C /* MomentsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4096354028645A8400AA323C /* MomentsViewCell.swift */; };
 		4096354328645AA700AA323C /* MomentsPostButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4096354228645AA700AA323C /* MomentsPostButton.swift */; };
 		4096354528645AD100AA323C /* MomentsDeleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4096354428645AD100AA323C /* MomentsDeleteView.swift */; };
+		409BF5CE286D76AF00B1B8DE /* NoNetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409BF5CD286D76AE00B1B8DE /* NoNetViewController.swift */; };
 		409C29932814FC5D00005ECB /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 409C29912814FC5D00005ECB /* UITextView+Placeholder.m */; };
 		409C29942814FC5D00005ECB /* UITextView+Placeholder.h in Headers */ = {isa = PBXBuildFile; fileRef = 409C29922814FC5D00005ECB /* UITextView+Placeholder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		40A267AB2856DDC00092321F /* AppSpecificationsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A267AA2856DDC00092321F /* AppSpecificationsCell.swift */; };
@@ -236,15 +234,13 @@
 		408E424B282903B200C94119 /* ReturnGoodsAddressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturnGoodsAddressCell.swift; sourceTree = "<group>"; };
 		408E424D2829050300C94119 /* LogisticsInformationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogisticsInformationCell.swift; sourceTree = "<group>"; };
 		408E424F2829101900C94119 /* ModifyAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyAddressViewController.swift; sourceTree = "<group>"; };
-		408E4256282A16D800C94119 /* BHJPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BHJPickerView.swift; sourceTree = "<group>"; };
-		408E4259282A16F400C94119 /* AddressModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressModel.swift; sourceTree = "<group>"; };
-		408E425C282A271100C94119 /* city.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = city.json; sourceTree = "<group>"; };
 		408E425E282B3BC100C94119 /* OrderSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSearchViewController.swift; sourceTree = "<group>"; };
 		409635382861622B00AA323C /* WKWebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WKWebViewViewController.swift; sourceTree = "<group>"; };
 		4096353E2864599200AA323C /* MomentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentsView.swift; sourceTree = "<group>"; };
 		4096354028645A8400AA323C /* MomentsViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentsViewCell.swift; sourceTree = "<group>"; };
 		4096354228645AA700AA323C /* MomentsPostButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentsPostButton.swift; sourceTree = "<group>"; };
 		4096354428645AD100AA323C /* MomentsDeleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentsDeleteView.swift; sourceTree = "<group>"; };
+		409BF5CD286D76AE00B1B8DE /* NoNetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoNetViewController.swift; sourceTree = "<group>"; };
 		409C29912814FC5D00005ECB /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
 		409C29922814FC5D00005ECB /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
 		40A267AA2856DDC00092321F /* AppSpecificationsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSpecificationsCell.swift; sourceTree = "<group>"; };
@@ -341,6 +337,7 @@
 			children = (
 				4060BC3228175ECD00968C42 /* BaseNaviViewController.swift */,
 				4060BC3328175ECD00968C42 /* BaseViewController.swift */,
+				409BF5CD286D76AE00B1B8DE /* NoNetViewController.swift */,
 			);
 			path = "Base(基础)";
 			sourceTree = "<group>";
@@ -386,8 +383,6 @@
 		4075AF0A281E1DE6005EB854 /* OrderManagement(订单) */ = {
 			isa = PBXGroup;
 			children = (
-				408E4258282A16DF00C94119 /* Model */,
-				408E4251282A134600C94119 /* Resources */,
 				4083B25C2825FC1100AFAD18 /* view */,
 				4075AF0B281E1E08005EB854 /* OrderViewController.swift */,
 				4075AF0D281E2673005EB854 /* OrderContentViewController.swift */,
@@ -493,25 +488,8 @@
 				408E42492829003C00C94119 /* OrderModifyLogisticsCell.swift */,
 				408E424B282903B200C94119 /* ReturnGoodsAddressCell.swift */,
 				408E424D2829050300C94119 /* LogisticsInformationCell.swift */,
-				408E4256282A16D800C94119 /* BHJPickerView.swift */,
 			);
 			path = view;
-			sourceTree = "<group>";
-		};
-		408E4251282A134600C94119 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				408E425C282A271100C94119 /* city.json */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		408E4258282A16DF00C94119 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				408E4259282A16F400C94119 /* AddressModel.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		409C298F2814FC0D00005ECB /* Lib */ = {
@@ -712,7 +690,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				408E425D282A271200C94119 /* city.json in Resources */,
 				40C3778C2851EB3F00DA9E70 /* SIXEditor.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -841,12 +818,12 @@
 				407D9808281A8457005A8CBC /* ReplenishInventoryCell.swift in Sources */,
 				4096353F2864599400AA323C /* MomentsView.swift in Sources */,
 				4060BC3428175ECD00968C42 /* BaseNaviViewController.swift in Sources */,
+				409BF5CE286D76AF00B1B8DE /* NoNetViewController.swift in Sources */,
 				407D9806281A8352005A8CBC /* ReplenishInventoryViewController.swift in Sources */,
 				4060BC302816AD5000968C42 /* CountDown.swift in Sources */,
 				4060BC3D2817986900968C42 /* NewPasswordViewController.swift in Sources */,
 				401E5DD42815407A009127A5 /* LoginViewController.swift in Sources */,
 				4060BC402817A54600968C42 /* StoreOccupancyViewController.swift in Sources */,
-				408E425A282A16F400C94119 /* AddressModel.swift in Sources */,
 				408E424E2829050300C94119 /* LogisticsInformationCell.swift in Sources */,
 				408E423E2828C35900C94119 /* LogisticsCompanyCell.swift in Sources */,
 				408E422C2826686500C94119 /* OrderDetailStatusCell.swift in Sources */,
@@ -855,7 +832,6 @@
 				407D97FF281A65EE005A8CBC /* CommodityStatusViewController.swift in Sources */,
 				403B88092823A8C600FC4EA4 /* AddSpecificationsView.swift in Sources */,
 				408E42482828FDE800C94119 /* ModifyLogisticsViewController.swift in Sources */,
-				408E4257282A16D800C94119 /* BHJPickerView.swift in Sources */,
 				408E424A2829003C00C94119 /* OrderModifyLogisticsCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

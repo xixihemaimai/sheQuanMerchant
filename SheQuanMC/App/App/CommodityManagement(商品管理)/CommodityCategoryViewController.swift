@@ -56,6 +56,7 @@ class CommodityCategoryViewController: BaseViewController {
         
         searchBar.setPositionAdjustment(UIOffset(horizontal: SCW/2 - scale(80)/2, vertical: 0), for: .search)
         view.addSubview(tableview)
+        
         tableview.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.top.equalTo(searchBar.snp.bottom)
@@ -65,10 +66,14 @@ class CommodityCategoryViewController: BaseViewController {
         tableview.dataSource = self
         tableview.register(CommodityCategoryCell.self, forCellReuseIdentifier: "CommodityCategoryCell")
         
-
-        
         getProductCategoryList()
         
+    }
+    
+    
+    
+    override func headerRereshing() {
+        getProductCategoryList()
     }
     
     

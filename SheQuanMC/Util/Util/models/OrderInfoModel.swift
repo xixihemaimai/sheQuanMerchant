@@ -246,20 +246,23 @@ public struct ProductOrderCountModel:Codable{
 //获取订单物流
 public struct OrderLogisticsModel:Codable{
     public var logistics:LogisticsInfoModel?
-    public var product:OrederInfoProductsModel?
+    public var products:[OrederInfoProductsModel]?
     public var retAddress:RetAddressInfoModel?
+    public var totalAmount:String?
     
     enum CodingKeys:String,CodingKey {
         case logistics = "logistics"
-        case product = "product"
+        case products = "products"
         case retAddress = "retAddress"
+        case totalAmount = "totalAmount"
     }
     
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         logistics = try? values.decodeIfPresent(LogisticsInfoModel.self, forKey: .logistics)
-        product = try? values.decodeIfPresent(OrederInfoProductsModel.self, forKey: .product)
+        products = try? values.decodeIfPresent([OrederInfoProductsModel].self, forKey: .products)
         retAddress = try? values.decodeIfPresent(RetAddressInfoModel.self, forKey: .retAddress)
+        totalAmount = try? values.decodeIfPresent(String.self, forKey: .totalAmount)
     }
 }
 
@@ -270,18 +273,24 @@ public struct OrderLogisticsModel:Codable{
 public struct LogisticsInfoModel:Codable{
     public var expressNo:String? //快递单号
     public var logisticsId:Int32? //物流Id
+    public var logisticsName:String? //物流名称
     public var logisticsType:Int32? //物流方式
+    public var logisticsTypeText:String? //物流方式名称
     
     enum CodingKeys:String,CodingKey {
        case expressNo = "expressNo"
        case logisticsId = "logisticsId"
        case logisticsType = "logisticsType"
+       case logisticsName = "logisticsName"
+       case logisticsTypeText = "logisticsTypeText"
     }
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         expressNo = try? values.decodeIfPresent(String.self, forKey: .expressNo)
         logisticsId = try? values.decodeIfPresent(Int32.self, forKey: .logisticsId)
         logisticsType = try? values.decodeIfPresent(Int32.self, forKey: .logisticsType)
+        logisticsName = try? values.decodeIfPresent(String.self, forKey: .logisticsName)
+        logisticsTypeText = try? values.decodeIfPresent(String.self, forKey: .logisticsTypeText)
     }
 }
 

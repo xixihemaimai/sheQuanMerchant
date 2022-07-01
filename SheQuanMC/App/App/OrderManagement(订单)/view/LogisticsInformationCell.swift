@@ -43,7 +43,7 @@ class LogisticsInformationCell: UITableViewCell {
     
     lazy var goodsDescribeLabel:UILabel = {
         let goodsDescribeLabel = UILabel()
-        goodsDescribeLabel.text = "商品描述"
+        goodsDescribeLabel.text = "物流公司"
         goodsDescribeLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         goodsDescribeLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         goodsDescribeLabel.textAlignment = .left
@@ -88,12 +88,13 @@ class LogisticsInformationCell: UITableViewCell {
     var logistics:LogisticsInfoModel?{
         didSet{
             guard let _logistics = logistics else { return }
-            
-//          goodsDetailLabel.text = _logisticsModel.logisticsName
-            
-            
             expressTextField.text = _logistics.expressNo
-            
+            deliveryContentLabel.text = _logistics.logisticsTypeText
+            if _logistics.logisticsName == nil{
+                goodsDetailLabel.text = "请选择物流公司"
+            }else{
+                goodsDetailLabel.text = _logistics.logisticsName
+            }
         }
     }
     

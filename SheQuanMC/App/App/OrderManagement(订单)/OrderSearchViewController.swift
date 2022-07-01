@@ -16,22 +16,18 @@ class OrderSearchViewController: BaseViewController {
     var status:Int = 0
     lazy var searchTextfield:UITextField = {
        let searchTextfield = UITextField()
-        searchTextfield.placeholder = "搜索商品名称"
+        searchTextfield.placeholder = "请输入用户名/商品名称/商品编码"
         searchTextfield.font = UIFont.systemFont(ofSize: scale(12), weight: .regular)
-        searchTextfield.attributedPlaceholder = NSAttributedString.init(string:"搜索商品名称", attributes: [
+        searchTextfield.attributedPlaceholder = NSAttributedString.init(string:"请输入用户名/商品名称/商品编码", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#B3B3B3")])
+        searchTextfield.addTarget(self, action: #selector(searchingContentAction), for: .editingChanged)
         return searchTextfield
     }()
-    
-    
-    
     
     //数组
     var searchProductList:[OrederInfoModel] = [OrederInfoModel]()
     
     
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -65,7 +61,7 @@ class OrderSearchViewController: BaseViewController {
             make.height.equalTo(scale(17))
             make.right.equalToSuperview()
         }
-        searchTextfield.addTarget(self, action: #selector(searchEndAction), for: .editingDidEnd)
+//        searchTextfield.addTarget(self, action: #selector(searchEndAction), for: .editingDidEnd)
         
         //取消
         let cancelBtn = UIButton()
@@ -101,19 +97,19 @@ class OrderSearchViewController: BaseViewController {
         tableview.delegate = self
         tableview.dataSource = self
         tableview.register(OrderStatusCell.self, forCellReuseIdentifier: "OrderStatusCell")
-        
 //        loadSearchProduct(searchTextfield.text ?? "")
-        
         loadOrderStatus()
-        
     }
     
     
     
-    //搜索完成结束之后
-    @objc func searchEndAction(searchTextfield:UITextField){
-//        loadSearchProduct(searchTextfield.text ?? "")
+    //搜索中
+    @objc func searchingContentAction(searchTextfield:UITextField){
+//        LXFLog("===============\(searchTextfield.text)")
+        loadOrderStatus()
     }
+    
+    
     
     //取消按键
     @objc func cancelAction(cancelBtn:UIButton){
@@ -123,43 +119,30 @@ class OrderSearchViewController: BaseViewController {
     }
     
     override func headerRereshing() {
-        LXFLog("下拉")
-//        tableview.mj_header?.endRefreshing()
-//        loadSearchProduct(searchTextfield.text ?? "")
-        
         loadOrderStatus()
-        
     }
     
-    override func footerRereshing() {
-        LXFLog("上拉")
-        tableview.mj_footer?.endRefreshing()
-    }
-    
-    
+//    override func footerRereshing() {
+//        tableview.mj_footer?.endRefreshing()
+//    }
     
     func loadOrderStatus(){
-        let parameters = ["lastOrderId":0,"orderStatus":0] as [String:Any]
-        NetWorkResultRequest(OrderApi.getOrderProductList(parameters: parameters), needShowFailAlert: true) { result, data in
+        let parameters = ["keyWord":searchTextfield.text as Any,"lastOrderId":0,"orderStatus":0] as [String:Any]
+        NetWorkResultRequest(OrderApi.getOrderProductList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
             guard let model = try? JSONDecoder().decode(GenericResponse<[OrederInfoModel]>.self, from: data) else { return }
-            self.searchProductList.removeAll()
+            self?.searchProductList.removeAll()
             if let _data = model.data{
-                self.searchProductList = _data
+                self?.searchProductList = _data
             }
-            self.tableview.mj_header?.endRefreshing()
-            self.tableview.mj_footer?.endRefreshing()
-            self.tableview.reloadData()
-        } failureCallback: { error, code in
+            self?.tableview.mj_header?.endRefreshing()
+//            self?.tableview.mj_footer?.endRefreshing()
+            self?.tableview.reloadData()
+        } failureCallback: {[weak self] error, code in
             code.loginOut()
-            self.tableview.mj_header?.endRefreshing()
-            self.tableview.mj_footer?.endRefreshing()
+            self?.tableview.mj_header?.endRefreshing()
+//            self?.tableview.mj_footer?.endRefreshing()
         }
     }
-    
-    
-    
-    
-    
     
     //关闭订单按键
     @objc func closeOrderAction(closeOrderBtn:UIButton){
@@ -174,7 +157,7 @@ class OrderSearchViewController: BaseViewController {
             closeOrderReasonView.sureCloseSuccessBlock = {[weak self] in
                 self?.loadOrderStatus()
                 
-                NotificationCenter.default.post(name: NSNotification.Name("changeOrderCount"), object: nil)
+              NotificationCenter.default.post(name: NSNotification.Name("changeOrderCount"), object: nil)
                 
                 self?.popup.dismissPopup()
             }
@@ -185,27 +168,20 @@ class OrderSearchViewController: BaseViewController {
     //改价按键
     @objc func modifyPriceAction(modifyPriceBtn:UIButton){
         //这边也要自定义一个UIview
-        
         let orderInfoModel = searchProductList[modifyPriceBtn.tag]
-        
         self.popup.bottomSheet {
             let modifyPriceView = ModifyPriceView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(492)), orderId: orderInfoModel.orderId ?? 0)
             modifyPriceView.cancelBlock = {[weak self] in
                 self?.popup.dismissPopup()
             }
-            
             modifyPriceView.modifyPriceSuccessBlock = { [weak self] in
                 self?.loadOrderStatus()
-                
                 NotificationCenter.default.post(name: NSNotification.Name("changeOrderCount"), object: nil)
-                
                 self?.popup.dismissPopup()
             }
             return modifyPriceView
         }
     }
-    
-    
     
     //查看物流
     @objc func checkLogisticsAction(checkLogisticsBtn:UIButton){
@@ -223,9 +199,9 @@ class OrderSearchViewController: BaseViewController {
         modifyLogisticsVc.jump = .listJumpType
         modifyLogisticsVc.orderId = orderInfoModel.orderId ?? 0
         Coordinator.shared?.pushViewController(self, modifyLogisticsVc, animated: true)
-        modifyLogisticsVc.jumpSuccessBlockListType = {[weak self] in
-            self?.loadOrderStatus()
-        }
+//        modifyLogisticsVc.jumpSuccessBlockListType = {[weak self] in
+//            self?.loadOrderStatus()
+//        }
     }
     
     //去发货

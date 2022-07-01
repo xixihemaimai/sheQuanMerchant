@@ -12,10 +12,6 @@ import SwiftyJSON
 
 class ModifyAddressViewController: BaseViewController {
 
-    
-    
-    
-    
     //原姓名
     lazy var nameTextView:UITextView = {
        let nameTextView = UITextView()
@@ -99,6 +95,17 @@ class ModifyAddressViewController: BaseViewController {
         isDefaultSwitch.onTintColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         isDefaultSwitch.addTarget(self, action: #selector(isDefaultSwitchAction), for: .touchUpInside)
         return isDefaultSwitch
+    }()
+    
+    
+    lazy var submitBtn:UIButton = {
+        let submitBtn = UIButton()
+        submitBtn.setTitle("提交", for: .normal)
+        submitBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#ffffff"), for: .normal)
+        submitBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
+        submitBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E1E1E1")
+        submitBtn.isEnabled = false
+        return submitBtn
     }()
     
     
@@ -352,13 +359,8 @@ class ModifyAddressViewController: BaseViewController {
         }
         
         //提交
-        let submitBtn = UIButton()
-        submitBtn.setTitle("提交", for: .normal)
-        submitBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#ffffff"), for: .normal)
-        submitBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
-        submitBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#313336")
+       
         view.addSubview(submitBtn)
-        
         submitBtn.snp.makeConstraints { make in
             make.left.equalTo(scale(16))
             make.right.equalTo(-scale(16))
@@ -394,13 +396,19 @@ class ModifyAddressViewController: BaseViewController {
             }else{
                 deleteAddressBtn.isHidden = true
             }
-            
-            
             isDefaultSwitch.isOn = retAddressInfoModel?.isDef == true ? true : false
+            
+            
+            if nameTextView.text.count > 0 && phoneNmberTextView.text.count > 0 && detailAddressTextView.text.count > 0{
+                submitBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#313336")
+                submitBtn.isEnabled = true
+            }else{
+                submitBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E1E1E1")
+                submitBtn.isEnabled = false
+            }
             
         }
         
-
         let parameters = ["freightVerId":0 as Any,"level":2,"regionId":0,"subHierarchy":2] as [String:Any]
         NetWorkResultRequest(OrderApi.getFreightRegionList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
             guard let model = try? JSONDecoder().decode(GenericResponse<[RegionInfoModel]>.self, from: data) else { return }
@@ -411,8 +419,6 @@ class ModifyAddressViewController: BaseViewController {
         } failureCallback: { error, code in
             code.loginOut()
         }
-        
-        
     }
 
     
@@ -420,16 +426,28 @@ class ModifyAddressViewController: BaseViewController {
     @objc func deleteNameAction(deleteNameBtn:UIButton){
         nameTextView.text = ""
         deleteNameBtn.isHidden = true
-        
         retAddressInfoModel?.consignee = nameTextView.text
+        if nameTextView.text.count > 0 && phoneNmberTextView.text.count > 0 && detailAddressTextView.text.count > 0{
+            submitBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#313336")
+            submitBtn.isEnabled = true
+        }else{
+            submitBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E1E1E1")
+            submitBtn.isEnabled = false
+        }
     }
     
     //删除详细地址
     @objc func deleteAddressAction(deleteAddressBtn:UIButton){
         detailAddressTextView.text = ""
         deleteAddressBtn.isHidden = true
-        
         retAddressInfoModel?.address = detailAddressTextView.text
+        if nameTextView.text.count > 0 && phoneNmberTextView.text.count > 0 && detailAddressTextView.text.count > 0{
+            submitBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#313336")
+            submitBtn.isEnabled = true
+        }else{
+            submitBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E1E1E1")
+            submitBtn.isEnabled = false
+        }
     }
     
     //修改是否默认
@@ -454,9 +472,7 @@ class ModifyAddressViewController: BaseViewController {
     
     //所在地区
     @objc func locationAction(choiceAddresssBtn:UIButton){
-        LXFLog("---------------------")
-          //let pickerView = BHJPickerView.init(self, .address)
-          //pickerView.pickerViewShow()
+          LXFLog("---------------------")
           //var str = "福建省(龙岩市、厦门市、漳州市)"
           //str = str.replacingOccurrences(of: "(", with: "", options: .literal, range: nil)
           //str = str.replacingOccurrences(of: "、", with: "", options: .literal, range: nil)
@@ -544,51 +560,67 @@ class ModifyAddressViewController: BaseViewController {
 
 
 
-//extension ModifyAddressViewController:PickerDelegate{
-//
-//    func selectedDate(_ pickerView: BHJPickerView, _ dateStr: Date) {
-//
-//    }
-//
-//    func selectedGender(_ pickerView: BHJPickerView, _ genderStr: String) {
-//
-//    }
-//
-//    func selectedAddress(_ pickerView: BHJPickerView, _ procince: AddressModel, _ city: AddressModel, _ area: AddressModel) {
-//        let messge = procince.region_name! + city.region_name! + area.region_name!
-//        addressLabel.text = messge
-//    }
-//}
-
-
 extension ModifyAddressViewController:UITextViewDelegate{
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if textView == nameTextView{
+            if text == "" && range.length > 0{
+                return true
+            }
+            if textView.text.count > 14{
+                return false
+            }
+            return true
+        }else if textView == phoneNmberTextView{
+            if text == "" && range.length > 0{
+                return true
+            }
+            if textView.text.count > 10{
+                return false
+            }
+            return true
+        }else if textView == detailAddressTextView{
+            if text == "" && range.length > 0{
+                return true
+            }
+            if textView.text.count > 99{
+                return false
+            }
+        }
+        return true
+    }
+    
     
     func textViewDidChange(_ textView: UITextView) {
         if textView == nameTextView{
-            
             retAddressInfoModel?.consignee = textView.text
-            
             if textView.text.count > 0 {
                 deleteNameBtn.isHidden = false
             }else{
                 deleteNameBtn.isHidden = true
             }
         }else if textView == phoneNmberTextView{
-           
             retAddressInfoModel?.mobile = textView.text
-             
         }else{
-            
             retAddressInfoModel?.address = textView.text
-            
-            
             if textView.text.count > 0 {
                 deleteAddressBtn.isHidden = false
             }else{
                 deleteAddressBtn.isHidden = true
             }
         }
+        
+        LXFLog("+============\(nameTextView.text.count)")
+        LXFLog("+============\(phoneNmberTextView.text.count)")
+        LXFLog("+============\(detailAddressTextView.text.count)")
+        
+        if nameTextView.text.count > 0 && phoneNmberTextView.text.count > 0 && detailAddressTextView.text.count > 0{
+            submitBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#313336")
+            submitBtn.isEnabled = true
+        }else{
+            submitBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E1E1E1")
+            submitBtn.isEnabled = false
+        }
     }
-    
-    
+
 }

@@ -103,7 +103,7 @@ class ModifyReturnAddressViewController: BaseViewController {
             if let _data = model.data{
                 //这边跳转界面
                let addNewAddressVc = ModifyAddressViewController()
-                addNewAddressVc.retAddressInfoModel = _data
+               addNewAddressVc.retAddressInfoModel = _data
                addNewAddressVc.title = "编辑地址"
                Coordinator.shared?.pushViewController(self!, addNewAddressVc, animated: true)
                 addNewAddressVc.updateAndAddSuccessBlock = {
@@ -119,7 +119,7 @@ class ModifyReturnAddressViewController: BaseViewController {
     //是否为默认
     @objc func isDefaultAction(isDefaultBtn:UIButton){
         //清除其他默认的状态
-        let retAddressInfoModel = addressList[isDefaultBtn.tag]
+//        let retAddressInfoModel = addressList[isDefaultBtn.tag]
         var title:String;
         if isDefaultBtn.isSelected {
             title = "确定要将此模板取消默认吗"
@@ -184,6 +184,12 @@ class ModifyReturnAddressViewController: BaseViewController {
         }
         
     }
+    
+    
+//    func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView!) -> Bool {
+//        return true
+//    }
+    
     
    
 }

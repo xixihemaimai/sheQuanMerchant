@@ -34,13 +34,23 @@ class ModifyLogisticsViewController: BaseViewController {
     var jumpSuccessBlockDetailType:(()->Void)?
 
     
+    lazy var newTableView:UITableView = {
+        let newTabelView = UITableView(frame: .zero, style: .plain)
+        newTabelView.separatorStyle = .none
+        if #available(iOS 11.0, *){
+            newTabelView.contentInsetAdjustmentBehavior = .never
+        }
+        if #available(iOS 15.0, *){
+            newTabelView.sectionHeaderTopPadding = 0
+        }
+        return newTabelView
+    }()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
-        
-        
         let topView = UIView()
         topView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
         view.addSubview(topView)
@@ -50,19 +60,18 @@ class ModifyLogisticsViewController: BaseViewController {
             make.height.equalTo(scale(0.5))
         }
         
-        
-        view.addSubview(tableview)
-        tableview.snp.makeConstraints { make in
+        view.addSubview(newTableView)
+        newTableView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.bottom.equalTo(iPhoneX ? -scale(92) : -scale(58))
             make.top.equalTo(topView.snp.bottom)
         }
-        tableview.delegate = self
-        tableview.dataSource = self
-        tableview.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#f8f8f8")
-        tableview.register(OrderModifyLogisticsCell.self, forCellReuseIdentifier: "OrderModifyLogisticsCell")
-        tableview.register(ReturnGoodsAddressCell.self, forCellReuseIdentifier: "ReturnGoodsAddressCell")
-        tableview.register(LogisticsInformationCell.self, forCellReuseIdentifier: "LogisticsInformationCell")
+        newTableView.delegate = self
+        newTableView.dataSource = self
+        newTableView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#f8f8f8")
+        newTableView.register(OrderModifyLogisticsCell.self, forCellReuseIdentifier: "OrderModifyLogisticsCell")
+        newTableView.register(ReturnGoodsAddressCell.self, forCellReuseIdentifier: "ReturnGoodsAddressCell")
+        newTableView.register(LogisticsInformationCell.self, forCellReuseIdentifier: "LogisticsInformationCell")
         
         
         let suerModifyBtn = UIButton()
@@ -86,12 +95,7 @@ class ModifyLogisticsViewController: BaseViewController {
         suerModifyBtn.layer.cornerRadius = scale(4)
         suerModifyBtn.addTarget(self, action: #selector(sureModifyLogisticsAction), for: .touchUpInside)
         
-        
-        
         reloadOrderLogisticsNetData()
-        
-        
-        
     }
     
     
@@ -103,7 +107,7 @@ class ModifyLogisticsViewController: BaseViewController {
             if let _data = model.data{
                 self?.orderLogisticsModel = _data
             }
-            self?.tableview.reloadData()
+            self?.newTableView.reloadData()
         } failureCallback: { error, code in
             code.loginOut()
         }
@@ -115,10 +119,11 @@ class ModifyLogisticsViewController: BaseViewController {
         Coordinator.shared?.pushViewController(self, logisticsCompanyVc, animated: true)
         // 这边要返回选择的物流公司
         logisticsCompanyVc.selectLogisticsSuccessBlock = {[weak self] logisticsModel  in
-//            self?.logisticsModel = logisticsModel
+            self?.orderLogisticsModel?.logistics?.logisticsName = logisticsModel.logisticsName
+            self?.orderLogisticsModel?.logistics?.logisticsId = logisticsModel.logisticsId
 //            let cell = self?.tableview.cellForRow(at: IndexPath(row: 1, section: 0)) as! LogisticsInformationCell
 //            cell.goodsDetailLabel.text = logisticsModel.logisticsName
-//            self?.tableview.reloadData()
+            self?.newTableView.reloadData()
         }
     }
     
@@ -131,14 +136,14 @@ class ModifyLogisticsViewController: BaseViewController {
         //进入退货地址页面
         returnAddressVc.choiceRetAddressSuccessBlock = {[weak self] retAddressInfoModel in
             self?.orderLogisticsModel?.retAddress = retAddressInfoModel
-            self?.tableview.reloadData()
+            self?.newTableView.reloadData()
         }
     }
     
     
     //确认修改物流
     @objc func sureModifyLogisticsAction(suerModifyBtn:UIButton){
-        let cell = tableview.cellForRow(at: IndexPath(row: 1, section: 0)) as! LogisticsInformationCell
+        let cell = newTableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! LogisticsInformationCell
         if (cell.expressTextField.text?.count ?? 0) < 1{
             JFPopup.toast(hit: "请填写快递单号")
             return
@@ -147,8 +152,7 @@ class ModifyLogisticsViewController: BaseViewController {
             JFPopup.toast(hit: "请选择物流")
             return
         }
-        
-        let parameters = ["expressNo":cell.expressTextField.text as Any,"logisticsId":orderLogisticsModel?.logistics?.logisticsId as Any,"orderId":orderId as Any,"returnAddrId":self.orderLogisticsModel?.retAddress?.retAddressId as Any] as [String:Any]
+        let parameters = ["expressNo":cell.expressTextField.text as Any,"logisticsId":orderLogisticsModel?.logistics?.logisticsId as Any,"logisticsType":orderLogisticsModel?.logistics?.logisticsType as Any,"orderId":orderId as Any,"retAddressId":(self.orderLogisticsModel?.retAddress?.retAddressId != nil ? self.orderLogisticsModel?.retAddress?.retAddressId : 0)as Any] as [String:Any]
         if title == "订单发货"{
             NetWorkResultRequest(OrderApi.confirmShipment(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
                 if self?.jump == .listJumpType{
@@ -170,7 +174,7 @@ class ModifyLogisticsViewController: BaseViewController {
                     self?.jumpSuccessBlockDetailType?()
                 }
                 Coordinator.shared?.popViewController(self!, true)
-                NotificationCenter.default.post(name: NSNotification.Name("changeOrderCount"), object: nil)
+//                NotificationCenter.default.post(name: NSNotification.Name("changeOrderCount"), object: nil)
             } failureCallback: { error, code in
                 code.loginOut()
             }
@@ -181,9 +185,12 @@ class ModifyLogisticsViewController: BaseViewController {
 
 
 extension ModifyLogisticsViewController:UITableViewDelegate,UITableViewDataSource{
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        if orderLogisticsModel?.retAddress == nil{
+            return 2
+        }else{
+            return 3
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -193,13 +200,12 @@ extension ModifyLogisticsViewController:UITableViewDelegate,UITableViewDataSourc
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0{
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderModifyLogisticsCell") as! OrderModifyLogisticsCell
-            cell.product = orderLogisticsModel?.product
+            cell.orderLogisticsModel = orderLogisticsModel
             return cell
         }else if indexPath.row == 1{
             let cell = tableView.dequeueReusableCell(withIdentifier: "LogisticsInformationCell") as! LogisticsInformationCell
             cell.goodsDetailBtn.addTarget(self, action: #selector(choiceLogisticsAction), for: .touchUpInside)
             cell.logistics = orderLogisticsModel?.logistics
-            
             return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "ReturnGoodsAddressCell") as! ReturnGoodsAddressCell

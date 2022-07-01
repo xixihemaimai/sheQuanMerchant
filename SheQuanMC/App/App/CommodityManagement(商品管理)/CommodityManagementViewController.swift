@@ -8,7 +8,7 @@
 import UIKit
 import Util
 
-class CommodityManagementViewController: BaseViewController {
+class CommodityManagementViewController: UIViewController {
 
     lazy var searchBar:UISearchBar = {
        let searchBar = UISearchBar()

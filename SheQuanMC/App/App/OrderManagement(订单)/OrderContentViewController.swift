@@ -154,6 +154,7 @@ class OrderContentViewController: BaseViewController {
         btn.titleLabel?.font = UIFont.systemFont(ofSize: scale(14), weight: .medium)
         btn.isSelected = true
         perBtn = btn
+        selectIndex = btn.tag
         //让标题按钮居中
         var offsetX = btn.center.x - SCW * 0.5
         if offsetX < 0 {
@@ -224,7 +225,6 @@ class OrderContentViewController: BaseViewController {
     
     //改变订单数
     @objc func changeOrderCount(noti:Notification){
-        LXFLog("+=============23========23================================================3=================23=============================")
         NetWorkResultRequest(OrderApi.getProductOrderCount, needShowFailAlert: true) {[weak self] result, data in
            //这边获取订单数
             guard let model = try? JSONDecoder().decode(GenericResponse<[ProductOrderCountModel]>.self, from: data) else { return }

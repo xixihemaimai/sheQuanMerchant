@@ -289,12 +289,9 @@ extension BusinessTypeViewController:UITableViewDelegate,UITableViewDataSource{
 //        }
     }
     
-    
-    
-//    emptyDataSetShouldDisplay
-    override func emptyDataSetShouldDisplay(_ scrollView: UIScrollView!) -> Bool {
-        return false
-    }
+//    override func emptyDataSetShouldDisplay(_ scrollView: UIScrollView!) -> Bool {
+//        return false
+//    }
     
 }
 

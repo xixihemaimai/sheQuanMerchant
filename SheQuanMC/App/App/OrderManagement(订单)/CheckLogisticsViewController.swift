@@ -36,7 +36,14 @@ class CheckLogisticsViewController: BaseViewController {
         tableview.register(CheckLogisticsNumberCell.self, forCellReuseIdentifier: "CheckLogisticsNumberCell")
         tableview.register(CheckLogisticsProgressCell.self, forCellReuseIdentifier: "CheckLogisticsProgressCell")
         
-        loadChechViewLogisticsList() 
+        loadChechViewLogisticsList()
+        
+    }
+    
+    
+    
+    override func headerRereshing() {
+        loadChechViewLogisticsList()
     }
     
     
@@ -50,8 +57,10 @@ class CheckLogisticsViewController: BaseViewController {
                 self?.viewLogisticsModel?.tracks?.reverse()
             }
             self?.tableview.reloadData()
-        } failureCallback: { error, code in
+            self?.tableview.mj_header?.endRefreshing()
+        } failureCallback: {[weak self] error, code in
             code.loginOut()
+            self?.tableview.mj_header?.endRefreshing()
         }
     }
 }

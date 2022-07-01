@@ -59,6 +59,32 @@ class OrderDeliveryLogisticsCell: UITableViewCell {
          return addressLabel
     }()
     
+    lazy var addressImage:UIImageView = {
+        let addressImage = UIImageView()
+        addressImage.image = UIImage(named: "Group 2711")
+        return addressImage
+    }()
+    
+    
+    
+    var orderLogisticsModel:OrderLogisticsModel?{
+        didSet{
+            guard let _orderLogisticsModel = orderLogisticsModel else { return }
+            nickNameLabel.text = _orderLogisticsModel.retAddress?.consignee
+            phoneNumberLabel.text = _orderLogisticsModel.retAddress?.mobile?.hidePhone(combine: "****")
+            phoneNumberLabel.text = _orderLogisticsModel.retAddress?.mobile
+            addressLabel.text = String(format: "%@%@%@%@", _orderLogisticsModel.retAddress?.provinceName ?? "",_orderLogisticsModel.retAddress?.cityName ?? "",_orderLogisticsModel.retAddress?.regionName ?? "",_orderLogisticsModel.retAddress?.address ?? "")
+            var width = (_orderLogisticsModel.retAddress?.consignee?.singleLineWidth(font: UIFont.systemFont(ofSize: scale(16), weight: .semibold)) ?? 10)
+            width += scale(5)
+            nickNameLabel.snp.remakeConstraints { make in
+                make.left.equalTo(addressImage.snp.right).offset(scale(3))
+                make.top.equalTo(joinSignBtn.snp.bottom).offset(scale(10))
+                make.height.equalTo(scale(22))
+                make.width.equalTo(width)
+            }
+        }
+    }
+    
     
     
     
@@ -170,8 +196,8 @@ class OrderDeliveryLogisticsCell: UITableViewCell {
         }
         
         
-        let addressImage = UIImageView()
-        addressImage.image = UIImage(named: "Group 2711")
+        
+        
         contentView.addSubview(addressImage)
         
         addressImage.snp.makeConstraints { make in

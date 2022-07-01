@@ -84,7 +84,6 @@ class OrderDetailStatusCell: UITableViewCell {
                 timer = nil
                 orderStatusLabel.text = "已发货"
 //                inputTimeAndEndTime(_orderInfoModel.orderTime ?? "", _orderInfoModel.payRemainingTime ?? "")
-                
                 if _orderInfoModel.payRemainingTime != 0{
                     inputEndTime(endTime: _orderInfoModel.payRemainingTime ?? 0)
                 }else{

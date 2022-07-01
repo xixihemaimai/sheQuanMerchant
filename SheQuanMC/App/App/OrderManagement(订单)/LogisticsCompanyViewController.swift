@@ -77,25 +77,33 @@ class LogisticsCompanyViewController: BaseViewController {
     }
     
     
+    
+    override func headerRereshing() {
+        loadLogisticsCompanyList()
+    }
+    
+    
     //获取物流公司
     func loadLogisticsCompanyList(){
         let parameters = ["logisticsName":searchBar.text as Any] as [String:Any]
-        NetWorkResultRequest(OrderApi.getLogisticsList(parameters: parameters), needShowFailAlert: true) { result, data in
+        NetWorkResultRequest(OrderApi.getLogisticsList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
             guard let model = try? JSONDecoder().decode(GenericResponse<[LogisticsModel]>.self, from: data) else { return }
-            self.logisticsList.removeAll()
-            self.commonlyLogisticsList.removeAll()
+            self?.logisticsList.removeAll()
+            self?.commonlyLogisticsList.removeAll()
             if let _data = model.data{
                 for i in 0..<_data.count {
                     let logisticsList = _data[i]
-                    self.logisticsList.append(logisticsList)
-                    if (logisticsList.usageCount ?? 0) > 0{
-                        self.commonlyLogisticsList.append(logisticsList)
+                    if logisticsList.usageCount != 0{
+                        self?.commonlyLogisticsList.append(logisticsList)
                     }
+                    self?.logisticsList.append(logisticsList)
                 }
             }
-            self.tableview.reloadData()
-        } failureCallback: { error, code in
+            self?.tableview.reloadData()
+            self?.tableview.mj_header?.endRefreshing()
+        } failureCallback: {[weak self] error, code in
             code.loginOut()
+            self?.tableview.mj_header?.endRefreshing()
         }
     }
     
@@ -128,7 +136,6 @@ extension LogisticsCompanyViewController:UITableViewDelegate,UITableViewDataSour
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
-//        return 1
     }
     
     
@@ -153,7 +160,11 @@ extension LogisticsCompanyViewController:UITableViewDelegate,UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LogisticsCompanyCell") as! LogisticsCompanyCell
-        cell.logisticsModel = logisticsList[indexPath.row]
+        if indexPath.section == 0{
+            cell.logisticsModel = commonlyLogisticsList[indexPath.row]
+        }else{
+            cell.logisticsModel = logisticsList[indexPath.row]
+        }
         if indexPath.row == 0{
             cell.diviver.isHidden = true
         }else{

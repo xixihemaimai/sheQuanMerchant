@@ -132,18 +132,13 @@ class CommoditySearchViewController: BaseViewController {
     }
     
     override func headerRereshing() {
-        LXFLog("下拉")
-//        tableview.mj_header?.endRefreshing()
-        
         loadProductList()
-        
-//        loadSearchProduct(searchTextfield.text ?? "")
+//      loadSearchProduct(searchTextfield.text ?? "")
     }
     
-    override func footerRereshing() {
-        LXFLog("上拉")
-        tableview.mj_footer?.endRefreshing()
-    }
+//    override func footerRereshing() {
+//        tableview.mj_footer?.endRefreshing()
+//    }
     
     
     
@@ -191,8 +186,6 @@ class CommoditySearchViewController: BaseViewController {
                         .text("删除"),
                         .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
                         .tapActionCallback({
-                            JFPopupView.popup.toast(hit: "点击了删除")
-                            
 //                            let productListModel = self.list[stockBtn.tag]
                             let parameter = ["productId":productListModel.productId as Any] as [String:Any]
                             NetWorkResultRequest(OrderApi.delProduct(parameters: parameter), needShowFailAlert: true) { result, data in
@@ -239,10 +232,6 @@ class CommoditySearchViewController: BaseViewController {
                         .text("下架"),
                         .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
                         .tapActionCallback({
-                            JFPopupView.popup.toast(hit: "点击了下架")
-                            
-                            
-                            
 //                            let productListModel = self.list[downBtn.tag]
                             let parameter = ["productId":productListModel.productId as Any] as [String:Any]
                             NetWorkResultRequest(OrderApi.lowerShelf(parameters: parameter), needShowFailAlert: true) { result, data in
@@ -278,9 +267,6 @@ class CommoditySearchViewController: BaseViewController {
                         .text("上架"),
                         .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
                         .tapActionCallback({
-                            JFPopupView.popup.toast(hit: "点击了上架")
-                            
-                            
 //                            let productListModel = self.list[downBtn.tag]
                             let parameter = ["productId":productListModel.productId as Any] as [String:Any]
                             NetWorkResultRequest(OrderApi.upShelf(parameters: parameter), needShowFailAlert: true) { result, data in
@@ -334,9 +320,6 @@ class CommoditySearchViewController: BaseViewController {
                     .text("删除"),
                     .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
                     .tapActionCallback({
-                        JFPopupView.popup.toast(hit: "点击了删除")
-                        
-                        
                         let productListModel = self.list[deleteBtn.tag]
                         let parameter = ["productId":productListModel.productId as Any] as [String:Any]
                         NetWorkResultRequest(OrderApi.delProduct(parameters: parameter), needShowFailAlert: true) { result, data in
@@ -394,25 +377,16 @@ class CommoditySearchViewController: BaseViewController {
                     .text("取消申请"),
                     .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
                     .tapActionCallback({
-                        JFPopupView.popup.toast(hit: "点击了取消申请")
-                        
-                        
                         let productListModel = self.list[cancelBtn.tag]
                         let parameter = ["productId":productListModel.productId as Any] as [String:Any]
                         NetWorkResultRequest(OrderApi.cancelApply(parameters: parameter), needShowFailAlert: true) { result, data in
                             //取消申请成功之后的反应
 //                            self.list.remove(at: cancelBtn.tag)
 //                            self.tableview.reloadData()
-                            self.loadProductList()
-                            
-                            
+                            self.loadProductList()   
                         } failureCallback: { error, code in
                             code.loginOut()
                         }
-                        
-                        
-                        
-                        
                     })
                 ])
             ]

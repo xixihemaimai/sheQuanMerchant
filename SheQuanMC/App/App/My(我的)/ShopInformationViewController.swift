@@ -177,7 +177,7 @@ extension ShopInformationViewController:UITableViewDelegate,UITableViewDataSourc
                 let businessTypeVc = BusinessTypeViewController()
                 Coordinator.shared?.pushViewController(self, businessTypeVc, animated: true)
                 //这边是返回选择是哪个经营种类
-                businessTypeVc.sureSelectBusinessType = {[weak self] businessTypeModel in
+                businessTypeVc.sureSelectBusinessType = { businessTypeModel in
                     //这边要获取这个模型
 //                    self?.categoryId = businessTypeModel.categoryId
                     let cell = tableView.cellForRow(at: indexPath) as! shopInfomationCell

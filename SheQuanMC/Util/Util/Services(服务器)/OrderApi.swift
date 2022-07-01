@@ -140,6 +140,8 @@ extension OrderApi:TargetType{
             return "ordermanage/getProductOrderCount"
         case .confirmShipment:
             return "ordermanage/confirmShipment"
+        case .getOrderLogisticsInfo:
+            return "ordermanage/getOrderLogisticsInfo"
             
         //物流
             
@@ -149,8 +151,7 @@ extension OrderApi:TargetType{
             return "logistics/modifyLogistics"
         case .viewLogistics:
             return "logistics/viewLogistics"
-        case .getOrderLogisticsInfo:
-            return "logistics/getOrderLogisticsInfo"
+        
             
         //地址
         case .getRetAddressList:

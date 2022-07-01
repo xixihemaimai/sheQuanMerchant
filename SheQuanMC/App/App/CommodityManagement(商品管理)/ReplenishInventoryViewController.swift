@@ -160,19 +160,28 @@ class ReplenishInventoryViewController: BaseViewController {
     }
     
     
+    override func headerRereshing() {
+        
+        loadSoldOutSkuList()
+    }
+    
+    
+    
     func loadSoldOutSkuList(){
         let parameter = ["productId":productId as Any] as [String:Any]
-        NetWorkResultRequest(OrderApi.getSoldOutSkuList(parameters: parameter), needShowFailAlert: true) { result, data in
+        NetWorkResultRequest(OrderApi.getSoldOutSkuList(parameters: parameter), needShowFailAlert: true) {[weak self] result, data in
             guard let model = try? JSONDecoder().decode(GenericResponse<soldOutSkuListModel>.self, from: data) else { return }
             if let data1 = model.data{
-               self.model = data1
+               self?.model = data1
 //                LXFLog("+========================\(String(describing: self.model))")
-               self.goodsImageViews.sd_setImage(with: URL(string: (self.model?.productPic ?? "")), placeholderImage: UIImage(named: "Rectangle 2363"))
-               self.goodsLabels.text = data1.productName
-               self.tableview.reloadData()
+               self?.goodsImageViews.sd_setImage(with: URL(string: (self?.model?.productPic ?? "")), placeholderImage: UIImage(named: "Rectangle 2363"))
+               self?.goodsLabels.text = data1.productName
+               self?.tableview.reloadData()
             }
-        } failureCallback: { error, code in
+            self?.tableview.mj_header?.endRefreshing()
+        } failureCallback: {[weak self] error, code in
             code.loginOut()
+            self?.tableview.mj_header?.endRefreshing()
         }
     }
     

@@ -1,6 +1,5 @@
 //
 //  NSDate+Date.swift
-//  BHJPickerView
 //
 //  Created by 白华君 on 2018/5/17.
 //  Copyright © 2018年 baihuajun. All rights reserved.

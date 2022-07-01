@@ -32,15 +32,13 @@ class CommodityStatusViewController: BaseViewController {
     
     
     override func headerRereshing() {
-        LXFLog("下拉")
-//        tableview.mj_header?.endRefreshing()
+//        LXFLog("下拉")
         loadProductList()
     }
     
-    override func footerRereshing() {
-        LXFLog("上拉")
-        tableview.mj_footer?.endRefreshing()
-    }
+//    override func footerRereshing() {
+//        tableview.mj_footer?.endRefreshing()
+//    }
     
     
     
@@ -61,7 +59,6 @@ class CommodityStatusViewController: BaseViewController {
             self.list.removeAll()
             guard let data1 = model.data else{return}
             self.list = data1
-//            LXFLog("====================\(self.list)")
             self.tableview.reloadData()
             self.tableview.mj_header?.endRefreshing()
         } failureCallback: { error, code in
@@ -132,8 +129,6 @@ class CommodityStatusViewController: BaseViewController {
                         .text("下架"),
                         .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
                         .tapActionCallback({
-                            JFPopupView.popup.toast(hit: "点击了下架")
-                            
 //                            let productListModel = self.list[downBtn.tag]
                             let parameter = ["productId":productListModel.productId as Any] as [String:Any]
                             NetWorkResultRequest(OrderApi.lowerShelf(parameters: parameter), needShowFailAlert: true) { result, data in
@@ -163,8 +158,6 @@ class CommodityStatusViewController: BaseViewController {
                         .text("上架"),
                         .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
                         .tapActionCallback({
-//                            JFPopupView.popup.toast(hit: "点击了上架")
-                            
 //                            let productListModel = self.list[downBtn.tag]
                             let parameter = ["productId":productListModel.productId as Any] as [String:Any]
                             NetWorkResultRequest(OrderApi.upShelf(parameters: parameter), needShowFailAlert: true) { result, data in
@@ -269,8 +262,6 @@ class CommodityStatusViewController: BaseViewController {
                     .text("取消申请"),
                     .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
                     .tapActionCallback({
-                        JFPopupView.popup.toast(hit: "点击了取消申请")
-                       
                         let productListModel = self.list[cancelBtn.tag]
                         let parameter = ["productId":productListModel.productId as Any] as [String:Any]
                         NetWorkResultRequest(OrderApi.cancelApply(parameters: parameter), needShowFailAlert: true) { result, data in
@@ -288,9 +279,9 @@ class CommodityStatusViewController: BaseViewController {
     }
     
     
-    func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView!) -> Bool {
-        return true
-    }
+//    func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView!) -> Bool {
+//        return true
+//    }
     
 
 }

@@ -44,13 +44,11 @@ class OrderStatusViewController: BaseViewController {
         tableview.delegate = self
         tableview.dataSource = self
         tableview.register(OrderStatusCell.self, forCellReuseIdentifier: "OrderStatusCell")
-//        loadOrderStatus()
         tableview.mj_header?.beginRefreshing()
-        
+        //loadOrderStatus()
     }
 
     func loadOrderStatus(){
-//        LXFLog("==================\(title)")
         var tag = 0
         if view.tag == 0{
             tag = 0
@@ -65,29 +63,29 @@ class OrderStatusViewController: BaseViewController {
         }else{
             tag = 41
         }
-        let parameters = ["lastOrderId":0,"orderStatus":tag] as [String:Any]
-        NetWorkResultRequest(OrderApi.getOrderProductList(parameters: parameters), needShowFailAlert: true) { result, data in
+        let parameters = ["keyWord":"","lastOrderId":0,"orderStatus":tag] as [String:Any]
+        NetWorkResultRequest(OrderApi.getOrderProductList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
             guard let model = try? JSONDecoder().decode(GenericResponse<[OrederInfoModel]>.self, from: data) else { return }
-            self.orderInfoList.removeAll()
+            self?.orderInfoList.removeAll()
             if let _data = model.data{
-                self.orderInfoList = _data
+                self?.orderInfoList = _data
             }
-            self.tableview.mj_header?.endRefreshing()
-            self.tableview.reloadData()
-        } failureCallback: { error, code in
+            self?.tableview.mj_header?.endRefreshing()
+            self?.tableview.reloadData()
+        } failureCallback: {[weak self] error, code in
             code.loginOut()
-            self.tableview.mj_header?.endRefreshing()
+            self?.tableview.mj_header?.endRefreshing()
         }
     }
     
     
     override func headerRereshing() {
-        LXFLog("下拉")
+//        LXFLog("下拉")
         loadOrderStatus()
     }
     
     override func footerRereshing() {
-        LXFLog("上拉")
+//        LXFLog("上拉")
         tableview.mj_footer?.endRefreshing()
     }
     
@@ -127,10 +125,6 @@ class OrderStatusViewController: BaseViewController {
         }
     }
     
-    
-    
-    
-    
     //关闭订单按键
     @objc func closeOrderAction(closeOrderBtn:UIButton){
         // 这边要自定义一个UIview
@@ -163,14 +157,14 @@ class OrderStatusViewController: BaseViewController {
                 self?.popup.dismissPopup()
             }
             modifyPriceView.modifyPriceSuccessBlock = {[weak self] in
+                
                 self?.loadOrderStatus()
+                
                 self?.popup.dismissPopup()
             }
             return modifyPriceView
         }
     }
-    
-    
     
     //查看物流
     @objc func checkLogisticsAction(checkLogisticsBtn:UIButton){
@@ -186,13 +180,11 @@ class OrderStatusViewController: BaseViewController {
         let modifyLogisticsVc  = ModifyLogisticsViewController()
         modifyLogisticsVc.title = "修改物流"
         modifyLogisticsVc.jump = .listJumpType
-//        modifyLogisticsVc.orderInfoModel = orderInfoModel
         modifyLogisticsVc.orderId = orderInfoModel.orderId ?? 0
         Coordinator.shared?.pushViewController(orderViewVc ?? self, modifyLogisticsVc, animated: true)
-        modifyLogisticsVc.jumpSuccessBlockListType = {[weak self] in
-            self?.loadOrderStatus()
-//            self?.reloadCurrentCountChange()
-        }
+//        modifyLogisticsVc.jumpSuccessBlockListType = {[weak self] in
+//            self?.loadOrderStatus()
+//        }
     }
     
     //去发货
@@ -211,16 +203,13 @@ class OrderStatusViewController: BaseViewController {
     }
     
     
-    override func emptyDataSetShouldDisplay(_ scrollView: UIScrollView!) -> Bool {
-        return true
-    }
+//    override func emptyDataSetShouldDisplay(_ scrollView: UIScrollView!) -> Bool {
+//        return true
+//    }
     
-    func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView!) -> Bool {
-        return true
-    }
-    
-    
-   
+//    func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView!) -> Bool {
+//        return true
+//    }
     
 }
 
