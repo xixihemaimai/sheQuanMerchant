@@ -13,8 +13,9 @@ class CommodityStatusViewController: BaseViewController {
 
     
     var list:[productListModel] = [productListModel]()
-    
-    
+        
+    var header:Bool = true
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -33,12 +34,15 @@ class CommodityStatusViewController: BaseViewController {
     
     override func headerRereshing() {
 //        LXFLog("下拉")
+        header = true
         loadProductList()
     }
     
-//    override func footerRereshing() {
-//        tableview.mj_footer?.endRefreshing()
-//    }
+    override func footerRereshing() {
+        LXFLog("=========================")
+        header = false
+        loadProductList()
+    }
     
     
     
@@ -53,17 +57,35 @@ class CommodityStatusViewController: BaseViewController {
         }else if title == "已售罄"{
             productStatus = Int32(4)
         }
-        let parmeters = ["keyWord":"","lastSortTime":0,"productStatus":productStatus] as [String:Any]
-        NetWorkResultRequest(OrderApi.getProductInfoList(parameters: parmeters), needShowFailAlert: true) { result, data in
+        if header == true{
+            list.removeAll()
+        }
+        var lastSortTime:Int64 = 0
+        if list.count > 0{
+            let productListModel = list.last
+            lastSortTime = productListModel?.sortTime ?? 0
+        }
+        let parmeters = ["keyWord":"","lastSortTime":lastSortTime,"productStatus":productStatus] as [String:Any]
+        NetWorkResultRequest(OrderApi.getProductInfoList(parameters: parmeters), needShowFailAlert: true) {[weak self] result, data in
             guard let model = try? JSONDecoder().decode(GenericResponse<[productListModel]>.self, from: data)else{ return }
-            self.list.removeAll()
             guard let data1 = model.data else{return}
-            self.list = data1
-            self.tableview.reloadData()
-            self.tableview.mj_header?.endRefreshing()
-        } failureCallback: { error, code in
+            if self?.header == true{
+                self?.list.removeAll()
+                self?.list = data1
+                self?.tableview.reloadData()
+                self?.tableview.mj_header?.endRefreshing()
+            }else{
+                self?.list += data1
+                self?.tableview.reloadData()
+                self?.tableview.mj_footer?.endRefreshing()
+//                if data1.count < 1{
+//                   self?.tableview.mj_footer?.endRefreshingWithNoMoreData()
+//                }
+            }
+        } failureCallback: {[weak self] error, code in
             code.loginOut()
-            self.tableview.mj_header?.endRefreshing()
+            self?.tableview.mj_header?.endRefreshing()
+            self?.tableview.mj_footer?.endRefreshing()
         }
     }
     
@@ -107,6 +129,7 @@ class CommodityStatusViewController: BaseViewController {
             replenishVc.productId = Int64(productListModel.productId ?? 0)
             Coordinator.shared?.pushViewController(self, replenishVc, animated: true)
             replenishVc.successBlock = {
+                self.header = true
                 self.loadProductList()
             }
         }
@@ -137,9 +160,6 @@ class CommodityStatusViewController: BaseViewController {
                             } failureCallback: { error, code in
                                 code.loginOut()
                             }
-
-                            
-                            
                         })
                     ])
                 ]
@@ -166,9 +186,6 @@ class CommodityStatusViewController: BaseViewController {
                             } failureCallback: { error, code in
                                 code.loginOut()
                             }
-                            
-                            
-                            
                         })
                     ])
                 ]

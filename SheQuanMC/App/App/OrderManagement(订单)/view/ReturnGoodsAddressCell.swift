@@ -30,6 +30,8 @@ class ReturnGoodsAddressCell: UITableViewCell {
     //地址
     lazy var addressLabel:UILabel = {
         let addressLabel = UILabel()
+        addressLabel.numberOfLines = 2
+        addressLabel.lineBreakMode = .byCharWrapping
         addressLabel.text = "福建省 厦门市 思明区 莲前街道岭兜二路75号"
         addressLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         addressLabel.font = UIFont.systemFont(ofSize: scale(12), weight: .regular)
@@ -61,7 +63,7 @@ class ReturnGoodsAddressCell: UITableViewCell {
         didSet{
             guard let _retAddress = retAddress else { return }
             nickNameLabel.text = _retAddress.consignee
-            phoneNumberLabel.text = _retAddress.mobile?.hidePhone(combine: "****")
+//            phoneNumberLabel.text = _retAddress.mobile?.hidePhone(combine: "****")
             phoneNumberLabel.text = _retAddress.mobile
             addressLabel.text = String(format: "%@%@%@%@", _retAddress.provinceName ?? "",_retAddress.cityName ?? "",_retAddress.regionName ?? "",_retAddress.address ?? "")
             var width = (_retAddress.consignee?.singleLineWidth(font: UIFont.systemFont(ofSize: scale(16), weight: .semibold)) ?? 10)
@@ -136,16 +138,16 @@ class ReturnGoodsAddressCell: UITableViewCell {
         
         addressLabel.snp.makeConstraints { make in
             make.left.equalTo(scale(34))
-            make.right.equalTo(-scale(16))
+            make.right.equalTo(-scale(114))
             make.top.equalTo(nickNameLabel.snp.bottom).offset(scale(8))
-            make.height.equalTo(scale(16))
+            make.height.equalTo(scale(32))
         }
         
        contentView.addSubview(modifyBtn)
         
         modifyBtn.snp.makeConstraints { make in
             make.right.equalTo(-scale(16))
-            make.top.equalTo(addressLabel.snp.bottom).offset(scale(22))
+            make.top.equalTo(addressLabel.snp.bottom).offset(scale(0))
             make.bottom.equalTo(-scale(20))
             make.width.equalTo(scale(60))
             make.height.equalTo(scale(26))

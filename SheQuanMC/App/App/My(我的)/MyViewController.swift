@@ -186,6 +186,26 @@ extension MyViewController:UITableViewDelegate,UITableViewDataSource{
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        if indexPath.row == 0{
+            let accountAndSafeVc = AccountAndSafeViewController()
+            Coordinator.shared?.pushViewController(self, accountAndSafeVc, animated: true)
+        }else if indexPath.row == 1{
+            let myMessageVc = MyMessageViewController()
+            myMessageVc.title = "消息通知"
+            Coordinator.shared?.pushViewController(self, myMessageVc, animated: true)
+        }else if indexPath.row == 2{
+            let userHelpVc = UserHelpViewController()
+            Coordinator.shared?.pushViewController(self, userHelpVc, animated: true)
+        }else if indexPath.row == 3{
+            let feedBackVc = FeedbackMyViewController()
+            Coordinator.shared?.pushViewController(self, feedBackVc, animated: true)
+        }
+        else if indexPath.row == 4{
+            //关于我们
+            let aboutMyVc = AboutMyViewController()
+            Coordinator.shared?.pushViewController(self, aboutMyVc, animated: true)
+        }
     }
     
 }

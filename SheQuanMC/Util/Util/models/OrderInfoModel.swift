@@ -21,8 +21,12 @@ public struct OrederInfoModel: Codable {
     public var payTime:String?      //付款时间
     public var payType:String?      //付款方式
     public var tradeNo:String?      //付款编码
-    
     public var closeTime:String?    //关闭时间
+    public var orderRemarks:String? //订单备注( 关闭原因后自动收货合理发货，请勿虚假发货，请及时发货未付款则自动关闭订单
+    
+    public var logisticsTrack:ViewLogisticsListModel? //物流信息
+    public var recAddress:RetAddressInfoModel? //地址
+    
     
     public var nickName: String?
     public var orderId:Int64?
@@ -43,8 +47,10 @@ public struct OrederInfoModel: Codable {
         case orderTime = "orderTime"
         case payRemainingTime = "payRemainingTime"
         case refundingText = "refundingText"
-        
         case closeTime = "closeTime"
+        case orderRemarks = "orderRemarks"
+        case logisticsTrack = "logisticsTrack"
+        case recAddress = "recAddress"
         
         case nickName = "nickName"
         case orderId = "orderId"
@@ -77,6 +83,10 @@ public struct OrederInfoModel: Codable {
         tradeNo = try? values.decodeIfPresent(String.self, forKey: .tradeNo)
         
         closeTime = try? values.decodeIfPresent(String.self, forKey: .closeTime)
+        orderRemarks = try? values.decodeIfPresent(String.self, forKey: .orderRemarks)
+        logisticsTrack = try? values.decodeIfPresent(ViewLogisticsListModel.self, forKey: .logisticsTrack)
+        recAddress = try? values.decodeIfPresent(RetAddressInfoModel.self, forKey: .recAddress)
+        
         
         nickName = try? values.decodeIfPresent(String.self, forKey: .nickName)
         orderId = try? values.decodeIfPresent(Int64.self, forKey: .orderId)

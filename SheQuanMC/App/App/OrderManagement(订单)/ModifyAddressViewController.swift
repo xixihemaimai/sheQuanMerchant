@@ -398,7 +398,6 @@ class ModifyAddressViewController: BaseViewController {
             }
             isDefaultSwitch.isOn = retAddressInfoModel?.isDef == true ? true : false
             
-            
             if nameTextView.text.count > 0 && phoneNmberTextView.text.count > 0 && detailAddressTextView.text.count > 0{
                 submitBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#313336")
                 submitBtn.isEnabled = true
@@ -406,10 +405,9 @@ class ModifyAddressViewController: BaseViewController {
                 submitBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E1E1E1")
                 submitBtn.isEnabled = false
             }
-            
         }
         
-        let parameters = ["freightVerId":0 as Any,"level":2,"regionId":0,"subHierarchy":2] as [String:Any]
+        let parameters = ["freightVerId":0 as Any,"level":2,"regionId":0,"subHierarchy":3] as [String:Any]
         NetWorkResultRequest(OrderApi.getFreightRegionList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
             guard let model = try? JSONDecoder().decode(GenericResponse<[RegionInfoModel]>.self, from: data) else { return }
             self?.provinceList.removeAll()
@@ -610,9 +608,9 @@ extension ModifyAddressViewController:UITextViewDelegate{
             }
         }
         
-        LXFLog("+============\(nameTextView.text.count)")
-        LXFLog("+============\(phoneNmberTextView.text.count)")
-        LXFLog("+============\(detailAddressTextView.text.count)")
+//        LXFLog("+============\(nameTextView.text.count)")
+//        LXFLog("+============\(phoneNmberTextView.text.count)")
+//        LXFLog("+============\(detailAddressTextView.text.count)")
         
         if nameTextView.text.count > 0 && phoneNmberTextView.text.count > 0 && detailAddressTextView.text.count > 0{
             submitBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#313336")

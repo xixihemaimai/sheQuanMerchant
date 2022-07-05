@@ -91,7 +91,16 @@ class OrderToBePaidCell: UITableViewCell {
                 payNumberLabel.isHidden = false
                 
                 payTimeLabel.text = "付款时间:" + (_orderInfoModel.payTime ?? "")
-                payTypeLabel.text = "付款方式:" + (_orderInfoModel.payType ?? "")
+                //string 支付方式（0：零钱支付、1：在线支付、2：支付宝、3：微信支付）
+                if _orderInfoModel.payType == "0"{
+                    payTypeLabel.text = "付款方式:零钱支付"
+                }else if _orderInfoModel.payType == "1"{
+                    payTypeLabel.text = "付款方式:在线支付"
+                }else if _orderInfoModel.payType == "2"{
+                    payTypeLabel.text = "付款方式:支付宝"
+                }else if _orderInfoModel.payType == "3"{
+                    payTypeLabel.text = "付款方式:微信支付"
+                }
                 payNumberLabel.text = "付款编号:" + (_orderInfoModel.tradeNo ?? "")
             }
         }

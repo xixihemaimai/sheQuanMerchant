@@ -12,12 +12,32 @@ import Util
 class OrderDeliveryLogisticsCell: UITableViewCell {
     
     
+    lazy var diviver:UIView = {
+        let diviver = UIView()
+        diviver.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
+        return diviver
+    }()
+    
+    
+    
+    
     //进入签收的地方
     lazy var joinSignBtn:UIButton = {
        let joinSignBtn = UIButton()
         joinSignBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
         return joinSignBtn
     }()
+    
+    //签收的内容
+    lazy var logisticsSLabel:UILabel = {
+        let logisticsSLabel = UILabel()
+        logisticsSLabel.text = "已签收，签收人凭取件码取件"
+        logisticsSLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        logisticsSLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .semibold)
+        logisticsSLabel.textAlignment = .left
+        return logisticsSLabel
+    }()
+    
     
     //签收时间
     lazy var logisticsTimeLabel:UILabel = {
@@ -28,6 +48,16 @@ class OrderDeliveryLogisticsCell: UITableViewCell {
         logisticsTimeLabel.textAlignment = .left
         return logisticsTimeLabel
     }()
+    
+    
+    
+    lazy var midView:UIView = {
+        let midView = UIView()
+        midView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
+        return midView
+    }()
+    
+    
     
     //昵称
     lazy var nickNameLabel:UILabel = {
@@ -43,15 +73,17 @@ class OrderDeliveryLogisticsCell: UITableViewCell {
     lazy var phoneNumberLabel:UILabel = {
         let phoneNumberLabel = UILabel()
         phoneNumberLabel.text = "12312338910"
-        phoneNumberLabel.text = phoneNumberLabel.text?.hidePhone()
+//        phoneNumberLabel.text = phoneNumberLabel.text?.hidePhone()
         phoneNumberLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#808080")
         phoneNumberLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         phoneNumberLabel.textAlignment = .left
          return phoneNumberLabel
     }()
     // 地址
-    lazy var addressLabel:UILabel = {
-        let addressLabel = UILabel()
+    lazy var addressLabel:CustomLabel = {
+        let addressLabel = CustomLabel()
+        addressLabel.numberOfLines = 2
+        addressLabel.lineBreakMode = .byCharWrapping
         addressLabel.text = "福建省 厦门市 思明区 莲前街道岭兜二路75号"
         addressLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         addressLabel.font = UIFont.systemFont(ofSize: scale(12), weight: .regular)
@@ -67,20 +99,49 @@ class OrderDeliveryLogisticsCell: UITableViewCell {
     
     
     
-    var orderLogisticsModel:OrderLogisticsModel?{
+    var orderInfoModel:OrederInfoModel?{
         didSet{
-            guard let _orderLogisticsModel = orderLogisticsModel else { return }
-            nickNameLabel.text = _orderLogisticsModel.retAddress?.consignee
-            phoneNumberLabel.text = _orderLogisticsModel.retAddress?.mobile?.hidePhone(combine: "****")
-            phoneNumberLabel.text = _orderLogisticsModel.retAddress?.mobile
-            addressLabel.text = String(format: "%@%@%@%@", _orderLogisticsModel.retAddress?.provinceName ?? "",_orderLogisticsModel.retAddress?.cityName ?? "",_orderLogisticsModel.retAddress?.regionName ?? "",_orderLogisticsModel.retAddress?.address ?? "")
-            var width = (_orderLogisticsModel.retAddress?.consignee?.singleLineWidth(font: UIFont.systemFont(ofSize: scale(16), weight: .semibold)) ?? 10)
-            width += scale(5)
-            nickNameLabel.snp.remakeConstraints { make in
-                make.left.equalTo(addressImage.snp.right).offset(scale(3))
-                make.top.equalTo(joinSignBtn.snp.bottom).offset(scale(10))
-                make.height.equalTo(scale(22))
-                make.width.equalTo(width)
+            guard let _orderInfoModel = orderInfoModel else { return }
+            
+            logisticsSLabel.text =  String(format: "%@",_orderInfoModel.logisticsTrack?.trackName ?? "已签收，签收人凭取件码取件")
+            
+            logisticsTimeLabel.text = _orderInfoModel.logisticsTrack?.trackTime
+            
+            if _orderInfoModel.recAddress != nil{
+                
+                midView.isHidden = false
+                addressImage.isHidden = false
+                nickNameLabel.isHidden = false
+                phoneNumberLabel.isHidden = false
+                addressLabel.isHidden = false
+                
+                nickNameLabel.text = _orderInfoModel.recAddress?.consignee
+//                phoneNumberLabel.text = _orderInfoModel.recAddress?.mobile?.hidePhone(combine: "****")
+                phoneNumberLabel.text = _orderInfoModel.recAddress?.mobile
+                addressLabel.text = String(format: "%@%@%@%@", _orderInfoModel.recAddress?.provinceName ?? "",_orderInfoModel.recAddress?.cityName ?? "",_orderInfoModel.recAddress?.regionName ?? "",_orderInfoModel.recAddress?.address ?? "")
+                var width = (_orderInfoModel.recAddress?.consignee?.singleLineWidth(font: UIFont.systemFont(ofSize: scale(16), weight: .semibold)) ?? 10)
+                width += scale(5)
+                nickNameLabel.snp.remakeConstraints { make in
+                    make.left.equalTo(addressImage.snp.right).offset(scale(3))
+                    make.top.equalTo(joinSignBtn.snp.bottom).offset(scale(7))
+                    make.height.equalTo(scale(22))
+                    make.width.equalTo(width)
+                }
+                
+            }else{
+                //没有地址
+                midView.isHidden = true
+                addressImage.isHidden = true
+                nickNameLabel.isHidden = true
+                phoneNumberLabel.isHidden = true
+                addressLabel.isHidden = true
+                
+                joinSignBtn.snp.remakeConstraints { make in
+                    make.left.right.equalToSuperview()
+                    make.top.equalTo(diviver.snp.bottom)
+                    make.height.equalTo(scale(63))
+                    make.bottom.equalToSuperview()
+                }
             }
         }
     }
@@ -117,10 +178,7 @@ class OrderDeliveryLogisticsCell: UITableViewCell {
         }
         
         //分割线
-        let diviver = UIView()
-        diviver.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
         contentView.addSubview(diviver)
-        
         diviver.snp.makeConstraints { make in
             make.left.equalTo(scale(16))
             make.right.equalTo(-scale(16))
@@ -136,35 +194,27 @@ class OrderDeliveryLogisticsCell: UITableViewCell {
             make.height.equalTo(scale(63))
         }
         
-        
         let logisticsImage = UIImageView()
         logisticsImage.image = UIImage(named: "Group 2742")
         joinSignBtn.addSubview(logisticsImage)
-        
         logisticsImage.snp.makeConstraints { make in
             make.left.equalTo(scale(16))
             make.top.equalTo(scale(11))
             make.width.height.equalTo(scale(16))
         }
         
-        let logisticsSLabel = UILabel()
-        logisticsSLabel.text = "已签收，签收人凭取件码取件"
-        logisticsSLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
-        logisticsSLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .semibold)
-        logisticsSLabel.textAlignment = .left
         joinSignBtn.addSubview(logisticsSLabel)
-        
         logisticsSLabel.snp.makeConstraints { make in
             make.left.equalTo(logisticsImage.snp.right).offset(scale(4))
             make.top.equalTo(scale(7))
-            make.right.equalTo(-scale(100))
+            make.right.equalTo(-scale(50))
             make.height.equalTo(scale(22))
         }
         
         //签收时间
         joinSignBtn.addSubview(logisticsTimeLabel)
         logisticsTimeLabel.snp.makeConstraints { make in
-            make.left.equalTo(scale(16))
+            make.left.equalTo(logisticsImage.snp.right).offset(scale(4))
             make.top.equalTo(logisticsSLabel.snp.bottom).offset(scale(4))
             make.height.equalTo(scale(17))
             make.right.equalTo(-scale(16))
@@ -184,10 +234,7 @@ class OrderDeliveryLogisticsCell: UITableViewCell {
         
         
         //分割线
-        let midView = UIView()
-        midView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
         joinSignBtn.addSubview(midView)
-        
         midView.snp.makeConstraints { make in
             make.left.equalTo(scale(16))
             make.right.equalTo(-scale(16))
@@ -196,10 +243,7 @@ class OrderDeliveryLogisticsCell: UITableViewCell {
         }
         
         
-        
-        
         contentView.addSubview(addressImage)
-        
         addressImage.snp.makeConstraints { make in
             make.left.equalTo(scale(16))
             make.top.equalTo(joinSignBtn.snp.bottom).offset(scale(10))
@@ -213,14 +257,14 @@ class OrderDeliveryLogisticsCell: UITableViewCell {
         
         nickNameLabel.snp.makeConstraints { make in
             make.left.equalTo(addressImage.snp.right).offset(scale(3))
-            make.top.equalTo(joinSignBtn.snp.bottom).offset(scale(10))
+            make.top.equalTo(joinSignBtn.snp.bottom).offset(scale(7))
             make.height.equalTo(scale(22))
             make.width.equalTo(scale(100))
         }
         
         phoneNumberLabel.snp.makeConstraints { make in
             make.left.equalTo(nickNameLabel.snp.right).offset(scale(12))
-            make.top.equalTo(joinSignBtn.snp.bottom).offset(scale(10))
+            make.top.equalTo(joinSignBtn.snp.bottom).offset(scale(7))
             make.height.equalTo(scale(22))
             make.right.equalTo(-scale(16))
         }
@@ -229,8 +273,8 @@ class OrderDeliveryLogisticsCell: UITableViewCell {
             make.left.equalTo(scale(34))
             make.right.equalTo(-scale(16))
             make.top.equalTo(nickNameLabel.snp.bottom).offset(scale(8))
-            make.height.equalTo(scale(16))
-            make.bottom.equalTo(-scale(23))
+            make.height.equalTo(scale(32))
+            make.bottom.equalTo(-scale(7))
         }
         
         

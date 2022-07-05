@@ -40,6 +40,8 @@ class ShopDetailCardCell: UITableViewCell {
     //正面
     lazy var cardFrotImageView:UIImageView = {
        let cardFrotImageView = UIImageView()
+        cardFrotImageView.tag = 0
+        cardFrotImageView.isUserInteractionEnabled = true
         return cardFrotImageView
     }()
     
@@ -47,12 +49,16 @@ class ShopDetailCardCell: UITableViewCell {
     //反面
     lazy var cardBackImageView:UIImageView = {
        let cardBackImageView = UIImageView()
+        cardBackImageView.tag = 1
+        cardBackImageView.isUserInteractionEnabled = true
         return cardBackImageView
     }()
     
     //营业执照
     lazy var bussImageView:UIImageView = {
        let bussImageView = UIImageView()
+        bussImageView.tag = 2
+        bussImageView.isUserInteractionEnabled = true
         return bussImageView
     }()
     
@@ -112,7 +118,7 @@ class ShopDetailCardCell: UITableViewCell {
             make.left.equalTo(scale(16))
             make.top.equalTo(bussLabel.snp.bottom).offset(scale(8))
             make.width.height.equalTo(scale(106))
-            make.bottom.equalTo(scale(75))
+            make.bottom.equalTo(-scale(75))
         }
         bussImageView.layer.cornerRadius = scale(4)
     }

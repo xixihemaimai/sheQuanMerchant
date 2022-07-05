@@ -21,6 +21,7 @@ class OrderSearchViewController: BaseViewController {
         searchTextfield.attributedPlaceholder = NSAttributedString.init(string:"请输入用户名/商品名称/商品编码", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#B3B3B3")])
         searchTextfield.addTarget(self, action: #selector(searchingContentAction), for: .editingChanged)
+        searchTextfield.addTarget(self, action: #selector(searchContentEndAction), for: .editingDidEnd)
         return searchTextfield
     }()
     
@@ -32,7 +33,7 @@ class OrderSearchViewController: BaseViewController {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
-       let searchView = UIView()
+        let searchView = UIView()
         searchView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#F8F8F8")
         view.addSubview(searchView)
         searchView.snp.makeConstraints { make in
@@ -97,7 +98,7 @@ class OrderSearchViewController: BaseViewController {
         tableview.delegate = self
         tableview.dataSource = self
         tableview.register(OrderStatusCell.self, forCellReuseIdentifier: "OrderStatusCell")
-//        loadSearchProduct(searchTextfield.text ?? "")
+        //loadSearchProduct(searchTextfield.text ?? "")
         loadOrderStatus()
     }
     
@@ -105,7 +106,12 @@ class OrderSearchViewController: BaseViewController {
     
     //搜索中
     @objc func searchingContentAction(searchTextfield:UITextField){
-//        LXFLog("===============\(searchTextfield.text)")
+        loadOrderStatus()
+    }
+    
+    //搜索结束
+    @objc func searchContentEndAction(searchTextfield:UITextField){
+        LXFLog("===============\(String(describing: searchTextfield.text))")
         loadOrderStatus()
     }
     
@@ -118,6 +124,9 @@ class OrderSearchViewController: BaseViewController {
         Coordinator.shared?.popViewController(self, true)
     }
     
+    
+    
+    
     override func headerRereshing() {
         loadOrderStatus()
     }
@@ -127,19 +136,19 @@ class OrderSearchViewController: BaseViewController {
 //    }
     
     func loadOrderStatus(){
-        let parameters = ["keyWord":searchTextfield.text as Any,"lastOrderId":0,"orderStatus":0] as [String:Any]
-        NetWorkResultRequest(OrderApi.getOrderProductList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+        let parameters = ["keyWords":searchTextfield.text as Any] as [String:Any]
+        NetWorkResultRequest(OrderApi.geSearchProductList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
             guard let model = try? JSONDecoder().decode(GenericResponse<[OrederInfoModel]>.self, from: data) else { return }
             self?.searchProductList.removeAll()
             if let _data = model.data{
                 self?.searchProductList = _data
             }
-            self?.tableview.mj_header?.endRefreshing()
+//            self?.tableview.mj_header?.endRefreshing()
 //            self?.tableview.mj_footer?.endRefreshing()
             self?.tableview.reloadData()
-        } failureCallback: {[weak self] error, code in
+        } failureCallback: { error, code in
             code.loginOut()
-            self?.tableview.mj_header?.endRefreshing()
+//            self?.tableview.mj_header?.endRefreshing()
 //            self?.tableview.mj_footer?.endRefreshing()
         }
     }

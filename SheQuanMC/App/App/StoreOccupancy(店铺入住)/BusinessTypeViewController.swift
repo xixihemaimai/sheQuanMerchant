@@ -64,16 +64,16 @@ class BusinessTypeViewController: BaseViewController {
         
         searchBar.setPositionAdjustment(UIOffset(horizontal: SCW/2 - scale(80)/2, vertical: 0), for: .search)
         
-        view.addSubview(self.tableview)
-        self.tableview.snp.makeConstraints { make in
+        view.addSubview(tableview)
+        tableview.snp.makeConstraints { make in
             make.left.right.bottom.equalToSuperview()
             make.top.equalTo(searchBar.snp.bottom)
         }
         
-        self.tableview.delegate = self
-        self.tableview.dataSource = self
-        self.tableview.register(BusinessTypeCell.self, forCellReuseIdentifier: "BusinessTypeCell")
-        self.tableview.register(BusinessTypeHeaderView.self, forHeaderFooterViewReuseIdentifier: "BusinessTypeHeaderView")
+        tableview.delegate = self
+        tableview.dataSource = self
+        tableview.register(BusinessTypeCell.self, forCellReuseIdentifier: "BusinessTypeCell")
+        tableview.register(BusinessTypeHeaderView.self, forHeaderFooterViewReuseIdentifier: "BusinessTypeHeaderView")
         
         
         //获取数据
@@ -94,9 +94,9 @@ class BusinessTypeViewController: BaseViewController {
     }
     
     //上拉
-    override func footerRereshing() {
-        tableview.mj_footer?.endRefreshing()
-    }
+//    override func footerRereshing() {
+//        tableview.mj_footer?.endRefreshing()
+//    }
     
     
     func reload(categoryName:String){

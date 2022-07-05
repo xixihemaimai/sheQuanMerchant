@@ -12,6 +12,8 @@ import JFPopup
 class CommoditySearchViewController: BaseViewController {
     //传递过来的状态
     var status:Int = 0
+    
+    var header:Bool = true
     lazy var searchTextfield:UITextField = {
        let searchTextfield = UITextField()
         searchTextfield.placeholder = "搜索商品名称"
@@ -100,7 +102,6 @@ class CommoditySearchViewController: BaseViewController {
         tableview.register(commodityStatusCell.self, forCellReuseIdentifier: "commodityStatusCell")
         tableview.register(commodityExamineCell.self, forCellReuseIdentifier: "commodityExamineCell")
         
-        
         loadProductList()
 
     }
@@ -108,17 +109,31 @@ class CommoditySearchViewController: BaseViewController {
     
     
     func loadProductList(){
-        let parmeters = ["keyWord":searchTextfield.text as Any,"lastSortTime":0,"productStatus":Int32(0)] as [String:Any]
+        if header == true{
+            list.removeAll()
+        }
+        var lastSortTime:Int64 = 0
+        if list.count > 0{
+            let productListModel = list.last
+            lastSortTime = productListModel?.sortTime ?? 0
+        }
+        let parmeters = ["keyWord":searchTextfield.text as Any,"lastSortTime":lastSortTime,"productStatus":Int32(0)] as [String:Any]
         NetWorkResultRequest(OrderApi.getProductInfoList(parameters: parmeters), needShowFailAlert: true) {[weak self] result, data in
             guard let model = try? JSONDecoder().decode(GenericResponse<[productListModel]>.self, from: data)else{ return }
-            self?.list.removeAll()
             guard let data1 = model.data else{return}
-            self?.list = data1
-//            LXFLog("====================\(self.list)")
-            self?.tableview.reloadData()
-            self?.tableview.mj_header?.endRefreshing()
+            if self?.header == true{
+                self?.list.removeAll()
+                self?.list = data1
+                self?.tableview.reloadData()
+                self?.tableview.mj_header?.endRefreshing()
+            }else{
+                self?.list += data1
+                self?.tableview.reloadData()
+                self?.tableview.mj_footer?.endRefreshing()   
+            }
         } failureCallback: {[weak self] error, code in
             code.loginOut()
+            self?.tableview.mj_footer?.endRefreshing()
             self?.tableview.mj_header?.endRefreshing()
         }
     }
@@ -132,13 +147,15 @@ class CommoditySearchViewController: BaseViewController {
     }
     
     override func headerRereshing() {
+        header = true
         loadProductList()
-//      loadSearchProduct(searchTextfield.text ?? "")
+
     }
     
-//    override func footerRereshing() {
-//        tableview.mj_footer?.endRefreshing()
-//    }
+    override func footerRereshing() {
+        header = false
+        loadProductList()
+    }
     
     
     
@@ -163,6 +180,7 @@ class CommoditySearchViewController: BaseViewController {
     
     
     @objc func searchChangeAction(searchTextfield:UITextField){
+        header = true
         loadProductList()
     }
     
@@ -191,11 +209,8 @@ class CommoditySearchViewController: BaseViewController {
                             NetWorkResultRequest(OrderApi.delProduct(parameters: parameter), needShowFailAlert: true) { result, data in
 //                                self.list.remove(at: stockBtn.tag)
 //                                self.tableview.reloadData()
-                                
+                                self.header = true
                                 self.loadProductList()
-                                
-                                
-                                
                             } failureCallback: { error, code in
                                 code.loginOut()
                             }
@@ -237,18 +252,11 @@ class CommoditySearchViewController: BaseViewController {
                             NetWorkResultRequest(OrderApi.lowerShelf(parameters: parameter), needShowFailAlert: true) { result, data in
 //                                self.list.remove(at: downBtn.tag)
 //                                self.tableview.reloadData()
-                                
+                                self.header = true
                                 self.loadProductList()
-                                
-                                
                             } failureCallback: { error, code in
                                 code.loginOut()
                             }
-
-                            
-                            
-                            
-                            
                         })
                     ])
                 ]
@@ -272,10 +280,8 @@ class CommoditySearchViewController: BaseViewController {
                             NetWorkResultRequest(OrderApi.upShelf(parameters: parameter), needShowFailAlert: true) { result, data in
 //                                self.list.remove(at: downBtn.tag)
 //                                self.tableview.reloadData()
-                                
+                                self.header = true
                                 self.loadProductList()
-                                
-                                
                             } failureCallback: { error, code in
                                 code.loginOut()
                             }
@@ -325,9 +331,8 @@ class CommoditySearchViewController: BaseViewController {
                         NetWorkResultRequest(OrderApi.delProduct(parameters: parameter), needShowFailAlert: true) { result, data in
 //                            self.list.remove(at: deleteBtn.tag)
 //                            self.tableview.reloadData()
-                            
+                            self.header = true
                             self.loadProductList()
-                            
                         } failureCallback: { error, code in
                             code.loginOut()
                         }
@@ -356,8 +361,6 @@ class CommoditySearchViewController: BaseViewController {
         } failureCallback: { error, code in
             code.loginOut()
         }
-        
-        
     }
     
     //审核中的取消申请
@@ -383,7 +386,8 @@ class CommoditySearchViewController: BaseViewController {
                             //取消申请成功之后的反应
 //                            self.list.remove(at: cancelBtn.tag)
 //                            self.tableview.reloadData()
-                            self.loadProductList()   
+                            self.header = true
+                            self.loadProductList()
                         } failureCallback: { error, code in
                             code.loginOut()
                         }

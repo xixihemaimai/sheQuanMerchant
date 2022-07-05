@@ -11,10 +11,10 @@ import Util
 class OrderDetailStatusCell: UITableViewCell {
     
     
-    var sencondStr:Int?
-    var minitStr:Int?
-    var hourStr:Int?
-    var dayStr:Int?
+    var sencondStr:Int64?
+    var minitStr:Int64?
+    var hourStr:Int64?
+    var dayStr:Int64?
     var timer:Timer?
     var totalTime:String?
     
@@ -57,6 +57,9 @@ class OrderDetailStatusCell: UITableViewCell {
     var orderInfoModel:OrederInfoModel?{
         didSet{
             guard let _orderInfoModel = orderInfoModel else { return }
+            
+            
+            orderStatusLabel.text = _orderInfoModel.orderStatusText
             //这边添加一个倒计时的方法
             if (_orderInfoModel.refundingText?.count ?? 0) > 0{
                 orderDetailStatusLabel.text = _orderInfoModel.refundingText
@@ -67,33 +70,34 @@ class OrderDetailStatusCell: UITableViewCell {
             if _orderInfoModel.orderStatus == 10{
                 timer?.invalidate()
                 timer = nil
-                orderStatusLabel.text = "待支付"
+//                orderStatusLabel.text = "待支付"
 //                inputTimeAndEndTime(_orderInfoModel.orderTime ?? "", _orderInfoModel.payRemainingTime ?? "")
                 if _orderInfoModel.payRemainingTime != 0{
                     inputEndTime(endTime: _orderInfoModel.payRemainingTime ?? 0)
                 }else{
-                    timeLabel.text = (totalTime ?? "0天0时0分0秒") + "未付款则自动关闭订单"
+                    timeLabel.text = (totalTime ?? "0天0时0分0秒") + (_orderInfoModel.orderRemarks ?? "未付款则自动关闭订单")
                 }
             }else if _orderInfoModel.orderStatus == 20{
                 timer?.invalidate()
                 timer = nil
-                orderStatusLabel.text = "待发货"
-                timeLabel.text = "合理发货，请勿虚假发货，请及时发货"
+//                orderStatusLabel.text = "待发货"
+                timeLabel.text = (_orderInfoModel.orderRemarks ?? "合理发货，请勿虚假发货，请及时发货")
+//                "合理发货，请勿虚假发货，请及时发货"
             }else if _orderInfoModel.orderStatus == 21{
                 timer?.invalidate()
                 timer = nil
-                orderStatusLabel.text = "已发货"
+//                orderStatusLabel.text = "已发货"
 //                inputTimeAndEndTime(_orderInfoModel.orderTime ?? "", _orderInfoModel.payRemainingTime ?? "")
                 if _orderInfoModel.payRemainingTime != 0{
                     inputEndTime(endTime: _orderInfoModel.payRemainingTime ?? 0)
                 }else{
-                    timeLabel.text = (totalTime ?? "0天0时0分0秒") + "后自动收货"
+                    timeLabel.text = (totalTime ?? "0天0时0分0秒") + (_orderInfoModel.orderRemarks ?? "后自动收货")
                 }
 //                orderDetailStatusLabel.text = _orderInfoModel.refundingText
             }else if _orderInfoModel.orderStatus == 30{
                 timer?.invalidate()
                 timer = nil
-                orderStatusLabel.text = "交易成功"
+//                orderStatusLabel.text = "交易成功"
                 timeLabel.isHidden = true
                 orderStatusLabel.snp.remakeConstraints { make in
                     make.left.equalTo(scale(19))
@@ -105,8 +109,8 @@ class OrderDetailStatusCell: UITableViewCell {
             }else if _orderInfoModel.orderStatus == 41{
                 timer?.invalidate()
                 timer = nil
-                orderStatusLabel.text = "交易关闭"
-                timeLabel.text = "失败的原因"
+//                orderStatusLabel.text = "交易关闭"
+                timeLabel.text = _orderInfoModel.orderRemarks
             }
         }
     }
@@ -147,38 +151,49 @@ class OrderDetailStatusCell: UITableViewCell {
     
     func inputEndTime(endTime:Int64){
         //毫秒转换
-        dayStr = Int(endTime)/24/60/60/1000
-        hourStr = (Int(endTime)/60/60/1000)%24
-        minitStr = (Int(endTime)/60/1000)%60
-        sencondStr = Int(endTime/1000)%60
-//        LXFLog("+=====================\(dayStr)------------\(hourStr)---------\(minitStr)-----------\(sencondStr)")
+//        dayStr = Int(endTime)/24/60/60/1000
+//        hourStr = (Int(endTime)/60/60/1000)%24
+//        minitStr = (Int(endTime)/60/1000)%60
+//        sencondStr = Int(endTime/1000)%60
+        
+        
+        let hoursTemp = endTime / 1000 / 60 / 60
+        let days = hoursTemp / 24
+        let hours = (endTime - days * 24 * 60 * 60 * 1000) / 1000 / 60 / 60
+        let minutes = (endTime - days * 24 * 60 * 60 * 1000 - hours * 60 * 60 * 1000) / 1000 / 60
+        let seconds = (endTime - days * 24 * 60 * 60 * 1000 - hours * 60 * 60 * 1000 - minutes * 60 * 1000) / 1000
+        dayStr = days
+        hourStr = hours
+        minitStr = minutes
+        sencondStr = seconds
+        
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
         RunLoop.main.add(timer!, forMode: .common)
     }
     
     
     
-    func inputTimeAndEndTime(_ startTime:String,_ endTime:String){
-        // 输入时间
-        let startTime = startTime
-        let endTime = endTime
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        let CTMZone = NSTimeZone.init(forSecondsFromGMT: 0)
-        formatter.timeZone = CTMZone as TimeZone
-        let startDate = formatter.date(from: startTime)
-        let endDate = formatter.date(from: endTime)
-        //接下来计算
-        let calender = Calendar.current
-        let unit:Set<Calendar.Component> = [.day,.hour,.minute,.second]
-        let commponent:DateComponents = calender.dateComponents(unit, from: startDate!, to: endDate!)
-        sencondStr = commponent.second
-        minitStr = commponent.minute
-        hourStr = commponent.hour
-        dayStr = commponent.day
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
-        RunLoop.main.add(timer!, forMode: .common)
-    }
+//    func inputTimeAndEndTime(_ startTime:String,_ endTime:String){
+//        // 输入时间
+//        let startTime = startTime
+//        let endTime = endTime
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//        let CTMZone = NSTimeZone.init(forSecondsFromGMT: 0)
+//        formatter.timeZone = CTMZone as TimeZone
+//        let startDate = formatter.date(from: startTime)
+//        let endDate = formatter.date(from: endTime)
+//        //接下来计算
+//        let calender = Calendar.current
+//        let unit:Set<Calendar.Component> = [.day,.hour,.minute,.second]
+//        let commponent:DateComponents = calender.dateComponents(unit, from: startDate!, to: endDate!)
+//        sencondStr = commponent.second
+//        minitStr = commponent.minute
+//        hourStr = commponent.hour
+//        dayStr = commponent.day
+//        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
+//        RunLoop.main.add(timer!, forMode: .common)
+//    }
     
     @objc func timerAction(){
         sencondStr! -= 1

@@ -30,8 +30,10 @@ class BuyerAdressCell: UITableViewCell {
          return phoneNumberLabel
     }()
     // 地址
-    lazy var addressLabel:UILabel = {
-        let addressLabel = UILabel()
+    lazy var addressLabel:CustomLabel = {
+        let addressLabel = CustomLabel()
+        addressLabel.numberOfLines = 2
+        addressLabel.lineBreakMode = .byCharWrapping
         addressLabel.text = "福建省 厦门市 思明区 莲前街道岭兜二路75号"
         addressLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         addressLabel.font = UIFont.systemFont(ofSize: scale(12), weight: .regular)
@@ -78,7 +80,7 @@ class BuyerAdressCell: UITableViewCell {
         didSet{
             guard let _retAddress = retAddress else { return }
             nickNameLabel.text = _retAddress.consignee
-            phoneNumberLabel.text = _retAddress.mobile?.hidePhone(combine: "****")
+//            phoneNumberLabel.text = _retAddress.mobile?.hidePhone(combine: "****")
             phoneNumberLabel.text = _retAddress.mobile
             addressLabel.text = String(format: "%@%@%@%@", _retAddress.provinceName ?? "",_retAddress.cityName ?? "",_retAddress.regionName ?? "",_retAddress.address ?? "")
             var width = (_retAddress.consignee?.singleLineWidth(font: UIFont.systemFont(ofSize: scale(16), weight: .semibold)) ?? 10)
@@ -87,7 +89,7 @@ class BuyerAdressCell: UITableViewCell {
                 make.left.equalTo(addressImage.snp.right).offset(scale(3))
                 make.width.equalTo(width)
                 make.height.equalTo(scale(22))
-                make.top.equalTo(diviver.snp.bottom).offset(scale(10))
+                make.top.equalTo(diviver.snp.bottom).offset(scale(7))
             }
         }
     }
@@ -147,14 +149,14 @@ class BuyerAdressCell: UITableViewCell {
         
         nickNameLabel.snp.makeConstraints { make in
             make.left.equalTo(addressImage.snp.right).offset(scale(3))
-            make.top.equalTo(diviver.snp.bottom).offset(scale(10))
+            make.top.equalTo(diviver.snp.bottom).offset(scale(7))
             make.height.equalTo(scale(22))
             make.width.equalTo(scale(100))
         }
         
         phoneNumberLabel.snp.makeConstraints { make in
             make.left.equalTo(nickNameLabel.snp.right).offset(scale(12))
-            make.top.equalTo(diviver.snp.bottom).offset(scale(10))
+            make.top.equalTo(diviver.snp.bottom).offset(scale(7))
             make.height.equalTo(scale(22))
             make.right.equalTo(-scale(16))
         }
@@ -163,7 +165,7 @@ class BuyerAdressCell: UITableViewCell {
             make.left.equalTo(scale(34))
             make.right.equalTo(-scale(16))
             make.top.equalTo(nickNameLabel.snp.bottom).offset(scale(8))
-            make.height.equalTo(scale(16))
+            make.height.equalTo(scale(32))
         }
         
         contentView.addSubview(copyBtn)
@@ -172,7 +174,7 @@ class BuyerAdressCell: UITableViewCell {
         copyBtn.snp.makeConstraints { make in
             make.right.equalTo(-scale(16))
             make.bottom.equalTo(-scale(16))
-            make.top.equalTo(addressLabel.snp.bottom).offset(scale(22))
+            make.top.equalTo(addressLabel.snp.bottom).offset(scale(0))
             make.width.equalTo(scale(60))
             make.height.equalTo(scale(26))
         }
@@ -186,7 +188,7 @@ class BuyerAdressCell: UITableViewCell {
         modifyBtn.snp.makeConstraints { make in
             make.right.equalTo(copyBtn.snp.left).offset(-scale(12))
             make.bottom.equalTo(-scale(16))
-            make.top.equalTo(addressLabel.snp.bottom).offset(scale(22))
+            make.top.equalTo(addressLabel.snp.bottom).offset(scale(0))
             make.width.equalTo(scale(60))
             make.height.equalTo(scale(26))
         }

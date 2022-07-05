@@ -25,8 +25,8 @@ class AddressCell: UITableViewCell {
     lazy var phoneNumberLabel:UILabel = {
        let phoneNumberLabel = UILabel()
         let number = "12333338910"
-//        phoneNumberLabel.text = "12333338910"
-        phoneNumberLabel.text = number.hidePhone(combine: "****")
+        phoneNumberLabel.text = "12333338910"
+//        phoneNumberLabel.text = number.hidePhone(combine: "****")
         phoneNumberLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#808080")
         phoneNumberLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         phoneNumberLabel.textAlignment = .left

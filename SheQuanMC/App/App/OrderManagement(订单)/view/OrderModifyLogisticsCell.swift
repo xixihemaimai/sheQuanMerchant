@@ -19,8 +19,8 @@ class OrderModifyLogisticsCell: UITableViewCell {
     }()
     
     //商品介绍
-    lazy var orderIntroductLabel:UILabel = {
-       let orderIntroductLabel = UILabel()
+    lazy var orderIntroductLabel:CustomLabel = {
+       let orderIntroductLabel = CustomLabel()
         orderIntroductLabel.numberOfLines = 2
         orderIntroductLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         orderIntroductLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
@@ -39,28 +39,20 @@ class OrderModifyLogisticsCell: UITableViewCell {
         return priceLabel
     }()
     
-    
-    
-    
-    
     lazy var productName:UILabel = {
        let productName = UILabel()
         productName.text = "商品名称"
-//      productName.textColor = UIColor.colorWithDyColorChangObject(lightColor: "")
         productName.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#B0B0B0")
         productName.font = UIFont.systemFont(ofSize: scale(12), weight: .regular)
         productName.textAlignment = .left
         return productName
     }()
     
-    
-    
     //数量
     lazy var numberLabel:UILabel = {
-       let numberLabel = UILabel()
+        let numberLabel = UILabel()
         numberLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#B0B0B0")
         numberLabel.font = UIFont.systemFont(ofSize: scale(12), weight: .regular)
-        //numberLabel.textAlignment = .left
         numberLabel.textAlignment = .right
         numberLabel.text = "×1"
         return numberLabel
@@ -75,12 +67,7 @@ class OrderModifyLogisticsCell: UITableViewCell {
 //        numberLabel.text = "黑橙色×1"
 //        return numberLabel
 //    }()
-    
-    
-    
-    
-    
-    
+  
     //实收的价钱
     lazy var netReceiptsLabel:UILabel = {
         let netReceiptsLabel = UILabel()
@@ -137,8 +124,6 @@ class OrderModifyLogisticsCell: UITableViewCell {
                 make.width.equalTo(width)
                 make.height.equalTo(scale(12))
             }
-            
-            
         }
     }
     

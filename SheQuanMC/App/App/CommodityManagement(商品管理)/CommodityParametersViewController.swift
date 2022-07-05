@@ -177,7 +177,7 @@ class CommodityParametersViewController: BaseViewController {
         if paraList.count > 0{
             //这边是已经填写过得
 //            LXFLog("+============3===========\(paraList)")
-            self.tableview.reloadData()
+            tableview.reloadData()
         }else{
             //这边是新进来的
             loadOrderSpuInfoList()

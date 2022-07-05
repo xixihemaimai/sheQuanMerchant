@@ -8,11 +8,14 @@
 import UIKit
 import Util
 import SDWebImage
+import JXPhotoBrowser
+
 
 class ShopDetailViewController: BaseViewController {
 
     
     var shopeDetailList:[[[String:String]]] = [[[:]]]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "店铺信息"
@@ -82,6 +85,46 @@ class ShopDetailViewController: BaseViewController {
         tableview.reloadData()
     }
     
+    //图片浏览器 --正面
+    @objc func showDetailImageFort(tap:UITapGestureRecognizer){
+        let imageView = tap.view as? UIImageView
+        selectImageView(imageView?.tag ?? 0)
+    }
+    //图片浏览器 --反面
+    @objc func showDetailImageBack(tap:UITapGestureRecognizer){
+        let imageView = tap.view as? UIImageView
+        selectImageView(imageView?.tag ?? 1)
+    }
+    //图片浏览器 --营业执照
+    @objc func showDetailImageBuss(tap:UITapGestureRecognizer){
+        let imageView = tap.view as? UIImageView
+        selectImageView(imageView?.tag ?? 2)
+    }
+    
+    
+    func selectImageView(_ showIndex: Int) {
+        let browser = JXPhotoBrowser()
+        var pics = [String]()
+        let list = shopeDetailList[3]
+        let dict = list[0]
+        pics.append(dict["idCardFort"] ?? "")
+        pics.append(dict["idCardBack"] ?? "")
+        pics.append(dict["bussIn"] ?? "")
+        browser.numberOfItems = {
+            return pics.count
+        }
+        browser.reloadCellAtIndex = { context in
+            let browserCell = context.cell as? JXPhotoBrowserImageCell
+            let indexPath = IndexPath(item: context.index, section: showIndex)
+            browserCell?.imageView.sd_setImage(with: URL(string: pics[indexPath.row]), placeholderImage: nil, options: [], completed: { (_, _, _, _) in
+                browserCell?.setNeedsLayout()
+            })
+        }
+        //指示器
+        browser.pageIndicator = JXPhotoBrowserNumberPageIndicator()
+        browser.pageIndex = showIndex
+        browser.show()
+    }
 }
 
 
@@ -108,18 +151,17 @@ extension ShopDetailViewController : UITableViewDelegate,UITableViewDataSource{
             let cell = tableView.dequeueReusableCell(withIdentifier: "ShopDetailCardCell") as! ShopDetailCardCell
             let list = shopeDetailList[indexPath.section]
             let dict = list[indexPath.row]
-//            cell.cardFrotImageView.image = UIImage(named: dict["idCardFort"]!)
-//            cell.cardBackImageView.image = UIImage(named: dict["idCardBack"]!)
-//            cell.bussImageView.image = UIImage(named: dict["bussIn"]!)
-            
-//            cell.cardFrotImageView.kf.setImage(with: URL(string: dict["idCardFort"] ?? ""))
-            
             cell.cardFrotImageView.sd_setImage(with: URL(string: dict["idCardFort"] ?? ""))
             cell.cardBackImageView.sd_setImage(with: URL(string: dict["idCardBack"] ?? ""))
-//            cell.cardBackImageView.kf.setImage(with: URL(string: dict["idCardBack"] ?? ""))
-//            cell.bussImageView.kf.setImage(with: URL(string: dict["bussIn"] ?? ""))
             cell.bussImageView.sd_setImage(with: URL(string: dict["bussIn"] ?? ""))
             
+        
+            let tap = UITapGestureRecognizer(target: self, action: #selector(showDetailImageFort))
+            cell.cardFrotImageView.addGestureRecognizer(tap)
+            let tap1 = UITapGestureRecognizer(target: self, action: #selector(showDetailImageBack))
+            cell.cardBackImageView.addGestureRecognizer(tap1)
+            let tap2 = UITapGestureRecognizer(target: self, action: #selector(showDetailImageBuss))
+            cell.bussImageView.addGestureRecognizer(tap2)
             
             
             return cell
@@ -150,8 +192,5 @@ extension ShopDetailViewController : UITableViewDelegate,UITableViewDataSource{
         headerView.contentView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#F8F8F8")
         return headerView
     }
-    
-    
-    
     
 }

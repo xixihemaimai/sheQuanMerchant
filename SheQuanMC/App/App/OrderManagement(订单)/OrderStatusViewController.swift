@@ -63,7 +63,7 @@ class OrderStatusViewController: BaseViewController {
         }else{
             tag = 41
         }
-        let parameters = ["keyWord":"","lastOrderId":0,"orderStatus":tag] as [String:Any]
+        let parameters = ["lastOrderId":0,"orderStatus":tag] as [String:Any]
         NetWorkResultRequest(OrderApi.getOrderProductList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
             guard let model = try? JSONDecoder().decode(GenericResponse<[OrederInfoModel]>.self, from: data) else { return }
             self?.orderInfoList.removeAll()
@@ -80,14 +80,12 @@ class OrderStatusViewController: BaseViewController {
     
     
     override func headerRereshing() {
-//        LXFLog("下拉")
         loadOrderStatus()
     }
     
-    override func footerRereshing() {
-//        LXFLog("上拉")
-        tableview.mj_footer?.endRefreshing()
-    }
+//    override func footerRereshing() {
+//        tableview.mj_footer?.endRefreshing()
+//    }
     
     
     func reloadCurrentCountChange(){

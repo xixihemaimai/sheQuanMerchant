@@ -39,6 +39,7 @@ public enum OrderApi{
     
     case getOrderSalesInfo                                //获取订单销售数据（首页) (1)
     case getCloseReasonList                               //获取关闭订单原因列表 (1)
+    case geSearchProductList(parameters:[String:Any])     //获取搜索订单商品列表
     case getOrderProductList(parameters:[String:Any])     //获取订单商品列表 (1)
     case getOrderDetailInfo(parameters:[String:Any])      //获取订单详情 (1)
     case closeOrder(parameters:[String:Any])              //关闭订单  (1)
@@ -51,7 +52,8 @@ public enum OrderApi{
     case modiyLogistics(parameters:[String:Any])         //修改物流
     case viewLogistics(parameters:[String:Any])          //查看物流    (1)
     case getOrderLogisticsInfo(parameters:[String:Any])  //获取订单物流
-    
+    case getOrderConsigneeSalesInfo(parameters:[String:Any])      //获取订单收货地址
+    case updateConsignee(parameters:[String:Any])        //更新订单收货地址
     
     
     case getRetAddressList                               //获取退货地址列表 (1)
@@ -84,19 +86,19 @@ extension OrderApi:TargetType{
         case .addSpecGroup:
             return "spec/addSpecGroup"
         case .getProductInfoList:
-            return "prodmanage/getProductInfoList"
+            return "prod/manage/getProductInfoList"
         case .cancelApply:
-            return "prodmanage/cancelApply"
+            return "prod/manage/cancelApply"
         case .delProduct:
-            return "prodmanage/delProduct"
+            return "prod/manage/delProduct"
         case .lowerShelf:
-            return "prodmanage/lowerShelf"
+            return "prod/manage/lowerShelf"
         case .upShelf:
-            return "prodmanage/upShelf"
+            return "prod/manage/upShelf"
         case .repairStock:
-            return "prodmanage/repairStock"
+            return "prod/manage/repairStock"
         case .getSoldOutSkuList:
-            return "prodmanage/getSoldOutSkuList"
+            return "prod/manage/getSoldOutSkuList"
         case .draft:
             return "product/draft"
         case .getProductSpecList:
@@ -125,26 +127,32 @@ extension OrderApi:TargetType{
             
         //订单
         case .getOrderProductList:
-            return "ordermanage/getOrderProductList"
+            return "order/manage/getOrderProductList"
         case .getOrderDetailInfo:
-            return "ordermanage/getOrderDetailInfo"
+            return "order/manage/getOrderDetailInfo"
         case .getCloseReasonList:
-            return "ordermanage/getCloseOrderReasonList"
+            return "order/manage/getCloseOrderReasonList"
         case .closeOrder:
-            return "ordermanage/closeOrder"
+            return "order/manage/closeOrder"
         case .getChangePrice:
-            return "ordermanage/getChangePrice"
+            return "order/manage/getChangePrice"
         case .modifyPrice:
-            return "ordermanage/modifyPrice"
+            return "order/manage/modifyPrice"
         case .getProductOrderCount:
-            return "ordermanage/getProductOrderCount"
+            return "order/manage/getProductOrderCount"
         case .confirmShipment:
-            return "ordermanage/confirmShipment"
+            return "order/manage/confirmShipment"
         case .getOrderLogisticsInfo:
-            return "ordermanage/getOrderLogisticsInfo"
+            return "order/manage/getOrderLogisticsInfo"
+        case .geSearchProductList:
+            return "order/manage/geSearchProductList"
+        case .getOrderConsigneeSalesInfo:
+            return "order/consignee/getOrderSalesInfo"
+        case .updateConsignee:
+            return "order/consignee/updateConsignee"
+        
             
         //物流
-            
         case .getLogisticsList:
             return "logistics/getLogisticsList"
         case .modiyLogistics:
@@ -241,6 +249,8 @@ extension OrderApi:TargetType{
             return .requestPlain
         case .confirmShipment(let parameters):
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+        case .geSearchProductList(let parameters):
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
             
             
         case .getLogisticsList(let parameters):
@@ -251,8 +261,14 @@ extension OrderApi:TargetType{
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         case .getOrderLogisticsInfo(let parameters):
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
-        
             
+        case .getOrderConsigneeSalesInfo(let parameters):
+            
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+        case .updateConsignee(let parameters):
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+        
+        
             
         case .getRetAddressList:
             return .requestPlain
@@ -274,7 +290,7 @@ extension OrderApi:TargetType{
             let nonce = String.nonce
             let deviceId = String.deviceUUID
             return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValue(time,nonce,deviceId),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
-        case .getProductCategoryList(let parameters),.getProductBrandList(let parameters),.getProductSpuList(let parameters),.getProductSpecList(let parameters),.getProductInfoList(let parameters),.defFreightTemplate(let parameters),.getFreightInfo(let parameters),.getOrderProductList(let parameters),.closeOrder(let parameters),.getChangePrice(let parameters),.modifyPrice(let parameters),.getOrderDetailInfo(let parameters),.getLogisticsList(let parameters),.modiyLogistics(let parameters),.viewLogistics(let parameters),.confirmShipment(let parameters),.getOrderLogisticsInfo(let parameters),.delRetAddressInfo(let parameters),.updateRetAddress(let parameters),.getRetAddressInfo(let parameters):
+        case .getProductCategoryList(let parameters),.getProductBrandList(let parameters),.getProductSpuList(let parameters),.getProductSpecList(let parameters),.getProductInfoList(let parameters),.defFreightTemplate(let parameters),.getFreightInfo(let parameters),.getOrderProductList(let parameters),.closeOrder(let parameters),.getChangePrice(let parameters),.modifyPrice(let parameters),.getOrderDetailInfo(let parameters),.getLogisticsList(let parameters),.modiyLogistics(let parameters),.viewLogistics(let parameters),.confirmShipment(let parameters),.getOrderLogisticsInfo(let parameters),.delRetAddressInfo(let parameters),.updateRetAddress(let parameters),.getRetAddressInfo(let parameters),.geSearchProductList(let parameters),.getOrderConsigneeSalesInfo(let parameters),.updateConsignee(let parameters):
             let time = Date().currentMilliStamp
             let nonce = String.nonce
             let deviceId = String.deviceUUID

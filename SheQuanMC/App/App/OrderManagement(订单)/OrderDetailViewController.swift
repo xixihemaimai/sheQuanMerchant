@@ -84,7 +84,7 @@ class OrderDetailViewController: BaseViewController {
     
     var orderInfoModel:OrederInfoModel?
     
-    var orderLogisticsModel:OrderLogisticsModel?
+//    var orderLogisticsModel:OrderLogisticsModel?
     
     
 
@@ -225,25 +225,41 @@ class OrderDetailViewController: BaseViewController {
                make.bottom.equalTo(scale(0))
             }
         }
-        //获取订单物流，但是有可能没有
-//        reloadOrderLogisticsNetData()
+//        reloadOrderGetOrderConsigneeSalesInfoData()
     }
     
     
     
-//    func reloadOrderLogisticsNetData(){
-//        let parameters = ["orderId":orderInfoModel?.orderId as Any] as [String:Any]
-//        NetWorkResultRequest(OrderApi.getOrderLogisticsInfo(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
-//            guard let model = try? JSONDecoder().decode(GenericResponse<OrderLogisticsModel>.self, from: data) else { return }
-//            if let _data = model.data{
-//                self?.orderLogisticsModel = _data
-//            }
-//            self?.newTableView.reloadData()
-//        } failureCallback: { error, code in
-//            code.loginOut()
-//        }
-//    }
     
+    //获取订单收货地址
+    func reloadOrderGetOrderConsigneeSalesInfoData(){
+        let parameters = ["orderId":orderInfoModel?.orderId as Any] as [String:Any]
+        NetWorkResultRequest(OrderApi.getOrderConsigneeSalesInfo(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+//            guard let model = try? JSONDecoder().decode(GenericResponse<RetAddressInfoModel>.self, from: data) else { return }
+            //if let _data = model.data{
+            //}
+            self?.newTableView.reloadData()
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
+    }
+    
+    //更新订单收货地址
+    func updateSaleConsigneesalesData(recAddress:RetAddressInfoModel){
+        let parameters = ["address":recAddress.address as Any,"cityId":recAddress.cityId as Any,"consignee":recAddress.consignee as Any,"mobile":recAddress.mobile as Any,"orderId":orderInfoModel?.orderId as Any,"provinceId":recAddress.provinceId as Any,"regionId":recAddress.regionId as Any,"userId":orderInfoModel?.userId as Any,"zipCode":recAddress.zipCode as Any] as [String:Any]
+        NetWorkResultRequest(OrderApi.updateConsignee(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+            self?.orderInfoModel?.recAddress = recAddress
+            self?.newTableView.reloadData()
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
+    }
+    
+    
+    //获取电话号码完整
+    func reloadPhoneNumberIntegrity(){
+        
+    }
     
     
     deinit {
@@ -316,8 +332,6 @@ class OrderDetailViewController: BaseViewController {
                 //这边是去重新获取该订单信息
                 self?.reloadCurrentOrderInfo()
                 
-//                self?.reloadOrderLogisticsNetData()
-                
                 NotificationCenter.default.post(name: NSNotification.Name("changeOrderCount"), object: nil)
                 
                 self?.popup.dismissPopup()
@@ -356,7 +370,6 @@ class OrderDetailViewController: BaseViewController {
             
             self?.reloadCurrentOrderInfo()
             
-//            self?.reloadOrderLogisticsNetData()
         }
     }
     
@@ -369,10 +382,7 @@ class OrderDetailViewController: BaseViewController {
         modifyLogisticsVc.orderId = orderInfoModel?.orderId ?? 0
         Coordinator.shared?.pushViewController(self, modifyLogisticsVc, animated: true)
         modifyLogisticsVc.jumpSuccessBlockDetailType = {[weak self] in
-            
             self?.reloadCurrentOrderInfo()
-//            self?.reloadOrderLogisticsNetData()
-            
         }
     }
     
@@ -382,9 +392,7 @@ class OrderDetailViewController: BaseViewController {
         checkLogistVC.orderInfoModel = orderInfoModel
         Coordinator.shared?.pushViewController(self, checkLogistVC, animated: true)
     }
-    
-    
-    
+
     //修改买家地址
     @objc func modifyBuyerAddressAction(modifyBtn:UIButton){
         let modifyAddressVc = ModifyReturnAddressViewController()
@@ -392,8 +400,12 @@ class OrderDetailViewController: BaseViewController {
         Coordinator.shared?.pushViewController(self, modifyAddressVc, animated: true)
         modifyAddressVc.choiceRetAddressSuccessBlock = {[weak self] retAddressInfoModel in
             //这边要修改地址的地方
-            self?.orderLogisticsModel?.retAddress = retAddressInfoModel
-            self?.tableview.reloadData()
+            //self?.orderLogisticsModel?.retAddress = retAddressInfoModel
+//            self?.orderInfoModel?.recAddress = retAddressInfoModel
+            self?.updateSaleConsigneesalesData(recAddress: retAddressInfoModel)
+//            Thread.sleep(forTimeInterval: 0.2)
+//            self?.reloadCurrentOrderInfo()
+            //self?.newTableView.reloadData()
         }
     }
     
@@ -408,7 +420,7 @@ class OrderDetailViewController: BaseViewController {
     //复制
     @objc func copyAddressInfoAction(copyBtn:UIButton){
         let pasteBoard = UIPasteboard.general
-        pasteBoard.string = String(format: "%@ %@ %@ %@ %@ %@", orderLogisticsModel?.retAddress?.consignee ?? "",orderLogisticsModel?.retAddress?.mobile ?? "",orderLogisticsModel?.retAddress?.provinceName ?? "",orderLogisticsModel?.retAddress?.cityName ?? "",orderLogisticsModel?.retAddress?.regionName ?? "",orderLogisticsModel?.retAddress?.address ?? "")
+        pasteBoard.string = String(format: "%@ %@ %@ %@ %@ %@", orderInfoModel?.recAddress?.consignee ?? "",orderInfoModel?.recAddress?.mobile ?? "",orderInfoModel?.recAddress?.provinceName ?? "",orderInfoModel?.recAddress?.cityName ?? "",orderInfoModel?.recAddress?.regionName ?? "",orderInfoModel?.recAddress?.address ?? "")
         JFPopup.toast(hit: "复制成功")
     }
     
@@ -420,8 +432,12 @@ extension OrderDetailViewController:UITableViewDelegate,UITableViewDataSource{
         if orderInfoModel?.orderStatus == 10{
             return 3
         }else{
-            if orderLogisticsModel?.retAddress == nil{
-                return 3
+            if orderInfoModel?.orderStatus == 20{
+                if orderInfoModel?.recAddress == nil{
+                    return 3
+                }else{
+                    return 4
+                }
             }else{
                 return 4
             }
@@ -445,8 +461,6 @@ extension OrderDetailViewController:UITableViewDelegate,UITableViewDataSource{
 //            if cell.orderInfoModel?.orderStatus == 10 || cell.orderInfoModel?.orderStatus == 21{
                 cell.countdownComplete = {[weak self] in
                     self?.reloadCurrentOrderInfo()
-                    
-//                    self?.reloadOrderLogisticsNetData()
                 }
 //            }
             return cell
@@ -465,7 +479,7 @@ extension OrderDetailViewController:UITableViewDelegate,UITableViewDataSource{
         }else if orderInfoModel?.orderStatus == 20 {
             //待发货
             //已发货 || orderInfoModel?.orderStatus == 21
-            if orderLogisticsModel?.retAddress == nil{
+            if orderInfoModel?.recAddress == nil{
                 if indexPath.row == 1{
                     let cell = tableView.dequeueReusableCell(withIdentifier: "OrderContentCell") as! OrderContentCell
                     cell.orderInfoModel = orderInfoModel
@@ -478,7 +492,7 @@ extension OrderDetailViewController:UITableViewDelegate,UITableViewDataSource{
             }else{
                 if indexPath.row == 1{
                     let cell = tableView.dequeueReusableCell(withIdentifier: "BuyerAdressCell") as! BuyerAdressCell
-                    cell.retAddress = orderLogisticsModel?.retAddress
+                    cell.retAddress = orderInfoModel?.recAddress
                     //修改
                     cell.modifyBtn.tag = indexPath.row
                     cell.modifyBtn.addTarget(self, action: #selector(modifyBuyerAddressAction), for: .touchUpInside)
@@ -486,7 +500,6 @@ extension OrderDetailViewController:UITableViewDelegate,UITableViewDataSource{
                     cell.copyBtn.tag = indexPath.row
                     cell.copyBtn.addTarget(self, action: #selector(copyAddressInfoAction), for: .touchUpInside)
                     return cell
-                    
                 }else if indexPath.row == 2{
                     let cell = tableView.dequeueReusableCell(withIdentifier: "OrderContentCell") as! OrderContentCell
                     cell.orderInfoModel = orderInfoModel
@@ -499,21 +512,21 @@ extension OrderDetailViewController:UITableViewDelegate,UITableViewDataSource{
             }
         }else{
             //交易关闭 交易成功
-            if orderLogisticsModel?.retAddress == nil{
-                if indexPath.row == 1{
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "OrderContentCell") as! OrderContentCell
-                    cell.orderInfoModel = orderInfoModel
-                    return cell
-                }
-                else{
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "OrderToBePaidCell") as! OrderToBePaidCell
-                    cell.orderInfoModel = orderInfoModel
-                    return cell
-                }
-            }else{
+//            if orderInfoModel?.recAddress == nil{
+//                if indexPath.row == 1{
+//                    let cell = tableView.dequeueReusableCell(withIdentifier: "OrderContentCell") as! OrderContentCell
+//                    cell.orderInfoModel = orderInfoModel
+//                    return cell
+//                }
+//                else{
+//                    let cell = tableView.dequeueReusableCell(withIdentifier: "OrderToBePaidCell") as! OrderToBePaidCell
+//                    cell.orderInfoModel = orderInfoModel
+//                    return cell
+//                }
+//            }else{
                 if indexPath.row == 1{
                     let cell = tableView.dequeueReusableCell(withIdentifier: "OrderDeliveryLogisticsCell") as! OrderDeliveryLogisticsCell
-                    cell.orderLogisticsModel = orderLogisticsModel
+                    cell.orderInfoModel = orderInfoModel
                     cell.joinSignBtn.tag = indexPath.row
                     cell.joinSignBtn.addTarget(self, action: #selector(joinCheckLogisticsAction), for: .touchUpInside)
                     return cell
@@ -527,7 +540,7 @@ extension OrderDetailViewController:UITableViewDelegate,UITableViewDataSource{
                     cell.orderInfoModel = orderInfoModel
                     return cell
                 }
-            }
+//            }
         }
     }
 }

@@ -55,8 +55,8 @@ class OrderContentCell: UITableViewCell {
     }()
     
     //商品介绍
-    lazy var orderIntroductLabel:UILabel = {
-       let orderIntroductLabel = UILabel()
+    lazy var orderIntroductLabel:CustomLabel = {
+       let orderIntroductLabel = CustomLabel()
         orderIntroductLabel.numberOfLines = 2
         orderIntroductLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         orderIntroductLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
@@ -64,12 +64,6 @@ class OrderContentCell: UITableViewCell {
         orderIntroductLabel.text = "Nike耐克官方AIR 男子训练鞋运动老爹鞋休闲鞋"
         return orderIntroductLabel
     }()
-    
-    
-    
-    
-    
-    
     
     //数量
     lazy var numberLabel:UILabel = {
@@ -380,7 +374,7 @@ class OrderContentCell: UITableViewCell {
 //            make.left.equalTo(orderImage.snp.right).offset(scale(12))
             make.right.equalTo(-scale(16))
             make.height.equalTo(scale(12))
-            make.top.equalTo(orderIntroductLabel.snp.bottom).offset(scale(12))
+            make.top.equalTo(orderIntroductLabel.snp.bottom).offset(scale(16))
             make.width.equalTo(scale(120))
         }
         

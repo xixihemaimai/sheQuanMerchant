@@ -186,8 +186,9 @@ extension ShopInformationViewController:UITableViewDelegate,UITableViewDataSourc
                 }
             }else if indexPath.row == 3{
                 //店铺二维码
-              
-                
+              let myQRVc = MyQRCodeViewController()
+              Coordinator.shared?.pushViewController(self, myQRVc, animated: true)
+                  
             }
         }
     }

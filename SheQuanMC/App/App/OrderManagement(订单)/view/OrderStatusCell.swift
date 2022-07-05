@@ -86,8 +86,8 @@ class OrderStatusCell: UITableViewCell {
     }()
     
     //商品介绍
-    lazy var orderIntroductLabel:UILabel = {
-       let orderIntroductLabel = UILabel()
+    lazy var orderIntroductLabel:CustomLabel = {
+       let orderIntroductLabel = CustomLabel()
         orderIntroductLabel.numberOfLines = 2
         orderIntroductLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         orderIntroductLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)

@@ -16,6 +16,7 @@
 		401E5DC9281528F3009127A5 /* Edit+UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DC5281528F3009127A5 /* Edit+UIImageView.swift */; };
 		401E5DD42815407A009127A5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DD32815407A009127A5 /* LoginViewController.swift */; };
 		401E5DD628163A48009127A5 /* StartPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401E5DD528163A47009127A5 /* StartPageViewController.swift */; };
+		402D25502874353400A0ECA5 /* FeedBacksPostButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402D254F2874353400A0ECA5 /* FeedBacksPostButton.swift */; };
 		403B87F92823536400FC4EA4 /* CommodityCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B87F82823536400FC4EA4 /* CommodityCategoryViewController.swift */; };
 		403B87FB282356C600FC4EA4 /* CommodityCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B87FA282356C600FC4EA4 /* CommodityCategoryCell.swift */; };
 		403B87FD28235E4300FC4EA4 /* CommodityParametersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B87FC28235E4300FC4EA4 /* CommodityParametersViewController.swift */; };
@@ -101,6 +102,17 @@
 		4096354328645AA700AA323C /* MomentsPostButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4096354228645AA700AA323C /* MomentsPostButton.swift */; };
 		4096354528645AD100AA323C /* MomentsDeleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4096354428645AD100AA323C /* MomentsDeleteView.swift */; };
 		409BF5CE286D76AF00B1B8DE /* NoNetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409BF5CD286D76AE00B1B8DE /* NoNetViewController.swift */; };
+		409BF5D22873CA5B00B1B8DE /* MyQRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409BF5D12873CA5800B1B8DE /* MyQRCodeViewController.swift */; };
+		409BF5D42873D44300B1B8DE /* AccountAndSafeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409BF5D32873D44300B1B8DE /* AccountAndSafeViewController.swift */; };
+		409BF5D62873E37400B1B8DE /* ChangeBindPhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409BF5D52873E37400B1B8DE /* ChangeBindPhoneViewController.swift */; };
+		409BF5D82873ED1A00B1B8DE /* ChangePayPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409BF5D72873ED1900B1B8DE /* ChangePayPasswordViewController.swift */; };
+		409BF5DA2874130600B1B8DE /* MyMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409BF5D92874130600B1B8DE /* MyMessageViewController.swift */; };
+		409BF5DC28741BF800B1B8DE /* UserHelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409BF5DB28741BF800B1B8DE /* UserHelpViewController.swift */; };
+		409BF5DE28741CFC00B1B8DE /* UserHelpCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409BF5DD28741CFB00B1B8DE /* UserHelpCell.swift */; };
+		409BF5E028741FF800B1B8DE /* AboutMyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409BF5DF28741FF800B1B8DE /* AboutMyViewController.swift */; };
+		409BF5E228742EAD00B1B8DE /* FeedbackMyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409BF5E128742EAC00B1B8DE /* FeedbackMyViewController.swift */; };
+		409BF5E4287431DC00B1B8DE /* FeedBackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409BF5E3287431DC00B1B8DE /* FeedBackView.swift */; };
+		409BF5E62874327F00B1B8DE /* FeedBackCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409BF5E52874327F00B1B8DE /* FeedBackCell.swift */; };
 		409C29932814FC5D00005ECB /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 409C29912814FC5D00005ECB /* UITextView+Placeholder.m */; };
 		409C29942814FC5D00005ECB /* UITextView+Placeholder.h in Headers */ = {isa = PBXBuildFile; fileRef = 409C29922814FC5D00005ECB /* UITextView+Placeholder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		40A267AB2856DDC00092321F /* AppSpecificationsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A267AA2856DDC00092321F /* AppSpecificationsCell.swift */; };
@@ -156,6 +168,7 @@
 		401E5DC5281528F3009127A5 /* Edit+UIImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Edit+UIImageView.swift"; sourceTree = "<group>"; };
 		401E5DD32815407A009127A5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		401E5DD528163A47009127A5 /* StartPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartPageViewController.swift; sourceTree = "<group>"; };
+		402D254F2874353400A0ECA5 /* FeedBacksPostButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedBacksPostButton.swift; sourceTree = "<group>"; };
 		403B87F82823536400FC4EA4 /* CommodityCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommodityCategoryViewController.swift; sourceTree = "<group>"; };
 		403B87FA282356C600FC4EA4 /* CommodityCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommodityCategoryCell.swift; sourceTree = "<group>"; };
 		403B87FC28235E4300FC4EA4 /* CommodityParametersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommodityParametersViewController.swift; sourceTree = "<group>"; };
@@ -241,6 +254,17 @@
 		4096354228645AA700AA323C /* MomentsPostButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentsPostButton.swift; sourceTree = "<group>"; };
 		4096354428645AD100AA323C /* MomentsDeleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentsDeleteView.swift; sourceTree = "<group>"; };
 		409BF5CD286D76AE00B1B8DE /* NoNetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoNetViewController.swift; sourceTree = "<group>"; };
+		409BF5D12873CA5800B1B8DE /* MyQRCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyQRCodeViewController.swift; sourceTree = "<group>"; };
+		409BF5D32873D44300B1B8DE /* AccountAndSafeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountAndSafeViewController.swift; sourceTree = "<group>"; };
+		409BF5D52873E37400B1B8DE /* ChangeBindPhoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeBindPhoneViewController.swift; sourceTree = "<group>"; };
+		409BF5D72873ED1900B1B8DE /* ChangePayPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePayPasswordViewController.swift; sourceTree = "<group>"; };
+		409BF5D92874130600B1B8DE /* MyMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMessageViewController.swift; sourceTree = "<group>"; };
+		409BF5DB28741BF800B1B8DE /* UserHelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHelpViewController.swift; sourceTree = "<group>"; };
+		409BF5DD28741CFB00B1B8DE /* UserHelpCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHelpCell.swift; sourceTree = "<group>"; };
+		409BF5DF28741FF800B1B8DE /* AboutMyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutMyViewController.swift; sourceTree = "<group>"; };
+		409BF5E128742EAC00B1B8DE /* FeedbackMyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackMyViewController.swift; sourceTree = "<group>"; };
+		409BF5E3287431DC00B1B8DE /* FeedBackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedBackView.swift; sourceTree = "<group>"; };
+		409BF5E52874327F00B1B8DE /* FeedBackCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedBackCell.swift; sourceTree = "<group>"; };
 		409C29912814FC5D00005ECB /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
 		409C29922814FC5D00005ECB /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
 		40A267AA2856DDC00092321F /* AppSpecificationsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSpecificationsCell.swift; sourceTree = "<group>"; };
@@ -567,6 +591,14 @@
 				401E5DAB281520D5009127A5 /* MyViewController.swift */,
 				40FA4A06286AF031003237C0 /* ShopInformationViewController.swift */,
 				40FA4A08286AFDC4003237C0 /* ModifyShopNameViewController.swift */,
+				409BF5D12873CA5800B1B8DE /* MyQRCodeViewController.swift */,
+				409BF5D32873D44300B1B8DE /* AccountAndSafeViewController.swift */,
+				409BF5D52873E37400B1B8DE /* ChangeBindPhoneViewController.swift */,
+				409BF5D72873ED1900B1B8DE /* ChangePayPasswordViewController.swift */,
+				409BF5D92874130600B1B8DE /* MyMessageViewController.swift */,
+				409BF5DB28741BF800B1B8DE /* UserHelpViewController.swift */,
+				409BF5DF28741FF800B1B8DE /* AboutMyViewController.swift */,
+				409BF5E128742EAC00B1B8DE /* FeedbackMyViewController.swift */,
 			);
 			path = "My(我的)";
 			sourceTree = "<group>";
@@ -596,6 +628,10 @@
 				40FA49FE286AD92F003237C0 /* MyCell.swift */,
 				40FA4A00286AE730003237C0 /* MyLoginOutCell.swift */,
 				40FA4A04286AEAA3003237C0 /* shopInfomationCell.swift */,
+				409BF5DD28741CFB00B1B8DE /* UserHelpCell.swift */,
+				409BF5E3287431DC00B1B8DE /* FeedBackView.swift */,
+				409BF5E52874327F00B1B8DE /* FeedBackCell.swift */,
+				402D254F2874353400A0ECA5 /* FeedBacksPostButton.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -730,6 +766,7 @@
 				40A267AB2856DDC00092321F /* AppSpecificationsCell.swift in Sources */,
 				40FA4A01286AE730003237C0 /* MyLoginOutCell.swift in Sources */,
 				40FA4A05286AEAA3003237C0 /* shopInfomationCell.swift in Sources */,
+				409BF5E028741FF800B1B8DE /* AboutMyViewController.swift in Sources */,
 				408AF0E828407BA600D12584 /* CommodityParameterCell.swift in Sources */,
 				4075AEF0281CD621005EB854 /* ProductDescriptionViewController.swift in Sources */,
 				40A267AD2856E6070092321F /* AddSpecificationValueView.swift in Sources */,
@@ -740,6 +777,7 @@
 				4083B25B2824C87200AFAD18 /* SettingPriceAndStockView.swift in Sources */,
 				4075AF0C281E1E08005EB854 /* OrderViewController.swift in Sources */,
 				4083B25E2825FC2A00AFAD18 /* OrderStatusCell.swift in Sources */,
+				409BF5D22873CA5B00B1B8DE /* MyQRCodeViewController.swift in Sources */,
 				408E423A2828BA0D00C94119 /* AddressCell.swift in Sources */,
 				4096354128645A8400AA323C /* MomentsViewCell.swift in Sources */,
 				403B8807282379C600FC4EA4 /* CommoditySpecificationsFooterView.swift in Sources */,
@@ -755,10 +793,12 @@
 				4060BC492818C87400968C42 /* EnterpriseCertificationViewController.swift in Sources */,
 				403B88032823725400FC4EA4 /* CommoditySpecificationsViewController.swift in Sources */,
 				4074C9FB2830BC10009E9023 /* MMLocationParser.m in Sources */,
+				409BF5E228742EAD00B1B8DE /* FeedbackMyViewController.swift in Sources */,
 				407D9804281A70DF005A8CBC /* commodityExamineCell.swift in Sources */,
 				408E42322828AA9300C94119 /* OrderToBePaidCell.swift in Sources */,
 				4074C9F8282F37B4009E9023 /* UserPrivacyView.swift in Sources */,
 				40FA49FF286AD930003237C0 /* MyCell.swift in Sources */,
+				409BF5DA2874130600B1B8DE /* MyMessageViewController.swift in Sources */,
 				401E5DAC281520D5009127A5 /* MyViewController.swift in Sources */,
 				403B880128236A8100FC4EA4 /* CommodityParameterView.swift in Sources */,
 				4060BC452817DF7100968C42 /* BusinessTypeCell.swift in Sources */,
@@ -776,6 +816,7 @@
 				40C377862851EB3F00DA9E70 /* SIXHTMLParser.m in Sources */,
 				4060BC3728175ED300968C42 /* Edit+UIBarButtonItem.swift in Sources */,
 				4060BC3928177F1A00968C42 /* RegisterViewController.swift in Sources */,
+				409BF5DC28741BF800B1B8DE /* UserHelpViewController.swift in Sources */,
 				408E42362828B49C00C94119 /* BuyerAdressCell.swift in Sources */,
 				4060BC3528175ECD00968C42 /* BaseViewController.swift in Sources */,
 				4060BC4D281A1ACE00968C42 /* ShopDetailViewController.swift in Sources */,
@@ -802,11 +843,14 @@
 				4096354328645AA700AA323C /* MomentsPostButton.swift in Sources */,
 				408E424C282903B200C94119 /* ReturnGoodsAddressCell.swift in Sources */,
 				408E42342828ADD100C94119 /* OrderDeliveryLogisticsCell.swift in Sources */,
+				409BF5D82873ED1A00B1B8DE /* ChangePayPasswordViewController.swift in Sources */,
 				4080A4CE282CB08000D32002 /* FreightAllocationViewController.swift in Sources */,
 				4074C9EF282CE3D0009E9023 /* RegionView.swift in Sources */,
 				407D9802281A66C6005A8CBC /* commodityStatusCell.swift in Sources */,
 				408E42422828E8BE00C94119 /* CheckLogisticsViewController.swift in Sources */,
 				409635392861622C00AA323C /* WKWebViewViewController.swift in Sources */,
+				409BF5D62873E37400B1B8DE /* ChangeBindPhoneViewController.swift in Sources */,
+				402D25502874353400A0ECA5 /* FeedBacksPostButton.swift in Sources */,
 				40C3778A2851EB3F00DA9E70 /* SIXEditorInputManager.m in Sources */,
 				401E5DD628163A48009127A5 /* StartPageViewController.swift in Sources */,
 				4075AF0E281E2673005EB854 /* OrderContentViewController.swift in Sources */,
@@ -822,17 +866,21 @@
 				407D9806281A8352005A8CBC /* ReplenishInventoryViewController.swift in Sources */,
 				4060BC302816AD5000968C42 /* CountDown.swift in Sources */,
 				4060BC3D2817986900968C42 /* NewPasswordViewController.swift in Sources */,
+				409BF5DE28741CFC00B1B8DE /* UserHelpCell.swift in Sources */,
 				401E5DD42815407A009127A5 /* LoginViewController.swift in Sources */,
 				4060BC402817A54600968C42 /* StoreOccupancyViewController.swift in Sources */,
 				408E424E2829050300C94119 /* LogisticsInformationCell.swift in Sources */,
 				408E423E2828C35900C94119 /* LogisticsCompanyCell.swift in Sources */,
 				408E422C2826686500C94119 /* OrderDetailStatusCell.swift in Sources */,
 				401E5DC8281528F3009127A5 /* UIViewController+Extenstion.swift in Sources */,
+				409BF5E4287431DC00B1B8DE /* FeedBackView.swift in Sources */,
 				4060BC4B28191C9D00968C42 /* EnterpriseAuditViewController.swift in Sources */,
+				409BF5E62874327F00B1B8DE /* FeedBackCell.swift in Sources */,
 				407D97FF281A65EE005A8CBC /* CommodityStatusViewController.swift in Sources */,
 				403B88092823A8C600FC4EA4 /* AddSpecificationsView.swift in Sources */,
 				408E42482828FDE800C94119 /* ModifyLogisticsViewController.swift in Sources */,
 				408E424A2829003C00C94119 /* OrderModifyLogisticsCell.swift in Sources */,
+				409BF5D42873D44300B1B8DE /* AccountAndSafeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

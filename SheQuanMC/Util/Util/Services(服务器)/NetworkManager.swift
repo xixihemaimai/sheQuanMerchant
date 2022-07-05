@@ -146,14 +146,14 @@ public let requestClosure = { (endpoint: Endpoint, done: MoyaProvider.RequestRes
             if endpoint.url.contains("shop/shopAuth") || endpoint.url.contains("ent/entCert"){
                 //解决图片链接有转义字符的问题
                 request.httpBody = getObjFromDataToData(obj: requestData, isEscape: true)
-            }else if endpoint.url.contains("login/mobileLogin") || endpoint.url.contains("login/passLogin") || endpoint.url.contains("captcha/getCaptchaCode") || endpoint.url.contains("category/getCategoryInfoList") || endpoint.url.contains("shop/forgetPass") || endpoint.url.contains("shop/changePass") || endpoint.url.contains("shop/regAccount") || endpoint.url.contains("prodmanage/getProductInfoList") || endpoint.url.contains("category/getProductCategoryList") || endpoint.url.contains("brand/getProductBrandList") || endpoint.url.contains("spec/getProductSpecList") || endpoint.url.contains("spu/getProductSpuList") || endpoint.url.contains("region/getFreightRegionList") || endpoint.url.contains("freight/defFreightTemplate") || endpoint.url.contains("ordermanage/closeOrder") || endpoint.url.contains("ordermanage/getOrderProductList") || endpoint.url.contains("ordermanage/modifyPrice") || endpoint.url.contains("logistics/modifyLogistics") || endpoint.url.contains("ordermanage/confirmShipment") || endpoint.url.contains("ret/updateRetAddress"){
+            }else if endpoint.url.contains("login/mobileLogin") || endpoint.url.contains("login/passLogin") || endpoint.url.contains("captcha/getCaptchaCode") || endpoint.url.contains("category/getCategoryInfoList") || endpoint.url.contains("shop/forgetPass") || endpoint.url.contains("shop/changePass") || endpoint.url.contains("shop/regAccount") || endpoint.url.contains("prod/manage/getProductInfoList") || endpoint.url.contains("category/getProductCategoryList") || endpoint.url.contains("brand/getProductBrandList") || endpoint.url.contains("spec/getProductSpecList") || endpoint.url.contains("spu/getProductSpuList") || endpoint.url.contains("region/getFreightRegionList") || endpoint.url.contains("freight/defFreightTemplate") || endpoint.url.contains("order/manage/closeOrder") || endpoint.url.contains("order/manage/getOrderProductList") || endpoint.url.contains("order/manage/modifyPrice") || endpoint.url.contains("logistics/modifyLogistics") || endpoint.url.contains("order/manage/confirmShipment") || endpoint.url.contains("ret/updateRetAddress") || endpoint.url.contains("order/consignee/updateConsignee"){
                 //手机号登录 密码登录 发送验证码 经营种类 忘记密码 修改密码 注册账号  获取商品列表 获取商品类目 获取品牌列表 获取商品规格列表  获取商品参数列表 获取行政区域
-                //默认运费模板  关闭订单 获取商品订单列表 确定修改价格 修改物流 确认发货  添加和更新退货地址信息
+                //默认运费模板  关闭订单 获取商品订单列表 确定修改价格 修改物流 确认发货  添加和更新退货地址信息  更新订单收货地址
                 request.httpBody = getObjFromDataToData(obj: requestData, isEscape: false)
             }else if endpoint.url.contains("product/publish") || endpoint.url.contains("product/draft"){
                 //发布商品，存为草稿
                 request.httpBody = getJSONStringFromPushblishData(obj: requestData, isEscape: true)
-            }else if endpoint.url.contains("spec/addSpecGroup") || endpoint.url.contains("prodmanage/repairStock") || endpoint.url.contains("region/getNoDeliveryRegionList"){
+            }else if endpoint.url.contains("spec/addSpecGroup") || endpoint.url.contains("prod/manage/repairStock") || endpoint.url.contains("region/getNoDeliveryRegionList"){
                 //添加商品规格组,补库存,获取不配送区域列表
                 request.httpBody = getJSONStringFromAddSpec(obj: requestData)
             }else if endpoint.url.contains("freight/freightTemplate"){
@@ -416,7 +416,11 @@ public func errorHandler(code: Int, message: String, needShowFailAlert: Bool, fa
 //        print("弹出错误信息弹框\(message)")
         if message == "未找到企业认证信息." || message == "该手机号不存在."{
         }else{
-            JFPopup.toast(hit: "\(message)", icon: .fail)
+            if message.count > 0{
+                JFPopup.toast(hit: "\(message)", icon: .fail)
+            }else{
+                JFPopup.toast(hit: "请求失败", icon: .fail)
+            }
         }
     }
     failure?(message,model.code)
