@@ -119,9 +119,10 @@ extension ShopInformationViewController:UITableViewDelegate,UITableViewDataSourc
                                         
                                         let cell = tableView.cellForRow(at: indexPath) as! shopInfomationCell
                                         cell.shopAvavr.sd_setImage(with: URL(string: str), placeholderImage: UIImage(named: "Group 2784"))
-                                        
-                                        
                                         StoreService.shared.updateShopAvatar(str)
+                                        
+                                        //这边要发送通知和回调
+                                        
                                         
                                     }catch{}
                                     JFPopupView.popup.hideLoading()
@@ -149,6 +150,8 @@ extension ShopInformationViewController:UITableViewDelegate,UITableViewDataSourc
                                         let cell = tableView.cellForRow(at: indexPath) as! shopInfomationCell
                                         cell.shopAvavr.sd_setImage(with: URL(string: str), placeholderImage: UIImage(named: "Group 2784"))
                                         StoreService.shared.updateShopAvatar(str)
+                                        
+                                        //这边要发送通知和回调
                                         
                                         
                                     }catch{}

@@ -101,7 +101,6 @@ class AccountAndSafeViewController: BaseViewController {
         loginPwdBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         view.addSubview(loginPwdBtn)
         loginPwdBtn.tag = 1
-        
         loginPwdBtn.addTarget(self, action: #selector(jumpChangeAction), for: .touchUpInside)
         
         
@@ -210,9 +209,15 @@ class AccountAndSafeViewController: BaseViewController {
         if btn.tag == 0{
             let changeBindPhoneVc = ChangeBindPhoneViewController()
             Coordinator.shared?.pushViewController(self, changeBindPhoneVc, animated: true)
-        }else if btn.tag == 2{
+        }else if btn.tag == 1{
             let changePayPasswordVc = ChangePayPasswordViewController()
             Coordinator.shared?.pushViewController(self, changePayPasswordVc, animated: true)
+        }else if btn.tag == 2{
+            
+            
+        }else if btn.tag == 3{
+            let perfectInfoVc = PerfectInfoViewController()
+            Coordinator.shared?.pushViewController(self, perfectInfoVc, animated: true)
         }
     }
     

@@ -68,19 +68,25 @@ class CommodityStatusViewController: BaseViewController {
         let parmeters = ["keyWord":"","lastSortTime":lastSortTime,"productStatus":productStatus] as [String:Any]
         NetWorkResultRequest(OrderApi.getProductInfoList(parameters: parmeters), needShowFailAlert: true) {[weak self] result, data in
             guard let model = try? JSONDecoder().decode(GenericResponse<[productListModel]>.self, from: data)else{ return }
-            guard let data1 = model.data else{return}
-            if self?.header == true{
-                self?.list.removeAll()
-                self?.list = data1
+//            guard let data1 = model.data else{return}
+            if let data1 = model.data{
+                if self?.header == true{
+                    self?.list.removeAll()
+                    self?.list = data1
+                    self?.tableview.reloadData()
+                    self?.tableview.mj_header?.endRefreshing()
+                }else{
+                    self?.list += data1
+                    self?.tableview.reloadData()
+                    self?.tableview.mj_footer?.endRefreshing()
+    //                if data1.count < 1{
+    //                   self?.tableview.mj_footer?.endRefreshingWithNoMoreData()
+    //                }
+                }
+            }else{
                 self?.tableview.reloadData()
                 self?.tableview.mj_header?.endRefreshing()
-            }else{
-                self?.list += data1
-                self?.tableview.reloadData()
                 self?.tableview.mj_footer?.endRefreshing()
-//                if data1.count < 1{
-//                   self?.tableview.mj_footer?.endRefreshingWithNoMoreData()
-//                }
             }
         } failureCallback: {[weak self] error, code in
             code.loginOut()
@@ -329,7 +335,6 @@ extension CommodityStatusViewController:UITableViewDelegate,UITableViewDataSourc
 //                cell.stockLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#999999")
 //            }
 //            cell.stockLabel.text = "库存余量:" + String(productListModel.stock ?? 0)
-            
             cell.model = productListModel
             
             cell.stockBtn.tag = indexPath.row

@@ -12,6 +12,8 @@ import SwiftyJSON
 
 class ModifyAddressViewController: BaseViewController {
 
+    
+    var choiceRetAddressSuccessBlock:((_ retAddressInfoModel:RetAddressInfoModel)->Void)?
     //原姓名
     lazy var nameTextView:UITextView = {
        let nameTextView = UITextView()
@@ -48,6 +50,13 @@ class ModifyAddressViewController: BaseViewController {
         return phoneNmberTextView
     }()
     
+    
+    lazy var secondView:UIView = {
+       let secondView = UIView()
+        secondView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
+        return secondView
+    }()
+    
     //地址
     lazy var choiceAddresssBtn:UIButton = {
        let choiceAddresssBtn = UIButton()
@@ -58,6 +67,8 @@ class ModifyAddressViewController: BaseViewController {
     lazy var addressLabel:UILabel = {
         let addressLabel = UILabel()
         addressLabel.text = "请选择"
+//        addressLabel.numberOfLines = 2
+//        addressLabel.lineBreakMode = .byCharWrapping
         addressLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#C2C2C2")
 //        addressTextView.placeholderColor = UIColor.colorWithDyColorChangObject(lightColor: "#787878")
         addressLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
@@ -120,12 +131,21 @@ class ModifyAddressViewController: BaseViewController {
     var updateAndAddSuccessBlock:(()->Void)?
     
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
 
+        let parameters = ["freightVerId":0,"level":2,"regionId":0,"subHierarchy":2] as [String:Any]
+        NetWorkResultRequest(OrderApi.getFreightRegionList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+            guard let model = try? JSONDecoder().decode(GenericResponse<[RegionInfoModel]>.self, from: data) else { return }
+            self?.provinceList.removeAll()
+            if let _data = model.data{
+                self?.provinceList = _data
+            }
+        } failureCallback: { error, code in
+            code.loginOut()
+        }
         
         let topView = UIView()
         topView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
@@ -205,12 +225,7 @@ class ModifyAddressViewController: BaseViewController {
             make.top.equalTo(firstView.snp.bottom).offset(scale(7))
         }
         
-        
-        
-        let secondView = UIView()
-        secondView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
         view.addSubview(secondView)
-        
         secondView.snp.makeConstraints { make in
             make.left.equalTo(scale(16))
             make.right.equalToSuperview()
@@ -218,14 +233,12 @@ class ModifyAddressViewController: BaseViewController {
             make.top.equalTo(phoneNmberTextView.snp.bottom).offset(scale(16))
         }
         
-        
         view.addSubview(choiceAddresssBtn)
         choiceAddresssBtn.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.top.equalTo(secondView.snp.bottom)
             make.height.equalTo(scale(54))
         }
-        
         choiceAddresssBtn.addTarget(self, action: #selector(locationAction), for: .touchUpInside)
         
         
@@ -248,7 +261,7 @@ class ModifyAddressViewController: BaseViewController {
         addressLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.left.equalTo(creditCodeLabel.snp.right).offset(scale(16))
-            make.height.equalTo(scale(36))
+            make.height.equalTo(scale(22))
             make.right.equalTo(-scale(50))
         }
         
@@ -373,16 +386,14 @@ class ModifyAddressViewController: BaseViewController {
         
         
         if title == "添加新地址"{
-            retAddressInfoModel = RetAddressInfoModel(address: detailAddressTextView.text, cityId: 0, cityName: "", consignee: nameTextView.text, isDef: isDefaultSwitch.isOn, mobile: phoneNmberTextView.text, provinceId: 0, provinceName: "", regionId: 0, regionName: "", retAddressId: 0, zipCode: "")
+            retAddressInfoModel = RetAddressInfoModel(address: detailAddressTextView.text, cityId: 0, cityName: "", consignee: nameTextView.text, isDef: isDefaultSwitch.isOn, mobile: phoneNmberTextView.text, provinceId: 0, provinceName: "", regionId: 0, regionName: "", retAddressId: 0,streetId: 0,streetName: "",zipCode: "")
         }else{
-            
             nameTextView.text = retAddressInfoModel?.consignee
             if nameTextView.text.count > 0 {
                 deleteNameBtn.isHidden = false
             }else{
                 deleteNameBtn.isHidden = true
             }
-            
             
             phoneNmberTextView.text = retAddressInfoModel?.mobile
             
@@ -405,17 +416,6 @@ class ModifyAddressViewController: BaseViewController {
                 submitBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E1E1E1")
                 submitBtn.isEnabled = false
             }
-        }
-        
-        let parameters = ["freightVerId":0 as Any,"level":2,"regionId":0,"subHierarchy":3] as [String:Any]
-        NetWorkResultRequest(OrderApi.getFreightRegionList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
-            guard let model = try? JSONDecoder().decode(GenericResponse<[RegionInfoModel]>.self, from: data) else { return }
-            self?.provinceList.removeAll()
-            if let _data = model.data{
-                self?.provinceList = _data
-            }
-        } failureCallback: { error, code in
-            code.loginOut()
         }
     }
 
@@ -456,13 +456,40 @@ class ModifyAddressViewController: BaseViewController {
     
     //提交
     @objc func submitAction(submitBtn:UIButton){
-        let parameters = ["address":retAddressInfoModel?.address as Any,"cityId":retAddressInfoModel?.cityId as Any,"consignee":retAddressInfoModel?.consignee as Any,"isDef":retAddressInfoModel?.isDef as Any,"mobile":retAddressInfoModel?.mobile as Any,"provinceId":retAddressInfoModel?.provinceId as Any,"regionId":retAddressInfoModel?.regionId as Any,"retAddressId":retAddressInfoModel?.retAddressId as Any,"zipCode":retAddressInfoModel?.zipCode as Any] as [String:Any]
-        NetWorkResultRequest(OrderApi.updateRetAddress(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
-            //成功之后
-            self?.updateAndAddSuccessBlock?()
-            Coordinator.shared?.popViewController(self!, true)
-        } failureCallback: { error, code in
-            code.loginOut()
+        
+        if phoneNmberTextView.text.isValidMobile == false{
+            JFPopup.toast(hit: "请填写正确的电话号码")
+            return
+        }
+        
+        if nameTextView.text.count < 1{
+            JFPopup.toast(hit: "请填写收件人")
+            return
+        }
+        
+        if addressLabel.text == "请选择"{
+           JFPopup.toast(hit: "请选择所在地区")
+           return
+        }
+        
+        if detailAddressTextView.text.count < 1{
+            JFPopup.toast(hit: "请填写详细地址")
+            return
+        }
+        
+        if submitBtn.currentTitle == "确认修改"{
+            //这边是返回上一个订单详情收货地址修改
+            choiceRetAddressSuccessBlock?(retAddressInfoModel!)
+            Coordinator.shared?.popViewController(self, true)
+        }else{
+            let parameters = ["address":retAddressInfoModel?.address as Any,"cityId":retAddressInfoModel?.cityId as Any,"consignee":retAddressInfoModel?.consignee as Any,"isDef":retAddressInfoModel?.isDef as Any,"mobile":retAddressInfoModel?.mobile as Any,"provinceId":retAddressInfoModel?.provinceId as Any,"regionId":retAddressInfoModel?.regionId as Any,"retAddressId":retAddressInfoModel?.retAddressId as Any,"streetId":retAddressInfoModel?.streetId as Any,"zipCode":retAddressInfoModel?.zipCode as Any] as [String:Any]
+            NetWorkResultRequest(OrderApi.updateRetAddress(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+                //成功之后
+                self?.updateAndAddSuccessBlock?()
+                Coordinator.shared?.popViewController(self!, true)
+            } failureCallback: { error, code in
+                code.loginOut()
+            }
         }
     }
     
@@ -471,6 +498,8 @@ class ModifyAddressViewController: BaseViewController {
     //所在地区
     @objc func locationAction(choiceAddresssBtn:UIButton){
           LXFLog("---------------------")
+        LXFLog("===================\(retAddressInfoModel?.provinceName)")
+        LXFLog("===================\(retAddressInfoModel?.provinceId)")
           //var str = "福建省(龙岩市、厦门市、漳州市)"
           //str = str.replacingOccurrences(of: "(", with: "", options: .literal, range: nil)
           //str = str.replacingOccurrences(of: "、", with: "", options: .literal, range: nil)
@@ -513,6 +542,12 @@ class ModifyAddressViewController: BaseViewController {
                 let regionInfoModel = RegionInfoModel(initials: "", lat: 0, level: 4, lng: 0, regionId: retAddressInfoModel?.regionId, regionName: retAddressInfoModel?.regionName, checked: false, childNodes: [RegionInfoModel]())
                 self.addressList.append(regionInfoModel)
             }
+            
+            if (retAddressInfoModel?.streetName?.count ?? 0) > 0{
+                //街道/乡村
+                let regionInfoModel = RegionInfoModel(initials: "", lat: 0, level: 5, lng: 0, regionId: retAddressInfoModel?.streetId, regionName: retAddressInfoModel?.streetName, checked: false, childNodes: [RegionInfoModel]())
+                self.addressList.append(regionInfoModel)
+            }
             //self.addressList 为有值得情况
             //这边要进行设置
             //要先判断addressList有几个才进行设置值
@@ -534,6 +569,14 @@ class ModifyAddressViewController: BaseViewController {
                     addressText += (addressModel.regionName ?? "")
                 })
                 self?.addressLabel.text = addressText
+                self?.retAddressInfoModel?.provinceId = 0
+                self?.retAddressInfoModel?.provinceName = ""
+                self?.retAddressInfoModel?.cityId = 0
+                self?.retAddressInfoModel?.cityName = ""
+                self?.retAddressInfoModel?.regionId = 0
+                self?.retAddressInfoModel?.regionName = ""
+                self?.retAddressInfoModel?.streetId = 0
+                self?.retAddressInfoModel?.streetName = ""
                 //添加数组
                 for i in 0..<(self?.addressList.count ?? 0){
                     let regionInfoModel = self?.addressList[i]
@@ -543,9 +586,12 @@ class ModifyAddressViewController: BaseViewController {
                     }else if i == 1{
                         self?.retAddressInfoModel?.cityId = regionInfoModel?.regionId
                         self?.retAddressInfoModel?.cityName = regionInfoModel?.regionName
-                    }else{
+                    }else if i == 2{
                         self?.retAddressInfoModel?.regionId = regionInfoModel?.regionId
                         self?.retAddressInfoModel?.regionName = regionInfoModel?.regionName
+                    }else{
+                        self?.retAddressInfoModel?.streetId = regionInfoModel?.regionId
+                        self?.retAddressInfoModel?.streetName = regionInfoModel?.regionName
                     }
                 }
                 self?.addressLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")

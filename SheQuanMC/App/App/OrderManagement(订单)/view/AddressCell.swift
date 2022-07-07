@@ -125,7 +125,7 @@ class AddressCell: UITableViewCell {
             guard let _retAddressInfoModel = retAddressInfoModel else { return }
             nickNameLabel.text = _retAddressInfoModel.consignee
             phoneNumberLabel.text = _retAddressInfoModel.mobile
-            addressLabel.text = String(format: "%@%@%@%@", _retAddressInfoModel.provinceName ?? "",_retAddressInfoModel.cityName ?? "",_retAddressInfoModel.regionName ?? "",_retAddressInfoModel.address ?? "")
+            addressLabel.text = String(format: "%@%@%@%@%@", _retAddressInfoModel.provinceName ?? "",_retAddressInfoModel.cityName ?? "",_retAddressInfoModel.regionName ?? "",_retAddressInfoModel.streetName ?? "",_retAddressInfoModel.address ?? "")
             var width = (_retAddressInfoModel.consignee?.singleLineWidth(font: UIFont.systemFont(ofSize: scale(16), weight: .semibold)) ?? 10)
             width += scale(5)
             

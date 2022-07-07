@@ -225,20 +225,26 @@ class OrderDetailViewController: BaseViewController {
                make.bottom.equalTo(scale(0))
             }
         }
-//        reloadOrderGetOrderConsigneeSalesInfoData()
+        
+        //reloadOrderGetOrderConsigneeInfoData()
     }
     
     
     
     
-    //获取订单收货地址
-    func reloadOrderGetOrderConsigneeSalesInfoData(){
+    //获取订单收货地址 电话号码完整
+    func reloadOrderGetOrderConsigneeInfoData(type:Int,retAddressInfoModel:RetAddressInfoModel?){
         let parameters = ["orderId":orderInfoModel?.orderId as Any] as [String:Any]
         NetWorkResultRequest(OrderApi.getOrderConsigneeSalesInfo(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
-//            guard let model = try? JSONDecoder().decode(GenericResponse<RetAddressInfoModel>.self, from: data) else { return }
-            //if let _data = model.data{
-            //}
-            self?.newTableView.reloadData()
+            guard let model = try? JSONDecoder().decode(GenericResponse<RetAddressInfoModel>.self, from: data) else { return }
+            if let _data = model.data{
+                if type == 0{
+                    //复制
+                    let pasteBoard = UIPasteboard.general
+                    pasteBoard.string = String(format: "%@ %@ %@ %@ %@ %@ %@", _data.consignee ?? "",_data.mobile ?? "",_data.provinceName ?? "",_data.cityName ?? "",_data.regionName ?? "",_data.streetName ?? "",_data.address ?? "")
+                    JFPopup.toast(hit: "复制成功")
+                }
+            }
         } failureCallback: { error, code in
             code.loginOut()
         }
@@ -246,9 +252,23 @@ class OrderDetailViewController: BaseViewController {
     
     //更新订单收货地址
     func updateSaleConsigneesalesData(recAddress:RetAddressInfoModel){
-        let parameters = ["address":recAddress.address as Any,"cityId":recAddress.cityId as Any,"consignee":recAddress.consignee as Any,"mobile":recAddress.mobile as Any,"orderId":orderInfoModel?.orderId as Any,"provinceId":recAddress.provinceId as Any,"regionId":recAddress.regionId as Any,"userId":orderInfoModel?.userId as Any,"zipCode":recAddress.zipCode as Any] as [String:Any]
+        //这边要把电话号码设置出来
+        let parameters = ["address":recAddress.address as Any,"cityId":recAddress.cityId as Any,"consignee":recAddress.consignee as Any,"mobile":recAddress.mobile as Any,"orderId":orderInfoModel?.orderId as Any,"provinceId":recAddress.provinceId as Any,"regionId":recAddress.regionId as Any,"streetId":recAddress.streetId as Any,"userId":orderInfoModel?.userId as Any,"zipCode":recAddress.zipCode as Any] as [String:Any]
         NetWorkResultRequest(OrderApi.updateConsignee(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
-            self?.orderInfoModel?.recAddress = recAddress
+            self?.orderInfoModel?.recAddress?.address = recAddress.address
+            self?.orderInfoModel?.recAddress?.cityId = recAddress.cityId
+            self?.orderInfoModel?.recAddress?.cityName = recAddress.cityName
+            self?.orderInfoModel?.recAddress?.consignee = recAddress.consignee
+            self?.orderInfoModel?.recAddress?.isDef = recAddress.isDef
+            self?.orderInfoModel?.recAddress?.mobile = recAddress.mobile
+            self?.orderInfoModel?.recAddress?.provinceId = recAddress.provinceId
+            self?.orderInfoModel?.recAddress?.provinceName = recAddress.provinceName
+            self?.orderInfoModel?.recAddress?.regionId = recAddress.regionId
+            self?.orderInfoModel?.recAddress?.regionName = recAddress.regionName
+            self?.orderInfoModel?.recAddress?.recAddressId = recAddress.retAddressId
+            self?.orderInfoModel?.recAddress?.zipCode = recAddress.zipCode
+            self?.orderInfoModel?.recAddress?.streetId = recAddress.streetId
+            self?.orderInfoModel?.recAddress?.streetName = recAddress.streetName
             self?.newTableView.reloadData()
         } failureCallback: { error, code in
             code.loginOut()
@@ -256,10 +276,7 @@ class OrderDetailViewController: BaseViewController {
     }
     
     
-    //获取电话号码完整
-    func reloadPhoneNumberIntegrity(){
-        
-    }
+   
     
     
     deinit {
@@ -395,18 +412,44 @@ class OrderDetailViewController: BaseViewController {
 
     //修改买家地址
     @objc func modifyBuyerAddressAction(modifyBtn:UIButton){
-        let modifyAddressVc = ModifyReturnAddressViewController()
-        modifyAddressVc.jumpType = 1
+        let modifyAddressVc = ModifyAddressViewController()
+        let retAddressInfoModel = RetAddressInfoModel(address: orderInfoModel?.recAddress?.address, cityId: orderInfoModel?.recAddress?.cityId, cityName: orderInfoModel?.recAddress?.cityName, consignee: orderInfoModel?.recAddress?.consignee, isDef: orderInfoModel?.recAddress?.isDef, mobile: orderInfoModel?.recAddress?.mobile, provinceId: orderInfoModel?.recAddress?.provinceId, provinceName: orderInfoModel?.recAddress?.provinceName, regionId: orderInfoModel?.recAddress?.regionId, regionName: orderInfoModel?.recAddress?.regionName, retAddressId: orderInfoModel?.recAddress?.recAddressId, streetId: orderInfoModel?.recAddress?.streetId, streetName: orderInfoModel?.recAddress?.streetName, zipCode: orderInfoModel?.recAddress?.zipCode)
+        modifyAddressVc.retAddressInfoModel = retAddressInfoModel
+        
+//        modifyAddressVc.retAddressInfoModel?.address = orderInfoModel?.recAddress?.address
+//        modifyAddressVc.retAddressInfoModel?.cityId = orderInfoModel?.recAddress?.cityId
+//        modifyAddressVc.retAddressInfoModel?.cityName = orderInfoModel?.recAddress?.cityName
+//        modifyAddressVc.retAddressInfoModel?.consignee = orderInfoModel?.recAddress?.consignee
+//        modifyAddressVc.retAddressInfoModel?.isDef = orderInfoModel?.recAddress?.isDef
+//        modifyAddressVc.retAddressInfoModel?.mobile = orderInfoModel?.recAddress?.mobile
+//        modifyAddressVc.retAddressInfoModel?.provinceId = orderInfoModel?.recAddress?.provinceId
+//        modifyAddressVc.retAddressInfoModel?.provinceName = orderInfoModel?.recAddress?.provinceName
+//        modifyAddressVc.retAddressInfoModel?.regionId = orderInfoModel?.recAddress?.regionId
+//        modifyAddressVc.retAddressInfoModel?.regionName = orderInfoModel?.recAddress?.regionName
+//        modifyAddressVc.retAddressInfoModel?.retAddressId = orderInfoModel?.recAddress?.recAddressId
+//        modifyAddressVc.retAddressInfoModel?.zipCode = orderInfoModel?.recAddress?.zipCode
+//        modifyAddressVc.retAddressInfoModel?.streetId = orderInfoModel?.recAddress?.streetId
+//        modifyAddressVc.retAddressInfoModel?.streetName = orderInfoModel?.recAddress?.streetName
+        modifyAddressVc.title = "编辑地址"
+        modifyAddressVc.submitBtn.setTitle("确认修改", for: .normal)
         Coordinator.shared?.pushViewController(self, modifyAddressVc, animated: true)
         modifyAddressVc.choiceRetAddressSuccessBlock = {[weak self] retAddressInfoModel in
-            //这边要修改地址的地方
-            //self?.orderLogisticsModel?.retAddress = retAddressInfoModel
+            
+//            self?.reloadOrderGetOrderConsigneeInfoData(type: 1, retAddressInfoModel: retAddressInfoModel)
+//            self?.orderLogisticsModel?.retAddress = retAddressInfoModel
 //            self?.orderInfoModel?.recAddress = retAddressInfoModel
             self?.updateSaleConsigneesalesData(recAddress: retAddressInfoModel)
 //            Thread.sleep(forTimeInterval: 0.2)
 //            self?.reloadCurrentOrderInfo()
-            //self?.newTableView.reloadData()
+//            self?.newTableView.reloadData()
         }
+        
+        
+        
+//        let modifyAddressVc = ModifyReturnAddressViewController()
+//        modifyAddressVc.jumpType = 1
+//        Coordinator.shared?.pushViewController(self, modifyAddressVc, animated: true)
+        
     }
     
     //进入物流
@@ -419,8 +462,9 @@ class OrderDetailViewController: BaseViewController {
     
     //复制
     @objc func copyAddressInfoAction(copyBtn:UIButton){
+//        reloadOrderGetOrderConsigneeInfoData(type: 0,retAddressInfoModel: nil)
         let pasteBoard = UIPasteboard.general
-        pasteBoard.string = String(format: "%@ %@ %@ %@ %@ %@", orderInfoModel?.recAddress?.consignee ?? "",orderInfoModel?.recAddress?.mobile ?? "",orderInfoModel?.recAddress?.provinceName ?? "",orderInfoModel?.recAddress?.cityName ?? "",orderInfoModel?.recAddress?.regionName ?? "",orderInfoModel?.recAddress?.address ?? "")
+        pasteBoard.string = String(format: "%@ %@ %@ %@ %@ %@ %@", orderInfoModel?.recAddress?.consignee ?? "",orderInfoModel?.recAddress?.mobile ?? "",orderInfoModel?.recAddress?.provinceName ?? "",orderInfoModel?.recAddress?.cityName ?? "",orderInfoModel?.recAddress?.regionName ?? "",orderInfoModel?.recAddress?.streetName ?? "",orderInfoModel?.recAddress?.address ?? "")
         JFPopup.toast(hit: "复制成功")
     }
     
@@ -432,15 +476,15 @@ extension OrderDetailViewController:UITableViewDelegate,UITableViewDataSource{
         if orderInfoModel?.orderStatus == 10{
             return 3
         }else{
-            if orderInfoModel?.orderStatus == 20{
-                if orderInfoModel?.recAddress == nil{
-                    return 3
-                }else{
-                    return 4
-                }
-            }else{
+//            if orderInfoModel?.orderStatus == 20{
+//                if orderInfoModel?.recAddress == nil{
+//                    return 3
+//                }else{
+//                    return 4
+//                }
+//            }else{
                 return 4
-            }
+//            }
         }
     }
     
@@ -479,17 +523,17 @@ extension OrderDetailViewController:UITableViewDelegate,UITableViewDataSource{
         }else if orderInfoModel?.orderStatus == 20 {
             //待发货
             //已发货 || orderInfoModel?.orderStatus == 21
-            if orderInfoModel?.recAddress == nil{
-                if indexPath.row == 1{
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "OrderContentCell") as! OrderContentCell
-                    cell.orderInfoModel = orderInfoModel
-                    return cell
-                }else{
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "OrderToBePaidCell") as! OrderToBePaidCell
-                    cell.orderInfoModel = orderInfoModel
-                    return cell
-                }
-            }else{
+//            if orderInfoModel?.recAddress == nil{
+//                if indexPath.row == 1{
+//                    let cell = tableView.dequeueReusableCell(withIdentifier: "OrderContentCell") as! OrderContentCell
+//                    cell.orderInfoModel = orderInfoModel
+//                    return cell
+//                }else{
+//                    let cell = tableView.dequeueReusableCell(withIdentifier: "OrderToBePaidCell") as! OrderToBePaidCell
+//                    cell.orderInfoModel = orderInfoModel
+//                    return cell
+//                }
+//            }else{
                 if indexPath.row == 1{
                     let cell = tableView.dequeueReusableCell(withIdentifier: "BuyerAdressCell") as! BuyerAdressCell
                     cell.retAddress = orderInfoModel?.recAddress
@@ -509,7 +553,7 @@ extension OrderDetailViewController:UITableViewDelegate,UITableViewDataSource{
                     cell.orderInfoModel = orderInfoModel
                     return cell
                 }
-            }
+//            }
         }else{
             //交易关闭 交易成功
 //            if orderInfoModel?.recAddress == nil{

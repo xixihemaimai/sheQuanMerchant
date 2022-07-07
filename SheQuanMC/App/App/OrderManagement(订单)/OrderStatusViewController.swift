@@ -28,24 +28,24 @@ class OrderStatusViewController: BaseViewController {
     //用来保存订单首页的控制权
     var orderViewVc:OrderViewController?
     
+    var header:Bool = true
+    
     
     var orderInfoList:[OrederInfoModel] = [OrederInfoModel]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-       
         view.addSubview(tableview)
-        
         tableview.snp.makeConstraints { make in
             make.left.top.bottom.right.equalToSuperview()
         }
         tableview.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#F8F8F8")
         tableview.delegate = self
         tableview.dataSource = self
-        tableview.register(OrderStatusCell.self, forCellReuseIdentifier: "OrderStatusCell")
+        tableview.register(OrderStatusCell.self, forCellReuseIdentifier: "OrderStatusCellStatus")
+        
         tableview.mj_header?.beginRefreshing()
-        //loadOrderStatus()
+//        loadOrderStatus()
     }
 
     func loadOrderStatus(){
@@ -63,29 +63,53 @@ class OrderStatusViewController: BaseViewController {
         }else{
             tag = 41
         }
-        let parameters = ["lastOrderId":0,"orderStatus":tag] as [String:Any]
+        if header == true{
+            orderInfoList.removeAll()
+        }
+        var lastOrderId:Int64 = 0
+        if orderInfoList.count > 0{
+            lastOrderId = orderInfoList.last?.orderId ?? 0
+        }
+        let parameters = ["lastOrderId":lastOrderId,"orderStatus":tag] as [String:Any]
         NetWorkResultRequest(OrderApi.getOrderProductList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
             guard let model = try? JSONDecoder().decode(GenericResponse<[OrederInfoModel]>.self, from: data) else { return }
-            self?.orderInfoList.removeAll()
-            if let _data = model.data{
-                self?.orderInfoList = _data
+            if let data1 = model.data{
+                if self?.header == true{
+                    self?.orderInfoList.removeAll()
+                    self?.orderInfoList = data1
+                    self?.tableview.reloadData()
+                    self?.tableview.mj_header?.endRefreshing()
+                }else{
+                    self?.orderInfoList += data1
+                    self?.tableview.reloadData()
+                    self?.tableview.mj_footer?.endRefreshing()
+                    if data1.count < 1{
+                        self?.tableview.mj_footer?.endRefreshingWithNoMoreData()
+                    }
+                }
+            }else{
+                self?.tableview.reloadData()
+                self?.tableview.mj_header?.endRefreshing()
+                self?.tableview.mj_footer?.endRefreshing()
             }
-            self?.tableview.mj_header?.endRefreshing()
-            self?.tableview.reloadData()
         } failureCallback: {[weak self] error, code in
             code.loginOut()
+            self?.tableview.mj_footer?.endRefreshing()
             self?.tableview.mj_header?.endRefreshing()
         }
     }
     
     
     override func headerRereshing() {
+        header = true
         loadOrderStatus()
     }
     
-//    override func footerRereshing() {
-//        tableview.mj_footer?.endRefreshing()
-//    }
+    override func footerRereshing() {
+        LXFLog("======================================")
+        header = false
+        loadOrderStatus()
+    }
     
     
     func reloadCurrentCountChange(){
@@ -135,6 +159,7 @@ class OrderStatusViewController: BaseViewController {
             }
             //成功之后需要做得事情
             closeOrderReasonView.sureCloseSuccessBlock = {[weak self] in
+                self?.header = true
                 self?.loadOrderStatus()
                 self?.reloadCurrentCountChange()
                 self?.popup.dismissPopup()
@@ -155,9 +180,8 @@ class OrderStatusViewController: BaseViewController {
                 self?.popup.dismissPopup()
             }
             modifyPriceView.modifyPriceSuccessBlock = {[weak self] in
-                
+                self?.header = true
                 self?.loadOrderStatus()
-                
                 self?.popup.dismissPopup()
             }
             return modifyPriceView
@@ -195,6 +219,7 @@ class OrderStatusViewController: BaseViewController {
         modifyLogisticsVc.orderId = orderInfoModel.orderId ?? 0
         Coordinator.shared?.pushViewController(orderViewVc ?? self, modifyLogisticsVc, animated: true)
         modifyLogisticsVc.jumpSuccessBlockListType = {[weak self] in
+            self?.header = true
             self?.loadOrderStatus()
 //            self?.reloadCurrentCountChange()
         }
@@ -221,9 +246,9 @@ extension OrderStatusViewController:UITableViewDelegate,UITableViewDataSource{
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "OrderStatusCell") as! OrderStatusCell
-        let orderInfoModel = orderInfoList[indexPath.row]
-        cell.orederInfoModel = orderInfoModel
+        let cell = tableView.dequeueReusableCell(withIdentifier: "OrderStatusCellStatus") as! OrderStatusCell
+        let orederInfoModel = orderInfoList[indexPath.row]
+        cell.model = orederInfoModel
         //关闭订单按键
         cell.closeOrderBtn.tag = indexPath.row
         cell.closeOrderBtn.addTarget(self, action: #selector(closeOrderAction), for: .touchUpInside)
@@ -245,7 +270,6 @@ extension OrderStatusViewController:UITableViewDelegate,UITableViewDataSource{
         return UITableView.automaticDimension
     }
     
-
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)

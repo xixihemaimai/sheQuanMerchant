@@ -79,6 +79,25 @@ class FeedbackMyViewController: BaseViewController {
         title = "意见反馈"
         view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
         
+        
+        let sureBtn = UIButton()
+        sureBtn.setTitle("确定", for: .normal)
+        sureBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#ffffff"), for: .normal)
+        sureBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        sureBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
+        view.addSubview(sureBtn)
+        
+        sureBtn.snp.makeConstraints { make in
+            make.left.equalTo(scale(16))
+            make.right.equalTo(-scale(16))
+            make.height.equalTo(scale(44))
+            make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(10))
+        }
+        
+        sureBtn.layer.cornerRadius = scale(4)
+        
+        
+        
         let questionLabel = UILabel()
         questionLabel.text = "问题/意见"
         questionLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#787878")
@@ -205,21 +224,7 @@ class FeedbackMyViewController: BaseViewController {
             make.bottom.equalTo(iPhoneX ? -scale(92) : -scale(58))
         }
         
-        let sureBtn = UIButton()
-        sureBtn.setTitle("确定", for: .normal)
-        sureBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#ffffff"), for: .normal)
-        sureBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
-        sureBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
-        view.addSubview(sureBtn)
-        
-        sureBtn.snp.makeConstraints { make in
-            make.left.equalTo(scale(16))
-            make.right.equalTo(-scale(16))
-            make.height.equalTo(scale(44))
-            make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(10))
-        }
-        
-        sureBtn.layer.cornerRadius = scale(4)
+       
         
     }
     

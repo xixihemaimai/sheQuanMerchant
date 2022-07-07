@@ -101,8 +101,6 @@ class OrderModifyLogisticsCell: UITableViewCell {
             guard let _orderLogisticsModel = orderLogisticsModel else { return }
             truePriceLabel.text = "¥" + (_orderLogisticsModel.totalAmount ?? "")
             
-            
-            
             orderImage.sd_setImage(with: URL(string: _orderLogisticsModel.products?.first?.productPic ?? ""), placeholderImage: UIImage(named: "Group 2784"))
             
             orderIntroductLabel.text = _orderLogisticsModel.products?.first?.productName

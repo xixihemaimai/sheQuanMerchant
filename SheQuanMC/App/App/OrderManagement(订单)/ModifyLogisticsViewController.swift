@@ -132,6 +132,7 @@ class ModifyLogisticsViewController: BaseViewController {
     @objc func modifyReturnAddressAction(modifyBtn:UIButton){
         let returnAddressVc = ModifyReturnAddressViewController()
         returnAddressVc.jumpType = 1
+        returnAddressVc.title = "退货地址"
         Coordinator.shared?.pushViewController(self, returnAddressVc, animated: true)
         //进入退货地址页面
         returnAddressVc.choiceRetAddressSuccessBlock = {[weak self] retAddressInfoModel in
@@ -186,11 +187,11 @@ class ModifyLogisticsViewController: BaseViewController {
 
 extension ModifyLogisticsViewController:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if orderLogisticsModel?.retAddress == nil{
-            return 2
-        }else{
+//        if orderLogisticsModel?.retAddress == nil{
+//            return 2
+//        }else{
             return 3
-        }
+//        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

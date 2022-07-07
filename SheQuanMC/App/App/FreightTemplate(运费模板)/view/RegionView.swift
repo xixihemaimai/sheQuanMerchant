@@ -61,10 +61,12 @@ class RegionView: UIView {
     
     //省份数组
     var dataArray:[RegionInfoModel] = [RegionInfoModel]()
+    //城市数组
     var cityArray : [RegionInfoModel] = [RegionInfoModel]()
+    //县/区数组
     var districtArray : [RegionInfoModel] = [RegionInfoModel]()
-    
-    
+    //街道/乡村数组
+    var streetsArray:[RegionInfoModel] = [RegionInfoModel]()
     
     //取消的闭包
     var cancelBlock:(()->Void)?
@@ -142,6 +144,7 @@ class RegionView: UIView {
         
         
         addSubview(tableview)
+        tableview.deleagate = self
         tableview.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
         tableview.snp.makeConstraints { make in
             make.top.equalTo(titleView.snp.bottom)
@@ -188,6 +191,11 @@ class RegionView: UIView {
             if titleArray.count == 1{
                 //省
                 tableview.titleStringArray = self.dataArray
+                tableview.reloadData()
+                addTitleView()
+                addSubviewContentView()
+                let btn = titleBtnArray[titleArray.count - 1]
+                titleBtnClick(titleBtn: btn)
                 
             }else if titleArray.count == 2{
                 //省 城市
@@ -205,9 +213,14 @@ class RegionView: UIView {
                     }
                 }
                 tableview.titleStringArray = self.cityArray
+                tableview.reloadData()
+                addTitleView()
+                addSubviewContentView()
+                let btn = titleBtnArray[titleArray.count - 1]
+                titleBtnClick(titleBtn: btn)
                 
-            }else{
-               //省 城市 区/县
+            }else if titleArray.count == 3{
+                //省 城市 区/县
                 let regionInfoModel = titleArray[0]
                 //第二个是城市
                 for i in 0..<self.dataArray.count {
@@ -234,14 +247,68 @@ class RegionView: UIView {
                         break
                     }
                 }
-                
                 tableview.titleStringArray = self.districtArray
+                
+                tableview.reloadData()
+                addTitleView()
+                addSubviewContentView()
+                let btn = titleBtnArray[titleArray.count - 1]
+                titleBtnClick(titleBtn: btn)
+            }else{
+                //街道/乡村
+                //省 城市 区/县
+                let regionInfoModel = titleArray[0]
+                //第二个是城市
+                for i in 0..<self.dataArray.count {
+                    let provinceM = self.dataArray[i]
+                    if provinceM.regionId == regionInfoModel.regionId{
+                        //这边要去获取城市
+                        self.cityArray.removeAll()
+                        if (provinceM.childNodes?.count ?? 0) > 0{
+                            self.cityArray = provinceM.childNodes!
+                        }
+                        break
+                    }
+                }
+                //第三个是县和区之类
+                let regionInfoModel1 = titleArray[1]
+                for i in 0..<self.cityArray.count {
+                    let cityModel = self.cityArray[i]
+                    if cityModel.regionId == regionInfoModel1.regionId{
+                        //这边要去获取城市
+                        self.districtArray.removeAll()
+                        if (cityModel.childNodes?.count ?? 0) > 0{
+                            self.districtArray = cityModel.childNodes!
+                        }
+                        break
+                    }
+                }
+                let regionModel = titleArray[2]
+                self.streetsArray.removeAll()
+                //这边要去获取数据
+                let parameters = ["level":0,"regionId":regionModel.regionId as Any,"subHierarchy":4] as [String:Any]
+                //getRegionInfoList
+                NetWorkResultRequest(OrderApi.getRegionInfoList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+                    guard let model = try? JSONDecoder().decode(GenericResponse<[RegionInfoModel]>.self, from: data) else { return }
+                    if let _data = model.data{
+                        if _data.count > 0{
+                            if _data.first?.childNodes?.count ?? 0 > 0{
+                                self?.streetsArray = (_data.first?.childNodes)!
+                                if (regionModel.childNodes?.count ?? 0) > 0{
+                                    self?.streetsArray = regionModel.childNodes!
+                                }
+                                self?.tableview.titleStringArray = self!.streetsArray
+                                self?.addTitleView()
+                                self?.tableview.reloadData()
+                                let btn = self?.titleBtnArray[(self?.titleArray.count)! - 1]
+                                self?.changBtnTitle(titleBtn: btn!)
+                            }
+                        }
+                    }
+                } failureCallback: { error, code in
+                    code.loginOut()
+                }
             }
-            tableview.reloadData()
-            addTitleView()
-            addSubviewContentView()
-            let btn = titleBtnArray[titleArray.count - 1]
-            titleBtnClick(titleBtn: btn)
         }
     }
     
@@ -264,7 +331,8 @@ class RegionView: UIView {
         let btnH = scale(44)
         titleBtnArray.removeAll()
 //        let btnW = (SCW/2)/3
-        let btnW = scale(120)
+//        let btnW = scale(100)
+        let btnW = SCW/CGFloat(titleArray.count)
         for i in 0..<titleArray.count {
             let regionInfoModel = titleArray[i] as RegionInfoModel
             let titleBtn = UIButton()
@@ -319,8 +387,15 @@ class RegionView: UIView {
             })
         }
         if titleBtn.tag == 0{
+            var regionName:String = "请选择"
+            var regionId:Int32 = 0
+            if titleArray.count == 1{
+                let regionInfoModel = titleArray.first
+                regionName = regionInfoModel?.regionName ?? "请选择"
+                regionId = regionInfoModel?.regionId ?? 0
+            }
             titleArray.removeAll()
-            let regionInfoModel = RegionInfoModel(initials: "0", lat: 0, level: 3, lng: 0, regionId: 0, regionName: "请选择", checked: false,childNodes: [RegionInfoModel]())
+            let regionInfoModel = RegionInfoModel(initials: "0", lat: 0, level: 2, lng: 0, regionId: regionId, regionName: regionName, checked: false,childNodes: [RegionInfoModel]())
             titleArray.append(regionInfoModel)
             addTitleView()
             tableview.titleStringArray = self.dataArray
@@ -329,9 +404,11 @@ class RegionView: UIView {
             changBtnTitle(titleBtn: btn)
         }
         else if titleBtn.tag == 1{
-            
             if titleArray.count > 2{
-                titleArray.removeLast()
+//                titleArray.removeLast()
+                //let length = (self?.commodityModel?.productPics?.count ?? 1) - 1
+                let length = titleArray.count - 1
+                titleArray.removeSubrange(2...length)
                 var regionInfoModel = titleArray[1]
                 regionInfoModel.regionName = "请选择"
                 titleArray[1] = regionInfoModel
@@ -348,6 +425,29 @@ class RegionView: UIView {
                 }
             }
             tableview.titleStringArray = cityArray
+            tableview.reloadData()
+            let btn = self.titleBtnArray[titleArray.count - 1]
+            changBtnTitle(titleBtn: btn)
+        }else if titleBtn.tag == 2{
+            if titleArray.count > 3{
+                titleArray.removeLast()
+                var regionInfoModel = titleArray.last
+                regionInfoModel?.regionName = "请选择"
+//                titleArray[2] = regionInfoModel!
+                titleArray[titleArray.count - 1] = regionInfoModel!
+                addTitleView()
+            }
+            let regionInfoModel1 = titleArray[1]
+            for i in 0..<self.cityArray.count {
+                let provinceM = self.cityArray[i]
+                if provinceM.regionId == regionInfoModel1.regionId{
+                    districtArray.removeAll()
+                    if (provinceM.childNodes?.count ?? 0) > 0{
+                        districtArray = provinceM.childNodes!
+                    }
+                }
+            }
+            tableview.titleStringArray = districtArray
             tableview.reloadData()
             let btn = self.titleBtnArray[titleArray.count - 1]
             changBtnTitle(titleBtn: btn)
@@ -379,58 +479,88 @@ class RegionView: UIView {
             tableview.titleStringArray = self.dataArray
         }else if titleArray.count == 2{
             tableview.titleStringArray = self.cityArray
-        }else{
+        }else if titleArray.count == 3{
             tableview.titleStringArray = self.districtArray
+        }else{
+            tableview.titleStringArray = self.streetsArray
         }
-        tableview.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
         tableview.reloadData()
-        tableview.backSelectType = {regionInfoModel,index,tableview in
-            if self.titleArray.count == 1{
-                let provinceM = self.dataArray[index]
-                self.titleArray[0] = provinceM
-                self.cityArray.removeAll()
-                if (provinceM.childNodes?.count ?? 0) > 0{
-                    self.cityArray = provinceM.childNodes!
-                }
-//                LXFLog("+=================\(provinceM.childNodes?.count)")
-                if self.cityArray.count > 0{
-                    let regionInfoModel = RegionInfoModel(initials: "0", lat: 0, level: 3, lng: 0, regionId: 0, regionName: "请选择", checked: false,childNodes: [RegionInfoModel]())
-                    self.titleArray.append(regionInfoModel)
-                }
-                tableview.titleStringArray = self.cityArray
-                self.districtArray.removeAll()
-                self.addTitleView()
-                tableview.reloadData()
-                let btn = self.titleBtnArray[self.titleArray.count - 1]
-                self.changBtnTitle(titleBtn: btn)
-            }else if self.titleArray.count == 2{
-                
-                let cityModel = self.cityArray[index]
-                self.titleArray[1] = cityModel
-                self.districtArray.removeAll()
-                if (cityModel.childNodes?.count ?? 0) > 0{
-                    self.districtArray = cityModel.childNodes!
-                }
-                if self.districtArray.count > 0{
-                    let regionInfoModel = RegionInfoModel(initials: "0", lat: 0, level: 4, lng: 0, regionId: 0, regionName: "请选择", checked: false,childNodes: [RegionInfoModel]())
-                    self.titleArray.append(regionInfoModel)
-                }
-                tableview.titleStringArray = self.districtArray
-                self.addTitleView()
-                tableview.reloadData()
-                let btn = self.titleBtnArray[self.titleArray.count - 1]
-                self.changBtnTitle(titleBtn: btn)
-                
-            }else{
-                
-                self.titleArray[2] = regionInfoModel
-                self.addTitleView()
-                tableview.reloadData()
-                let btn = self.titleBtnArray[self.titleArray.count - 1]
-                self.changBtnTitle(titleBtn: btn)
-            }
-           
-        }
+//        tableview.backSelectType = {regionInfoModel,index,tableview in
+//            LXFLog("=====================\(self.titleArray.count)")
+//            if self.titleArray.count == 1{
+//                let provinceM = self.dataArray[index]
+//                self.titleArray[0] = provinceM
+//                self.cityArray.removeAll()
+//                if (provinceM.childNodes?.count ?? 0) > 0{
+//                    self.cityArray = provinceM.childNodes!
+//                }
+//                if self.cityArray.count > 0{
+//                    let regionInfoModel = RegionInfoModel(initials: "0", lat: 0, level: 3, lng: 0, regionId: 0, regionName: "请选择", checked: false,childNodes: [RegionInfoModel]())
+//                    self.titleArray.append(regionInfoModel)
+//                }
+//                tableview.titleStringArray = self.cityArray
+//                self.districtArray.removeAll()
+//                self.addTitleView()
+//                tableview.reloadData()
+//                let btn = self.titleBtnArray[self.titleArray.count - 1]
+//                self.changBtnTitle(titleBtn: btn)
+//            }else if self.titleArray.count == 2{
+//
+//                let cityModel = self.cityArray[index]
+//                self.titleArray[1] = cityModel
+//                self.districtArray.removeAll()
+//                if (cityModel.childNodes?.count ?? 0) > 0{
+//                    self.districtArray = cityModel.childNodes!
+//                }
+//                if self.districtArray.count > 0{
+//                    let regionInfoModel = RegionInfoModel(initials: "0", lat: 0, level: 4, lng: 0, regionId: 0, regionName: "请选择", checked: false,childNodes: [RegionInfoModel]())
+//                    self.titleArray.append(regionInfoModel)
+//                }
+//                tableview.titleStringArray = self.districtArray
+//                self.addTitleView()
+//                tableview.reloadData()
+//                let btn = self.titleBtnArray[self.titleArray.count - 1]
+//                self.changBtnTitle(titleBtn: btn)
+//
+//            }else if self.titleArray.count == 3{
+//                let regionModel = self.districtArray[index]
+//                self.titleArray[2] = regionModel
+//                self.streetsArray.removeAll()
+//                //这边要去获取数据
+//                let parameters = ["level":0,"regionId":regionModel.regionId as Any,"subHierarchy":4] as [String:Any]
+//                //getRegionInfoList
+//                NetWorkResultRequest(OrderApi.getRegionInfoList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+//                    guard let model = try? JSONDecoder().decode(GenericResponse<[RegionInfoModel]>.self, from: data) else { return }
+//                    if let _data = model.data{
+//                        if _data.count > 0{
+//                            if _data.first?.childNodes?.count ?? 0 > 0{
+//                                self?.streetsArray = (_data.first?.childNodes)!
+//                                if (regionModel.childNodes?.count ?? 0) > 0{
+//                                    self?.streetsArray = regionModel.childNodes!
+//                                }
+//                                if self?.streetsArray.count ?? 0 > 0{
+//                                    let regionInfoModel = RegionInfoModel(initials: "0", lat: 0, level: 4, lng: 0, regionId: 0, regionName: "请选择", checked: false,childNodes: [RegionInfoModel]())
+//                                    self?.titleArray.append(regionInfoModel)
+//                                }
+//                                self?.tableview.titleStringArray = self!.streetsArray
+//                                self?.addTitleView()
+//                                self?.tableview.reloadData()
+//                                let btn = self?.titleBtnArray[(self?.titleArray.count)! - 1]
+//                                self?.changBtnTitle(titleBtn: btn!)
+//                            }
+//                        }
+//                    }
+//                } failureCallback: { error, code in
+//                    code.loginOut()
+//                }
+//            }else{
+//                self.titleArray[3] = regionInfoModel
+//                self.addTitleView()
+//                tableview.reloadData()
+//                let btn = self.titleBtnArray[self.titleArray.count - 1]
+//                self.changBtnTitle(titleBtn: btn)
+//            }
+//        }
     }
     
     //取消
@@ -461,6 +591,87 @@ class RegionView: UIView {
     }
 }
 
+extension RegionView:RegionTableViewDelegate{
+    func backSelectType(_ regionInfoModel: RegionInfoModel, _ index: Int, _ tableview: RegionTableView) {
+        if self.titleArray.count == 1{
+            let provinceM = self.dataArray[index]
+            self.titleArray[0] = provinceM
+            self.cityArray.removeAll()
+            if (provinceM.childNodes?.count ?? 0) > 0{
+                self.cityArray = provinceM.childNodes!
+            }
+            if self.cityArray.count > 0{
+                let regionInfoModel = RegionInfoModel(initials: "0", lat: 0, level: 3, lng: 0, regionId: 0, regionName: "请选择", checked: false,childNodes: [RegionInfoModel]())
+                self.titleArray.append(regionInfoModel)
+            }
+            tableview.titleStringArray = self.cityArray
+            self.districtArray.removeAll()
+            self.addTitleView()
+            tableview.reloadData()
+            let btn = self.titleBtnArray[self.titleArray.count - 1]
+            self.changBtnTitle(titleBtn: btn)
+        }else if self.titleArray.count == 2{
+            let cityModel = self.cityArray[index]
+            self.titleArray[1] = cityModel
+            self.districtArray.removeAll()
+            if (cityModel.childNodes?.count ?? 0) > 0{
+                self.districtArray = cityModel.childNodes!
+            }
+            if self.districtArray.count > 0{
+                let regionInfoModel = RegionInfoModel(initials: "0", lat: 0, level: 4, lng: 0, regionId: 0, regionName: "请选择", checked: false,childNodes: [RegionInfoModel]())
+                self.titleArray.append(regionInfoModel)
+            }
+            tableview.titleStringArray = self.districtArray
+            self.addTitleView()
+            tableview.reloadData()
+            let btn = self.titleBtnArray[self.titleArray.count - 1]
+            self.changBtnTitle(titleBtn: btn)
+            
+        }else if self.titleArray.count == 3{
+            let regionModel = self.districtArray[index]
+            self.titleArray[2] = regionModel
+            self.streetsArray.removeAll()
+            //这边要去获取数据
+            let parameters = ["level":0,"regionId":regionModel.regionId as Any,"subHierarchy":4] as [String:Any]
+            //getRegionInfoList
+            NetWorkResultRequest(OrderApi.getRegionInfoList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
+                guard let model = try? JSONDecoder().decode(GenericResponse<[RegionInfoModel]>.self, from: data) else { return }
+                if let _data = model.data{
+                    if _data.count > 0{
+                        if _data.first?.childNodes?.count ?? 0 > 0{
+                            self?.streetsArray = (_data.first?.childNodes)!
+                            if (regionModel.childNodes?.count ?? 0) > 0{
+                                self?.streetsArray = regionModel.childNodes!
+                            }
+                            if self?.streetsArray.count ?? 0 > 0{
+                                if (self?.titleArray.count ?? 4) < 4{
+                                    let regionInfoModel = RegionInfoModel(initials: "0", lat: 0, level: 4, lng: 0, regionId: 0, regionName: "请选择", checked: false,childNodes: [RegionInfoModel]())
+                                    self?.titleArray.append(regionInfoModel)
+                                }
+                            }
+                            self?.tableview.titleStringArray = self!.streetsArray
+                            self?.addTitleView()
+                            self?.tableview.reloadData()
+                            let btn = self?.titleBtnArray[(self?.titleArray.count)! - 1]
+                            self?.changBtnTitle(titleBtn: btn!)
+                        }
+                    }
+                }
+            } failureCallback: { error, code in
+                code.loginOut()
+            }
+        }else{
+            
+            self.titleArray[3] = regionInfoModel
+            self.addTitleView()
+            tableview.reloadData()
+            let btn = self.titleBtnArray[self.titleArray.count - 1]
+            self.changBtnTitle(titleBtn: btn)
+            
+        }
+    }
+}
+
 
 
 extension RegionView:UIScrollViewDelegate{
@@ -483,6 +694,13 @@ extension RegionView:UIScrollViewDelegate{
 
 
 
+protocol RegionTableViewDelegate {
+    
+    func backSelectType(_ regionInfoModel:RegionInfoModel,_ index:Int,_ tableview:RegionTableView)
+    
+}
+
+
 
 class RegionTableView:UITableView{
     
@@ -494,9 +712,11 @@ class RegionTableView:UITableView{
 //    var selectProvince 1
 //    var city 2
 //    var region 3
-    var backSelectType:((_ regionInfoModel:RegionInfoModel,_ index:Int,_ tableview:RegionTableView)->Void)?
+//    var backSelectType:((_ regionInfoModel:RegionInfoModel,_ index:Int,_ tableview:RegionTableView)->Void)?
     
     var titleStringArray:[RegionInfoModel] = [RegionInfoModel]()
+    
+    var deleagate:RegionTableViewDelegate?
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
@@ -547,7 +767,8 @@ extension RegionTableView:UITableViewDelegate,UITableViewDataSource{
         //这边要带回去
         let provinceM = titleStringArray[indexPath.row]
         tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
-        backSelectType!(provinceM,indexPath.row,self)
+//        backSelectType?(provinceM,indexPath.row,self)
+        self.deleagate?.backSelectType(provinceM, indexPath.row, self)
     }
 }
 

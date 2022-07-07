@@ -13,7 +13,7 @@ class BuyerAdressCell: UITableViewCell {
     //昵称
     lazy var nickNameLabel:UILabel = {
        let nickNameLabel = UILabel()
-        nickNameLabel.text = "农大侠"
+        nickNameLabel.text = ""
         nickNameLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         nickNameLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .semibold)
         nickNameLabel.textAlignment = .left
@@ -23,7 +23,7 @@ class BuyerAdressCell: UITableViewCell {
     //电话号码
     lazy var phoneNumberLabel:UILabel = {
         let phoneNumberLabel = UILabel()
-        phoneNumberLabel.text = "123****8910"
+        phoneNumberLabel.text = ""
         phoneNumberLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#808080")
         phoneNumberLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         phoneNumberLabel.textAlignment = .left
@@ -34,7 +34,7 @@ class BuyerAdressCell: UITableViewCell {
         let addressLabel = CustomLabel()
         addressLabel.numberOfLines = 2
         addressLabel.lineBreakMode = .byCharWrapping
-        addressLabel.text = "福建省 厦门市 思明区 莲前街道岭兜二路75号"
+        addressLabel.text = ""
         addressLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         addressLabel.font = UIFont.systemFont(ofSize: scale(12), weight: .regular)
         addressLabel.textAlignment = .left
@@ -76,13 +76,13 @@ class BuyerAdressCell: UITableViewCell {
     
     
     
-    var retAddress:RetAddressInfoModel?{
+    var retAddress:RecAddressModel?{
         didSet{
             guard let _retAddress = retAddress else { return }
             nickNameLabel.text = _retAddress.consignee
 //            phoneNumberLabel.text = _retAddress.mobile?.hidePhone(combine: "****")
             phoneNumberLabel.text = _retAddress.mobile
-            addressLabel.text = String(format: "%@%@%@%@", _retAddress.provinceName ?? "",_retAddress.cityName ?? "",_retAddress.regionName ?? "",_retAddress.address ?? "")
+            addressLabel.text = String(format: "%@%@%@%@%@", _retAddress.provinceName ?? "",_retAddress.cityName ?? "",_retAddress.regionName ?? "",_retAddress.streetName ?? "",_retAddress.address ?? "")
             var width = (_retAddress.consignee?.singleLineWidth(font: UIFont.systemFont(ofSize: scale(16), weight: .semibold)) ?? 10)
             width += scale(5)
             nickNameLabel.snp.remakeConstraints { make in

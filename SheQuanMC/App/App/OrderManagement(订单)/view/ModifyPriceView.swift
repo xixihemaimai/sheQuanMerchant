@@ -50,7 +50,7 @@ class ModifyPriceView: UIView {
     lazy var underLabel:UILabel = {
         let underLabel = UILabel()
         underLabel.text = "----"
-        underLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#F13232")
+        underLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         underLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         underLabel.textAlignment = .center
         return underLabel
@@ -67,6 +67,17 @@ class ModifyPriceView: UIView {
         sureModifyBtn.addTarget(self, action: #selector(sureModifyAction), for: .touchUpInside)
         sureModifyBtn.isEnabled = false
         return sureModifyBtn
+    }()
+    
+    
+    lazy var discountLabel:UILabel = {
+        let discountLabel = UILabel()
+        discountLabel.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
+        discountLabel.text = "优惠:-¥0"
+        discountLabel.textAlignment = .right
+        discountLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#F13232")
+        discountLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
+        return discountLabel
     }()
     
     
@@ -116,7 +127,7 @@ class ModifyPriceView: UIView {
         origilView.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.top.equalTo(titleLabel.snp.bottom).offset(scale(16))
-            make.height.equalTo(scale(346))
+            make.height.equalTo(scale(408))
         }
         
         
@@ -291,17 +302,36 @@ class ModifyPriceView: UIView {
             make.height.equalTo(scale(22))
         }
         
+        
+        let discountView = UIView()
+        discountView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
+        origilView.addSubview(discountView)
+        discountView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.top.equalTo(modifyFreightView.snp.bottom).offset(scale(8))
+            make.height.equalTo(scale(48))
+        }
+        
+        
+        //优惠
+        discountView.addSubview(discountLabel)
+        discountLabel.snp.makeConstraints { make in
+            make.left.equalTo(scale(16))
+            make.right.equalTo(-scale(16))
+            make.centerX.equalToSuperview()
+            make.height.equalTo(scale(48))
+        }
+        
         //下滑线
         origilView.addSubview(underLabel)
         underLabel.snp.makeConstraints { make in
             make.right.equalTo(-scale(16))
-            make.bottom.equalTo(-scale(52))
+            make.bottom.equalTo(-scale(53))
             make.width.equalTo(scale(60))
             make.height.equalTo(scale(22))
         }
         
         //修改后总价（含运费）:
-        
         let modifyTitleLabel = UILabel()
         modifyTitleLabel.text = "修改后总价(含运费)："
         modifyTitleLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
@@ -325,9 +355,7 @@ class ModifyPriceView: UIView {
             make.height.equalTo(scale(44))
             make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(10))
         }
-        
         sureModifyBtn.layer.cornerRadius = scale(4)
-        
         loadModifyPriceInfo()
     }
     
@@ -340,6 +368,7 @@ class ModifyPriceView: UIView {
                 self._origilLabel.text = "订单原价(含运费):¥" + (_data.originalPrice ?? "0")
                 self._priceLabel.text = "价格: ¥" + (_data.price ?? "0")
                 self._freightLabel.text = "运费: ¥" + (_data.freight ?? "0")
+                self.discountLabel.text = "优惠:-¥" + (_data.discount ?? "0")
             }
         } failureCallback: { error, code in
             code.loginOut()

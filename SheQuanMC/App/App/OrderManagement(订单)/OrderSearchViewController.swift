@@ -143,12 +143,12 @@ class OrderSearchViewController: BaseViewController {
             if let _data = model.data{
                 self?.searchProductList = _data
             }
-//            self?.tableview.mj_header?.endRefreshing()
-//            self?.tableview.mj_footer?.endRefreshing()
             self?.tableview.reloadData()
-        } failureCallback: { error, code in
+            self?.tableview.mj_header?.endRefreshing()
+//            self?.tableview.mj_footer?.endRefreshing()
+        } failureCallback: {[weak self] error, code in
             code.loginOut()
-//            self?.tableview.mj_header?.endRefreshing()
+            self?.tableview.mj_header?.endRefreshing()
 //            self?.tableview.mj_footer?.endRefreshing()
         }
     }
@@ -162,7 +162,6 @@ class OrderSearchViewController: BaseViewController {
             closeOrderReasonView.cancelBlock = {[weak self] in
                 self?.popup.dismissPopup()
             }
-            
             closeOrderReasonView.sureCloseSuccessBlock = {[weak self] in
                 self?.loadOrderStatus()
                 
@@ -239,9 +238,9 @@ extension OrderSearchViewController:UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let orederInfoModel = searchProductList[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "OrderStatusCell") as! OrderStatusCell
-        cell.orederInfoModel = orederInfoModel
+        let orederInfoModel = searchProductList[indexPath.row]
+        cell.model = orederInfoModel
         //关闭订单按键
         cell.closeOrderBtn.tag = indexPath.row
         cell.closeOrderBtn.addTarget(self, action: #selector(closeOrderAction), for: .touchUpInside)

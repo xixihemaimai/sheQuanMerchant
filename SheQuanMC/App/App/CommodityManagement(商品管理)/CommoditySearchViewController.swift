@@ -16,10 +16,10 @@ class CommoditySearchViewController: BaseViewController {
     var header:Bool = true
     lazy var searchTextfield:UITextField = {
        let searchTextfield = UITextField()
-        searchTextfield.placeholder = "搜索商品名称"
+        searchTextfield.placeholder = "请输入商品名称/商品编码"
         searchTextfield.clearButtonMode = .whileEditing
         searchTextfield.font = UIFont.systemFont(ofSize: scale(12), weight: .regular)
-        searchTextfield.attributedPlaceholder = NSAttributedString.init(string:"搜索商品名称", attributes: [
+        searchTextfield.attributedPlaceholder = NSAttributedString.init(string:"请输入商品名称/商品编码", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#B3B3B3")])
         searchTextfield.addTarget(self, action: #selector(searchChangeAction), for: .editingChanged)
         return searchTextfield
@@ -120,16 +120,22 @@ class CommoditySearchViewController: BaseViewController {
         let parmeters = ["keyWord":searchTextfield.text as Any,"lastSortTime":lastSortTime,"productStatus":Int32(0)] as [String:Any]
         NetWorkResultRequest(OrderApi.getProductInfoList(parameters: parmeters), needShowFailAlert: true) {[weak self] result, data in
             guard let model = try? JSONDecoder().decode(GenericResponse<[productListModel]>.self, from: data)else{ return }
-            guard let data1 = model.data else{return}
-            if self?.header == true{
-                self?.list.removeAll()
-                self?.list = data1
-                self?.tableview.reloadData()
-                self?.tableview.mj_header?.endRefreshing()
+//            guard let data1 = model.data else{return}
+            if let data1 = model.data{
+                if self?.header == true{
+                    self?.list.removeAll()
+                    self?.list = data1
+                    self?.tableview.reloadData()
+                    self?.tableview.mj_header?.endRefreshing()
+                }else{
+                    self?.list += data1
+                    self?.tableview.reloadData()
+                    self?.tableview.mj_footer?.endRefreshing()
+                }
             }else{
-                self?.list += data1
                 self?.tableview.reloadData()
-                self?.tableview.mj_footer?.endRefreshing()   
+                self?.tableview.mj_footer?.endRefreshing()
+                self?.tableview.mj_header?.endRefreshing()
             }
         } failureCallback: {[weak self] error, code in
             code.loginOut()
