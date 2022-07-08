@@ -32,6 +32,7 @@ class ShopViewController: BaseViewController {
     //店铺头像
     lazy var shopHeaderImageView:UIImageView = {
        let shopHeaderImageView = UIImageView()
+        shopHeaderImageView.contentMode = .scaleAspectFill
         return shopHeaderImageView
     }()
 
@@ -671,7 +672,11 @@ class ShopViewController: BaseViewController {
             modifyReturnVc.jumpType = 0
             modifyReturnVc.title = "收货地址"
             Coordinator.shared?.pushViewController(self, modifyReturnVc, animated: true)
-        }else{
+        }else if btn.tag == 3{
+            let dataManagerVc = DataManagerViewController()
+            Coordinator.shared?.pushViewController(self, dataManagerVc, animated: true)
+        }
+        else{
             JFPopup.toast(hit: "本功能暂时还在完善中,请耐心等待")
         }
     }

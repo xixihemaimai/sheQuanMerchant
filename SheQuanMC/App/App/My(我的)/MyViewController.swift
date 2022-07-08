@@ -22,6 +22,7 @@ public class MyViewController: BaseViewController {
     //店铺图片
     lazy var headerImage:UIImageView = {
        let headerImage = UIImageView()
+        headerImage.contentMode = .scaleAspectFill
         return headerImage
     }()
     

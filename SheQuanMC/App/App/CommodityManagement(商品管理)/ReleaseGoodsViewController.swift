@@ -1631,7 +1631,12 @@ class ReleaseGoodsViewController: BaseViewController {
            return
         }
         
-    
+        
+        commodityModel?.productDesc = commodityModel?.productDesc?.replacingOccurrences(of: "\"", with: "\\\"", options: .literal, range: nil)
+        commodityModel?.productDesc = commodityModel?.productDesc?.replacingOccurrences(of: "/", with: "\\/", options: .literal, range: nil)
+
+        
+//        commodityModel?.productDesc = commodityModel?.productDesc?.replacingOccurrences(of: "\"", with: "'", options: .literal, range: nil)
         var specGroupsArray = commodityModel?.specGroups
 //        LXFLog("+================\(String(describing: specGroupsArray?.count))")
         specGroupsArray = specGroupsArray?.filter({ SpecGroups in
@@ -1811,6 +1816,8 @@ class ReleaseGoodsViewController: BaseViewController {
         //商品描述（2）
         if self.goodsDescribe.text == "已填写"{
             parameters1["productDesc"] = commodityModel?.productDesc ?? ""
+            commodityModel?.productDesc = commodityModel?.productDesc?.replacingOccurrences(of: "\"", with: "\\\"", options: .literal, range: nil)
+            commodityModel?.productDesc = commodityModel?.productDesc?.replacingOccurrences(of: "/", with: "\\/", options: .literal, range: nil)
         }
         //商品ID（1）
         parameters1["productId"] = commodityModel?.productId
@@ -1929,10 +1936,8 @@ class ReleaseGoodsViewController: BaseViewController {
         }
         //库存扣减方式（1）
         parameters1["stockDeductType"] = 1
-        
-        
-
-
+        commodityModel?.productDesc = commodityModel?.productDesc?.replacingOccurrences(of: "\"", with: "\\\"", options: .literal, range: nil)
+        commodityModel?.productDesc = commodityModel?.productDesc?.replacingOccurrences(of: "/", with: "\\/", options: .literal, range: nil)
         //存为草稿要怎么判断呢？
         var specGroupsArray = commodityModel?.specGroups
         specGroupsArray = specGroupsArray?.filter({ SpecGroups in

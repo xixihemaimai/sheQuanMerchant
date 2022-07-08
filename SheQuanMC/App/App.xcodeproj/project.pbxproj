@@ -102,6 +102,7 @@
 		4096354328645AA700AA323C /* MomentsPostButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4096354228645AA700AA323C /* MomentsPostButton.swift */; };
 		4096354528645AD100AA323C /* MomentsDeleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4096354428645AD100AA323C /* MomentsDeleteView.swift */; };
 		409B6A712876B5AA00F4CE7B /* PerfectInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409B6A702876B5AA00F4CE7B /* PerfectInfoViewController.swift */; };
+		409B6A742877CA9600F4CE7B /* DataManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409B6A732877CA9500F4CE7B /* DataManagerViewController.swift */; };
 		409BF5CE286D76AF00B1B8DE /* NoNetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409BF5CD286D76AE00B1B8DE /* NoNetViewController.swift */; };
 		409BF5D22873CA5B00B1B8DE /* MyQRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409BF5D12873CA5800B1B8DE /* MyQRCodeViewController.swift */; };
 		409BF5D42873D44300B1B8DE /* AccountAndSafeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409BF5D32873D44300B1B8DE /* AccountAndSafeViewController.swift */; };
@@ -255,6 +256,7 @@
 		4096354228645AA700AA323C /* MomentsPostButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentsPostButton.swift; sourceTree = "<group>"; };
 		4096354428645AD100AA323C /* MomentsDeleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentsDeleteView.swift; sourceTree = "<group>"; };
 		409B6A702876B5AA00F4CE7B /* PerfectInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfectInfoViewController.swift; sourceTree = "<group>"; };
+		409B6A732877CA9500F4CE7B /* DataManagerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagerViewController.swift; sourceTree = "<group>"; };
 		409BF5CD286D76AE00B1B8DE /* NoNetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoNetViewController.swift; sourceTree = "<group>"; };
 		409BF5D12873CA5800B1B8DE /* MyQRCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyQRCodeViewController.swift; sourceTree = "<group>"; };
 		409BF5D32873D44300B1B8DE /* AccountAndSafeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountAndSafeViewController.swift; sourceTree = "<group>"; };
@@ -518,6 +520,14 @@
 			path = view;
 			sourceTree = "<group>";
 		};
+		409B6A722877CA5300F4CE7B /* DataStatistics(数据统计) */ = {
+			isa = PBXGroup;
+			children = (
+				409B6A732877CA9500F4CE7B /* DataManagerViewController.swift */,
+			);
+			path = "DataStatistics(数据统计)";
+			sourceTree = "<group>";
+		};
 		409C298F2814FC0D00005ECB /* Lib */ = {
 			isa = PBXGroup;
 			children = (
@@ -560,6 +570,7 @@
 		40A9A1E42812996D006B1CBF /* App */ = {
 			isa = PBXGroup;
 			children = (
+				409B6A722877CA5300F4CE7B /* DataStatistics(数据统计) */,
 				4080A4C5282C8D2800D32002 /* FreightTemplate(运费模板) */,
 				4075AF0A281E1DE6005EB854 /* OrderManagement(订单) */,
 				407D97FB281A3997005A8CBC /* CommodityManagement(商品管理) */,
@@ -861,6 +872,7 @@
 				403B880F2823BAA700FC4EA4 /* SpecificationValueView.swift in Sources */,
 				403B87F92823536400FC4EA4 /* CommodityCategoryViewController.swift in Sources */,
 				4080A4CA282C995E00D32002 /* FreightTemplateCell.swift in Sources */,
+				409B6A742877CA9600F4CE7B /* DataManagerViewController.swift in Sources */,
 				409C29932814FC5D00005ECB /* UITextView+Placeholder.m in Sources */,
 				408E42462828ED3800C94119 /* CheckLogisticsProgressCell.swift in Sources */,
 				407D9808281A8457005A8CBC /* ReplenishInventoryCell.swift in Sources */,

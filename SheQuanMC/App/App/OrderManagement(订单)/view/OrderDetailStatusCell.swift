@@ -72,8 +72,13 @@ class OrderDetailStatusCell: UITableViewCell {
                 timer = nil
 //                orderStatusLabel.text = "待支付"
 //                inputTimeAndEndTime(_orderInfoModel.orderTime ?? "", _orderInfoModel.payRemainingTime ?? "")
-                if _orderInfoModel.payRemainingTime != 0{
-                    inputEndTime(endTime: _orderInfoModel.payRemainingTime ?? 0)
+//                if _orderInfoModel.payRemainingTime != 0{
+//                    inputEndTime(endTime: _orderInfoModel.payRemainingTime ?? 0)
+//                }else{
+//                    timeLabel.text = (totalTime ?? "0天0时0分0秒") + (_orderInfoModel.orderRemarks ?? "未付款则自动关闭订单")
+//                }
+                if _orderInfoModel.countDownTime != 0{
+                    inputEndTime(endTime: _orderInfoModel.countDownTime ?? 0)
                 }else{
                     timeLabel.text = (totalTime ?? "0天0时0分0秒") + (_orderInfoModel.orderRemarks ?? "未付款则自动关闭订单")
                 }
@@ -88,12 +93,17 @@ class OrderDetailStatusCell: UITableViewCell {
                 timer = nil
 //                orderStatusLabel.text = "已发货"
 //                inputTimeAndEndTime(_orderInfoModel.orderTime ?? "", _orderInfoModel.payRemainingTime ?? "")
-                if _orderInfoModel.payRemainingTime != 0{
-                    inputEndTime(endTime: _orderInfoModel.payRemainingTime ?? 0)
+//                if _orderInfoModel.payRemainingTime != 0{
+//                    inputEndTime(endTime: _orderInfoModel.payRemainingTime ?? 0)
+//                }else{
+//                    timeLabel.text = (totalTime ?? "0天0时0分0秒") + (_orderInfoModel.orderRemarks ?? "后自动收货")
+//                }
+//                orderDetailStatusLabel.text = _orderInfoModel.refundingText
+                if _orderInfoModel.countDownTime != 0{
+                    inputEndTime(endTime: _orderInfoModel.countDownTime ?? 0)
                 }else{
                     timeLabel.text = (totalTime ?? "0天0时0分0秒") + (_orderInfoModel.orderRemarks ?? "后自动收货")
                 }
-//                orderDetailStatusLabel.text = _orderInfoModel.refundingText
             }else if _orderInfoModel.orderStatus == 30{
                 timer?.invalidate()
                 timer = nil

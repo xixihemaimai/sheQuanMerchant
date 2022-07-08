@@ -41,6 +41,7 @@ class ShopDetailCardCell: UITableViewCell {
     lazy var cardFrotImageView:UIImageView = {
        let cardFrotImageView = UIImageView()
         cardFrotImageView.tag = 0
+//        cardFrotImageView.contentMode = .scaleAspectFill
         cardFrotImageView.isUserInteractionEnabled = true
         return cardFrotImageView
     }()
@@ -50,6 +51,7 @@ class ShopDetailCardCell: UITableViewCell {
     lazy var cardBackImageView:UIImageView = {
        let cardBackImageView = UIImageView()
         cardBackImageView.tag = 1
+//        cardBackImageView.contentMode = .scaleAspectFill
         cardBackImageView.isUserInteractionEnabled = true
         return cardBackImageView
     }()
@@ -58,6 +60,7 @@ class ShopDetailCardCell: UITableViewCell {
     lazy var bussImageView:UIImageView = {
        let bussImageView = UIImageView()
         bussImageView.tag = 2
+//        bussImageView.contentMode = .scaleAspectFill
         bussImageView.isUserInteractionEnabled = true
         return bussImageView
     }()

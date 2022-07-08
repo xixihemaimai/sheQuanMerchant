@@ -54,7 +54,7 @@ class CheckLogisticsViewController: BaseViewController {
             guard let model = try? JSONDecoder().decode(GenericResponse<ViewLogisticsModel>.self, from: data) else { return }
             if let _data = model.data{
                 self?.viewLogisticsModel = _data
-                self?.viewLogisticsModel?.tracks?.reverse()
+//                self?.viewLogisticsModel?.tracks?.reverse()
             }
             self?.tableview.reloadData()
             self?.tableview.mj_header?.endRefreshing()

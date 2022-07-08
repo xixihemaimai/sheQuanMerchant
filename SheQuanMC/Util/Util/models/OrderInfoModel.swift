@@ -22,7 +22,8 @@ public struct OrederInfoModel: Codable {
     public var orderStatus:Int32?   //订单状态
     public var totalAmount:String? //商品总价
     public var orderTime:String?     //下单时间
-    public var payRemainingTime:Int64? //支付剩余时间
+//    public var payRemainingTime:Int64? //支付剩余时间
+    public var countDownTime:Int64?       //支付剩余时间    integer($int64)倒计时(单位：毫秒) 待支付，倒计时关闭 已发货订单，倒计时关闭
     public var refundingText:String?   //退货退款中
     public var payTime:String?      //付款时间
     public var payType:String?      //付款方式
@@ -45,7 +46,8 @@ public struct OrederInfoModel: Codable {
         case orderNo = "orderNo"
         case totalAmount = "totalAmount"
         case orderTime = "orderTime"
-        case payRemainingTime = "payRemainingTime"
+//        case payRemainingTime = "payRemainingTime"
+        case countDownTime = "countDownTime"
         case refundingText = "refundingText"
         case closeTime = "closeTime"
         case orderRemarks = "orderRemarks"
@@ -76,7 +78,9 @@ public struct OrederInfoModel: Codable {
         
         totalAmount = try? values.decodeIfPresent(String.self, forKey: .totalAmount)
         orderTime = try? values.decodeIfPresent(String.self, forKey: .orderTime)
-        payRemainingTime = try? values.decodeIfPresent(Int64.self, forKey: .payRemainingTime)
+//        payRemainingTime = try? values.decodeIfPresent(Int64.self, forKey: .payRemainingTime)
+        countDownTime = try? values.decodeIfPresent(Int64.self, forKey: .countDownTime)
+        
         refundingText = try? values.decodeIfPresent(String.self, forKey: .refundingText)
         payTime = try? values.decodeIfPresent(String.self, forKey: .payTime)
         payType = try? values.decodeIfPresent(String.self, forKey: .payType)
