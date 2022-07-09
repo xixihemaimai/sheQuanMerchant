@@ -244,7 +244,7 @@ class OrderContentCell: UITableViewCell {
             
             discountPriceLabel.text = "¥" + (_orderInfoModel.discount ?? "希望尽快发货")
             
-            buyerTrueLabel.text = _orderInfoModel.remarks
+            buyerTrueLabel.text = _orderInfoModel.leaveMsg
             
             totalPriceLabel.text = "¥" + (_orderInfoModel.payAmount ?? "0.00")
             
@@ -259,7 +259,7 @@ class OrderContentCell: UITableViewCell {
             }
             
             //这变也需要判断是否有买家留言
-            if (_orderInfoModel.remarks?.count ?? 0) < 1{
+            if (_orderInfoModel.leaveMsg?.count ?? 0) < 1{
                 buyersView.snp.remakeConstraints { make in
                     make.left.equalTo(scale(16))
                     make.right.equalTo(-scale(16))

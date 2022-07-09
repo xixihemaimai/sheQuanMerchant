@@ -33,7 +33,8 @@ public struct OrederInfoModel: Codable {
     public var orderStatusText: String?
     public var payAmount: String?
     public var products:[OrederInfoProductsModel]?
-    public var remarks: String?
+//    public var remarks: String?
+    public var leaveMsg:String?
     public var userId: Int64?
     
     enum CodingKeys: String, CodingKey {
@@ -56,7 +57,8 @@ public struct OrederInfoModel: Codable {
         case orderStatusText = "orderStatusText"
         case payAmount = "payAmount"
         case products = "products"
-        case remarks = "remarks"
+//        case remarks = "remarks"
+        case leaveMsg = "leaveMsg"
         case userId = "userId"
         case payTime = "payTime"
         case payType = "payType"
@@ -91,7 +93,10 @@ public struct OrederInfoModel: Codable {
         orderStatusText = try? values.decodeIfPresent(String.self, forKey: .orderStatusText)
         payAmount = try? values.decodeIfPresent(String.self, forKey: .payAmount)
         products = try? values.decodeIfPresent([OrederInfoProductsModel].self, forKey: .products)
-        remarks = try? values.decodeIfPresent(String.self, forKey: .remarks)
+//        remarks = try? values.decodeIfPresent(String.self, forKey: .remarks)
+        
+        leaveMsg = try? values.decodeIfPresent(String.self, forKey: .leaveMsg)
+        
         userId = try? values.decodeIfPresent(Int64.self, forKey: .userId)
     }
     

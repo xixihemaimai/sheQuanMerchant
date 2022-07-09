@@ -266,7 +266,7 @@ class OrderStatusCell: UITableViewCell {
 
             orderIntroductLabel.text = _model.products?.first?.productName
 
-            if (_model.remarks?.count ?? 0) < 1{
+            if (_model.leaveMsg?.count ?? 0) < 1{
                 buyersView.snp.remakeConstraints { make in
                     make.left.equalTo(scale(16))
                     make.right.equalTo(-scale(16))
@@ -281,9 +281,10 @@ class OrderStatusCell: UITableViewCell {
                     make.top.equalTo(truePriceLabel.snp.bottom).offset(scale(12))
                 }
             }
-            if  (_model.remarks?.count ?? 0) > 0{
+            if  (_model.leaveMsg?.count ?? 0) > 0{
                 buyersView.isHidden = false
-                buyerTrueLabel.text = _model.remarks
+//                buyerTrueLabel.text = _model.remarks
+                buyerTrueLabel.text = _model.leaveMsg
             }else{
                 buyersView.isHidden = true
             }
@@ -330,7 +331,7 @@ class OrderStatusCell: UITableViewCell {
                 checkLogisticsBtn.isHidden = true
                 modifyLogisticsBtn.isHidden = true
 
-                if (_model.remarks?.count ?? 0) < 1{
+                if (_model.leaveMsg?.count ?? 0) < 1{
                     buyersView.snp.remakeConstraints { make in
                         make.left.equalTo(scale(16))
                         make.right.equalTo(-scale(16))
