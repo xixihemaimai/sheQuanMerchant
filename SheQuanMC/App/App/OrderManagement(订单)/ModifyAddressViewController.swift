@@ -397,7 +397,7 @@ class ModifyAddressViewController: BaseViewController {
             
             phoneNmberTextView.text = retAddressInfoModel?.mobile
             
-            addressLabel.text = String(format: "%@%@%@", retAddressInfoModel?.provinceName ?? "",retAddressInfoModel?.cityName ?? "",retAddressInfoModel?.regionName ?? "")
+            addressLabel.text = String(format: "%@%@%@%@", retAddressInfoModel?.provinceName ?? "",retAddressInfoModel?.cityName ?? "",retAddressInfoModel?.regionName ?? "",retAddressInfoModel?.streetName ?? "")
             addressLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
             
             detailAddressTextView.text = retAddressInfoModel?.address

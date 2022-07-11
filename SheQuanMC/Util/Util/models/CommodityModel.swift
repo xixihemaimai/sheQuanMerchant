@@ -229,6 +229,7 @@ public struct Spus: Codable {
     public var spuAttrId:Int64?       //商品参数属性Id
     public var spuAttrName: String?   //商品参数名称
     public var spuId: Int64?          //商品参数Id
+    public var spuText:String?        //    string Spu文本
     public var spuType:Int32?         //商品参数类型（0：自定义、1：品牌、2：正品证书）
     public var spuValue: String?      //Spu属性值
     
@@ -239,6 +240,7 @@ public struct Spus: Codable {
         case spuAttrId = "spuAttrId"
         case spuAttrName = "spuAttrName"
         case spuId = "spuId"
+        case spuText = "spuText"
         case spuType = "spuType"
         case spuValue = "spuValue"
     }
@@ -251,17 +253,19 @@ public struct Spus: Codable {
         spuAttrName = try? values.decodeIfPresent(String.self, forKey: .spuAttrName)
         spuId = try? values.decodeIfPresent(Int64.self, forKey: .spuId)
         spuType = try? values.decodeIfPresent(Int32.self, forKey: .spuType)
+        spuText = try? values.decodeIfPresent(String.self, forKey: .spuText)
         spuValue = try? values.decodeIfPresent(String.self, forKey: .spuValue)
     }
     
     
     
-    public init(length:Int32? = 0,required:Bool? = false,spuAttrId:Int64? = 0,spuAttrName:String? = "",spuId:Int64? = 0,spuType:Int32? = 0,spuValue:String? = ""){
+    public init(length:Int32? = 0,required:Bool? = false,spuAttrId:Int64? = 0,spuAttrName:String? = "",spuId:Int64? = 0,spuText:String? = "",spuType:Int32? = 0,spuValue:String? = ""){
         self.length = length
         self.required = required
         self.spuAttrId = spuAttrId
         self.spuAttrName = spuAttrName
         self.spuId = spuId
+        self.spuText = spuText
         self.spuType = spuType
         self.spuValue = spuValue
     }

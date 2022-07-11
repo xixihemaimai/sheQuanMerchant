@@ -64,6 +64,7 @@
 		407D9804281A70DF005A8CBC /* commodityExamineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407D9803281A70DF005A8CBC /* commodityExamineCell.swift */; };
 		407D9806281A8352005A8CBC /* ReplenishInventoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407D9805281A8352005A8CBC /* ReplenishInventoryViewController.swift */; };
 		407D9808281A8457005A8CBC /* ReplenishInventoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407D9807281A8457005A8CBC /* ReplenishInventoryCell.swift */; };
+		40800844287C00F40090C72A /* YBDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40800843287C00F40090C72A /* YBDatePicker.swift */; };
 		4080A4C7282C98B700D32002 /* FreightTemplateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4080A4C6282C98B700D32002 /* FreightTemplateViewController.swift */; };
 		4080A4CA282C995E00D32002 /* FreightTemplateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4080A4C9282C995E00D32002 /* FreightTemplateCell.swift */; };
 		4080A4CC282CA24500D32002 /* TemplateContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4080A4CB282CA24500D32002 /* TemplateContentViewController.swift */; };
@@ -218,6 +219,7 @@
 		407D9803281A70DF005A8CBC /* commodityExamineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = commodityExamineCell.swift; sourceTree = "<group>"; };
 		407D9805281A8352005A8CBC /* ReplenishInventoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplenishInventoryViewController.swift; sourceTree = "<group>"; };
 		407D9807281A8457005A8CBC /* ReplenishInventoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplenishInventoryCell.swift; sourceTree = "<group>"; };
+		40800843287C00F40090C72A /* YBDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YBDatePicker.swift; sourceTree = "<group>"; };
 		4080A4C6282C98B700D32002 /* FreightTemplateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreightTemplateViewController.swift; sourceTree = "<group>"; };
 		4080A4C9282C995E00D32002 /* FreightTemplateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreightTemplateCell.swift; sourceTree = "<group>"; };
 		4080A4CB282CA24500D32002 /* TemplateContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateContentViewController.swift; sourceTree = "<group>"; };
@@ -471,6 +473,14 @@
 			path = view;
 			sourceTree = "<group>";
 		};
+		40800842287C00E00090C72A /* view */ = {
+			isa = PBXGroup;
+			children = (
+				40800843287C00F40090C72A /* YBDatePicker.swift */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
 		4080A4C5282C8D2800D32002 /* FreightTemplate(运费模板) */ = {
 			isa = PBXGroup;
 			children = (
@@ -523,6 +533,7 @@
 		409B6A722877CA5300F4CE7B /* DataStatistics(数据统计) */ = {
 			isa = PBXGroup;
 			children = (
+				40800842287C00E00090C72A /* view */,
 				409B6A732877CA9500F4CE7B /* DataManagerViewController.swift */,
 			);
 			path = "DataStatistics(数据统计)";
@@ -860,6 +871,7 @@
 				408E42342828ADD100C94119 /* OrderDeliveryLogisticsCell.swift in Sources */,
 				409BF5D82873ED1A00B1B8DE /* ChangePayPasswordViewController.swift in Sources */,
 				4080A4CE282CB08000D32002 /* FreightAllocationViewController.swift in Sources */,
+				40800844287C00F40090C72A /* YBDatePicker.swift in Sources */,
 				4074C9EF282CE3D0009E9023 /* RegionView.swift in Sources */,
 				407D9802281A66C6005A8CBC /* commodityStatusCell.swift in Sources */,
 				408E42422828E8BE00C94119 /* CheckLogisticsViewController.swift in Sources */,

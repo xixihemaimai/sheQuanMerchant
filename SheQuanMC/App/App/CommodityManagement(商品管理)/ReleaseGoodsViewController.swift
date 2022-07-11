@@ -1630,12 +1630,7 @@ class ReleaseGoodsViewController: BaseViewController {
            JFPopup.toast(hit: "请填写完整资料")
            return
         }
-        
-        
         commodityModel?.productDesc = commodityModel?.productDesc?.replacingOccurrences(of: "\"", with: "\\\"", options: .literal, range: nil)
-        commodityModel?.productDesc = commodityModel?.productDesc?.replacingOccurrences(of: "/", with: "\\/", options: .literal, range: nil)
-
-        
 //        commodityModel?.productDesc = commodityModel?.productDesc?.replacingOccurrences(of: "\"", with: "'", options: .literal, range: nil)
         var specGroupsArray = commodityModel?.specGroups
 //        LXFLog("+================\(String(describing: specGroupsArray?.count))")
@@ -1708,7 +1703,7 @@ class ReleaseGoodsViewController: BaseViewController {
             if spus?.spuValue == nil{
                 spuValue = ""
             }
-            let spusDict = ["length":spus?.length as Any,"required":spus?.required as Any,"spuAttrId":spus?.spuAttrId as Any,"spuAttrName":spus?.spuAttrName as Any,"spuId":spus?.spuId as Any,"spuType":spus?.spuType as Any,"spuValue":spuValue as Any] as [String:Any]
+            let spusDict = ["length":spus?.length as Any,"required":spus?.required as Any,"spuAttrId":spus?.spuAttrId as Any,"spuAttrName":spus?.spuAttrName as Any,"spuId":spus?.spuId as Any,"spuText":((spus?.spuText?.count ?? 0) > 0 ? spus?.spuText : "") as Any,"spuType":spus?.spuType as Any,"spuValue":spuValue as Any] as [String:Any]
             let jsonstring = getJSONStringFromData(obj: spusDict, isEscape: true)
             if k == 0{
                 spusList += jsonstring
@@ -1817,7 +1812,6 @@ class ReleaseGoodsViewController: BaseViewController {
         if self.goodsDescribe.text == "已填写"{
             parameters1["productDesc"] = commodityModel?.productDesc ?? ""
             commodityModel?.productDesc = commodityModel?.productDesc?.replacingOccurrences(of: "\"", with: "\\\"", options: .literal, range: nil)
-            commodityModel?.productDesc = commodityModel?.productDesc?.replacingOccurrences(of: "/", with: "\\/", options: .literal, range: nil)
         }
         //商品ID（1）
         parameters1["productId"] = commodityModel?.productId
@@ -1918,7 +1912,7 @@ class ReleaseGoodsViewController: BaseViewController {
                 if spus?.spuValue == nil{
                     spuValue = ""
                 }
-                let spusDict = ["length":spus?.length as Any,"required":spus?.required as Any,"spuAttrId":spus?.spuAttrId as Any,"spuAttrName":spus?.spuAttrName as Any,"spuId":spus?.spuId as Any,"spuType":spus?.spuType as Any,"spuValue":spuValue as Any] as [String:Any]
+                let spusDict = ["length":spus?.length as Any,"required":spus?.required as Any,"spuAttrId":spus?.spuAttrId as Any,"spuAttrName":spus?.spuAttrName as Any,"spuId":spus?.spuId as Any,"spuText":((spus?.spuText?.count ?? 0) > 0 ? spus?.spuText : "") as Any,"spuType":spus?.spuType as Any,"spuValue":spuValue as Any] as [String:Any]
                 let jsonstring = getJSONStringFromData(obj: spusDict, isEscape: true)
                 if k == 0{
                     spusList += jsonstring
@@ -1937,7 +1931,6 @@ class ReleaseGoodsViewController: BaseViewController {
         //库存扣减方式（1）
         parameters1["stockDeductType"] = 1
         commodityModel?.productDesc = commodityModel?.productDesc?.replacingOccurrences(of: "\"", with: "\\\"", options: .literal, range: nil)
-        commodityModel?.productDesc = commodityModel?.productDesc?.replacingOccurrences(of: "/", with: "\\/", options: .literal, range: nil)
         //存为草稿要怎么判断呢？
         var specGroupsArray = commodityModel?.specGroups
         specGroupsArray = specGroupsArray?.filter({ SpecGroups in
@@ -2009,7 +2002,7 @@ class ReleaseGoodsViewController: BaseViewController {
             if spus?.spuValue == nil{
                 spuValue = ""
             }
-            let spusDict = ["length":spus?.length as Any,"required":spus?.required as Any,"spuAttrId":spus?.spuAttrId as Any,"spuAttrName":spus?.spuAttrName as Any,"spuId":spus?.spuId as Any,"spuType":spus?.spuType as Any,"spuValue":spuValue as Any] as [String:Any]
+            let spusDict = ["length":spus?.length as Any,"required":spus?.required as Any,"spuAttrId":spus?.spuAttrId as Any,"spuAttrName":spus?.spuAttrName as Any,"spuId":spus?.spuId as Any,"spuText":((spus?.spuText?.count ?? 0) > 0 ? spus?.spuText : "") as Any,"spuType":spus?.spuType as Any,"spuValue":spuValue as Any] as [String:Any]
             let jsonstring = getJSONStringFromData(obj: spusDict, isEscape: true)
             if k == 0{
                 spusList += jsonstring

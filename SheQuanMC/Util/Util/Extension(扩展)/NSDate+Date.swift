@@ -92,5 +92,32 @@ import UIKit
         
         return (currentTime - selfTime) > (24 * 60 * 60)
     }
+     
+    public static func getDate(dateStr: String, format: String) -> Date? {
+         let dateFormatter = DateFormatter()
+         dateFormatter.locale = Locale.current
+         dateFormatter.timeZone = TimeZone.current
+         dateFormatter.dateFormat = format
+         let date = dateFormatter.date(from: dateStr)
+         return date
+     }
+     
+     public func getComponent(component: Calendar.Component) -> Int {
+         let calendar = Calendar.current
+         return calendar.component(component, from: self)
+     }
+     
+     public func getString(format: String) -> String {
+         let dateFormatter = DateFormatter()
+         dateFormatter.locale = Locale.current
+         dateFormatter.timeZone = TimeZone.current
+         dateFormatter.dateFormat = format
+         let dateString = dateFormatter.string(from: self)
+         return dateString
+     }
+     
+     
+     
+    
 }
 

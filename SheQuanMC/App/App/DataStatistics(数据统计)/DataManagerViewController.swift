@@ -7,6 +7,7 @@
 
 import UIKit
 import Util
+import SwiftUI
 
 class DataManagerViewController: BaseViewController {
     //实时按键
@@ -29,8 +30,6 @@ class DataManagerViewController: BaseViewController {
         currentView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#313336")
         return currentView
     }()
-    
-    
     
     //日报
     lazy var dayTimeBtn:UIButton = {
@@ -83,7 +82,10 @@ class DataManagerViewController: BaseViewController {
         choiceTimeBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333"), for: .normal)
         choiceTimeBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(13), weight: .regular)
         choiceTimeBtn.setImage(UIImage(named: "Group 2736"), for: .normal)
-        choiceTimeBtn.setImagePostion(type: .imageRight, Space: scale(10))
+        choiceTimeBtn.setImagePostion(type: .imageRight, Space: scale(4))
+        choiceTimeBtn.contentHorizontalAlignment = .right
+        choiceTimeBtn.addTarget(self, action: #selector(choiceDataTypeAction), for: .touchUpInside)
+        choiceTimeBtn.isHidden = true
         return choiceTimeBtn
     }()
     
@@ -91,14 +93,86 @@ class DataManagerViewController: BaseViewController {
     //支付金额
     lazy var payNumLabel:UILabel = {
        let payNumLabel = UILabel()
-        payNumLabel.text = "150.00¥"
+        payNumLabel.text = "150.00"
         payNumLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         payNumLabel.font = UIFont.systemFont(ofSize: scale(22), weight: .regular)
         payNumLabel.textAlignment = .left
         return payNumLabel
     }()
     
+    //支付订单数
+    lazy var payOrderNumberLabel:UILabel = {
+        let payOrderNumberLabel = UILabel()
+        payOrderNumberLabel.text = "12"
+        payOrderNumberLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        payOrderNumberLabel.font = UIFont.systemFont(ofSize: scale(22), weight: .regular)
+        payOrderNumberLabel.textAlignment = .left
+        return payOrderNumberLabel
+    }()
     
+    
+    //下单未付款金额
+    lazy var noPayLabel:UILabel = {
+        let noPayLabel = UILabel()
+        noPayLabel.text = "150.00"
+        noPayLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        noPayLabel.font = UIFont.systemFont(ofSize: scale(22), weight: .regular)
+        noPayLabel.textAlignment = .left
+        return noPayLabel
+    }()
+    
+    
+     //下单未付款单数
+    lazy var noPayNumLabel:UILabel = {
+        let noPayNumLabel = UILabel()
+        noPayNumLabel.text = "12"
+        noPayNumLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        noPayNumLabel.font = UIFont.systemFont(ofSize: scale(22), weight: .regular)
+        noPayNumLabel.textAlignment = .left
+        return noPayNumLabel
+    }()
+    
+    
+    //客单价
+    lazy var ticketsLabel:UILabel = {
+        let ticketsLabel = UILabel()
+        ticketsLabel.text = "150.00"
+        ticketsLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        ticketsLabel.font = UIFont.systemFont(ofSize: scale(22), weight: .regular)
+        ticketsLabel.textAlignment = .left
+        return ticketsLabel
+    }()
+    
+    
+    //店铺访问数
+    lazy var ticketsNumLabel:UILabel = {
+        let ticketsNumLabel = UILabel()
+        ticketsNumLabel.text = "12"
+        ticketsNumLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        ticketsNumLabel.font = UIFont.systemFont(ofSize: scale(22), weight: .regular)
+        ticketsNumLabel.textAlignment = .left
+        return ticketsNumLabel
+    }()
+    
+    //退款金额
+    lazy var refundAmountLabel:UILabel = {
+       let refundAmountLabel = UILabel()
+        refundAmountLabel.text = "150.00"
+        refundAmountLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        refundAmountLabel.font = UIFont.systemFont(ofSize: scale(22), weight: .regular)
+        refundAmountLabel.textAlignment = .left
+        return refundAmountLabel
+    }()
+    
+    //退款单数
+    lazy var refundNumLabel:UILabel = {
+        let refundNumLabel = UILabel()
+        refundNumLabel.text = "12"
+        refundNumLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        refundNumLabel.font = UIFont.systemFont(ofSize: scale(22), weight: .regular)
+        refundNumLabel.textAlignment = .left
+        return refundNumLabel
+    }()
     
     
     override func viewDidLoad() {
@@ -174,6 +248,8 @@ class DataManagerViewController: BaseViewController {
         
         
         
+        choiceTimeBtn.setTitle(Date().getString(format: "yyyy年MM月dd日"), for: .normal)
+        
         let payAmountView = UIView()
         payAmountView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
         contentView.addSubview(payAmountView)
@@ -214,9 +290,22 @@ class DataManagerViewController: BaseViewController {
             make.left.equalTo(scale(16))
             make.top.equalTo(payLabel.snp.bottom).offset(scale(6))
             make.bottom.equalTo(-scale(20))
-            make.right.equalToSuperview()
+            make.width.equalTo(scale(70))
         }
         
+        
+        let payLastView = UILabel()
+        payLastView.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        payLastView.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
+        payLastView.textAlignment  = .left
+        payLastView.text = "¥"
+        payAmountContentView.addSubview(payLastView)
+        payLastView.snp.makeConstraints { make in
+            make.left.equalTo(payNumLabel.snp.right)
+            make.bottom.equalTo(-scale(20))
+            make.width.equalTo(scale(20))
+            make.height.equalTo(scale(20))
+        }
         
         
         let payNumView = UIView()
@@ -227,6 +316,43 @@ class DataManagerViewController: BaseViewController {
             make.top.equalTo(scale(1))
             make.right.bottom.equalToSuperview()
         }
+        
+        
+        let payOrderLabel = UILabel()
+        payOrderLabel.text = "支付订单数"
+        payOrderLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#818181")
+        payOrderLabel.font = UIFont.systemFont(ofSize: scale(13), weight: .regular)
+        payOrderLabel.textAlignment  = .left
+        payNumView.addSubview(payOrderLabel)
+        payOrderLabel.snp.makeConstraints { make in
+            make.left.equalTo(scale(16))
+            make.top.equalTo(scale(19))
+            make.height.equalTo(scale(18))
+            make.right.equalToSuperview()
+        }
+        
+     
+        payNumView.addSubview(payOrderNumberLabel)
+        payOrderNumberLabel.snp.makeConstraints { make in
+            make.left.equalTo(scale(16))
+            make.top.equalTo(payOrderLabel.snp.bottom).offset(scale(6))
+            make.bottom.equalTo(-scale(20))
+            make.width.equalTo(scale(30))
+        }
+        
+        let payNumLastView = UILabel()
+        payNumLastView.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        payNumLastView.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
+        payNumLastView.textAlignment  = .left
+        payNumLastView.text = "单"
+        payNumView.addSubview(payNumLastView)
+        payNumLastView.snp.makeConstraints { make in
+            make.left.equalTo(payOrderNumberLabel.snp.right)
+            make.bottom.equalTo(-scale(20))
+            make.width.equalTo(scale(20))
+            make.height.equalTo(scale(20))
+        }
+        
         
         
         
@@ -250,6 +376,50 @@ class DataManagerViewController: BaseViewController {
             make.width.equalTo(SCW/2 - scale(1))
         }
         
+        
+        
+        let noPayPriceLabel = UILabel()
+        noPayPriceLabel.text = "下单未付款金额"
+        noPayPriceLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#818181")
+        noPayPriceLabel.font = UIFont.systemFont(ofSize: scale(13), weight: .regular)
+        noPayPriceLabel.textAlignment  = .left
+        noPayAmountContentView.addSubview(noPayPriceLabel)
+        noPayPriceLabel.snp.makeConstraints { make in
+            make.left.equalTo(scale(16))
+            make.top.equalTo(scale(19))
+            make.height.equalTo(scale(18))
+            make.right.equalToSuperview()
+        }
+        
+        
+        noPayAmountContentView.addSubview(noPayLabel)
+        noPayLabel.snp.makeConstraints { make in
+            make.left.equalTo(scale(16))
+            make.top.equalTo(noPayPriceLabel.snp.bottom).offset(scale(6))
+            make.bottom.equalTo(-scale(20))
+            make.width.equalTo(scale(70))
+        }
+        
+        
+        
+        let noPaylastView = UILabel()
+        noPaylastView.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        noPaylastView.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
+        noPaylastView.textAlignment  = .left
+        noPaylastView.text = "¥"
+        noPayAmountContentView.addSubview(noPaylastView)
+        noPaylastView.snp.makeConstraints { make in
+            make.left.equalTo(noPayLabel.snp.right)
+            make.bottom.equalTo(-scale(20))
+            make.width.equalTo(scale(20))
+            make.height.equalTo(scale(20))
+        }
+        
+        
+        
+        
+        
+        
         let noPayNumView = UIView()
         noPayNumView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
         noPayAmountView.addSubview(noPayNumView)
@@ -258,6 +428,43 @@ class DataManagerViewController: BaseViewController {
             make.top.equalTo(scale(1))
             make.right.bottom.equalToSuperview()
         }
+        
+        
+        let noPayNumPriceLabel = UILabel()
+        noPayNumPriceLabel.text = "下单未付款单数"
+        noPayNumPriceLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#818181")
+        noPayNumPriceLabel.font = UIFont.systemFont(ofSize: scale(13), weight: .regular)
+        noPayNumPriceLabel.textAlignment  = .left
+        noPayNumView.addSubview(noPayNumPriceLabel)
+        noPayNumPriceLabel.snp.makeConstraints { make in
+            make.left.equalTo(scale(16))
+            make.top.equalTo(scale(19))
+            make.height.equalTo(scale(18))
+            make.right.equalToSuperview()
+        }
+        
+        noPayNumView.addSubview(noPayNumLabel)
+        noPayNumLabel.snp.makeConstraints { make in
+            make.left.equalTo(scale(16))
+            make.top.equalTo(noPayNumPriceLabel.snp.bottom).offset(scale(6))
+            make.bottom.equalTo(-scale(20))
+            make.width.equalTo(scale(30))
+        }
+        
+        let noPaylastNumView = UILabel()
+        noPaylastNumView.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        noPaylastNumView.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
+        noPaylastNumView.textAlignment  = .left
+        noPaylastNumView.text = "单"
+        noPayNumView.addSubview(noPaylastNumView)
+        noPaylastNumView.snp.makeConstraints { make in
+            make.left.equalTo(noPayNumLabel.snp.right)
+            make.bottom.equalTo(-scale(20))
+            make.width.equalTo(scale(20))
+            make.height.equalTo(scale(20))
+        }
+        
+        
         
         
         let customerPriceView = UIView()
@@ -281,6 +488,43 @@ class DataManagerViewController: BaseViewController {
             make.width.equalTo(SCW/2 - scale(1))
         }
         
+        
+        let ticketsCustomerLabel = UILabel()
+        ticketsCustomerLabel.text = "客单价"
+        ticketsCustomerLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#818181")
+        ticketsCustomerLabel.font = UIFont.systemFont(ofSize: scale(13), weight: .regular)
+        ticketsCustomerLabel.textAlignment  = .left
+        customerPriceContentView.addSubview(ticketsCustomerLabel)
+        ticketsCustomerLabel.snp.makeConstraints { make in
+            make.left.equalTo(scale(16))
+            make.top.equalTo(scale(19))
+            make.height.equalTo(scale(18))
+            make.right.equalToSuperview()
+        }
+        
+        customerPriceContentView.addSubview(ticketsLabel)
+        ticketsLabel.snp.makeConstraints { make in
+            make.left.equalTo(scale(16))
+            make.top.equalTo(ticketsCustomerLabel.snp.bottom).offset(scale(6))
+            make.bottom.equalTo(-scale(20))
+            make.width.equalTo(scale(70))
+        }
+        
+        
+        let ticketslastView = UILabel()
+        ticketslastView.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        ticketslastView.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
+        ticketslastView.textAlignment  = .left
+        ticketslastView.text = "¥"
+        customerPriceContentView.addSubview(ticketslastView)
+        ticketslastView.snp.makeConstraints { make in
+            make.left.equalTo(ticketsLabel.snp.right)
+            make.bottom.equalTo(-scale(20))
+            make.width.equalTo(scale(20))
+            make.height.equalTo(scale(20))
+        }
+        
+        
         let customerPriceNumView = UIView()
         customerPriceNumView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
         customerPriceView.addSubview(customerPriceNumView)
@@ -289,6 +533,45 @@ class DataManagerViewController: BaseViewController {
             make.top.equalTo(scale(1))
             make.right.bottom.equalToSuperview()
         }
+        
+
+        
+        let ticketsCustomerNumLabel = UILabel()
+        ticketsCustomerNumLabel.text = "店铺访问人数"
+        ticketsCustomerNumLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#818181")
+        ticketsCustomerNumLabel.font = UIFont.systemFont(ofSize: scale(13), weight: .regular)
+        ticketsCustomerNumLabel.textAlignment  = .left
+        customerPriceNumView.addSubview(ticketsCustomerNumLabel)
+        ticketsCustomerNumLabel.snp.makeConstraints { make in
+            make.left.equalTo(scale(16))
+            make.top.equalTo(scale(19))
+            make.height.equalTo(scale(18))
+            make.right.equalToSuperview()
+        }
+        
+        customerPriceNumView.addSubview(ticketsNumLabel)
+        ticketsNumLabel.snp.makeConstraints { make in
+            make.left.equalTo(scale(16))
+            make.top.equalTo(ticketsCustomerNumLabel.snp.bottom).offset(scale(6))
+            make.bottom.equalTo(-scale(20))
+            make.width.equalTo(scale(30))
+        }
+        
+        
+        let ticketslastNumView = UILabel()
+        ticketslastNumView.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        ticketslastNumView.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
+        ticketslastNumView.textAlignment  = .left
+        ticketslastNumView.text = "人"
+        customerPriceNumView.addSubview(ticketslastNumView)
+        ticketslastNumView.snp.makeConstraints { make in
+            make.left.equalTo(ticketsNumLabel.snp.right)
+            make.bottom.equalTo(-scale(20))
+            make.width.equalTo(scale(20))
+            make.height.equalTo(scale(20))
+        }
+        
+        
         
         
         let refundAmountView = UIView()
@@ -311,19 +594,85 @@ class DataManagerViewController: BaseViewController {
             make.width.equalTo(SCW/2 - scale(1))
         }
         
+ 
+        let refundAmountContentLabel = UILabel()
+        refundAmountContentLabel.text = "退款金额"
+        refundAmountContentLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#818181")
+        refundAmountContentLabel.font = UIFont.systemFont(ofSize: scale(13), weight: .regular)
+        refundAmountContentLabel.textAlignment  = .left
+        refundAmountContentView.addSubview(refundAmountContentLabel)
+        refundAmountContentLabel.snp.makeConstraints { make in
+            make.left.equalTo(scale(16))
+            make.top.equalTo(scale(19))
+            make.height.equalTo(scale(18))
+            make.right.equalToSuperview()
+        }
+        
+        refundAmountContentView.addSubview(refundAmountLabel)
+        refundAmountLabel.snp.makeConstraints { make in
+            make.left.equalTo(scale(16))
+            make.top.equalTo(refundAmountContentLabel.snp.bottom).offset(scale(6))
+            make.bottom.equalTo(-scale(20))
+            make.width.equalTo(scale(70))
+        }
+        
+        
+        let refundAmountlastView = UILabel()
+        refundAmountlastView.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        refundAmountlastView.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
+        refundAmountlastView.textAlignment  = .left
+        refundAmountlastView.text = "¥"
+        refundAmountContentView.addSubview(refundAmountlastView)
+        refundAmountlastView.snp.makeConstraints { make in
+            make.left.equalTo(refundAmountLabel.snp.right)
+            make.bottom.equalTo(-scale(20))
+            make.width.equalTo(scale(20))
+            make.height.equalTo(scale(20))
+        }
+        
         let refundAmountNumView = UIView()
         refundAmountNumView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
         refundAmountView.addSubview(refundAmountNumView)
         refundAmountNumView.snp.makeConstraints { make in
             make.left.equalTo(refundAmountContentView.snp.right).offset(scale(1))
             make.top.equalTo(scale(1))
-            make.right.bottom.equalToSuperview()
+            make.width.bottom.equalToSuperview()
+        }
+        
+        let refundAmountContentNumLabel = UILabel()
+        refundAmountContentNumLabel.text = "退款单数"
+        refundAmountContentNumLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#818181")
+        refundAmountContentNumLabel.font = UIFont.systemFont(ofSize: scale(13), weight: .regular)
+        refundAmountContentNumLabel.textAlignment  = .left
+        refundAmountNumView.addSubview(refundAmountContentNumLabel)
+        refundAmountContentNumLabel.snp.makeConstraints { make in
+            make.left.equalTo(scale(16))
+            make.top.equalTo(scale(19))
+            make.height.equalTo(scale(18))
+            make.right.equalToSuperview()
+        }
+        
+        refundAmountNumView.addSubview(refundNumLabel)
+        refundNumLabel.snp.makeConstraints { make in
+            make.left.equalTo(scale(16))
+            make.top.equalTo(refundAmountContentNumLabel.snp.bottom).offset(scale(6))
+            make.bottom.equalTo(-scale(20))
+            make.width.equalTo(scale(30))
         }
         
         
-        
-        
-        
+        let refundAmountlastNumView = UILabel()
+        refundAmountlastNumView.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        refundAmountlastNumView.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
+        refundAmountlastNumView.textAlignment  = .left
+        refundAmountlastNumView.text = "单"
+        refundAmountNumView.addSubview(refundAmountlastNumView)
+        refundAmountlastNumView.snp.makeConstraints { make in
+            make.left.equalTo(ticketsNumLabel.snp.right)
+            make.bottom.equalTo(-scale(20))
+            make.width.equalTo(scale(20))
+            make.height.equalTo(scale(20))
+        }
         
     }
     
@@ -339,13 +688,15 @@ class DataManagerViewController: BaseViewController {
             dayView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#c4c4c4")
             monthView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#c4c4c4")
             
-            
             currentTimeBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#313336")
             dayTimeBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
             monthTimeBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
             
+            choiceTimeBtn.isHidden = true
+            
             
         }else if btn.tag == 1{
+            
             currentTimeBtn.isSelected = false
             monthTimeBtn.isSelected = false
             dayTimeBtn.isSelected = true
@@ -358,7 +709,14 @@ class DataManagerViewController: BaseViewController {
             dayTimeBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#313336")
             monthTimeBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
             
+            choiceTimeBtn.isHidden = false
+            
+            
+            choiceTimeBtn.setTitle(Date().getString(format: "yyyy年MM月dd日"), for: .normal)
+            choiceTimeBtn.setImagePostion(type: .imageRight, Space: scale(6))
+            
         }else if  btn.tag == 2{
+            
             currentTimeBtn.isSelected = false
             monthTimeBtn.isSelected = true
             dayTimeBtn.isSelected = false
@@ -369,7 +727,29 @@ class DataManagerViewController: BaseViewController {
             currentTimeBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
             dayTimeBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
             monthTimeBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#313336")
+            
+            choiceTimeBtn.isHidden = false
+            choiceTimeBtn.setTitle(Date().getString(format: "yyyy年MM月"), for: .normal)
+            choiceTimeBtn.setImagePostion(type: .imageRight, Space: scale(4))
         }
     }
     
+    
+    
+    @objc func choiceDataTypeAction(choiceTimeBtn:UIButton){
+        //字符串转date
+        //当前的时间的年-2得到最小时间年份
+        let year = Int(Date().getString(format: "yyyy"))! - 2
+        let newYear = String(year)
+        let datePicker = YBDatePicker(currentDate: Date(), minLimitDate: Date.getDate(dateStr: newYear + "-01-01", format: monthTimeBtn.isSelected == true ? "yyyy-MM" : "yyyy-MM-dd"), maxLimitDate: Date(), datePickerType: monthTimeBtn.isSelected == true ? .YM : .YMD) {[weak self] date in
+            LXFLog("=---------------------------\(date)")
+            if self?.monthTimeBtn.isSelected == true{
+                self?.choiceTimeBtn.setTitle(date.getString(format: "yyyy年MM月"), for: .normal)
+            }else
+            {
+                self?.choiceTimeBtn.setTitle(date.getString(format: "yyyy年MM月dd日"), for: .normal)
+            }
+        }
+        datePicker.show()
+    }
 }

@@ -79,6 +79,8 @@ class CommodityParameterCell: UITableViewCell {
             if _model.spuValue != nil{
                 if _model.spuAttrName == "正品证书"{
                     parameterTextfield.text = "已上传"
+                }else if _model.spuAttrName == "品牌"{
+                    parameterTextfield.text = _model.spuText
                 }else{
                     parameterTextfield.text = _model.spuValue
                 }

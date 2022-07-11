@@ -585,19 +585,20 @@ class CommodityParametersViewController: BaseViewController {
         //这边要判读是否填写完整
         var isInputComplete:Bool = true
         for spus in paraList {
-            if spus.required ?? true{
+            if spus.required == true{
                 if spus.spuValue == nil{
                     isInputComplete = false
                     break
                 }
             }
         }
+        
         if isInputComplete == false{
             JFPopup.toast(hit: "你还有些必填的信息没有填写完整")
             return
         }
         
-        sureParmeter!(paraList)
+        sureParmeter?(paraList)
         Coordinator.shared?.popViewController(self, true)
     }
     
@@ -892,9 +893,12 @@ extension CommodityParametersViewController:UITableViewDelegate,UITableViewDataS
                 commodityParametersView.cancelBlock = {[weak self] in
                     self?.popup.dismissPopup()
                 }
-                commodityParametersView.selectBrandNameBlock = {[weak self] brandName in
-                    cell.parameterTextfield.text = brandName
-                    spus.spuValue = brandName
+                commodityParametersView.selectBrandNameBlock = {[weak self] brandModel in
+//                    cell.parameterTextfield.text = brandName
+                    cell.parameterTextfield.text = brandModel.brandName
+//                    spus.spuValue = brandName
+                    spus.spuValue = String(format: "%d", brandModel.brandId ?? 0)
+                    spus.spuText = brandModel.brandName
                     self?.paraList[indexPath.row] = spus
                     self?.popup.dismissPopup()
                 }

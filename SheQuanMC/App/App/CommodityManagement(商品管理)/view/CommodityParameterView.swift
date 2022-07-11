@@ -23,7 +23,7 @@ class CommodityParameterView: UIView {
     var cancelBlock:(()->Void)?
     
     //选择了品牌值
-    var selectBrandNameBlock:((_ brandName:String) ->Void)?
+    var selectBrandNameBlock:((_ brandModel:BrandModel) ->Void)?
     
     
     //完成按键
@@ -162,17 +162,18 @@ class CommodityParameterView: UIView {
     
     //选择品牌
     @objc func sureSelectBrandAction(sureBtn:UIButton){
-        var selectBrandName:String = ""
+        var selectBrandModel:BrandModel?
         for i in 0..<reasonList.count{
             let cell = tableview.cellForRow(at: IndexPath(row: i, section: 0)) as! CloseOrderReasonCell
             if cell.choiceBtn.isSelected{
                let brandModel = reasonList[i]
-               selectBrandName = brandModel.brandName ?? ""
+//               selectBrandName = brandModel.brandName ?? ""
+                selectBrandModel = brandModel
             }
         }
-        if selectBrandName != ""{
+        if (selectBrandModel?.brandName?.count ?? 0) > 0{
             //这边要返回回去
-            selectBrandNameBlock!(selectBrandName)
+            selectBrandNameBlock?(selectBrandModel!)
         }else{
             JFPopup.toast(hit: "您未选择品牌")
         }

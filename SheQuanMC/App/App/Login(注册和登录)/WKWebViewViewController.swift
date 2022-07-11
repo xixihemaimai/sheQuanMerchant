@@ -29,21 +29,24 @@ class WKWebViewViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.addSubview(progressView)
         progressView.snp.makeConstraints { make in
             make.left.top.right.equalToSuperview()
             make.height.equalTo(scale(3))
         }
-        
         view.addSubview(wkWebView)
         wkWebView.snp.makeConstraints { make in
             make.left.right.bottom.equalToSuperview()
             make.top.equalTo(progressView.snp.bottom)
         }
-        
-        let url = URL(string: "http://www.baidu.com")
-        let urlRequest = URLRequest(url: url!)
+        var url:String = ""
+        if title == "用户协议"{
+            url = "http://yiliao.static.nongdaxia.com.cn/static/agreements"
+        }else if title == "隐私政策"{
+            url = "http://yiliao.static.nongdaxia.com.cn/static/about"
+        }
+        let newUrl = URL(string: url)!
+        let urlRequest = URLRequest(url: newUrl)
         wkWebView.load(urlRequest)
         wkWebView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
     }
