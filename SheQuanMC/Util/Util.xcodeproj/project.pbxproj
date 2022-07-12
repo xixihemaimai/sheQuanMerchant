@@ -47,7 +47,6 @@
 		401E5DAF28152151009127A5 /* Edit+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Edit+Color.swift"; sourceTree = "<group>"; };
 		401E5DB028152151009127A5 /* Edit+Time.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Edit+Time.swift"; sourceTree = "<group>"; };
 		401E5DB128152152009127A5 /* Edit+String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Edit+String.swift"; sourceTree = "<group>"; };
-		401E5DCA28152D46009127A5 /* App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		401E5DD0281530EF009127A5 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		401E5DD828163E92009127A5 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		4060BC2C2816ABE600968C42 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
@@ -178,7 +177,6 @@
 		F587982B71AB46872865F0E7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				401E5DCA28152D46009127A5 /* App.framework */,
 				13A1E508E84E4D3200A95C6B /* Pods_Util.framework */,
 			);
 			name = Frameworks;

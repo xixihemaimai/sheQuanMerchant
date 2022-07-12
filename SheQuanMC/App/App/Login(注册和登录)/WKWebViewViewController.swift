@@ -41,9 +41,9 @@ class WKWebViewViewController: BaseViewController {
         }
         var url:String = ""
         if title == "用户协议"{
-            url = "http://yiliao.static.nongdaxia.com.cn/static/agreements"
+            url = "http://27.154.225.198:5600/agreements/#/static?type=399301591522f66fbbca7d0aa42c008e"
         }else if title == "隐私政策"{
-            url = "http://yiliao.static.nongdaxia.com.cn/static/about"
+            url = "http://27.154.225.198:5600/agreements/#/static?type=6be44947f004161ff927efeed76d5bce"
         }
         let newUrl = URL(string: url)!
         let urlRequest = URLRequest(url: newUrl)
