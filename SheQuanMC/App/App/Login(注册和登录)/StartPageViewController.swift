@@ -92,6 +92,9 @@ open class StartPageViewController: BaseViewController {
     
    public override func viewDidLoad() {
         super.viewDidLoad()
+       
+       NotificationCenter.default.removeObserver(self)
+       NotificationCenter.default.addObserver(self, selector: #selector(showUserPrivacy), name: NSNotification.Name("showUserPrivacy"), object: nil)
  
         view.addSubview(bannerImageView)
         bannerImageView.snp.makeConstraints { make in
@@ -181,9 +184,10 @@ open class StartPageViewController: BaseViewController {
     }
     
     func showIsFristLaunchView(){
-        self.popup.dialog {
+        self.popup.dialog(with: false, bgColor: UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)) {
             let userPrivacyView = UserPrivacyView(frame: CGRect(x: 0, y: 0, width: SCW - scale(60), height: scale(516)), content: """
-                感谢您使用奢圈商户版！ 我们将通过《隐私政策》及《用户协议》来帮助您了解我们在手机使用、存储和共享您个人信息的情况及您享有的权力：
+                感谢您使用奢圈商户版！
+                我们将通过《隐私政策》及《用户协议》来帮助您了解我们在手机使用、存储和共享您个人信息的情况及您享有的权力：
                 1.为向您提供基本服务，我们将收集、使用您的必要信息；
                 2.为了更好的向您提供完整的用户服务，我们会向您发起摄像头、相册等权限申请，只有经过您同意授权的前提下才会使用，您有权拒绝或取消授权；
                 3.未经您的同意，我们不会向第三方获取、共享或对外提供您的个人信息；
@@ -216,6 +220,19 @@ open class StartPageViewController: BaseViewController {
             }
             return userPrivacyView
         }
+    }
+    
+    
+    //通知的方法
+    @objc func showUserPrivacy(not:Notification){
+        if (!UserDefaults.standard.bool(forKey: "isFristLaunchScreen")){
+            showIsFristLaunchView()
+        }
+    }
+    
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     

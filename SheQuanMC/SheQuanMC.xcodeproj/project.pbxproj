@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		40A59B922844C37B00B712AE /* App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A20428129A4D006B1CBF /* App.framework */; };
-		40A59B932844C37B00B712AE /* App.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A20428129A4D006B1CBF /* App.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		40A59B952844C37D00B712AE /* Util.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A20828129A52006B1CBF /* Util.framework */; };
-		40A59B962844C37D00B712AE /* Util.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A20828129A52006B1CBF /* Util.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		40800852287D76250090C72A /* App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A20428129A4D006B1CBF /* App.framework */; };
+		40800853287D76250090C72A /* App.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A20428129A4D006B1CBF /* App.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		40800855287D76260090C72A /* Util.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A20828129A52006B1CBF /* Util.framework */; };
+		40800856287D76260090C72A /* Util.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A20828129A52006B1CBF /* Util.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		40A9A1C528129906006B1CBF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A9A1C428129906006B1CBF /* AppDelegate.swift */; };
 		40A9A1C928129906006B1CBF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A9A1C828129906006B1CBF /* ViewController.swift */; };
 		40A9A1CC28129906006B1CBF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40A9A1CA28129906006B1CBF /* Main.storyboard */; };
@@ -20,14 +20,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		40A59B942844C37B00B712AE /* Embed Frameworks */ = {
+		40800854287D76250090C72A /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				40A59B962844C37D00B712AE /* Util.framework in Embed Frameworks */,
-				40A59B932844C37B00B712AE /* App.framework in Embed Frameworks */,
+				40800856287D76260090C72A /* Util.framework in Embed Frameworks */,
+				40800853287D76250090C72A /* App.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -55,8 +55,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				40A59B952844C37D00B712AE /* Util.framework in Frameworks */,
-				40A59B922844C37B00B712AE /* App.framework in Frameworks */,
+				40800855287D76260090C72A /* Util.framework in Frameworks */,
+				40800852287D76250090C72A /* App.framework in Frameworks */,
 				61EF0698A9E3826DD00D7B6E /* Pods_SheQuanMC.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -135,7 +135,7 @@
 				40A9A1BE28129906006B1CBF /* Frameworks */,
 				40A9A1BF28129906006B1CBF /* Resources */,
 				A821B18E8606FAECF257F8DB /* [CP] Embed Pods Frameworks */,
-				40A59B942844C37B00B712AE /* Embed Frameworks */,
+				40800854287D76250090C72A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -389,7 +389,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.9;
+				CURRENT_PROJECT_VERSION = 2.2;
 				DEVELOPMENT_TEAM = Y5Y35S9VHX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SheQuanMC/Info.plist;
@@ -426,7 +426,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.9;
+				CURRENT_PROJECT_VERSION = 2.2;
 				DEVELOPMENT_TEAM = Y5Y35S9VHX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SheQuanMC/Info.plist;

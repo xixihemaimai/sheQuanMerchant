@@ -52,16 +52,13 @@ class AddSpecificationsView: UIView {
     
     lazy var addNewSpecificationBtn:UIButton = {
        let addNewSpecificationBtn = UIButton()
-        addNewSpecificationBtn.setTitle("添加新的规格", for: .normal)
+        addNewSpecificationBtn.setTitle("新建自定义规格", for: .normal)
         addNewSpecificationBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         addNewSpecificationBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#ffffff"), for: .normal)
         addNewSpecificationBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(15), weight: .regular)
         return addNewSpecificationBtn
     }()
     
-    
-    
-
     
     //规格一
 //    lazy var speciFirstTextfield:UITextField = {
@@ -556,23 +553,23 @@ extension AddSpecificationsView:UITableViewDelegate,UITableViewDataSource{
         tableView.deselectRow(at: indexPath, animated: true)
 //        let specGroups = specificationsList[indexPath.row]
 //        sendSureSpecificationList!(specGroups)
-        currentVC?.popup.alert {
-            [.title("是否选择该规格"),
-             .cancelAction([
-                .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
-                .text("取消"),
-                .tapActionCallback({
-                })
-              ]),
-             .confirmAction([
-                .text("确定"),
-                .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
-                .tapActionCallback({
+//        currentVC?.popup.alert {
+//            [.title("是否选择该规格"),
+//             .cancelAction([
+//                .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
+//                .text("取消"),
+//                .tapActionCallback({
+//                })
+//              ]),
+//             .confirmAction([
+//                .text("确定"),
+//                .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+//                .tapActionCallback({
                     let specGroups = self.specificationsList[indexPath.row]
                     self.sendSureSpecificationList!(specGroups)
-                })
-              ])
-            ]
-        }
+//                })
+//              ])
+//            ]
+//        }
     }
 }

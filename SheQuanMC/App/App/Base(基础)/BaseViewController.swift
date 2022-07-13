@@ -132,5 +132,8 @@ extension BaseViewController:DZNEmptyDataSetSource,DZNEmptyDataSetDelegate{
         return true
     }
     
+    open func backgroundColor(forEmptyDataSet scrollView: UIScrollView!) -> UIColor! {
+        return UIColor.colorWithDyColorChangObject(lightColor: "#f8f8f8")
+    }
     
 }

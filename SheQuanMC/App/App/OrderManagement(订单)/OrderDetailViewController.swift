@@ -430,8 +430,8 @@ class OrderDetailViewController: BaseViewController {
 //        modifyAddressVc.retAddressInfoModel?.zipCode = orderInfoModel?.recAddress?.zipCode
 //        modifyAddressVc.retAddressInfoModel?.streetId = orderInfoModel?.recAddress?.streetId
 //        modifyAddressVc.retAddressInfoModel?.streetName = orderInfoModel?.recAddress?.streetName
-        modifyAddressVc.title = "编辑地址"
-        modifyAddressVc.submitBtn.setTitle("确认修改", for: .normal)
+        modifyAddressVc.title = "修改地址"
+        modifyAddressVc.submitBtn.setTitle("提交", for: .normal)
         Coordinator.shared?.pushViewController(self, modifyAddressVc, animated: true)
         modifyAddressVc.choiceRetAddressSuccessBlock = {[weak self] retAddressInfoModel in
             

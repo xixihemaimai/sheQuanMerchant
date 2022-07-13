@@ -119,9 +119,8 @@ class FreightTemplateViewController: BaseViewController {
                         .text("取消"),
                         .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999")),
                         .tapActionCallback({
-                            Coordinator.shared?.popViewController(self, true)
+//                            Coordinator.shared?.popViewController(self, true)
                         })
-                        
                     ]),
                     .confirmAction([
                         .text("确定"),

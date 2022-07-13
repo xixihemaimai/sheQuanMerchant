@@ -160,6 +160,7 @@ class ChangeBindPhoneViewController: BaseViewController {
             make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(10))
             make.height.equalTo(scale(44))
         }
+        nextBtn.layer.cornerRadius = scale(4)
         
     }
     

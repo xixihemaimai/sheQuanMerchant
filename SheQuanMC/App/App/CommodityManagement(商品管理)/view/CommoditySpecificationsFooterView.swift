@@ -26,7 +26,7 @@ class CommoditySpecificationsFooterView: UITableViewHeaderFooterView {
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         
-        contentView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#F8F8F8")
+        contentView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#F4F4F4")
         
         contentView.addSubview(addSepcificationsBtn)
         addSepcificationsBtn.snp.makeConstraints { make in

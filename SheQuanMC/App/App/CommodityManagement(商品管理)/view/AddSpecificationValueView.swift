@@ -16,9 +16,9 @@ class AddSpecificationValueView: UIView {
     lazy var textfield:UITextField = {
        let textfield = UITextField()
         textfield.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
-        textfield.placeholder = "  请输入规格名称"
+        textfield.placeholder = "请输入规格名称"
         textfield.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
-        textfield.attributedPlaceholder = NSAttributedString.init(string:"  请输入规格名称", attributes: [
+        textfield.attributedPlaceholder = NSAttributedString.init(string:"请输入规格名称", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#B3B3B3")])
         return textfield
     }()
@@ -53,15 +53,20 @@ class AddSpecificationValueView: UIView {
         
         addSubview(textfield)
         textfield.snp.makeConstraints { make in
-            make.left.equalTo(scale(32))
-            make.right.equalTo(-scale(32))
+            make.left.equalTo(scale(16))
+            make.right.equalTo(-scale(16))
             make.height.equalTo(scale(42))
             make.top.equalTo(customSpecificationLabel.snp.bottom)
         }
+        
+//        moneyTextfield.leftView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, LEFTRIGHTSPACE_20, 0)];
+//        moneyTextfield.leftViewMode = UITextFieldViewModeAlways;
+        
+        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: scale(20), height: 0))
+        textfield.leftView = leftView
+        textfield.leftViewMode = .always
         textfield.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#F4F4F4")
         textfield.layer.cornerRadius = scale(4)
-        
-        
         layer.cornerRadius = scale(4)
         
         let midView = UIView()

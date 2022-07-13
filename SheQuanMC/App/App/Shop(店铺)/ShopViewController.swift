@@ -336,7 +336,7 @@ class ShopViewController: BaseViewController {
         refundBtn.addTarget(self, action: #selector(refundAction), for: .touchUpInside)
    
         let todayAchievementView = UIView()
-        todayAchievementView.backgroundColor = UIColor.clear
+        todayAchievementView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
         headerView.addSubview(todayAchievementView)
         todayAchievementView.snp.makeConstraints { make in
             make.left.equalTo(scale(16))

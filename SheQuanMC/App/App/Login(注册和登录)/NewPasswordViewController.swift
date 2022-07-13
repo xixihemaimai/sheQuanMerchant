@@ -29,6 +29,7 @@ class NewPasswordViewController: BaseViewController {
         newPasswordTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         newPasswordTextField.clearButtonMode = .whileEditing
         newPasswordTextField.placeholder = "请输入新密码"
+        newPasswordTextField.isSecureTextEntry = !newPasswordTextField.isSecureTextEntry
         newPasswordTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入新密码", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
         newPasswordTextField.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
@@ -60,6 +61,7 @@ class NewPasswordViewController: BaseViewController {
         againPasswordTextField.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         againPasswordTextField.clearButtonMode = .whileEditing
         againPasswordTextField.placeholder = "二次输入确认密码"
+        againPasswordTextField.isSecureTextEntry = !againPasswordTextField.isSecureTextEntry
         againPasswordTextField.attributedPlaceholder = NSAttributedString.init(string:"二次输入确认密码", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#BFBFBF")])
 //        againPasswordTextField.isSecureTextEntry = true

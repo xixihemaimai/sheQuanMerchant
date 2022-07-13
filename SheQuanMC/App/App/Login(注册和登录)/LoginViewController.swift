@@ -34,12 +34,21 @@ class LoginViewController: BaseViewController {
     //账号
     lazy var accountLabel:UILabel = {
        let accountLabel = UILabel()
-        accountLabel.text = "+86v"
+        accountLabel.text = "账号"
         accountLabel.textAlignment = .left
         accountLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .semibold)
         accountLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        accountLabel.isHidden = true
         return accountLabel
     }()
+    
+    
+    lazy var accountImage:UIImageView = {
+       let accountImage = UIImageView()
+        accountImage.image = UIImage(named: "86")
+        return accountImage
+    }()
+    
     
     //输入框
     lazy var accountTextField:UITextField = {
@@ -179,6 +188,15 @@ class LoginViewController: BaseViewController {
         view.addSubview(accountLabel)
         view.addSubview(accountTextField)
         view.addSubview(accountDiviver)
+        view.addSubview(accountImage)
+        
+        accountImage.snp.makeConstraints { make in
+            make.left.equalTo(scale(30))
+            make.top.equalTo(shopLabel.snp.bottom).offset(scale(57))
+            make.width.equalTo(scale(scale(34)))
+            make.height.equalTo(scale(scale(11)))
+        }
+        
         
         accountLabel.snp.makeConstraints { make in
             make.left.equalTo(scale(30))
@@ -308,7 +326,11 @@ class LoginViewController: BaseViewController {
             passwordTextField.keyboardType = .numberPad
             btn.setTitle("密码登录", for: .normal)
             forgetPasswordLoginBtn.isHidden = true
-            accountLabel.text = "+86v"
+//            accountLabel.text = "+86v"
+            
+            accountLabel.isHidden = true
+            accountImage.isHidden = false
+            
             accountTextField.placeholder = "请输入手机号"
             passwordLabel.isHidden = true
             accountTextField.text = ""
@@ -353,7 +375,12 @@ class LoginViewController: BaseViewController {
             passwordTextField.placeholder = "请输入密码"
             passwordLabel.isHidden = false
             accountTextField.placeholder = "请输入账号(手机号)"
-            accountLabel.text = "账号"
+            
+//            accountLabel.text = "账号"
+            accountLabel.isHidden = false
+            accountImage.isHidden = true
+            
+            
             forgetPasswordLoginBtn.isHidden = false
             btn.setTitle("验证码登录", for: .normal)
             loginBtn.isEnabled = false

@@ -111,7 +111,7 @@ class ModifyAddressViewController: BaseViewController {
     
     lazy var submitBtn:UIButton = {
         let submitBtn = UIButton()
-        submitBtn.setTitle("提交", for: .normal)
+        submitBtn.setTitle("保存", for: .normal)
         submitBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#ffffff"), for: .normal)
         submitBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         submitBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E1E1E1")
@@ -409,6 +409,18 @@ class ModifyAddressViewController: BaseViewController {
             }
             isDefaultSwitch.isOn = retAddressInfoModel?.isDef == true ? true : false
             
+            if title == "修改地址"{
+                //isdelutLabel isDefaultSwitch
+                isdelutLabel.isHidden = true
+                isDefaultSwitch.isHidden = true
+                bottomView.snp.makeConstraints { make in
+                    make.left.right.equalToSuperview()
+                    make.top.equalTo(midView.snp.bottom)
+                    make.bottom.equalTo(iPhoneX ? -scale(92) : -scale(58))
+                }
+            }
+            
+            
             if nameTextView.text.count > 0 && phoneNmberTextView.text.count > 0 && detailAddressTextView.text.count > 0{
                 submitBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#313336")
                 submitBtn.isEnabled = true
@@ -477,7 +489,7 @@ class ModifyAddressViewController: BaseViewController {
             return
         }
         
-        if submitBtn.currentTitle == "确认修改"{
+        if submitBtn.currentTitle == "提交"{
             //这边是返回上一个订单详情收货地址修改
             choiceRetAddressSuccessBlock?(retAddressInfoModel!)
             Coordinator.shared?.popViewController(self, true)
@@ -497,9 +509,9 @@ class ModifyAddressViewController: BaseViewController {
     
     //所在地区
     @objc func locationAction(choiceAddresssBtn:UIButton){
-          LXFLog("---------------------")
-        LXFLog("===================\(retAddressInfoModel?.provinceName)")
-        LXFLog("===================\(retAddressInfoModel?.provinceId)")
+//          LXFLog("---------------------")
+//        LXFLog("===================\(retAddressInfoModel?.provinceName)")
+//        LXFLog("===================\(retAddressInfoModel?.provinceId)")
           //var str = "福建省(龙岩市、厦门市、漳州市)"
           //str = str.replacingOccurrences(of: "(", with: "", options: .literal, range: nil)
           //str = str.replacingOccurrences(of: "、", with: "", options: .literal, range: nil)

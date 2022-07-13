@@ -65,7 +65,19 @@ class WKWebViewViewController: BaseViewController {
             }
         }
     }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if title == "用户协议" || title == "隐私政策"{
+            if (!UserDefaults.standard.bool(forKey: "isFristLaunchScreen")){
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "showUserPrivacy"), object: nil)
+            }
+        }
+    }
+    
 }
+
 
 
 extension WKWebViewViewController:WKNavigationDelegate{
@@ -74,3 +86,4 @@ extension WKWebViewViewController:WKNavigationDelegate{
         progressView.isHidden = true
     }
 }
+

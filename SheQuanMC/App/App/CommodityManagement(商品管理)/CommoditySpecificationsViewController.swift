@@ -102,6 +102,7 @@ class CommoditySpecificationsViewController: BaseViewController {
         
         newTableView.register(CommodityPriceAndStockCell.self, forCellReuseIdentifier: "CommodityPriceAndStockCell")
         
+        newTableView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#F4F4F4")
         
         newTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: scale(92), right: 0)
         
@@ -986,6 +987,13 @@ extension CommoditySpecificationsViewController:UITableViewDelegate,UITableViewD
             }
             
             cell.specificationLabel.text = value
+            cell.specificationLabel.snp.makeConstraints { make in
+                make.left.equalTo(scale(16))
+                make.top.equalTo(scale(14))
+                make.height.equalTo(scale(20))
+                make.width.equalTo(scale(230))
+            }
+            
             if isSet{
                 cell.diviver.isHidden = false
                 cell.midView.isHidden = false
@@ -1060,11 +1068,9 @@ extension CommoditySpecificationsViewController:UITableViewDelegate,UITableViewD
             var skus = unIonSetList[indexPath.row]
             self.popup.bottomSheet {
 //                let settingPriceAndStockView = SettingPriceAndStockView(frame: CGRect(x: 0, y: 0, width: SCW, height: SCH - Height_NavBar),Skus)
-                let settingPriceAndStockView = SettingPriceAndStockView(frame: CGRect(x: 0, y: 0, width: SCW, height: SCH - Height_NavBar), skus: skus)
-                settingPriceAndStockView.viewController = self
+                let settingPriceAndStockView = SettingPriceAndStockView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(500)), skus: skus)
                 settingPriceAndStockView.cancelBlock = {[weak self] in
                     self?.popup.dismissPopup()
-//                    self?.newTableView.reloadData()
                 }
                 //这里要传回添加完成之后的值
                 settingPriceAndStockView.settingBlock = {[weak self] list in

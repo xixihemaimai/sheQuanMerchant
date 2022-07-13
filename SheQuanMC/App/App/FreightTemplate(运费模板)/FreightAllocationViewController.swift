@@ -14,6 +14,7 @@ class FreightAllocationViewController: BaseViewController {
     var freightConf:freightConfModel?
     //回掉
     var inputBlock:((_ freightConf:freightConfModel)->Void)?
+    
     //件数
     lazy var numberTextField:UITextField = {
         let numberTextField = UITextField()
@@ -168,14 +169,12 @@ class FreightAllocationViewController: BaseViewController {
         }
         
         let int32Value = Int32(truncating: freightConf?.firstPiece as? NSNumber ?? 0)
-        if int32Value < 0{
+        if int32Value <= 0{
             numberTextField.text = ""
         }else{
             numberTextField.text = String(format: "%d", int32Value)
         }
-        
-        
-//        numberTextField.text = freightConf?.firstPiece
+        //numberTextField.text = freightConf?.firstPiece
         
         contentView.addSubview(numberTextField)
         numberTextField.snp.makeConstraints { make in
@@ -292,7 +291,7 @@ class FreightAllocationViewController: BaseViewController {
         }
         
         let renewal = Int32(truncating: freightConf?.renewal as? NSNumber ?? 0)
-        if renewal < 0{
+        if renewal <= 0{
             addNumberTextField.text = ""
         }else{
             addNumberTextField.text = String(format: "%d", renewal)
@@ -411,7 +410,7 @@ class FreightAllocationViewController: BaseViewController {
             make.width.equalTo(scale(90))
         }
         let parcelConditions = Int32(truncating: freightConf?.parcelConditions as? NSNumber ?? 0)
-        if parcelConditions < 0{
+        if parcelConditions <= 0{
             packageTextField.text = ""
         }else{
             packageTextField.text = String(format: "%d", parcelConditions)
@@ -484,30 +483,33 @@ class FreightAllocationViewController: BaseViewController {
     //保存
     @objc func saveAction(saveBtn:UIButton){
         
-        if (numberTextField.text?.count ?? 0) < 1{
+        if (numberTextField.text?.count ?? 0) < 1 || (Int32(numberTextField.text ?? "0") ?? 0) < 1{
             JFPopup.toast(hit: "请添加件数")
             return
         }
         
-        if (freeNumberTextField.text?.count ?? 0) < 1{
+        if (freeNumberTextField.text?.count ?? 0) < 1 || (Decimal(string: freeNumberTextField.text ?? "0") ?? 0) < 0.000001{
             JFPopup.toast(hit: "请添加运费")
             return
         }
         
-        if (addNumberTextField.text?.count ?? 0) < 1{
-            JFPopup.toast(hit: "请添加增加件数")
-            return
-        }
         
-        if (addFreeNumberTextField.text?.count ?? 0) < 1{
-            JFPopup.toast(hit: "请添加增加件数运费")
-            return
-        }
+//        if (addNumberTextField.text?.count ?? 0) < 1 || (Int32(addNumberTextField.text ?? "0") ?? 0) < 1{
+//            JFPopup.toast(hit: "请添加增加件数")
+//            return
+//        }
+//
+//        if (addFreeNumberTextField.text?.count ?? 0) < 1 || (Decimal(string: addFreeNumberTextField.text ?? "0") ?? 0) < 0.000001{
+//            JFPopup.toast(hit: "请添加增加件数运费")
+//            return
+//        }
+//
+//
+//        if (packageTextField.text?.count ?? 0) < 1{
+//            JFPopup.toast(hit: "请添加包邮的条件")
+//            return
+//        }
         
-        if (packageTextField.text?.count ?? 0) < 1{
-            JFPopup.toast(hit: "请添加包邮的条件")
-            return
-        }
         
         //这边确定之后要返回上一个页面把这个模型回调上一个页面
         inputBlock!(freightConf!)

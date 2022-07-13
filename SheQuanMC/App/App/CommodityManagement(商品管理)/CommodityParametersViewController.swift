@@ -164,11 +164,12 @@ class CommodityParametersViewController: BaseViewController {
         super.viewDidLoad()
 
         title = "商品参数"
-        
         view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#f8f8f8")
+        tableview.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#f8f8f8")
         view.addSubview(tableview)
         tableview.snp.makeConstraints { make in
-            make.left.top.right.equalToSuperview()
+            make.left.right.equalToSuperview()
+            make.top.equalTo(scale(1))
             make.bottom.equalTo(iPhoneX ? -scale(92) : -scale(58))
         }
         tableview.delegate = self
@@ -580,7 +581,7 @@ class CommodityParametersViewController: BaseViewController {
     //确认的按键
     @objc func sureAction(sureBtn:UIButton){
         LXFLog("确认")
-//        LXFLog("================\(paraList)")
+        LXFLog("================\(paraList)")
         self.setEditing(true, animated: false)
         //这边要判读是否填写完整
         var isInputComplete:Bool = true
@@ -915,8 +916,8 @@ extension CommodityParametersViewController:UITableViewDelegate,UITableViewDataS
 
 extension CommodityParametersViewController:UITextFieldDelegate{
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField.tag > 1{
-            var spus = paraList[textField.tag]
+        var spus = paraList[textField.tag]
+        if (spus.spuAttrName != "品牌") || (spus.spuAttrName != "正品证书"){
             spus.spuValue = (textField.text ?? "")
             paraList[textField.tag] = spus
         }

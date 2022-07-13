@@ -65,6 +65,7 @@
 		407D9806281A8352005A8CBC /* ReplenishInventoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407D9805281A8352005A8CBC /* ReplenishInventoryViewController.swift */; };
 		407D9808281A8457005A8CBC /* ReplenishInventoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407D9807281A8457005A8CBC /* ReplenishInventoryCell.swift */; };
 		40800844287C00F40090C72A /* YBDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40800843287C00F40090C72A /* YBDatePicker.swift */; };
+		4080084F287D741D0090C72A /* Util.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A2112814D952006B1CBF /* Util.framework */; };
 		4080A4C7282C98B700D32002 /* FreightTemplateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4080A4C6282C98B700D32002 /* FreightTemplateViewController.swift */; };
 		4080A4CA282C995E00D32002 /* FreightTemplateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4080A4C9282C995E00D32002 /* FreightTemplateCell.swift */; };
 		4080A4CC282CA24500D32002 /* TemplateContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4080A4CB282CA24500D32002 /* TemplateContentViewController.swift */; };
@@ -120,8 +121,6 @@
 		409C29942814FC5D00005ECB /* UITextView+Placeholder.h in Headers */ = {isa = PBXBuildFile; fileRef = 409C29922814FC5D00005ECB /* UITextView+Placeholder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		40A267AB2856DDC00092321F /* AppSpecificationsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A267AA2856DDC00092321F /* AppSpecificationsCell.swift */; };
 		40A267AD2856E6070092321F /* AddSpecificationValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A267AC2856E6070092321F /* AddSpecificationValueView.swift */; };
-		40A9A2122814D952006B1CBF /* Util.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A2112814D952006B1CBF /* Util.framework */; };
-		40A9A2132814D952006B1CBF /* Util.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A2112814D952006B1CBF /* Util.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		40AFEBC8281A97F50062D271 /* CommoditySearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AFEBC7281A97F50062D271 /* CommoditySearchViewController.swift */; };
 		40AFEBCA281B6B1A0062D271 /* ReleaseGoodsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AFEBC9281B6B1A0062D271 /* ReleaseGoodsViewController.swift */; };
 		40C377852851EB3F00DA9E70 /* SIXEditorInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C377792851EB3F00DA9E70 /* SIXEditorInputView.m */; };
@@ -143,20 +142,6 @@
 		40FA4A09286AFDC4003237C0 /* ModifyShopNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FA4A08286AFDC4003237C0 /* ModifyShopNameViewController.swift */; };
 		7AD231528B3BBEAAE2E924AB /* Pods_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0920399F93ACA07BE969F0D4 /* Pods_App.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		40A9A2142814D952006B1CBF /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				40A9A2132814D952006B1CBF /* Util.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0920399F93ACA07BE969F0D4 /* Pods_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -303,7 +288,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				40A9A2122814D952006B1CBF /* Util.framework in Frameworks */,
+				4080084F287D741D0090C72A /* Util.framework in Frameworks */,
 				7AD231528B3BBEAAE2E924AB /* Pods_App.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -702,7 +687,6 @@
 				40A9A1DE2812996D006B1CBF /* Sources */,
 				40A9A1DF2812996D006B1CBF /* Frameworks */,
 				40A9A1E02812996D006B1CBF /* Resources */,
-				40A9A2142814D952006B1CBF /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1039,7 +1023,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 161AC30C042211580EA93F50 /* Pods-App.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
@@ -1076,7 +1059,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 32E8C670BAE2CFD60D0B1CC1 /* Pods-App.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";

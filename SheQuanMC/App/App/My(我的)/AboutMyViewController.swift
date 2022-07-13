@@ -56,7 +56,7 @@ class AboutMyViewController: BaseViewController {
         let headerLabel = UILabel()
         let infoDic = Bundle.main.infoDictionary
         let appVersion = (infoDic?["CFBundleShortVersionStrin"] ?? "1.0.0") as! String
-        headerLabel.text = "奢圈商户版" +  "V" + appVersion
+        headerLabel.text = "奢圈商户版" + "V" + appVersion
         headerLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         headerLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .medium)
         headerLabel.textAlignment = .center
@@ -91,4 +91,19 @@ extension AboutMyViewController:UITableViewDelegate,UITableViewDataSource{
         cell.helpTitleLabel.text = helpList[indexPath.row]
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableview.deselectRow(at: indexPath, animated: true)
+        if indexPath.row == 0{
+         
+            
+        }else if indexPath.row == 1 || indexPath.row == 2{
+            let wkWebVc = WKWebViewViewController()
+            wkWebVc.title = helpList[indexPath.row]
+            Coordinator.shared?.pushViewController(self, wkWebVc, animated: true)
+        }
+        
+    }
+    
+    
 }

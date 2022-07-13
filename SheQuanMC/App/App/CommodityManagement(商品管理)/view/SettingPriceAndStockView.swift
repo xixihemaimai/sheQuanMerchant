@@ -70,17 +70,19 @@ class SettingPriceAndStockView: UIView {
     }()
     
     
-    var viewController:UIViewController?
+//    var viewController:UIViewController?
     
     
     init(frame: CGRect,skus:Skus) {
         super.init(frame: frame)
         self.skus = skus
+//        self.viewController = viewController
         
         backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
      
         let specificationLabel = UILabel()
-        specificationLabel.text = "添加规格"
+        specificationLabel.text = "设置价格与库存"
+        specificationLabel.textAlignment = .center
         specificationLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         specificationLabel.font = UIFont.systemFont(ofSize: scale(17), weight: .regular)
         addSubview(specificationLabel)
@@ -88,7 +90,7 @@ class SettingPriceAndStockView: UIView {
         specificationLabel.snp.makeConstraints { make in
             make.top.equalTo(scale(15))
             make.centerX.equalToSuperview()
-            make.width.equalTo(scale(80))
+            make.width.equalTo(scale(150))
             make.height.equalTo(scale(24))
         }
         
@@ -323,68 +325,70 @@ class SettingPriceAndStockView: UIView {
         self.endEditing(true)
         manager.type = .photo
         manager.clearSelectedList()
-        self.popup.actionSheet {
+        
+        JFPopupView.popup.actionSheet {
             [
-                JFPopupAction(with: "从手机相册选择", subTitle: nil, clickActionCallBack: { [weak self] in
-                    self?.currentVC?.hx_presentSelectPhotoController(with: self?.manager, didDone: { allList, photoList, videoList, isOriginal, viewController, manager in
-                        LXFLog(photoList?.count)
-                        if let photoModel:HXPhotoModel = photoList?.first{
-                            //对图片进
-                            //网络请求的部分
-                            let Parameters = ["fileType":20]
-//                            let Parameters = [String:Any]()
-                            JFPopupView.popup.loading(hit: "上传图片中....")
-                            guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
-                            NetWorkResultRequest(StoreAppleApi.uploadFile(parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
-                                do{
-                                    LXFLog(data)
-                                    let json = try JSON(data: data)
-                                    //去掉\
-                                  let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
-                                    LXFLog(str)
-//                                    choicePitrueBtn.kf.setBackgroundImage(with: URL(string: str), for: .normal, placeholder: UIImage(named: "Group 2650"), options: nil, progressBlock: nil, completionHandler: nil)
-                                    choicePitrueBtn.sd_setBackgroundImage(with: URL(string: str), for: .normal, placeholderImage: UIImage(named: "Group 2650"))
-                                    choicePitrueBtn.setTitle("", for: .normal)
-                                    self?.preview = str
-                                    
-                                }catch{}
-                                JFPopupView.popup.hideLoading()
-                            } failureCallback: { error,code in
-                                JFPopupView.popup.hideLoading()
-                            }
-                        }
-                    })
-                }),
-                JFPopupAction(with: "拍照", subTitle: nil, clickActionCallBack: {[weak self] in
-                    self?.currentVC?.hx_presentCustomCameraViewController(with: self?.manager) { photoList, viewController in
-                        LXFLog(photoList)
-                        if let photoModel:HXPhotoModel = photoList{
-                            //网络请求的部分
-                            let Parameters = ["fileType":20]
-                            JFPopupView.popup.loading(hit: "上传图片中....")
-                            guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
-                            NetWorkResultRequest(StoreAppleApi.uploadFile(parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
-                                do{
-                                    
-                                    LXFLog(data)
-                                    let json = try JSON(data: data)
-                                    let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
-                                      LXFLog(str)
-//                                    choicePitrueBtn.kf.setBackgroundImage(with: URL(string: str), for: .normal, placeholder: UIImage(named: "Group 2650"), options: nil, progressBlock: nil, completionHandler: nil)
-                                    choicePitrueBtn.sd_setBackgroundImage(with: URL(string: str), for: .normal, placeholderImage: UIImage(named: "Group 2650"))
-                                    choicePitrueBtn.setTitle("", for: .normal)
-                                    self?.preview = str
-                                }catch{}
-                                JFPopupView.popup.hideLoading()
-                            } failureCallback: { error,code in
-                                JFPopupView.popup.hideLoading()
-                            }
-                        }
-                    } cancel: { viewController in
-                    }
-                })
-            ]
+                            JFPopupAction(with: "从手机相册选择", subTitle: nil, clickActionCallBack: { [weak self] in
+                                self?.currentVC?.hx_presentSelectPhotoController(with: self?.manager, didDone: { allList, photoList, videoList, isOriginal, viewController, manager in
+                                    LXFLog(photoList?.count)
+                                    if let photoModel:HXPhotoModel = photoList?.first{
+                                        //对图片进
+                                        //网络请求的部分
+                                        let Parameters = ["fileType":20]
+                                        JFPopupView.popup.loading(hit: "上传图片中....")
+                                        guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
+                                        NetWorkResultRequest(StoreAppleApi.uploadFile(parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
+                                            do{
+                                                let json = try JSON(data: data)
+                                                //去掉\
+                                              let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+                                                LXFLog(str)
+                                                choicePitrueBtn.sd_setBackgroundImage(with: URL(string: str), for: .normal, placeholderImage: UIImage(named: "Group 2650"))
+                                                choicePitrueBtn.setTitle("", for: .normal)
+                                                self?.preview = str
+                                            }catch{}
+                                            JFPopupView.popup.hideLoading()
+                                        } failureCallback: { error,code in
+                                            JFPopupView.popup.hideLoading()
+                                        }
+                                    }
+                                })
+                            }),
+                            JFPopupAction(with: "拍照", subTitle: nil, clickActionCallBack: {[weak self] in
+                                self?.currentVC?.hx_presentCustomCameraViewController(with: self?.manager) { photoList, viewController in
+                                    LXFLog(photoList)
+                                    if let photoModel:HXPhotoModel = photoList{
+                                        //网络请求的部分
+                                        let Parameters = ["fileType":20]
+                                        JFPopupView.popup.loading(hit: "上传图片中....")
+                                        guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
+                                        NetWorkResultRequest(StoreAppleApi.uploadFile(parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
+                                            do{
+                                                let json = try JSON(data: data)
+                                                let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+                                                  LXFLog(str)
+                                                choicePitrueBtn.sd_setBackgroundImage(with: URL(string: str), for: .normal, placeholderImage: UIImage(named: "Group 2650"))
+                                                choicePitrueBtn.setTitle("", for: .normal)
+                                                self?.preview = str
+                                            }catch{}
+                                            JFPopupView.popup.hideLoading()
+                                        } failureCallback: { error,code in
+                                            JFPopupView.popup.hideLoading()
+                                        }
+                                    }
+                                } cancel: { viewController in
+                                }
+                            })
+                        ]
         }
+
+        
+        
+        
+//
+//        self.popup.actionSheet {
+//
+//        }
     }
     
     

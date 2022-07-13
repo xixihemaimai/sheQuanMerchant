@@ -484,15 +484,19 @@ class TemplateContentViewController: BaseViewController {
             //noSettingLabeL 暂未设置
             if (freightListModel?.noDeliveryRegionIds?.count ?? 0 ) < 1{
                 noSettingLabeL.text = "暂未设置"
+                noSettingLabeL.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#C2C2C2")
             }else{
                 noSettingLabeL.text = "已设置"
+                noSettingLabeL.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
             }
             
             //freightConfigureLabel 未配置
             if freightListModel?.freightConf?.firstPiece == 0 && freightListModel?.freightConf?.freight == 0 && freightListModel?.freightConf?.parcelConditions == 0 && freightListModel?.freightConf?.renewal == 0 && freightListModel?.freightConf?.renewalFreight == 0{
                 freightConfigureLabel.text = "未配置"
+                freightConfigureLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#C2C2C2")
             }else{
                 freightConfigureLabel.text = "已配置"
+                freightConfigureLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
             }
             
             if (templateNameTextFiled.text?.count ?? 0) < 1{
@@ -578,12 +582,14 @@ class TemplateContentViewController: BaseViewController {
         noDeliveryVc.freightListModel = freightListModel
         Coordinator.shared?.pushViewController(self, noDeliveryVc, animated: true)
         //这边是一个数组
-        noDeliveryVc.noDeliveryCompleteBlock = { freightListModel in
-            self.freightListModel = freightListModel
-            if (self.freightListModel?.noDeliveryRegionIds?.count ?? 0) > 0{
-                self.noSettingLabeL.text = "已设置"
+        noDeliveryVc.noDeliveryCompleteBlock = {[weak self] freightListModel in
+            self?.freightListModel = freightListModel
+            if (self?.freightListModel?.noDeliveryRegionIds?.count ?? 0) > 0{
+                self?.noSettingLabeL.text = "已设置"
+                self?.noSettingLabeL.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
             }else{
-                self.noSettingLabeL.text = "暂未设置"
+                self?.noSettingLabeL.text = "暂未设置"
+                self?.noSettingLabeL.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#C2C2C2")
             }
         }
     }
@@ -593,10 +599,11 @@ class TemplateContentViewController: BaseViewController {
         let freightAllocationVc = FreightAllocationViewController()
         freightAllocationVc.freightConf = freightListModel?.freightConf
         Coordinator.shared?.pushViewController(self, freightAllocationVc, animated: true)
-        freightAllocationVc.inputBlock = { freightConf in
-            self.freightListModel?.freightConf = freightConf
+        freightAllocationVc.inputBlock = {[weak self] freightConf in
+            self?.freightListModel?.freightConf = freightConf
             //是否配置
-            self.freightConfigureLabel.text = "已配置"
+            self?.freightConfigureLabel.text = "已配置"
+            self?.freightConfigureLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         }
     }
     

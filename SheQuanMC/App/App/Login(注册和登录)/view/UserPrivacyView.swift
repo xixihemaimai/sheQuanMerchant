@@ -163,18 +163,11 @@ extension UserPrivacyView:UITextViewDelegate{
        
         if URL.scheme == "privacy"{
             //跳转隐私政策
-            LXFLog("===========================1")
-            
             jumpType!(0)
-            
-            
-            
         }else if URL.scheme == "delegate"{
             //跳转用户协议
-            LXFLog("----------------------------2")
             jumpType!(1)
         }
-        
         return true
     }
 }

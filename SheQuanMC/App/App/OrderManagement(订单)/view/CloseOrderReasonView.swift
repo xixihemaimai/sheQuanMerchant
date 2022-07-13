@@ -99,19 +99,18 @@ class CloseOrderReasonView: UIView {
         
         sureBtn.layer.cornerRadius = scale(4)
         
-       
         loadReasonList()
     }
     
     
     func loadReasonList(){
-        NetWorkResultRequest(OrderApi.getCloseReasonList, needShowFailAlert: true) { result, data in
+        NetWorkResultRequest(OrderApi.getCloseReasonList, needShowFailAlert: true) {[weak self] result, data in
             guard let model = try? JSONDecoder().decode(GenericResponse<[CloseOrderTypeRspModel]>.self, from: data) else { return }
-            self.reasonList.removeAll()
+            self?.reasonList.removeAll()
             if let _data = model.data{
-                self.reasonList = _data
+                self?.reasonList = _data
             }
-            self.newTableview.reloadData()
+            self?.newTableview.reloadData()
         } failureCallback: { error, code in
             code.loginOut()
         }

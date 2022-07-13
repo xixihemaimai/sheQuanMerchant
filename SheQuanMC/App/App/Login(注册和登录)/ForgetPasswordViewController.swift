@@ -14,14 +14,22 @@ class ForgetPasswordViewController: BaseViewController {
 
     
     //账号
-    lazy var phoneLabel:UILabel = {
-       let phoneLabel = UILabel()
-        phoneLabel.text = "+86v"
-        phoneLabel.textAlignment = .left
-        phoneLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .semibold)
-        phoneLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
-        return phoneLabel
+//    lazy var phoneLabel:UILabel = {
+//       let phoneLabel = UILabel()
+//        phoneLabel.text = "+86v"
+//        phoneLabel.textAlignment = .left
+//        phoneLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .semibold)
+//        phoneLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+//        return phoneLabel
+//    }()
+    
+    
+    lazy var accountImage:UIImageView = {
+       let accountImage = UIImageView()
+        accountImage.image = UIImage(named: "86")
+        return accountImage
     }()
+    
     
     //输入框
     lazy var phoneTextField:UITextField = {
@@ -98,19 +106,27 @@ class ForgetPasswordViewController: BaseViewController {
         self.title = "忘记密码"
  
         //电话号码
-        view.addSubview(phoneLabel)
+//        view.addSubview(phoneLabel)
+        view.addSubview(accountImage)
         view.addSubview(phoneTextField)
         view.addSubview(phoneDiviver)
         
-        phoneLabel.snp.makeConstraints { make in
+        accountImage.snp.makeConstraints { make in
             make.left.equalTo(scale(30))
-            make.top.equalTo(scale(60))
-            make.width.equalTo(scale(scale(40)))
-            make.height.equalTo(scale(scale(20)))
+            make.top.equalTo(scale(65))
+            make.width.equalTo(scale(scale(34)))
+            make.height.equalTo(scale(scale(11)))
         }
         
+//        phoneLabel.snp.makeConstraints { make in
+//            make.left.equalTo(scale(30))
+//            make.top.equalTo(scale(60))
+//            make.width.equalTo(scale(scale(40)))
+//            make.height.equalTo(scale(scale(20)))
+//        }
+        
         phoneTextField.snp.makeConstraints { make in
-            make.left.equalTo(phoneLabel.snp.right).offset(scale(10))
+            make.left.equalTo(accountImage.snp.right).offset(scale(10))
             make.right.equalTo(-scale(30))
             make.top.equalTo(scale(60))
             make.height.equalTo(scale(20))
@@ -120,7 +136,7 @@ class ForgetPasswordViewController: BaseViewController {
             make.left.equalTo(scale(30))
             make.right.equalTo(-scale(30))
             make.height.equalTo(scale(0.5))
-            make.top.equalTo(phoneLabel.snp.bottom).offset(scale(10))
+            make.top.equalTo(accountImage.snp.bottom).offset(scale(10))
         }
         
         //验证码
