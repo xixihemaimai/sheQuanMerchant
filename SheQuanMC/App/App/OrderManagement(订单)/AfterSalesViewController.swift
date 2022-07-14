@@ -38,6 +38,10 @@ class AfterSalesViewController: BaseViewController {
     
     var selectIndex = 0
     
+    
+    //用来保存订单首页的控制权
+    var orderViewVc:OrderViewController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -82,7 +86,7 @@ class AfterSalesViewController: BaseViewController {
     
     //创建头部的标题按键
     func addTitleArrayBtn(){
-        let titleArray = ["全部","待处理(0)","待收货(0)","平台介入中(0)","退款成功","退款关闭"]
+        let titleArray = ["全部(0)","待处理(0)","待收货(0)","平台介入中(0)","退款成功(0)","退款关闭(0)"]
         let titleWith = scale(115)
         for i in 0..<titleArray.count {
             let btn = UIButton(type: .custom)
@@ -169,6 +173,7 @@ class AfterSalesViewController: BaseViewController {
     func addChildViewController(){
         for i in 0..<btnArray.count {
             let vc = AfterSalesStatusViewController()
+            vc.orderViewVc = orderViewVc
             let btn = btnArray[i]
 //            vc.delegate = self
             vc.title = btn.currentTitle
@@ -190,6 +195,7 @@ extension AfterSalesViewController:UIScrollViewDelegate{
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let ratio = Int(scrollView.contentOffset.x / scrollView.width)
+        selectIndex = ratio
         let btn = btnArray[ratio]
         showTitleAction(btn: btn)
     }

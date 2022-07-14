@@ -77,7 +77,7 @@ class MyQRCodeViewController: BaseViewController {
         view.addSubview(shopBackImageView)
         shopBackImageView.snp.makeConstraints { make in
             make.top.left.right.equalToSuperview()
-            make.height.equalTo(scale(164))
+            make.height.equalTo(scale(414))
         }
         
         
@@ -93,19 +93,20 @@ class MyQRCodeViewController: BaseViewController {
         view.addSubview(backView)
         backView.snp.makeConstraints { make in
             make.left.right.bottom.equalToSuperview()
-            make.top.equalTo(shopBackImageView.snp.bottom)
+            make.top.equalTo(scale(202))
         }
         
-        
+        headerImage.sd_setImage(with: URL(string: StoreService.shared.currentUser?.shopAvatar ?? ""), placeholderImage: UIImage(named: "Group 2784"))
         view.addSubview(headerImage)
         headerImage.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(shopBackImageView.snp.bottom).offset(-scale(44))
+            make.top.equalTo(scale(158))
             make.width.height.equalTo(scale(88))
         }
         headerImage.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff").cgColor
         headerImage.layer.borderWidth = scale(2)
         headerImage.layer.cornerRadius = scale(44)
+        headerImage.layer.masksToBounds = true
         
         
         view.addSubview(nickNameLabel)

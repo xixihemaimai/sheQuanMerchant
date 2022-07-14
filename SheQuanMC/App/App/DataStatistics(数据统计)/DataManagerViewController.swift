@@ -741,7 +741,7 @@ class DataManagerViewController: BaseViewController {
         //当前的时间的年-2得到最小时间年份
         let year = Int(Date().getString(format: "yyyy"))! - 2
         let newYear = String(year)
-        let datePicker = YBDatePicker(currentDate: Date(), minLimitDate: Date.getDate(dateStr: newYear + "-01-01", format: monthTimeBtn.isSelected == true ? "yyyy-MM" : "yyyy-MM-dd"), maxLimitDate: Date(), datePickerType: monthTimeBtn.isSelected == true ? .YM : .YMD) {[weak self] date in
+        let datePicker = YBDatePicker(currentDate: Date(), minLimitDate: Date.getDate(dateStr: monthTimeBtn.isSelected == true ? newYear + "-01" : newYear + "-01-01", format: monthTimeBtn.isSelected == true ? "yyyy-MM" : "yyyy-MM-dd"), maxLimitDate: Date(), datePickerType: monthTimeBtn.isSelected == true ? .YM : .YMD) {[weak self] date in
             LXFLog("=---------------------------\(date)")
             if self?.monthTimeBtn.isSelected == true{
                 self?.choiceTimeBtn.setTitle(date.getString(format: "yyyy年MM月"), for: .normal)

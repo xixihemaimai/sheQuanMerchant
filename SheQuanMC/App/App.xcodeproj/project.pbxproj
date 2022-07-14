@@ -77,6 +77,14 @@
 		4083B260282615AA00AFAD18 /* CloseOrderReasonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4083B25F282615AA00AFAD18 /* CloseOrderReasonView.swift */; };
 		4083B2622826188100AFAD18 /* CloseOrderReasonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4083B2612826188100AFAD18 /* CloseOrderReasonCell.swift */; };
 		4083B2642826223400AFAD18 /* ModifyPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4083B2632826223400AFAD18 /* ModifyPriceView.swift */; };
+		408570AE287FF17800270E17 /* AfterSalesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408570AD287FF17800270E17 /* AfterSalesDetailViewController.swift */; };
+		408570B0287FF50600270E17 /* AfterSalesDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408570AF287FF50600270E17 /* AfterSalesDetailCell.swift */; };
+		408570B2287FFDC300270E17 /* AfterSalesHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408570B1287FFDC300270E17 /* AfterSalesHistoryCell.swift */; };
+		408570B42880015B00270E17 /* AfterSalesOrderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408570B32880015B00270E17 /* AfterSalesOrderCell.swift */; };
+		408570B628800E7900270E17 /* AfterSalesOrderInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408570B528800E7900270E17 /* AfterSalesOrderInfoCell.swift */; };
+		408570B8288015C500270E17 /* AfterSalesReturnAddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408570B7288015C400270E17 /* AfterSalesReturnAddressCell.swift */; };
+		408570BA288017C900270E17 /* AfterSalesToBePaidCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408570B9288017C900270E17 /* AfterSalesToBePaidCell.swift */; };
+		408570BC288019BA00270E17 /* AfterSalesDeliveryLogisticsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408570BB288019B900270E17 /* AfterSalesDeliveryLogisticsCell.swift */; };
 		408AF0E828407BA600D12584 /* CommodityParameterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408AF0E728407BA600D12584 /* CommodityParameterCell.swift */; };
 		408E422C2826686500C94119 /* OrderDetailStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E422B2826686500C94119 /* OrderDetailStatusCell.swift */; };
 		408E422E28266BE200C94119 /* OrderContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E422D28266BE200C94119 /* OrderContentCell.swift */; };
@@ -123,6 +131,7 @@
 		40A267AD2856E6070092321F /* AddSpecificationValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A267AC2856E6070092321F /* AddSpecificationValueView.swift */; };
 		40AFEBC8281A97F50062D271 /* CommoditySearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AFEBC7281A97F50062D271 /* CommoditySearchViewController.swift */; };
 		40AFEBCA281B6B1A0062D271 /* ReleaseGoodsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AFEBC9281B6B1A0062D271 /* ReleaseGoodsViewController.swift */; };
+		40B22D8C287FA970001033D9 /* AfterSalesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B22D8B287FA970001033D9 /* AfterSalesCell.swift */; };
 		40C377852851EB3F00DA9E70 /* SIXEditorInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C377792851EB3F00DA9E70 /* SIXEditorInputView.m */; };
 		40C377862851EB3F00DA9E70 /* SIXHTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C3777A2851EB3F00DA9E70 /* SIXHTMLParser.m */; };
 		40C377872851EB3F00DA9E70 /* SIXEditorHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = 40C3777B2851EB3F00DA9E70 /* SIXEditorHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -216,6 +225,14 @@
 		4083B25F282615AA00AFAD18 /* CloseOrderReasonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseOrderReasonView.swift; sourceTree = "<group>"; };
 		4083B2612826188100AFAD18 /* CloseOrderReasonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseOrderReasonCell.swift; sourceTree = "<group>"; };
 		4083B2632826223400AFAD18 /* ModifyPriceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyPriceView.swift; sourceTree = "<group>"; };
+		408570AD287FF17800270E17 /* AfterSalesDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterSalesDetailViewController.swift; sourceTree = "<group>"; };
+		408570AF287FF50600270E17 /* AfterSalesDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterSalesDetailCell.swift; sourceTree = "<group>"; };
+		408570B1287FFDC300270E17 /* AfterSalesHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterSalesHistoryCell.swift; sourceTree = "<group>"; };
+		408570B32880015B00270E17 /* AfterSalesOrderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterSalesOrderCell.swift; sourceTree = "<group>"; };
+		408570B528800E7900270E17 /* AfterSalesOrderInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterSalesOrderInfoCell.swift; sourceTree = "<group>"; };
+		408570B7288015C400270E17 /* AfterSalesReturnAddressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterSalesReturnAddressCell.swift; sourceTree = "<group>"; };
+		408570B9288017C900270E17 /* AfterSalesToBePaidCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterSalesToBePaidCell.swift; sourceTree = "<group>"; };
+		408570BB288019B900270E17 /* AfterSalesDeliveryLogisticsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterSalesDeliveryLogisticsCell.swift; sourceTree = "<group>"; };
 		408AF0E728407BA600D12584 /* CommodityParameterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommodityParameterCell.swift; sourceTree = "<group>"; };
 		408E422B2826686500C94119 /* OrderDetailStatusCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailStatusCell.swift; sourceTree = "<group>"; };
 		408E422D28266BE200C94119 /* OrderContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderContentCell.swift; sourceTree = "<group>"; };
@@ -264,6 +281,7 @@
 		40A9A2112814D952006B1CBF /* Util.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Util.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		40AFEBC7281A97F50062D271 /* CommoditySearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommoditySearchViewController.swift; sourceTree = "<group>"; };
 		40AFEBC9281B6B1A0062D271 /* ReleaseGoodsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReleaseGoodsViewController.swift; sourceTree = "<group>"; };
+		40B22D8B287FA970001033D9 /* AfterSalesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterSalesCell.swift; sourceTree = "<group>"; };
 		40C377792851EB3F00DA9E70 /* SIXEditorInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIXEditorInputView.m; sourceTree = "<group>"; };
 		40C3777A2851EB3F00DA9E70 /* SIXHTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIXHTMLParser.m; sourceTree = "<group>"; };
 		40C3777B2851EB3F00DA9E70 /* SIXEditorHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIXEditorHeader.h; sourceTree = "<group>"; };
@@ -411,6 +429,7 @@
 				408E42472828FDE800C94119 /* ModifyLogisticsViewController.swift */,
 				408E424F2829101900C94119 /* ModifyAddressViewController.swift */,
 				408E425E282B3BC100C94119 /* OrderSearchViewController.swift */,
+				408570AD287FF17800270E17 /* AfterSalesDetailViewController.swift */,
 			);
 			path = "OrderManagement(订单)";
 			sourceTree = "<group>";
@@ -511,6 +530,14 @@
 				408E42492829003C00C94119 /* OrderModifyLogisticsCell.swift */,
 				408E424B282903B200C94119 /* ReturnGoodsAddressCell.swift */,
 				408E424D2829050300C94119 /* LogisticsInformationCell.swift */,
+				40B22D8B287FA970001033D9 /* AfterSalesCell.swift */,
+				408570AF287FF50600270E17 /* AfterSalesDetailCell.swift */,
+				408570B1287FFDC300270E17 /* AfterSalesHistoryCell.swift */,
+				408570B32880015B00270E17 /* AfterSalesOrderCell.swift */,
+				408570B528800E7900270E17 /* AfterSalesOrderInfoCell.swift */,
+				408570B7288015C400270E17 /* AfterSalesReturnAddressCell.swift */,
+				408570B9288017C900270E17 /* AfterSalesToBePaidCell.swift */,
+				408570BB288019B900270E17 /* AfterSalesDeliveryLogisticsCell.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -774,6 +801,7 @@
 				4060BC50281A1B6300968C42 /* ShopDetailCell.swift in Sources */,
 				40A267AB2856DDC00092321F /* AppSpecificationsCell.swift in Sources */,
 				40FA4A01286AE730003237C0 /* MyLoginOutCell.swift in Sources */,
+				408570BC288019BA00270E17 /* AfterSalesDeliveryLogisticsCell.swift in Sources */,
 				40FA4A05286AEAA3003237C0 /* shopInfomationCell.swift in Sources */,
 				409BF5E028741FF800B1B8DE /* AboutMyViewController.swift in Sources */,
 				408AF0E828407BA600D12584 /* CommodityParameterCell.swift in Sources */,
@@ -795,12 +823,14 @@
 				408E42442828EA2E00C94119 /* CheckLogisticsNumberCell.swift in Sources */,
 				401E5DA02814FF17009127A5 /* ShopViewController.swift in Sources */,
 				4080A4D0282CBC1D00D32002 /* NoDeliveryViewController.swift in Sources */,
+				408570B2287FFDC300270E17 /* AfterSalesHistoryCell.swift in Sources */,
 				401E5DC1281528C4009127A5 /* Edit+UIButton.swift in Sources */,
 				40FA4A09286AFDC4003237C0 /* ModifyShopNameViewController.swift in Sources */,
 				403B88052823797300FC4EA4 /* CommoditySpecificationsHeaderView.swift in Sources */,
 				40C377892851EB3F00DA9E70 /* SIXEditorView.m in Sources */,
 				4060BC492818C87400968C42 /* EnterpriseCertificationViewController.swift in Sources */,
 				403B88032823725400FC4EA4 /* CommoditySpecificationsViewController.swift in Sources */,
+				408570B42880015B00270E17 /* AfterSalesOrderCell.swift in Sources */,
 				409B6A712876B5AA00F4CE7B /* PerfectInfoViewController.swift in Sources */,
 				4074C9FB2830BC10009E9023 /* MMLocationParser.m in Sources */,
 				409BF5E228742EAD00B1B8DE /* FeedbackMyViewController.swift in Sources */,
@@ -851,9 +881,11 @@
 				4083B260282615AA00AFAD18 /* CloseOrderReasonView.swift in Sources */,
 				4080A4C7282C98B700D32002 /* FreightTemplateViewController.swift in Sources */,
 				4096354328645AA700AA323C /* MomentsPostButton.swift in Sources */,
+				408570B8288015C500270E17 /* AfterSalesReturnAddressCell.swift in Sources */,
 				408E424C282903B200C94119 /* ReturnGoodsAddressCell.swift in Sources */,
 				408E42342828ADD100C94119 /* OrderDeliveryLogisticsCell.swift in Sources */,
 				409BF5D82873ED1A00B1B8DE /* ChangePayPasswordViewController.swift in Sources */,
+				408570AE287FF17800270E17 /* AfterSalesDetailViewController.swift in Sources */,
 				4080A4CE282CB08000D32002 /* FreightAllocationViewController.swift in Sources */,
 				40800844287C00F40090C72A /* YBDatePicker.swift in Sources */,
 				4074C9EF282CE3D0009E9023 /* RegionView.swift in Sources */,
@@ -865,6 +897,7 @@
 				40C3778A2851EB3F00DA9E70 /* SIXEditorInputManager.m in Sources */,
 				401E5DD628163A48009127A5 /* StartPageViewController.swift in Sources */,
 				4075AF0E281E2673005EB854 /* OrderContentViewController.swift in Sources */,
+				408570B0287FF50600270E17 /* AfterSalesDetailCell.swift in Sources */,
 				403B880F2823BAA700FC4EA4 /* SpecificationValueView.swift in Sources */,
 				403B87F92823536400FC4EA4 /* CommodityCategoryViewController.swift in Sources */,
 				4080A4CA282C995E00D32002 /* FreightTemplateCell.swift in Sources */,
@@ -873,7 +906,9 @@
 				408E42462828ED3800C94119 /* CheckLogisticsProgressCell.swift in Sources */,
 				407D9808281A8457005A8CBC /* ReplenishInventoryCell.swift in Sources */,
 				4096353F2864599400AA323C /* MomentsView.swift in Sources */,
+				408570B628800E7900270E17 /* AfterSalesOrderInfoCell.swift in Sources */,
 				4060BC3428175ECD00968C42 /* BaseNaviViewController.swift in Sources */,
+				408570BA288017C900270E17 /* AfterSalesToBePaidCell.swift in Sources */,
 				409BF5CE286D76AF00B1B8DE /* NoNetViewController.swift in Sources */,
 				407D9806281A8352005A8CBC /* ReplenishInventoryViewController.swift in Sources */,
 				4060BC302816AD5000968C42 /* CountDown.swift in Sources */,
@@ -886,6 +921,7 @@
 				408E422C2826686500C94119 /* OrderDetailStatusCell.swift in Sources */,
 				401E5DC8281528F3009127A5 /* UIViewController+Extenstion.swift in Sources */,
 				409BF5E4287431DC00B1B8DE /* FeedBackView.swift in Sources */,
+				40B22D8C287FA970001033D9 /* AfterSalesCell.swift in Sources */,
 				4060BC4B28191C9D00968C42 /* EnterpriseAuditViewController.swift in Sources */,
 				409BF5E62874327F00B1B8DE /* FeedBackCell.swift in Sources */,
 				407D97FF281A65EE005A8CBC /* CommodityStatusViewController.swift in Sources */,

@@ -46,7 +46,7 @@ public class MyViewController: BaseViewController {
         view.addSubview(shopBackImageView)
         shopBackImageView.snp.makeConstraints { make in
             make.top.left.right.equalToSuperview()
-            make.height.equalTo(scale(164))
+            make.height.equalTo(scale(474))
         }
         
         view.addSubview(tableview)
@@ -96,12 +96,19 @@ public class MyViewController: BaseViewController {
         headerImage.layer.masksToBounds = true
         
         headerBtn.addSubview(shopName)
+        
+        
+        var width = StoreService.shared.currentUser?.shopName.singleLineSize(font: UIFont.systemFont(ofSize: scale(18), weight: .semibold)).width
+        width! += scale(10)
+        
         shopName.snp.makeConstraints { make in
             make.left.equalTo(headerImage.snp.right).offset(scale(12))
             make.top.equalTo(scale(8))
-            make.width.equalTo(scale(120))
+            make.width.equalTo(width!)
             make.height.equalTo(scale(25))
         }
+        
+        
         //方向图片
         let rightImage = UIImageView()
         rightImage.image = UIImage(named: "Frame-my-right")
@@ -171,6 +178,7 @@ extension MyViewController:UITableViewDelegate,UITableViewDataSource{
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row <= 4{
             let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell") as! MyCell
+            cell.backgroundColor = UIColor.clear
             cell.myImage.image = UIImage(named: myImageList[indexPath.row])
             cell.myLabel.text = myTitleList[indexPath.row]
             return cell

@@ -364,9 +364,9 @@ class CommoditySpecificationsViewController: BaseViewController {
         //这边要进行判断没有填写完整的提醒，成功填写完整还需要返回上一个界面，把所需的数据传递过去
         var isComplete:Bool = true
         for skus in unIonSetList {
-            let doubleValue = Double(truncating: skus.price as? NSNumber ?? 0.0)
+            let doubleValue = Double(truncating: skus.price as? NSNumber ?? 0.00)
             let int32Value = Int32(truncating: skus.stock as? NSNumber ?? 0)
-            if (doubleValue < 0.1) && (int32Value < 0){
+            if doubleValue.isLessThanOrEqualTo(0.0) && (int32Value <= 0){
                 isComplete = false
                 break
             }

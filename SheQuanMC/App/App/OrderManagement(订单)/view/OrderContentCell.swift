@@ -18,10 +18,7 @@ class OrderContentCell: UITableViewCell {
         return topView
     }()
     
-    
-    
     //头像
-    
     lazy var headerImage:UIImageView = {
        let headerImage = UIImageView()
         headerImage.contentMode = .scaleAspectFill

@@ -59,6 +59,7 @@ class OrderViewController: BaseViewController {
     lazy var afterSalesVc:AfterSalesViewController = {
        let afterSalesVc = AfterSalesViewController()
         afterSalesVc.selectIndex = selectIndex
+        afterSalesVc.orderViewVc = self
         return afterSalesVc
     }()
     
