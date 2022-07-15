@@ -104,7 +104,7 @@ class AfterSalesDetailViewController: BaseViewController {
         agreeRefundBtn.layer.cornerRadius = scale(4)
         agreeRefundBtn.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#C4C4C4").cgColor
         agreeRefundBtn.layer.borderWidth = scale(1)
-        
+        agreeRefundBtn.isHidden = true
         refuseRefundBtn.snp.makeConstraints { make in
             make.top.equalTo(newTableView.snp.bottom).offset(scale(12))
             make.width.equalTo(scale(96))
@@ -116,6 +116,7 @@ class AfterSalesDetailViewController: BaseViewController {
         refuseRefundBtn.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#C4C4C4").cgColor
         refuseRefundBtn.layer.borderWidth = scale(1)
         
+        
         uploadVoucherBtn.snp.makeConstraints { make in
             make.right.equalTo(-scale(16))
             make.top.equalTo(newTableView.snp.bottom).offset(scale(12))
@@ -126,9 +127,14 @@ class AfterSalesDetailViewController: BaseViewController {
         uploadVoucherBtn.layer.cornerRadius = scale(4)
         uploadVoucherBtn.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#C4C4C4").cgColor
         uploadVoucherBtn.layer.borderWidth = scale(1)
+        uploadVoucherBtn.addTarget(self, action: #selector(uploadVoucherAction), for: .touchUpInside)
         
         
-        
+    }
+    
+    @objc func uploadVoucherAction(uploadVoucherBtn:UIButton){
+        let negotiationHistoryVc  = NegotiationHistoryViewController()
+        Coordinator.shared?.pushViewController(self, negotiationHistoryVc, animated: true)
     }
     
 

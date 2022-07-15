@@ -28,6 +28,7 @@ pod 'RealmSwift'
 pod 'HandyJSON', '~> 5.0.2'
 pod 'SDWebImage'
 pod 'JXPhotoBrowser'
+pod 'TZImagePickerController'
 end
 
 
@@ -53,6 +54,7 @@ pod 'RealmSwift'
 pod 'HandyJSON', '~> 5.0.2'
 pod 'SDWebImage'
 pod 'JXPhotoBrowser'
+pod 'TZImagePickerController'
 end
 
 
@@ -78,5 +80,6 @@ pod 'RealmSwift'
 pod 'HandyJSON', '~> 5.0.2'
 pod 'SDWebImage'
 pod 'JXPhotoBrowser'
+pod 'TZImagePickerController'
 end
 

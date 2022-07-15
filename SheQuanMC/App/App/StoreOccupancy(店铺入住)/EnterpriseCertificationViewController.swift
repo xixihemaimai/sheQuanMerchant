@@ -436,7 +436,7 @@ class EnterpriseCertificationViewController: BaseViewController {
         }
 
 
-        //省份证号
+        //身份证号
         scorllview.addSubview(idCardLabel)
         scorllview.addSubview(idCardTextField)
 

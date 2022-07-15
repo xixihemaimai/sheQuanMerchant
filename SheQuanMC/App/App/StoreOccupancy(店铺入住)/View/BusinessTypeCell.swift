@@ -47,8 +47,10 @@ class BusinessTypeCell: UITableViewCell {
         productLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.left.equalToSuperview().offset(scale(42))
-            make.right.equalToSuperview().offset(scale(10))
+            make.right.equalTo(-scale(16))
             make.height.equalTo(scale(20))
+            make.top.equalTo(scale(12))
+            make.bottom.equalTo(-scale(12))
         }
         
     }

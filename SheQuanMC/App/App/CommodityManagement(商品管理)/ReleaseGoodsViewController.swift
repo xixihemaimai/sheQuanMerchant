@@ -1080,17 +1080,26 @@ class ReleaseGoodsViewController: BaseViewController {
                 goodsContentLabel.text = commodityModel?.categoryName
                 goodsContentLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
             }
+//            else{
+//                commodityModel?.categoryId = StoreService.shared.categoryId
+//            }
             
             //商品描述
             if (commodityModel?.productDesc?.count ?? 0) > 0{
                 goodsDescribe.text = "已填写"
                 goodsDescribe.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
             }
+//            else{
+//                commodityModel?.productDesc = ""
+//            }
             
             //商品编码
             if (commodityModel?.productCode?.count ?? 0) > 0{
                 goodsCardTextField.text = commodityModel?.productCode
             }
+//            else{
+//                commodityModel?.productCode = ""
+//            }
             
             
             //这边是否显示商品参数
@@ -1151,6 +1160,10 @@ class ReleaseGoodsViewController: BaseViewController {
                     }
                 }
             }
+//            else{
+//                commodityModel?.specGroups = [SpecGroups]()
+//                commodityModel?.skus = [Skus]()
+//            }
             
             
             //价钱
@@ -1196,6 +1209,7 @@ class ReleaseGoodsViewController: BaseViewController {
                 defaultTemplate.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
             }else{
                 defaultTemplate.text = "未设置"
+//                commodityModel?.freightId = 0
             }
             
             
@@ -1791,153 +1805,153 @@ class ReleaseGoodsViewController: BaseViewController {
         
         
         
-        //这边看下怎么修改，需要才上传
-        var parameters1 = [String:Any]()
-        //类目ID(1)categoryId
-        parameters1["categoryId"] = commodityModel?.categoryId
-        //七天无理由退货（1）
-        parameters1["freeRefundIn7Days"] = returnGoodsSwitch.isOn
-        //运费模板ID （2）
-        if self.defaultTemplate.text != "未设置"{
-            parameters1["freightId"] = commodityModel?.freightId
-        }
-        //退换货运费险（1）
-        parameters1["freightInsure"] = returnGoodsInsuranceSwitch.isOn
-        //多规格（1）
-        parameters1["multiSpec"] = specificationsSwitch.isOn
-        //价格 （2）
-        if (priceTextfield.text?.count ?? 0) > 0{
-            parameters1["price"] = Decimal(string: priceTextfield.text ?? "0")
-        }
-        //商品编码（2）
-        if (goodsCardTextField.text?.count ?? 0) > 0{
-            parameters1["productCode"] = goodsCardTextField.text ?? ""
-        }
-        //商品描述（2）
-        if self.goodsDescribe.text == "已填写"{
-            parameters1["productDesc"] = commodityModel?.productDesc ?? ""
-//            commodityModel?.productDesc = commodityModel?.productDesc?.replacingOccurrences(of: "\"", with: "\\\"", options: .literal, range: nil)
-            
-            let productDesc = commodityModel?.productDesc?.replacingOccurrences(of: "\"", with: "\\\"", options: .literal, range: nil)
-            commodityModel?.productDesc = productDesc
-        }
-        //商品ID（1）
-        parameters1["productId"] = commodityModel?.productId
-        //商品名称（2）
-        if goodsTextView.text.count > 0 {
-            parameters1["productName"] = goodsTextView.text ?? ""
-        }
-        //商品主图（2）
-        if (commodityModel?.productPics?.count ?? 0) > 0{
-            var productPicsStr = "["
-            for v in 0..<(commodityModel?.productPics?.count ?? 0) {
-                guard let str = commodityModel?.productPics?[v] else{
-                    return
-                }
-                if v == 0{
-                    productPicsStr += "\"" + str + "\""
-                }else{
-                    productPicsStr += "," + "\"" + str + "\""
-                }
-            }
-            productPicsStr += "]"
-            parameters1["productPics"] = (productPicsStr.count > 0 ? productPicsStr : [String]())
-        }
-        //价格与库存（2）
-        if (commodityModel?.skus?.count ?? 0) > 0 {
-            var skusList:String = "["
-            for j in 0..<(commodityModel?.skus?.count ?? 0){
-                let skus = commodityModel?.skus![j]
-                var specsLists:String = "["
-                for n in 0..<(skus?.specs?.count ?? 0){
-                    let specs = skus?.specs![n]
-                    let specsDict = ["specGroupId":specs?.specGroupId as Any,"specValue":specs?.specValue as Any] as [String:Any]
-                    let jsonstring = getJSONStringFromData(obj: specsDict, isEscape: true)
-                    if n == 0{
-                        specsLists += jsonstring
-                    }else
-                    {
-                        specsLists += "," + jsonstring
-                    }
-                }
-                specsLists += "]"
-                let skusDict = ["price":skus?.price as Any,"skuCode":skus?.skuCode as Any,"skuId":skus?.skuId as Any,"skuPics":[String]() as Any,"specs":"","stock":skus?.stock as Any] as [String:Any]
-                let jsonstring = getJSONStringFromData(obj: skusDict, isEscape: true)
-                if j == 0{
-                    skusList += jsonstring
-                }else
-                {
-                    skusList += "," + jsonstring
-                }
-
-                skusList = (skusList as NSString).replacingOccurrences(of: "\"skuPics\":[]", with: ((skus?.skuPics?.count ?? 0) > 0) ? ("\"skuPics\":" + "[" + "\""
-                                                                                                                                        + (skus?.skuPics?.last ?? "") + "\"" + "]") : "\"skuPics\":[]") as String
-                skusList = (skusList as NSString).replacingOccurrences(of: "\"specs\":\"\"", with: "\"specs\":" + specsLists) as String
-            }
-            skusList += "]"
-            parameters1["skus"] = (skusList.count > 0 ? skusList : [Skus]())
-        }
-        //商品规格组（2）
-        var specGroupsArray1 = commodityModel?.specGroups
-        specGroupsArray1 = specGroupsArray1?.filter({ SpecGroups in
-            SpecGroups.specs?.count != 0
-        })
-        if (specGroupsArray1?.count ?? 0) > 0{
-            var specsGroupsList:String = "["
-            for i in 0..<(specGroupsArray1?.count ?? 0) {
-                let specGroup = specGroupsArray1?[i]
-                let specsDict = ["required":specGroup?.required as Any, "specGroupId":specGroup?.specGroupId as Any,"specGroupName":specGroup?.specGroupName as Any,"specGroupType":specGroup?.specGroupType as Any,"specs":[String]() as Any] as [String:Any]
-                let jsonstring = getJSONStringFromData(obj: specsDict, isEscape: true)
-                if i == 0{
-                    specsGroupsList += jsonstring
-                }else
-                {
-                    specsGroupsList += "," + jsonstring
-                }
-                var resultstr = "["
-                for i in 0..<(specGroup?.specs?.count ?? 0){
-                    guard let str = specGroup?.specs?[i] else{
-                        return
-                    }
-                    if i == 0{
-                        resultstr += "\"" + str + "\""
-                    }else{
-                        resultstr += "," + "\"" + str + "\""
-                    }
-                }
-                resultstr += "]"
-                specsGroupsList = (specsGroupsList as NSString).replacingOccurrences(of: "\"specs\":[]", with: "\"specs\":" + resultstr) as String
-            }
-            specsGroupsList += "]"
-            parameters1["specGroups"] = ( specsGroupsList.count > 0 ? specsGroupsList : [SpecGroups]() )
-        }
-        //商品spus（参数） (2)
-        if (commodityModel?.spus?.count ?? 0) > 0{
-            var spusList:String = "["
-            for k in 0..<(commodityModel?.spus?.count ?? 0){
-                let spus = commodityModel?.spus![k]
-                var spuValue = spus?.spuValue
-                if spus?.spuValue == nil{
-                    spuValue = ""
-                }
-                let spusDict = ["length":spus?.length as Any,"required":spus?.required as Any,"spuAttrId":spus?.spuAttrId as Any,"spuAttrName":spus?.spuAttrName as Any,"spuId":spus?.spuId as Any,"spuText":((spus?.spuText?.count ?? 0) > 0 ? spus?.spuText : "") as Any,"spuType":spus?.spuType as Any,"spuValue":spuValue as Any] as [String:Any]
-                let jsonstring = getJSONStringFromData(obj: spusDict, isEscape: true)
-                if k == 0{
-                    spusList += jsonstring
-                }else
-                {
-                    spusList += "," + jsonstring
-                }
-            }
-            spusList += "]"
-            parameters1["spus"] = (spusList.count > 0 ? spusList : [Spus]())
-        }
-        //库存（2）
-        if (stockTextfield.text?.count ?? 0) > 0{
-            parameters1["stock"] = Int32(stockTextfield.text ?? "0")
-        }
-        //库存扣减方式（1）
-        parameters1["stockDeductType"] = 1
+//        //这边看下怎么修改，需要才上传
+//        var parameters1 = [String:Any]()
+//        //类目ID(1)categoryId
+//        parameters1["categoryId"] = commodityModel?.categoryId
+//        //七天无理由退货（1）
+//        parameters1["freeRefundIn7Days"] = returnGoodsSwitch.isOn
+//        //运费模板ID （2）
+//        if self.defaultTemplate.text != "未设置"{
+//            parameters1["freightId"] = commodityModel?.freightId
+//        }
+//        //退换货运费险（1）
+//        parameters1["freightInsure"] = returnGoodsInsuranceSwitch.isOn
+//        //多规格（1）
+//        parameters1["multiSpec"] = specificationsSwitch.isOn
+//        //价格 （2）
+//        if (priceTextfield.text?.count ?? 0) > 0{
+//            parameters1["price"] = Decimal(string: priceTextfield.text ?? "0")
+//        }
+//        //商品编码（2）
+//        if (goodsCardTextField.text?.count ?? 0) > 0{
+//            parameters1["productCode"] = goodsCardTextField.text ?? ""
+//        }
+//        //商品描述（2）
+//        if self.goodsDescribe.text == "已填写"{
+//            parameters1["productDesc"] = commodityModel?.productDesc ?? ""
+////            commodityModel?.productDesc = commodityModel?.productDesc?.replacingOccurrences(of: "\"", with: "\\\"", options: .literal, range: nil)
+//
+//            let productDesc = commodityModel?.productDesc?.replacingOccurrences(of: "\"", with: "\\\"", options: .literal, range: nil)
+//            commodityModel?.productDesc = productDesc
+//        }
+//        //商品ID（1）
+//        parameters1["productId"] = commodityModel?.productId
+//        //商品名称（2）
+//        if goodsTextView.text.count > 0 {
+//            parameters1["productName"] = goodsTextView.text ?? ""
+//        }
+//        //商品主图（2）
+//        if (commodityModel?.productPics?.count ?? 0) > 0{
+//            var productPicsStr = "["
+//            for v in 0..<(commodityModel?.productPics?.count ?? 0) {
+//                guard let str = commodityModel?.productPics?[v] else{
+//                    return
+//                }
+//                if v == 0{
+//                    productPicsStr += "\"" + str + "\""
+//                }else{
+//                    productPicsStr += "," + "\"" + str + "\""
+//                }
+//            }
+//            productPicsStr += "]"
+//            parameters1["productPics"] = (productPicsStr.count > 0 ? productPicsStr : [String]())
+//        }
+//        //价格与库存（2）
+//        if (commodityModel?.skus?.count ?? 0) > 0 {
+//            var skusList:String = "["
+//            for j in 0..<(commodityModel?.skus?.count ?? 0){
+//                let skus = commodityModel?.skus![j]
+//                var specsLists:String = "["
+//                for n in 0..<(skus?.specs?.count ?? 0){
+//                    let specs = skus?.specs![n]
+//                    let specsDict = ["specGroupId":specs?.specGroupId as Any,"specValue":specs?.specValue as Any] as [String:Any]
+//                    let jsonstring = getJSONStringFromData(obj: specsDict, isEscape: true)
+//                    if n == 0{
+//                        specsLists += jsonstring
+//                    }else
+//                    {
+//                        specsLists += "," + jsonstring
+//                    }
+//                }
+//                specsLists += "]"
+//                let skusDict = ["price":skus?.price as Any,"skuCode":skus?.skuCode as Any,"skuId":skus?.skuId as Any,"skuPics":[String]() as Any,"specs":"","stock":skus?.stock as Any] as [String:Any]
+//                let jsonstring = getJSONStringFromData(obj: skusDict, isEscape: true)
+//                if j == 0{
+//                    skusList += jsonstring
+//                }else
+//                {
+//                    skusList += "," + jsonstring
+//                }
+//
+//                skusList = (skusList as NSString).replacingOccurrences(of: "\"skuPics\":[]", with: ((skus?.skuPics?.count ?? 0) > 0) ? ("\"skuPics\":" + "[" + "\""
+//                                                                                                                                        + (skus?.skuPics?.last ?? "") + "\"" + "]") : "\"skuPics\":[]") as String
+//                skusList = (skusList as NSString).replacingOccurrences(of: "\"specs\":\"\"", with: "\"specs\":" + specsLists) as String
+//            }
+//            skusList += "]"
+//            parameters1["skus"] = (skusList.count > 0 ? skusList : [Skus]())
+//        }
+//        //商品规格组（2）
+//        var specGroupsArray1 = commodityModel?.specGroups
+//        specGroupsArray1 = specGroupsArray1?.filter({ SpecGroups in
+//            SpecGroups.specs?.count != 0
+//        })
+//        if (specGroupsArray1?.count ?? 0) > 0{
+//            var specsGroupsList:String = "["
+//            for i in 0..<(specGroupsArray1?.count ?? 0) {
+//                let specGroup = specGroupsArray1?[i]
+//                let specsDict = ["required":specGroup?.required as Any, "specGroupId":specGroup?.specGroupId as Any,"specGroupName":specGroup?.specGroupName as Any,"specGroupType":specGroup?.specGroupType as Any,"specs":[String]() as Any] as [String:Any]
+//                let jsonstring = getJSONStringFromData(obj: specsDict, isEscape: true)
+//                if i == 0{
+//                    specsGroupsList += jsonstring
+//                }else
+//                {
+//                    specsGroupsList += "," + jsonstring
+//                }
+//                var resultstr = "["
+//                for i in 0..<(specGroup?.specs?.count ?? 0){
+//                    guard let str = specGroup?.specs?[i] else{
+//                        return
+//                    }
+//                    if i == 0{
+//                        resultstr += "\"" + str + "\""
+//                    }else{
+//                        resultstr += "," + "\"" + str + "\""
+//                    }
+//                }
+//                resultstr += "]"
+//                specsGroupsList = (specsGroupsList as NSString).replacingOccurrences(of: "\"specs\":[]", with: "\"specs\":" + resultstr) as String
+//            }
+//            specsGroupsList += "]"
+//            parameters1["specGroups"] = ( specsGroupsList.count > 0 ? specsGroupsList : [SpecGroups]() )
+//        }
+//        //商品spus（参数） (2)
+//        if (commodityModel?.spus?.count ?? 0) > 0{
+//            var spusList:String = "["
+//            for k in 0..<(commodityModel?.spus?.count ?? 0){
+//                let spus = commodityModel?.spus![k]
+//                var spuValue = spus?.spuValue
+//                if spus?.spuValue == nil{
+//                    spuValue = ""
+//                }
+//                let spusDict = ["length":spus?.length as Any,"required":spus?.required as Any,"spuAttrId":spus?.spuAttrId as Any,"spuAttrName":spus?.spuAttrName as Any,"spuId":spus?.spuId as Any,"spuText":((spus?.spuText?.count ?? 0) > 0 ? spus?.spuText : "") as Any,"spuType":spus?.spuType as Any,"spuValue":spuValue as Any] as [String:Any]
+//                let jsonstring = getJSONStringFromData(obj: spusDict, isEscape: true)
+//                if k == 0{
+//                    spusList += jsonstring
+//                }else
+//                {
+//                    spusList += "," + jsonstring
+//                }
+//            }
+//            spusList += "]"
+//            parameters1["spus"] = (spusList.count > 0 ? spusList : [Spus]())
+//        }
+//        //库存（2）
+//        if (stockTextfield.text?.count ?? 0) > 0{
+//            parameters1["stock"] = Int32(stockTextfield.text ?? "0")
+//        }
+//        //库存扣减方式（1）
+//        parameters1["stockDeductType"] = 1
 //        commodityModel?.productDesc = commodityModel?.productDesc?.replacingOccurrences(of: "\"", with: "\\\"", options: .literal, range: nil)
         let productDesc = commodityModel?.productDesc?.replacingOccurrences(of: "\"", with: "\\\"", options: .literal, range: nil)
         commodityModel?.productDesc = productDesc

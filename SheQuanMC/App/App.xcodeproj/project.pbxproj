@@ -85,6 +85,10 @@
 		408570B8288015C500270E17 /* AfterSalesReturnAddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408570B7288015C400270E17 /* AfterSalesReturnAddressCell.swift */; };
 		408570BA288017C900270E17 /* AfterSalesToBePaidCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408570B9288017C900270E17 /* AfterSalesToBePaidCell.swift */; };
 		408570BC288019BA00270E17 /* AfterSalesDeliveryLogisticsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408570BB288019B900270E17 /* AfterSalesDeliveryLogisticsCell.swift */; };
+		408570BE288106C900270E17 /* NegotiationHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408570BD288106C900270E17 /* NegotiationHistoryViewController.swift */; };
+		408570C0288107D400270E17 /* NegotiationHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408570BF288107D400270E17 /* NegotiationHistoryCell.swift */; };
+		408570C2288145EC00270E17 /* UploadVoucherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408570C1288145EC00270E17 /* UploadVoucherViewController.swift */; };
+		408570C42881577300270E17 /* AgreenRefundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408570C32881577300270E17 /* AgreenRefundView.swift */; };
 		408AF0E828407BA600D12584 /* CommodityParameterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408AF0E728407BA600D12584 /* CommodityParameterCell.swift */; };
 		408E422C2826686500C94119 /* OrderDetailStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E422B2826686500C94119 /* OrderDetailStatusCell.swift */; };
 		408E422E28266BE200C94119 /* OrderContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408E422D28266BE200C94119 /* OrderContentCell.swift */; };
@@ -233,6 +237,10 @@
 		408570B7288015C400270E17 /* AfterSalesReturnAddressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterSalesReturnAddressCell.swift; sourceTree = "<group>"; };
 		408570B9288017C900270E17 /* AfterSalesToBePaidCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterSalesToBePaidCell.swift; sourceTree = "<group>"; };
 		408570BB288019B900270E17 /* AfterSalesDeliveryLogisticsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterSalesDeliveryLogisticsCell.swift; sourceTree = "<group>"; };
+		408570BD288106C900270E17 /* NegotiationHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NegotiationHistoryViewController.swift; sourceTree = "<group>"; };
+		408570BF288107D400270E17 /* NegotiationHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NegotiationHistoryCell.swift; sourceTree = "<group>"; };
+		408570C1288145EC00270E17 /* UploadVoucherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadVoucherViewController.swift; sourceTree = "<group>"; };
+		408570C32881577300270E17 /* AgreenRefundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreenRefundView.swift; sourceTree = "<group>"; };
 		408AF0E728407BA600D12584 /* CommodityParameterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommodityParameterCell.swift; sourceTree = "<group>"; };
 		408E422B2826686500C94119 /* OrderDetailStatusCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailStatusCell.swift; sourceTree = "<group>"; };
 		408E422D28266BE200C94119 /* OrderContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderContentCell.swift; sourceTree = "<group>"; };
@@ -430,6 +438,8 @@
 				408E424F2829101900C94119 /* ModifyAddressViewController.swift */,
 				408E425E282B3BC100C94119 /* OrderSearchViewController.swift */,
 				408570AD287FF17800270E17 /* AfterSalesDetailViewController.swift */,
+				408570BD288106C900270E17 /* NegotiationHistoryViewController.swift */,
+				408570C1288145EC00270E17 /* UploadVoucherViewController.swift */,
 			);
 			path = "OrderManagement(订单)";
 			sourceTree = "<group>";
@@ -538,6 +548,8 @@
 				408570B7288015C400270E17 /* AfterSalesReturnAddressCell.swift */,
 				408570B9288017C900270E17 /* AfterSalesToBePaidCell.swift */,
 				408570BB288019B900270E17 /* AfterSalesDeliveryLogisticsCell.swift */,
+				408570BF288107D400270E17 /* NegotiationHistoryCell.swift */,
+				408570C32881577300270E17 /* AgreenRefundView.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -804,6 +816,7 @@
 				408570BC288019BA00270E17 /* AfterSalesDeliveryLogisticsCell.swift in Sources */,
 				40FA4A05286AEAA3003237C0 /* shopInfomationCell.swift in Sources */,
 				409BF5E028741FF800B1B8DE /* AboutMyViewController.swift in Sources */,
+				408570C0288107D400270E17 /* NegotiationHistoryCell.swift in Sources */,
 				408AF0E828407BA600D12584 /* CommodityParameterCell.swift in Sources */,
 				4075AEF0281CD621005EB854 /* ProductDescriptionViewController.swift in Sources */,
 				40A267AD2856E6070092321F /* AddSpecificationValueView.swift in Sources */,
@@ -861,6 +874,7 @@
 				4060BC3528175ECD00968C42 /* BaseViewController.swift in Sources */,
 				4060BC4D281A1ACE00968C42 /* ShopDetailViewController.swift in Sources */,
 				408E425F282B3BC100C94119 /* OrderSearchViewController.swift in Sources */,
+				408570BE288106C900270E17 /* NegotiationHistoryViewController.swift in Sources */,
 				4075AF14281E3706005EB854 /* AfterSalesStatusViewController.swift in Sources */,
 				408E42502829101900C94119 /* ModifyAddressViewController.swift in Sources */,
 				408E423C2828C23700C94119 /* LogisticsCompanyViewController.swift in Sources */,
@@ -868,6 +882,7 @@
 				403B87FB282356C600FC4EA4 /* CommodityCategoryCell.swift in Sources */,
 				407D97FD281A3A11005A8CBC /* CommodityManagementViewController.swift in Sources */,
 				4075AF10281E2696005EB854 /* AfterSalesViewController.swift in Sources */,
+				408570C2288145EC00270E17 /* UploadVoucherViewController.swift in Sources */,
 				401E5DC6281528F3009127A5 /* Edit+UIImage.swift in Sources */,
 				4083B2642826223400AFAD18 /* ModifyPriceView.swift in Sources */,
 				4080A4CC282CA24500D32002 /* TemplateContentViewController.swift in Sources */,
@@ -889,6 +904,7 @@
 				4080A4CE282CB08000D32002 /* FreightAllocationViewController.swift in Sources */,
 				40800844287C00F40090C72A /* YBDatePicker.swift in Sources */,
 				4074C9EF282CE3D0009E9023 /* RegionView.swift in Sources */,
+				408570C42881577300270E17 /* AgreenRefundView.swift in Sources */,
 				407D9802281A66C6005A8CBC /* commodityStatusCell.swift in Sources */,
 				408E42422828E8BE00C94119 /* CheckLogisticsViewController.swift in Sources */,
 				409635392861622C00AA323C /* WKWebViewViewController.swift in Sources */,

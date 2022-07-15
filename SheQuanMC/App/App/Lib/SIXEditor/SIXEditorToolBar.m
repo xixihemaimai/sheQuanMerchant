@@ -8,10 +8,11 @@
 
 #import "SIXEditorToolBar.h"
 #import "SIXEditorInputView.h"
+#import <TZImagePickerController.h>
 
 
-
-@interface SIXEditorToolBar () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+//UIImagePickerControllerDelegate, UINavigationControllerDelegate,
+@interface SIXEditorToolBar () <TZImagePickerControllerDelegate>
 {
     CGFloat _itemWidth;
 }
@@ -146,32 +147,52 @@
 }
 
 - (void)showImagePicker {
-    UIImagePickerController *pickerController = [[UIImagePickerController alloc] init];
-    pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    pickerController.allowsEditing = YES;
-    pickerController.delegate = self;
-    UIViewController *rootController = [UIApplication sharedApplication].delegate.window.rootViewController;
-    [rootController presentViewController:pickerController animated:YES completion:nil];
+    //MaxImagesCount  可以选着的最大条目数
+        TZImagePickerController *imagePicker = [[TZImagePickerController alloc] initWithMaxImagesCount:1 delegate:self];
+        // 是否显示可选原图按钮
+        imagePicker.allowPickingOriginalPhoto = NO;
+        // 是否允许显示视频
+        imagePicker.allowPickingVideo = NO;
+        // 是否允许显示图片
+        imagePicker.allowPickingImage = YES;
+        // 这是一个navigation 只能present
+        // 设置 模态弹出模式。 iOS 13默认非全屏
+        imagePicker.modalPresentationStyle = UIModalPresentationFullScreen;
+        UIViewController *rootController = [UIApplication sharedApplication].delegate.window.rootViewController;
+        [rootController presentViewController:imagePicker animated:YES completion:nil];
+         
+//    UIImagePickerController *pickerController = [[UIImagePickerController alloc] init];
+//    pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+//    pickerController.allowsEditing = YES;
+//    pickerController.delegate = self;
+//    UIViewController *rootController = [UIApplication sharedApplication].delegate.window.rootViewController;
+//    [rootController presentViewController:pickerController animated:YES completion:nil];
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
-    UIImage *image = nil;
-    if ([picker allowsEditing]){ //获取用户编辑之后的图像
-        image = [info objectForKey:UIImagePickerControllerEditedImage];
-    } else { // 照片的元数据参数
-        image = [info objectForKey:UIImagePickerControllerOriginalImage];
-    }
-    
-    [picker dismissViewControllerAnimated:YES completion:^{
-        self.clickItem(SIXEditorActionImage, image);
-    }];
+- (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingPhotos:(NSArray<UIImage *> *)photos sourceAssets:(NSArray *)assets isSelectOriginalPhoto:(BOOL)isSelectOriginalPhoto{
+    UIImage * image = photos[0];
+    self.clickItem(SIXEditorActionImage, image);
 }
 
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [picker dismissViewControllerAnimated:YES completion:^{
-        self.clickItem(SIXEditorActionImage, nil);
-    }];
-}
+
+
+//- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+//    UIImage *image = nil;
+//    if ([picker allowsEditing]){ //获取用户编辑之后的图像
+//        image = [info objectForKey:UIImagePickerControllerEditedImage];
+//    } else { // 照片的元数据参数
+//        image = [info objectForKey:UIImagePickerControllerOriginalImage];
+//    }
+//    [picker dismissViewControllerAnimated:YES completion:^{
+//        self.clickItem(SIXEditorActionImage, image);
+//    }];
+//}
+//
+//- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+//    [picker dismissViewControllerAnimated:YES completion:^{
+//        self.clickItem(SIXEditorActionImage, nil);
+//    }];
+//}
 
 - (void)showCustomKeyboard:(BOOL)value {
     if (value) {

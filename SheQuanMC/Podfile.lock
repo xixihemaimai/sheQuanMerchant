@@ -35,6 +35,7 @@ PODS:
   - SDWebImage/Core (5.12.5)
   - SnapKit (5.6.0)
   - SwiftyJSON (5.0.1)
+  - TZImagePickerController (3.8.1)
 
 DEPENDENCIES:
   - CocoaAsyncSocket (from `CocoaAsyncSocket`)
@@ -54,6 +55,7 @@ DEPENDENCIES:
   - SDWebImage
   - SnapKit
   - SwiftyJSON
+  - TZImagePickerController
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -72,6 +74,7 @@ SPEC REPOS:
     - SDWebImage
     - SnapKit
     - SwiftyJSON
+    - TZImagePickerController
 
 EXTERNAL SOURCES:
   CocoaAsyncSocket:
@@ -106,7 +109,8 @@ SPEC CHECKSUMS:
   SDWebImage: 0905f1b7760fc8ac4198cae0036600d67478751e
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
+  TZImagePickerController: 943511626019431372cf908f24c114521e484f0e
 
-PODFILE CHECKSUM: 82e83aeb54f36c35c80b1b97fc19048e70a45eff
+PODFILE CHECKSUM: 5f93ed19422689a7e7160054727d06514654687c
 
 COCOAPODS: 1.11.3

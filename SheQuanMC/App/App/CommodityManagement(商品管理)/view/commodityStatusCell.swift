@@ -48,7 +48,7 @@ class commodityStatusCell: UITableViewCell {
        let stockLabel = UILabel()
         stockLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#F13232")
         stockLabel.font = UIFont.systemFont(ofSize: scale(12), weight: .regular)
-        stockLabel.textAlignment = .left
+        stockLabel.textAlignment = .right
         stockLabel.text = "库存余量:0"
         return stockLabel
     }()
@@ -179,14 +179,15 @@ class commodityStatusCell: UITableViewCell {
             make.left.equalTo(goodsImageView.snp.right).offset(scale(12))
             make.top.equalTo(goodsIntroductLabel.snp.bottom).offset(scale(8))
             make.height.equalTo(scale(17))
-            make.width.equalTo(scale(100))
+            make.width.equalTo(scale(150))
+//            make.right.equalTo(-scale(80))
         }
         
         
         //这个库存为0的时候显示是红色的#F13232，有库存的时候显示#999999
         stockLabel.snp.makeConstraints { make in
             make.top.equalTo(goodsIntroductLabel.snp.bottom).offset(scale(8))
-            make.left.equalTo(goodSpeciLabel.snp.right).offset(scale(58))
+            make.left.equalTo(goodSpeciLabel.snp.right)
             make.right.equalTo(-scale(16))
             make.height.equalTo(scale(17))
         }

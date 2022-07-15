@@ -130,6 +130,10 @@ class ShopViewController: BaseViewController {
     override func viewDidLoad() {
       super.viewDidLoad()
   
+        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.addObserver(self, selector: #selector(modifyShopAvater), name: NSNotification.Name("modifyShopAvater"), object: nil)
+        
+        
         
         view.addSubview(shopBackImageView)
         shopBackImageView.snp.makeConstraints { make in
@@ -616,7 +620,10 @@ class ShopViewController: BaseViewController {
     }
     
     
-    
+    //修改店铺头像图片
+    @objc func modifyShopAvater(noti:Notification){
+        shopHeaderImageView.sd_setImage(with: URL(string: StoreService.shared.currentUser?.shopAvatar ?? ""), placeholderImage: UIImage(named: "Group 2784"))
+    }
     
     
     
@@ -653,6 +660,10 @@ class ShopViewController: BaseViewController {
     }
     
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     
     //进入应用
     @objc func joinInApplyAction(btn:UIButton){
@@ -687,4 +698,6 @@ class ShopViewController: BaseViewController {
     }
     
 }
+
+
 

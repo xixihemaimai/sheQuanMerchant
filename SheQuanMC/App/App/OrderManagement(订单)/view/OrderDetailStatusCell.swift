@@ -46,7 +46,8 @@ class OrderDetailStatusCell: UITableViewCell {
     //时间或者信息
     lazy var timeLabel:UILabel = {
       let timeLabel = UILabel()
-        timeLabel.text = "23时52分15秒未付款则自动关闭订单"
+        //23时52分15秒未付款则自动关闭订单
+        timeLabel.text = ""
         timeLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#666666")
         timeLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
         timeLabel.textAlignment = .left

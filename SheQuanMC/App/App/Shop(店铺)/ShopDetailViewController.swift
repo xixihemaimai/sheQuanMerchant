@@ -18,6 +18,13 @@ class ShopDetailViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+//        NotificationCenter.default.removeObserver(self)
+//        NotificationCenter.default.addObserver(self, selector: #selector(modifyShopAvater), name: NSNotification.Name("modifyShopAvater"), object: nil)
+        
+        
+        
         title = "店铺信息"
         view.addSubview(tableview)
         tableview.snp.makeConstraints { make in
@@ -125,6 +132,19 @@ class ShopDetailViewController: BaseViewController {
         browser.pageIndex = showIndex
         browser.show()
     }
+    
+    
+    //修改店铺头像图片
+//    @objc func modifyShopAvater(noti:Notification){
+//
+//    }
+    
+    
+//    deinit {
+//        NotificationCenter.default.removeObserver(self)
+//    }
+    
+    
 }
 
 

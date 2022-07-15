@@ -169,7 +169,7 @@ NSString * const ImagePlaceholderTag = @"\U0000fffc";
 //                NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
 //                attachment.bounds = CGRectMake(0, 0, width, width * image.size.height / image.size.width);
                 
-                attachment.bounds = CGRectMake(0, 0, width, 400);
+                attachment.bounds = CGRectMake(0, 0, width, [UIScreen mainScreen].bounds.size.height);
                 
             }
         }

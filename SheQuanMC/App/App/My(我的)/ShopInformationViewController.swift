@@ -122,6 +122,9 @@ extension ShopInformationViewController:UITableViewDelegate,UITableViewDataSourc
                                         StoreService.shared.updateShopAvatar(str)
                                         
                                         //这边要发送通知和回调
+                                        NotificationCenter.default.post(name: NSNotification.Name("modifyShopAvater"), object: nil)
+                                        
+                                        
                                         
                                         
                                     }catch{}
@@ -152,6 +155,8 @@ extension ShopInformationViewController:UITableViewDelegate,UITableViewDataSourc
                                         StoreService.shared.updateShopAvatar(str)
                                         
                                         //这边要发送通知和回调
+                                        NotificationCenter.default.post(name: NSNotification.Name("modifyShopAvater"), object: nil)
+                                        
                                         
                                         
                                     }catch{}

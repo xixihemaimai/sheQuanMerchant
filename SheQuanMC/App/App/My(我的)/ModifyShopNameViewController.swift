@@ -12,12 +12,13 @@ class ModifyShopNameViewController: BaseViewController {
     
     lazy var modifyTextView:UITextView = {
         let modifyTextView = UITextView()
-        modifyTextView.placeholder = "    " + (StoreService.shared.currentUser?.shopName ?? "")
+        modifyTextView.placeholder = StoreService.shared.currentUser?.shopName
         modifyTextView.placeholderColor = UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")
-//        modifyTextField.attributedPlaceholder = NSAttributedString.init(string: "    " + (StoreService.shared.currentUser?.shopName ?? ""), attributes: [
-//            NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
         modifyTextView.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
+        modifyTextView.textContainer.lineFragmentPadding = scale(16)
         modifyTextView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
+        modifyTextView.contentInset = UIEdgeInsets.zero
+        modifyTextView.delegate = self
         return modifyTextView
     }()
     
@@ -45,6 +46,7 @@ class ModifyShopNameViewController: BaseViewController {
         let saveBtn = UIButton()
         saveBtn.setTitle("保存", for: .normal)
         saveBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#FFFFFF"), for: .normal)
+        saveBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         saveBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         bottomview.addSubview(saveBtn)
         saveBtn.snp.makeConstraints { make in
@@ -65,4 +67,17 @@ class ModifyShopNameViewController: BaseViewController {
         //这边要返回数据
     }
     
+}
+
+
+extension ModifyShopNameViewController:UITextViewDelegate{
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "" && range.length > 0{
+            return true
+        }
+        if textView.text.count > 14{
+            return false
+        }
+        return true
+    }
 }

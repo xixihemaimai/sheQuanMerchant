@@ -127,6 +127,7 @@ class BusinessTypeViewController: BaseViewController {
                     return
                 }
                 self?.firstArray = models.data!
+            
 //                LXFLog(models)
 //            }catch{}
             self?.openList.removeAll()
@@ -195,11 +196,8 @@ extension BusinessTypeViewController:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let isOpen = self.openList[section]
         if isOpen{
-            if let buinessTypemodel = self.firstArray[section] as? BusinessTypeModel{
-                return buinessTypemodel.subCategorys?.count ?? 0
-             }else{
-                return 0
-             }
+             let buinessTypemodel = self.firstArray[section]
+             return buinessTypemodel.subCategorys?.count ?? 0
         }else{
             return 0
         }
@@ -216,10 +214,9 @@ extension BusinessTypeViewController:UITableViewDelegate,UITableViewDataSource{
 //        if indexPath.row == 0{
 //            cell.diviver.isHidden = true
 //        }
-        if let buinessTypemodel = self.firstArray[indexPath.section] as? BusinessTypeModel{
-            if let buinessSecondTyoeModel = buinessTypemodel.subCategorys?[indexPath.row] as? BussinessSecondTypeModel{
-                cell.productLabel.text = buinessSecondTyoeModel.categoryName
-            }
+        let buinessTypemodel = self.firstArray[indexPath.section]
+        if let buinessSecondTyoeModel = buinessTypemodel.subCategorys?[indexPath.row] as? BussinessSecondTypeModel{
+            cell.productLabel.text = buinessSecondTyoeModel.categoryName
         }
         return cell
     }
@@ -289,9 +286,9 @@ extension BusinessTypeViewController:UITableViewDelegate,UITableViewDataSource{
 //        }
     }
     
-//    override func emptyDataSetShouldDisplay(_ scrollView: UIScrollView!) -> Bool {
-//        return false
-//    }
+    override func emptyDataSetShouldDisplay(_ scrollView: UIScrollView!) -> Bool {
+        return false
+    }
     
 }
 
