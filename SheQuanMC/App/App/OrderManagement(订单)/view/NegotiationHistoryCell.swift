@@ -51,7 +51,7 @@ class NegotiationHistoryCell: UITableViewCell {
         identityLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#F06337")
         identityLabel.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#FEEFEB")
         identityLabel.font = UIFont.systemFont(ofSize: scale(10), weight: .regular)
-        identityLabel.textAlignment = .left
+        identityLabel.textAlignment = .center
          return identityLabel
     }()
     

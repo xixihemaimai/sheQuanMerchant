@@ -64,6 +64,7 @@ class commodityExamineCell: UITableViewCell {
     lazy var reasonLabel:UILabel = {
        let reasonLabel = UILabel()
         reasonLabel.textAlignment = .left
+        reasonLabel.numberOfLines = 0
         reasonLabel.font = UIFont.systemFont(ofSize: scale(13), weight: .regular)
         reasonLabel.text = "预计2个工作日内反馈申请结果"
         reasonLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#666666")
@@ -121,21 +122,51 @@ class commodityExamineCell: UITableViewCell {
             goodsImageView.sd_setImage(with: URL(string: _model.productPic ?? ""), placeholderImage: UIImage(named: "Group 2784"))
             goodsIntroductLabel.text = _model.productName
             applyTimeLabel.text = "申请时间:" + (_model.applyTime ?? "")
-            reasonLabel.text = _model.auditReason
+            
             if _model.auditStatus == 4 {
                 //审核失败
                 deleteBtn.isHidden = false
                 editBtn.isHidden = false
                 cancelBtn.isHidden = true
                 statusLabel.text = "已驳回"
+                reasonLabel.text = (_model.rejectType ?? "") + " " + (_model.auditOpinion ?? "")
+                var height = reasonLabel.text?.rectHeight(font: UIFont.systemFont(ofSize: scale(13), weight: .regular), size: CGSize(width: SCW - scale(126), height: scale(20)))
+                if (height ?? scale(15)) < scale(15){
+                    height = scale(15)
+                }else{
+                    height! += scale(30)
+                }
+                reasonLabel.snp.remakeConstraints { make in
+                    make.centerY.equalToSuperview()
+                    make.left.equalTo(statusLabel.snp.right).offset(scale(12))
+                    make.right.equalTo(-scale(16))
+                    make.height.equalTo(height!)
+                }
+
+                statusView.snp.remakeConstraints { make in
+                    make.left.equalTo(scale(16))
+                    make.right.equalTo(-scale(16))
+                    make.top.equalTo(diviver.snp.bottom).offset(scale(12))
+                    make.height.equalTo(height! + scale(8))
+                }
+                
+                
                 statusLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#F13232")
             }else{
+                
+                
+                
                 //审核中
                 deleteBtn.isHidden = true
                 editBtn.isHidden = true
                 cancelBtn.isHidden = false
                 statusLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#666666")
                 statusLabel.text = "审核中"
+                reasonLabel.text = _model.auditOpinion
+                
+                
+//                let height = reasonLabel.text?.rectHeight(font: UIFont.systemFont(ofSize: scale(13), weight: .regular), size: CGSize(width: SCW - scale(110), height: scale(20)))
+//                LXFLog("=========2=============\(height)")
             }
         }
     }

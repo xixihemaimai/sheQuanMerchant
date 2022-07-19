@@ -27,11 +27,9 @@ public struct BrandModel: Codable{
 }
 
 
-
-
 public struct productListModel: Codable {
     public var applyTime: String?
-    public var auditReason: String?
+    public var auditOpinion: String?
     public var auditStatus: Int32?
     public var auditStatusText: String?
     public var productId: Int64?
@@ -46,7 +44,7 @@ public struct productListModel: Codable {
     
     enum CodingKeys: String, CodingKey {
         case applyTime = "applyTime"
-        case auditReason = "auditReason"
+        case auditOpinion = "auditOpinion"
         case auditStatus = "auditStatus"
         case auditStatusText = "auditStatusText"
         case productId = "productId"
@@ -64,7 +62,7 @@ public struct productListModel: Codable {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
         applyTime = try? values.decodeIfPresent(String.self, forKey: .applyTime)
-        auditReason = try? values.decodeIfPresent(String.self, forKey: .auditReason)
+        auditOpinion = try? values.decodeIfPresent(String.self, forKey: .auditOpinion)
         auditStatus = try? values.decodeIfPresent(Int32.self, forKey: .auditStatus)
         auditStatusText = try? values.decodeIfPresent(String.self, forKey: .auditStatusText)
         productId = try? values.decode(Int64.self, forKey: .productId)

@@ -135,7 +135,6 @@ class ModifyAddressViewController: BaseViewController {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
-
         let parameters = ["freightVerId":0,"level":2,"regionId":0,"subHierarchy":2] as [String:Any]
         NetWorkResultRequest(OrderApi.getFreightRegionList(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
             guard let model = try? JSONDecoder().decode(GenericResponse<[RegionInfoModel]>.self, from: data) else { return }
@@ -384,7 +383,6 @@ class ModifyAddressViewController: BaseViewController {
         submitBtn.layer.cornerRadius = scale(4)
         submitBtn.addTarget(self, action: #selector(submitAction), for: .touchUpInside)
         
-        
         if title == "添加新地址"{
             retAddressInfoModel = RetAddressInfoModel(address: detailAddressTextView.text, cityId: 0, cityName: "", consignee: nameTextView.text, isDef: isDefaultSwitch.isOn, mobile: phoneNmberTextView.text, provinceId: 0, provinceName: "", regionId: 0, regionName: "", retAddressId: 0,streetId: 0,streetName: "",zipCode: "")
         }else{
@@ -493,6 +491,9 @@ class ModifyAddressViewController: BaseViewController {
             //这边是返回上一个订单详情收货地址修改
             choiceRetAddressSuccessBlock?(retAddressInfoModel!)
             Coordinator.shared?.popViewController(self, true)
+            
+            NotificationCenter.default.post(name: NSNotification.Name("modifyAfterSalesAddress"), object: nil)
+            
         }else{
             let parameters = ["address":retAddressInfoModel?.address as Any,"cityId":retAddressInfoModel?.cityId as Any,"consignee":retAddressInfoModel?.consignee as Any,"isDef":retAddressInfoModel?.isDef as Any,"mobile":retAddressInfoModel?.mobile as Any,"provinceId":retAddressInfoModel?.provinceId as Any,"regionId":retAddressInfoModel?.regionId as Any,"retAddressId":retAddressInfoModel?.retAddressId as Any,"streetId":retAddressInfoModel?.streetId as Any,"zipCode":retAddressInfoModel?.zipCode as Any] as [String:Any]
             NetWorkResultRequest(OrderApi.updateRetAddress(parameters: parameters), needShowFailAlert: true) {[weak self] result, data in
@@ -504,7 +505,6 @@ class ModifyAddressViewController: BaseViewController {
             }
         }
     }
-    
     
     
     //所在地区

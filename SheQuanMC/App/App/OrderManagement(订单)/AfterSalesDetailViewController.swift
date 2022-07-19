@@ -62,6 +62,13 @@ class AfterSalesDetailViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.addObserver(self, selector: #selector(modifyAfterSalesAddress), name: NSNotification.Name("modifyAfterSalesAddress"), object: nil)
+        
+        
+        
 
         
         view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
@@ -105,6 +112,11 @@ class AfterSalesDetailViewController: BaseViewController {
         agreeRefundBtn.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#C4C4C4").cgColor
         agreeRefundBtn.layer.borderWidth = scale(1)
         agreeRefundBtn.isHidden = true
+        agreeRefundBtn.addTarget(self, action: #selector(agreeRefundBtnAction), for: .touchUpInside)
+        
+        
+        
+        
         refuseRefundBtn.snp.makeConstraints { make in
             make.top.equalTo(newTableView.snp.bottom).offset(scale(12))
             make.width.equalTo(scale(96))
@@ -115,6 +127,7 @@ class AfterSalesDetailViewController: BaseViewController {
         refuseRefundBtn.layer.cornerRadius = scale(4)
         refuseRefundBtn.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#C4C4C4").cgColor
         refuseRefundBtn.layer.borderWidth = scale(1)
+        refuseRefundBtn.addTarget(self, action: #selector(refuseRefundBtnAction), for: .touchUpInside)
         
         
         uploadVoucherBtn.snp.makeConstraints { make in
@@ -137,9 +150,47 @@ class AfterSalesDetailViewController: BaseViewController {
         Coordinator.shared?.pushViewController(self, negotiationHistoryVc, animated: true)
     }
     
-
+    //同意退款
+    @objc func agreeRefundBtnAction(agreeRefundBtn:UIButton){
+        self.popup.bottomSheet {
+            let agreenRefundView = AgreenRefundView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(492)),viewController: self)
+            agreenRefundView.dismissAgreenViweBlock = {[weak self] in
+                self?.popup.dismissPopup()
+            }
+            return agreenRefundView
+        }
+    }
     
-
+    //拒绝退款
+    @objc func refuseRefundBtnAction(refuseRefundBtn:UIButton){
+        self.popup.bottomSheet {
+            let agreenRefundView = AgreenRefundView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(492)),viewController: self)
+            agreenRefundView.dismissAgreenViweBlock = {[weak self] in
+                self?.popup.dismissPopup()
+            }
+            
+            return agreenRefundView
+        }
+    }
+    
+    @objc func modifyAfterSalesAddress(noti:Notification){
+        LXFLog("+==============32=============")
+        self.popup.bottomSheet {
+            let agreenRefundView = AgreenRefundView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(492)),viewController: self)
+            agreenRefundView.dismissAgreenViweBlock = {[weak self] in
+                self?.popup.dismissPopup()
+            }
+            
+            
+            return agreenRefundView
+        }
+    }
+    
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
 }
 
 extension AfterSalesDetailViewController:UITableViewDelegate,UITableViewDataSource{
