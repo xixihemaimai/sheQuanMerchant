@@ -7,6 +7,7 @@
 
 import UIKit
 import Util
+import JFPopup
 
 class PerfectInfoViewController: BaseViewController {
     
@@ -18,6 +19,7 @@ class PerfectInfoViewController: BaseViewController {
         nameTextField.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         nameTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入姓名", attributes: [
             NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
+        nameTextField.delegate = self
         return nameTextField
     }()
     
@@ -29,6 +31,7 @@ class PerfectInfoViewController: BaseViewController {
         codeTextField.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         codeTextField.attributedPlaceholder = NSAttributedString.init(string:"请输入身份证号", attributes: [
              NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")])
+        codeTextField.delegate = self
          return codeTextField
     }()
     
@@ -185,7 +188,44 @@ class PerfectInfoViewController: BaseViewController {
     //下一步
     @objc func nextPersonFaceAction(nextBtn:UIButton){
         
+        if codeTextField.text?.isValidIDCardNumber == false{
+            JFPopup.toast(hit: "请填写正确的身份证号")
+            return
+        }
+        
+        if (nameTextField.text?.count ?? 0) < 1{
+            JFPopup.toast(hit: "请填写姓名")
+            return
+        }
+        
+        
+        
     }
     
     
 }
+
+
+
+extension PerfectInfoViewController:UITextFieldDelegate{
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        var maxNum = 6
+        if textField == nameTextField {
+            maxNum = 25
+        }else if textField == codeTextField{
+            maxNum = 18
+        }
+//        限制个数
+        let currentText = textField.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        return updatedText.count <= maxNum
+    }
+    
+    
+    
+}
+
+
+

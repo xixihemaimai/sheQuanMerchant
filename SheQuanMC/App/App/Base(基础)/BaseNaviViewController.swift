@@ -45,7 +45,7 @@ extension BaseNaviViewController:UINavigationControllerDelegate{
    open func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
        //这边对需要隐藏导航栏的控制器进行设置
        var isShowNavigationBar:Bool = false
-       if viewController.isKind(of: StartPageViewController.self) || viewController.isKind(of: ShopViewController.self) || viewController.isKind(of: MyViewController.self) || viewController.isKind(of: CommoditySearchViewController.self) || viewController.isKind(of: OrderSearchViewController.self) || viewController.isKind(of: MyQRCodeViewController.self){
+       if viewController.isKind(of: StartPageViewController.self) || viewController.isKind(of: ShopViewController.self) || viewController.isKind(of: MyViewController.self) || viewController.isKind(of: CommoditySearchViewController.self) || viewController.isKind(of: OrderSearchViewController.self) || viewController.isKind(of: MyQRCodeViewController.self) || viewController.isKind(of: FundDetailViewController.self) || viewController.isKind(of: AddBankViewController.self){
            isShowNavigationBar = true
        }else{
            isShowNavigationBar = false

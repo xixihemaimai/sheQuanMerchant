@@ -140,6 +140,22 @@ public class MyViewController: BaseViewController {
     @objc func jumpShopInfomationAction(headerBtn:UIButton){
         let shopInformationVc = ShopInformationViewController()
         Coordinator.shared?.pushViewController(self, shopInformationVc, animated: true)
+        shopInformationVc.modifyShopAvterFuntion = {[weak self] type in
+            if type == 1{
+                self?.headerImage.sd_setImage(with: URL(string: StoreService.shared.currentUser?.shopAvatar ?? ""), placeholderImage: UIImage(named: "Group 2784"))
+            }else{
+                //店铺名称
+                var width = StoreService.shared.currentUser?.shopName.singleLineSize(font: UIFont.systemFont(ofSize: scale(18), weight: .semibold)).width
+                width! += scale(10)
+                self?.shopName.text = StoreService.shared.currentUser?.shopName
+                self?.shopName.snp.remakeConstraints { make in
+                    make.left.equalTo((self?.headerImage.snp.right)!).offset(scale(12))
+                    make.top.equalTo(scale(8))
+                    make.width.equalTo(width!)
+                    make.height.equalTo(scale(25))
+                }
+            }
+        }
     }
     
     

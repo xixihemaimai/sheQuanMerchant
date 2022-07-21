@@ -20,8 +20,8 @@ class ShopDetailViewController: BaseViewController {
         super.viewDidLoad()
         
         
-//        NotificationCenter.default.removeObserver(self)
-//        NotificationCenter.default.addObserver(self, selector: #selector(modifyShopAvater), name: NSNotification.Name("modifyShopAvater"), object: nil)
+        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.addObserver(self, selector: #selector(modifyShopName), name: ModifyShopName, object: nil)
         
         
         
@@ -134,15 +134,18 @@ class ShopDetailViewController: BaseViewController {
     }
     
     
-    //修改店铺头像图片
-//    @objc func modifyShopAvater(noti:Notification){
-//
-//    }
+    @objc func modifyShopName(noti:Notification){
+        let rowList = shopeDetailList[0]
+        var dict = rowList[0]
+        dict["detailLabel"] = StoreService.shared.currentUser?.shopName
+        tableview.reloadData()
+    }
+ 
     
     
-//    deinit {
-//        NotificationCenter.default.removeObserver(self)
-//    }
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
     
     
 }

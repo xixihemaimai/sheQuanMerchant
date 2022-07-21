@@ -7,6 +7,7 @@
 
 import UIKit
 import Util
+import JFPopup
 
 class ChangePayPasswordViewController: BaseViewController {
 
@@ -274,9 +275,69 @@ class ChangePayPasswordViewController: BaseViewController {
             make.bottom.equalTo(iPhoneX ? -scale(34) : -scale(10))
         }
         sureBtn.layer.cornerRadius = scale(4)
+        
+        
+        sureBtn.addTarget(self, action: #selector(sureAction), for: .touchUpInside)
+        
     }
     
-
+    //确定
+    @objc func sureAction(sureBtn:UIButton){
+        
+        if phoneTextField.text?.isValidMobile == false{
+            JFPopup.toast(hit: "请填写正确的手机号")
+            return
+        }
+        if (codeTextField.text?.count ?? 0) < 1{
+            JFPopup.toast(hit: "请填写验证码")
+            return
+        }
+        if (newPwdTextField.text?.count ?? 0) < 6{
+            JFPopup.toast(hit: "请设置登录密码，8-16位字母数字组合")
+            return
+        }
+        
+        if (againPwdTextField.text?.count ?? 0) < 6{
+            JFPopup.toast(hit: "请设置登录密码，8-16位字母数字组合")
+            return
+        }
+        
+        if (newPwdTextField.text?.count ?? 19) > 18{
+            JFPopup.toast(hit: "请设置登录密码，8-16位字母数字组合")
+            return
+        }
+        if (againPwdTextField.text?.count ?? 19) > 18{
+            JFPopup.toast(hit: "请设置登录密码，8-16位字母数字组合")
+            return
+        }
+        
+        if newPwdTextField.text != againPwdTextField.text{
+            JFPopup.toast(hit: "俩次密码不一致")
+            return
+        }
+        
+        if newPwdTextField.text?.isPassword == false{
+            JFPopup.toast(hit: "请设置登录密码，8-16位字母数字组合")
+            return
+        }
+        
+        if againPwdTextField.text?.isPassword == false{
+            JFPopup.toast(hit: "请设置登录密码，8-16位字母数字组合")
+            return
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    }
    
 
 }

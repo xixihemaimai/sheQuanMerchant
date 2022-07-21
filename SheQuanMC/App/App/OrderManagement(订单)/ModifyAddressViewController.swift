@@ -492,7 +492,10 @@ class ModifyAddressViewController: BaseViewController {
             choiceRetAddressSuccessBlock?(retAddressInfoModel!)
             Coordinator.shared?.popViewController(self, true)
             
-            NotificationCenter.default.post(name: NSNotification.Name("modifyAfterSalesAddress"), object: nil)
+//            NotificationCenter.default.post(name: ModifyAfterSalesAddress, object: nil)
+            
+            NotificationCenter.default.post(name: ModifyAfterSalesAddress, object: nil, userInfo: ["address":"福建省厦门市思明区金林云玺140号"])
+            
             
         }else{
             let parameters = ["address":retAddressInfoModel?.address as Any,"cityId":retAddressInfoModel?.cityId as Any,"consignee":retAddressInfoModel?.consignee as Any,"isDef":retAddressInfoModel?.isDef as Any,"mobile":retAddressInfoModel?.mobile as Any,"provinceId":retAddressInfoModel?.provinceId as Any,"regionId":retAddressInfoModel?.regionId as Any,"retAddressId":retAddressInfoModel?.retAddressId as Any,"streetId":retAddressInfoModel?.streetId as Any,"zipCode":retAddressInfoModel?.zipCode as Any] as [String:Any]

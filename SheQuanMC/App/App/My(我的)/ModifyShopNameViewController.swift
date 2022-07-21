@@ -7,6 +7,7 @@
 
 import UIKit
 import Util
+import JFPopup
 
 class ModifyShopNameViewController: BaseViewController {
     
@@ -22,6 +23,7 @@ class ModifyShopNameViewController: BaseViewController {
         return modifyTextView
     }()
     
+    var modifyShopNameFuntion:(()->Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,6 +67,15 @@ class ModifyShopNameViewController: BaseViewController {
     //修改店铺名称
     @objc func modifyShopNameAction(saveBtn:UIButton){
         //这边要返回数据
+        if modifyTextView.text.count < 1{
+            JFPopup.toast(hit: "请填写正确的店铺名称")
+            return
+        }
+        
+        StoreService.shared.updateShopName(modifyTextView.text)
+        modifyShopNameFuntion?()
+        NotificationCenter.default.post(name: ModifyShopName, object: nil)
+        Coordinator.shared?.popViewController(self, true)
     }
     
 }

@@ -93,8 +93,9 @@ open class StartPageViewController: BaseViewController {
    public override func viewDidLoad() {
         super.viewDidLoad()
        
+       
        NotificationCenter.default.removeObserver(self)
-       NotificationCenter.default.addObserver(self, selector: #selector(showUserPrivacy), name: NSNotification.Name("showUserPrivacy"), object: nil)
+       NotificationCenter.default.addObserver(self, selector: #selector(showUserPrivacy), name: ShowUserPrivacy, object: nil)
  
         view.addSubview(bannerImageView)
         bannerImageView.snp.makeConstraints { make in
@@ -178,7 +179,7 @@ open class StartPageViewController: BaseViewController {
        
        //这边要弹起用户协议和隐私协议
        
-       if (!UserDefaults.standard.bool(forKey: "isFristLaunchScreen")){
+       if (!UserDefaults.standard.bool(forKey: isFristLaunchScreen)){
            showIsFristLaunchView()
        }
     }
@@ -205,7 +206,7 @@ open class StartPageViewController: BaseViewController {
                     Coordinator.shared?.pushViewController(self!, wkwebVc, animated: true)
                 }else if type == 3{
                     //同意的步骤
-                    UserDefaults.standard.set(true, forKey: "isFristLaunchScreen")
+                    UserDefaults.standard.set(true, forKey: isFristLaunchScreen)
                     UserDefaults.standard.synchronize()
                 }else{
                     //退出APP
@@ -225,7 +226,7 @@ open class StartPageViewController: BaseViewController {
     
     //通知的方法
     @objc func showUserPrivacy(not:Notification){
-        if (!UserDefaults.standard.bool(forKey: "isFristLaunchScreen")){
+        if (!UserDefaults.standard.bool(forKey: isFristLaunchScreen)){
             showIsFristLaunchView()
         }
     }

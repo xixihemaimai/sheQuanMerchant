@@ -7,6 +7,7 @@
 
 import UIKit
 import Util
+import JFPopup
 
 class ChangeBindPhoneViewController: BaseViewController {
 
@@ -161,7 +162,6 @@ class ChangeBindPhoneViewController: BaseViewController {
             make.height.equalTo(scale(44))
         }
         nextBtn.layer.cornerRadius = scale(4)
-        
     }
     
     
@@ -170,6 +170,16 @@ class ChangeBindPhoneViewController: BaseViewController {
     
     
     @objc func nextAction(nextBtn:UIButton){
+        
+        if phoneTextField.text?.isValidMobile == false{
+            JFPopup.toast(hit: "请填写正确的手机号")
+            return
+        }
+        if (codeTextField.text?.count ?? 0) < 1{
+            JFPopup.toast(hit: "请填写验证码")
+            return
+        }
+        
         //下一步
         let changeBindPhoneVC = ChangeBindPhoneViewController()
         changeBindPhoneVC.nextBtn.setTitle("确定", for: .normal)

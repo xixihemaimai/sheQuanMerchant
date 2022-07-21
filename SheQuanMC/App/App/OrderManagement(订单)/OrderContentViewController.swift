@@ -48,7 +48,7 @@ class OrderContentViewController: BaseViewController {
         
         
         NotificationCenter.default.removeObserver(self)
-        NotificationCenter.default.addObserver(self, selector: #selector(changeOrderCount), name: NSNotification.Name("changeOrderCount"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(changeOrderCount), name: ChangeOrderCount, object: nil)
         
         //创建头部的uiscrollview
         addTitleScrollview()

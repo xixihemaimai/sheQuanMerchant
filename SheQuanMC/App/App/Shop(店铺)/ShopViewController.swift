@@ -131,8 +131,8 @@ class ShopViewController: BaseViewController {
       super.viewDidLoad()
   
         NotificationCenter.default.removeObserver(self)
-        NotificationCenter.default.addObserver(self, selector: #selector(modifyShopAvater), name: NSNotification.Name("modifyShopAvater"), object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(modifyShopAvater), name: ModifyShopAvater, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(modifyShopName), name: ModifyShopName, object: nil)
         
         
         view.addSubview(shopBackImageView)
@@ -624,9 +624,18 @@ class ShopViewController: BaseViewController {
     @objc func modifyShopAvater(noti:Notification){
         shopHeaderImageView.sd_setImage(with: URL(string: StoreService.shared.currentUser?.shopAvatar ?? ""), placeholderImage: UIImage(named: "Group 2784"))
     }
-    
-    
-    
+    //修改店铺名称
+    @objc func modifyShopName(noti:Notification){
+        LXFLog("============================\(StoreService.shared.currentUser?.shopName)")
+        shopNameLabel.text = StoreService.shared.currentUser?.shopName
+        let width = (StoreService.shared.currentUser?.shopName.rectWidth(font: UIFont.systemFont(ofSize: scale(18), weight: .semibold), size: CGSize(width: SCW - scale(86), height: scale(44))) ?? 0) + scale(10)
+        shopNameLabel.snp.remakeConstraints { make in
+            make.left.equalTo(shopHeaderImageView.snp.right).offset(scale(6))
+            make.centerY.equalToSuperview()
+            make.height.equalTo(scale(25))
+            make.width.equalTo(width)
+        }
+    }
     
     
     //进入店铺详情
@@ -688,7 +697,8 @@ class ShopViewController: BaseViewController {
             Coordinator.shared?.pushViewController(self, dataManagerVc, animated: true)
         }
         else{
-            JFPopup.toast(hit: "本功能暂时还在完善中,请耐心等待")
+            let fundDetailVc = FundDetailViewController()
+            Coordinator.shared?.pushViewController(self, fundDetailVc, animated: true)
         }
     }
     

@@ -65,7 +65,7 @@ class AfterSalesDetailViewController: BaseViewController {
         
         
         NotificationCenter.default.removeObserver(self)
-        NotificationCenter.default.addObserver(self, selector: #selector(modifyAfterSalesAddress), name: NSNotification.Name("modifyAfterSalesAddress"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(modifyAfterSalesAddress), name: ModifyAfterSalesAddress, object: nil)
         
         
         
@@ -174,14 +174,14 @@ class AfterSalesDetailViewController: BaseViewController {
     }
     
     @objc func modifyAfterSalesAddress(noti:Notification){
-        LXFLog("+==============32=============")
+        let userInfo = noti.userInfo
+        let address = userInfo?["address"] as? String
+        LXFLog("+==============================\(address)")
         self.popup.bottomSheet {
             let agreenRefundView = AgreenRefundView(frame: CGRect(x: 0, y: 0, width: SCW, height: scale(492)),viewController: self)
             agreenRefundView.dismissAgreenViweBlock = {[weak self] in
                 self?.popup.dismissPopup()
             }
-            
-            
             return agreenRefundView
         }
     }

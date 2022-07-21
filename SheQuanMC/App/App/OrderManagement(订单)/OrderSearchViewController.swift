@@ -165,7 +165,7 @@ class OrderSearchViewController: BaseViewController {
             closeOrderReasonView.sureCloseSuccessBlock = {[weak self] in
                 self?.loadOrderStatus()
                 
-              NotificationCenter.default.post(name: NSNotification.Name("changeOrderCount"), object: nil)
+              NotificationCenter.default.post(name: ChangeOrderCount, object: nil)
                 
                 self?.popup.dismissPopup()
             }
@@ -184,7 +184,7 @@ class OrderSearchViewController: BaseViewController {
             }
             modifyPriceView.modifyPriceSuccessBlock = { [weak self] in
                 self?.loadOrderStatus()
-                NotificationCenter.default.post(name: NSNotification.Name("changeOrderCount"), object: nil)
+                NotificationCenter.default.post(name: ChangeOrderCount, object: nil)
                 self?.popup.dismissPopup()
             }
             return modifyPriceView

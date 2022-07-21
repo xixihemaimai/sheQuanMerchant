@@ -29,6 +29,9 @@ class ShopInformationViewController: BaseViewController {
         return manager
     }()
     
+    
+    var modifyShopAvterFuntion:((_ type:Int)->Void)?
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -121,10 +124,10 @@ extension ShopInformationViewController:UITableViewDelegate,UITableViewDataSourc
                                         cell.shopAvavr.sd_setImage(with: URL(string: str), placeholderImage: UIImage(named: "Group 2784"))
                                         StoreService.shared.updateShopAvatar(str)
                                         
+                                        
+                                        self?.modifyShopAvterFuntion?(1)
                                         //这边要发送通知和回调
-                                        NotificationCenter.default.post(name: NSNotification.Name("modifyShopAvater"), object: nil)
-                                        
-                                        
+                                        NotificationCenter.default.post(name: ModifyShopAvater, object: nil)
                                         
                                         
                                     }catch{}
@@ -154,8 +157,11 @@ extension ShopInformationViewController:UITableViewDelegate,UITableViewDataSourc
                                         cell.shopAvavr.sd_setImage(with: URL(string: str), placeholderImage: UIImage(named: "Group 2784"))
                                         StoreService.shared.updateShopAvatar(str)
                                         
+                                        self?.modifyShopAvterFuntion?(1)
+                                        
+                                        
                                         //这边要发送通知和回调
-                                        NotificationCenter.default.post(name: NSNotification.Name("modifyShopAvater"), object: nil)
+                                        NotificationCenter.default.post(name: ModifyShopAvater, object: nil)
                                         
                                         
                                         
@@ -176,10 +182,10 @@ extension ShopInformationViewController:UITableViewDelegate,UITableViewDataSourc
                 //店铺名称
                 let modifyShopNameVc = ModifyShopNameViewController()
                 Coordinator.shared?.pushViewController(self, modifyShopNameVc, animated: true)
-                
-                
-                
-                
+                modifyShopNameVc.modifyShopNameFuntion = {[weak self] in
+                    self?.modifyShopAvterFuntion?(2)
+                    self?.tableview.reloadData()
+                }
             }else if indexPath.row == 2{
                 //主营类目
                 let businessTypeVc = BusinessTypeViewController()

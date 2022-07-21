@@ -13,6 +13,21 @@ public let SCW = UIScreen.main.bounds.size.width
 public let SCH = UIScreen.main.bounds.size.height
 
 
+//通知展示隐私政策和用户协议
+public let ShowUserPrivacy = NSNotification.Name("showUserPrivacy")
+//是否展示第一次安装弹窗显示隐私政策和用户协议的
+public let isFristLaunchScreen = "isFristLaunchScreen"
+//通知改变订单显示次数的变化
+public let ChangeOrderCount = NSNotification.Name("changeOrderCount")
+//通知修改店铺头像
+public let ModifyShopAvater = NSNotification.Name("modifyShopAvater")
+//通知修改店铺名称
+public let ModifyShopName = NSNotification.Name("modifyShopName")
+//售后修改地址
+public let ModifyAfterSalesAddress = NSNotification.Name("modifyAfterSalesAddress")
+
+
+
 //这边还需要判断是不是iphonex 以上的机型
 //iphone6 ,7,8,se
 public let isIphone6:Bool = UIScreen.instancesRespond(to: #selector(getter: UIScreen.main.currentMode)) ? CGSize(width: 640, height: 960).equalTo((UIScreen.main.currentMode?.size)!) : false

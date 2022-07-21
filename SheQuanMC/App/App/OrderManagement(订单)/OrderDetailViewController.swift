@@ -349,7 +349,7 @@ class OrderDetailViewController: BaseViewController {
                 //这边是去重新获取该订单信息
                 self?.reloadCurrentOrderInfo()
                 
-                NotificationCenter.default.post(name: NSNotification.Name("changeOrderCount"), object: nil)
+                NotificationCenter.default.post(name: ChangeOrderCount, object: nil)
                 
                 self?.popup.dismissPopup()
             }
@@ -368,7 +368,7 @@ class OrderDetailViewController: BaseViewController {
             modifyPriceView.modifyPriceSuccessBlock = {[weak self] in
                 //这边是去重新获取该订单信息
                 self?.reloadCurrentOrderInfo()
-                NotificationCenter.default.post(name: NSNotification.Name("changeOrderCount"), object: nil)
+                NotificationCenter.default.post(name: ChangeOrderCount, object: nil)
                 self?.popup.dismissPopup()
             }
             return modifyPriceView

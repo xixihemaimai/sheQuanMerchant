@@ -28,6 +28,23 @@
 		403B880B2823AECB00FC4EA4 /* CommoditySpecificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B880A2823AECA00FC4EA4 /* CommoditySpecificationCell.swift */; };
 		403B880D2823B37700FC4EA4 /* CommodityPriceAndStockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B880C2823B37700FC4EA4 /* CommodityPriceAndStockCell.swift */; };
 		403B880F2823BAA700FC4EA4 /* SpecificationValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403B880E2823BAA700FC4EA4 /* SpecificationValueView.swift */; };
+		404F069A288792AB00EDD43E /* FundDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F0699288792AB00EDD43E /* FundDetailViewController.swift */; };
+		404F069C2887931300EDD43E /* CodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F069B2887931300EDD43E /* CodeView.swift */; };
+		404F069E2887A4DB00EDD43E /* FundCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F069D2887A4DB00EDD43E /* FundCell.swift */; };
+		404F06A02887AD6E00EDD43E /* RechargeAndiWthdrawalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F069F2887AD6D00EDD43E /* RechargeAndiWthdrawalViewController.swift */; };
+		404F06A22887DFF300EDD43E /* InputCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F06A12887DFF300EDD43E /* InputCodeView.swift */; };
+		404F06A42887E35F00EDD43E /* PasswordCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F06A32887E35F00EDD43E /* PasswordCodeView.swift */; };
+		404F06A62887E7AC00EDD43E /* FundRWSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F06A52887E7AC00EDD43E /* FundRWSuccessViewController.swift */; };
+		404F06A82887ECBF00EDD43E /* FundDetailStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F06A72887ECBF00EDD43E /* FundDetailStatusViewController.swift */; };
+		404F06AA2887F5B700EDD43E /* BankListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F06A92887F5B700EDD43E /* BankListViewController.swift */; };
+		404F06AC2887F89E00EDD43E /* AddBankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F06AB2887F89E00EDD43E /* AddBankViewController.swift */; };
+		404F06AE288801BE00EDD43E /* BankListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F06AD288801BE00EDD43E /* BankListCell.swift */; };
+		404F06B02888064A00EDD43E /* BankDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F06AF2888064A00EDD43E /* BankDetailViewController.swift */; };
+		404F06B228880A4B00EDD43E /* CompleteAddBankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F06B128880A4B00EDD43E /* CompleteAddBankViewController.swift */; };
+		404F06B42888DD4600EDD43E /* CapitalFlowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F06B32888DD4600EDD43E /* CapitalFlowViewController.swift */; };
+		404F06B62888E4AB00EDD43E /* CapitalFlowHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F06B52888E4AA00EDD43E /* CapitalFlowHeaderView.swift */; };
+		404F06B82888E5D400EDD43E /* CapitalFlowCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F06B72888E5D400EDD43E /* CapitalFlowCell.swift */; };
+		404F06BC2888E78300EDD43E /* BankContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404F06BB2888E78200EDD43E /* BankContentView.swift */; };
 		4060BC2B28168DFD00968C42 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC2A28168DFD00968C42 /* MainViewController.swift */; };
 		4060BC302816AD5000968C42 /* CountDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC2F2816AD5000968C42 /* CountDown.swift */; };
 		4060BC3428175ECD00968C42 /* BaseNaviViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4060BC3228175ECD00968C42 /* BaseNaviViewController.swift */; };
@@ -181,6 +198,23 @@
 		403B880A2823AECA00FC4EA4 /* CommoditySpecificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommoditySpecificationCell.swift; sourceTree = "<group>"; };
 		403B880C2823B37700FC4EA4 /* CommodityPriceAndStockCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommodityPriceAndStockCell.swift; sourceTree = "<group>"; };
 		403B880E2823BAA700FC4EA4 /* SpecificationValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificationValueView.swift; sourceTree = "<group>"; };
+		404F0699288792AB00EDD43E /* FundDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundDetailViewController.swift; sourceTree = "<group>"; };
+		404F069B2887931300EDD43E /* CodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeView.swift; sourceTree = "<group>"; };
+		404F069D2887A4DB00EDD43E /* FundCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundCell.swift; sourceTree = "<group>"; };
+		404F069F2887AD6D00EDD43E /* RechargeAndiWthdrawalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RechargeAndiWthdrawalViewController.swift; sourceTree = "<group>"; };
+		404F06A12887DFF300EDD43E /* InputCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputCodeView.swift; sourceTree = "<group>"; };
+		404F06A32887E35F00EDD43E /* PasswordCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordCodeView.swift; sourceTree = "<group>"; };
+		404F06A52887E7AC00EDD43E /* FundRWSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundRWSuccessViewController.swift; sourceTree = "<group>"; };
+		404F06A72887ECBF00EDD43E /* FundDetailStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundDetailStatusViewController.swift; sourceTree = "<group>"; };
+		404F06A92887F5B700EDD43E /* BankListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankListViewController.swift; sourceTree = "<group>"; };
+		404F06AB2887F89E00EDD43E /* AddBankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBankViewController.swift; sourceTree = "<group>"; };
+		404F06AD288801BE00EDD43E /* BankListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankListCell.swift; sourceTree = "<group>"; };
+		404F06AF2888064A00EDD43E /* BankDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankDetailViewController.swift; sourceTree = "<group>"; };
+		404F06B128880A4B00EDD43E /* CompleteAddBankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteAddBankViewController.swift; sourceTree = "<group>"; };
+		404F06B32888DD4600EDD43E /* CapitalFlowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalFlowViewController.swift; sourceTree = "<group>"; };
+		404F06B52888E4AA00EDD43E /* CapitalFlowHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalFlowHeaderView.swift; sourceTree = "<group>"; };
+		404F06B72888E5D400EDD43E /* CapitalFlowCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapitalFlowCell.swift; sourceTree = "<group>"; };
+		404F06BB2888E78200EDD43E /* BankContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankContentView.swift; sourceTree = "<group>"; };
 		4060BC2A28168DFD00968C42 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		4060BC2F2816AD5000968C42 /* CountDown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDown.swift; sourceTree = "<group>"; };
 		4060BC3228175ECD00968C42 /* BaseNaviViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNaviViewController.swift; sourceTree = "<group>"; };
@@ -355,6 +389,38 @@
 				409635382861622B00AA323C /* WKWebViewViewController.swift */,
 			);
 			path = "Login(注册和登录)";
+			sourceTree = "<group>";
+		};
+		404F06972887926F00EDD43E /* FundDetails(资金详情) */ = {
+			isa = PBXGroup;
+			children = (
+				404F06982887928600EDD43E /* view */,
+				404F0699288792AB00EDD43E /* FundDetailViewController.swift */,
+				404F069F2887AD6D00EDD43E /* RechargeAndiWthdrawalViewController.swift */,
+				404F06A52887E7AC00EDD43E /* FundRWSuccessViewController.swift */,
+				404F06A72887ECBF00EDD43E /* FundDetailStatusViewController.swift */,
+				404F06A92887F5B700EDD43E /* BankListViewController.swift */,
+				404F06AB2887F89E00EDD43E /* AddBankViewController.swift */,
+				404F06AF2888064A00EDD43E /* BankDetailViewController.swift */,
+				404F06B128880A4B00EDD43E /* CompleteAddBankViewController.swift */,
+				404F06B32888DD4600EDD43E /* CapitalFlowViewController.swift */,
+			);
+			path = "FundDetails(资金详情)";
+			sourceTree = "<group>";
+		};
+		404F06982887928600EDD43E /* view */ = {
+			isa = PBXGroup;
+			children = (
+				404F069B2887931300EDD43E /* CodeView.swift */,
+				404F069D2887A4DB00EDD43E /* FundCell.swift */,
+				404F06A12887DFF300EDD43E /* InputCodeView.swift */,
+				404F06A32887E35F00EDD43E /* PasswordCodeView.swift */,
+				404F06AD288801BE00EDD43E /* BankListCell.swift */,
+				404F06B52888E4AA00EDD43E /* CapitalFlowHeaderView.swift */,
+				404F06B72888E5D400EDD43E /* CapitalFlowCell.swift */,
+				404F06BB2888E78200EDD43E /* BankContentView.swift */,
+			);
+			path = view;
 			sourceTree = "<group>";
 		};
 		4060BC2928168DF800968C42 /* Main(主界面) */ = {
@@ -605,6 +671,7 @@
 		40A9A1E42812996D006B1CBF /* App */ = {
 			isa = PBXGroup;
 			children = (
+				404F06972887926F00EDD43E /* FundDetails(资金详情) */,
 				409B6A722877CA5300F4CE7B /* DataStatistics(数据统计) */,
 				4080A4C5282C8D2800D32002 /* FreightTemplate(运费模板) */,
 				4075AF0A281E1DE6005EB854 /* OrderManagement(订单) */,
@@ -817,6 +884,7 @@
 				40FA4A05286AEAA3003237C0 /* shopInfomationCell.swift in Sources */,
 				409BF5E028741FF800B1B8DE /* AboutMyViewController.swift in Sources */,
 				408570C0288107D400270E17 /* NegotiationHistoryCell.swift in Sources */,
+				404F06B82888E5D400EDD43E /* CapitalFlowCell.swift in Sources */,
 				408AF0E828407BA600D12584 /* CommodityParameterCell.swift in Sources */,
 				4075AEF0281CD621005EB854 /* ProductDescriptionViewController.swift in Sources */,
 				40A267AD2856E6070092321F /* AddSpecificationValueView.swift in Sources */,
@@ -825,9 +893,11 @@
 				40C377852851EB3F00DA9E70 /* SIXEditorInputView.m in Sources */,
 				408E423028289BD500C94119 /* OrderDetailViewController.swift in Sources */,
 				4083B25B2824C87200AFAD18 /* SettingPriceAndStockView.swift in Sources */,
+				404F06B228880A4B00EDD43E /* CompleteAddBankViewController.swift in Sources */,
 				4075AF0C281E1E08005EB854 /* OrderViewController.swift in Sources */,
 				4083B25E2825FC2A00AFAD18 /* OrderStatusCell.swift in Sources */,
 				409BF5D22873CA5B00B1B8DE /* MyQRCodeViewController.swift in Sources */,
+				404F06AC2887F89E00EDD43E /* AddBankViewController.swift in Sources */,
 				408E423A2828BA0D00C94119 /* AddressCell.swift in Sources */,
 				4096354128645A8400AA323C /* MomentsViewCell.swift in Sources */,
 				403B8807282379C600FC4EA4 /* CommoditySpecificationsFooterView.swift in Sources */,
@@ -839,6 +909,7 @@
 				408570B2287FFDC300270E17 /* AfterSalesHistoryCell.swift in Sources */,
 				401E5DC1281528C4009127A5 /* Edit+UIButton.swift in Sources */,
 				40FA4A09286AFDC4003237C0 /* ModifyShopNameViewController.swift in Sources */,
+				404F069C2887931300EDD43E /* CodeView.swift in Sources */,
 				403B88052823797300FC4EA4 /* CommoditySpecificationsHeaderView.swift in Sources */,
 				40C377892851EB3F00DA9E70 /* SIXEditorView.m in Sources */,
 				4060BC492818C87400968C42 /* EnterpriseCertificationViewController.swift in Sources */,
@@ -869,6 +940,8 @@
 				40C377862851EB3F00DA9E70 /* SIXHTMLParser.m in Sources */,
 				4060BC3728175ED300968C42 /* Edit+UIBarButtonItem.swift in Sources */,
 				4060BC3928177F1A00968C42 /* RegisterViewController.swift in Sources */,
+				404F06A82887ECBF00EDD43E /* FundDetailStatusViewController.swift in Sources */,
+				404F06A42887E35F00EDD43E /* PasswordCodeView.swift in Sources */,
 				409BF5DC28741BF800B1B8DE /* UserHelpViewController.swift in Sources */,
 				408E42362828B49C00C94119 /* BuyerAdressCell.swift in Sources */,
 				4060BC3528175ECD00968C42 /* BaseViewController.swift in Sources */,
@@ -885,7 +958,9 @@
 				408570C2288145EC00270E17 /* UploadVoucherViewController.swift in Sources */,
 				401E5DC6281528F3009127A5 /* Edit+UIImage.swift in Sources */,
 				4083B2642826223400AFAD18 /* ModifyPriceView.swift in Sources */,
+				404F06AA2887F5B700EDD43E /* BankListViewController.swift in Sources */,
 				4080A4CC282CA24500D32002 /* TemplateContentViewController.swift in Sources */,
+				404F06B02888064A00EDD43E /* BankDetailViewController.swift in Sources */,
 				40AFEBCA281B6B1A0062D271 /* ReleaseGoodsViewController.swift in Sources */,
 				40C377882851EB3F00DA9E70 /* SIXEditorToolBar.m in Sources */,
 				401E5DC9281528F3009127A5 /* Edit+UIImageView.swift in Sources */,
@@ -893,16 +968,20 @@
 				4075AF12281E3088005EB854 /* OrderStatusViewController.swift in Sources */,
 				4083B2622826188100AFAD18 /* CloseOrderReasonCell.swift in Sources */,
 				4074C9F5282DF764009E9023 /* NoDeliveryTableviewCell.swift in Sources */,
+				404F06A22887DFF300EDD43E /* InputCodeView.swift in Sources */,
 				4083B260282615AA00AFAD18 /* CloseOrderReasonView.swift in Sources */,
 				4080A4C7282C98B700D32002 /* FreightTemplateViewController.swift in Sources */,
 				4096354328645AA700AA323C /* MomentsPostButton.swift in Sources */,
 				408570B8288015C500270E17 /* AfterSalesReturnAddressCell.swift in Sources */,
 				408E424C282903B200C94119 /* ReturnGoodsAddressCell.swift in Sources */,
+				404F06B42888DD4600EDD43E /* CapitalFlowViewController.swift in Sources */,
 				408E42342828ADD100C94119 /* OrderDeliveryLogisticsCell.swift in Sources */,
 				409BF5D82873ED1A00B1B8DE /* ChangePayPasswordViewController.swift in Sources */,
 				408570AE287FF17800270E17 /* AfterSalesDetailViewController.swift in Sources */,
 				4080A4CE282CB08000D32002 /* FreightAllocationViewController.swift in Sources */,
+				404F06A02887AD6E00EDD43E /* RechargeAndiWthdrawalViewController.swift in Sources */,
 				40800844287C00F40090C72A /* YBDatePicker.swift in Sources */,
+				404F069E2887A4DB00EDD43E /* FundCell.swift in Sources */,
 				4074C9EF282CE3D0009E9023 /* RegionView.swift in Sources */,
 				408570C42881577300270E17 /* AgreenRefundView.swift in Sources */,
 				407D9802281A66C6005A8CBC /* commodityStatusCell.swift in Sources */,
@@ -913,12 +992,16 @@
 				40C3778A2851EB3F00DA9E70 /* SIXEditorInputManager.m in Sources */,
 				401E5DD628163A48009127A5 /* StartPageViewController.swift in Sources */,
 				4075AF0E281E2673005EB854 /* OrderContentViewController.swift in Sources */,
+				404F06A62887E7AC00EDD43E /* FundRWSuccessViewController.swift in Sources */,
 				408570B0287FF50600270E17 /* AfterSalesDetailCell.swift in Sources */,
+				404F069A288792AB00EDD43E /* FundDetailViewController.swift in Sources */,
 				403B880F2823BAA700FC4EA4 /* SpecificationValueView.swift in Sources */,
 				403B87F92823536400FC4EA4 /* CommodityCategoryViewController.swift in Sources */,
 				4080A4CA282C995E00D32002 /* FreightTemplateCell.swift in Sources */,
 				409B6A742877CA9600F4CE7B /* DataManagerViewController.swift in Sources */,
+				404F06BC2888E78300EDD43E /* BankContentView.swift in Sources */,
 				409C29932814FC5D00005ECB /* UITextView+Placeholder.m in Sources */,
+				404F06AE288801BE00EDD43E /* BankListCell.swift in Sources */,
 				408E42462828ED3800C94119 /* CheckLogisticsProgressCell.swift in Sources */,
 				407D9808281A8457005A8CBC /* ReplenishInventoryCell.swift in Sources */,
 				4096353F2864599400AA323C /* MomentsView.swift in Sources */,
@@ -944,6 +1027,7 @@
 				403B88092823A8C600FC4EA4 /* AddSpecificationsView.swift in Sources */,
 				408E42482828FDE800C94119 /* ModifyLogisticsViewController.swift in Sources */,
 				408E424A2829003C00C94119 /* OrderModifyLogisticsCell.swift in Sources */,
+				404F06B62888E4AB00EDD43E /* CapitalFlowHeaderView.swift in Sources */,
 				409BF5D42873D44300B1B8DE /* AccountAndSafeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

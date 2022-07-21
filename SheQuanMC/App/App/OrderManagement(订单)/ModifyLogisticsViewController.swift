@@ -162,7 +162,7 @@ class ModifyLogisticsViewController: BaseViewController {
                     self?.jumpSuccessBlockDetailType?()
                 }
                 Coordinator.shared?.popViewController(self!, true)
-                NotificationCenter.default.post(name: NSNotification.Name("changeOrderCount"), object: nil)
+                NotificationCenter.default.post(name: ChangeOrderCount, object: nil)
             } failureCallback: { error, code in
                 code.loginOut()
             }

@@ -96,6 +96,8 @@ class FeedbackMyViewController: BaseViewController {
         
         sureBtn.layer.cornerRadius = scale(4)
         
+        sureBtn.addTarget(self, action: #selector(sureAction), for: .touchUpInside)
+        
         
         
         let questionLabel = UILabel()
@@ -152,7 +154,6 @@ class FeedbackMyViewController: BaseViewController {
                 make.height.equalTo(scale(9))
             }
         }
-        
         
         /// 点击按钮
         feedBacksView.btnPostBlock = { [weak self] in
@@ -227,6 +228,22 @@ class FeedbackMyViewController: BaseViewController {
        
         
     }
+    
+    //确定
+    @objc func sureAction(sureBtn:UIButton){
+        if feedTextView.text.count < 1{
+            JFPopup.toast(hit: "请填写您所遇到的问题")
+            return
+        }
+        
+        if phoneTextField.text?.isValidMobile == false{
+            JFPopup.toast(hit: "请填写正确的手机号")
+            return
+        }
+        
+        
+    }
+    
     
     /// 添加拖动手势
     @objc private func longPress(_ gesture: UILongPressGestureRecognizer) {
