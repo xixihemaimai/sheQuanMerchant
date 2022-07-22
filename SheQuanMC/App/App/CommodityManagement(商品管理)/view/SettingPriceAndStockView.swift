@@ -52,11 +52,13 @@ class SettingPriceAndStockView: UIView {
         priceTextfield.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         priceTextfield.textAlignment = .left
         priceTextfield.delegate = self
+        priceTextfield.placeholder = "请输入价格"
+        priceTextfield.attributedPlaceholder = NSAttributedString.init(string:"请输入价格", attributes: [
+            NSAttributedString.Key.foregroundColor:UIColor.colorWithDyColorChangObject(lightColor:"#999999")])
         return priceTextfield
     }()
     
     //库存
-    
     lazy var stockTextfield:UITextField = {
        let stockTextfield = UITextField()
         stockTextfield.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)

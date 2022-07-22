@@ -8,10 +8,10 @@
 import UIKit
 import Util
 import JFPopup
+import AliyunIdentityManager
 
 class AddBankViewController: BaseViewController {
-    
-    
+        
     lazy var ownCodeTextField:UITextField = {
        let ownCodeTextField = UITextField()
         ownCodeTextField.placeholder = "请输入持卡人"
@@ -50,10 +50,6 @@ class AddBankViewController: BaseViewController {
         phoneNumTextField.delegate = self
         return phoneNumTextField
     }()
-    
-    
-    
-    
     
     
     override func viewDidLoad() {
@@ -236,22 +232,34 @@ class AddBankViewController: BaseViewController {
     //下一步
     @objc func nextAction(nextBtn:UIButton){
         
-        if (ownCodeTextField.text?.count ?? 0) < 1{
-            JFPopup.toast(hit: "请填写收货人")
-            return
+//        if (ownCodeTextField.text?.count ?? 0) < 1{
+//            JFPopup.toast(hit: "请填写收货人")
+//            return
+//        }
+//
+//        if (bankCodeTextField.text?.count ?? 0) < 1{
+//            JFPopup.toast(hit: "请填写银行卡号")
+//            return
+//        }
+//
+//        if phoneNumTextField.text?.isValidMobile == false{
+//            JFPopup.toast(hit: "请填写正取的手机号")
+//            return
+//        }
+        
+        let session = AliyunSdk.getMobileSession()
+        let extParams: [String : Any] = ["currentCtr": self]
+        AliyunIdentityManager.sharedInstance().verify(with: "sha94c81e357a836588a7a5aef5e7242", extParams: extParams) { (aresp) in
+            if (aresp != nil && aresp?.code == ZIMResponseCode.ZIMResponseSuccess) {
+                LXFLog("======")
+                // 认证成功
+                //callback(true, "认证成功", certifyId);
+            } else {
+                LXFLog("------")
+                // 认证失败
+                //callback(false, aresp?.reason, nil);
+            }
         }
-        
-        if (bankCodeTextField.text?.count ?? 0) < 1{
-            JFPopup.toast(hit: "请填写银行卡号")
-            return
-        }
-        
-        if phoneNumTextField.text?.isValidMobile == false{
-            JFPopup.toast(hit: "请填写正取的手机号")
-            return
-        }
-        
-        
         
     }
     

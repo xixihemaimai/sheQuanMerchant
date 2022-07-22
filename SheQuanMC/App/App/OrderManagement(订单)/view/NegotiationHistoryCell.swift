@@ -55,19 +55,46 @@ class NegotiationHistoryCell: UITableViewCell {
          return identityLabel
     }()
     
-    
-    //显示内容
-    lazy var showConentLabel:UILabel = {
-        let showConentLabel = UILabel()
-        showConentLabel.text = "物流公司：中通快递，快递单号：12345678910"
-        showConentLabel.numberOfLines = 0
-        showConentLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
-        showConentLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
-        showConentLabel.textAlignment = .left
-         return showConentLabel
+    //获取状态
+    lazy var cargoStatusLabel:UILabel = {
+       let cargoStatusLabel = UILabel()
+        cargoStatusLabel.text = "货物状态:已收到货"
+        cargoStatusLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        cargoStatusLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
+        cargoStatusLabel.textAlignment = .left
+        return cargoStatusLabel
     }()
     
     
+    //拒绝原因
+    lazy var reasonLabel:UILabel = {
+        let reasonLabel = UILabel()
+        reasonLabel.text = "拒绝原因：商品不支持7天无理由退货"
+        reasonLabel.numberOfLines = 0
+        reasonLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        reasonLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
+        reasonLabel.textAlignment = .left
+        return reasonLabel
+    }()
+    
+    
+    //说明
+    lazy var explainLabel:UILabel = {
+        let explainLabel = UILabel()
+        explainLabel.text = "说明:"
+        explainLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
+        explainLabel.font = UIFont.systemFont(ofSize: scale(14), weight: .regular)
+        explainLabel.textAlignment = .left
+        return explainLabel
+    }()
+    
+    
+   
+    lazy var historyImageArrayView:NegotiationHistoryImageView = {
+       let historyImageArrayView = NegotiationHistoryImageView()
+        historyImageArrayView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
+        return historyImageArrayView
+    }()
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -80,7 +107,10 @@ class NegotiationHistoryCell: UITableViewCell {
         contentView.addSubview(shopStatusLabel)
         contentView.addSubview(identityLabel)
         contentView.addSubview(timeLabel)
-        contentView.addSubview(showConentLabel)
+        contentView.addSubview(cargoStatusLabel)
+        contentView.addSubview(reasonLabel)
+        contentView.addSubview(explainLabel)
+        contentView.addSubview(historyImageArrayView)
         
         topView.snp.makeConstraints { make in
             make.left.right.top.equalToSuperview()
@@ -119,12 +149,34 @@ class NegotiationHistoryCell: UITableViewCell {
         }
         
         
-        showConentLabel.snp.makeConstraints { make in
-            make.left.equalTo(scale(16))
+        cargoStatusLabel.snp.makeConstraints { make in
+            make.left.equalTo(shopImage.snp.right).offset(scale(8))
             make.right.equalTo(-scale(16))
             make.top.equalTo(shopImage.snp.bottom).offset(scale(8))
             make.height.equalTo(scale(20))
-            make.bottom.equalTo(-scale(16))
+        }
+        
+        
+        reasonLabel.snp.makeConstraints { make in
+            make.left.equalTo(shopImage.snp.right).offset(scale(8))
+            make.right.equalTo(-scale(16))
+            make.top.equalTo(cargoStatusLabel.snp.bottom).offset(scale(8))
+            make.height.equalTo(scale(20))
+        }
+        
+        explainLabel.snp.makeConstraints { make in
+            make.left.equalTo(shopImage.snp.right).offset(scale(8))
+            make.right.equalTo(-scale(16))
+            make.top.equalTo(reasonLabel.snp.bottom).offset(scale(8))
+            make.height.equalTo(scale(20))
+        }
+        
+        historyImageArrayView.snp.makeConstraints { make in
+            make.left.equalTo(shopImage.snp.right).offset(scale(8))
+            make.right.equalToSuperview()
+            make.top.equalTo(explainLabel.snp.bottom).offset(scale(4))
+            make.height.equalTo(scale(0))
+            make.bottom.equalTo(scale(4))
         }
         
         

@@ -7,6 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		404F06BE288A325D00EDD43E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 404F06BD288A325D00EDD43E /* CoreGraphics.framework */; };
+		404F06C0288A326500EDD43E /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 404F06BF288A326500EDD43E /* Accelerate.framework */; };
+		404F06C2288A327100EDD43E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 404F06C1288A327100EDD43E /* SystemConfiguration.framework */; };
+		404F06C4288A327B00EDD43E /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 404F06C3288A327B00EDD43E /* CoreTelephony.framework */; };
+		404F06C6288A328900EDD43E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 404F06C5288A328900EDD43E /* QuartzCore.framework */; };
+		404F06C8288A329800EDD43E /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 404F06C7288A329800EDD43E /* CoreFoundation.framework */; };
+		404F06CA288A32A300EDD43E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 404F06C9288A32A300EDD43E /* CoreLocation.framework */; };
+		404F06CC288A32B100EDD43E /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 404F06CB288A32B100EDD43E /* ImageIO.framework */; };
+		404F06CE288A32BB00EDD43E /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 404F06CD288A32BB00EDD43E /* CoreMedia.framework */; };
+		404F06D0288A32C200EDD43E /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 404F06CF288A32C200EDD43E /* CoreMotion.framework */; };
+		404F06D2288A32C900EDD43E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 404F06D1288A32C900EDD43E /* AVFoundation.framework */; };
+		404F06D4288A32CF00EDD43E /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 404F06D3288A32CF00EDD43E /* WebKit.framework */; };
+		404F06D6288A32E700EDD43E /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 404F06D5288A32DB00EDD43E /* libresolv.tbd */; };
+		404F06D8288A330000EDD43E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 404F06D7288A32F600EDD43E /* libz.tbd */; };
+		404F06DA288A331800EDD43E /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 404F06D9288A330E00EDD43E /* libc++.tbd */; };
+		404F06DC288A332A00EDD43E /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 404F06DB288A332200EDD43E /* libc++.1.tbd */; };
+		404F06DE288A333F00EDD43E /* libc++abi.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 404F06DD288A333600EDD43E /* libc++abi.tbd */; };
+		404F06E0288A334900EDD43E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 404F06DF288A334900EDD43E /* AudioToolbox.framework */; };
+		404F06E2288A335500EDD43E /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 404F06E1288A335500EDD43E /* CFNetwork.framework */; };
+		404F06E4288A336200EDD43E /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 404F06E3288A336200EDD43E /* MobileCoreServices.framework */; };
+		404F06E6288A337500EDD43E /* libz.1.2.8.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 404F06E5288A336D00EDD43E /* libz.1.2.8.tbd */; };
+		404F06E8288A337E00EDD43E /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 404F06E7288A337E00EDD43E /* AdSupport.framework */; };
 		40800852287D76250090C72A /* App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A20428129A4D006B1CBF /* App.framework */; };
 		40800853287D76250090C72A /* App.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A20428129A4D006B1CBF /* App.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		40800855287D76260090C72A /* Util.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A9A20828129A52006B1CBF /* Util.framework */; };
@@ -35,6 +57,28 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		404F06BD288A325D00EDD43E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		404F06BF288A326500EDD43E /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		404F06C1288A327100EDD43E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		404F06C3288A327B00EDD43E /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		404F06C5288A328900EDD43E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		404F06C7288A329800EDD43E /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		404F06C9288A32A300EDD43E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		404F06CB288A32B100EDD43E /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		404F06CD288A32BB00EDD43E /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		404F06CF288A32C200EDD43E /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		404F06D1288A32C900EDD43E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		404F06D3288A32CF00EDD43E /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		404F06D5288A32DB00EDD43E /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		404F06D7288A32F600EDD43E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		404F06D9288A330E00EDD43E /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		404F06DB288A332200EDD43E /* libc++.1.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.1.tbd"; path = "usr/lib/libc++.1.tbd"; sourceTree = SDKROOT; };
+		404F06DD288A333600EDD43E /* libc++abi.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++abi.tbd"; path = "usr/lib/libc++abi.tbd"; sourceTree = SDKROOT; };
+		404F06DF288A334900EDD43E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		404F06E1288A335500EDD43E /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		404F06E3288A336200EDD43E /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		404F06E5288A336D00EDD43E /* libz.1.2.8.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.8.tbd; path = usr/lib/libz.1.2.8.tbd; sourceTree = SDKROOT; };
+		404F06E7288A337E00EDD43E /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		40A9A1C128129906006B1CBF /* SheQuanMC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SheQuanMC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40A9A1C428129906006B1CBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		40A9A1C828129906006B1CBF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -55,8 +99,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				404F06CE288A32BB00EDD43E /* CoreMedia.framework in Frameworks */,
+				404F06C6288A328900EDD43E /* QuartzCore.framework in Frameworks */,
+				404F06DC288A332A00EDD43E /* libc++.1.tbd in Frameworks */,
+				404F06BE288A325D00EDD43E /* CoreGraphics.framework in Frameworks */,
+				404F06E6288A337500EDD43E /* libz.1.2.8.tbd in Frameworks */,
+				404F06C8288A329800EDD43E /* CoreFoundation.framework in Frameworks */,
 				40800855287D76260090C72A /* Util.framework in Frameworks */,
+				404F06D4288A32CF00EDD43E /* WebKit.framework in Frameworks */,
+				404F06DA288A331800EDD43E /* libc++.tbd in Frameworks */,
+				404F06C4288A327B00EDD43E /* CoreTelephony.framework in Frameworks */,
+				404F06D8288A330000EDD43E /* libz.tbd in Frameworks */,
+				404F06D6288A32E700EDD43E /* libresolv.tbd in Frameworks */,
+				404F06E0288A334900EDD43E /* AudioToolbox.framework in Frameworks */,
+				404F06E2288A335500EDD43E /* CFNetwork.framework in Frameworks */,
+				404F06D0288A32C200EDD43E /* CoreMotion.framework in Frameworks */,
+				404F06C0288A326500EDD43E /* Accelerate.framework in Frameworks */,
+				404F06CA288A32A300EDD43E /* CoreLocation.framework in Frameworks */,
+				404F06CC288A32B100EDD43E /* ImageIO.framework in Frameworks */,
 				40800852287D76250090C72A /* App.framework in Frameworks */,
+				404F06C2288A327100EDD43E /* SystemConfiguration.framework in Frameworks */,
+				404F06DE288A333F00EDD43E /* libc++abi.tbd in Frameworks */,
+				404F06E8288A337E00EDD43E /* AdSupport.framework in Frameworks */,
+				404F06E4288A336200EDD43E /* MobileCoreServices.framework in Frameworks */,
+				404F06D2288A32C900EDD43E /* AVFoundation.framework in Frameworks */,
 				61EF0698A9E3826DD00D7B6E /* Pods_SheQuanMC.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -116,6 +182,28 @@
 		E977B637D034CB88C31A7215 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				404F06E7288A337E00EDD43E /* AdSupport.framework */,
+				404F06E5288A336D00EDD43E /* libz.1.2.8.tbd */,
+				404F06E3288A336200EDD43E /* MobileCoreServices.framework */,
+				404F06E1288A335500EDD43E /* CFNetwork.framework */,
+				404F06DF288A334900EDD43E /* AudioToolbox.framework */,
+				404F06DD288A333600EDD43E /* libc++abi.tbd */,
+				404F06DB288A332200EDD43E /* libc++.1.tbd */,
+				404F06D9288A330E00EDD43E /* libc++.tbd */,
+				404F06D7288A32F600EDD43E /* libz.tbd */,
+				404F06D5288A32DB00EDD43E /* libresolv.tbd */,
+				404F06D3288A32CF00EDD43E /* WebKit.framework */,
+				404F06D1288A32C900EDD43E /* AVFoundation.framework */,
+				404F06CF288A32C200EDD43E /* CoreMotion.framework */,
+				404F06CD288A32BB00EDD43E /* CoreMedia.framework */,
+				404F06CB288A32B100EDD43E /* ImageIO.framework */,
+				404F06C9288A32A300EDD43E /* CoreLocation.framework */,
+				404F06C7288A329800EDD43E /* CoreFoundation.framework */,
+				404F06C5288A328900EDD43E /* QuartzCore.framework */,
+				404F06C3288A327B00EDD43E /* CoreTelephony.framework */,
+				404F06C1288A327100EDD43E /* SystemConfiguration.framework */,
+				404F06BF288A326500EDD43E /* Accelerate.framework */,
+				404F06BD288A325D00EDD43E /* CoreGraphics.framework */,
 				40A9A20828129A52006B1CBF /* Util.framework */,
 				40A9A20428129A4D006B1CBF /* App.framework */,
 				E8A97F8F1362286CE0488478 /* Pods_SheQuanMC.framework */,
@@ -136,6 +224,7 @@
 				40A9A1BF28129906006B1CBF /* Resources */,
 				A821B18E8606FAECF257F8DB /* [CP] Embed Pods Frameworks */,
 				40800854287D76250090C72A /* Embed Frameworks */,
+				D6D794EFBF256B504E19A3EE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -233,6 +322,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		D6D794EFBF256B504E19A3EE /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SheQuanMC/Pods-SheQuanMC-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SheQuanMC/Pods-SheQuanMC-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SheQuanMC/Pods-SheQuanMC-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -301,6 +407,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -362,6 +469,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -393,6 +501,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2.5;
 				DEVELOPMENT_TEAM = Y5Y35S9VHX;
+				ENABLE_BITCODE = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SheQuanMC/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "奢圈商户版";
@@ -411,6 +520,136 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"c++\"",
+					"-l\"c++.1\"",
+					"-l\"c++abi\"",
+					"-l\"compression\"",
+					"-l\"resolv\"",
+					"-l\"z\"",
+					"-l\"z.1.2.8\"",
+					"-framework",
+					"\"APBToygerFacade\"",
+					"-framework",
+					"\"APPSecuritySDK\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AdSupport\"",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"AliyunIdentityManager\"",
+					"-framework",
+					"\"AliyunOSSiOS\"",
+					"-framework",
+					"\"AssetsLibrary\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"BioAuthAPI\"",
+					"-framework",
+					"\"BioAuthEngine\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CocoaAsyncSocket\"",
+					"-framework",
+					"\"CocoaLumberjack\"",
+					"-framework",
+					"\"CoreFoundation\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreLocation\"",
+					"-framework",
+					"\"CoreMedia\"",
+					"-framework",
+					"\"CoreMotion\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"DZNEmptyDataSet\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"HXPhotoPicker\"",
+					"-framework",
+					"\"HandyJSON\"",
+					"-framework",
+					"\"IQKeyboardManager\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"JFPopup\"",
+					"-framework",
+					"\"JRBaseKit\"",
+					"-framework",
+					"\"JXPhotoBrowser\"",
+					"-framework",
+					"\"LDMessage\"",
+					"-framework",
+					"\"LDStreaming\"",
+					"-framework",
+					"\"MJRefresh\"",
+					"-framework",
+					"\"MPRemoteLogging\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"Moya\"",
+					"-framework",
+					"\"OCRDetectSDKForTech\"",
+					"-framework",
+					"\"Photos\"",
+					"-framework",
+					"\"PhotosUI\"",
+					"-framework",
+					"\"Protobuf\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Realm\"",
+					"-framework",
+					"\"RealmSwift\"",
+					"-framework",
+					"\"SDWebImage\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SnapKit\"",
+					"-framework",
+					"\"SwiftyJSON\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"TZImagePickerController\"",
+					"-framework",
+					"\"ToygerService\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"WebKit\"",
+					"-framework",
+					"\"ZolozIdentityManager\"",
+					"-framework",
+					"\"ZolozMobileRPC\"",
+					"-framework",
+					"\"ZolozOpenPlatformBuild\"",
+					"-framework",
+					"\"ZolozSensorServices\"",
+					"-framework",
+					"\"ZolozUtility\"",
+					"-framework",
+					"\"deviceiOS\"",
+					"-weak_framework",
+					"\"SwiftUI\"",
+					"-lxml2",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.NDX.SheQuanMC;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -431,6 +670,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2.5;
 				DEVELOPMENT_TEAM = Y5Y35S9VHX;
+				ENABLE_BITCODE = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SheQuanMC/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "奢圈商户版";
@@ -449,6 +689,136 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"c++\"",
+					"-l\"c++.1\"",
+					"-l\"c++abi\"",
+					"-l\"compression\"",
+					"-l\"resolv\"",
+					"-l\"z\"",
+					"-l\"z.1.2.8\"",
+					"-framework",
+					"\"APBToygerFacade\"",
+					"-framework",
+					"\"APPSecuritySDK\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"AdSupport\"",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"AliyunIdentityManager\"",
+					"-framework",
+					"\"AliyunOSSiOS\"",
+					"-framework",
+					"\"AssetsLibrary\"",
+					"-framework",
+					"\"AudioToolbox\"",
+					"-framework",
+					"\"BioAuthAPI\"",
+					"-framework",
+					"\"BioAuthEngine\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CocoaAsyncSocket\"",
+					"-framework",
+					"\"CocoaLumberjack\"",
+					"-framework",
+					"\"CoreFoundation\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreLocation\"",
+					"-framework",
+					"\"CoreMedia\"",
+					"-framework",
+					"\"CoreMotion\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"DZNEmptyDataSet\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"HXPhotoPicker\"",
+					"-framework",
+					"\"HandyJSON\"",
+					"-framework",
+					"\"IQKeyboardManager\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"JFPopup\"",
+					"-framework",
+					"\"JRBaseKit\"",
+					"-framework",
+					"\"JXPhotoBrowser\"",
+					"-framework",
+					"\"LDMessage\"",
+					"-framework",
+					"\"LDStreaming\"",
+					"-framework",
+					"\"MJRefresh\"",
+					"-framework",
+					"\"MPRemoteLogging\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"Moya\"",
+					"-framework",
+					"\"OCRDetectSDKForTech\"",
+					"-framework",
+					"\"Photos\"",
+					"-framework",
+					"\"PhotosUI\"",
+					"-framework",
+					"\"Protobuf\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Realm\"",
+					"-framework",
+					"\"RealmSwift\"",
+					"-framework",
+					"\"SDWebImage\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SnapKit\"",
+					"-framework",
+					"\"SwiftyJSON\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"TZImagePickerController\"",
+					"-framework",
+					"\"ToygerService\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"WebKit\"",
+					"-framework",
+					"\"ZolozIdentityManager\"",
+					"-framework",
+					"\"ZolozMobileRPC\"",
+					"-framework",
+					"\"ZolozOpenPlatformBuild\"",
+					"-framework",
+					"\"ZolozSensorServices\"",
+					"-framework",
+					"\"ZolozUtility\"",
+					"-framework",
+					"\"deviceiOS\"",
+					"-weak_framework",
+					"\"SwiftUI\"",
+					"-lxml2",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.NDX.SheQuanMC;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

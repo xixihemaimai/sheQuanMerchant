@@ -204,7 +204,7 @@ class UploadVoucherViewController: BaseViewController {
     
     func uploadImage() {
 //        vMoments.arrData.append(UIImage(named: "fengjingtu\(getRandom(1, 4))")!)
-        if productPics.count > 6 {
+        if productPics.count > 3 {
             JFPopup.toast(hit: "只能选择6张图片")
         }else{
             manager.type = .photo
@@ -239,9 +239,9 @@ class UploadVoucherViewController: BaseViewController {
                                     }
                                 }catch{}
                                 if self?.productPics.count ?? 0 > 0{
-                                    if self?.productPics.count ?? 7 > 6 {
+                                    if self?.productPics.count ?? 4 > 3 {
                                         let length = (self?.productPics.count ?? 1) - 1
-                                        self?.productPics.removeSubrange(6...length)
+                                        self?.productPics.removeSubrange(3...length)
                                         self?.feedBacksView.arrData = self?.productPics ?? [String]()
                                     }else{
                                         self?.feedBacksView.arrData = self?.productPics ?? [String]()
@@ -282,9 +282,9 @@ class UploadVoucherViewController: BaseViewController {
                                     }
                                 }catch{}
                                 if self?.productPics.count ?? 0 > 0{
-                                    if self?.productPics.count ?? 7 > 6 {
+                                    if self?.productPics.count ?? 4 > 3 {
                                         let length = (self?.productPics.count ?? 1) - 1
-                                        self?.productPics.removeSubrange(6...length)
+                                        self?.productPics.removeSubrange(3...length)
                                         self?.feedBacksView.arrData = self?.productPics ?? [String]()
                                     }else{
                                         self?.feedBacksView.arrData = self?.productPics ?? [String]()

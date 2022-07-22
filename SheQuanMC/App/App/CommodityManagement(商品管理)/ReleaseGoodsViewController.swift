@@ -1639,6 +1639,11 @@ class ReleaseGoodsViewController: BaseViewController {
             
         }
         
+        
+        
+        
+        
+        
         //默认模板 self.defaultTemplate.text = "未设置" self.commodityModel?.freightId = Int64(0)
         if defaultTemplate.text == "未设置" && self.commodityModel?.freightId == Int64(0){
            JFPopup.toast(hit: "请填写完整资料")
@@ -1775,6 +1780,8 @@ class ReleaseGoodsViewController: BaseViewController {
                 productPicsStr += "," + "\"" + str + "\""
             }
         }
+        ////[str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        goodsTextView.text = goodsTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
         productPicsStr += "]"
         let parameters = ["categoryId":commodityModel?.categoryId as Any,"freeRefundIn7Days":returnGoodsSwitch.isOn,"freightId":(commodityModel?.freightId ?? 0) as Any,"freightInsure":returnGoodsInsuranceSwitch.isOn,"multiSpec":specificationsSwitch.isOn,"price":((priceTextfield.text?.count ?? 0 ) > 0 ? Decimal(string: priceTextfield.text ?? "0") : Decimal(string:"0")) as Any ,"productCode":goodsCardTextField.text ?? "","productDesc":(commodityModel?.productDesc ?? "") as Any,"productId":(commodityModel?.productId ?? 0) as Any,"productName":goodsTextView.text ?? "","productPics":(productPicsStr.count > 0 ? productPicsStr : [String]()) as Any,"seqNo":(commodityModel?.seqNo ?? 0) as Any,"skus":(skusList.count > 0 ? skusList : [Skus]()) as Any,"specGroups":( specsGroupsList.count > 0 ? specsGroupsList : [SpecGroups]() )as Any,"spus":(spusList.count > 0 ? spusList : [Spus]()) as Any,"stock":(stockTextfield.text?.count ?? 0 > 0 ? Int32(stockTextfield.text ?? "0") : 0)  as Any,"stockDeductType":1] as [String:Any]
         NetWorkResultRequest(OrderApi.productPublish(parameters: parameters), needShowFailAlert: true) { result, data in
@@ -2076,6 +2083,7 @@ class ReleaseGoodsViewController: BaseViewController {
             }
         }
         productPicsStr += "]"
+        goodsTextView.text = goodsTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
         let parameters = ["categoryId":commodityModel?.categoryId as Any,"freeRefundIn7Days":returnGoodsSwitch.isOn,"freightId":(commodityModel?.freightId ?? 0) as Any,"freightInsure":returnGoodsInsuranceSwitch.isOn,"multiSpec":specificationsSwitch.isOn,"price":((priceTextfield.text?.count ?? 0 ) > 0 ? Decimal(string: priceTextfield.text ?? "0") : Decimal(string: "0")) as Any,"productCode":goodsCardTextField.text ?? "","productDesc":(commodityModel?.productDesc ?? "") as Any,"productId":(commodityModel?.productId ?? 0) as Any,"productName":goodsTextView.text ?? "","productPics":(productPicsStr.count > 0 ? productPicsStr : [String]()) as Any,"seqNo":(commodityModel?.seqNo ?? 0) as Any,"skus":(skusList.count > 0 ? skusList : [Skus]()) as Any,"specGroups":( specsGroupsList.count > 0 ? specsGroupsList : [SpecGroups]() )as Any,"spus":(spusList.count > 0 ? spusList : [Spus]()) as Any,"stock":(stockTextfield.text?.count ?? 0 > 0 ? Int32(stockTextfield.text ?? "0") : 0)  as Any,"stockDeductType":1] as [String:Any]
         NetWorkResultRequest(OrderApi.draft(parameters: parameters), needShowFailAlert: true) { result, data in
             Coordinator.shared?.popViewController(self, true)

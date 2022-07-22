@@ -11,11 +11,10 @@ import Util
 import IQKeyboardManager
 import SwiftyJSON
 import JFPopup
-
+import AliyunIdentityManager
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
 
     var window: UIWindow?
     
@@ -24,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
         
+        let _ = AliyunSdk.init()
 //        let view = JFPopupView()
 //        view.config.autoDismissDuration = JFTimerDuration.seconds(value: 1)
 //        view.config.isDismissible = false

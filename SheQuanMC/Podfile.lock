@@ -3,6 +3,7 @@ PODS:
   - CocoaAsyncSocket (7.6.5)
   - CocoaLumberjack (1.0.0)
   - DZNEmptyDataSet (1.8.1)
+  - FaceVer (1.0.0)
   - HandyJSON (5.0.2)
   - HXPhotoPicker (3.3.1):
     - HXPhotoPicker/Default (= 3.3.1)
@@ -41,6 +42,7 @@ DEPENDENCIES:
   - CocoaAsyncSocket (from `CocoaAsyncSocket`)
   - CocoaLumberjack (from `CocoaLumberjack`)
   - DZNEmptyDataSet
+  - FaceVer (from `FaceVer`)
   - HandyJSON (~> 5.0.2)
   - HXPhotoPicker
   - IQKeyboardManager
@@ -81,6 +83,8 @@ EXTERNAL SOURCES:
     :path: CocoaAsyncSocket
   CocoaLumberjack:
     :path: CocoaLumberjack
+  FaceVer:
+    :path: FaceVer
   LDMessage:
     :path: LDMessage
   LDStreaming:
@@ -93,6 +97,7 @@ SPEC CHECKSUMS:
   CocoaAsyncSocket: 825de82723b13dd32109514bb0d08df847cd62d5
   CocoaLumberjack: 7b7c7880d51008397a69880d4c6ab915eba3c00c
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
+  FaceVer: b68adade7288edaa5c2557b13628ad09703966d5
   HandyJSON: 9e4e236f5d2dbefad5155a77417bbea438201c03
   HXPhotoPicker: f1274d0c931ad8564e0f23f33fe8b6110b639bd7
   IQKeyboardManager: 45a1fa55c1a5b02c61ac0fd7fd5b62bb4ad20d97
@@ -111,6 +116,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
   TZImagePickerController: 943511626019431372cf908f24c114521e484f0e
 
-PODFILE CHECKSUM: 5f93ed19422689a7e7160054727d06514654687c
+PODFILE CHECKSUM: c285488bdd780ddfb5a48cbdcbc6758e17c46d5f
 
 COCOAPODS: 1.11.3
