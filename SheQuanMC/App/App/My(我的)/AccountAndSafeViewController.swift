@@ -7,6 +7,7 @@
 
 import UIKit
 import Util
+import JFPopup
 
 class AccountAndSafeViewController: BaseViewController {
 
@@ -199,6 +200,40 @@ class AccountAndSafeViewController: BaseViewController {
             make.width.height.equalTo(scale(24))
         }
         
+        
+        //注销账号
+        let accountBtn = UIButton()
+        accountBtn.setTitle("    注销账号", for: .normal)
+        accountBtn.contentHorizontalAlignment = .left
+        accountBtn.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
+        accountBtn.setTitleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333"), for: .normal)
+        accountBtn.titleLabel?.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
+        view.addSubview(accountBtn)
+        accountBtn.tag = 4
+        accountBtn.addTarget(self, action: #selector(jumpChangeAction), for: .touchUpInside)
+        accountBtn.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.top.equalTo(realBtn.snp.bottom).offset(scale(0.5))
+            make.height.equalTo(scale(48))
+        }
+        
+//        accountBtn.addSubview(realAuthenLabel)
+//        realAuthenLabel.snp.makeConstraints { make in
+//            make.centerY.equalToSuperview()
+//            make.right.equalTo(-scale(48))
+//            make.left.equalTo(scale(80))
+//            make.height.equalTo(scale(21))
+//        }
+//
+//        let  realRight = UIImageView()
+//        realRight.image = UIImage(named: "Frame-my-right")
+//        realBtn.addSubview(realRight)
+//        realRight.snp.makeConstraints { make in
+//            make.centerY.equalToSuperview()
+//            make.right.equalTo(-scale(16))
+//            make.width.height.equalTo(scale(24))
+//        }
+        
      
     }
     
@@ -218,6 +253,27 @@ class AccountAndSafeViewController: BaseViewController {
         }else if btn.tag == 3{
             let perfectInfoVc = PerfectInfoViewController()
             Coordinator.shared?.pushViewController(self, perfectInfoVc, animated: true)
+        }else if btn.tag == 4{
+            JFPopup.alert {
+                [
+                    .title("确定要注销账号吗？"),
+                    .titleColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+                    .withoutAnimation(true),
+                    .cancelAction([
+                        .text("取消"),
+                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#999999"))
+                    ]),
+                    .confirmAction([
+                        .text("确定"),
+                        .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
+                        .tapActionCallback({
+                            StoreService.shared.delete()
+                            let window = UIApplication.shared.keyWindow
+                            window?.rootViewController = BaseNaviViewController(rootViewController: StartPageViewController())
+                        })
+                    ])
+                ]
+            }
         }
     }
     
