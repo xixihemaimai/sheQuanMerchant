@@ -18,7 +18,6 @@ public enum LoginApi{
     case phoneCode(parameters:[String:Any]) //获取验证码   （1）
     case passwordLogin(parameters:[String:String]) //密码登录 (1)
     case systemVersion  //系统相关接口(1)
-   
 }
 
 

@@ -267,9 +267,14 @@ class AccountAndSafeViewController: BaseViewController {
                         .text("确定"),
                         .textColor(UIColor.colorWithDyColorChangObject(lightColor: "#333333")),
                         .tapActionCallback({
-                            StoreService.shared.delete()
-                            let window = UIApplication.shared.keyWindow
-                            window?.rootViewController = BaseNaviViewController(rootViewController: StartPageViewController())
+                            NetWorkResultRequest(shopApi.logoff, needShowFailAlert: true) { result, data in
+//                                StoreService.shared.updateShopInfo(neWData)
+                                //清空数据库
+                                StoreService.shared.delete()
+                                let window = UIApplication.shared.keyWindow
+                                window?.rootViewController = BaseNaviViewController(rootViewController: StartPageViewController())
+                            } failureCallback: { error, code in
+                            }
                         })
                     ])
                 ]

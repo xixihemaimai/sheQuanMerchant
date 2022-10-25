@@ -7,7 +7,7 @@
 
 #import "SIXHTMLParser.h"
 #import "SIXEditorHeader.h"
-
+//#import <SDWebImage/UIImageView+WebCache.h>
 NSString * const ImagePlaceholderTag = @"\U0000fffc";
 
 @implementation SIXHTMLParser
@@ -130,6 +130,13 @@ NSString * const ImagePlaceholderTag = @"\U0000fffc";
 }
 
 + (NSAttributedString *)attributedTextWithHtmlString:(NSString *)htmlString andImageWidth:(CGFloat)width {
+    NSMutableArray * tempArray = [NSMutableArray array];
+    NSArray * array = [self imageUrls:htmlString];
+    for (NSString * url in array) {
+        UIImage * image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:url]]];
+        CGFloat targetHeight = image.size.height / (image.size.width / width);
+        [tempArray addObject:@(targetHeight)];
+    }
     NSData *data = [htmlString dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *dic = @{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
                           NSCharacterEncodingDocumentOption: @(NSUTF8StringEncoding)};
@@ -148,9 +155,9 @@ NSString * const ImagePlaceholderTag = @"\U0000fffc";
         }
     }];
     
+    
     //为了调整图片尺寸 需要在图片名后面拼接有图片宽高 例如：img-880x568.jpg
     [mAttributedString enumerateAttribute:NSAttachmentAttributeName inRange:NSMakeRange(0, mAttributedString.length) options:(NSAttributedStringEnumerationLongestEffectiveRangeNotRequired) usingBlock:^(id  _Nullable value, NSRange range, BOOL * _Nonnull stop) {
-        
         if ([value isKindOfClass:[NSTextAttachment class]]) {
             NSTextAttachment *attachment = value;
             NSString *imageName = [[attachment.fileWrapper.preferredFilename stringByDeletingPathExtension] stringByDeletingPathExtension];
@@ -159,18 +166,9 @@ NSString * const ImagePlaceholderTag = @"\U0000fffc";
                 CGFloat width0 = [sizeArr[0] floatValue];
                 CGFloat height0 = [sizeArr[1] floatValue];
                 attachment.bounds = CGRectMake(0, 0, width, width * height0 / width0);
-                ;
                 //NSLog(@"%@:%@", imageName, NSStringFromCGRect(attachment.bounds));
             } else {
-                
-                
-//                CGFloat width = self.frame.size.width-self.textContainer.lineFragmentPadding*2;
-//                NSMutableAttributedString *mAttributedString = self.attributedText.mutableCopy;
-//                NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
-//                attachment.bounds = CGRectMake(0, 0, width, width * image.size.height / image.size.width);
-                
-                attachment.bounds = CGRectMake(0, 0, width, [UIScreen mainScreen].bounds.size.height);
-                
+                attachment.bounds = CGRectMake(0, 0, width, [tempArray[range.location] doubleValue]);
             }
         }
     }];

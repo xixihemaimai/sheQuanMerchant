@@ -15,6 +15,7 @@ public enum shopApi{
     case changePass(parameters:[String:String]) //修改密码 （1）
     case regAccount(parameters:[String:Any])    //注册账号  (1)
     case getShopInfo                            //获取店铺信息(1)
+    case logoff                                 //注销账号
 }
 
 
@@ -36,12 +37,14 @@ extension shopApi:TargetType{
                return "shop/regAccount"   //注册账号
           case .getShopInfo:
                return "shop/getShopInfo"  //获取店铺信息
+          case .logoff:
+               return "shop/logoff"       //注销账号
         }
     }
     
     public var method: Moya.Method {
         switch self {
-        case .forgetPass,.changePass,.regAccount,.getShopInfo:
+        case .forgetPass,.changePass,.regAccount,.getShopInfo,.logoff:
             return .post
         }
     }
@@ -54,8 +57,8 @@ extension shopApi:TargetType{
                return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
            case .regAccount(let parameters):
                return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
-           case .getShopInfo:
-               return .requestPlain
+           case .getShopInfo,.logoff:
+                return .requestPlain
         }
     }
 
@@ -63,7 +66,7 @@ extension shopApi:TargetType{
     
     public var headers: [String : String]? {
         switch self {
-        case .getShopInfo:
+        case .getShopInfo,.logoff:
             let time = Date().currentMilliStamp
             let nonce = String.nonce
             let deviceId = String.deviceUUID
