@@ -1063,7 +1063,7 @@ class ReleaseGoodsViewController: BaseViewController {
             commodityModel = CommodityModel(categoryId: StoreService.shared.categoryId, categoryName: "",freeRefundIn7Days: false, freightId: 0,freightInsure: false, freightName: "未设置",multiSpec: false,price:0.0,productCode: "", productDesc: "", productId: 0, productName: "", productPics: [String](),sepNo:0,skus: [Skus](), specGroups: [SpecGroups](), spus: [Spus](), stock: 0,stockDeductText: "拍下减库存",stockDeductType: 0,productStatus: 1)
         }else{
             title = "编辑商品"
-            LXFLog("+===========32==========23232=====================\(String(describing: commodityModel))")
+//            LXFLog("+===========32==========23232=====================\(String(describing: commodityModel))")
             //商品名称
             if (commodityModel?.productName?.count ?? 0) > 0{
                 goodsTextView.text = commodityModel?.productName
@@ -1273,6 +1273,7 @@ class ReleaseGoodsViewController: BaseViewController {
         
     func uploadImage() {
 //        vMoments.arrData.append(UIImage(named: "fengjingtu\(getRandom(1, 4))")!)
+//        self.manager.configuration.photoMaxNum = 6 - (commodityModel?.productPics?.count ?? 0)
         if (commodityModel?.productPics?.count ?? 7) > 6 {
             JFPopup.toast(hit: "只能选择6张图片")
         }else{
@@ -1283,97 +1284,105 @@ class ReleaseGoodsViewController: BaseViewController {
                     JFPopupAction(with: "从手机相册选择", subTitle: nil, clickActionCallBack: { [weak self] in
                         self?.hx_presentSelectPhotoController(with: self?.manager, didDone: { allList, photoList, videoList, isOriginal, viewController, manager in
                             var imageDataArray = [Data]()
-                            photoList?.forEach({ HXPhotoModel in
-                                //对图片进行
-                                guard let image = HXPhotoModel.thumbPhoto else {
-                                    return
-                                }
-//                                if (self?.commodityModel?.productPics?.count ?? 7) <= 6{
-                                    guard let imageData = image.jpegData(compressionQuality: 1.0) else { return }//把图片转换成data
-                                    imageDataArray.append(imageData)
-//                                }
-                                self?.isModify = true
-                            })
-                            let Parameters = ["fileType":20]
-                            JFPopupView.popup.loading(hit: "上传图片中....")
-                            NetWorkResultRequest(StoreAppleApi.batchUpload(parameters: Parameters, dataAry: imageDataArray), needShowFailAlert: true) { result, data in
-                                do{
-                                    let json = try JSON(data: data)
-                                    LXFLog(json)
-                                    let array = json["data"]
-                                    for i in 0..<array.count{
-                                        let cloudUrl = array[i]["cloudUrl"]
-                                        let data = try JSONEncoder().encode(cloudUrl)
-                                        var url = String(data: data, encoding:String.Encoding.utf8)!.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
-                                        url = url.replacingOccurrences(of: "\"", with: "", options: .literal, range: nil)
-                                        LXFLog(url)
-                                        self?.commodityModel?.productPics?.append(url)
+                            for i in 0..<(photoList?.count ?? 0){
+                                guard let model = photoList?[i] else { return }
+                                model.getAssetURL(success: { url, photoModelMediaSubType, bool, photoModel in
+                                    let nsdata = NSData(contentsOf: url!)
+                                    let data:Data = nsdata! as Data
+                                    imageDataArray.append(data)
+                                    if imageDataArray.count == photoList?.count{
+                                        self?.isModify = true
+                                        let Parameters = ["fileType":20]
+                                        JFPopupView.popup.loading(hit: "上传图片中....")
+                                        NetWorkResultRequest(StoreAppleApi.batchUpload(parameters: Parameters, dataAry: imageDataArray), needShowFailAlert: true) { result, data in
+                                            do{
+                                                let json = try JSON(data: data)
+                                                LXFLog(json)
+                                                let array = json["data"]
+                                                for i in 0..<array.count{
+                                                    let cloudUrl = array[i]["cloudUrl"]
+                                                    let data = try JSONEncoder().encode(cloudUrl)
+                                                    var url = String(data: data, encoding:String.Encoding.utf8)!.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+                                                    url = url.replacingOccurrences(of: "\"", with: "", options: .literal, range: nil)
+                                                    LXFLog(url)
+                                                    self?.commodityModel?.productPics?.append(url)
+                                                }
+                                            }catch{}
+            //                                self?.addAndRefreshPhotoImage()
+                                            if (self?.commodityModel?.productPics?.count ?? 0) > 0{
+                                                if (self?.commodityModel?.productPics?.count ?? 0) > 6 {
+                                                    let length = (self?.commodityModel?.productPics?.count ?? 1) - 1
+                                                    self?.commodityModel?.productPics?.removeSubrange(6...length)
+
+                                                    self?.vMoments.arrData = (self?.commodityModel?.productPics)!
+                                                }else{
+                                                    self?.vMoments.arrData = (self?.commodityModel?.productPics)!
+                                                }
+                                            }
+                                            JFPopupView.popup.hideLoading()
+                                        } failureCallback: { error,code in
+                                            JFPopupView.popup.hideLoading()
+                                        }
                                     }
-                                }catch{}
-//                                self?.addAndRefreshPhotoImage()
-                                LXFLog("-----------------------")
-                                if (self?.commodityModel?.productPics?.count ?? 0) > 0{
-                                    if (self?.commodityModel?.productPics?.count ?? 0) > 6 {
-                                        LXFLog("----------2-------------")
-                                        let length = (self?.commodityModel?.productPics?.count ?? 1) - 1
-                                        self?.commodityModel?.productPics?.removeSubrange(6...length)
-                                        
-                                        self?.vMoments.arrData = (self?.commodityModel?.productPics)!
-                                    }else{
-                                        LXFLog("----------3-------------")
-                                        self?.vMoments.arrData = (self?.commodityModel?.productPics)!
-                                    }
-                                }
-                                JFPopupView.popup.hideLoading()
-                            } failureCallback: { error,code in
-                                JFPopupView.popup.hideLoading()
+                                })
                             }
-                            
                         })
                     }),
                     JFPopupAction(with: "拍照", subTitle: nil, clickActionCallBack: {[weak self] in
                         self?.hx_presentCustomCameraViewController(with: self?.manager) { photoList, viewController in
                             var imageDataArray = [Data]()
-                            if let photoModel:HXPhotoModel = photoList{
-                                //对图片进行
-                                guard let image = photoModel.thumbPhoto else {
-                                    return
-                                }
-//                                if(self?.commodityModel?.productPics?.count ?? 7) <= 6{
-                                    guard let imageData = image.jpegData(compressionQuality: 1.0) else { return }//把图片转换成data
-                                    imageDataArray.append(imageData)
-//                                }
+                            photoList?.getAssetURL(success: {[weak self] url, photoModelMediaSubType, bool, photoModel in
+                                let nsdata = NSData(contentsOf: url!)
+                                let data:Data = nsdata! as Data
+                                imageDataArray.append(data)
+                                
                                 self?.isModify = true
-                            }
-                            let Parameters = ["fileType":20]
-                            JFPopupView.popup.loading(hit: "上传图片中....")
-                            NetWorkResultRequest(StoreAppleApi.batchUpload(parameters: Parameters, dataAry: imageDataArray), needShowFailAlert: true) { result, data in
-                                do{
-                                    let json = try JSON(data: data)
-                                    let array = json["data"]
-                                    for i in 0..<array.count{
-                                        let cloudUrl = array[i]["cloudUrl"]
-                                        let data = try JSONEncoder().encode(cloudUrl)
-                                        var url = String(data: data, encoding:String.Encoding.utf8)!.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
-                                        url = url.replacingOccurrences(of: "\"", with: "", options: .literal, range: nil)
-                                        LXFLog(url)
-                                        self?.commodityModel?.productPics?.append(url)
+                                
+                                let Parameters = ["fileType":20]
+                                JFPopupView.popup.loading(hit: "上传图片中....")
+                                NetWorkResultRequest(StoreAppleApi.batchUpload(parameters: Parameters, dataAry: imageDataArray), needShowFailAlert: true) { result, data in
+                                    do{
+                                        let json = try JSON(data: data)
+                                        let array = json["data"]
+                                        for i in 0..<array.count{
+                                            let cloudUrl = array[i]["cloudUrl"]
+                                            let data = try JSONEncoder().encode(cloudUrl)
+                                            var url = String(data: data, encoding:String.Encoding.utf8)!.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+                                            url = url.replacingOccurrences(of: "\"", with: "", options: .literal, range: nil)
+                                            LXFLog(url)
+                                            self?.commodityModel?.productPics?.append(url)
+                                        }
+                                    }catch{}
+    //                                self?.addAndRefreshPhotoImage()
+                                    if (self?.commodityModel?.productPics?.count ?? 0) > 0{
+                                        if (self?.commodityModel?.productPics?.count ?? 0) > 6 {
+                                            let length = (self?.commodityModel?.productPics?.count ?? 1) - 1
+                                            self?.commodityModel?.productPics?.removeSubrange(6...length)
+                                            self?.vMoments.arrData = (self?.commodityModel?.productPics)!
+                                        }else{
+                                            self?.vMoments.arrData = (self?.commodityModel?.productPics)!
+                                        }
                                     }
-                                }catch{}
-//                                self?.addAndRefreshPhotoImage()
-                                if (self?.commodityModel?.productPics?.count ?? 0) > 0{
-                                    if (self?.commodityModel?.productPics?.count ?? 0) > 6 {
-                                        let length = (self?.commodityModel?.productPics?.count ?? 1) - 1
-                                        self?.commodityModel?.productPics?.removeSubrange(6...length)
-                                        self?.vMoments.arrData = (self?.commodityModel?.productPics)!
-                                    }else{
-                                        self?.vMoments.arrData = (self?.commodityModel?.productPics)!
-                                    }
+                                    JFPopupView.popup.hideLoading()
+                                } failureCallback: { error,code in
+                                    JFPopupView.popup.hideLoading()
                                 }
-                                JFPopupView.popup.hideLoading()
-                            } failureCallback: { error,code in
-                                JFPopupView.popup.hideLoading()
-                            }
+                                
+                            })
+                            
+//                            if let photoModel:HXPhotoModel = photoList{
+//                                //对图片进行
+//                                guard let image = photoModel.thumbPhoto else {
+//                                    return
+//                                }
+////                                if(self?.commodityModel?.productPics?.count ?? 7) <= 6{
+////                                    guard let imageData = image.jpegData(compressionQuality: 1.0) else { return }//把图片转换成data
+//                                guard let imageData = HX_UIImagePNGRepresentation(image) else { return }
+//                                    imageDataArray.append(imageData)
+////                                }
+//                                self?.isModify = true
+//                            }
+                            
                             
                         } cancel: { viewController in
                         }
@@ -2188,80 +2197,71 @@ class ReleaseGoodsViewController: BaseViewController {
                     JFPopupAction(with: "从手机相册选择", subTitle: nil, clickActionCallBack: { [weak self] in
                         self?.hx_presentSelectPhotoController(with: self?.manager, didDone: { allList, photoList, videoList, isOriginal, viewController, manager in
                             var imageDataArray = [Data]()
-                            photoList?.forEach({ HXPhotoModel in
-                                
-                                
-                                //对图片进行
-                                guard let image = HXPhotoModel.thumbPhoto else {
-                                    return
-                                }
-                                if (self?.commodityModel?.productPics?.count ?? 7) <= 6{
-                                    guard let imageData = image.jpegData(compressionQuality: 1.0) else { return }//把图片转换成data
-                                    imageDataArray.append(imageData)
-                                }
-                                self?.isModify = true
-                                
-                                
-                            })
-                            let Parameters = ["fileType":20]
-                            JFPopupView.popup.loading(hit: "上传图片中....")
-                            NetWorkResultRequest(StoreAppleApi.batchUpload(parameters: Parameters, dataAry: imageDataArray), needShowFailAlert: true) { result, data in
-                                do{
-                                    let json = try JSON(data: data)
-                                    LXFLog(json)
-                                    let array = json["data"]
-                                    for i in 0..<array.count{
-                                        let cloudUrl = array[i]["cloudUrl"]
-                                        let data = try JSONEncoder().encode(cloudUrl)
-                                        var url = String(data: data, encoding:String.Encoding.utf8)!.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
-                                        url = url.replacingOccurrences(of: "\"", with: "", options: .literal, range: nil)
-                                        LXFLog(url)
-                                        self?.commodityModel?.productPics?.append(url)
+                            for i in 0..<(photoList?.count ?? 0){
+                                guard let model = photoList?[i] else { return }
+                                model.getAssetURL{ url, photoModelMediaSubType, bool, photoModel in
+                                    let nsdata = NSData(contentsOf: url!)
+                                    let data:Data = nsdata! as Data
+                                    imageDataArray.append(data)
+                                    if imageDataArray.count == photoList?.count{
+                                        self?.isModify = true
+                                        let Parameters = ["fileType":20]
+                                        JFPopupView.popup.loading(hit: "上传图片中....")
+                                        NetWorkResultRequest(StoreAppleApi.batchUpload(parameters: Parameters, dataAry: imageDataArray), needShowFailAlert: true) { result, data in
+                                            do{
+                                                let json = try JSON(data: data)
+                                                LXFLog(json)
+                                                let array = json["data"]
+                                                for i in 0..<array.count{
+                                                    let cloudUrl = array[i]["cloudUrl"]
+                                                    let data = try JSONEncoder().encode(cloudUrl)
+                                                    var url = String(data: data, encoding:String.Encoding.utf8)!.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+                                                    url = url.replacingOccurrences(of: "\"", with: "", options: .literal, range: nil)
+                                                    LXFLog(url)
+                                                    self?.commodityModel?.productPics?.append(url)
+                                                }
+                                            }catch{}
+                                            self?.addAndRefreshPhotoImage()
+                                            JFPopupView.popup.hideLoading()
+                                        } failureCallback: { error,code in
+                                            JFPopupView.popup.hideLoading()
+                                        }
                                     }
-                                }catch{}
-                                self?.addAndRefreshPhotoImage()
-                                JFPopupView.popup.hideLoading()
-                            } failureCallback: { error,code in
-                                JFPopupView.popup.hideLoading()
+                                }
                             }
-                            
                         })
                     }),
                     JFPopupAction(with: "拍照", subTitle: nil, clickActionCallBack: {[weak self] in
                         self?.hx_presentCustomCameraViewController(with: self?.manager) { photoList, viewController in
                             var imageDataArray = [Data]()
-                            if let photoModel:HXPhotoModel = photoList{
-                                //对图片进行
-                                guard let image = photoModel.thumbPhoto else {
-                                    return
-                                }
-                                if(self?.commodityModel?.productPics?.count ?? 7) <= 6{
-                                    guard let imageData = image.jpegData(compressionQuality: 1.0) else { return }//把图片转换成data
-                                    imageDataArray.append(imageData)
-                                }
+                            photoList?.getAssetURL{[weak self] url, photoModelMediaSubType, bool, photoModel in
+                                let nsdata = NSData(contentsOf: url!)
+                                let data:Data = nsdata! as Data
+                                imageDataArray.append(data)
+                                
                                 self?.isModify = true
+                                
+                                let Parameters = ["fileType":20]
+                                JFPopupView.popup.loading(hit: "上传图片中....")
+                                NetWorkResultRequest(StoreAppleApi.batchUpload(parameters: Parameters, dataAry: imageDataArray), needShowFailAlert: true) { result, data in
+                                    do{
+                                        let json = try JSON(data: data)
+                                        let array = json["data"]
+                                        for i in 0..<array.count{
+                                            let cloudUrl = array[i]["cloudUrl"]
+                                            let data = try JSONEncoder().encode(cloudUrl)
+                                            var url = String(data: data, encoding:String.Encoding.utf8)!.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+                                            url = url.replacingOccurrences(of: "\"", with: "", options: .literal, range: nil)
+                                            LXFLog(url)
+                                            self?.commodityModel?.productPics?.append(url)
+                                        }
+                                    }catch{}
+                                    self?.addAndRefreshPhotoImage()
+                                    JFPopupView.popup.hideLoading()
+                                } failureCallback: { error,code in
+                                    JFPopupView.popup.hideLoading()
+                                }
                             }
-                            let Parameters = ["fileType":20]
-                            JFPopupView.popup.loading(hit: "上传图片中....")
-                            NetWorkResultRequest(StoreAppleApi.batchUpload(parameters: Parameters, dataAry: imageDataArray), needShowFailAlert: true) { result, data in
-                                do{
-                                    let json = try JSON(data: data)
-                                    let array = json["data"]
-                                    for i in 0..<array.count{
-                                        let cloudUrl = array[i]["cloudUrl"]
-                                        let data = try JSONEncoder().encode(cloudUrl)
-                                        var url = String(data: data, encoding:String.Encoding.utf8)!.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
-                                        url = url.replacingOccurrences(of: "\"", with: "", options: .literal, range: nil)
-                                        LXFLog(url)
-                                        self?.commodityModel?.productPics?.append(url)
-                                    }
-                                }catch{}
-                                self?.addAndRefreshPhotoImage()
-                                JFPopupView.popup.hideLoading()
-                            } failureCallback: { error,code in
-                                JFPopupView.popup.hideLoading()
-                            }
-                            
                         } cancel: { viewController in
                         }
                     })

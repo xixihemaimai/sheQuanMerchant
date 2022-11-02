@@ -334,37 +334,48 @@ class SettingPriceAndStockView: UIView {
                                 self?.currentVC?.hx_presentSelectPhotoController(with: self?.manager, didDone: { allList, photoList, videoList, isOriginal, viewController, manager in
                                     LXFLog(photoList?.count)
                                     if let photoModel:HXPhotoModel = photoList?.first{
-                                        //对图片进
-                                        //网络请求的部分
-                                        let Parameters = ["fileType":20]
-                                        JFPopupView.popup.loading(hit: "上传图片中....")
-                                        guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
-                                        NetWorkResultRequest(StoreAppleApi.uploadFile(parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
-                                            do{
-                                                let json = try JSON(data: data)
-                                                //去掉\
-                                              let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
-                                                LXFLog(str)
-                                                choicePitrueBtn.sd_setBackgroundImage(with: URL(string: str), for: .normal, placeholderImage: UIImage(named: "Group 2650"))
-                                                choicePitrueBtn.setTitle("", for: .normal)
-                                                self?.preview = str
-                                            }catch{}
-                                            JFPopupView.popup.hideLoading()
-                                        } failureCallback: { error,code in
-                                            JFPopupView.popup.hideLoading()
+                                        photoModel.getAssetURL { url, photoModelMediaSubType, bool, HXPhotoModel in
+                                            let nsdata = NSData(contentsOf: url!)
+                                            let data:Data = nsdata! as Data
+                                            
+                                            //对图片进
+                                            //网络请求的部分
+                                            let Parameters = ["fileType":20]
+                                            JFPopupView.popup.loading(hit: "上传图片中....")
+//                                            guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
+                                            NetWorkResultRequest(StoreAppleApi.uploadFile(parameters: Parameters, imageDate: data), needShowFailAlert: true) { result, data in
+                                                do{
+                                                    let json = try JSON(data: data)
+                                                    //去掉\
+                                                  let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+                                                    LXFLog(str)
+                                                    choicePitrueBtn.sd_setBackgroundImage(with: URL(string: str), for: .normal, placeholderImage: UIImage(named: "Group 2650"))
+                                                    choicePitrueBtn.setTitle("", for: .normal)
+                                                    self?.preview = str
+                                                }catch{}
+                                                JFPopupView.popup.hideLoading()
+                                            } failureCallback: { error,code in
+                                                JFPopupView.popup.hideLoading()
+                                            }
+                                            
                                         }
+                                        
                                     }
                                 })
                             }),
                             JFPopupAction(with: "拍照", subTitle: nil, clickActionCallBack: {[weak self] in
                                 self?.currentVC?.hx_presentCustomCameraViewController(with: self?.manager) { photoList, viewController in
                                     LXFLog(photoList)
-                                    if let photoModel:HXPhotoModel = photoList{
+                                    
+                                    photoList?.getAssetURL { url, photoModelMediaSubType, bool, HXPhotoModel in
+                                        let nsdata = NSData(contentsOf: url!)
+                                        let data:Data = nsdata! as Data
+                                        
                                         //网络请求的部分
                                         let Parameters = ["fileType":20]
                                         JFPopupView.popup.loading(hit: "上传图片中....")
-                                        guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
-                                        NetWorkResultRequest(StoreAppleApi.uploadFile(parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
+//                                        guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
+                                        NetWorkResultRequest(StoreAppleApi.uploadFile(parameters: Parameters, imageDate: data), needShowFailAlert: true) { result, data in
                                             do{
                                                 let json = try JSON(data: data)
                                                 let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
@@ -377,7 +388,14 @@ class SettingPriceAndStockView: UIView {
                                         } failureCallback: { error,code in
                                             JFPopupView.popup.hideLoading()
                                         }
+                                        
                                     }
+//                                    if let photoModel:HXPhotoModel = photoList{
+                                        
+                                        
+                                        
+                                        
+//                                    }
                                 } cancel: { viewController in
                                 }
                             })

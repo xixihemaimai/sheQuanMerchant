@@ -840,12 +840,16 @@ extension CommodityParametersViewController:UITableViewDelegate,UITableViewDataS
                         self?.hx_presentSelectPhotoController(with: self?.manager, didDone: { allList, photoList, videoList, isOriginal, viewController, manager in
                             LXFLog(photoList?.count)
                             if let photoModel:HXPhotoModel = photoList?.first{
+                                
+                                photoModel.getAssetURL { url, photoModelMediaSubType, bool, HXPhotoModel in
+                                    let nsdata = NSData(contentsOf: url!)
+                                    let data:Data = nsdata! as Data
                                 //网络请求的部分
                                 let Parameters = ["fileType":20]
     //                            let Parameters = [String:Any]()
                                 JFPopupView.popup.loading(hit: "上传图片中....")
-                                guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
-                                NetWorkResultRequest(StoreAppleApi.uploadFile(parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
+//                                guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
+                                NetWorkResultRequest(StoreAppleApi.uploadFile(parameters: Parameters, imageDate: data), needShowFailAlert: true) { result, data in
                                     do{
                                       let json = try JSON(data: data)
                                       let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
@@ -859,17 +863,21 @@ extension CommodityParametersViewController:UITableViewDelegate,UITableViewDataS
                                     JFPopupView.popup.hideLoading()
                                 }
                             }
+                            }
                         })
                     }),
                     JFPopupAction(with: "拍照", subTitle: nil, clickActionCallBack: {[weak self] in
                         self?.hx_presentCustomCameraViewController(with: self?.manager) { photoList, viewController in
                             LXFLog(photoList)
-                            if let photoModel:HXPhotoModel = photoList{
+//                            if let photoModel:HXPhotoModel = photoList{
+                            photoList?.getAssetURL { url, photoModelMediaSubType, bool, HXPhotoModel in
+                                let nsdata = NSData(contentsOf: url!)
+                                let data:Data = nsdata! as Data
                                 //对图片进行
                                 let Parameters = ["fileType":20]
                                 JFPopupView.popup.loading(hit: "上传图片中....")
-                                guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
-                                NetWorkResultRequest(StoreAppleApi.uploadFile(parameters: Parameters, imageDate: imageData), needShowFailAlert: true) { result, data in
+//                                guard let imageData = photoModel.thumbPhoto?.jpegData(compressionQuality: 0.3) else { return }//把图片转换成data
+                                NetWorkResultRequest(StoreAppleApi.uploadFile(parameters: Parameters, imageDate: data), needShowFailAlert: true) { result, data in
                                     do{
                                         let json = try JSON(data: data)
                                         let str = (json["data"]["cloudUrl"].string ?? "").replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)

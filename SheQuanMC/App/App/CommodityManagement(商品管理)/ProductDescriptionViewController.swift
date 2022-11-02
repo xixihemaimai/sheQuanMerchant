@@ -440,7 +440,9 @@ class ProductDescriptionViewController: BaseViewController {
             if (images?.count ?? 0) > 0{
                 for i in 0..<(images?.count ?? 0){
                     let image = images![i] as! UIImage
-                    let data = HX_UIImageJPEGRepresentation(image)!
+                    let data = HX_UIImagePNGRepresentation(image)!
+//                    let data = HX_UIImageJPEGRepresentation(image)!
+//                    let data = image.jpegData(compressionQuality: 1.0)!
                     imageDatas.append(data)
                 }
                 var imageArray = [String]()

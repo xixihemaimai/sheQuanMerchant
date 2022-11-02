@@ -205,7 +205,7 @@ class UploadVoucherViewController: BaseViewController {
     func uploadImage() {
 //        vMoments.arrData.append(UIImage(named: "fengjingtu\(getRandom(1, 4))")!)
         if productPics.count > 3 {
-            JFPopup.toast(hit: "只能选择6张图片")
+            JFPopup.toast(hit: "只能选择3张图片")
         }else{
             manager.type = .photo
             manager.clearSelectedList()
@@ -214,87 +214,85 @@ class UploadVoucherViewController: BaseViewController {
                     JFPopupAction(with: "从手机相册选择", subTitle: nil, clickActionCallBack: { [weak self] in
                         self?.hx_presentSelectPhotoController(with: self?.manager, didDone: { allList, photoList, videoList, isOriginal, viewController, manager in
                             var imageDataArray = [Data]()
-                            photoList?.forEach({ HXPhotoModel in
-                                //对图片进行
-                                guard let image = HXPhotoModel.thumbPhoto else {
-                                    return
-                                }
-                                    guard let imageData = image.jpegData(compressionQuality: 1.0) else { return }//把图片转换成data
-                                    imageDataArray.append(imageData)
-                            })
-                            let Parameters = ["fileType":20]
-                            JFPopupView.popup.loading(hit: "上传图片中....")
-                            NetWorkResultRequest(StoreAppleApi.batchUpload(parameters: Parameters, dataAry: imageDataArray), needShowFailAlert: true) { result, data in
-                                do{
-                                    let json = try JSON(data: data)
-                                    LXFLog(json)
-                                    let array = json["data"]
-                                    for i in 0..<array.count{
-                                        let cloudUrl = array[i]["cloudUrl"]
-                                        let data = try JSONEncoder().encode(cloudUrl)
-                                        var url = String(data: data, encoding:String.Encoding.utf8)!.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
-                                        url = url.replacingOccurrences(of: "\"", with: "", options: .literal, range: nil)
-                                        LXFLog(url)
-                                        self?.productPics.append(url)
+                            for i in 0..<(photoList?.count ?? 0){
+                                guard let model = photoList?[i] else { return }
+                                model.getAssetURL{ url, photoModelMediaSubType, bool, photoModel in
+                                    let nsdata = NSData(contentsOf: url!)
+                                    let data:Data = nsdata! as Data
+                                    imageDataArray.append(data)
+                                    if imageDataArray.count == photoList?.count{
+                                        let Parameters = ["fileType":20]
+                                        JFPopupView.popup.loading(hit: "上传图片中....")
+                                        NetWorkResultRequest(StoreAppleApi.batchUpload(parameters: Parameters, dataAry: imageDataArray), needShowFailAlert: true) { result, data in
+                                            do{
+                                                let json = try JSON(data: data)
+                                                LXFLog(json)
+                                                let array = json["data"]
+                                                for i in 0..<array.count{
+                                                    let cloudUrl = array[i]["cloudUrl"]
+                                                    let data = try JSONEncoder().encode(cloudUrl)
+                                                    var url = String(data: data, encoding:String.Encoding.utf8)!.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+                                                    url = url.replacingOccurrences(of: "\"", with: "", options: .literal, range: nil)
+                                                    LXFLog(url)
+                                                    self?.productPics.append(url)
+                                                }
+                                            }catch{}
+                                            if self?.productPics.count ?? 0 > 0{
+                                                if self?.productPics.count ?? 4 > 3 {
+                                                    let length = (self?.productPics.count ?? 1) - 1
+                                                    self?.productPics.removeSubrange(3...length)
+                                                    self?.feedBacksView.arrData = self?.productPics ?? [String]()
+                                                }else{
+                                                    self?.feedBacksView.arrData = self?.productPics ?? [String]()
+                                                }
+                                            }
+                                            JFPopupView.popup.hideLoading()
+                                        } failureCallback: { error,code in
+                                            JFPopupView.popup.hideLoading()
+                                        }
                                     }
-                                }catch{}
-                                if self?.productPics.count ?? 0 > 0{
-                                    if self?.productPics.count ?? 4 > 3 {
-                                        let length = (self?.productPics.count ?? 1) - 1
-                                        self?.productPics.removeSubrange(3...length)
-                                        self?.feedBacksView.arrData = self?.productPics ?? [String]()
-                                    }else{
-                                        self?.feedBacksView.arrData = self?.productPics ?? [String]()
-                                    }
                                 }
-                                JFPopupView.popup.hideLoading()
-                            } failureCallback: { error,code in
-                                JFPopupView.popup.hideLoading()
                             }
-                            
                         })
                     }),
                     JFPopupAction(with: "拍照", subTitle: nil, clickActionCallBack: {[weak self] in
                         self?.hx_presentCustomCameraViewController(with: self?.manager) { photoList, viewController in
                             var imageDataArray = [Data]()
-                            if let photoModel:HXPhotoModel = photoList{
-                                //对图片进行
-                                guard let image = photoModel.thumbPhoto else {
-                                    return
-                                }
-                                    guard let imageData = image.jpegData(compressionQuality: 1.0) else { return }//把图片转换成data
-                                    imageDataArray.append(imageData)
-//                                }
-                            }
-                            let Parameters = ["fileType":20]
-                            JFPopupView.popup.loading(hit: "上传图片中....")
-                            NetWorkResultRequest(StoreAppleApi.batchUpload(parameters: Parameters, dataAry: imageDataArray), needShowFailAlert: true) { result, data in
-                                do{
-                                    let json = try JSON(data: data)
-                                    let array = json["data"]
-                                    for i in 0..<array.count{
-                                        let cloudUrl = array[i]["cloudUrl"]
-                                        let data = try JSONEncoder().encode(cloudUrl)
-                                        var url = String(data: data, encoding:String.Encoding.utf8)!.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
-                                        url = url.replacingOccurrences(of: "\"", with: "", options: .literal, range: nil)
-                                        LXFLog(url)
-                                        self?.productPics.append(url)
-                                    }
-                                }catch{}
-                                if self?.productPics.count ?? 0 > 0{
-                                    if self?.productPics.count ?? 4 > 3 {
-                                        let length = (self?.productPics.count ?? 1) - 1
-                                        self?.productPics.removeSubrange(3...length)
-                                        self?.feedBacksView.arrData = self?.productPics ?? [String]()
-                                    }else{
-                                        self?.feedBacksView.arrData = self?.productPics ?? [String]()
-                                    }
-                                }
-                                JFPopupView.popup.hideLoading()
-                            } failureCallback: { error,code in
-                                JFPopupView.popup.hideLoading()
-                            }
                             
+                            photoList?.getAssetURL{ url, photoModelMediaSubType, bool, photoModel in
+                                let nsdata = NSData(contentsOf: url!)
+                                let data:Data = nsdata! as Data
+                                imageDataArray.append(data)
+                                
+                                let Parameters = ["fileType":20]
+                                JFPopupView.popup.loading(hit: "上传图片中....")
+                                NetWorkResultRequest(StoreAppleApi.batchUpload(parameters: Parameters, dataAry: imageDataArray), needShowFailAlert: true) { result, data in
+                                    do{
+                                        let json = try JSON(data: data)
+                                        let array = json["data"]
+                                        for i in 0..<array.count{
+                                            let cloudUrl = array[i]["cloudUrl"]
+                                            let data = try JSONEncoder().encode(cloudUrl)
+                                            var url = String(data: data, encoding:String.Encoding.utf8)!.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+                                            url = url.replacingOccurrences(of: "\"", with: "", options: .literal, range: nil)
+                                            LXFLog(url)
+                                            self?.productPics.append(url)
+                                        }
+                                    }catch{}
+                                    if self?.productPics.count ?? 0 > 0{
+                                        if self?.productPics.count ?? 4 > 3 {
+                                            let length = (self?.productPics.count ?? 1) - 1
+                                            self?.productPics.removeSubrange(3...length)
+                                            self?.feedBacksView.arrData = self?.productPics ?? [String]()
+                                        }else{
+                                            self?.feedBacksView.arrData = self?.productPics ?? [String]()
+                                        }
+                                    }
+                                    JFPopupView.popup.hideLoading()
+                                } failureCallback: { error,code in
+                                    JFPopupView.popup.hideLoading()
+                                }  
+                            }
                         } cancel: { viewController in
                         }
                     })
