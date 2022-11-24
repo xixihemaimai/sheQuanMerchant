@@ -191,6 +191,11 @@ class ShopViewController: BaseViewController {
            make.left.right.bottom.equalTo(view)
            make.top.equalTo(shopBtn.snp.bottom)
        }
+        
+        
+//        print("-----------32-3--------------------\(Height_NavBar)")
+//        print("=======323=========================\(Height_TabBar)")
+        
         tableview.backgroundColor = UIColor.clear
         tableview.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Height_NavBar + Height_TabBar, right: 0)
         tableview.mj_header?.beginRefreshing()

@@ -581,7 +581,7 @@ class CommodityParametersViewController: BaseViewController {
     //确认的按键
     @objc func sureAction(sureBtn:UIButton){
         LXFLog("确认")
-        LXFLog("================\(paraList)")
+//        LXFLog("================\(paraList)")
         self.setEditing(true, animated: false)
         //这边要判读是否填写完整
         var isInputComplete:Bool = true
