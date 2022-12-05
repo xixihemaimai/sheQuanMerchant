@@ -610,19 +610,21 @@ class TemplateContentViewController: BaseViewController {
     //包邮
     @objc func choiceFreeAction(freeBtn:UIButton){
         freeBtn.isSelected = !freeBtn.isSelected
-        customFreightBtn.isSelected = false
-        typeView.isHidden = true
-        freightConfigureBtn.isHidden = true
-        bottomView.snp.remakeConstraints { make in
-            make.left.right.equalToSuperview()
-            make.top.equalTo(noDisBtn.snp.bottom)
-            make.bottom.equalTo(-scale(92))
-        }
-        freightListModel?.freightType = Int32(1)
-        freightListModel?.freightTypeText = "包邮"
         
-        
-        if freeBtn.isSelected == false{
+        if freeBtn.isSelected{
+            customFreightBtn.isSelected = false
+            typeView.isHidden = true
+            freightConfigureBtn.isHidden = true
+            bottomView.snp.remakeConstraints { make in
+                make.left.right.equalToSuperview()
+                make.top.equalTo(noDisBtn.snp.bottom)
+                make.bottom.equalTo(-scale(92))
+            }
+            freightListModel?.freightType = Int32(1)
+            freightListModel?.freightTypeText = "包邮"
+            
+            
+        }else{
             customFreightBtn.isSelected = true
             freightListModel?.freightType = Int32(2)
             freightListModel?.freightTypeText = "自定义"
@@ -635,29 +637,28 @@ class TemplateContentViewController: BaseViewController {
                 make.bottom.equalTo(-scale(92))
             }
         }
-        
     }
     
     
     //自定义运费
     @objc func choiceCustomAction(customFreightBtn:UIButton){
         customFreightBtn.isSelected = !customFreightBtn.isSelected
-        freeBtn.isSelected = false
-        typeView.isHidden = false
-        freightConfigureBtn.isHidden = false
-        bottomView.snp.remakeConstraints { make in
-            make.left.right.equalToSuperview()
-            make.top.equalTo(freightConfigureBtn.snp.bottom)
-            make.bottom.equalTo(-scale(92))
-        }
-        freightListModel?.freightType = Int32(2)
-        freightListModel?.freightTypeText = "自定义"
-        
-        if customFreightBtn.isSelected == false{
+        if customFreightBtn.isSelected{
+            freeBtn.isSelected = false
+            typeView.isHidden = false
+            freightConfigureBtn.isHidden = false
+            bottomView.snp.remakeConstraints { make in
+                make.left.right.equalToSuperview()
+                make.top.equalTo(freightConfigureBtn.snp.bottom)
+                make.bottom.equalTo(-scale(92))
+            }
+            freightListModel?.freightType = Int32(2)
+            freightListModel?.freightTypeText = "自定义"
+            
+        }else{
             freeBtn.isSelected = true
             freightListModel?.freightType = Int32(1)
             freightListModel?.freightTypeText = "包邮"
-
             typeView.isHidden = true
             freightConfigureBtn.isHidden = true
             bottomView.snp.remakeConstraints { make in
