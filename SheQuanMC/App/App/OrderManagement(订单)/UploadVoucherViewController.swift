@@ -212,6 +212,7 @@ class UploadVoucherViewController: BaseViewController {
             self.popup.actionSheet {
                 [
                     JFPopupAction(with: "从手机相册选择", subTitle: nil, clickActionCallBack: { [weak self] in
+                        self?.manager.configuration.photoMaxNum = UInt(6 - (self?.productPics.count ?? 0))
                         self?.hx_presentSelectPhotoController(with: self?.manager, didDone: { allList, photoList, videoList, isOriginal, viewController, manager in
                             var imageDataArray = [Data]()
                             for i in 0..<(photoList?.count ?? 0){

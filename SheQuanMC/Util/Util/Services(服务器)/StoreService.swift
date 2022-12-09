@@ -8,7 +8,7 @@
 import Foundation
 import RealmSwift
 
-
+//用户信息请求
 public class StoreService{
     
     public static let shared = StoreService()

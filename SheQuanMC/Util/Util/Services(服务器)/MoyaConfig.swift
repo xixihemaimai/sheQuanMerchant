@@ -14,6 +14,8 @@ public let sheQuanMCURL = "http://27.154.225.198:8996/sqshop/api/"
 
 //header加签
 public let appId = "IOS"
+//请求配置信息
+let appSecret = "1f794aa641b5c1528e92aaf38074d35c"
 
 
 /// 定义返回的JSON数据字段
@@ -55,7 +57,7 @@ public func getJSONStringFromData(obj:Any,isEscape:Bool) -> String {
                 }
             }
             body = body + "}"
-            LXFLog("-----------------2-1------------\(body)")
+//            LXFLog("-----------------2-1------------\(body)")
             return body
         }
     }
@@ -71,7 +73,7 @@ public func getArrayOrDicFromJSONString(jsonString:String) -> Any {
         LXFLog("")
         return info
     }
-    LXFLog("=======")
+//    LXFLog("=======")
     return ""
 }
 
@@ -273,7 +275,7 @@ public func getJSONStringFromPushblish(obj:[String:Any],isEscape:Bool) -> String
                         }
                     }
                     body += "}"
-                    LXFLog("=========232============\(body)")
+//                    LXFLog("=========232============\(body)")
                 }
             } catch {
                 print(error)
@@ -283,12 +285,6 @@ public func getJSONStringFromPushblish(obj:[String:Any],isEscape:Bool) -> String
     }
     return ""
 }
-
-
-
-
-
-
 
 //生成随机数
 public func generateRandomNumber(_ numDigits:Int) -> Int{
@@ -303,22 +299,22 @@ public func generateRandomNumber(_ numDigits:Int) -> Int{
 }
 
 //获取sign的值--没有data的情况下
-public func obtainSignValue(_ time:String,_ nonce:String,_ deviceId:String) -> String{
-    var sign:String = ""
-    sign = "accessToken=" + (StoreService.shared.accessToken ?? "") + "&apiVer=" + String.apiVersion + "&appId=" + appId +  "&appSecret=1f794aa641b5c1528e92aaf38074d35c&appVer=" + String.appVersion + "&data=&deviceId=" + deviceId + "&nonce=" + nonce + "&timeStamp=" + time
+public func obtainSignValue(_ time:String,_ nonce:String,_ deviceId:String,_ isNeedData:Bool = false,_ data:String = "") -> String{
+//    var sign:String = ""
+//    sign = "accessToken=" + (StoreService.shared.accessToken ?? "") + "&apiVer=" + String.apiVersion + "&appId=" + appId +  "&appSecret=\(appSecret)&appVer=" + String.appVersion + "&data=&deviceId=" + deviceId + "&nonce=" + nonce + "&timeStamp=" + time
+    var sign = "accessToken=\(StoreService.shared.accessToken ?? "")&apiVer=\(String.apiVersion)&appId=\(appId)&appSecret=\(appSecret)&appVer=\(String.appVersion)&data=\(isNeedData ? data : "")&deviceId=\(deviceId)&nonce=\(nonce)&timeStamp=\(time)"
     sign = sign.md5
     return sign
 }
 
 //获取sign的值--有data的情况下
-public func obtainSignValueData(_ time:String,_ nonce:String,_ deviceId:String,_ data:String) -> String{
-    var sign:String = ""
-    sign = "accessToken=" + (StoreService.shared.accessToken ?? "") + "&apiVer=" + String.apiVersion + "&appId=" + appId + "&appSecret=1f794aa641b5c1528e92aaf38074d35c&appVer=" + String.appVersion + "&data=" + data + "&deviceId=" + deviceId + "&nonce=" + nonce + "&timeStamp=" + time
-    LXFLog(sign)
-    sign = sign.md5
-    LXFLog(sign)
-    return sign
-}
+//public func obtainSignValueData(_ time:String,_ nonce:String,_ deviceId:String,_ data:String) -> String{
+//    var sign:String = ""
+//    sign = "accessToken=" + (StoreService.shared.accessToken ?? "") + "&apiVer=" + String.apiVersion + "&appId=" + appId + "&appSecret=\(appSecret)&appVer=" + String.appVersion + "&data=" + data + "&deviceId=" + deviceId + "&nonce=" + nonce + "&timeStamp=" + time
+//    var sign = "accessToken=\(StoreService.shared.accessToken ?? "")&apiVer=\(String.apiVersion)&appId=\(appId)&appSecret=\(appSecret)&appVer=\(String.appVersion)&data=\(data)&deviceId=\(deviceId)&nonce=\(nonce)&timeStamp=\(time)"
+//    sign = sign.md5
+//    return sign
+//}
 
 
 //字典的value是相同的拼接的字符串

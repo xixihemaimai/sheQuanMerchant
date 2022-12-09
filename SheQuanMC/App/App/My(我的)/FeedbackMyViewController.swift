@@ -38,6 +38,7 @@ class FeedbackMyViewController: BaseViewController {
     lazy var feedTextView:UITextView = {
        let feedTextView = UITextView()
         feedTextView.placeholder = "请详细描述您所遇到的问题"
+        feedTextView.autocorrectionType = .no
         feedTextView.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
         feedTextView.placeholderColor = UIColor.colorWithDyColorChangObject(lightColor: "#C2C2C2")
         feedTextView.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
@@ -262,17 +263,9 @@ class FeedbackMyViewController: BaseViewController {
             self.popup.actionSheet {
                 [
                     JFPopupAction(with: "从手机相册选择", subTitle: nil, clickActionCallBack: { [weak self] in
+                        self?.manager.configuration.photoMaxNum = UInt(6 - (self?.productPics.count ?? 0))
                         self?.hx_presentSelectPhotoController(with: self?.manager, didDone: { allList, photoList, videoList, isOriginal, viewController, manager in
                             var imageDataArray = [Data]()
-                            photoList?.forEach({ HXPhotoModel in
-                                //对图片进行
-                                guard let image = HXPhotoModel.thumbPhoto else {
-                                    return
-                                }
-                                    guard let imageData = image.jpegData(compressionQuality: 1.0) else { return }//把图片转换成data
-                                    imageDataArray.append(imageData)
-                            })
-                            
                             for i in 0..<(photoList?.count ?? 0){
                                 guard let model = photoList?[i] else { return }
                                 model.getAssetURL{ url, photoModelMediaSubType, bool, photoModel in
@@ -285,21 +278,24 @@ class FeedbackMyViewController: BaseViewController {
                                         NetWorkResultRequest(StoreAppleApi.batchUpload(parameters: Parameters, dataAry: imageDataArray), needShowFailAlert: true) { result, data in
                                             do{
                                                 let json = try JSON(data: data)
-                                                LXFLog(json)
+                                                
+                                                print("+========23=2=3=2=3=2=======================\(data)")
+                                                print("+========23=2=3=2=3=2=======================\(json)")
+                                                
                                                 let array = json["data"]
                                                 for i in 0..<array.count{
                                                     let cloudUrl = array[i]["cloudUrl"]
                                                     let data = try JSONEncoder().encode(cloudUrl)
                                                     var url = String(data: data, encoding:String.Encoding.utf8)!.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
                                                     url = url.replacingOccurrences(of: "\"", with: "", options: .literal, range: nil)
-                                                    LXFLog(url)
+//                                                    LXFLog(url)
                                                     self?.productPics.append(url)
                                                 }
                                             }catch{}
                                             if self?.productPics.count ?? 0 > 0{
                                                 if self?.productPics.count ?? 7 > 6 {
                                                     let length = (self?.productPics.count ?? 1) - 1
-                                                    self?.productPics.removeSubrange(6...length)
+                                                    self?.productPics.removeSubrange(3...length)
                                                     self?.feedBacksView.arrData = self?.productPics ?? [String]()
                                                 }else{
                                                     self?.feedBacksView.arrData = self?.productPics ?? [String]()
@@ -313,6 +309,72 @@ class FeedbackMyViewController: BaseViewController {
                                 }
                             }
                         })
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+//                        self?.hx_presentSelectPhotoController(with: self?.manager, didDone: { allList, photoList, videoList, isOriginal, viewController, manager in
+//                            var imageDataArray = [Data]()
+//                            photoList?.forEach({ HXPhotoModel in
+//                                //对图片进行
+//                                guard let image = HXPhotoModel.thumbPhoto else {
+//                                    return
+//                                }
+//                                guard let imageData = image.jpegData(compressionQuality: 1.0) else { return }//把图片转换成data
+//                                imageDataArray.append(imageData)
+//                            })
+//
+//                            for i in 0..<(photoList?.count ?? 0){
+//                                guard let model = photoList?[i] else { return }
+//                                model.getAssetURL{ url, photoModelMediaSubType, bool, photoModel in
+//                                    let nsdata = NSData(contentsOf: url!)
+//                                    let data:Data = nsdata! as Data
+//                                    imageDataArray.append(data)
+//                                    if imageDataArray.count == photoList?.count{
+//                                        let Parameters = ["fileType":20]
+//                                        JFPopupView.popup.loading(hit: "上传图片中....")
+//                                        NetWorkResultRequest(StoreAppleApi.batchUpload(parameters: Parameters, dataAry: imageDataArray), needShowFailAlert: true) { result, data in
+//                                            do{
+//                                                let json = try JSON(data: data)
+//                                                print("+========23=2=3=2=3=2=======================\(data)")
+//                                                print("+========23=2=3=2=3=2=======================\(json)")
+//                                                LXFLog(json)
+//                                                let array = json["data"]
+//                                                for i in 0..<array.count{
+//                                                    let cloudUrl = array[i]["cloudUrl"]
+//                                                    let data = try JSONEncoder().encode(cloudUrl)
+//                                                    var url = String(data: data, encoding:String.Encoding.utf8)!.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+//                                                    url = url.replacingOccurrences(of: "\"", with: "", options: .literal, range: nil)
+////                                                    LXFLog(url)
+//                                                    self?.productPics.append(url)
+//                                                }
+//                                            }catch{}
+//                                            if self?.productPics.count ?? 0 > 0{
+//                                                if self?.productPics.count ?? 7 > 6 {
+//                                                    let length = (self?.productPics.count ?? 1) - 1
+//                                                    self?.productPics.removeSubrange(6...length)
+//                                                    self?.feedBacksView.arrData = self?.productPics ?? [String]()
+//                                                }else{
+//                                                    self?.feedBacksView.arrData = self?.productPics ?? [String]()
+//                                                }
+//                                            }
+//                                            JFPopupView.popup.hideLoading()
+//                                        } failureCallback: { error,code in
+//                                            JFPopupView.popup.hideLoading()
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        })
                     }),
                     JFPopupAction(with: "拍照", subTitle: nil, clickActionCallBack: {[weak self] in
                         self?.hx_presentCustomCameraViewController(with: self?.manager) { photoList, viewController in

@@ -94,17 +94,16 @@ public class MyViewController: BaseViewController {
         headerImage.layer.borderWidth = scale(2)
         headerImage.layer.borderColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff").cgColor
         headerImage.layer.masksToBounds = true
-        
         headerBtn.addSubview(shopName)
         
         
-        var width = StoreService.shared.currentUser?.shopName.singleLineSize(font: UIFont.systemFont(ofSize: scale(18), weight: .semibold)).width
-        width! += scale(10)
+//        var width = StoreService.shared.currentUser?.shopName.singleLineSize(font: UIFont.systemFont(ofSize: scale(18), weight: .semibold)).width
+//        width! += scale(10)
         
         shopName.snp.makeConstraints { make in
             make.left.equalTo(headerImage.snp.right).offset(scale(12))
             make.top.equalTo(scale(8))
-            make.width.equalTo(width!)
+//            make.width.equalTo(width!)
             make.height.equalTo(scale(25))
         }
         
@@ -115,7 +114,8 @@ public class MyViewController: BaseViewController {
         headerBtn.addSubview(rightImage)
         rightImage.snp.makeConstraints { make in
             make.left.equalTo(shopName.snp.right).offset(scale(4))
-            make.top.equalTo(scale(8))
+//            make.top.equalTo(scale(8))
+            make.centerY.equalTo(shopName)
             make.width.height.equalTo(scale(20))
         }
         

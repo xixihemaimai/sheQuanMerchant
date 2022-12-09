@@ -34,6 +34,7 @@
 		40A9A2102814D8D9006B1CBF /* Util.h in Headers */ = {isa = PBXBuildFile; fileRef = 40A9A20F2814D8D9006B1CBF /* Util.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		40BEA399285ABA570049AD28 /* NoDeliveryRegionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40BEA398285ABA570049AD28 /* NoDeliveryRegionModel.swift */; };
 		40CACB4C2837255A00BC3027 /* NSDate+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CACB4B2837255A00BC3027 /* NSDate+Date.swift */; };
+		5CAFF0C42941E35100C09918 /* shopConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAFF0C32941E35100C09918 /* shopConfig.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +67,7 @@
 		40A9A20F2814D8D9006B1CBF /* Util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		40BEA398285ABA570049AD28 /* NoDeliveryRegionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDeliveryRegionModel.swift; sourceTree = "<group>"; };
 		40CACB4B2837255A00BC3027 /* NSDate+Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Date.swift"; sourceTree = "<group>"; };
+		5CAFF0C32941E35100C09918 /* shopConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shopConfig.swift; sourceTree = "<group>"; };
 		6FC5C427E6808881F16255E4 /* Pods-Util.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Util.release.xcconfig"; path = "Target Support Files/Pods-Util/Pods-Util.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -160,6 +162,7 @@
 				40A9A20D2814D6F1006B1CBF /* Config.swift */,
 				40A9A20F2814D8D9006B1CBF /* Util.h */,
 				401E5DD0281530EF009127A5 /* Util.swift */,
+				5CAFF0C32941E35100C09918 /* shopConfig.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 				4074C9FE28322262009E9023 /* StoreAppleApi.swift in Sources */,
 				406DDD70283B6AF9004CF4FE /* ProductInfoModel.swift in Sources */,
 				40091A482835D1E1009D60BD /* OrderApi.swift in Sources */,
+				5CAFF0C42941E35100C09918 /* shopConfig.swift in Sources */,
 				401E5DD928163E92009127A5 /* Coordinator.swift in Sources */,
 				4099C0ED281F6C10002889A7 /* LoginApi.swift in Sources */,
 				40A59B982847431F00B712AE /* OrderModel.swift in Sources */,

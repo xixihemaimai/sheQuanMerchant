@@ -17,6 +17,7 @@ class CommodityManagementViewController: UIViewController {
 //        searchBar.delegate = self
         if #available(iOS 13.0, *) {
             searchBar.searchTextField.font = UIFont.systemFont(ofSize: scale(12), weight: .regular)
+            searchBar.searchTextField.autocorrectionType = .no
         }
         searchBar.barStyle = .default
         searchBar.searchBarStyle = .minimal
@@ -96,7 +97,7 @@ class CommodityManagementViewController: UIViewController {
         view.addSubview(contentScrollerView)
         contentScrollerView.snp.makeConstraints { make in
             make.left.bottom.equalToSuperview()
-            make.top.equalTo(titleView.snp.bottom).offset(scale(1))
+            make.top.equalTo(titleView.snp.bottom)
             make.width.equalTo(SCW)
         }
         

@@ -30,22 +30,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          //这边获取系统版本
         NetWorkResultRequest(LoginApi.systemVersion, needShowFailAlert: true) { result, data in
             do{
+                print("========23=2=3======\(data)")
                 let json = try JSON(data: data)
-                LXFLog(json)
                 
+                
+                var config = shopConfig.share
+                config.apiVerId = json["data"]["apiVerId"].string
+                config.appVerId = json["data"]["appVerId"].string
+                config.upgradeAppVerId = json["data"]["upgradeAppVerId"].string
+            
                 let user = UserDefaults.standard
-                //appVerId
                 user.removeObject(forKey: "appVerId")
-//                let appVerId:String = json["data"]["appVerId"].string ?? "1.0.0"
                 user.set(json["data"]["appVerId"].string ?? "1.0.0", forKey: "appVerId")
                 LXFLog(user.object(forKey: "appVerId"))
-                //apiVerId
                 user.removeObject(forKey: "apiVerId")
-//                let apiVerId:String = json["data"]["apiVerId"].string ?? "1.0.0"
                 user.setValue(json["data"]["apiVerId"].string ?? "1.0.0", forKey: "apiVerId")
-                //upgradeAppVerId
                 user.removeObject(forKey: "upgradeAppVerId")
-//                let upgradeAppVerId:String = json["data"]["upgradeAppVerId"].string ?? "1.0.0"
                 user.setValue(json["data"]["upgradeAppVerId"].string ?? "1.0.0", forKey: "upgradeAppVerId")
                 user.synchronize()
                 
@@ -60,8 +60,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.rootViewController = navi
             //这边要判断重新获取店铺信息
             NetWorkResultRequest(shopApi.getShopInfo, needShowFailAlert: true) { result, data in
-                
-                
 //                 do{
 //                    let json = try JSON(data: data)
                     //需不需要删除数据库
@@ -69,16 +67,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     guard let model = try? JSONDecoder().decode(GenericResponse<StoreInfoModel>.self, from: data) else{
                         return
                     }
-                
 //                  if let data = model.data {
 //                     StoreService.shared.updateShopInfo(data)
 //                  }
                     guard let neWData = model.data else {
                         return
                     }
-                
-                LXFLog(neWData.auditStatus)
-                    
+//                LXFLog(neWData.auditStatus)
                     StoreService.shared.updateShopInfo(neWData)
 //                    LXFLog(neWData.auditStatus)
                     if neWData.auditStatus == 2{

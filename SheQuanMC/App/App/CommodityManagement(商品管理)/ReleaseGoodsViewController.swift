@@ -1262,10 +1262,6 @@ class ReleaseGoodsViewController: BaseViewController {
         scrollView.layoutIfNeeded()
     }
     
-    
-    
-    
-    
     /// 添加拖动手势
     @objc private func longPress(_ gesture: UILongPressGestureRecognizer) {
         vMoments.longPress(gesture)
@@ -1282,6 +1278,7 @@ class ReleaseGoodsViewController: BaseViewController {
             self.popup.actionSheet {
                 [
                     JFPopupAction(with: "从手机相册选择", subTitle: nil, clickActionCallBack: { [weak self] in
+                        self?.manager.configuration.photoMaxNum = UInt(6 - (self?.commodityModel?.productPics?.count ?? 0))
                         self?.hx_presentSelectPhotoController(with: self?.manager, didDone: { allList, photoList, videoList, isOriginal, viewController, manager in
                             var imageDataArray = [Data]()
                             for i in 0..<(photoList?.count ?? 0){
