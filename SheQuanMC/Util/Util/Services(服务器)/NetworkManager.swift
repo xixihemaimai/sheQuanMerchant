@@ -383,7 +383,7 @@ public func validateRepsonse(response: [String: JSON]?, needShowFailAlert: Bool,
     } else {
         errorMessage = "服务器数据开小差了"
     }
-
+     
     if errorMessage.count > 0 {
         var code: Int = 999
         if let codeNum = response?[codeKey]?.int {

@@ -10,7 +10,12 @@ import Foundation
 import SwiftUI
 import RealmSwift
 /// 定义基础域名
+#if DEBUG
 public let sheQuanMCURL = "http://27.154.225.198:8996/sqshop/api/"
+//public let sheQuanMCURL = "http://sqshop.ldhnkj.com/sqshop/api/"
+#else
+public let sheQuanMCURL = "http://sqshop.ldhnkj.com/sqshop/api/"
+#endif
 
 //header加签
 public let appId = "IOS"

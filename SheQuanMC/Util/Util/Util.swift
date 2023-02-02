@@ -32,4 +32,24 @@ public class Util {
       }
       return currentVc
     }
+    
+    public static func getKeyWindow() -> UIWindow {
+        return UIApplication.shared.keyWindow ?? UIApplication.shared.windows.first!
+    }
+    
+    
+    public static func popToMainViewControllerAnimated(animated: Bool, completion: ((_ isOK: Bool, _ data: [String: Any]?) -> ())?) -> Void {
+        let vc = Util.getCurrentVc()
+        if vc.navigationController == UIApplication.shared.delegate?.window??.rootViewController {
+            vc.navigationController?.popToRootViewController(animated: animated)
+            if let _completion = completion {
+                _completion(true, nil)
+            }
+        } else {
+            vc.navigationController?.dismiss(animated: animated, completion: nil)
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.4) {
+                Util.popToMainViewControllerAnimated(animated: animated, completion: completion)
+            }
+        }
+    }
 }

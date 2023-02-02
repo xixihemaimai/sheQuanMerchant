@@ -136,7 +136,7 @@ open class StartPageViewController: BaseViewController {
        agreeBtn.snp.makeConstraints { make in
            make.left.equalTo(scale(52))
            make.top.equalTo(loginBtn.snp.bottom).offset(scale(23))
-           make.width.height.equalTo(scale(13))
+           make.width.height.equalTo(scale(15))
        }
        
        agreeBtn.addTarget(self, action: #selector(agreeReadAction), for: .touchUpInside)

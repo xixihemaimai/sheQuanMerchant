@@ -364,7 +364,7 @@ extension NoDeliveryViewController:UITableViewDelegate,UITableViewDataSource{
             
         let list = self.regionList[indexPath.row]
         self.popup.bottomSheet {
-            LXFLog("====================-----------------------------------------")
+//            LXFLog("====================-----------------------------------------")
             let nodeliveryRegionView = NoDeliveryRegionView(frame:CGRect(x: 0, y: 0, width: SCW, height: scale(442)), regionInfoModel: list, addNewNoAreaList: self.regionList, dataArray: self.provinceList, jumpType: 1)
             nodeliveryRegionView.cancelBlock = {[weak self] in
                 self?.popup.dismissPopup()
