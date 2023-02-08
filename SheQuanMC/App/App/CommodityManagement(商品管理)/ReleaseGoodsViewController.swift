@@ -1063,7 +1063,7 @@ class ReleaseGoodsViewController: BaseViewController {
             commodityModel = CommodityModel(categoryId: StoreService.shared.categoryId, categoryName: "",freeRefundIn7Days: false, freightId: 0,freightInsure: false, freightName: "未设置",multiSpec: false,price:0.0,productCode: "", productDesc: "", productId: 0, productName: "", productPics: [String](),sepNo:0,skus: [Skus](), specGroups: [SpecGroups](), spus: [Spus](), stock: 0,stockDeductText: "拍下减库存",stockDeductType: 0,productStatus: 1)
         }else{
             title = "编辑商品"
-//            LXFLog("+===========32==========23232=====================\(String(describing: commodityModel))")
+//          LXFLog("+===========32==========23232=====================\(String(describing: commodityModel))")
             //商品名称
             if (commodityModel?.productName?.count ?? 0) > 0{
                 goodsTextView.text = commodityModel?.productName
@@ -1420,7 +1420,7 @@ class ReleaseGoodsViewController: BaseViewController {
                 self.goodsContentLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
                 self.commodityModel?.categoryId = model.categoryId
                 self.commodityModel?.categoryName = model.categoryName
-                LXFLog("=============\(String(describing: self.commodityModel?.categoryId))")
+//                LXFLog("=============\(String(describing: self.commodityModel?.categoryId))")
 //                self.goodsContentLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
                 self.goodsParameterSLabel.isHidden = false
                 self.goodsParameterSBtn.isHidden = false
@@ -2025,8 +2025,7 @@ class ReleaseGoodsViewController: BaseViewController {
                 skusList += "," + jsonstring
             }
             
-            skusList = (skusList as NSString).replacingOccurrences(of: "\"skuPics\":[]", with: ((skus?.skuPics?.count ?? 0) > 0) ? ("\"skuPics\":" + "[" + "\""
-                                                                                                                                    + (skus?.skuPics?.last ?? "") + "\"" + "]") : "\"skuPics\":[]") as String
+            skusList = (skusList as NSString).replacingOccurrences(of: "\"skuPics\":[]", with: ((skus?.skuPics?.count ?? 0) > 0) ? ("\"skuPics\":" + "[" + "\"" + (skus?.skuPics?.last ?? "") + "\"" + "]") : "\"skuPics\":[]") as String
             skusList = (skusList as NSString).replacingOccurrences(of: "\"specs\":\"\"", with: "\"specs\":" + specsLists) as String
         }
         skusList += "]"

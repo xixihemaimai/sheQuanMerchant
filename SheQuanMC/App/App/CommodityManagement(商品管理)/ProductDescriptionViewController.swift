@@ -124,7 +124,7 @@ class ProductDescriptionViewController: BaseViewController {
         //这里利用模型来判断是编辑过得数据还是没有新要发布的
         if inputString != nil{
             //editorView.frame.size.width-self.editorView.textContainer.lineFragmentPadding*2
-            LXFLog("+================\(String(describing: inputString))")
+//            LXFLog("+================\(String(describing: inputString))")
 //            inputString = inputString?.replacingOccurrences(of: "+", with: "\"", options: .literal, range: nil)
             SIXHTMLParser.attributedText(withHtmlString: inputString, imageWidth: editorView.frame.size.width - (editorView.textContainer.lineFragmentPadding * 2)) { attributedText in
                 self.editorView.attributedText = attributedText

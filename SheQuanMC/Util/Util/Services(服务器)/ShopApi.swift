@@ -70,19 +70,30 @@ extension shopApi:TargetType{
             let time = Date().currentMilliStamp
             let nonce = String.nonce
             let deviceId = String.deviceUUID
-            return ["Accept": "*/*","Content-Type":"application/json","appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce": nonce,"timeStamp":time,"deviceId":deviceId,"accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValue(time,nonce,deviceId)]
+//            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValue(time,nonce,deviceId),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce": nonce,"timeStamp":time,"deviceId":deviceId]
+            
+            return returnParameters(time, nonce, deviceId)
+            
         case .changePass(let parameters):
             let time = Date().currentMilliStamp
             let nonce = String.nonce
             let deviceId = String.deviceUUID
             let returnStr = dictSory(parameters)
-            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValue(time, nonce, deviceId,true,returnStr),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+//            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValue(time, nonce, deviceId,true,returnStr),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+            return returnParameters(time, nonce, deviceId,true,returnStr)
+            
+            
         case .regAccount(let parameters),.forgetPass(let parameters):
             let time = Date().currentMilliStamp
             let nonce = String.nonce
             let deviceId = String.deviceUUID
 //            let returnStr = dictSory(parameters)
-            return ["Accept":"*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValue(time, nonce, deviceId,true,getJSONStringFromData(obj: parameters,isEscape: false)),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+//            return ["Accept":"*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValue(time, nonce, deviceId,true,getJSONStringFromData(obj: parameters,isEscape: false)),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+            
+            return returnParameters(time, nonce, deviceId,true,getJSONStringFromData(obj: parameters,isEscape: false))
+            
+            
+            
         default:
             return ["Accept": "*/*","Content-Type":"application/json"]
         }

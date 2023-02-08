@@ -226,10 +226,10 @@ public struct Specs: Codable {
 public struct Spus: Codable {
     public var length:Int32?          //字符长度
     public var required:Bool?         //是否必填（false：非必填、true：必填）
-    public var spuAttrId:Int64?       //商品参数属性Id
+    public var spuAttrId:String?       //商品参数属性Id
     public var spuAttrName: String?   //商品参数名称
-    public var spuId: Int64?          //商品参数Id
-    public var spuText:String?        //    string Spu文本
+    public var spuId: String?          //商品参数Id
+    public var spuText:String?        //string Spu文本
     public var spuType:Int32?         //商品参数类型（0：自定义、1：品牌、2：正品证书）
     public var spuValue: String?      //Spu属性值
     
@@ -249,9 +249,9 @@ public struct Spus: Codable {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         length = try? values.decodeIfPresent(Int32.self, forKey: .length)
         required = try? values.decodeIfPresent(Bool.self, forKey: .required)
-        spuAttrId = try? values.decodeIfPresent(Int64.self, forKey: .spuAttrId)
+        spuAttrId = try? values.decodeIfPresent(String.self, forKey: .spuAttrId)
         spuAttrName = try? values.decodeIfPresent(String.self, forKey: .spuAttrName)
-        spuId = try? values.decodeIfPresent(Int64.self, forKey: .spuId)
+        spuId = try? values.decodeIfPresent(String.self, forKey: .spuId)
         spuType = try? values.decodeIfPresent(Int32.self, forKey: .spuType)
         spuText = try? values.decodeIfPresent(String.self, forKey: .spuText)
         spuValue = try? values.decodeIfPresent(String.self, forKey: .spuValue)
@@ -259,7 +259,7 @@ public struct Spus: Codable {
     
     
     
-    public init(length:Int32? = 0,required:Bool? = false,spuAttrId:Int64? = 0,spuAttrName:String? = "",spuId:Int64? = 0,spuText:String? = "",spuType:Int32? = 0,spuValue:String? = ""){
+    public init(length:Int32? = 0,required:Bool? = false,spuAttrId:String? = "",spuAttrName:String? = "",spuId:String? = "",spuText:String? = "",spuType:Int32? = 0,spuValue:String? = ""){
         self.length = length
         self.required = required
         self.spuAttrId = spuAttrId

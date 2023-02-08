@@ -71,16 +71,14 @@ public func getJSONStringFromData(obj:Any,isEscape:Bool) -> String {
 
 
 
-public func getArrayOrDicFromJSONString(jsonString:String) -> Any {
-    let jsonData:Data = jsonString.data(using: .utf8)!
-    //可能是字典也可能是数组，再转换类型就好了
-    if let info = try? JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers) {
-        LXFLog("")
-        return info
-    }
-//    LXFLog("=======")
-    return ""
-}
+//public func getArrayOrDicFromJSONString(jsonString:String) -> Any {
+//    let jsonData:Data = jsonString.data(using: .utf8)!
+//    //可能是字典也可能是数组，再转换类型就好了
+//    if let info = try? JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers) {
+//        return info
+//    }
+//    return ""
+//}
 
 
 //添加商品规格组 ， 补库存
@@ -98,8 +96,6 @@ public func getArrayJSONStringFromAddSpec(obj:[String:Any]) -> String{
             }
             if let dicts = dictlist{
                 for (_ ,element) in dicts.enumerated() {
-                    LXFLog(element.key)
-                    LXFLog(element.value)
                     if let code = element.value as? Int {
                        let result = String(code)
                         body += "{" + "\"" + element.key + "\"" + ":" + result
@@ -136,8 +132,6 @@ public func getArrayJSONStringFromUpdateAndNewTemplate(obj:[String:Any]) -> Stri
             }
             if let dicts = dictlist{
                 for (_ ,element) in dicts.enumerated() {
-                    LXFLog(element.key)
-                    LXFLog(element.value)
                     if let code = element.value as? Int {
                        let result = String(code)
                         if element.key == "freightId" || element.key == "freightType" || element.key == "freightVerId"{
@@ -196,8 +190,6 @@ public func getJSONStringFromPushblish(obj:[String:Any],isEscape:Bool) -> String
                 }
                 if let dicts = dictlist{
                     for (index,element) in dicts.enumerated() {
-                        LXFLog(element.key)
-                        LXFLog(element.value)
                         if let code = element.value as? Int {
                         let result = String(code)
 //                          LXFLog("======================\(result)")
@@ -312,6 +304,20 @@ public func obtainSignValue(_ time:String,_ nonce:String,_ deviceId:String,_ isN
     return sign
 }
 
+public func returnParameters(_ time:String,_ nonce:String,_ deviceId:String,_ isNeedData:Bool = false,_ paramters:String = "",_ isPicture:Bool = false) -> [String:String]{
+    if isPicture{
+        return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValue(time, nonce, deviceId),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId,"fileType":"20"]
+    }else{
+        if isNeedData{
+            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValue(time, nonce, deviceId,true,paramters),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+        }else{
+            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValue(time, nonce, deviceId),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+        }
+    }
+}
+
+
+
 //获取sign的值--有data的情况下
 //public func obtainSignValueData(_ time:String,_ nonce:String,_ deviceId:String,_ data:String) -> String{
 //    var sign:String = ""
@@ -330,7 +336,7 @@ public func dictSory(_ parameters:[String:String]) -> String{
     LXFLog(keys)
     var returnStr:String = ""
     for (index,value) in keys.enumerated() {
-        LXFLog(value.value)
+//        LXFLog(value.value)
             if index == 0{
                 returnStr = "{" + "\"" + value.key + "\"" + ":" + "\"" + value.value + "\""
             }else{
@@ -381,8 +387,6 @@ public func getJSONStringFromAddSpec(obj:Data) -> Data{
         }
         if let dicts = dictlist{
             for (_ ,element) in dicts.enumerated() {
-                LXFLog(element.key)
-                LXFLog(element.value)
                 if let code = element.value as? Int {
                    let result = String(code)
                     body += "{" + "\"" + element.key + "\"" + ":" + result
@@ -427,8 +431,6 @@ public func getJSONStringFromPushblishData(obj:Data,isEscape:Bool) -> Data{
         }
         if let dicts = dictlist{
             for (index,element) in dicts.enumerated() {
-//                LXFLog(element.key)
-//                LXFLog(element.value)
                 if let code = element.value as? Int {
                     let result = String(code)
 //                    LXFLog("======================\(result)")
@@ -540,8 +542,6 @@ public func getArrayJSONStringFromUpdateAndNewTemplateData(obj:Data) -> Data{
         }
         if let dicts = dictlist{
             for (_ ,element) in dicts.enumerated() {
-                LXFLog(element.key)
-                LXFLog(element.value)
                 if let code = element.value as? Int {
                    let result = String(code)
                     if element.key == "freightId" || element.key == "freightType" || element.key == "freightVerId"{

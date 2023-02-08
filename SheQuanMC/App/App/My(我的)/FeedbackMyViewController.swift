@@ -277,11 +277,7 @@ class FeedbackMyViewController: BaseViewController {
                                         JFPopupView.popup.loading(hit: "上传图片中....")
                                         NetWorkResultRequest(StoreAppleApi.batchUpload(parameters: Parameters, dataAry: imageDataArray), needShowFailAlert: true) { result, data in
                                             do{
-                                                let json = try JSON(data: data)
-                                                
-                                                print("+========23=2=3=2=3=2=======================\(data)")
-                                                print("+========23=2=3=2=3=2=======================\(json)")
-                                                
+                                                let json = try JSON(data: data)                                                
                                                 let array = json["data"]
                                                 for i in 0..<array.count{
                                                     let cloudUrl = array[i]["cloudUrl"]

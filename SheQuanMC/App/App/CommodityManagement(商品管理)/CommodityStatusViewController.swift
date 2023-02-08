@@ -28,7 +28,7 @@ class CommodityStatusViewController: BaseViewController {
         tableview.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#F8F8F8")
         tableview.register(commodityStatusCell.self, forCellReuseIdentifier: "commodityStatusCell")
         tableview.register(commodityExamineCell.self, forCellReuseIdentifier: "commodityExamineCell")
-//        tableview.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
+//      tableview.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
         loadProductList()
     }
     
@@ -40,7 +40,7 @@ class CommodityStatusViewController: BaseViewController {
     }
     
     override func footerRereshing() {
-        LXFLog("=========================")
+//        LXFLog("=========================")
         header = false
         loadProductList()
     }
