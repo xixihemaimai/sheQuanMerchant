@@ -39,15 +39,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 config.appVerId = json["data"]["appVerId"].string
                 config.upgradeAppVerId = json["data"]["upgradeAppVerId"].string
             
-                let user = UserDefaults.standard
-                user.removeObject(forKey: "appVerId")
-                user.set(json["data"]["appVerId"].string ?? "1.0.0", forKey: "appVerId")
-                LXFLog(user.object(forKey: "appVerId"))
-                user.removeObject(forKey: "apiVerId")
-                user.setValue(json["data"]["apiVerId"].string ?? "1.0.0", forKey: "apiVerId")
-                user.removeObject(forKey: "upgradeAppVerId")
-                user.setValue(json["data"]["upgradeAppVerId"].string ?? "1.0.0", forKey: "upgradeAppVerId")
-                user.synchronize()
+//                let user = UserDefaults.standard
+//                user.removeObject(forKey: "appVerId")
+//                user.set(json["data"]["appVerId"].string ?? "1.0.0", forKey: "appVerId")
+//                LXFLog(user.object(forKey: "appVerId"))
+//                user.removeObject(forKey: "apiVerId")
+//                user.setValue(json["data"]["apiVerId"].string ?? "1.0.0", forKey: "apiVerId")
+//                user.removeObject(forKey: "upgradeAppVerId")
+//                user.setValue(json["data"]["upgradeAppVerId"].string ?? "1.0.0", forKey: "upgradeAppVerId")
+//                user.synchronize()
                 
             }catch{}
         } failureCallback: { error, code in

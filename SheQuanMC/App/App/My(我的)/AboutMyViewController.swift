@@ -54,9 +54,8 @@ class AboutMyViewController: BaseViewController {
         }
         
         let headerLabel = UILabel()
-        let infoDic = Bundle.main.infoDictionary
-        let appVersion = (infoDic?["CFBundleShortVersionStrin"] ?? "1.0.0") as! String
-        headerLabel.text = "奢圈商户版" + "V" + appVersion
+        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        headerLabel.text = "奢圈商户版" + "V" + (appVersion ?? "1.0.0")
         headerLabel.textColor = UIColor.colorWithDyColorChangObject(lightColor: "#333333")
         headerLabel.font = UIFont.systemFont(ofSize: scale(16), weight: .medium)
         headerLabel.textAlignment = .center

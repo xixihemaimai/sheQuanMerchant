@@ -165,7 +165,7 @@ class LoginViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
+        view.backgroundColor = viewControllerWhiteColor
         //奢圈商户版
         view.addSubview(shopSheQuanImage)
         view.addSubview(shopLabel)
@@ -398,9 +398,10 @@ class LoginViewController: BaseViewController {
     //隐藏和显示密码  发送验证码
     @objc func hideAndSendCodeAction(btn:UIButton){
         
-        if btn.currentTitle == "获取验证码"{
+        if btn.currentTitle == "获取验证码" || btn.currentTitle == "重新发送"{
             //这边要做得事情要先判断手机号是否正确
             if !(accountTextField.text?.isValidMobile ?? true){
+                btn.setTitle("获取验证码", for: .normal)
                 JFPopup.toast(hit: "手机号码错误")
             }else{
                 //这边是正确获取验证码的步骤
@@ -420,15 +421,15 @@ class LoginViewController: BaseViewController {
             }
         }else{
            //显示和展示密码
-            btn.isSelected = !btn.isSelected
-            //这边还需要对这个按键的图片进行设置
-            if btn.isSelected{
-                //这边看不到
-                showPasswordBtn.setImage(UIImage(named: "Group 2785"), for: .normal)
-            }else{
-                showPasswordBtn.setImage(UIImage(named: "隐藏"), for: .normal)
-            }
-            passwordTextField.isSecureTextEntry = btn.isSelected
+                btn.isSelected = !btn.isSelected
+                //这边还需要对这个按键的图片进行设置
+                if btn.isSelected{
+                    //这边看不到
+                    showPasswordBtn.setImage(UIImage(named: "Group 2785"), for: .normal)
+                }else{
+                    showPasswordBtn.setImage(UIImage(named: "隐藏"), for: .normal)
+                }
+                passwordTextField.isSecureTextEntry = btn.isSelected
         }
     }
     

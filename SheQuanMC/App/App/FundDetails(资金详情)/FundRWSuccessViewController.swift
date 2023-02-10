@@ -26,7 +26,7 @@ class FundRWSuccessViewController: BaseViewController {
         super.viewDidLoad()
 
         
-        view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
+        view.backgroundColor = viewControllerWhiteColor
         
         
         let successImage = UIImageView()

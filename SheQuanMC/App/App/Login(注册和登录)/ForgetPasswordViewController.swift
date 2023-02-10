@@ -102,7 +102,7 @@ class ForgetPasswordViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
+        view.backgroundColor = viewControllerWhiteColor
         self.title = "忘记密码"
  
         //电话号码

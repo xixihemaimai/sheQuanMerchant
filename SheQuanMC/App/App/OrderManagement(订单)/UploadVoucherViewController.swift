@@ -19,7 +19,7 @@ class UploadVoucherViewController: BaseViewController {
     lazy var manager:HXPhotoManager = {
        let manager = HXPhotoManager()
         manager.configuration.openCamera = true
-        manager.configuration.photoMaxNum = 6
+        manager.configuration.photoMaxNum = 3
         //是否可以单选模式下选择图片跳转到编辑界面
         manager.configuration.singleJumpEdit = true
         //是否可以裁剪
@@ -38,12 +38,21 @@ class UploadVoucherViewController: BaseViewController {
         modifyTextView.placeholder = "请输入"
         modifyTextView.placeholderColor = UIColor.colorWithDyColorChangObject(lightColor:"#C2C2C2")
         modifyTextView.font = UIFont.systemFont(ofSize: scale(16), weight: .regular)
-        modifyTextView.textContainer.lineFragmentPadding = scale(16)
+//        modifyTextView.textContainer.lineFragmentPadding = scale(16)
         modifyTextView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
         modifyTextView.contentInset = UIEdgeInsets.zero
         modifyTextView.delegate = self
         return modifyTextView
     }()
+    
+    lazy var clearBtn:UIButton = {
+       let clearBtn = UIButton()
+        clearBtn.setImage(UIImage(named: "Frame"), for: .normal)
+        clearBtn.isHidden = true
+       return clearBtn
+    }()
+    
+    
     
     
     lazy var countLabel:UILabel = {
@@ -111,10 +120,21 @@ class UploadVoucherViewController: BaseViewController {
         
         view.addSubview(modifyTextView)
         modifyTextView.snp.makeConstraints { make in
-            make.left.right.equalToSuperview()
+//            make.left.right.equalToSuperview()
+            make.left.equalTo(addLeaseMseLabel)
+            make.right.equalToSuperview().offset(-scale(40))
             make.top.equalTo(addLeaseMseLabel.snp.bottom).offset(scale(12))
             make.height.equalTo(scale(148))
         }
+        
+        
+        view.addSubview(clearBtn)
+        clearBtn.snp.makeConstraints { make in
+            make.left.equalTo(modifyTextView.snp.right)
+            make.top.equalTo(modifyTextView.snp.top).offset(5)
+            make.width.height.equalTo(scale(24))
+        }
+        
         
         view.addSubview(countLabel)
         countLabel.snp.makeConstraints { make in
@@ -128,6 +148,7 @@ class UploadVoucherViewController: BaseViewController {
         
         
         view.addSubview(feedBacksView)
+        feedBacksView.maxCount = 3
         feedBacksView.itemLength = scale(82)
         feedBacksView.snp.makeConstraints { make in
             make.left.equalToSuperview()
@@ -145,21 +166,20 @@ class UploadVoucherViewController: BaseViewController {
         
         
         /// 更新高度
-        feedBacksView.heightBlock = { [weak self] height in
-            self?.feedBacksView.snp.remakeConstraints({ make in
-                make.left.equalToSuperview()
-                make.width.equalTo(SCW)
-                make.top.equalTo(self!.countLabel.snp.bottom).offset(scale(12))
-                make.height.equalTo(scale(height))
-            })
-            
-            self?.bottomView.snp.remakeConstraints { make in
-                make.left.right.equalToSuperview()
-                make.top.equalTo(self!.feedBacksView.snp.bottom).offset(scale(4))
-                make.bottom.equalTo(iPhoneX ? -scale(92) : -scale(58))
-            }
-            
-        }
+//        feedBacksView.heightBlock = { [weak self] height in
+//            self?.feedBacksView.snp.remakeConstraints({ make in
+//                make.left.equalToSuperview()
+//                make.width.equalTo(SCW)
+//                make.top.equalTo(self!.countLabel.snp.bottom).offset(scale(12))
+//                make.height.equalTo(scale(height))
+//            })
+//
+//            self?.bottomView.snp.remakeConstraints { make in
+//                make.left.right.equalToSuperview()
+//                make.top.equalTo(self!.feedBacksView.snp.bottom).offset(scale(4))
+//                make.bottom.equalTo(iPhoneX ? -scale(92) : -scale(58))
+//            }
+//        }
         
         
         /// 点击按钮
@@ -212,7 +232,7 @@ class UploadVoucherViewController: BaseViewController {
             self.popup.actionSheet {
                 [
                     JFPopupAction(with: "从手机相册选择", subTitle: nil, clickActionCallBack: { [weak self] in
-                        self?.manager.configuration.photoMaxNum = UInt(6 - (self?.productPics.count ?? 0))
+                        self?.manager.configuration.photoMaxNum = UInt(3 - (self?.productPics.count ?? 0))
                         self?.hx_presentSelectPhotoController(with: self?.manager, didDone: { allList, photoList, videoList, isOriginal, viewController, manager in
                             var imageDataArray = [Data]()
                             for i in 0..<(photoList?.count ?? 0){
@@ -317,6 +337,11 @@ extension UploadVoucherViewController:UITextViewDelegate{
     
     func textViewDidChange(_ textView: UITextView) {
         countLabel.text = "\(textView.text.count)" + "/200"
+        if textView.text.count > 0{
+            clearBtn.isHidden = false
+        }else{
+            clearBtn.isHidden = true
+        }
     }
 }
 

@@ -42,7 +42,7 @@ public class MyViewController: BaseViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#F8F8F8")
+//        view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#F8F8F8")
         view.addSubview(shopBackImageView)
         shopBackImageView.snp.makeConstraints { make in
             make.top.left.right.equalToSuperview()

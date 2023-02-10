@@ -60,7 +60,7 @@ class FundDetailViewController: BaseViewController {
         
 
         
-        view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#f8f8f8")
+//        view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#f8f8f8")
         
         
         view.addSubview(shopBackImageView)

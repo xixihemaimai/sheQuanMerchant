@@ -57,7 +57,7 @@ class AccountAndSafeViewController: BaseViewController {
         super.viewDidLoad()
         title = "账号与安全"
        
-        view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#f8f8f8")
+//        view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#f8f8f8")
         
         let phoneBtn = UIButton()
         phoneBtn.setTitle("    绑定手机", for: .normal)

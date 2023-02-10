@@ -54,7 +54,7 @@ class MyMessageViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#f8f8f8")
+//        view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#f8f8f8")
         
         if title == "消息通知"{
             

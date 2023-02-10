@@ -18,9 +18,9 @@ public let sheQuanMCURL = "http://sqshop.ldhnkj.com/sqshop/api/"
 #endif
 
 //header加签
-public let appId = "IOS"
+//public let appId = "IOS"
 //请求配置信息
-let appSecret = "1f794aa641b5c1528e92aaf38074d35c"
+//let appSecret = "1f794aa641b5c1528e92aaf38074d35c"
 
 
 /// 定义返回的JSON数据字段
@@ -299,19 +299,19 @@ public func generateRandomNumber(_ numDigits:Int) -> Int{
 public func obtainSignValue(_ time:String,_ nonce:String,_ deviceId:String,_ isNeedData:Bool = false,_ data:String = "") -> String{
 //    var sign:String = ""
 //    sign = "accessToken=" + (StoreService.shared.accessToken ?? "") + "&apiVer=" + String.apiVersion + "&appId=" + appId +  "&appSecret=\(appSecret)&appVer=" + String.appVersion + "&data=&deviceId=" + deviceId + "&nonce=" + nonce + "&timeStamp=" + time
-    var sign = "accessToken=\(StoreService.shared.accessToken ?? "")&apiVer=\(String.apiVersion)&appId=\(appId)&appSecret=\(appSecret)&appVer=\(String.appVersion)&data=\(isNeedData ? data : "")&deviceId=\(deviceId)&nonce=\(nonce)&timeStamp=\(time)"
+    var sign = "accessToken=\(StoreService.shared.accessToken ?? "")&apiVer=\(String.apiVersion)&appId=\(shopConfig.share.appId)&appSecret=\(shopConfig.share.appSecret)&appVer=\(String.appVersion)&data=\(isNeedData ? data : "")&deviceId=\(deviceId)&nonce=\(nonce)&timeStamp=\(time)"
     sign = sign.md5
     return sign
 }
 
 public func returnParameters(_ time:String,_ nonce:String,_ deviceId:String,_ isNeedData:Bool = false,_ paramters:String = "",_ isPicture:Bool = false) -> [String:String]{
     if isPicture{
-        return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValue(time, nonce, deviceId),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId,"fileType":"20"]
+        return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValue(time, nonce, deviceId),"appId":shopConfig.share.appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId,"fileType":"20"]
     }else{
         if isNeedData{
-            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValue(time, nonce, deviceId,true,paramters),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValue(time, nonce, deviceId,true,paramters),"appId":shopConfig.share.appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
         }else{
-            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValue(time, nonce, deviceId),"appId":appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
+            return ["Accept": "*/*","Content-Type":"application/json","accessToken":StoreService.shared.accessToken ?? "","sign":obtainSignValue(time, nonce, deviceId),"appId":shopConfig.share.appId,"appVer":String.appVersion,"apiVer":String.apiVersion,"nonce":nonce,"timeStamp":time,"deviceId":deviceId]
         }
     }
 }

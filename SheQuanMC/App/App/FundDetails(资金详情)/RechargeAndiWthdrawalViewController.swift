@@ -107,7 +107,7 @@ class RechargeAndiWthdrawalViewController: BaseViewController {
         
         
         let topView = UIView()
-        topView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#E0E0E0")
+        topView.backgroundColor = viewControllerWhiteColor
         view.addSubview(topView)
         
         topView.snp.makeConstraints { make in

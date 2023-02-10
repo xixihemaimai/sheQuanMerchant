@@ -71,7 +71,7 @@ class ChangeBindPhoneViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "更改绑定手机号"
-        view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#f8f8f8")
+//        view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#f8f8f8")
         
         let phoneView = UIView()
         phoneView.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")

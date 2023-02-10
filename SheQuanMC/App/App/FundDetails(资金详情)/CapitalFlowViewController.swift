@@ -38,7 +38,7 @@ class CapitalFlowViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "资金流水"
-        view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
+        view.backgroundColor = viewControllerWhiteColor
         
        
         view.addSubview(topView)

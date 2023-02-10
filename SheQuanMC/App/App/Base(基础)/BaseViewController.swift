@@ -32,10 +32,12 @@ open class BaseViewController: UIViewController {
        tableview.emptyDataSetDelegate = self
        
         //还需要对上拉和下拉的设置
-       tableview.mj_header = MJRefreshNormalHeader(refreshingBlock: {[unowned self] in
+       let header = MJRefreshNormalHeader(refreshingBlock: {[unowned self] in
            self.headerRereshing()
        })
-       
+       header.lastUpdatedTimeLabel?.isHidden = true
+       header.setTitle("正在刷新", for: .refreshing)
+       tableview.mj_header = header
        tableview.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: scale(92), right: 0)
        
        

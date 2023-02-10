@@ -55,7 +55,7 @@ class AddBankViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
+        view.backgroundColor = viewControllerWhiteColor
         
         
         let backBtn = UIButton()

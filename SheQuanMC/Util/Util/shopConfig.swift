@@ -19,5 +19,6 @@ public class shopConfig:NSObject{
     public var upgradeAppVerId:String?
     //APP的类型判断
     public var appId:String = "IOS"
-    
+    //请求配置信息
+    public var appSecret:String = "1f794aa641b5c1528e92aaf38074d35c"
 }

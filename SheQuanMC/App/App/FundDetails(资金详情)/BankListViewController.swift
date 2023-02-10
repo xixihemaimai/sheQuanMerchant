@@ -15,7 +15,7 @@ class BankListViewController: BaseViewController {
 
         title = "银行卡"
         
-        view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#F8F8F8")
+//        view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#F8F8F8")
     
         view.addSubview(tableview)
         tableview.snp.makeConstraints { make in

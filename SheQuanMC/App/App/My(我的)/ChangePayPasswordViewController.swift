@@ -74,7 +74,7 @@ class ChangePayPasswordViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "更改支付密码"
-        view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#f8f8f8")
+//        view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#f8f8f8")
         
         //手机号
         let phoneView = UIView()

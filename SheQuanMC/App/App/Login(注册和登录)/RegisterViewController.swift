@@ -167,7 +167,7 @@ class RegisterViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
+        view.backgroundColor = viewControllerWhiteColor
         //奢圈商户版
         view.addSubview(shopSheQuanImage)
         view.addSubview(shopLabel)

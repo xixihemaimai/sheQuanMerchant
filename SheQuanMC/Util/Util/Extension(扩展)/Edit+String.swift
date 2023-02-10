@@ -14,18 +14,21 @@ extension String{
     
     //获取APP的版本号
     public static var appVersion:String{
-        let user = UserDefaults.standard
-        return user.object(forKey: "appVerId") as? String ?? "1.0.0"
+//        let user = UserDefaults.standard
+//        return user.object(forKey: "appVerId") as? String ?? "1.0.0"
+        shopConfig.share.appVerId ?? "1.0.0"
     }
     //获取Api的版本号
     public static var apiVersion:String{
-        let user = UserDefaults.standard
-        return user.object(forKey: "apiVerId") as? String ?? "1.0.0"
+//        let user = UserDefaults.standard
+//        return user.object(forKey: "apiVerId") as? String ?? "1.0.0"
+        shopConfig.share.apiVerId ?? "1.0.0"
     }
     //获取更新版本的版本号
     public static var upgradeAppVerId:String{
-        let user = UserDefaults.standard
-        return user.object(forKey: "upgradeAppVerId") as? String ?? "1.0.0"
+//        let user = UserDefaults.standard
+//        return user.object(forKey: "upgradeAppVerId") as? String ?? "1.0.0"
+        shopConfig.share.upgradeAppVerId ?? "1.0.0"
     }
     
     public static var deviceUUID:String{

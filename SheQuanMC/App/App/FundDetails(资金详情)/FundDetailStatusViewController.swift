@@ -117,7 +117,7 @@ class FundDetailStatusViewController: BaseViewController {
         super.viewDidLoad()
         
         title = "详情"
-        view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#ffffff")
+        view.backgroundColor = viewControllerWhiteColor
         
         view.addSubview(priceLabel)
         priceLabel.snp.makeConstraints { make in

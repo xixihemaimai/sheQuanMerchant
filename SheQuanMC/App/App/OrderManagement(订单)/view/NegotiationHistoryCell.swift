@@ -128,15 +128,15 @@ class NegotiationHistoryCell: UITableViewCell {
         shopStatusLabel.snp.makeConstraints { make in
             make.left.equalTo(shopImage.snp.right).offset(scale(8))
             make.top.equalTo(topView.snp.bottom).offset(scale(14))
-            make.height.equalTo(scale(20))
-            make.width.equalTo(scale(100))
+//            make.height.equalTo(scale(20))
         }
         
         identityLabel.snp.makeConstraints { make in
             make.left.equalTo(shopStatusLabel.snp.right).offset(scale(4))
-            make.top.equalTo(topView.snp.bottom).offset(scale(18))
+//            make.top.equalTo(topView.snp.bottom).offset(scale(18))
+            make.centerY.equalTo(shopStatusLabel)
             make.width.equalTo(scale(28))
-            make.height.equalTo(scale(16))
+//            make.height.equalTo(scale(16))
         }
         
         identityLabel.layer.cornerRadius = scale(2)
@@ -145,7 +145,7 @@ class NegotiationHistoryCell: UITableViewCell {
             make.left.equalTo(shopImage.snp.right).offset(scale(8))
             make.right.equalTo(-scale(16))
             make.top.equalTo(shopStatusLabel.snp.bottom).offset(scale(1))
-            make.height.equalTo(scale(17))
+//            make.height.equalTo(scale(17))
         }
         
         
@@ -153,7 +153,7 @@ class NegotiationHistoryCell: UITableViewCell {
             make.left.equalTo(shopImage.snp.right).offset(scale(8))
             make.right.equalTo(-scale(16))
             make.top.equalTo(shopImage.snp.bottom).offset(scale(8))
-            make.height.equalTo(scale(20))
+//            make.height.equalTo(scale(20))
         }
         
         
@@ -161,14 +161,14 @@ class NegotiationHistoryCell: UITableViewCell {
             make.left.equalTo(shopImage.snp.right).offset(scale(8))
             make.right.equalTo(-scale(16))
             make.top.equalTo(cargoStatusLabel.snp.bottom).offset(scale(8))
-            make.height.equalTo(scale(20))
+//            make.height.equalTo(scale(20))
         }
         
         explainLabel.snp.makeConstraints { make in
             make.left.equalTo(shopImage.snp.right).offset(scale(8))
             make.right.equalTo(-scale(16))
             make.top.equalTo(reasonLabel.snp.bottom).offset(scale(8))
-            make.height.equalTo(scale(20))
+//            make.height.equalTo(scale(20))
         }
         
         historyImageArrayView.snp.makeConstraints { make in

@@ -29,10 +29,11 @@ class ModifyShopNameViewController: BaseViewController {
         super.viewDidLoad()
 
         title = "修改店铺名"
-        view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#f8f8f8")
+//        view.backgroundColor = UIColor.colorWithDyColorChangObject(lightColor: "#f8f8f8")
         view.addSubview(modifyTextView)
         modifyTextView.snp.makeConstraints { make in
-            make.top.left.right.equalToSuperview()
+            make.top.equalTo(1)
+            make.left.right.equalToSuperview()
             make.height.equalTo(scale(164))
         }
         

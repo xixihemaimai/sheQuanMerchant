@@ -129,6 +129,12 @@ class ShopViewController: BaseViewController {
     
     override func viewDidLoad() {
       super.viewDidLoad()
+        
+        
+        let data = [1, 2, 3, 4, 5]
+        let dataStr = data.map(String.init)
+        let result = dataStr.joined(separator: ",")
+        print("数组转字符串:\(result)")
   
         NotificationCenter.default.removeObserver(self)
         NotificationCenter.default.addObserver(self, selector: #selector(modifyShopAvater), name: ModifyShopAvater, object: nil)
@@ -199,6 +205,8 @@ class ShopViewController: BaseViewController {
         tableview.backgroundColor = UIColor.clear
         tableview.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Height_NavBar + Height_TabBar, right: 0)
         tableview.mj_header?.beginRefreshing()
+        
+        
         setCustonTableHeaderView()
     }
     
@@ -631,7 +639,7 @@ class ShopViewController: BaseViewController {
     }
     //修改店铺名称
     @objc func modifyShopName(noti:Notification){
-        LXFLog("============================\(StoreService.shared.currentUser?.shopName)")
+//        LXFLog("============================\(StoreService.shared.currentUser?.shopName)")
         shopNameLabel.text = StoreService.shared.currentUser?.shopName
         let width = (StoreService.shared.currentUser?.shopName.rectWidth(font: UIFont.systemFont(ofSize: scale(18), weight: .semibold), size: CGSize(width: SCW - scale(86), height: scale(44))) ?? 0) + scale(10)
         shopNameLabel.snp.remakeConstraints { make in
