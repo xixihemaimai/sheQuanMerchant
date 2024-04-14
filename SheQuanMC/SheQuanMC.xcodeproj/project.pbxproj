@@ -38,6 +38,7 @@
 		40A9A1CC28129906006B1CBF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40A9A1CA28129906006B1CBF /* Main.storyboard */; };
 		40A9A1CE2812990C006B1CBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40A9A1CD2812990C006B1CBF /* Assets.xcassets */; };
 		40A9A1D12812990C006B1CBF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40A9A1CF2812990C006B1CBF /* LaunchScreen.storyboard */; };
+		5C2232192BB8F26100B83887 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 5C2232182BB8F26100B83887 /* PrivacyInfo.xcprivacy */; };
 		61EF0698A9E3826DD00D7B6E /* Pods_SheQuanMC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8A97F8F1362286CE0488478 /* Pods_SheQuanMC.framework */; };
 /* End PBXBuildFile section */
 
@@ -89,6 +90,7 @@
 		40A9A20428129A4D006B1CBF /* App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		40A9A20828129A52006B1CBF /* Util.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Util.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		40A9A2152814E7AF006B1CBF /* SheQuanMC_Bridging_Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SheQuanMC_Bridging_Header.h; sourceTree = "<group>"; };
+		5C2232182BB8F26100B83887 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		B8443ED415A7208F16C28327 /* Pods-SheQuanMC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SheQuanMC.debug.xcconfig"; path = "Target Support Files/Pods-SheQuanMC/Pods-SheQuanMC.debug.xcconfig"; sourceTree = "<group>"; };
 		D6D8FDE20C18D6822AE144E1 /* Pods-SheQuanMC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SheQuanMC.release.xcconfig"; path = "Target Support Files/Pods-SheQuanMC/Pods-SheQuanMC.release.xcconfig"; sourceTree = "<group>"; };
 		E8A97F8F1362286CE0488478 /* Pods_SheQuanMC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SheQuanMC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -142,6 +144,7 @@
 		40A9A1B828129906006B1CBF = {
 			isa = PBXGroup;
 			children = (
+				5C2232182BB8F26100B83887 /* PrivacyInfo.xcprivacy */,
 				40A9A1C328129906006B1CBF /* SheQuanMC */,
 				40A9A1C228129906006B1CBF /* Products */,
 				300E874DBC5859AFC13F373A /* Pods */,
@@ -276,6 +279,7 @@
 			files = (
 				40A9A1D12812990C006B1CBF /* LaunchScreen.storyboard in Resources */,
 				40A9A1CE2812990C006B1CBF /* Assets.xcassets in Resources */,
+				5C2232192BB8F26100B83887 /* PrivacyInfo.xcprivacy in Resources */,
 				40A9A1CC28129906006B1CBF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -500,7 +504,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3.2;
-				DEVELOPMENT_TEAM = Y5Y35S9VHX;
+				DEVELOPMENT_TEAM = 3N45FRA2HJ;
 				ENABLE_BITCODE = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SheQuanMC/Info.plist;

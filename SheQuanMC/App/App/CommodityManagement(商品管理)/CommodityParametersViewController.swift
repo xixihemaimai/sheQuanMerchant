@@ -611,7 +611,6 @@ class CommodityParametersViewController: BaseViewController {
                 return
             }
             self?.paraList.removeAll()
-            
             if let _data = model.data{
                 self?.paraList = _data
 //                for i in 0..<_data.count {

@@ -35,6 +35,7 @@
 		40BEA399285ABA570049AD28 /* NoDeliveryRegionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40BEA398285ABA570049AD28 /* NoDeliveryRegionModel.swift */; };
 		40CACB4C2837255A00BC3027 /* NSDate+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CACB4B2837255A00BC3027 /* NSDate+Date.swift */; };
 		5CAFF0C42941E35100C09918 /* shopConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAFF0C32941E35100C09918 /* shopConfig.swift */; };
+		5CFFFEFE2BCBB7B7009FCAE2 /* JKDarkModeUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFFFEFD2BCBB7B7009FCAE2 /* JKDarkModeUtil.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +69,7 @@
 		40BEA398285ABA570049AD28 /* NoDeliveryRegionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDeliveryRegionModel.swift; sourceTree = "<group>"; };
 		40CACB4B2837255A00BC3027 /* NSDate+Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Date.swift"; sourceTree = "<group>"; };
 		5CAFF0C32941E35100C09918 /* shopConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = shopConfig.swift; sourceTree = "<group>"; };
+		5CFFFEFD2BCBB7B7009FCAE2 /* JKDarkModeUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JKDarkModeUtil.swift; sourceTree = "<group>"; };
 		6FC5C427E6808881F16255E4 /* Pods-Util.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Util.release.xcconfig"; path = "Target Support Files/Pods-Util/Pods-Util.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -93,6 +95,7 @@
 				401E5DB128152152009127A5 /* Edit+String.swift */,
 				401E5DB028152151009127A5 /* Edit+Time.swift */,
 				409BF5CF2872F09200B1B8DE /* CustomLabel.swift */,
+				5CFFFEFD2BCBB7B7009FCAE2 /* JKDarkModeUtil.swift */,
 			);
 			path = "Extension(扩展)";
 			sourceTree = "<group>";
@@ -309,6 +312,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5CFFFEFE2BCBB7B7009FCAE2 /* JKDarkModeUtil.swift in Sources */,
 				4096353D2861B66E00AA323C /* OrderInfoModel.swift in Sources */,
 				409BF5D02872F09600B1B8DE /* CustomLabel.swift in Sources */,
 				40091A4228348E99009D60BD /* StoreModel.swift in Sources */,
@@ -470,7 +474,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = Y5Y35S9VHX;
+				DEVELOPMENT_TEAM = 3N45FRA2HJ;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -505,7 +509,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = Y5Y35S9VHX;
+				DEVELOPMENT_TEAM = 3N45FRA2HJ;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";

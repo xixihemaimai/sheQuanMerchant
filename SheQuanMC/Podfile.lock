@@ -11,6 +11,7 @@ PODS:
   - IQKeyboardManager (6.5.10)
   - JFPopup (1.4.3):
     - JRBaseKit (~> 1.0.0)
+  - JKSwiftExtension (2.2.7)
   - JRBaseKit (1.0.0)
   - JXPhotoBrowser (3.1.3)
   - LDMessage (1.0.8):
@@ -47,6 +48,7 @@ DEPENDENCIES:
   - HXPhotoPicker
   - IQKeyboardManager
   - JFPopup
+  - JKSwiftExtension
   - JXPhotoBrowser
   - LDMessage (from `LDMessage`)
   - LDStreaming (from `LDStreaming`)
@@ -67,6 +69,7 @@ SPEC REPOS:
     - HXPhotoPicker
     - IQKeyboardManager
     - JFPopup
+    - JKSwiftExtension
     - JRBaseKit
     - JXPhotoBrowser
     - MJRefresh
@@ -102,6 +105,7 @@ SPEC CHECKSUMS:
   HXPhotoPicker: f1274d0c931ad8564e0f23f33fe8b6110b639bd7
   IQKeyboardManager: 45a1fa55c1a5b02c61ac0fd7fd5b62bb4ad20d97
   JFPopup: 3b30e7db76294ba878ffb58ca9cb069a367a12d1
+  JKSwiftExtension: 5e87a48beeccd0acc0e95b2cad9248a4444505dc
   JRBaseKit: ed75cfce9e340a3316bee0eaac0fa1c400714287
   JXPhotoBrowser: d32e94e1226d43bf5ed83164e3f5b651fed625e0
   LDMessage: 881215c915bcfc9d6d312bc6da30007c3783ff04
@@ -116,6 +120,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
   TZImagePickerController: 943511626019431372cf908f24c114521e484f0e
 
-PODFILE CHECKSUM: c285488bdd780ddfb5a48cbdcbc6758e17c46d5f
+PODFILE CHECKSUM: 8d065df1a4665275a53d8546b598048ca679808b
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.15.2

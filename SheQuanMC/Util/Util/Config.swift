@@ -68,8 +68,6 @@ public let iPhoneX:Bool = isIphoneX || isIphoneXR || isIphoneXS || isIphoneXS_MA
 public let Height_StatusBar:CGFloat = UIApplication.shared.statusBarFrame.height
 
 public let isIsPhoneX:Bool = SCH > 812
-//tabbar高度加载安全高度
-public let Height_TabBar:CGFloat = Height_bottomSafe + 49
 //底部安全距离
 //public let Height_bottomSafeArea:CGFloat = iPhoneX == true ? 34 : 0.0
 //新的底部安全区域高度
@@ -77,8 +75,18 @@ public let Height_bottomSafe:CGFloat = UIApplication.shared.keyWindow?.safeAreaI
 //新的顶部安全区域高度
 public let Height_topSafe:CGFloat = UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 0 > 0 ? (UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 44) : 20.0
 //状态栏和导航栏一起高度
-//public let Height_NavBar:CGFloat = ((isIphoneXR == true || isIphoneXS == true || isIphoneXS_MAX == true || isIphone12_MINI == true) ? 88 : (isIphoneX == true) ? 92 : (isIphone12 == true || isIphone12_PROMAX == true) ? 91 : 64)
 public let Height_NavBar:CGFloat = Height_topSafe + 44.0
+//tabbar高度加载安全高度
+public let Height_TabBar:CGFloat = Height_bottomSafe + 49
+//需要获取导航栏高度
+public let navigationHeight = obtainNavigationHeight()
+//获取tabbar的高度
+public let tabbarHeight = obtainTabbarHeight()
+//状态栏和导航栏一起高度
+public let Height_NavBar1:CGFloat = Height_topSafe + navigationHeight
+//tabbar高度加载安全高度
+public let Height_TabBar1:CGFloat = Height_bottomSafe + tabbarHeight
+
 //适配等比计算方法
 public func scale(_ number:CGFloat)->CGFloat{
     return  number * CGFloat(SCW/375)
@@ -105,3 +113,49 @@ public func LXFLog<T>(_ message : T, file : String = #file, funcName : String = 
     #endif
 }
 
+/// 进行判断控制器是导航控制器的时候，来判断导航栏的高度，不管是横屏还是竖屏
+/// - Returns:为yes的是竖屏，为false为横屏
+public func isOrientationPortrait() -> Bool{
+    let orientation = UIApplication.shared.statusBarOrientation
+    if orientation == .portrait || orientation == .portraitUpsideDown{
+        //竖屏
+        return true
+    }else{
+        //横屏
+        return false
+    }
+}
+
+/// 获取tabbar的高度
+/// - Returns: tabbar的高度
+public func obtainTabbarHeight() -> CGFloat{
+    if let window = UIApplication.shared.keyWindow {
+        let tabBarHeight = window.safeAreaLayoutGuide.layoutFrame.size.height - window.safeAreaInsets.top
+//        print("TabBar height: \(tabBarHeight)")
+        return tabBarHeight
+    }
+    return 49.0
+}
+
+
+
+
+
+/// 需要获取导航栏高度
+/// - Returns: 导航栏高度
+public func obtainNavigationHeight() -> CGFloat{
+    if let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) {
+        if #available(iOS 13.0, *) {
+            let statusBarHeight = window.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
+            let navigationController = window.rootViewController as? UINavigationController
+            let navigationBarHeight = navigationController?.navigationBar.frame.height ?? 0
+            let safeAreaInsetsTop = window.safeAreaInsets.top
+            let screenHeight = window.bounds.size.height
+            let totalNavigationBarHeight = statusBarHeight + navigationBarHeight + safeAreaInsetsTop
+            let currentNavigationControllerHeight = screenHeight - totalNavigationBarHeight
+            print("Current Navigation Controller Height: \(currentNavigationControllerHeight)")
+            return currentNavigationControllerHeight
+        }
+    }
+    return 44
+}
